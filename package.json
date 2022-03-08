@@ -28,6 +28,7 @@
     "clean-all": "npx react-native clean-project-auto"
   },
   "dependencies": {
+    "@hookform/resolvers": "^2.8.8",
     "@react-native-async-storage/async-storage": "^1.14.1",
     "@react-navigation/native": "~6.0.1",
     "@react-navigation/native-stack": "^6.0.2",
@@ -42,15 +43,21 @@
     "mobx-react-lite": "3.2.0",
     "mobx-state-tree": "5.0.1",
     "react": "17.0.2",
+    "react-hook-form": "^7.27.1",
     "react-native": "0.67.2",
+    "react-native-confirmation-code-field": "^7.3.0",
+    "react-native-fast-image": "^8.5.11",
     "react-native-gesture-handler": "1.10.3",
     "react-native-keychain": "6.2.0",
     "react-native-safe-area-context": "3.1.8",
     "react-native-screens": "3.8.0",
+    "react-native-size-matters": "^0.4.0",
+    "react-native-svg": "^12.3.0",
     "reactotron-mst": "3.1.4",
     "reactotron-react-js": "^3.3.7",
     "reactotron-react-native": "5.0.1",
-    "validate.js": "0.13.1"
+    "validate.js": "0.13.1",
+    "yup": "^0.32.11"
   },
   "devDependencies": {
     "@babel/core": "^7.12.9",

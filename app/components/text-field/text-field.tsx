@@ -3,6 +3,7 @@ import { StyleProp, TextInput, TextInputProps, TextStyle, View, ViewStyle } from
 import { color, spacing, typography } from "../../theme"
 import { translate, TxKeyPath } from "../../i18n"
 import { Text } from "../text/text"
+import FastImage from "react-native-fast-image"
 
 // the base styling for the container
 const CONTAINER: ViewStyle = {
@@ -85,14 +86,17 @@ export function TextField(props: TextFieldProps) {
   return (
     <View style={containerStyles}>
       <Text preset="fieldLabel" tx={labelTx} text={label} />
-      <TextInput
-        placeholder={actualPlaceholder}
-        placeholderTextColor={color.palette.lighterGrey}
-        underlineColorAndroid={color.transparent}
-        {...rest}
-        style={inputStyles}
-        ref={forwardedRef}
-      />
+      <View>
+        <TextInput
+          placeholder={actualPlaceholder}
+          placeholderTextColor={color.palette.lighterGrey}
+          underlineColorAndroid={color.transparent}
+          {...rest}
+          style={inputStyles}
+          ref={forwardedRef}
+        />
+      </View>
+
     </View>
   )
 }
