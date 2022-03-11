@@ -9,6 +9,8 @@ export type AppTextProps = {
   fontSize?: number;
   color?: string;
   fontWeight?: FontWeight;
+  underline?: boolean
+  capitalize?: boolean
   // fontFamily?: FontFamily;
 } & TextProps;
 
@@ -22,7 +24,7 @@ const defaultProps: Partial<AppTextProps> = {
 
 // eslint-disable-next-line react/display-name
 export const AppText: React.SFC<AppTextProps> = React.memo(
-  ({ children, color, value, fontWeight, fontSize, ...props }) => {
+  ({ children, color, value, fontWeight, fontSize,underline,capitalize, ...props }) => {
     return (
       <Text
         {...props}
@@ -33,6 +35,8 @@ export const AppText: React.SFC<AppTextProps> = React.memo(
             color,
           },
           props.style,
+          underline && {textDecorationLine: 'underline'},
+          capitalize && {textTransform: 'capitalize'}
         ])}>
         {value || children}
       </Text>

@@ -1,22 +1,39 @@
-import React from "react"
-import { StyleProp, TextInput, TextInputProps, TextStyle, View, ViewStyle } from "react-native"
+import React, { useState } from "react"
+import { Pressable, StyleProp, TextInput, TextInputProps, TextStyle, View, ViewStyle } from "react-native"
 import { color, spacing, typography } from "../../theme"
 import { translate, TxKeyPath } from "../../i18n"
 import { Text } from "../text/text"
 import { s } from "react-native-size-matters"
+import FastImage, { ImageStyle } from "react-native-fast-image"
+import { images } from "../../assets/images"
 
 // the base styling for the container
 const CONTAINER: ViewStyle = {
   paddingVertical: spacing[3],
 }
+const WRAP_INPUT: ViewStyle = {
+  flexDirection: 'row',
+  minHeight: s(40),
+  backgroundColor: color.dim,
+  borderRadius: s(8),
+  alignItems: "center",
+  paddingHorizontal: s(13)
+}
+const PRESS : ViewStyle = {
+  marginLeft: s(13),
+}
+const EYE : ImageStyle = {
+  width: s(18),
+  height: s(15)
+}
 
 // the base styling for the TextInput
 const INPUT: TextStyle = {
+  flex: 1,
   fontFamily: typography.primary,
   color: color.palette.black,
   minHeight: s(40),
   fontSize: s(14),
-  borderBottomWidth: 1,
 }
 const LABEL: TextStyle = {
   fontFamily: typography.primary,
@@ -80,6 +97,9 @@ export interface TextFieldProps extends TextInputProps {
   forwardedRef?: any
 
   errorMessage?: string
+
+  showIcon?:boolean
+
 }
 
 /**
@@ -99,26 +119,46 @@ export function TextField(props: TextFieldProps) {
     errorStyle: errorStyleOverride,
     forwardedRef,
     errorMessage,
+    showIcon = false,
     ...rest
   } = props
-
+  const [showPassword, setShowPassword] = useState<boolean>(false)
   const containerStyles = [CONTAINER, PRESETS[preset], styleOverride]
   const labelStyles = [LABEL, labelStyleOverride]
   const inputStyles = [INPUT, inputStyleOverride]
   const errorMessageStyles = [ERROR, errorStyleOverride]
   const actualPlaceholder = placeholderTx ? translate(placeholderTx) : placeholder
 
+  const _handleShowPass = ()=> {
+    setShowPassword(!showPassword)
+  }
+
   return (
     <View style={containerStyles}>
-      <Text preset="fieldLabel" tx={labelTx} text={label} style={labelStyles}/>
-      <TextInput
-        placeholder={actualPlaceholder}
-        placeholderTextColor={color.palette.lighterGrey}
-        underlineColorAndroid={color.transparent}
-        {...rest}
-        style={inputStyles}
-        ref={forwardedRef}
-      />
+      {label && <Text preset="fieldLabel" tx={labelTx} text={label} style={labelStyles}/>}
+      <View style={WRAP_INPUT}>
+        <TextInput
+          placeholder={actualPlaceholder}
+          placeholderTextColor={color.placeholder}
+          underlineColorAndroid={color.transparent}
+          secureTextEntry={showIcon ? showPassword : false}
+          {...rest}
+          style={inputStyles}
+          ref={forwardedRef}
+        />
+        {showIcon &&
+          <>{showPassword ?
+            <Pressable onPress={_handleShowPass} style={PRESS}>
+              <FastImage source={images.close_eye} style={EYE}/>
+            </Pressable>
+            :
+            <Pressable onPress={_handleShowPass} style={PRESS}>
+              <FastImage source={images.close_eye} style={EYE}/>
+            </Pressable>}
+          </>
+        }
+      </View>
+
       {!!errorMessage &&  <Text tx={errorTx} text={errorMessage} style={!!errorMessage ? errorMessageStyles : null}/>}
     </View>
   )

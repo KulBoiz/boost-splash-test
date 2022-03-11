@@ -23,6 +23,7 @@ export const color = {
   /**
    * The screen background.
    */
+  placeholder: palette.gray,
   background: palette.white,
   /**
    * The main tinting color.
@@ -43,7 +44,7 @@ export const color = {
   /**
    * Secondary information.
    */
-  dim: palette.lightGrey,
+  dim: palette.lighterGrey,
   /**
    * Error messages and svgs.
    */

@@ -18,6 +18,7 @@ export type NavigatorParamList = {
   [ScreenNames.LOGIN]: undefined;
   [ScreenNames.HOME]: undefined;
   [ScreenNames.FIFTH_SCREEN]: undefined;
+  [ScreenNames.OTP]: undefined;
 
 }
 

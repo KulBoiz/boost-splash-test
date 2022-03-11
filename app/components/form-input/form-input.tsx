@@ -7,12 +7,13 @@ import { FieldValues } from "react-hook-form/dist/types/fields"
 
 export interface FormInputProps extends TextFieldProps, UseControllerProps{
   name: string,
-  label: string,
+  label?: string,
   placeholder: string,
   control: Control<FieldValues, object>,
   error: string | undefined,
   style?: ViewStyle | any,
-  defaultValue?: string
+  defaultValue?: string,
+  showIcon?: boolean
 }
 
 const FormInput = React.memo((props: FormInputProps) => {
@@ -25,6 +26,7 @@ const FormInput = React.memo((props: FormInputProps) => {
     style,
     rules,
     defaultValue,
+    showIcon = false,
     ...rest
   } = props
   return (
@@ -42,6 +44,7 @@ const FormInput = React.memo((props: FormInputProps) => {
             onBlur={onBlur}
             value={value}
             errorMessage={error}
+            showIcon={showIcon}
             {...rest}
           />
         )}
