@@ -2,11 +2,13 @@ import { ApisauceInstance, create, ApiResponse } from "apisauce"
 import { getGeneralApiProblem } from "./api-problem"
 import { ApiConfig, DEFAULT_API_CONFIG } from "./api-config"
 import * as Types from "./api.types"
+import {API_ENDPOINT} from "@env"
 
 /**
  * Manages all requests to the API.
  */
 export class Api {
+  onUnauthorized: Function
   /**
    * The underlying apisauce instance which performs the requests.
    */
@@ -96,6 +98,22 @@ export class Api {
       }
       return { kind: "ok", user: resultUser }
     } catch {
+      return { kind: "bad-data" }
+    }
+  }
+
+  async getPagination(endpoint: string, params: any){
+    try {
+      const response: ApiResponse<any> = await this.apisauce.get(`${API_ENDPOINT}/${endpoint}`, params)
+      if (!response.ok) {
+        const problem = getGeneralApiProblem(response)
+        if (problem) return problem
+      }
+      const data = response.data?.data || []
+      const total = response.data?.total || 0
+      return { kind: "ok", data, total }
+    } catch (e) {
+      __DEV__ && console.tron.log(e.message)
       return { kind: "bad-data" }
     }
   }

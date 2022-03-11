@@ -1,50 +1,86 @@
-/**
- * The app navigator (formerly "AppNavigator" and "MainNavigator") is used for the primary
- * navigation flows of your app.
- * Generally speaking, it will contain an auth flow (registration, login, forgot password)
- * and a "main" flow which the user will use once logged in.
- */
 import React from "react"
 import { useColorScheme } from "react-native"
-import { NavigationContainer, DefaultTheme, DarkTheme } from "@react-navigation/native"
+import { DarkTheme, DefaultTheme, getFocusedRouteNameFromRoute, NavigationContainer } from "@react-navigation/native"
 import { createNativeStackNavigator } from "@react-navigation/native-stack"
-import { WelcomeScreen, DemoScreen, DemoListScreen } from "../screens"
-import { navigationRef, useBackButtonHandler } from "./navigation-utilities"
+import { navigationRef } from "./navigation-utilities"
+import { ScreenNames } from "./screen-names"
+import BottomTabBar from "../components/bottom-tab-bar/BottomTabBar"
+import { AuthRoutes } from "./routes"
+import { createBottomTabNavigator } from "@react-navigation/bottom-tabs"
+import { HomeScreen } from "../screens/home/home-screen"
+import { SplashScreen } from "../screens"
+import FifthScreen from "../screens/welcome/fifth-screen"
 
-/**
- * This type allows TypeScript to know what routes are defined in this navigator
- * as well as what properties (if any) they might take when navigating to them.
- *
- * If no params are allowed, pass through `undefined`. Generally speaking, we
- * recommend using your MobX-State-Tree store(s) to keep application state
- * rather than passing state through navigation params.
- *
- * For more information, see this documentation:
- *   https://reactnavigation.org/docs/params/
- *   https://reactnavigation.org/docs/typescript#type-checking-the-navigator
- */
 export type NavigatorParamList = {
-  welcome: undefined
-  demo: undefined
-  demoList: undefined
-  // 🔥 Your screens go here
+  [ScreenNames.SPLASH]: undefined;
+  [ScreenNames.AUTH]: undefined;
+  [ScreenNames.APP]: undefined;
+  [ScreenNames.LOGIN]: undefined;
+  [ScreenNames.HOME]: undefined;
+  [ScreenNames.FIFTH_SCREEN]: undefined;
+
 }
 
 // Documentation: https://reactnavigation.org/docs/stack-navigator/
 const Stack = createNativeStackNavigator<NavigatorParamList>()
 
-const AppStack = () => {
+const Tab = createBottomTabNavigator<NavigatorParamList>()
+
+const AuthStack = () => {
   return (
     <Stack.Navigator
       screenOptions={{
         headerShown: false,
       }}
-      initialRouteName="welcome"
+      initialRouteName={ScreenNames.LOGIN}
     >
-      <Stack.Screen name="welcome" component={WelcomeScreen} />
-      <Stack.Screen name="demo" component={DemoScreen} />
-      <Stack.Screen name="demoList" component={DemoListScreen} />
-      {/** 🔥 Your screens go here */}
+      {
+        AuthRoutes.map(({name, component}) => (
+          <Stack.Screen key={name} {...{name, component}} />
+        ))
+      }
+    </Stack.Navigator>
+  )
+}
+
+const AppStack = () => {
+  const getTabBarVisibility = (route: any) => {
+    const routeName = getFocusedRouteNameFromRoute(route) || ""
+    const allowRoute: string[] = ["", ScreenNames.HOME]
+    return allowRoute.includes(routeName)
+  }
+  return (
+    <Tab.Navigator
+      initialRouteName={ScreenNames.HOME}
+      screenOptions={{ headerShown: false }}
+      tabBar={(props) => <BottomTabBar {...props} />}
+    >
+      <Tab.Screen
+        name={ScreenNames.HOME}
+        options={(props) => {
+          return {
+            title: "QrLog",
+            tabBarVisible: getTabBarVisibility(props.route),
+          }
+        }}
+        component={HomeScreen}
+      />
+    </Tab.Navigator>
+  )
+}
+
+const RootStack = ()=> {
+  return (
+    <Stack.Navigator
+      screenOptions={{
+        headerShown: false,
+      }}
+      initialRouteName={ScreenNames.SPLASH}
+    >
+      <Stack.Screen name={ScreenNames.SPLASH} component={SplashScreen} />
+      <Stack.Screen name={ScreenNames.AUTH} component={AuthStack} />
+      <Stack.Screen name={ScreenNames.APP} component={AppStack} />
+      <Stack.Screen name={ScreenNames.FIFTH_SCREEN} component={FifthScreen} />
     </Stack.Navigator>
   )
 }
@@ -53,14 +89,14 @@ interface NavigationProps extends Partial<React.ComponentProps<typeof Navigation
 
 export const AppNavigator = (props: NavigationProps) => {
   const colorScheme = useColorScheme()
-  useBackButtonHandler(canExit)
+
   return (
     <NavigationContainer
       ref={navigationRef}
       theme={colorScheme === "dark" ? DarkTheme : DefaultTheme}
       {...props}
     >
-      <AppStack />
+      <RootStack />
     </NavigationContainer>
   )
 }

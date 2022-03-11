@@ -45,7 +45,7 @@ export const color = {
    */
   dim: palette.lightGrey,
   /**
-   * Error messages and icons.
+   * Error messages and svgs.
    */
   error: palette.angry,
 
