@@ -3,11 +3,12 @@ import { View } from 'react-native';
 import { ScaledSheet } from "react-native-size-matters";
 import { AppText } from "../../../components/AppText/AppText"
 import { color } from "../../../theme"
+import { TxKeyPath } from "../../../i18n"
 
 interface Props{
   svg: JSX.Element
-  label: string
-  content: string
+  label: TxKeyPath
+  content: TxKeyPath
 }
 
 const WelcomeItem = React.memo((props: Props) => {
@@ -16,8 +17,8 @@ const WelcomeItem = React.memo((props: Props) => {
   return (
     <View style={styles.container}>
       {svg}
-      <AppText value={label} style={styles.label}/>
-      <AppText value={content} style={styles.content}/>
+      <AppText tx={label} style={styles.label}/>
+      <AppText tx={content} style={styles.content}/>
     </View>
   )
 });

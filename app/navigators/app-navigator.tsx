@@ -1,74 +1,23 @@
 import React from "react"
 import { useColorScheme } from "react-native"
-import { DarkTheme, DefaultTheme, getFocusedRouteNameFromRoute, NavigationContainer } from "@react-navigation/native"
+import { DarkTheme, DefaultTheme, NavigationContainer } from "@react-navigation/native"
 import { createNativeStackNavigator } from "@react-navigation/native-stack"
 import { navigationRef } from "./navigation-utilities"
 import { ScreenNames } from "./screen-names"
-import BottomTabBar from "../components/bottom-tab-bar/BottomTabBar"
-import { AuthRoutes } from "./routes"
-import { createBottomTabNavigator } from "@react-navigation/bottom-tabs"
-import { HomeScreen } from "../screens/home/home-screen"
 import { SplashScreen } from "../screens"
-import FifthScreen from "../screens/welcome/fifth-screen"
+import { AppStack } from "./app-stack"
+import { AuthStack } from "./auth-stack"
 
 export type NavigatorParamList = {
   [ScreenNames.SPLASH]: undefined;
   [ScreenNames.AUTH]: undefined;
   [ScreenNames.APP]: undefined;
-  [ScreenNames.LOGIN]: undefined;
-  [ScreenNames.HOME]: undefined;
-  [ScreenNames.FIFTH_SCREEN]: undefined;
-  [ScreenNames.OTP]: undefined;
-
 }
 
 // Documentation: https://reactnavigation.org/docs/stack-navigator/
 const Stack = createNativeStackNavigator<NavigatorParamList>()
 
-const Tab = createBottomTabNavigator<NavigatorParamList>()
 
-const AuthStack = () => {
-  return (
-    <Stack.Navigator
-      screenOptions={{
-        headerShown: false,
-      }}
-      initialRouteName={ScreenNames.LOGIN}
-    >
-      {
-        AuthRoutes.map(({name, component}) => (
-          <Stack.Screen key={name} {...{name, component}} />
-        ))
-      }
-    </Stack.Navigator>
-  )
-}
-
-const AppStack = () => {
-  const getTabBarVisibility = (route: any) => {
-    const routeName = getFocusedRouteNameFromRoute(route) || ""
-    const allowRoute: string[] = ["", ScreenNames.HOME]
-    return allowRoute.includes(routeName)
-  }
-  return (
-    <Tab.Navigator
-      initialRouteName={ScreenNames.HOME}
-      screenOptions={{ headerShown: false }}
-      tabBar={(props) => <BottomTabBar {...props} />}
-    >
-      <Tab.Screen
-        name={ScreenNames.HOME}
-        options={(props) => {
-          return {
-            title: "QrLog",
-            tabBarVisible: getTabBarVisibility(props.route),
-          }
-        }}
-        component={HomeScreen}
-      />
-    </Tab.Navigator>
-  )
-}
 
 const RootStack = ()=> {
   return (
@@ -81,7 +30,6 @@ const RootStack = ()=> {
       <Stack.Screen name={ScreenNames.SPLASH} component={SplashScreen} />
       <Stack.Screen name={ScreenNames.AUTH} component={AuthStack} />
       <Stack.Screen name={ScreenNames.APP} component={AppStack} />
-      <Stack.Screen name={ScreenNames.FIFTH_SCREEN} component={FifthScreen} />
     </Stack.Navigator>
   )
 }

@@ -24,13 +24,14 @@ export const presets = {
   /**
    * A bold version of the default text.
    */
-  bold: { ...BASE, fontWeight: "bold" } as TextStyle,
+  bold: { fontWeight: "700" } as TextStyle,
 
   /**
    * Large headers.
    */
-  header: { ...BASE, fontSize: s(44), fontWeight: "700" } as TextStyle,
-
+  header: { ...BASE, fontSize: s(44), fontWeight: "700", color: color.lightBlack } as TextStyle,
+  secondary: { ...BASE, fontSize: s(18), color: color.lightBlack, lineHeight: s(25) } as TextStyle,
+  boldContent: {...BASE, fontWeight: '700', fontSize: s(18)} as TextStyle,
   /**
    * Field labels that appear on forms above the inputs.
    */
@@ -39,7 +40,6 @@ export const presets = {
   /**
    * A smaller piece of secondary information.
    */
-  secondary: { ...BASE, fontSize: 9, color: color.dim } as TextStyle,
 }
 
 /**

@@ -40,6 +40,7 @@ const LABEL: TextStyle = {
   fontWeight: '500',
   color: color.palette.black,
   fontSize: s(12),
+  marginBottom: s(13)
 }
 const ERROR: TextStyle = {
   fontFamily: typography.primary,
@@ -122,7 +123,7 @@ export function TextField(props: TextFieldProps) {
     showIcon = false,
     ...rest
   } = props
-  const [showPassword, setShowPassword] = useState<boolean>(false)
+  const [showPassword, setShowPassword] = useState<boolean>(true)
   const containerStyles = [CONTAINER, PRESETS[preset], styleOverride]
   const labelStyles = [LABEL, labelStyleOverride]
   const inputStyles = [INPUT, inputStyleOverride]
@@ -135,7 +136,7 @@ export function TextField(props: TextFieldProps) {
 
   return (
     <View style={containerStyles}>
-      {label && <Text preset="fieldLabel" tx={labelTx} text={label} style={labelStyles}/>}
+      {(label || labelTx) && <Text preset="fieldLabel" tx={labelTx} text={label} style={labelStyles}/>}
       <View style={WRAP_INPUT}>
         <TextInput
           placeholder={actualPlaceholder}
@@ -159,7 +160,7 @@ export function TextField(props: TextFieldProps) {
         }
       </View>
 
-      {!!errorMessage &&  <Text tx={errorTx} text={errorMessage} style={!!errorMessage ? errorMessageStyles : null}/>}
+      {!!errorMessage &&  <Text tx={errorTx} text={errorMessage} style={errorMessage ? errorMessageStyles : null}/>}
     </View>
   )
 }

@@ -1,13 +1,14 @@
 import React from 'react';
 import { View, TouchableOpacity, ViewStyle } from "react-native"
 import { color } from "../../../theme"
-import { Text } from "../../../components"
 import { ScaledSheet } from 'react-native-size-matters';
+import { TxKeyPath } from "../../../i18n"
+import { AppText } from "../../../components/AppText/AppText"
 
 interface Props{
   isSelect: boolean
   onPress: () => void
-  title: string
+  title: TxKeyPath
   style: ViewStyle | any
 }
 
@@ -24,7 +25,7 @@ const WelcomeButton = React.memo(({ isSelect, onPress, title, style, ...props }:
         onPress={onPress}
         {...props}
       >
-          <Text style={isSelect ? styles.titleSelect : styles.titleUnselect}>{title}</Text>
+          <AppText style={isSelect ? styles.titleSelect : styles.titleUnselect} tx={title}/>
       </TouchableOpacity>
     </View>
   )

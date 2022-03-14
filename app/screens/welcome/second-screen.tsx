@@ -8,8 +8,7 @@ interface Props{}
 const SecondScreen = React.memo((props: Props) => {
   return (
     <View style={styles.container}>
-      <WelcomeItem svg={<SecondSvg />} label={'Tư vấn & Hỗ trợ\n' +
-      'hồ sơ miễn phí'} content={'Hỗ trợ đăng ký, hoàn thiện thủ tục miễn phí, giúp bạn tiết kiệm thời gian, công sức'} />
+      <WelcomeItem svg={<SecondSvg />} label={'welcome.secondLabel'} content={'welcome.secondContent'} />
     </View>
   )
 });

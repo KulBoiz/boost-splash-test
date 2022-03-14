@@ -1,81 +1,39 @@
 import React, { FC, useState } from "react"
-import { View, StyleSheet } from 'react-native';
+import { View } from 'react-native';
 import { StackScreenProps } from "@react-navigation/stack"
-import { NavigatorParamList } from "../../navigators"
 import { observer } from "mobx-react-lite"
 import { ScreenNames } from "../../navigators/screen-names"
-import {
-  CodeField,
-  Cursor,
-  useBlurOnFulfill,
-  useClearByFocusCell,
-} from 'react-native-confirmation-code-field';
+
 import { AppText } from "../../components/AppText/AppText"
+import { presets } from "../../constants/presets"
+import { ScaledSheet } from "react-native-size-matters";
+import BackButton from "../../components/back-button/back-button"
+import { color } from "../../theme"
+import OtpItem from "./components/OtpItem"
+import { AuthStackParamList } from "../../navigators/auth-stack"
+import { RouteProp, useRoute } from "@react-navigation/native"
 
-const CELL_COUNT = 4;
 
-const OtpScreen :FC<StackScreenProps<NavigatorParamList, ScreenNames.OTP>> = observer(
+const OtpScreen :FC<StackScreenProps<AuthStackParamList, ScreenNames.OTP>> = observer(
   ({ navigation }) => {
+    const {params: {phoneNumber}} = useRoute<RouteProp<AuthStackParamList, ScreenNames.OTP>>()
     const [value, setValue] = useState('');
-    const ref = useBlurOnFulfill({value, cellCount: CELL_COUNT});
-    const [props, getCellOnLayoutHandler] = useClearByFocusCell({
-      value,
-      setValue,
-    });
+
     return (
       <View style={styles.container}>
-        <CodeField
-          ref={ref}
-          {...props}
-          value={value}
-          onChangeText={setValue}
-          cellCount={CELL_COUNT}
-          rootStyle={styles.codeFieldRoot}
-          keyboardType="number-pad"
-          textContentType="oneTimeCode"
-          renderCell={({index, symbol, isFocused}) => (
-            <View
-              // Make sure that you pass onLayout={getCellOnLayoutHandler(index)} prop to root component of "Cell"
-              onLayout={getCellOnLayoutHandler(index)}
-              key={index}
-              style={[styles.cellRoot, isFocused && styles.focusCell]}>
-              <AppText style={styles.cellText}>
-                {symbol || (isFocused ? <Cursor /> : null)}
-              </AppText>
-            </View>
-          )}
-        />
+        <BackButton />
+        <AppText tx={'auth.otpCode'} style={presets.header}/>
+        <AppText tx={'auth.checkInbox'} style={presets.secondary}/>
+        <AppText value={`+${phoneNumber}`} style={[presets.bold, presets.secondary]}/>
+        <OtpItem value={value} setValue={setValue} />
       </View>
     )
   });
 
 export default OtpScreen;
 
-const styles = StyleSheet.create({
-  container: {},
-  root: {padding: 20, minHeight: 300},
-  title: {textAlign: 'center', fontSize: 30},
-  codeFieldRoot: {
-    marginTop: 20,
-    width: 280,
-    marginLeft: 'auto',
-    marginRight: 'auto',
-  },
-  cellRoot: {
-    width: 60,
-    height: 60,
-    justifyContent: 'center',
-    alignItems: 'center',
-    borderBottomColor: '#ccc',
-    borderBottomWidth: 1,
-  },
-  cellText: {
-    color: '#000',
-    fontSize: 36,
-    textAlign: 'center',
-  },
-  focusCell: {
-    borderBottomColor: '#007AFF',
-    borderBottomWidth: 2,
-  },
+const styles = ScaledSheet.create({
+  container: {flex: 1, paddingHorizontal: '20@s', paddingTop: '150@s', backgroundColor: color.background},
+
+  title: {fontSize: 30, textAlign: 'center'},
 });

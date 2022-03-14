@@ -8,9 +8,7 @@ interface Props{}
 const ThirdScreen = React.memo((props: Props) => {
   return (
     <View style={styles.container}>
-      <WelcomeItem svg={<ThirdSvg />} label={'1504 bộ hồ sơ\n' +
-      'đã được giải ngân'} content={'Nắm bắt cơ hội sở hữu ngôi nhà mơ ước\n' +
-      'ngay hôm nay'} />
+      <WelcomeItem svg={<ThirdSvg />} label={'welcome.thirdLabel'} content={'welcome.thirdContent'} />
     </View>
   )
 });

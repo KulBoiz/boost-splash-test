@@ -8,9 +8,7 @@ interface Props{}
 const FirstScreen = React.memo((props: Props) => {
   return (
     <View style={styles.container}>
-      <WelcomeItem svg={<FirstSvg />} label={'Lãi suất chỉ từ \n' +
-      '6.19%/năm '} content={'Với Fina, bạn dễ dàng tra cứu, so sánh \n' +
-      'và lựa chọn giải pháp phù hợp nhất'} />
+      <WelcomeItem svg={<FirstSvg />} label={'welcome.firstLabel'} content={'welcome.firstContent'} />
     </View>
   )
 });

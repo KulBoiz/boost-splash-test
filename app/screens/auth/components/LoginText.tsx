@@ -1,21 +1,32 @@
 import React from 'react';
-import { StyleSheet, Pressable, View } from "react-native"
+import { Pressable, View } from "react-native"
 import { AppText } from "../../../components/AppText/AppText"
 import { RightArrorSvg } from "../../../assets/svgs"
 import { s, ScaledSheet } from 'react-native-size-matters';
 import { color } from "../../../theme"
+import { TxKeyPath } from "../../../i18n"
+import { ScreenNames } from "../../../navigators/screen-names"
+import { navigate } from "../../../navigators"
+
 
 interface Props{
-  firstText: string
-  secondText: string
+  firstText: TxKeyPath
+  secondText: TxKeyPath
+  action: 'register' | 'login'
 }
 
-const LoginText = React.memo(({ firstText, secondText }: Props) => {
+const LoginText = React.memo(({ firstText, secondText, action}: Props) => {
+  const _goToLogin= ()=> {
+    navigate(ScreenNames.LOGIN)
+  }
+  const _goToRegister= ()=> {
+    navigate(ScreenNames.REGISTER_PHONE)
+  }
   return (
     <View style={styles.container}>
-      <AppText value={firstText} style={styles.firstText} capitalize fontSize={s(14)}/>
+      <AppText tx={firstText} style={styles.firstText} capitalize fontSize={s(14)}/>
       <Pressable style={styles.wrapText}>
-        <AppText value={`${secondText} `} style={styles.secondText}   capitalize/>
+        <AppText tx={secondText} style={styles.secondText} capitalize onPress={action === 'register' ? _goToRegister: _goToLogin}/>
         <RightArrorSvg />
       </Pressable>
     </View>

@@ -3,17 +3,17 @@ import { View } from 'react-native';
 import {ScaledSheet} from 'react-native-size-matters'
 import { AppText } from "../../components/AppText/AppText"
 import { color } from "../../theme"
-import AppButton from "../../components/AppButton/AppButton"
 import { FourthSvg } from "../../assets/svgs"
 import WelcomeButton from "./components/WelcomeButton"
 import { width } from "../../constants/variable"
+import { TxKeyPath } from "../../i18n"
 
 interface Props{}
 
 const CHOOSE = [
-  {value: 'Vay Vốn'},
-  {value: 'Bảo Hiểm'},
-  {value: 'Bất Động Sản'},
+  {value: 'welcome.loan' as TxKeyPath} ,
+  {value: 'welcome.insurance' as TxKeyPath},
+  {value: 'welcome.realEstate' as TxKeyPath},
 ]
 
 const FourthScreen = React.memo((props: Props) => {
@@ -33,10 +33,10 @@ const FourthScreen = React.memo((props: Props) => {
   return (
     <View style={styles.container}>
       <View style={styles.wrapChoose}>
-        <AppText value={'Chọn ít nhất 1 trong 3 lựa chọn'}/>
+        <AppText tx={'welcome.selection'}/>
         <AppText value={` ${selected.length}/3`}/>
       </View>
-      <AppText value={'Bạn quan tâm đến...'} style={styles.textBold}/>
+      <AppText tx={'welcome.interested'} style={styles.textBold}/>
       {CHOOSE.map((e, index) => (
         <WelcomeButton key={index} isSelect={selected.includes(index)} title={e.value} onPress={()=> _handleSelect(index)} style={styles.btn}/>
         ))}

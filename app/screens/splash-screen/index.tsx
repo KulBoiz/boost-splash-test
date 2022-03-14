@@ -11,8 +11,6 @@ import {ScaledSheet} from 'react-native-size-matters'
 import { color } from "../../theme"
 import { FinaSplashSvg } from "../../assets/svgs"
 
-const FULL: ViewStyle = {flex: 1}
-
 export const FULL_SCREEN_STYLE : ViewStyle= {
   flex:1,
   display: 'flex',
@@ -86,7 +84,7 @@ export const SplashScreen: React.FunctionComponent<{ readonly navigation?: any }
     <View style={styles.container}>
         <FastImage source={images.fina_splash} style={styles.image}/>
         <FinaSplashSvg style={styles.finaLogo}/>
-        <Progress.Bar progress={0.5} width={200} color={"#FFFFFF"} style={styles.processBar}/>
+        <Progress.Bar progress={progress} width={200} color={"#FFFFFF"} style={styles.processBar}/>
     </View>
   )
 })

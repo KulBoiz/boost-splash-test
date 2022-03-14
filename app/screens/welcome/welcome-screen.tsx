@@ -1,4 +1,4 @@
-import React, { FC, useState } from "react"
+import React, { FC, useEffect, useState } from "react"
 import { View } from "react-native"
 import { StackScreenProps } from "@react-navigation/stack"
 import { observer } from "mobx-react-lite"
@@ -12,8 +12,9 @@ import AppButton from "../../components/AppButton/AppButton"
 import { color } from "../../theme"
 import { AppText } from "../../components/AppText/AppText"
 import FourthScreen from "./fourth-screen"
+import { AuthStackParamList } from "../../navigators/auth-stack"
 
-export const WelcomeScreen: FC<StackScreenProps<NavigatorParamList, ScreenNames.WELCOME>> = observer(
+export const WelcomeScreen: FC<StackScreenProps<AuthStackParamList, ScreenNames.WELCOME>> = observer(
   ({ navigation }) => {
     const [screen, setScreen] = useState<number>(1)
     // const nextScreen = () => navigation.navigate("demo")
@@ -27,13 +28,15 @@ export const WelcomeScreen: FC<StackScreenProps<NavigatorParamList, ScreenNames.
       }
     }
     const _nextScreen = () => {
-     setScreen((prevState) => prevState + 1)
-      if (screen === 4){
-        navigation.navigate(ScreenNames.FIFTH_SCREEN)
-      }
+        setScreen((prevState) => prevState + 1)
     }
+
     const _preScreen = () => {
       setScreen((prevState) => prevState - 1)
+    }
+
+    const _goToFifth = ()=> {
+      navigation.navigate(ScreenNames.FIFTH_SCREEN)
     }
 
     return (
@@ -42,7 +45,7 @@ export const WelcomeScreen: FC<StackScreenProps<NavigatorParamList, ScreenNames.
           <AppText value={'SKIP'} onPress={_preScreen}/>
         </View>
         {_renderScreen()}
-        <AppButton title={'Tiếp theo'} onPress={_nextScreen} containerStyle={styles.button}/>
+        <AppButton title={'Tiếp theo'} onPress={screen < 4 ? _nextScreen : _goToFifth} containerStyle={styles.button}/>
       </View>
     )
   },

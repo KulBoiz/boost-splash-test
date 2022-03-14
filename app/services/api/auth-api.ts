@@ -40,7 +40,7 @@ export class AuthApi {
       return { kind: "ok", data }
     } catch (e) {
       __DEV__ && console.tron.log(e.message)
-      return { kind: "bad-data" }
+      return { kind: "bad-data", e }
     }
   }
 

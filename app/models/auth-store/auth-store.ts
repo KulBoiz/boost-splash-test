@@ -27,7 +27,7 @@ export const AuthStoreModel = types
     },
     login: flow(function* login(email: string, password: string) {
       const authApi = new AuthApi(self.environment.api)
-      let result = yield authApi.login(email, password)
+      const result = yield authApi.login(email, password)
       if (result.kind !== "ok") {
         return result
       }

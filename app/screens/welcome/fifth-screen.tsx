@@ -1,28 +1,33 @@
 import React from 'react';
 import { View } from 'react-native';
-import { FifthSvg, FinaLogoSvg } from "../../assets/svgs"
+import {FinaLogoSvg } from "../../assets/svgs"
 import { height, width } from "../../constants/variable"
 import { GradientBackground } from "../../components"
 import { AppText } from "../../components/AppText/AppText"
 import { s, ScaledSheet } from 'react-native-size-matters';
 import { color } from "../../theme"
 import AppButton from "../../components/AppButton/AppButton"
+import FastImage from "react-native-fast-image"
+import { images } from "../../assets/images"
+import { useNavigation } from "@react-navigation/native"
+import { ScreenNames } from "../../navigators/screen-names"
 interface Props{}
 
 const FifthScreen = React.memo((props: Props) => {
+  const {navigate} = useNavigation()
   return (
     <View style={styles.container}>
-        <FifthSvg width={width} height={height} style={styles.svgBackground}/>
+        <FastImage source={images.fifth} style={styles.svgBackground}/>
         <GradientBackground colors={['#064DD6', 'rgba(98, 150, 249, 0.4)']} />
         <FinaLogoSvg />
-        <AppText value={'Welcome'} style={styles.welcome}/>
-        <AppText value={'Stay on top by effortlessly tracking your subscriptions & bills'} style={styles.content}/>
+        <AppText tx={'welcome.lastLabel'} style={styles.welcome} capitalize/>
+        <AppText tx={'welcome.lastContent'} style={styles.content}/>
 
       <View style={styles.wrapBtn}>
-        <AppButton title={'Bắt đầu'} containerStyle={styles.button} onPress={()=> {}}/>
+        <AppButton title={'Bắt đầu'} containerStyle={styles.button} onPress={()=> navigate(ScreenNames.APP)}/>
         <View style={styles.wrapText}>
-          <AppText value={'Bạn đã có tài khoản? '} fontSize={s(16)}/>
-          <AppText value={'Đăng nhập'} style={styles.text}/>
+          <AppText tx={'auth.haveAccount'} fontSize={s(16)}/>
+          <AppText tx={'auth.login'} style={styles.text} onPress={()=> navigate(ScreenNames.LOGIN)}/>
         </View>
       </View>
     </View>
@@ -46,7 +51,9 @@ const styles = ScaledSheet.create({
     textAlign: 'center'
   },
   svgBackground: {
-      position: 'absolute'
+      position: 'absolute',
+    width: width,
+    height: height
   },
   linear: {
     position: 'absolute',
@@ -74,6 +81,7 @@ const styles = ScaledSheet.create({
     textDecorationLine: 'underline',
     color: color.palette.blue,
     fontSize: '16@s',
-    fontWeight: '600'
+    fontWeight: '600',
+    marginLeft: '5@s'
   }
 });
