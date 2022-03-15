@@ -25,10 +25,10 @@ const RootStack = ()=> {
       screenOptions={{
         headerShown: false,
       }}
-      initialRouteName={ScreenNames.APP}
+      initialRouteName={ScreenNames.AUTH}
     >
-      {/*<Stack.Screen name={ScreenNames.SPLASH} component={SplashScreen} />*/}
-      {/*<Stack.Screen name={ScreenNames.AUTH} component={AuthStack} />*/}
+      <Stack.Screen name={ScreenNames.SPLASH} component={SplashScreen} />
+      <Stack.Screen name={ScreenNames.AUTH} component={AuthStack} />
       <Stack.Screen name={ScreenNames.APP} component={AppStack} />
     </Stack.Navigator>
   )

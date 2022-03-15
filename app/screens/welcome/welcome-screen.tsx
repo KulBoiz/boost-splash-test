@@ -1,8 +1,7 @@
-import React, { FC, useEffect, useState } from "react"
-import { View } from "react-native"
+import React, { FC, useState } from "react"
+import { Animated, View } from "react-native"
 import { StackScreenProps } from "@react-navigation/stack"
 import { observer } from "mobx-react-lite"
-import { NavigatorParamList } from "../../navigators"
 import { ScreenNames } from "../../navigators/screen-names"
 import {ScaledSheet} from 'react-native-size-matters'
 import FirstScreen from "./first-screen"
@@ -13,7 +12,10 @@ import { color } from "../../theme"
 import { AppText } from "../../components/AppText/AppText"
 import FourthScreen from "./fourth-screen"
 import { AuthStackParamList } from "../../navigators/auth-stack"
+import { Pagination } from 'react-native-snap-carousel';
+import PaginationDot from "../../components/pagination-dot/pagination-dot"
 
+const SLIDER_DATA = [0,1,2,3]
 export const WelcomeScreen: FC<StackScreenProps<AuthStackParamList, ScreenNames.WELCOME>> = observer(
   ({ navigation }) => {
     const [screen, setScreen] = useState<number>(1)
@@ -28,7 +30,7 @@ export const WelcomeScreen: FC<StackScreenProps<AuthStackParamList, ScreenNames.
       }
     }
     const _nextScreen = () => {
-        setScreen((prevState) => prevState + 1)
+      setScreen((prevState) => prevState + 1)
     }
 
     const _preScreen = () => {
@@ -38,13 +40,13 @@ export const WelcomeScreen: FC<StackScreenProps<AuthStackParamList, ScreenNames.
     const _goToFifth = ()=> {
       navigation.navigate(ScreenNames.FIFTH_SCREEN)
     }
-
     return (
       <View testID="WelcomeScreen" style={styles.container}>
         <View style={styles.wrapSkip}>
           <AppText value={'SKIP'} onPress={_preScreen}/>
         </View>
         {_renderScreen()}
+        <PaginationDot length={SLIDER_DATA.length} activeDot={screen - 1} dotContainer={styles.dotContainer}/>
         <AppButton title={'Tiếp theo'} onPress={screen < 4 ? _nextScreen : _goToFifth} containerStyle={styles.button}/>
       </View>
     )
@@ -66,5 +68,10 @@ const styles = ScaledSheet.create({
     marginRight: '40@s',
     marginBottom: '30@s',
     width: '40%'
+  },
+  dotContainer:{
+    position: 'absolute',
+    bottom: '20@s',
+    left: '10@s'
   }
 })
