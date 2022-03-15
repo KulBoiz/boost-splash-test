@@ -31,13 +31,13 @@ export const AuthStoreModel = types
       if (result.kind !== "ok") {
         return result
       }
-      const logedInInfo = result.data
-      if (logedInInfo && logedInInfo.user) {
-        self.user = logedInInfo.user
-        self.token = logedInInfo.accessToken
-        self.refreshToken = logedInInfo.refreshToken
-        self.expires = logedInInfo.expires
-        self.type = logedInInfo.type
+      const loggedInInfo = result.data
+      if (loggedInInfo && loggedInInfo.user) {
+        self.user = loggedInInfo.user
+        self.token = loggedInInfo.accessToken
+        self.refreshToken = loggedInInfo.refreshToken
+        self.expires = loggedInInfo.expires
+        self.type = loggedInInfo.type
         self.isLoggedIn = true
         authApi.setToken(self.token)
         authApi.setUnauthorizedFunction(() => {

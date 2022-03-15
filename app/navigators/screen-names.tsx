@@ -9,5 +9,9 @@ export enum ScreenNames {
   HOME = "Home",
   FIFTH_SCREEN = "FifthScreen",
   OTP = "Otp",
+  SETTING = "Setting",
+  CHAT = "Chat",
+  SCHEDULE = "Schedule",
+  PLUS = "Plus",
 
 }

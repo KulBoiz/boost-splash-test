@@ -32,7 +32,7 @@
     "otpCode": "Mã Xác Thực",
     "enterPhone": "Vui lòng nhập số điện thoại và vị trí\nđể chúng tôi có thể xác minh bạn.",
     "checkInbox": "Hãy kiểm tra hộp thư đến, chúng tôi đã gửi mã xác thực vào số",
-    "notReceiveCode": "Không nhận được mã xác thực",
+    "notReceiveCode": "Không nhận được mã xác thực? ",
     "resentCode": "Gửi lại mã",
     "endProcess": "Quá trình sẽ kết thúc trong 60 giây.",
     "agree": "I’ve read and agree to the terms of privacy policy",
