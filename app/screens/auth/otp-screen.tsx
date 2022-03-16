@@ -4,7 +4,7 @@ import { StackScreenProps } from "@react-navigation/stack"
 import { observer } from "mobx-react-lite"
 import { ScreenNames } from "../../navigators/screen-names"
 
-import { AppText } from "../../components/AppText/AppText"
+import { AppText } from "../../components/app-text/AppText"
 import { presets } from "../../constants/presets"
 import { ScaledSheet } from "react-native-size-matters";
 import BackButton from "../../components/back-button/back-button"

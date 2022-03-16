@@ -3,7 +3,7 @@ import { View, TouchableOpacity, ViewStyle } from "react-native"
 import { color } from "../../../theme"
 import { ScaledSheet } from 'react-native-size-matters';
 import { TxKeyPath } from "../../../i18n"
-import { AppText } from "../../../components/AppText/AppText"
+import { AppText } from "../../../components/app-text/AppText"
 
 interface Props{
   isSelect: boolean

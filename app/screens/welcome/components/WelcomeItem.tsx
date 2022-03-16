@@ -1,7 +1,7 @@
 import React  from "react"
 import { View } from 'react-native';
 import { ScaledSheet } from "react-native-size-matters";
-import { AppText } from "../../../components/AppText/AppText"
+import { AppText } from "../../../components/app-text/AppText"
 import { color } from "../../../theme"
 import { TxKeyPath } from "../../../i18n"
 

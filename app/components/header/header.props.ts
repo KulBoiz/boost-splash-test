@@ -18,6 +18,8 @@ export interface HeaderProps {
    */
   leftIcon?: IconTypes
 
+  renderLeftIcon?: JSX.Element
+
   /**
    * What happens when you press the left icon
    */
@@ -28,6 +30,9 @@ export interface HeaderProps {
    */
   rightIcon?: IconTypes
 
+  renderRightIcon?: JSX.Element
+
+
   /**
    * What happens when you press the right icon
    */
@@ -36,7 +41,7 @@ export interface HeaderProps {
   /**
    * Container style overrides.
    */
-  style?: StyleProp<ViewStyle>
+  style?: StyleProp<ViewStyle> | any
 
   /**
    * Title style overrides.

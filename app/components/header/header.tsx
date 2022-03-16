@@ -1,5 +1,5 @@
 import React from "react"
-import { View, ViewStyle, TextStyle } from "react-native"
+import { View, ViewStyle, TextStyle, Animated } from "react-native"
 import { HeaderProps } from "./header.props"
 import { Button } from "../button/button"
 import { Text } from "../text/text"
@@ -12,7 +12,7 @@ const ROOT: ViewStyle = {
   flexDirection: "row",
   paddingHorizontal: spacing[4],
   alignItems: "center",
-  paddingTop: spacing[5],
+  // paddingTop: spacing[5],
   paddingBottom: spacing[5],
   justifyContent: "flex-start",
 }
@@ -29,33 +29,53 @@ export function Header(props: HeaderProps) {
     onLeftPress,
     onRightPress,
     rightIcon,
+    renderRightIcon,
+    renderLeftIcon,
     leftIcon,
     headerText,
     headerTx,
     style,
     titleStyle,
   } = props
+
   const header = headerText || (headerTx && translate(headerTx)) || ""
 
   return (
-    <View style={[ROOT, style]}>
-      {leftIcon ? (
+    <Animated.View style={[ROOT, style]}>
+      {renderLeftIcon ?
+        <>
+          <Button preset="link" onPress={onLeftPress}>
+            {renderLeftIcon}
+          </Button>
+        </> :
+        <>
+          {leftIcon ? (
         <Button preset="link" onPress={onLeftPress}>
           <Icon icon={leftIcon} />
         </Button>
       ) : (
         <View style={LEFT} />
-      )}
+      )}</>}
+
       <View style={TITLE_MIDDLE}>
         <Text style={[TITLE, titleStyle]} text={header} />
       </View>
-      {rightIcon ? (
+
+      {renderRightIcon ?
+        <Button preset="link" onPress={onRightPress}>
+        {renderRightIcon}
+      </Button>
+        : <>
+          {rightIcon ? (
         <Button preset="link" onPress={onRightPress}>
           <Icon icon={rightIcon} />
         </Button>
       ) : (
         <View style={RIGHT} />
       )}
-    </View>
+        </>
+      }
+
+    </Animated.View>
   )
 }

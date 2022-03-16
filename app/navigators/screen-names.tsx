@@ -13,5 +13,6 @@ export enum ScreenNames {
   CHAT = "Chat",
   SCHEDULE = "Schedule",
   PLUS = "Plus",
+  REQUEST_COUNSELLING = "RequestCounselling",
 
 }

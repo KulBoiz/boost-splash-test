@@ -1,7 +1,7 @@
 import React, { useState } from "react"
 import { View } from 'react-native';
 import {ScaledSheet} from 'react-native-size-matters'
-import { AppText } from "../../components/AppText/AppText"
+import { AppText } from "../../components/app-text/AppText"
 import { color } from "../../theme"
 import { FourthSvg } from "../../assets/svgs"
 import WelcomeButton from "./components/WelcomeButton"

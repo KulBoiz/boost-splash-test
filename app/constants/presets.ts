@@ -36,6 +36,7 @@ export const presets = {
    * Field labels that appear on forms above the inputs.
    */
   fieldLabel: { ...BASE, fontSize: 13, color: color.dim } as TextStyle,
+  note: { ...BASE, fontSize: s(12), color: color.palette.gray,lineHeight: s(15) } as TextStyle,
 
   /**
    * A smaller piece of secondary information.

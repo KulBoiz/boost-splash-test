@@ -2,7 +2,7 @@ import React, {FC, useEffect, useState } from "react"
 import { View } from 'react-native';
 
 import { observer } from "mobx-react-lite"
-import { AppText } from "../../../components/AppText/AppText"
+import { AppText } from "../../../components/app-text/AppText"
 import {
   CodeField,
   Cursor,

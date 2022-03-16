@@ -2,7 +2,7 @@ import React from 'react';
 import { View, StyleSheet } from 'react-native';
 import BouncyCheckbox from "react-native-bouncy-checkbox";
 import { color } from "../../../theme"
-import { AppText } from "../../../components/AppText/AppText"
+import { AppText } from "../../../components/app-text/AppText"
 import { presets } from "../../../constants/presets"
 
 interface Props{
@@ -19,7 +19,6 @@ const TermCheckbox = React.memo((props: Props) => {
         <AppText value={'term '} color={color.palette.blue} style={presets.bold}/>
         <AppText value={'of '}/>
         <AppText value={'privacy policy'} color={color.palette.blue} style={presets.bold}/>
-
       </View>
     )
   }

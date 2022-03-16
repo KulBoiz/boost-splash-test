@@ -3,10 +3,10 @@ import { View } from 'react-native';
 import {FinaLogoSvg } from "../../assets/svgs"
 import { height, width } from "../../constants/variable"
 import { GradientBackground } from "../../components"
-import { AppText } from "../../components/AppText/AppText"
+import { AppText } from "../../components/app-text/AppText"
 import { s, ScaledSheet } from 'react-native-size-matters';
 import { color } from "../../theme"
-import AppButton from "../../components/AppButton/AppButton"
+import AppButton from "../../components/app-button/AppButton"
 import FastImage from "react-native-fast-image"
 import { images } from "../../assets/images"
 import { useNavigation } from "@react-navigation/native"

@@ -1,53 +1,40 @@
-import * as React from "react"
-import { TextStyle, TouchableOpacity, View, ViewStyle } from "react-native"
-import { Text } from "../text/text"
-import { color, spacing } from "../../theme"
-import { CheckboxProps } from "./checkbox.props"
+import React from 'react';
+import { View, StyleSheet, ViewStyle } from "react-native"
+import BouncyCheckbox from "react-native-bouncy-checkbox"
+import { color } from "../../theme"
 
-const ROOT: ViewStyle = {
-  flexDirection: "row",
-  paddingVertical: spacing[1],
-  alignSelf: "flex-start",
+interface Props{
+  checkboxState: boolean
+  setCheckboxState(e: boolean): void
+  textComponent?: JSX.Element
+  text?: string
+  style?: ViewStyle | any
 }
 
-const DIMENSIONS = { width: 16, height: 16 }
-
-const OUTLINE: ViewStyle = {
-  ...DIMENSIONS,
-  marginTop: 2, // finicky and will depend on font/line-height/baseline/weather
-  justifyContent: "center",
-  alignItems: "center",
-  borderWidth: 1,
-  borderColor: color.primaryDarker,
-  borderRadius: 1,
-}
-
-const FILL: ViewStyle = {
-  width: DIMENSIONS.width - 4,
-  height: DIMENSIONS.height - 4,
-  backgroundColor: color.primary,
-}
-
-const LABEL: TextStyle = { paddingLeft: spacing[2] }
-
-export function Checkbox(props: CheckboxProps) {
-  const numberOfLines = props.multiline ? 0 : 1
-
-  const rootStyle = [ROOT, props.style]
-  const outlineStyle = [OUTLINE, props.outlineStyle]
-  const fillStyle = [FILL, props.fillStyle]
-
-  const onPress = props.onToggle ? () => props.onToggle && props.onToggle(!props.value) : null
-
+const Checkbox = React.memo((props: Props) => {
+  const {checkboxState, setCheckboxState, textComponent, text, style} = props
   return (
-    <TouchableOpacity
-      activeOpacity={1}
-      disabled={!props.onToggle}
-      onPress={onPress}
-      style={rootStyle}
-    >
-      <View style={outlineStyle}>{props.value && <View style={fillStyle} />}</View>
-      <Text text={props.text} tx={props.tx} numberOfLines={numberOfLines} style={LABEL} />
-    </TouchableOpacity>
+    <View style={styles.container}>
+      <BouncyCheckbox
+        size={20}
+        text={text}
+        style={style}
+        isChecked={checkboxState}
+        fillColor={color.palette.blue}
+        unfillColor="#FFFFFF"
+        textComponent={textComponent}
+        iconStyle={styles.iconStyle}
+        onPress={(isChecked: boolean) => setCheckboxState(isChecked)}
+      />
+    </View>
   )
-}
+});
+
+export default Checkbox;
+
+Checkbox.displayName = 'Checkbox'
+
+const styles = StyleSheet.create({
+    container: {},
+  iconStyle: { borderColor: color.palette.black, borderRadius: 4, }
+});

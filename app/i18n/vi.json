@@ -5,7 +5,11 @@
     "back": "Quay lại",
     "continue": "Tiếp tục",
     "start": "Bắt đầu",
-    "sent": "Gửi"
+    "sent": "Gửi",
+    "sentInformation": "Gửi thông tin"
+  },
+  "guide": {
+    "enterKeyword": "Nhập kí tự tìm kiếm và chọn từ danh sách hiện ra \n(vd: Q. 3 - Ho Chi Minh hoặc H. Dong Anh - Ha Noi)"
   },
   "welcome": {
     "firstLabel":"Lãi suất chỉ từ \n6.19%/năm",
@@ -39,6 +43,11 @@
     "forgotPassword": "Quên Mật Khẩu",
     "emailOrPhone": "Vui lòng nhập địa chỉ email hoặc\nsố điện thoại để khôi phục mật khẩu"
   },
+  "header": {
+    "requestLoan": "tạo yêu cầu tư vấn vay",
+    "requestInsurance": "tạo yêu cầu tư vấn mua bảo hiểm",
+    "requestInvest": "tạo yêu cầu tư vấn đầu tư"
+  },
   "label": {
     "location": "Enter your location",
     "phoneNumber": "Enter your Phone Number"
@@ -48,7 +57,9 @@
     "password": "Mật Khẩu",
     "reenteredPassword": "Nhập Lại Mật Khẩu",
     "fullName": "Họ và tên",
-    "email": "Địa Chỉ Email"
+    "email": "Địa Chỉ Email",
+    "phone": "Số Điện Thoại",
+    "address": "Huyện/Tỉnh (Quận/TP)"
   },
   "home": {
     "finance": {

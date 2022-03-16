@@ -1,5 +1,5 @@
 import React, { FC, useState } from "react"
-import { Animated, View } from "react-native"
+import { View } from "react-native"
 import { StackScreenProps } from "@react-navigation/stack"
 import { observer } from "mobx-react-lite"
 import { ScreenNames } from "../../navigators/screen-names"
@@ -7,12 +7,11 @@ import {ScaledSheet} from 'react-native-size-matters'
 import FirstScreen from "./first-screen"
 import SecondScreen from "./second-screen"
 import ThirdScreen from "./third-screen"
-import AppButton from "../../components/AppButton/AppButton"
+import AppButton from "../../components/app-button/AppButton"
 import { color } from "../../theme"
-import { AppText } from "../../components/AppText/AppText"
+import { AppText } from "../../components/app-text/AppText"
 import FourthScreen from "./fourth-screen"
 import { AuthStackParamList } from "../../navigators/auth-stack"
-import { Pagination } from 'react-native-snap-carousel';
 import PaginationDot from "../../components/pagination-dot/pagination-dot"
 
 const SLIDER_DATA = [0,1,2,3]
@@ -33,17 +32,13 @@ export const WelcomeScreen: FC<StackScreenProps<AuthStackParamList, ScreenNames.
       setScreen((prevState) => prevState + 1)
     }
 
-    const _preScreen = () => {
-      setScreen((prevState) => prevState - 1)
-    }
-
     const _goToFifth = ()=> {
       navigation.navigate(ScreenNames.FIFTH_SCREEN)
     }
     return (
       <View testID="WelcomeScreen" style={styles.container}>
         <View style={styles.wrapSkip}>
-          <AppText value={'SKIP'} onPress={_preScreen}/>
+          <AppText value={'SKIP'} onPress={_goToFifth}/>
         </View>
         {_renderScreen()}
         <PaginationDot length={SLIDER_DATA.length} activeDot={screen - 1} dotContainer={styles.dotContainer}/>

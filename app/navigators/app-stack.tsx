@@ -54,7 +54,7 @@ export const AppStack = () => {
                 color={color}
               />
             ),
-            title: "QrLog",
+            title: "HOME",
             tabBarVisible: getTabBarVisibility(props.route),
           }
         }}

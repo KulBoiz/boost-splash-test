@@ -2454,6 +2454,11 @@
   resolved "https://registry.yarnpkg.com/@trysound/sax/-/sax-0.2.0.tgz#cccaab758af56761eb7bf37af6f03f326dd798ad"
   integrity sha512-L7z9BgrNEcYyUYtF+HaEfiS5ebkh9jXqbszz7pC0hRBPaatV0XjSD3+eHrpqFemQfgwiFF0QPIarnIihIDn7OA==
 
+"@tsconfig/react-native@^1.0.4":
+  version "1.0.4"
+  resolved "https://registry.yarnpkg.com/@tsconfig/react-native/-/react-native-1.0.4.tgz#716003b811bde26fc768cd1d120d1f193af6d22c"
+  integrity sha512-ARCmT+6kxAW17/wOVxn6PxQCQRGNDSql5nk3TJIL0s/fUt90yFiSCmHu4LXbbTfq/JIsvlYg+ps2yi7lkzK89g==
+
 "@tsconfig/recommended@^1.0.1":
   version "1.0.1"
   resolved "https://registry.yarnpkg.com/@tsconfig/recommended/-/recommended-1.0.1.tgz#7619bad397e06ead1c5182926c944e0ca6177f52"

@@ -1,7 +1,7 @@
 import React from 'react';
 import { Pressable } from "react-native"
 import { ScaledSheet } from 'react-native-size-matters';
-import { LeftArrorSvg } from "../../assets/svgs"
+import { LeftArrowSvg } from "../../assets/svgs"
 import { color } from "../../theme"
 import { useNavigation } from "@react-navigation/native"
 
@@ -11,7 +11,7 @@ const BackButton = React.memo((props: Props) => {
   const {goBack} = useNavigation()
   return (
     <Pressable style={styles.container} onPress={goBack}>
-      <LeftArrorSvg />
+      <LeftArrowSvg />
     </Pressable>
   )
 });

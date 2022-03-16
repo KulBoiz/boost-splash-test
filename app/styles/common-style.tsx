@@ -3,10 +3,14 @@ import { Dimensions, TextStyle, ViewStyle } from "react-native"
 const screenWidth = Math.round(Dimensions.get('window').width);
 const screenHeight = Math.round(Dimensions.get('window').height);
 
-export const FULL_SCREEN_STYLE = {
+export const FULL_SCREEN_STYLE :ViewStyle= {
   width: screenWidth,
   height: screenHeight,
   position: 'relative'
+}
+
+export const ROW :ViewStyle = {
+  flexDirection: 'row'
 }
 
 export const CONTAINER_PADDING = {
@@ -25,8 +29,6 @@ export const TEXT_CENTER : TextStyle = {
 
 export const CENTER_ELEMENTS : ViewStyle = {
   alignItems: "center",
-  alignSelf: "center",
-  // marginBottom: 16,
   justifyContent: 'center',
 }
 
