@@ -1,6 +1,5 @@
-import React from 'react';
+import React, { useCallback } from "react"
 import { View } from 'react-native';
-import {FinaLogoSvg } from "../../assets/svgs"
 import { height, width } from "../../constants/variable"
 import { GradientBackground } from "../../components"
 import { AppText } from "../../components/app-text/AppText"
@@ -9,25 +8,41 @@ import { color } from "../../theme"
 import AppButton from "../../components/app-button/AppButton"
 import FastImage from "react-native-fast-image"
 import { images } from "../../assets/images"
-import { useNavigation } from "@react-navigation/native"
+import { StackActions, useNavigation } from "@react-navigation/native"
 import { ScreenNames } from "../../navigators/screen-names"
+import { navigate } from "../../navigators"
+import { useStores } from "../../models"
 interface Props{}
 
 const FifthScreen = React.memo((props: Props) => {
-  const {navigate} = useNavigation()
+  const navigation = useNavigation()
+  const {authStoreModel} = useStores()
+
+  const setFirstTime = useCallback(()=> {
+    authStoreModel.setIsFirstTime(false)
+  },[])
+
+  const handleStart = () => {
+    setFirstTime()
+    navigation.dispatch(StackActions.push(ScreenNames.APP))
+  }
+  const handleLogin = () => {
+    setFirstTime()
+    navigate(ScreenNames.LOGIN)
+  }
   return (
     <View style={styles.container}>
         <FastImage source={images.fifth} style={styles.svgBackground}/>
         <GradientBackground colors={['#064DD6', 'rgba(98, 150, 249, 0.4)']} />
-        <FinaLogoSvg />
+      <FastImage source={images.fina_logo} style={styles.logo} />
         <AppText tx={'welcome.lastLabel'} style={styles.welcome} capitalize/>
         <AppText tx={'welcome.lastContent'} style={styles.content}/>
 
       <View style={styles.wrapBtn}>
-        <AppButton title={'Bắt đầu'} containerStyle={styles.button} onPress={()=> navigate(ScreenNames.APP)}/>
+        <AppButton title={'Bắt đầu'} containerStyle={styles.button} onPress={handleStart}/>
         <View style={styles.wrapText}>
           <AppText tx={'auth.haveAccount'} fontSize={s(16)}/>
-          <AppText tx={'auth.login'} style={styles.text} onPress={()=> navigate(ScreenNames.LOGIN)}/>
+          <AppText tx={'auth.login'} style={styles.text} onPress={handleLogin}/>
         </View>
       </View>
     </View>
@@ -44,6 +59,10 @@ const styles = ScaledSheet.create({
     fontSize: '44@s',
     fontWeight: '700',
     marginTop: '32@s', marginBottom: '16@s'
+  },
+  logo: {
+    width: '60@s',
+    height: '60@s'
   },
   content: {
     color: color.text,

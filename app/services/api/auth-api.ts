@@ -39,7 +39,102 @@ export class AuthApi {
       const data = response.data
       return { kind: "ok", data }
     } catch (e) {
-      __DEV__ && console.tron.log(e.message)
+      return { kind: "bad-data", e }
+    }
+  }
+
+  async registerEmail(telOrEmail: string): Promise<any> {
+    try {
+      const response: ApiResponse<any> = await this.api.apisauce.post(`${API_ENDPOINT}/signup-by-phone-or-email`, {
+        telOrEmail
+      })
+      if (!response.ok) {
+        const problem = getGeneralApiProblem(response)
+        if (problem) return problem
+      }
+      const data = response.data
+      return { kind: "ok", data }
+    } catch (e) {
+      return { kind: "bad-data", e }
+    }
+  }
+
+  async verifyOtp(id, otp: string): Promise<any> {
+    try {
+      const response: ApiResponse<any> = await this.api.apisauce.post(`${API_ENDPOINT}/signup/${id}/verify-otp`, {
+        otp
+      })
+      if (!response.ok) {
+        const problem = getGeneralApiProblem(response)
+        if (problem) return problem
+      }
+      const data = response.data
+      return { kind: "ok", data }
+    } catch (e) {
+      return { kind: "bad-data", e }
+    }
+  }
+
+  async verifyPasswordOtp(id: string,otp: string): Promise<any> {
+    try {
+      const response: ApiResponse<any> = await this.api.apisauce.post(`${API_ENDPOINT}/otp/verify/${id}`, {
+        otp
+      })
+      if (!response.ok) {
+        const problem = getGeneralApiProblem(response)
+        if (problem) return problem
+      }
+      const data = response
+      return { kind: "ok", data }
+    } catch (e) {
+      return { kind: "bad-data", e }
+    }
+  }
+
+  async register(id: string, fullName: string, telOrEmail: string, password: string, confirmPassword): Promise<any> {
+    try {
+      const response: ApiResponse<any> = await this.api.apisauce.put(`${API_ENDPOINT}/users/${id}/register-information-user`, {
+        fullName, telOrEmail, password, confirmPassword
+      })
+      if (!response.ok) {
+        const problem = getGeneralApiProblem(response)
+        if (problem) return problem
+      }
+      const data = response.data
+      return { kind: "ok", data }
+    } catch (e) {
+      return { kind: "bad-data", e }
+    }
+  }
+
+  async forgotPassword(telOrEmail: string): Promise<any> {
+    try {
+      const response: ApiResponse<any> = await this.api.apisauce.post(`${API_ENDPOINT}/users/recover-password`, {
+        telOrEmail
+      })
+      if (!response.ok) {
+        const problem = getGeneralApiProblem(response)
+        if (problem) return problem
+      }
+      const data = response.data
+      return { kind: "ok", data }
+    } catch (e) {
+      return { kind: "bad-data", e }
+    }
+  }
+
+  async changePassword(id:string, password: string, confirmPassword): Promise<any> {
+    try {
+      const response: ApiResponse<any> = await this.api.apisauce.put(`${API_ENDPOINT}/users/${id}/reset-password`, {
+        password, confirmPassword
+      })
+      if (!response.ok) {
+        const problem = getGeneralApiProblem(response)
+        if (problem) return problem
+      }
+      const data = response
+      return { kind: "ok", data }
+    } catch (e) {
       return { kind: "bad-data", e }
     }
   }

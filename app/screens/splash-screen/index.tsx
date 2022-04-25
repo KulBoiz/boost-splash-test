@@ -1,5 +1,5 @@
 import * as React from "react"
-import {View, ViewStyle} from "react-native"
+import {View} from "react-native"
 import * as Progress from 'react-native-progress';
 import {observer} from "mobx-react-lite"
 import {useEffect, useState} from "react";
@@ -11,16 +11,8 @@ import {ScaledSheet} from 'react-native-size-matters'
 import { color } from "../../theme"
 import { FinaSplashSvg } from "../../assets/svgs"
 
-export const FULL_SCREEN_STYLE : ViewStyle= {
-  flex:1,
-  display: 'flex',
-  // position: 'relative'
-}
-
-
 export const SplashScreen: React.FunctionComponent<{ readonly navigation?: any }> = observer(({navigation}) => {
   const [progress, setProgress] = useState(0)
-  // const {authStore, listingStore, navigationStore, geoLocationStore, appContextStore} = useStores()
   const { authStoreModel } = useStores()
 
   const refreshToken = async () => {
@@ -28,41 +20,19 @@ export const SplashScreen: React.FunctionComponent<{ readonly navigation?: any }
     await authStoreModel.refreshTheToken()
     authStoreModel.autoRefreshToken()
   }
-  //
-  // const loadRecentListing = async () => {
-  //   await listingStore.getRecentListing()
-  // }
-  //
-  // const loadAllListing = async () => {
-  //   await listingStore.getMyListingByStatus("")
-  // }
-  //
-  // const cleanCurrentLocation = async () => {
-  //   await geoLocationStore.setCurrentLocation({})
-  // }
-  // const cleanCurrentListing = async () => {
-  //   await listingStore.setEditingListing({...INIT_LISTING})
-  // }
-  //
-  // const loadState = async () => {
-  //   await geoLocationStore.loadStateIfEmpty()
-  // }
-  //
+
   const redirectToNextScreen = () => {
     if (!authStoreModel.token || !authStoreModel.refreshToken) {
       setTimeout(() => {
         navigation.navigate(ScreenNames.AUTH)
-      }, 5000)
+      }, 3000)
     } else {
       setTimeout(() => {
         navigation.navigate(ScreenNames.APP)
-      }, 5000)
+      }, 3000)
     }
-      // setTimeout(() => {
-      //   navigation.navigate(ScreenNames.AUTH)
-      // }, 5000)
+
   }
-  //
   const PROGRESS_FUNCTION_STEPS = [refreshToken]
 
   const init = async () => {
@@ -71,9 +41,7 @@ export const SplashScreen: React.FunctionComponent<{ readonly navigation?: any }
       await PROGRESS_FUNCTION_STEPS[i]()
       setProgress(percentPerStep * i * 100)
     }
-    redirectToNextScreen()
-    // await redirectToNextScreenTest()
-
+   await redirectToNextScreen()
   }
 
   useEffect(() => {
@@ -84,7 +52,7 @@ export const SplashScreen: React.FunctionComponent<{ readonly navigation?: any }
     <View style={styles.container}>
         <FastImage source={images.fina_splash} style={styles.image}/>
         <FinaSplashSvg style={styles.finaLogo}/>
-        <Progress.Bar progress={progress} width={200} color={"#FFFFFF"} style={styles.processBar}/>
+        {/* <Progress.Bar progress={progress} width={200} color={"#FFFFFF"} style={styles.processBar}/> */}
     </View>
   )
 })
@@ -102,8 +70,7 @@ const styles = ScaledSheet.create({
     height: '700@s'
   },
   finaLogo: {
-    marginTop: '90@s'
-
+    marginTop: '50@s'
   },
   processBar: {
     marginTop: '30@s'

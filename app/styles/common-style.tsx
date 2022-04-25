@@ -1,4 +1,5 @@
 import { Dimensions, TextStyle, ViewStyle } from "react-native"
+import { color } from "../theme"
 
 const screenWidth = Math.round(Dimensions.get('window').width);
 const screenHeight = Math.round(Dimensions.get('window').height);
@@ -16,7 +17,17 @@ export const ROW :ViewStyle = {
 export const CONTAINER_PADDING = {
   paddingHorizontal: 20
 }
+export const HIT_SLOP = {
+  top: 10,
+  bottom: 10,
+  left: 10,
+  right: 10
+}
 
+export const PARENT = {
+  flex:1,
+  backgroundColor: color.background
+}
 export const FULL_PARRENT = {
   flexGrow: 1,
   justifyContent: "center",

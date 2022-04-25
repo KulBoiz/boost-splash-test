@@ -5,6 +5,7 @@ export enum ScreenNames {
   LOGIN = "Login",
   REGISTER = "Register",
   REGISTER_PHONE = "RegisterPhone",
+  NOTICE = "Notice",
   WELCOME = "Welcome",
   HOME = "Home",
   FIFTH_SCREEN = "FifthScreen",
@@ -14,5 +15,6 @@ export enum ScreenNames {
   SCHEDULE = "Schedule",
   PLUS = "Plus",
   REQUEST_COUNSELLING = "RequestCounselling",
-
+  FORGOT_PASSWORD = "ForgotPassword",
+  CHANGE_PASSWORD = "ChangePassword"
 }

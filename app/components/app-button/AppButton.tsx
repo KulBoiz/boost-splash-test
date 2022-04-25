@@ -10,7 +10,7 @@ export interface BaseButtonProps extends TouchableOpacityProps  {
   title?: string
   tx?: TxKeyPath
   txOptions?: i18n.TranslateOptions
-  onPress: () => void
+  onPress(): void
   disable?: boolean
   loading?: boolean
   containerStyle?: ViewStyle | any

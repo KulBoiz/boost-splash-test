@@ -5,7 +5,8 @@ import { LeftArrowSvg } from "../../assets/svgs"
 import { color } from "../../theme"
 import { useNavigation } from "@react-navigation/native"
 
-interface Props{}
+interface Props{
+}
 
 const BackButton = React.memo((props: Props) => {
   const {goBack} = useNavigation()

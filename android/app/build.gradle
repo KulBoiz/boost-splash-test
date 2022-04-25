@@ -80,7 +80,7 @@ import com.android.build.OutputFile
 
 project.ext.react = [
     enableHermes: false,  // clean and rebuild if changing
-    cliPath: new File(["node", "--print", "require.resolve('react-native/package.json')"].execute().text.trim(), "../cli.js"),
+//     cliPath: new File(["node", "--print", "require.resolve('react-native/package.json')"].execute().text.trim(), "../cli.js"),
 ]
 
 apply from: new File(["node", "--print", "require.resolve('react-native/package.json')"].execute().text.trim(), "../react.gradle")
@@ -171,6 +171,13 @@ android {
             signingConfig signingConfigs.debug
             minifyEnabled enableProguardInReleaseBuilds
             proguardFiles getDefaultProguardFile("proguard-android.txt"), "proguard-rules.pro"
+            applicationVariants.all { variant ->
+               variant.outputs.all {
+               def date = new Date();
+               def formattedDate = date.format('ddMM')
+               outputFileName = "Fina-${formattedDate}.apk"
+               }
+           }
         }
     }
 

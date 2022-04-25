@@ -18,6 +18,8 @@ export interface AppHeaderProps {
 
   renderLeftIcon?: JSX.Element
 
+  width?: ViewStyle | any
+
   /**
    * What happens when you press the left icon
    */

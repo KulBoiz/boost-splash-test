@@ -38,8 +38,8 @@ LoginText.displayName = 'LoginText'
 
 const styles = ScaledSheet.create({
   container: {},
-  firstText: {marginBottom: '11@s'},
-  secondText: {fontSize: '16@s', color:color.palette.blue, fontWeight: '500' },
+  firstText: {marginBottom: '11@s', fontSize: '14@ms', fontFamily: 'Inter-Medium'},
+  secondText: {fontSize: '16@s', color:color.palette.blue, fontWeight: '500', marginRight: '10@ms'},
   wrapText: {
     alignItems: 'center',
     flexDirection: 'row',

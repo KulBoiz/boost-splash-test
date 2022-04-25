@@ -9,6 +9,8 @@
 // It's easier just to leave it here.
 import App from "./app/app.tsx"
 import { AppRegistry } from "react-native"
+import { name as appName } from './app.json'
 
-AppRegistry.registerComponent("FinaApp", () => App)
+
+AppRegistry.registerComponent(appName, () => App)
 export default App

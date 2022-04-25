@@ -12,6 +12,7 @@ import { goBack } from "../../navigators"
 
 const AppHeader = React.memo((props: AppHeaderProps) => {
   const {
+    width,
     onLeftPress,
     onRightPress,
     renderRightIcon,
@@ -27,11 +28,11 @@ const AppHeader = React.memo((props: AppHeaderProps) => {
   return (
     <View style={[styles.container, style]}>
         {renderLeftIcon ?
-            <Button preset="link" onPress={onLeftPress}>
+            <Button preset="link" onPress={onLeftPress} style={width}>
               {renderLeftIcon}
             </Button>
      : (
-            <Button preset="link" onPress={onLeftPress ?? goBack} style={styles.defaultView}>
+            <Button preset="link" onPress={onLeftPress ?? goBack} style={[styles.defaultView, width]}>
               <FastImage source={images.arrowLeft} style={styles.backIcon}/>
             </Button>
             )}
@@ -41,11 +42,11 @@ const AppHeader = React.memo((props: AppHeaderProps) => {
         </View>
 
         {renderRightIcon ?
-          <Button preset="link" onPress={onRightPress}>
+          <Button preset="link" onPress={onRightPress} style={width}>
             {renderRightIcon}
           </Button>
           : (
-              <View style={styles.defaultView} />
+              <View style={[styles.defaultView, width]} />
             )}
     </View>
   )
@@ -60,7 +61,8 @@ const styles = ScaledSheet.create({
       backgroundColor: color.background,
       flexDirection: "row",
       height: '90@s',
-      paddingHorizontal: '16@s',
+      paddingLeft: '10@s',
+      paddingRight: '16@s',
       alignItems: "flex-end",
       paddingBottom: '16@s',
       borderBottomWidth: 1,
@@ -68,7 +70,7 @@ const styles = ScaledSheet.create({
     },
   titleView: {
       flex:1,
-    marginBottom: '5@s',
+    marginBottom: '3@s',
     justifyContent: "flex-end"
   },
   title: {

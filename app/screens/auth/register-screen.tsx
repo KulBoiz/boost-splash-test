@@ -1,9 +1,9 @@
 import React, { FC, useState } from "react"
-import { Keyboard, Pressable, View } from "react-native"
+import { Alert, Keyboard, Pressable, View } from "react-native"
 import { StackScreenProps } from "@react-navigation/stack"
 import { observer } from "mobx-react-lite"
 import { ScaledSheet } from "react-native-size-matters"
-import { useForm, SubmitErrorHandler } from "react-hook-form"
+import { useForm } from "react-hook-form"
 import * as Yup from "yup"
 import { yupResolver } from "@hookform/resolvers/yup"
 import AppButton from "../../components/app-button/AppButton"
@@ -29,7 +29,7 @@ export const RegisterScreen: FC<StackScreenProps<AuthStackParamList, ScreenNames
         .trim()
         .oneOf([Yup.ref('password'), null], 'Password do not match'),
     })
-    const {control, handleSubmit} = useForm({
+    const {control, handleSubmit, formState: {errors}} = useForm({
       delayError: 0,
       defaultValues: undefined,
       mode: "all",
@@ -38,16 +38,14 @@ export const RegisterScreen: FC<StackScreenProps<AuthStackParamList, ScreenNames
     })
 
     const { authStoreModel } = useStores()
-    const [errors, setErrors] = useState<any>({})
     const [checkboxState, setCheckboxState] = useState(false);
 
-    const _handleLogin = async (data) => {
-      authStoreModel.login(data.email, data.password)
-    }
-
-    const _onError: SubmitErrorHandler<any> = (errors, e) => {
-      setErrors(errors)
-      return console.log({errors})
+    const _handleRegister = async (data) => {
+      const register = await authStoreModel.register(data.fullName,data.email, data.password, data.passwordConfirm)
+      console.log('register screen',register)
+      if (register.kind !== 'ok') {
+        Alert.alert('Something went wrong')
+      }
     }
 
     return (
@@ -94,7 +92,7 @@ export const RegisterScreen: FC<StackScreenProps<AuthStackParamList, ScreenNames
             }}
           />
           <TermCheckbox checkboxState={checkboxState} setCheckboxState={setCheckboxState} />
-          <AppButton onPress={handleSubmit(_handleLogin, _onError)} tx={"auth.register"} containerStyle={styles.button}/>
+          <AppButton onPress={handleSubmit(_handleRegister)} tx={"auth.register"} containerStyle={styles.button}/>
         </View>
         <View style={styles.wrapBottom}>
           <LoginText firstText={'auth.haveAccount'} secondText={'auth.loginNow'} action={'login'}/>

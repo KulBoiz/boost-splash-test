@@ -35,16 +35,17 @@ const styles = ScaledSheet.create({
       backgroundColor: color.palette.white
     },
   label: {
-      fontSize: '40@s',
-    fontWeight: '700',
+    fontSize: '40@s',
+    fontFamily: 'Inter-Bold',
     textAlign: 'center',
     marginTop: '50@s'
 
   },
   content: {
-      fontSize: '18@s',
+    fontFamily: 'Inter-Regular',
+    fontSize: '18@s',
     textAlign: 'center',
-  marginTop: '22@s'
+    marginTop: '22@s'
   }
 
 });

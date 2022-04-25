@@ -1,7 +1,7 @@
 import React from 'react';
 import { StyleSheet, Text, TextProps } from 'react-native';
 import type { FontWeight } from 'react-native-svg';
-import { s } from 'react-native-size-matters';
+import { ms } from 'react-native-size-matters';
 import { color } from "../../theme"
 import { translate, TxKeyPath } from "../../i18n"
 import i18n from "i18n-js"
@@ -15,15 +15,15 @@ export type AppTextProps = {
   capitalize?: boolean
   tx?: TxKeyPath
   txOptions?: i18n.TranslateOptions
-  // fontFamily?: FontFamily;
+  fontFamily?: FontFamily;
 } & TextProps;
 
-// export type FontFamily = 'Montserrat-Bold' | 'Montserrat-Medium' | 'Montserrat-Regular' | 'Montserrat-SemiBold';
+export type FontFamily = 'Inter-Bold' | 'Inter-Medium' | 'Inter-Regular' | 'Inter-SemiBold' | 'Inter-Thin';
 
 const defaultProps: Partial<AppTextProps> = {
-  fontSize: s(13),
+  fontSize: ms(13),
   color: color.palette.black,
-  // fontFamily: 'Montserrat-Regular',
+  fontFamily: 'Inter-Medium',
 };
 
 // eslint-disable-next-line react/display-name

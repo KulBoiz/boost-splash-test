@@ -1,5 +1,5 @@
 import React, { FC, memo } from 'react';
-import { ImageProps, TouchableOpacity, View } from "react-native"
+import { ImageProps, TouchableOpacity, View, ViewStyle } from "react-native"
 import { ScaledSheet } from 'react-native-size-matters';
 import { AppText } from "../../../components/app-text/AppText"
 import { color } from "../../../theme"
@@ -18,19 +18,18 @@ export interface HeaderTitleProps {
   handleSelectPage: (key: any) => void;
   paperData: Array<PaperProps> | any;
   currentPage: number;
-  styleBtn?: object;
 }
 
-const PaperHeader: FC<HeaderTitleProps> = ({ handleSelectPage, paperData, currentPage, styleBtn }) => {
+const PaperHeader: FC<HeaderTitleProps> = ({ handleSelectPage, paperData, currentPage }) => {
   return (
     <View style={styles.viewHeader}>
       {paperData.map((item, index) => {
         const isCurrent = currentPage === item.key;
         return (
-          <View>
+          <View key={index}>
              <TouchableOpacity key={index} onPress={handleSelectPage} style={styles.itemContainer}>
                <View style={[styles.circle, CENTER_ELEMENTS, {backgroundColor: isCurrent ? item.background : color.background}]}>
-                 <FastImage source={item.image} style={styles.image} tintColor={isCurrent && color.palette.white}/>
+                 <FastImage source={item.image} style={styles.image} tintColor={isCurrent ?  color.palette.white : color.palette.black}/>
                </View>
                <AppText tx={item.title} style={isCurrent && presets.bold}/>
              </TouchableOpacity>

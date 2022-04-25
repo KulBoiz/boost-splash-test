@@ -8,7 +8,8 @@ import { FontAwesome as Icon } from '@expo/vector-icons';
 import { TabBarAdvancedButton } from "../components/bottom-tab-bar/TabBarAdvancedButton"
 import { View } from "react-native"
 import { isIphoneX } from 'react-native-iphone-x-helper';
-import {ScaledSheet} from 'react-native-size-matters'
+import {s, ScaledSheet} from 'react-native-size-matters'
+import SettingScreen from "../screens/settting/setting-screen"
 
 
 export type AppStackParamList = {
@@ -31,14 +32,12 @@ export const AppStack = () => {
       initialRouteName={ScreenNames.HOME}
       screenOptions={{ headerShown: false ,tabBarStyle: styles.navigator, tabBarItemStyle: styles.itemStyle}}
       tabBar={(props) => (
-        <View style={styles.navigatorContainer}>
+        <View style={[styles.navigatorContainer, !isIphoneX() && {height: s(50)}]}>
           <BottomTabBar
             {...props}
           />
-          {isIphoneX && (
-            <View style={[styles.xFillLine, {
-              backgroundColor: '#FFFFFF'
-            }]}/>
+          {isIphoneX() && (
+            <View style={[styles.xFillLine, { backgroundColor: '#FFFFFF' }]}/>
           )}
         </View>
       )}
@@ -124,7 +123,7 @@ export const AppStack = () => {
             tabBarVisible: getTabBarVisibility(props.route),
           }
         }}
-        component={HomeScreen}
+        component={SettingScreen}
       />
     </Tab.Navigator>
   )
@@ -150,7 +149,7 @@ const styles = ScaledSheet.create({
     backgroundColor: 'transparent',
     elevation: 30
   },
-  itemStyle: {backgroundColor: 'white', height: '50@s', paddingVertical: '5@s' },
+  itemStyle: {backgroundColor: 'white', height: '50@s', paddingVertical: '7@s' },
   xFillLine: {
     position: 'absolute',
     bottom: 0,

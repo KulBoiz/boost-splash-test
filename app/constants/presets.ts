@@ -1,12 +1,12 @@
 import { TextStyle } from "react-native"
-import { color, typography } from "../theme"
-import {s} from 'react-native-size-matters'
+import { color } from "../theme"
+import {s, ms} from 'react-native-size-matters'
 
 /**
  * All text will start off looking like this.
  */
 const BASE: TextStyle = {
-  fontFamily: typography.primary,
+  fontFamily: 'Inter-Medium',
   color: color.text,
 }
 
@@ -24,19 +24,19 @@ export const presets = {
   /**
    * A bold version of the default text.
    */
-  bold: { fontWeight: "700" } as TextStyle,
+  bold: { fontFamily: 'Inter-Bold' } as TextStyle,
 
   /**
    * Large headers.
    */
-  header: { ...BASE, fontSize: s(44), fontWeight: "700", color: color.lightBlack } as TextStyle,
-  secondary: { ...BASE, fontSize: s(18), color: color.lightBlack, lineHeight: s(25) } as TextStyle,
-  boldContent: {...BASE, fontWeight: '700', fontSize: s(18)} as TextStyle,
+  header: { ...BASE, fontSize: ms(44), fontWeight: "700", color: color.lightBlack } as TextStyle,
+  secondary: { ...BASE, fontSize: ms(18), color: color.lightBlack, lineHeight: s(25), fontFamily: 'Inter-Regular' } as TextStyle,
+  boldContent: {...BASE, fontWeight: '700', fontSize: ms(18)} as TextStyle,
   /**
    * Field labels that appear on forms above the inputs.
    */
-  fieldLabel: { ...BASE, fontSize: 13, color: color.dim } as TextStyle,
-  note: { ...BASE, fontSize: s(12), color: color.palette.gray,lineHeight: s(15) } as TextStyle,
+  fieldLabel: { ...BASE, fontSize: ms(13), color: color.dim } as TextStyle,
+  note: { ...BASE, fontSize: ms(12), color: color.palette.gray,lineHeight: s(15) } as TextStyle,
 
   /**
    * A smaller piece of secondary information.

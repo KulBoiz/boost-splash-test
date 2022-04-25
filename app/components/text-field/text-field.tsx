@@ -3,7 +3,7 @@ import { Pressable, StyleProp, TextInput, TextInputProps, TextStyle, View, ViewS
 import { color, spacing, typography } from "../../theme"
 import { translate, TxKeyPath } from "../../i18n"
 import { Text } from "../text/text"
-import { s } from "react-native-size-matters"
+import { s, ms } from "react-native-size-matters"
 import FastImage, { ImageStyle } from "react-native-fast-image"
 import { images } from "../../assets/images"
 
@@ -30,22 +30,21 @@ const EYE : ImageStyle = {
 // the base styling for the TextInput
 const INPUT: TextStyle = {
   flex: 1,
-  fontFamily: typography.primary,
+  fontFamily:'Inter-Medium',
   color: color.palette.black,
   minHeight: s(40),
-  fontSize: s(14),
+  fontSize: ms(14),
 }
 const LABEL: TextStyle = {
-  fontFamily: typography.primary,
-  fontWeight: '500',
+  fontFamily: 'Inter-SemiBold',
   color: color.palette.black,
-  fontSize: s(12),
+  fontSize: ms(12),
   marginBottom: s(13)
 }
 const ERROR: TextStyle = {
-  fontFamily: typography.primary,
+  fontFamily: 'Inter-Medium',
   color: color.palette.angry,
-  fontSize: s(13),
+  fontSize: ms(13),
   marginTop: s(10)
 }
 

@@ -15,17 +15,18 @@ import { ScaledSheet } from "react-native-size-matters";
 import moment from "moment"
 import { navigate } from "../../../navigators"
 import { ScreenNames } from "../../../navigators/screen-names"
+import { useStores } from "../../../models"
 
-const CELL_COUNT = 4;
+const CELL_COUNT = 6;
 interface Props{
-  value: string,
-  setValue: (e: string)=> void
+  phoneNumber: string
+  isRegister: boolean
 }
 const OtpItem:FC<Props> = observer(
-  (props : Props) => {
-    const { value, setValue } = props
-    // const defaultTime = 5*60*1000
-    const defaultTime = 10*1000
+  ({ phoneNumber, isRegister } : Props) => {
+    const [value, setValue] = useState('');
+    const defaultTime = 60*1000
+    const { authStoreModel } = useStores()
     const ref = useBlurOnFulfill({value, cellCount: CELL_COUNT});
     const [prop, getCellOnLayoutHandler] = useClearByFocusCell({
       value,
@@ -41,7 +42,6 @@ const OtpItem:FC<Props> = observer(
             setTime(time > 1000 ? time - 1000 : 0);
           }
           if (time === 0) {
-            navigate(ScreenNames.REGISTER)
             setStartCheck(false);
             clearInterval(timeout);
           }
@@ -51,6 +51,37 @@ const OtpItem:FC<Props> = observer(
         clearInterval(timeout);
       };
     }, [isStartCheck, time]);
+
+    const checkOtp = async () => {
+      if (isRegister) {
+        const otp = await authStoreModel.verifyOtp(value)
+        if (otp.kind === 'ok') {
+          navigate(ScreenNames.REGISTER)
+        }
+      } else {
+        const otp = await authStoreModel.verifyPasswordOtp(value)
+        if (otp.kind === 'ok') {
+          navigate(ScreenNames.CHANGE_PASSWORD)
+
+        }
+      }
+    }
+
+    const resendCode = () => {
+      if (isRegister){
+        authStoreModel.registerEmail(phoneNumber)
+      }
+      else {
+        authStoreModel.forgotPassword(phoneNumber)
+      }
+      setStartCheck(true)
+    }
+
+    useEffect(()=> {
+      if (value?.length === 6) {
+        checkOtp()
+      }
+    },[value])
 
     return (
       <View style={styles.container}>
@@ -75,10 +106,15 @@ const OtpItem:FC<Props> = observer(
             </View>
           )}
         />
-        <AppText value={`(${moment(time).format('mm:ss')})`} style={styles.textCountDown}/>
+        {time > 0 &&
+          <>
+            <AppText value={`(${moment(time).format('mm:ss')})`} style={styles.textCountDown}/>
+            <AppText tx={'auth.endProcess'} style={styles.text}/>
+          </>
+        }
         <View style={styles.wrapText}>
-          <AppText tx={'auth.notReceiveCode'} />
-          <AppText onPress={()=> setStartCheck(true)} tx={'auth.resentCode'} style={presets.bold} color={color.palette.blue} underline />
+           <AppText tx={'auth.notReceiveCode'} style={styles.text}/>
+          <AppText onPress={resendCode} tx={'auth.resentCode'} style={presets.bold} color={color.palette.blue} underline />
         </View>
 
       </View>
@@ -94,11 +130,11 @@ const styles = ScaledSheet.create({
     borderBottomWidth: 2,
     height: '60@s',
     justifyContent: 'center',
-    width: '65@s',
+    width: '35@s',
   },
   cellText: {
     color: '#000',
-    fontSize: '40@s',
+    fontSize: '40@ms',
     textAlign: 'center',
   },
   codeFieldRoot: {
@@ -116,6 +152,10 @@ const styles = ScaledSheet.create({
   focusCell: {
     borderBottomColor: '#007AFF',
     borderBottomWidth: 2,
+  },
+  text: {
+    color: '#486484',
+    marginBottom: '8@s'
   },
   root: {minHeight: 300, padding: 20},
   wrapText: {

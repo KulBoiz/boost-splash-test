@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Animated } from "react-native"
+import { View, Animated, TouchableOpacity } from "react-native"
 import { Header } from "../../../components"
 import { BellSvg, BookSvg, SearchSvg } from "../../../assets/svgs"
 import { presets } from "../../../constants/presets"
@@ -12,6 +12,8 @@ import { s ,ScaledSheet} from "react-native-size-matters"
 import { color } from "../../../theme"
 
 import { ROW } from "../../../styles/common-style"
+import { navigate } from "../../../navigators"
+import { ScreenNames } from "../../../navigators/screen-names"
 
 interface Props{
   animatedValue: Animated.Value
@@ -42,17 +44,15 @@ const HeaderCard = React.memo(({ animatedValue }: Props) => {
       <Header style={{ top: animatedHeaderBarHeight }} headerText={"FINA"} renderRightIcon={<SearchSvg />}
               titleStyle={[presets.secondary, presets.bold, { color: "white" }]} />
       <FastImage source={images.headerDecor} style={styles.image} />
-      <View style={{
-        width: "100%",
-        paddingHorizontal: 20,
-        flexDirection: "row",
-        justifyContent: "space-between",
-        alignItems: "center",
-      }}>
+      <View style={styles.wrapContent}>
         <LoginCard />
         <View style={ROW}>
-          <BookSvg />
-          <BellSvg />
+          <TouchableOpacity>
+            <BookSvg />
+          </TouchableOpacity>
+          <TouchableOpacity onPress={()=> navigate(ScreenNames.NOTICE)}>
+            <BellSvg />
+          </TouchableOpacity>
         </View>
       </View>
 
@@ -67,6 +67,13 @@ export default HeaderCard;
 
 const styles = ScaledSheet.create({
     container: {},
+  wrapContent: {
+    width: "100%",
+    paddingHorizontal: 20,
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
+  },
   image: {
     top:20,
     width: 420, height: 500,

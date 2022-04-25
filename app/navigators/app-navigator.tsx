@@ -8,12 +8,14 @@ import { SplashScreen } from "../screens"
 import { AppStack } from "./app-stack"
 import { AuthStack } from "./auth-stack"
 import RequestCounselling from "../screens/home/request-counselling-screen"
+import NoticeScreen from "../screens/notice/notice-screen"
 
 export type NavigatorParamList = {
   [ScreenNames.SPLASH]: undefined;
   [ScreenNames.AUTH]: undefined;
   [ScreenNames.APP]: undefined;
   [ScreenNames.REQUEST_COUNSELLING]: undefined;
+  [ScreenNames.NOTICE]: undefined;
 }
 
 // Documentation: https://reactnavigation.org/docs/stack-navigator/
@@ -27,12 +29,13 @@ const RootStack = ()=> {
       screenOptions={{
         headerShown: false,
       }}
-      initialRouteName={ScreenNames.AUTH}
+      initialRouteName={ScreenNames.SPLASH}
     >
       <Stack.Screen name={ScreenNames.SPLASH} component={SplashScreen} />
       <Stack.Screen name={ScreenNames.AUTH} component={AuthStack} />
       <Stack.Screen name={ScreenNames.APP} component={AppStack} />
       <Stack.Screen name={ScreenNames.REQUEST_COUNSELLING} component={RequestCounselling} />
+      <Stack.Screen name={ScreenNames.NOTICE} component={NoticeScreen} />
     </Stack.Navigator>
   )
 }

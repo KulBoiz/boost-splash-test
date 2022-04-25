@@ -3,7 +3,7 @@ import { Keyboard, Pressable, View } from "react-native"
 import { StackScreenProps } from "@react-navigation/stack"
 import { observer } from "mobx-react-lite"
 import { ScaledSheet } from "react-native-size-matters"
-import { useForm, SubmitErrorHandler } from "react-hook-form"
+import { useForm } from "react-hook-form"
 import * as Yup from "yup"
 import { yupResolver } from "@hookform/resolvers/yup"
 import AppButton from "../../components/app-button/AppButton"
@@ -14,18 +14,20 @@ import { useStores } from "../../models"
 import { AppText } from "../../components/app-text/AppText"
 import LoginText from "./components/LoginText"
 import { AuthStackParamList } from "../../navigators/auth-stack"
+import AppModal from "../../components/app-modal/app-modal"
+import { StackActions } from "@react-navigation/native"
 
+const errorContent = 'Sai thông tin tài khoản hoặc mật khẩu.\nVui lòng kiểm tra lại.'
 export const LoginScreen: FC<StackScreenProps<AuthStackParamList, ScreenNames.LOGIN>> = observer(
   ({ navigation }) => {
-    // const nextScreen = () => navigation.navigate(AppRoutes.APP)
     const validationSchema = Yup.object().shape({
       email: Yup.string()
         .trim()
-        .required("Please enter your email")
-        .email("This is not a valid email"),
+        .required("Please enter your email or phone number"),
+        // .email("This is not a valid email"),
       password: Yup.string().required("Please enter your password").trim(),
     })
-    const {control, handleSubmit} = useForm({
+    const {control, handleSubmit, formState: {errors}} = useForm({
       delayError: 0,
       defaultValues: undefined,
       mode: "all",
@@ -34,16 +36,25 @@ export const LoginScreen: FC<StackScreenProps<AuthStackParamList, ScreenNames.LO
     })
 
     const { authStoreModel } = useStores()
-    const [errors, setErrors] = useState<any>({})
+    const [visible, setVisible] = useState<boolean>(false)
 
     const _handleLogin = async (data) => {
-      authStoreModel.login(data.email, data.password)
+      const auth = await authStoreModel.login(data.email, data.password)
+      if (auth.kind === 'ok'){
+        navigation.dispatch(StackActions.push(ScreenNames.APP))
+      }
+      else setVisible(true)
     }
 
-    const _onError: SubmitErrorHandler<any> = (errors, e) => {
-      setErrors(errors)
-      return console.log({errors})
+    const closeModal = ()=> {
+      setVisible(false)
     }
+
+    const forgotPassword = ()=> {
+      navigation.navigate(ScreenNames.FORGOT_PASSWORD)
+    }
+
+
 
     return (
       <Pressable style={styles.container} onPress={Keyboard.dismiss}>
@@ -68,12 +79,13 @@ export const LoginScreen: FC<StackScreenProps<AuthStackParamList, ScreenNames.LO
             showIcon: true,
           }}
         />
-        <AppText tx={'auth.forgotPassword'} style={styles.forgot} underline/>
-        <AppButton onPress={handleSubmit(_handleLogin, _onError)} tx={"auth.login"} containerStyle={styles.button}/>
+        <AppText tx={'auth.forgotPassword'} style={styles.forgot} underline onPress={forgotPassword}/>
+        <AppButton onPress={handleSubmit(_handleLogin)} tx={"auth.login"} containerStyle={styles.button}/>
         </View>
         <View style={styles.wrapBottom}>
           <LoginText firstText={'auth.dontHaveAccount'} secondText={'auth.registerNow'} action={'register'}/>
         </View>
+        <AppModal {...{visible, closeModal, content: errorContent}}/>
       </Pressable>
     )
   },
@@ -82,13 +94,13 @@ const styles = ScaledSheet.create({
   container: {
     flex: 1,
     backgroundColor: color.palette.white,
-    paddingHorizontal: "20@s",
+    paddingHorizontal: "20@ms",
   },
   body: {flex: 1, justifyContent:'center'},
   textLogin: {
-    fontSize: '44@s',
+    fontSize: '44@ms',
     fontWeight: '400', marginBottom: '40@s',
-    marginLeft: '20@s'
+    marginLeft: '20@ms'
   },
   button: {
     marginTop: '40@s'

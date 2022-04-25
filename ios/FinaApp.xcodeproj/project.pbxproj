@@ -188,6 +188,7 @@
 				2D16E6871FA4F8E400B85C8A /* Frameworks */,
 				71ED362ACEA45F9F60DCD285 /* Pods */,
 				7350A8675C8FC8C91C40F492 /* ExpoModulesProviders */,
+				85893B140E93477D93CCC6CD /* Resources */,
 			);
 			indentWidth = 2;
 			sourceTree = "<group>";
@@ -203,6 +204,14 @@
 				2D02E4901E0B4A5D006451C7 /* FinaApp-tvOSTests.xctest */,
 			);
 			name = Products;
+			sourceTree = "<group>";
+		};
+		85893B140E93477D93CCC6CD /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Resources;
+			path = "";
 			sourceTree = "<group>";
 		};
 		CBA725AA3F29EED7027689CE /* FinaAppTests */ = {
