@@ -1,92 +1,145 @@
-# FinaMobile
+# Welcome to your new ignited app!
 
+[![CircleCI](https://circleci.com/gh/infinitered/ignite.svg?style=svg)](https://circleci.com/gh/infinitered/ignite)
 
+## The latest and greatest boilerplate for Infinite Red opinions
 
-## Getting started
+This is the boilerplate that [Infinite Red](https://infinite.red) uses as a way to test bleeding-edge changes to our React Native stack.
 
-To make it easy for you to get started with GitLab, here's a list of recommended next steps.
+Currently includes:
 
-Already a pro? Just edit this README.md and make it your own. Want to make it easy? [Use the template at the bottom](#editing-this-readme)!
+- React Native
+- React Navigation
+- MobX State Tree
+- TypeScript
+- And more!
 
-## Add your files
+## Quick Start
 
-- [ ] [Create](https://docs.gitlab.com/ee/user/project/repository/web_editor.html#create-a-file) or [upload](https://docs.gitlab.com/ee/user/project/repository/web_editor.html#upload-a-file) files
-- [ ] [Add files using the command line](https://docs.gitlab.com/ee/gitlab-basics/add-file.html#add-a-file-using-the-command-line) or push an existing Git repository with the following command:
+The Ignite boilerplate project's structure will look similar to this:
 
 ```
-cd existing_repo
-git remote add origin https://gitlab.com/vntopmas/FinaMobile.git
-git branch -M main
-git push -uf origin main
+ignite-project
+├── app
+│   ├── components
+│   ├── i18n
+│   ├── utils
+│   ├── models
+│   ├── navigators
+│   ├── screens
+│   ├── services
+│   ├── theme
+│   ├── app.tsx
+├── storybook
+│   ├── views
+│   ├── index.ts
+│   ├── storybook-registry.ts
+│   ├── storybook.ts
+│   ├── toggle-storybook.tsx
+├── test
+│   ├── __snapshots__
+│   ├── storyshots.test.ts.snap
+│   ├── mock-i18n.ts
+│   ├── mock-reactotron.ts
+│   ├── setup.ts
+│   ├── storyshots.test.ts
+├── README.md
+├── android
+│   ├── app
+│   ├── build.gradle
+│   ├── gradle
+│   ├── gradle.properties
+│   ├── gradlew
+│   ├── gradlew.bat
+│   ├── keystores
+│   └── settings.gradle
+├── ignite
+│   ├── ignite.json
+│   └── plugins
+├── index.js
+├── ios
+│   ├── IgniteProject
+│   ├── IgniteProject-tvOS
+│   ├── IgniteProject-tvOSTests
+│   ├── IgniteProject.xcodeproj
+│   └── IgniteProjectTests
+├── .env
+└── package.json
+
 ```
 
-## Integrate with your tools
+### ./app directory
 
-- [ ] [Set up project integrations](https://gitlab.com/vntopmas/FinaMobile/-/settings/integrations)
+Included in an Ignite boilerplate project is the `app` directory. This is a directory you would normally have to create when using vanilla React Native.
 
-## Collaborate with your team
+The inside of the src directory looks similar to the following:
 
-- [ ] [Invite team members and collaborators](https://docs.gitlab.com/ee/user/project/members/)
-- [ ] [Create a new merge request](https://docs.gitlab.com/ee/user/project/merge_requests/creating_merge_requests.html)
-- [ ] [Automatically close issues from merge requests](https://docs.gitlab.com/ee/user/project/issues/managing_issues.html#closing-issues-automatically)
-- [ ] [Enable merge request approvals](https://docs.gitlab.com/ee/user/project/merge_requests/approvals/)
-- [ ] [Automatically merge when pipeline succeeds](https://docs.gitlab.com/ee/user/project/merge_requests/merge_when_pipeline_succeeds.html)
+```
+app
+│── components
+│── i18n
+├── models
+├── navigators
+├── screens
+├── services
+├── theme
+├── utils
+└── app.tsx
+```
 
-## Test and Deploy
+**components**
+This is where your React components will live. Each component will have a directory containing the `.tsx` file, along with a story file, and optionally `.presets`, and `.props` files for larger components. The app will come with some commonly used components like Button.
 
-Use the built-in continuous integration in GitLab.
+**i18n**
+This is where your translations will live if you are using `react-native-i18n`.
 
-- [ ] [Get started with GitLab CI/CD](https://docs.gitlab.com/ee/ci/quick_start/index.html)
-- [ ] [Analyze your code for known vulnerabilities with Static Application Security Testing(SAST)](https://docs.gitlab.com/ee/user/application_security/sast/)
-- [ ] [Deploy to Kubernetes, Amazon EC2, or Amazon ECS using Auto Deploy](https://docs.gitlab.com/ee/topics/autodevops/requirements.html)
-- [ ] [Use pull-based deployments for improved Kubernetes management](https://docs.gitlab.com/ee/user/clusters/agent/)
-- [ ] [Set up protected environments](https://docs.gitlab.com/ee/ci/environments/protected_environments.html)
+**models**
+This is where your app's models will live. Each model has a directory which will contain the `mobx-state-tree` model file, test file, and any other supporting files like actions, types, etc.
 
-***
+**navigators**
+This is where your `react-navigation` navigators will live.
 
-# Editing this README
+**screens**
+This is where your screen components will live. A screen is a React component which will take up the entire screen and be part of the navigation hierarchy. Each screen will have a directory containing the `.tsx` file, along with any assets or other helper files.
 
-When you're ready to make this README your own, just edit this file and use the handy template below (or feel free to structure it however you want - this is just a starting point!).  Thank you to [makeareadme.com](https://www.makeareadme.com/) for this template.
+**services**
+Any services that interface with the outside world will live here (think REST APIs, Push Notifications, etc.).
 
-## Suggestions for a good README
-Every project is different, so consider which of these sections apply to yours. The sections used in the template are suggestions for most open source projects. Also keep in mind that while a README can be too long and detailed, too long is better than too short. If you think your README is too long, consider utilizing another form of documentation rather than cutting out information.
+**theme**
+Here lives the theme for your application, including spacing, colors, and typography.
 
-## Name
-Choose a self-explaining name for your project.
+**utils**
+This is a great place to put miscellaneous helpers and utilities. Things like date helpers, formatters, etc. are often found here. However, it should only be used for things that are truely shared across your application. If a helper or utility is only used by a specific component or model, consider co-locating your helper with that component or model.
 
-## Description
-Let people know what your project can do specifically. Provide context and add a link to any reference visitors might be unfamiliar with. A list of Features or a Background subsection can also be added here. If there are alternatives to your project, this is a good place to list differentiating factors.
+**app.tsx** This is the entry point to your app. This is where you will find the main App component which renders the rest of the application.
 
-## Badges
-On some READMEs, you may see small images that convey metadata, such as whether or not all the tests are passing for the project. You can use Shields to add some to your README. Many services also have instructions for adding a badge.
+### ./ignite directory
 
-## Visuals
-Depending on what you are making, it can be a good idea to include screenshots or even a video (you'll frequently see GIFs rather than actual videos). Tools like ttygif can help, but check out Asciinema for a more sophisticated method.
+The `ignite` directory stores all things Ignite, including CLI and boilerplate items. Here you will find generators, plugins and examples to help you get started with React Native.
 
-## Installation
-Within a particular ecosystem, there may be a common way of installing things, such as using Yarn, NuGet, or Homebrew. However, consider the possibility that whoever is reading your README is a novice and would like more guidance. Listing specific steps helps remove ambiguity and gets people to using your project as quickly as possible. If it only runs in a specific context like a particular programming language version or operating system or has dependencies that have to be installed manually, also add a Requirements subsection.
+### ./storybook directory
 
-## Usage
-Use examples liberally, and show the expected output if you can. It's helpful to have inline the smallest example of usage that you can demonstrate, while providing links to more sophisticated examples if they are too long to reasonably include in the README.
+This is where your stories will be registered and where the Storybook configs will live.
 
-## Support
-Tell people where they can go to for help. It can be any combination of an issue tracker, a chat room, an email address, etc.
+### ./test directory
 
-## Roadmap
-If you have ideas for releases in the future, it is a good idea to list them in the README.
+This directory will hold your Jest configs and mocks, as well as your [storyshots](https://github.com/storybooks/storybook/tree/master/addons/storyshots) test file. This is a file that contains the snapshots of all your component storybooks.
 
-## Contributing
-State if you are open to contributions and what your requirements are for accepting them.
+## Running Storybook
 
-For people who want to make changes to your project, it's helpful to have some documentation on how to get started. Perhaps there is a script that they should run or some environment variables that they need to set. Make these steps explicit. These instructions could also be useful to your future self.
+From the command line in your generated app's root directory, enter `yarn run storybook`
+This starts up the storybook server and opens a story navigator in your browser. With your app
+running, choose Toggle Storybook from the developer menu to switch to Storybook; you can then
+use the story navigator in your browser to change stories.
 
-You can also document commands to lint the code or run tests. These steps help to ensure high code quality and reduce the likelihood that the changes inadvertently break something. Having instructions for running tests is especially helpful if it requires external setup, such as starting a Selenium server for testing in a browser.
+For Visual Studio Code users, there is a handy extension that makes it easy to load Storybook use cases into a running emulator via tapping on items in the editor sidebar. Install the `React Native Storybook` extension by `Orta`, hit `cmd + shift + P` and select "Reconnect Storybook to VSCode". Expand the STORYBOOK section in the sidebar to see all use cases for components that have `.story.tsx` files in their directories.
 
-## Authors and acknowledgment
-Show your appreciation to those who have contributed to the project.
+## Running e2e tests
 
-## License
-For open source projects, say how it is licensed.
+Read [e2e setup instructions](./e2e/README.md).
 
-## Project status
-If you have run out of energy or time for your project, put a note at the top of the README saying that development has slowed down or stopped completely. Someone may choose to fork your project or volunteer to step in as a maintainer or owner, allowing your project to keep going. You can also make an explicit request for maintainers.
+## Previous Boilerplates
+
+- [2018 aka Bowser](https://github.com/infinitered/ignite-bowser)
+- [2017 aka Andross](https://github.com/infinitered/ignite-andross)
+- [2016 aka Ignite 1.0](https://github.com/infinitered/ignite-ir-boilerplate-2016)

@@ -1,0 +1,90 @@
+{
+  "common": {
+    "ok": "OK!",
+    "cancel": "Cancel",
+    "back": "Quay lại",
+    "continue": "Tiếp tục",
+    "start": "Bắt đầu",
+    "sent": "Gửi"
+  },
+  "welcome": {
+    "firstLabel":"Lãi suất chỉ từ \n6.19%/năm",
+    "firstContent":"Với Fina, bạn dễ dàng tra cứu, so sánh \nvà lựa chọn giải pháp phù hợp nhất",
+    "secondLabel": "Tư vấn & Hỗ trợ\nhồ sơ miễn phí",
+    "secondContent": "Hỗ trợ đăng ký, hoàn thiện thủ tục miễn phí, giúp bạn tiết kiệm thời gian, công sức",
+    "thirdLabel": "1504 bộ hồ sơ\nđã được giải ngân",
+    "thirdContent": "Nắm bắt cơ hội sở hữu ngôi nhà mơ ước\nngay hôm nay",
+    "selection": "Chọn ít nhất 1 trong 3 lựa chọn",
+    "interested": "Bạn quan tâm đến...",
+    "loan": "Vay Vốn",
+    "insurance": "Bảo Hiểm",
+    "realEstate": "Bất Động Sản",
+    "lastLabel": "welcome",
+    "lastContent": "Stay on top by effortlessly tracking your subscriptions & bills"
+  },
+  "auth": {
+    "haveAccount": "Bạn đã có tài khoản?",
+    "dontHaveAccount": "Bạn chưa có tài khoản?",
+    "login": "Đăng nhập",
+    "loginNow": "Đăng nhập ngay",
+    "register": "Đăng Ký",
+    "registerNow": "Đăng Kí Ngay",
+    "otpCode": "Mã Xác Thực",
+    "enterPhone": "Vui lòng nhập số điện thoại và vị trí\nđể chúng tôi có thể xác minh bạn.",
+    "checkInbox": "Hãy kiểm tra hộp thư đến, chúng tôi đã gửi mã xác thực vào số",
+    "notReceiveCode": "Không nhận được mã xác thực? ",
+    "resentCode": "Gửi lại mã",
+    "endProcess": "Quá trình sẽ kết thúc trong 60 giây.",
+    "agree": "I’ve read and agree to the terms of privacy policy",
+    "forgotPassword": "Quên Mật Khẩu",
+    "emailOrPhone": "Vui lòng nhập địa chỉ email hoặc\nsố điện thoại để khôi phục mật khẩu"
+  },
+  "label": {
+    "location": "Enter your location",
+    "phoneNumber": "Enter your Phone Number"
+  },
+  "placeholder": {
+    "emailAndPhone": "Nhập địa chỉ email hoặc số điện thoại",
+    "password": "Mật Khẩu",
+    "reenteredPassword": "Nhập Lại Mật Khẩu",
+    "fullName": "Họ và tên",
+    "email": "Địa Chỉ Email"
+  },
+  "home": {
+    "finance": {
+      "finance":"Tài Chính",
+      "homeLoan": "Vay mua nhà",
+      "carLoan": "Vay mua xe",
+      "consumerLoan": "Vay tiêu dùng",
+      "repairLoad": "Vay sửa chữa"
+    },
+    "insurance": {
+      "insurance":"Bảo Hiểm",
+      "productInsurance":"Sản phẩm bảo hiểm",
+      "vehicleInsurance": "Bảo hiểm phương tiện",
+      "healthInsurance": "Bảo hiểm sức khoẻ",
+      "travelInsurance": "Bảo hiểm du lịch",
+      "otherInsurance": "Bảo hiểm khác"
+    },
+    "invest": {
+      "invest":"Đầu Tư",
+      "product": "Sản phầm",
+      "interestPaymentSchedule": "Lịch trả lãi",
+      "asset": "Tài sản"
+    },
+    "currentInvestmentTrends": "xu hướng đầu tư hiện nay"
+  },
+  "errors": {
+    "invalidEmail": "Invalid email address."
+  },
+  "errorScreen": {
+    "title": "Something went wrong!",
+    "friendlySubtitle": "This is the screen that your users will see in production when an error is thrown. You'll want to customize this message (located in `app/i18n/en.json`) and probably the layout as well (`app/screens/error`). If you want to remove this entirely, check `app/app.tsx` for the <ErrorBoundary> component.",
+    "traceTitle": "Error from %{name} stack",
+    "reset": "RESET APP"
+  },
+  "storybook": {
+    "placeholder": "Placeholder",
+    "field": "Field"
+  }
+}
