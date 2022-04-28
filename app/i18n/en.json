@@ -5,7 +5,11 @@
     "back": "Quay lại",
     "continue": "Tiếp tục",
     "start": "Bắt đầu",
-    "sent": "Gửi"
+    "sent": "Gửi",
+    "sentInformation": "Gửi thông tin"
+  },
+  "guide": {
+    "enterKeyword": "Nhập kí tự tìm kiếm và chọn từ danh sách hiện ra \n(vd: Q. 3 - Ho Chi Minh hoặc H. Dong Anh - Ha Noi)"
   },
   "welcome": {
     "firstLabel":"Lãi suất chỉ từ \n6.19%/năm",
@@ -31,24 +35,38 @@
     "registerNow": "Đăng Kí Ngay",
     "otpCode": "Mã Xác Thực",
     "enterPhone": "Vui lòng nhập số điện thoại và vị trí\nđể chúng tôi có thể xác minh bạn.",
-    "checkInbox": "Hãy kiểm tra hộp thư đến, chúng tôi đã gửi mã xác thực vào số",
+    "checkPhoneInbox": "Hãy kiểm tra hộp thư đến, chúng tôi đã gửi mã xác thực vào số",
+    "checkEmailInbox": "Hãy kiểm tra hộp thư đến, chúng tôi đã gửi mã xác thực vào hộp thư",
+    "resetPassword": "Đặt lại mật khẩu",
     "notReceiveCode": "Không nhận được mã xác thực? ",
     "resentCode": "Gửi lại mã",
     "endProcess": "Quá trình sẽ kết thúc trong 60 giây.",
     "agree": "I’ve read and agree to the terms of privacy policy",
     "forgotPassword": "Quên Mật Khẩu",
-    "emailOrPhone": "Vui lòng nhập địa chỉ email hoặc\nsố điện thoại để khôi phục mật khẩu"
+    "emailOrPhone": "Vui lòng nhập địa chỉ email hoặc\nsố điện thoại để khôi phục mật khẩu",
+    "phone": "số điện thoại",
+    "location": "vị trí"
+  },
+  "header": {
+    "requestLoan": "tạo yêu cầu tư vấn vay",
+    "requestInsurance": "tạo yêu cầu tư vấn mua bảo hiểm",
+    "requestInvest": "tạo yêu cầu tư vấn đầu tư",
+    "notice": "Thông báo",
+    "personalSetting": "Thiết lập cá nhân"
   },
   "label": {
     "location": "Enter your location",
     "phoneNumber": "Enter your Phone Number"
   },
   "placeholder": {
+    "location": "Chọn vị trí của bạn",
     "emailAndPhone": "Nhập địa chỉ email hoặc số điện thoại",
     "password": "Mật Khẩu",
     "reenteredPassword": "Nhập Lại Mật Khẩu",
     "fullName": "Họ và tên",
-    "email": "Địa Chỉ Email"
+    "email": "Nhập Địa Chỉ Email",
+    "phone": "Số Điện Thoại",
+    "address": "Huyện/Tỉnh (Quận/TP)"
   },
   "home": {
     "finance": {
@@ -73,6 +91,33 @@
       "asset": "Tài sản"
     },
     "currentInvestmentTrends": "xu hướng đầu tư hiện nay"
+  },
+  "notice": {
+    "readAll": "Đọc tất cả",
+    "all": "Tất cả",
+    "endow": "Ưu đãi",
+    "transaction": "Giao dịch",
+    "update": "Cập nhật",
+    "tick": "Đánh dấu",
+    "deleteNotice": "Xóa thông báo",
+    "cancel": "Hủy"
+  },
+  "loan": {
+    "viewDetail": "Xem chi tiết",
+    "register": "Đăng kí vay",
+    "customerName": "Tên khách hàng:",
+    "status": "Trạng thái:",
+    "financialSpecialist": "CV tài chính:",
+    "beingAppraised": "NH đang thẩm định",
+    "fullyExchanged": "Đã trao đổi đầy đủ",
+    "successfulDisbursement": "Giải ngân thành công"
+
+  },
+
+  "setting": {
+    "unverified":"Chưa xác thực",
+    "regulation": "Theo quy định của NHNN. chủ ví điện tử cần cung cấp hình ảnh chứng từ cá nhân để đảm bảo chính chủ, xác thực tài khoản, và tăng cường bảo mật",
+    "verifyNow": "Xác thực ngay"
   },
   "errors": {
     "invalidEmail": "Invalid email address."

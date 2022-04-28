@@ -1,22 +1,39 @@
 import React from 'react';
-import { View, ViewStyle } from "react-native"
+import { Pressable, View, ViewStyle } from "react-native"
 import { s, ScaledSheet } from 'react-native-size-matters';
 import { DefaultAvatarSvg, LockSvg } from "../../../assets/svgs"
 import { AppText } from "../../../components/app-text/AppText"
+import { useStores } from "../../../models"
+import { navigate } from "../../../navigators"
+import { ScreenNames } from "../../../navigators/screen-names"
+import { observer } from "mobx-react-lite"
 
 interface Props{
   style?: ViewStyle | any
 }
 
-const LoginCart = React.memo(({ style }: Props) => {
+const LoginCart = observer(({ style }: Props) => {
+  const {authStoreModel} = useStores()
+  const isLogin = authStoreModel?.user !== {}
+  console.log(authStoreModel?.user)
+  const onPress = () => {
+    if (!isLogin){
+      navigate(ScreenNames.AUTH)
+    }
+    return true
+  }
   return (
-    <View style={[styles.container, style]}>
+    <Pressable style={[styles.container, style]} onPress={onPress}>
       <DefaultAvatarSvg width={s(40)} height={s(40)} style={styles.avatar} />
-      <View style={styles.wrapText}>
-        <LockSvg style={styles.lock}/>
-        <AppText tx={"auth.login"} color={'white'} capitalize/>
-      </View>
-    </View>
+      {
+        !isLogin &&
+        <View style={styles.wrapText}>
+          <LockSvg style={styles.lock}/>
+          <AppText tx={"auth.login"} color={'white'} capitalize/>
+        </View>
+      }
+
+    </Pressable>
   )
 });
 

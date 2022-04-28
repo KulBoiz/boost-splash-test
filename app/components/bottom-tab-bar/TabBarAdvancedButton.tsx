@@ -1,10 +1,11 @@
 import React from 'react';
-import { StyleSheet, TouchableOpacity, View } from 'react-native';
+import { TouchableOpacity, View } from 'react-native';
 import { BottomTabBarButtonProps } from '@react-navigation/bottom-tabs/lib/typescript/src/types';
 import { FontAwesome as Icon } from '@expo/vector-icons';
 import { TabBg } from "./TabBg"
 import { navigate } from "../../navigators"
 import { ScreenNames } from "../../navigators/screen-names"
+import { ScaledSheet } from "react-native-size-matters"
 
 type Props = BottomTabBarButtonProps & {
   bgColor?: string;
@@ -31,7 +32,7 @@ export const TabBarAdvancedButton: React.FC<Props> = ({ bgColor, ...props }) => 
   </View>
 );
 
-const styles = StyleSheet.create({
+const styles = ScaledSheet.create({
   background: {
     position: 'absolute',
     top: 0,
@@ -39,19 +40,19 @@ const styles = StyleSheet.create({
   button: {
     alignItems: 'center',
     backgroundColor: '#E94F37',
-    borderRadius: 27,
-    height: 50,
+    borderRadius: '22.5@s',
+    height: '45@ms',
     justifyContent: 'center',
-    top: -22.5,
-    width: 50,
+    top: '-22@ms',
+    width: '45@ms',
   },
   buttonIcon: {
     color: '#F6F7EB',
-    fontSize: 24
+    fontSize: '20@s'
   },
   container: {
     alignItems: 'center',
     position: 'relative',
-    width: 75
+    width: '65@ms'
   }
 });

@@ -18,6 +18,7 @@ import AppModal from "../../components/app-modal/app-modal"
 import { StackActions } from "@react-navigation/native"
 
 const errorContent = 'Sai thông tin tài khoản hoặc mật khẩu.\nVui lòng kiểm tra lại.'
+
 export const LoginScreen: FC<StackScreenProps<AuthStackParamList, ScreenNames.LOGIN>> = observer(
   ({ navigation }) => {
     const validationSchema = Yup.object().shape({

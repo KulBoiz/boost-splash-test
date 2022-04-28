@@ -57,9 +57,10 @@ const HeaderCard = React.memo(({ animatedValue }: Props) => {
       </View>
 
     </Animated.View>
-      <Animated.View style={[styles.wallet, { opacity: animatedHeaderOpacity }]}>
-        <Wallet />
-      </Animated.View></>
+      {/*<Animated.View style={[styles.wallet, { opacity: animatedHeaderOpacity }]}>*/}
+      {/*  <Wallet />*/}
+      {/*</Animated.View>*/}
+    </>
   )
 });
 

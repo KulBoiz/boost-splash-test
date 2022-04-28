@@ -1,5 +1,5 @@
 import React, { FC, memo } from 'react';
-import { ImageProps, TouchableOpacity, View, ViewStyle } from "react-native"
+import { ImageProps, TouchableOpacity, View } from "react-native"
 import { ScaledSheet } from 'react-native-size-matters';
 import { AppText } from "../../../components/app-text/AppText"
 import { color } from "../../../theme"
@@ -27,7 +27,7 @@ const PaperHeader: FC<HeaderTitleProps> = ({ handleSelectPage, paperData, curren
         const isCurrent = currentPage === item.key;
         return (
           <View key={index}>
-             <TouchableOpacity key={index} onPress={handleSelectPage} style={styles.itemContainer}>
+             <TouchableOpacity key={index} onPress={()=> handleSelectPage(item.key)} style={styles.itemContainer}>
                <View style={[styles.circle, CENTER_ELEMENTS, {backgroundColor: isCurrent ? item.background : color.background}]}>
                  <FastImage source={item.image} style={styles.image} tintColor={isCurrent ?  color.palette.white : color.palette.black}/>
                </View>
@@ -49,7 +49,7 @@ const styles = ScaledSheet.create({
   viewHeader: {
     flexDirection: 'row',
     justifyContent: 'space-between',
-    paddingHorizontal: '16@s'
+    paddingHorizontal: '16@ms'
   },
   itemContainer:{
     width: '100@s',

@@ -71,10 +71,10 @@
   "home": {
     "finance": {
       "finance":"Tài Chính",
-      "homeLoan": "Vay mua nhà",
-      "carLoan": "Vay mua xe",
-      "consumerLoan": "Vay tiêu dùng",
-      "repairLoad": "Vay sửa chữa"
+      "homeLoan": "Vay\nmua nhà",
+      "carLoan": "Vay\nmua xe",
+      "consumerLoan": "Vay\ntiêu dùng",
+      "repairLoad": "Vay\nsửa chữa"
     },
     "insurance": {
       "insurance":"Bảo Hiểm",
@@ -101,6 +101,28 @@
     "tick": "Đánh dấu",
     "deleteNotice": "Xóa thông báo",
     "cancel": "Hủy"
+  },
+  "loan": {
+    "viewDetail": "Xem chi tiết",
+    "register": "Đăng kí vay",
+    "customerName": "Tên khách hàng:",
+    "status": "Trạng thái:",
+    "financialSpecialist": "CV tài chính:",
+    "beingAppraised": "NH đang thẩm định",
+    "fullyExchanged": "Đã trao đổi đầy đủ",
+    "successfulDisbursement": "Giải ngân thành công",
+    "productInfo": "Thông tin sản phẩm",
+    "preferentialTime": "Thời gian ưu đãi:",
+    "preferentialInterestRate": "Lãi suất ưu đãi:",
+    "interestRateAfterIncentives": "Lãi suất sau ưu đãi:",
+    "referenceInterestRate": "Lãi suất tham chiếu:",
+    "amplitude": "Biên độ:",
+    "maximumLoanRate": "Tỉ lệ cho vay tối đa:",
+    "maximumLoanPeriod": "Thời gian cho vay tối đa:",
+    "minimumLoanPeriod": "Thời gian cho vay tối thiểu:",
+    "maximumLoanAmount": "Số tiền cho vay tối đa:",
+    "minimumLoanAmount": "Số tiền cho vay tối thiểu:",
+    "requestProfile": "Yêu cầu hồ sơ"
   },
 
   "setting": {

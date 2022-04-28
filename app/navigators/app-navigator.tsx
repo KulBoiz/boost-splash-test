@@ -9,6 +9,7 @@ import { AppStack } from "./app-stack"
 import { AuthStack } from "./auth-stack"
 import RequestCounselling from "../screens/home/request-counselling-screen"
 import NoticeScreen from "../screens/notice/notice-screen"
+import LoanDetail from "../screens/loan/loan-detail"
 
 export type NavigatorParamList = {
   [ScreenNames.SPLASH]: undefined;
@@ -16,6 +17,7 @@ export type NavigatorParamList = {
   [ScreenNames.APP]: undefined;
   [ScreenNames.REQUEST_COUNSELLING]: undefined;
   [ScreenNames.NOTICE]: undefined;
+  [ScreenNames.LOAN_DETAIL]: undefined;
 }
 
 // Documentation: https://reactnavigation.org/docs/stack-navigator/
@@ -36,6 +38,7 @@ const RootStack = ()=> {
       <Stack.Screen name={ScreenNames.APP} component={AppStack} />
       <Stack.Screen name={ScreenNames.REQUEST_COUNSELLING} component={RequestCounselling} />
       <Stack.Screen name={ScreenNames.NOTICE} component={NoticeScreen} />
+      <Stack.Screen name={ScreenNames.LOAN_DETAIL} component={LoanDetail} />
     </Stack.Navigator>
   )
 }

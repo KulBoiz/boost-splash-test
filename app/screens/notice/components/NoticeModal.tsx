@@ -13,7 +13,7 @@ interface Props{
   close?(): void
 }
 
-const NoticeModal: FC = observer(({ visible,close }: Props) => {
+const NoticeModal= observer(({ visible,close }: Props) => {
   const RenderItem = ({svg,title,hideBorder}: {svg: JSX.Element, title: TxKeyPath, hideBorder?: boolean}) => {
     return (
       <TouchableOpacity style={[styles.itemContainer, {borderBottomWidth: hideBorder? 0: 1}]}>
@@ -25,9 +25,9 @@ const NoticeModal: FC = observer(({ visible,close }: Props) => {
   return (
     <Modal isVisible={visible} style={styles.modalContainer} onBackdropPress={close}>
       <View style={styles.container}>
-    <RenderItem svg={<TickSvg />} title={'notice.tick'} />
-    <RenderItem svg={<TrashSvg />} title={'notice.deleteNotice'} />
-    <RenderItem svg={<CancelSvg />} title={'notice.cancel'} hideBorder/>
+        <RenderItem svg={<TickSvg />} title={'notice.tick'} />
+        <RenderItem svg={<TrashSvg />} title={'notice.deleteNotice'} />
+        <RenderItem svg={<CancelSvg />} title={'notice.cancel'} hideBorder/>
       </View>
     </Modal>
   )

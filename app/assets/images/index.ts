@@ -1,6 +1,9 @@
 export const images = {
   avatar: require('./avatar.png'),
   arrowLeft: require('./arrowLeft.png'),
+  arrow_down: require('./arrow_down.png'),
+  arrow_up: require('./arrow_up.png'),
+  arrow_right: require('./arrow_right.png'),
   fina_splash: require('./splash.png'),
   fina_logo: require('./finaLogo.png'),
   headerDecor: require('./headerDecor.png'),

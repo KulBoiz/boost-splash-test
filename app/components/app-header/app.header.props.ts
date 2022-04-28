@@ -46,4 +46,6 @@ export interface AppHeaderProps {
    * Title style overrides.
    */
   titleStyle?: StyleProp<TextStyle>
+
+  isBlue?: boolean
 }

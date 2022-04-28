@@ -11,3 +11,7 @@ export const isColor = RegExp.prototype.test.bind(/^#([a-fA-F0-9]{6}|[a-fA-F0-9]
 export const truncateString = (str: string, length: number, lastText?: string) => {
   return str && str?.length > length ? str.substring(0, length) + (lastText || "...") : str
 }
+
+export const hidePhoneNumber = (phone: string) => {
+  return `****${phone.slice(-3)}` ?? ''
+}
