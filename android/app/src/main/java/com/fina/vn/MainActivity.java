@@ -1,4 +1,4 @@
-package com.finaapp;
+package com.fina.vn;
 
 import com.facebook.react.ReactActivity;
 
@@ -16,7 +16,7 @@ public class MainActivity extends ReactActivity {
    */
   @Override
   protected String getMainComponentName() {
-    return "FinaApp";
+    return "fina";
   }
 
   /**

@@ -14,11 +14,14 @@ import PaperHeader from "./components/PaperHeader"
 import { carousel, paper } from "./constants"
 import Finance from "./finance"
 import ComingSoon from "./coming-soon"
+import { useStores } from "../../models"
 
 
 
 export const HomeScreen: FC<StackScreenProps<AppStackParamList, ScreenNames.HOME>> = observer(
   ({ navigation }) => {
+    const {authStoreModel} = useStores()
+    console.log(authStoreModel.user)
     // const nextScreen = () => navigation.navigate(ScreenNames.HOME)
     const animatedHeaderValue = new Animated.Value(0)
     const [currentPage, setCurrentPage] = useState(1);

@@ -8,6 +8,8 @@ import ProductInfo from "./components/product-info"
 import LoanDetailItem from "./components/loan-detail-item"
 import AppButton from "../../components/app-button/AppButton"
 import CollapsibleRequestProfile from "./components/collapsible-request-profile"
+import { ScreenNames } from "../../navigators/screen-names"
+import { navigate } from "../../navigators"
 
 interface Props{}
 
@@ -112,7 +114,7 @@ const LoanDetail : React.FC<Props> = observer(() => {
         <LoanDetailItem item={item} />
         <ProductInfo />
         <CollapsibleRequestProfile />
-        <AppButton tx={'auth.registerNow'} onPress={()=> {}} containerStyle={styles.btn}/>
+        <AppButton tx={'auth.registerNow'} onPress={()=> navigate(ScreenNames.REGISTER_LOAN)} containerStyle={styles.btn}/>
         <View style={{height: 100}}/>
       </ScrollView>
     </View>

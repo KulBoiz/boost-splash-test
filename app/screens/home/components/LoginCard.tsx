@@ -15,9 +15,8 @@ interface Props{
 const LoginCart = observer(({ style }: Props) => {
   const {authStoreModel} = useStores()
   const isLogin = authStoreModel?.user !== {}
-  console.log(authStoreModel?.user)
   const onPress = () => {
-    if (!isLogin){
+    if (isLogin){
       navigate(ScreenNames.AUTH)
     }
     return true
@@ -26,7 +25,7 @@ const LoginCart = observer(({ style }: Props) => {
     <Pressable style={[styles.container, style]} onPress={onPress}>
       <DefaultAvatarSvg width={s(40)} height={s(40)} style={styles.avatar} />
       {
-        !isLogin &&
+        isLogin &&
         <View style={styles.wrapText}>
           <LockSvg style={styles.lock}/>
           <AppText tx={"auth.login"} color={'white'} capitalize/>

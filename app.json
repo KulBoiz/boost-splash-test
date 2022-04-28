@@ -1,9 +1,9 @@
 {
-  "name": "FinaApp",
-  "displayName": "FinaApp",
+  "name": "fina",
+  "displayName": "fina",
   "expo": {
-    "name": "FinaApp",
-    "slug": "FinaApp",
+    "name": "fina",
+    "slug": "fina",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/images/icon.png",
