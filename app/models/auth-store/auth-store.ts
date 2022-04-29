@@ -36,6 +36,7 @@ export const AuthStoreModel = types
       const loggedInInfo = result.data
       if (loggedInInfo && loggedInInfo.user) {
         self.user = loggedInInfo.user
+        self.userId = loggedInInfo.user.id
         self.token = loggedInInfo.accessToken
         self.refreshToken = loggedInInfo.refreshToken
         self.expiresIn = loggedInInfo.expiresIn

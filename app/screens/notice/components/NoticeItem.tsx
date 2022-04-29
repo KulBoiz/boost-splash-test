@@ -7,70 +7,83 @@ import { HIT_SLOP, ROW } from "../../../styles/common-style"
 import moment from "moment"
 import { ThreeDotSvg } from "../../../assets/svgs"
 import NoticeModal from "./NoticeModal"
+import { translate } from "../../../i18n";
 
-interface Props{
+
+interface Props {
   item: any
+}
+
+export const STATUS = {
+  READ: 'READ',
+  UNREAD: 'UNREAD',
 }
 
 const NoticeItem = React.memo(({ item }: Props) => {
   const [visible, setVisible] = useState<boolean>(false)
 
+  const content = () => {
+    const { code = '', data } = item
+    const codei18n: any = 'notice.' + code || ''
+    return translate(codei18n, data) || ''
+  }
+
   return (
-    <View style={[styles.container, {backgroundColor: item?.isRead ? color.background : color.palette.lightBlue}]}>
+    <View style={[styles.container, { backgroundColor: item?.status !== STATUS.UNREAD ? color.background : color.palette.lightBlue }]}>
       <View style={styles.headerContainer}>
         <View style={[ROW, styles.headerElement]}>
-          <AppText value={item?.title} style={styles.textHeader}/>
-          {!item?.isRead && <View style={styles.circle}/>}
+          <AppText value={item?.title} style={[styles.textHeader, { maxWidth: 150 }]} numberOfLines={1} />
+          {item?.status === STATUS.UNREAD && <View style={styles.circle} />}
         </View>
         <View style={[ROW, styles.headerElement]}>
-          <AppText value={moment(item?.time).fromNow()} style={styles.textHeader}/>
-          <TouchableOpacity onPress={()=> setVisible(true)} hitSlop={HIT_SLOP}>
+          <AppText value={moment(item?.createdAt).fromNow()} style={styles.textHeader} />
+          <TouchableOpacity onPress={() => setVisible(true)} hitSlop={HIT_SLOP}>
             <ThreeDotSvg />
           </TouchableOpacity>
         </View>
       </View>
       <View style={styles.contentContainer}>
-        <AppText value={item?.content}/>
+        <AppText value={content()} />
       </View>
-      <NoticeModal visible={visible} close={()=> setVisible(false)}/>
+      <NoticeModal visible={visible} close={() => setVisible(false)} item={item} />
 
     </View>
   )
 });
 
 export default NoticeItem;
-NoticeItem.displayName = 'NoticeItem'
 
 const styles = ScaledSheet.create({
-    container: {
-      padding: '16@s',
-      marginBottom: '16@s',
-      borderRadius: '8@s',
-      backgroundColor: color.palette.lightBlue,
-      shadowColor: "#000",
-      shadowOffset: {
-        width: 0,
-        height: 2,
-      },
-      shadowOpacity: 0.2,
-      shadowRadius: 5,
-      elevation: 5,
+  container: {
+    padding: '16@s',
+    marginBottom: '16@s',
+    borderRadius: '8@s',
+    backgroundColor: color.palette.lightBlue,
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: 2,
     },
-  headerElement:{
-    alignItems: 'center'
+    shadowOpacity: 0.2,
+    shadowRadius: 5,
+    elevation: 5,
   },
-  headerContainer:{
-      flexDirection: 'row',
+  headerElement: {
+    alignItems: 'center',
+  },
+  headerContainer: {
+    flexDirection: 'row',
     justifyContent: 'space-between',
     borderBottomWidth: 1,
     borderBottomColor: color.palette.line,
     paddingBottom: '10@s',
   },
   textHeader: {
-    marginRight: '5@s'
+    marginRight: '5@s',
+    // width: '150@s',
   },
   contentContainer: {
-      paddingTop: '10@s'
+    paddingTop: '10@s'
   },
   circle: {
     width: '8@s',
