@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, StyleSheet } from 'react-native';
+import { View, StyleSheet, Pressable } from "react-native"
 import { AppText } from "../../../components/app-text/AppText"
 import { s, ScaledSheet } from "react-native-size-matters"
 import { color } from "../../../theme"
@@ -10,12 +10,13 @@ interface Props{
   icon: JSX.Element
   title: string
   hideBorder?: boolean
+  onPress?(): void
 }
 
 const LoanSupportTool = React.memo((props: Props) => {
-  const {icon, title, hideBorder = false} = props
+  const {icon, title, hideBorder = false, onPress} = props
   return (
-    <View style={[styles.container, !hideBorder && styles.border]}>
+    <Pressable style={[styles.container, !hideBorder && styles.border]} onPress={onPress}>
       <View style={[styles.row, styles.space]}>
 
         <View style={styles.row}>
@@ -28,7 +29,7 @@ const LoanSupportTool = React.memo((props: Props) => {
         </View>
       </View>
 
-    </View>
+    </Pressable>
   )
 });
 

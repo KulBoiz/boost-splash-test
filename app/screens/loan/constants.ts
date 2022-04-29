@@ -49,3 +49,30 @@ export const REQUEST_PROFILE = [
     ]
   },
 ]
+
+export const LOAN_PROCESS = [
+  {
+    title: 'FINA tư vấn khả năng vay sơ bộ cho khách hàng và thu thập thông tin về:',
+    content: [
+      'Mục đích vay vốn',
+      'Hồ sơ pháp lý',
+      'Nguồn thu nhập',
+      'Tài sản thế chấp'
+    ]
+  },{
+    title: 'Chuyển hồ sơ đến NVNH qua hệ thống của FINA',
+    content: [
+      'Chuyên viên của FINA chuyển thông tin, hồ sơ khách hàng cho NVNH và tiếp tục theo dõi tiến trình hồ sơ của khách hàng. Chuyên viên tư vấn của FINA cùng hỗ trợ khách hàng trong quá trình xử lý hồ sơ vay tại ngân hàng.'
+    ]
+  },{
+    title: 'Ngân hàng tiếp nhận thông tin và xử lý',
+    content: [
+      'NVNH nhận thông tin, tương tác tháo gỡ vướng mắc khó khăn và cập nhật hồ sơ trên hệ thống của FINA. Sau đó đánh giá, đề xuất tài trợ và thông báo kết quả phê duyệt cho khách hàng của FINA.'
+    ]
+  },{
+    title: 'Ngân hàng tiếp nhận thông tin và xử lý',
+    content: [
+      'NVNH thông báo cho khách hàng các thủ tục cần thiết để giải ngân, khách hàng bổ sung hồ sơ theo điều kiện phê duyệt (nếu có). Thực hiện công chứng, thế chấp, ký HĐTD. Sau đó tiến hành giải ngân và cập nhật lên hệ thống của FINA.'
+    ]
+  },
+]
