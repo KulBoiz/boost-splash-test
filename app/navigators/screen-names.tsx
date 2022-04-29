@@ -20,4 +20,6 @@ export enum ScreenNames {
   LOAN_DETAIL = "LoanDetail",
   REGISTER_LOAN = "RegisterLoan",
   PROFILE_DETAIL = "ProfileDetail",
+  INTRODUCE_LOAN_CUSTOMER = "IntroduceLoanCustomer",
+  FINANCE = 'Finance'
 }

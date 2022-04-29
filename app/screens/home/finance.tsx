@@ -16,6 +16,8 @@ import LoanItem from "./components/loan-item"
 import LoanSupportTool from "./components/loan-support-tool"
 import BankInfo from "../loan/components/bank-info"
 import { item } from "./constants"
+import { ScreenNames } from "../../navigators/screen-names"
+import { navigate } from "../../navigators"
 
 const widthHeight = width - ms(32)
 
@@ -40,8 +42,8 @@ const Finance = React.memo((props: Props) => {
       </View>
       <AppText value={'Công cụ hỗ trợ'} style={styles.title}/>
       <LoanSupportTool icon={<CalculatorSvg />} title={'Tính khả năng vay'} />
-      <LoanSupportTool icon={<ProfileAddSvg />} title={'Giới thiệu khách vay'} />
-      <LoanSupportTool icon={<NoteSvg />} title={'Quản lý hồ sơ vay'} hideBorder/>
+      <LoanSupportTool icon={<ProfileAddSvg />} title={'Giới thiệu khách vay'} onPress={()=> navigate(ScreenNames.INTRODUCE_LOAN_CUSTOMER)} />
+      <LoanSupportTool icon={<NoteSvg />} title={'Quản lý hồ sơ vay'} hideBorder onPress={()=> navigate(ScreenNames.FINANCE)}/>
     </View>
   )
 });

@@ -1,23 +1,23 @@
 import React, { useState } from "react"
 import { View } from 'react-native';
-import AppHeader from "../../components/app-header/AppHeader"
 import * as Yup from "yup"
 import { useForm } from "react-hook-form"
 import { yupResolver } from "@hookform/resolvers/yup"
-import FormInput from "../../components/form-input/form-input"
-import AppButton from "../../components/app-button/AppButton"
+import FormInput from "../../../components/form-input/form-input"
+import AppButton from "../../../components/app-button/AppButton"
 import { s, ScaledSheet } from 'react-native-size-matters';
-import { AppText } from "../../components/app-text/AppText"
-import { presets } from "../../constants/presets"
-import Checkbox from "../../components/checkbox/checkbox"
-import { color } from "../../theme"
+import { AppText } from "../../../components/app-text/AppText"
+import { presets } from "../../../constants/presets"
+import Checkbox from "../../../components/checkbox/checkbox"
+import { color } from "../../../theme"
 import FastImage from "react-native-fast-image"
-import { images } from "../../assets/images"
+import { images } from "../../../assets/images"
 
+interface Props{
+  nextStep(): void
+}
 
-interface Props{}
-
-const RequestCounselling = React.memo((props: Props) => {
+const IntroduceStepOne = React.memo(({ nextStep }: Props) => {
   const validationSchema = Yup.object().shape({
     fullName: Yup.string()
       .trim()
@@ -52,60 +52,60 @@ const RequestCounselling = React.memo((props: Props) => {
       </View>
     )
   }
+
   return (
     <View style={styles.container}>
-      <AppHeader headerTx={'header.requestLoan'} />
       <FastImage source={images.banner} style={styles.banner}/>
       <View style={styles.body}>
-      <FormInput
-        {...{
-          name: 'fullName',
-          placeholderTx: 'placeholder.fullName',
-          autoCapitalize: 'none',
-          control,
-          error: errors?.fullName?.message
-        }}
-      />
-      <FormInput
-        {...{
-          name: 'email',
-          placeholderTx: 'placeholder.email',
-          autoCapitalize: 'none',
-          error: errors?.email?.message,
-          control,
-        }}
-      />
-      <FormInput
-        {...{
-          name: 'phone',
-          placeholderTx: 'placeholder.phone',
-          autoCapitalize: 'none',
-          control,
-          error: errors?.phone?.message
-        }}
-      />
-      <FormInput
-        {...{
-          name: 'address',
-          placeholderTx: 'placeholder.address',
-          autoCapitalize: 'none',
-          error: errors?.address?.message,
-          control,
-        }}
-      />
+        <FormInput
+          {...{
+            name: 'fullName',
+            placeholderTx: 'placeholder.fullName',
+            autoCapitalize: 'none',
+            control,
+            error: errors?.fullName?.message
+          }}
+        />
+        <FormInput
+          {...{
+            name: 'email',
+            placeholderTx: 'placeholder.email',
+            autoCapitalize: 'none',
+            error: errors?.email?.message,
+            control,
+          }}
+        />
+        <FormInput
+          {...{
+            name: 'phone',
+            placeholderTx: 'placeholder.phone',
+            autoCapitalize: 'none',
+            control,
+            error: errors?.phone?.message
+          }}
+        />
+        <FormInput
+          {...{
+            name: 'address',
+            placeholderTx: 'placeholder.address',
+            autoCapitalize: 'none',
+            error: errors?.address?.message,
+            control,
+          }}
+        />
         <AppText tx={"guide.enterKeyword"} style={presets.note}/>
-      <Checkbox style={styles.checkbox} checkboxState={checkboxState} setCheckboxState={setCheckboxState} textComponent={_renderText()}/>
-    <View style={styles.wrapBtn}>
-      <AppButton tx={"common.sentInformation"} onPress={()=> {}}/>
-    </View>
+        <Checkbox style={styles.checkbox} checkboxState={checkboxState} setCheckboxState={setCheckboxState} textComponent={_renderText()}/>
+        <View style={styles.wrapBtn}>
+          <AppButton tx={"common.sentInformation"} onPress={handleSubmit(nextStep)}/>
+        </View>
       </View>
     </View>
   )
 });
 
-export default RequestCounselling;
+export default IntroduceStepOne;
 
-RequestCounselling.displayName = 'RequestCounselling'
+IntroduceStepOne.displayName = 'IntroduceStepOne'
 
 const styles = ScaledSheet.create({
   container: {
