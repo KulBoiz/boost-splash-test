@@ -22,6 +22,10 @@ const WRAP_INPUT: ViewStyle = {
 const PRESS : ViewStyle = {
   marginLeft: s(13),
 }
+const MULTILINE : ViewStyle = {
+  paddingTop: s(12),
+  minHeight: s(90),
+}
 const EYE : ImageStyle = {
   width: s(18),
   height: s(15)
@@ -100,6 +104,7 @@ export interface TextFieldProps extends TextInputProps {
 
   showIcon?:boolean
 
+  multiline?:boolean
 }
 
 /**
@@ -119,6 +124,7 @@ export function TextField(props: TextFieldProps) {
     errorStyle: errorStyleOverride,
     forwardedRef,
     errorMessage,
+    multiline,
     showIcon = false,
     ...rest
   } = props
@@ -143,7 +149,9 @@ export function TextField(props: TextFieldProps) {
           underlineColorAndroid={color.transparent}
           secureTextEntry={showIcon ? showPassword : false}
           {...rest}
-          style={inputStyles}
+          multiline={multiline}
+          style={[inputStyles, multiline ? MULTILINE : {}]}
+          textAlignVertical={multiline ? 'top' : "bottom"}
           ref={forwardedRef}
         />
         {showIcon &&

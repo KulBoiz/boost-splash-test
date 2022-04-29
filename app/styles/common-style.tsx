@@ -1,5 +1,7 @@
 import { Dimensions, TextStyle, ViewStyle } from "react-native"
 import { color } from "../theme"
+import {ms, s} from 'react-native-size-matters'
+import { fontFamily } from "../constants/font-family"
 
 const screenWidth = Math.round(Dimensions.get('window').width);
 const screenHeight = Math.round(Dimensions.get('window').height);
@@ -14,8 +16,11 @@ export const ROW :ViewStyle = {
   flexDirection: 'row'
 }
 
-export const CONTAINER_PADDING = {
-  paddingHorizontal: 20
+export const CONTAINER_PADDING: ViewStyle = {
+  paddingHorizontal: ms(16)
+}
+export const PADDING_BOTTOM_24: ViewStyle = {
+  paddingBottom: ms(16)
 }
 export const HIT_SLOP = {
   top: 10,
@@ -24,10 +29,17 @@ export const HIT_SLOP = {
   right: 10
 }
 
-export const PARENT = {
+export const PARENT : ViewStyle = {
   flex:1,
   backgroundColor: color.background
 }
+export const MARGIN_BOTTOM_8 : ViewStyle = {
+  marginBottom: s(8)
+}
+export const MARGIN_BOTTOM_24 : ViewStyle = {
+  marginBottom: s(24)
+}
+
 export const FULL_PARRENT = {
   flexGrow: 1,
   justifyContent: "center",
@@ -43,72 +55,36 @@ export const CENTER_ELEMENTS : ViewStyle = {
   justifyContent: 'center',
 }
 
-export const DEFAULT_FONT = {
-  fontFamily: "exo"
+export const SPACE_BETWEEN : ViewStyle = {
+  alignItems: "center",
+  justifyContent: 'space-between',
 }
 
-export const FLEX_DIRECTION_ROW:ViewStyle = {
-  flexDirection: "row"
+export const FONT_MEDIUM_12: TextStyle = {
+  fontFamily: fontFamily.medium,
+  fontSize: ms(12)
+}
+export const FONT_MEDIUM_14: TextStyle = {
+  fontFamily: fontFamily.medium,
+  lineHeight: s(17),
+  fontSize: ms(14)
+}
+export const FONT_REGULAR_12: TextStyle = {
+  fontFamily: fontFamily.regular,
+  fontSize: ms(12)
+}
+export const FONT_REGULAR_14: TextStyle = {
+  fontFamily: fontFamily.regular,
+  lineHeight: s(17),
+  fontSize: ms(14)
+}
+export const FONT_SEMI_BOLD_12: TextStyle = {
+  fontFamily: fontFamily.semiBold,
+  fontSize: ms(12)
+}
+export const FONT_SEMI_BOLD_14: TextStyle = {
+  fontFamily: fontFamily.semiBold,
+  lineHeight: s(17),
+  fontSize: ms(14)
 }
 
-export const HEADER_MAP = {
-  position: 'absolute',
-  top: 50,
-  borderRadius: 50,
-}
-
-export const FONT_SIZE_15 = {
-  fontFamily: "exo",
-  fontSize: 15
-}
-export const M_B_5 = {
-  marginBottom: 5
-}
-export const M_B_6 = {
-  marginBottom: 6
-}
-export const M_B_8 = {
-  marginBottom: 8
-}
-export const M_B_10 = {
-  marginBottom: 10
-}
-export const M_B_20 = {
-  marginBottom: 20
-}
-export const M_B_50 = {
-  marginBottom: 50
-}
-export const M_B_100 = {
-  marginBottom: 100
-}
-export const M_B_15 = {
-  marginBottom: 15
-}
-
-export const M_R_10 = {
-  marginRight: 10
-}
-
-export const M_R_20 = {
-  marginRight: 20
-}
-
-export const M_T_20 = {
-  marginTop: 20
-}
-export const M_T_10 = {
-  marginTop: 10
-}
-export const M_T_5 = {
-  marginTop: 5
-}
-export const M_T_3 = {
-  marginTop: 3
-}
-export const M_T_2 = {
-  marginTop: 2
-}
-export const M_L_8 = {
-  marginLeft: 8
-}

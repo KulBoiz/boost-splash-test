@@ -1,7 +1,7 @@
 import React from 'react';
 import { Pressable, View } from "react-native"
 import { AppText } from "../../../components/app-text/AppText"
-import { RightArrowSvg } from "../../../assets/svgs"
+import { LongRightArrowSvg } from "../../../assets/svgs"
 import { s, ScaledSheet } from 'react-native-size-matters';
 import { color } from "../../../theme"
 import { TxKeyPath } from "../../../i18n"
@@ -27,7 +27,7 @@ const LoginText = React.memo(({ firstText, secondText, action}: Props) => {
       <AppText tx={firstText} style={styles.firstText} capitalize fontSize={s(14)}/>
       <Pressable style={styles.wrapText}>
         <AppText tx={secondText} style={styles.secondText} capitalize onPress={action === 'register' ? _goToRegister: _goToLogin}/>
-        <RightArrowSvg />
+        <LongRightArrowSvg />
       </Pressable>
     </View>
   )

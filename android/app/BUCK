@@ -35,12 +35,12 @@ android_library(
 
 android_build_config(
     name = "build_config",
-    package = "com.finaapp",
+    package = "com.fina.vn",
 )
 
 android_resource(
     name = "res",
-    package = "com.finaapp",
+    package = "com.fina.vn",
     res = "src/main/res",
 )
 

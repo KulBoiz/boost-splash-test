@@ -21,24 +21,25 @@ const AppHeader = React.memo((props: AppHeaderProps) => {
     headerTx,
     style,
     titleStyle,
+    isBlue = false
   } = props
 
   const header = headerText || (headerTx && translate(headerTx)) || ""
 
   return (
-    <View style={[styles.container, style]}>
+    <View style={[styles.container, style, {backgroundColor: isBlue ? color.palette.blue : color.background}]}>
         {renderLeftIcon ?
             <Button preset="link" onPress={onLeftPress} style={width}>
               {renderLeftIcon}
             </Button>
      : (
             <Button preset="link" onPress={onLeftPress ?? goBack} style={[styles.defaultView, width]}>
-              <FastImage source={images.arrowLeft} style={styles.backIcon}/>
+              <FastImage source={images.arrowLeft} style={styles.backIcon} tintColor={isBlue ?  color.palette.white : ''}/>
             </Button>
             )}
 
         <View style={styles.titleView}>
-          <Text style={[styles.title, titleStyle]} text={header} />
+          <Text style={[styles.title, titleStyle, {color: isBlue? color.text : color.palette.black}]} text={header} />
         </View>
 
         {renderRightIcon ?

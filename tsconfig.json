@@ -31,5 +31,5 @@
     "metro.config.js",
     "jest.config.js"
   ],
-  "include": ["index.js", "app", "test", "storybook"]
+  "include": ["index.js", "app", "test", "storybook", "declarations.d.ts"]
 }

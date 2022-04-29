@@ -44,7 +44,7 @@ export const AppText: React.SFC<AppTextProps> = React.memo(
           underline && {textDecorationLine: 'underline'},
           capitalize && {textTransform: 'capitalize'}
         ])}>
-        {value || content}
+        {content || value}
       </Text>
     );
   },

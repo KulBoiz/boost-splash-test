@@ -19,6 +19,7 @@ export interface FormInputProps extends TextFieldProps, UseControllerProps{
   style?: ViewStyle | any,
   defaultValue?: string,
   showIcon?: boolean
+  multiline?:boolean
 }
 
 const FormInput = React.memo((props: FormInputProps) => {
@@ -34,6 +35,7 @@ const FormInput = React.memo((props: FormInputProps) => {
     rules,
     defaultValue,
     showIcon = false,
+    multiline,
     ...rest
   } = props
 
@@ -53,6 +55,7 @@ const FormInput = React.memo((props: FormInputProps) => {
             onChangeText={onChange}
             onBlur={onBlur}
             value={value}
+            multiline={multiline}
             errorMessage={error}
             showIcon={showIcon}
             {...rest}
