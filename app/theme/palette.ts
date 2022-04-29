@@ -17,5 +17,5 @@ export const palette = {
   lighterGrey: "#F5F6FA",
   angry: "#dd3333",
   deepPurple: "#5D2555",
-
+  deepGray: "#AAADB7",
 }
