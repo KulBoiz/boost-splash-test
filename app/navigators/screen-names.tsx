@@ -19,4 +19,5 @@ export enum ScreenNames {
   CHANGE_PASSWORD = "ChangePassword",
   LOAN_DETAIL = "LoanDetail",
   REGISTER_LOAN = "RegisterLoan",
+  PROFILE_DETAIL = "ProfileDetail",
 }

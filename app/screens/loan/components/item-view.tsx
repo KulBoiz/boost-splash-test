@@ -24,7 +24,7 @@ const ItemView = React.memo((props: Props) => {
           {content}
         </AppText>
         :
-        {content}
+        content
       }
     </View>
   )
