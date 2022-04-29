@@ -10,6 +10,9 @@ import { images } from "../../assets/images"
 import {ScaledSheet} from 'react-native-size-matters'
 import { color } from "../../theme"
 import { FinaSplashSvg } from "../../assets/svgs"
+import moment from "moment"
+import 'moment/locale/vi'
+
 
 export const SplashScreen: React.FunctionComponent<{ readonly navigation?: any }> = observer(({navigation}) => {
   const [progress, setProgress] = useState(0)
@@ -45,6 +48,7 @@ export const SplashScreen: React.FunctionComponent<{ readonly navigation?: any }
   }
 
   useEffect(() => {
+    moment.locale('vi')
     init()
   }, [])
 
