@@ -1,3 +1,5 @@
+import { images } from "../../assets/images"
+
 export const REQUEST_PROFILE = [
   {
     title: '1. Pháp Lý',
@@ -74,5 +76,37 @@ export const LOAN_PROCESS = [
     content: [
       'NVNH thông báo cho khách hàng các thủ tục cần thiết để giải ngân, khách hàng bổ sung hồ sơ theo điều kiện phê duyệt (nếu có). Thực hiện công chứng, thế chấp, ký HĐTD. Sau đó tiến hành giải ngân và cập nhật lên hệ thống của FINA.'
     ]
+  },
+]
+
+export const FINANCE_FILTER = [
+  {
+    icon: images.house,
+    title:'nhà đất'
+  },{
+    icon: images.car,
+    title:'mua ô tô'
+  },{
+    icon: images.coin,
+    title:'tái cấp vốn'
+  },{
+    icon: images.cube,
+    title:'sản xuất kinh doanh'
+  },
+]
+
+export const PROFILE_MANAGEMENT_FILTER = [
+  {
+    icon: images.cube,
+    title:'tất cả'
+  },{
+    icon: images.clock,
+    title:'chờ xử lý'
+  },{
+    icon: images.chart,
+    title:'đang xử lý'
+  },{
+    icon: images.icon_x,
+    title:'đóng'
   },
 ]
