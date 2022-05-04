@@ -13,4 +13,11 @@ export const images = {
   bank: require('./bank.png'),
   insurance: require('./insurance.png'),
   invest: require('./invest.png'),
+  house: require('./house.png'),
+  car: require('./car.png'),
+  coin: require('./coin.png'),
+  cube: require('./box.png'),
+  chart: require('./chart.png'),
+  clock: require('./clock.png'),
+  icon_x: require('./blue_x.png'),
 }

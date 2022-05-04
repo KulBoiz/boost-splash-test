@@ -59,7 +59,6 @@ export const CENTER_ELEMENTS : ViewStyle = {
 }
 
 export const SPACE_BETWEEN : ViewStyle = {
-  alignItems: "center",
   justifyContent: 'space-between',
 }
 

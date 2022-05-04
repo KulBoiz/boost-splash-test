@@ -24,15 +24,15 @@ export const SplashScreen: React.FunctionComponent<{ readonly navigation?: any }
   }
 
   const redirectToNextScreen = () => {
-    // if (!authStoreModel.token || !authStoreModel.refreshToken) {
-    //   setTimeout(() => {
-    //     navigation.navigate(ScreenNames.AUTH)
-    //   }, 3000)
-    // } else {
+    if (authStoreModel.isFirstTime) {
+      setTimeout(() => {
+        navigation.navigate(ScreenNames.AUTH)
+      }, 3000)
+    } else {
       setTimeout(() => {
         navigation.navigate(ScreenNames.APP)
       }, 3000)
-    // }
+    }
   }
 
   const PROGRESS_FUNCTION_STEPS = [refreshToken]
