@@ -11,7 +11,7 @@ import RequestCounselling from "../screens/home/request-counselling-screen"
 import NoticeScreen from "../screens/notice/notice-screen"
 import LoanDetail from "../screens/loan/loan-detail"
 import RegisterLoan from "../screens/loan/register-loan"
-import ProfileDetail from "../screens/loan/profile-detail"
+import ProfileDetail from "../screens/loan-profile/profile-detail"
 import IntroduceLoanCustomer from "../screens/loan/introduce-customer"
 import FinanceScreen from "../screens/loan/finance-screen"
 
