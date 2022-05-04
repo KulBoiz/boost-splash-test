@@ -1,11 +1,13 @@
 import React from "react"
-import { View } from 'react-native';
+import { Pressable, View } from "react-native"
 import { AppText } from "../../../components/app-text/AppText"
 import { s, ScaledSheet } from "react-native-size-matters"
 import { ClockSvg, PhoneSvg, RightArrowSvg } from "../../../assets/svgs"
 import { color } from "../../../theme"
 import moment from "moment"
 import { hidePhoneNumber } from "../../../constants/variable"
+import { navigate } from "../../../navigators"
+import { ScreenNames } from "../../../navigators/screen-names"
 
 interface Props{
   item?: any
@@ -14,10 +16,10 @@ interface Props{
 const ShortStatus = React.memo(({ item }: Props) => {
   const status = item?.status
   return (
-    <View style={styles.container}>
+    <Pressable style={styles.container} onPress={()=> navigate(ScreenNames.PROFILE_DETAIL)}>
       <View style={[styles.row, styles.itemContainer]}>
         <AppText tx={"loan.customerName"} capitalize style={styles.title}/>
-        <AppText value={`${item?.name} - ${hidePhoneNumber('01231231')}`}/>
+        <AppText value={`${item?.name ?? 'Nguyễn Thị Thanh Tâm'} - ${hidePhoneNumber('01231231')}`}/>
       </View>
       <View style={[styles.row, styles.itemContainer]}>
         <AppText tx={"loan.status"} capitalize style={styles.title}/>
@@ -42,7 +44,7 @@ const ShortStatus = React.memo(({ item }: Props) => {
           </View>
         </View>
       </View>
-    </View>
+    </Pressable>
   )
 });
 

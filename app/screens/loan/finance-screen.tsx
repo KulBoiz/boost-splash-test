@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, StyleSheet } from 'react-native';
+import { View } from 'react-native';
 import AppHeader from "../../components/app-header/AppHeader"
 import { TabView, SceneMap, TabBar } from "react-native-tab-view"
 import Introduce from "./introduce"

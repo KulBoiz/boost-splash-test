@@ -1,5 +1,5 @@
 import React, { useState } from "react"
-import { View, StyleSheet } from 'react-native';
+import { View } from 'react-native';
 import { color } from "../../theme"
 import FinanceFilter from "./components/finance-filter"
 import BankInfo from "./components/bank-info"
