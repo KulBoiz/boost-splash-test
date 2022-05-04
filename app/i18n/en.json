@@ -45,7 +45,9 @@
     "forgotPassword": "Quên Mật Khẩu",
     "emailOrPhone": "Vui lòng nhập địa chỉ email hoặc\nsố điện thoại để khôi phục mật khẩu",
     "phone": "số điện thoại",
-    "location": "vị trí"
+    "location": "vị trí",
+    "email": "Email",
+    "sex": "Giới tính"
   },
   "header": {
     "requestLoan": "tạo yêu cầu tư vấn vay",
@@ -134,21 +136,6 @@
     "REJECT_ACCESS_USER": "{{sender}} vừa từ chối quyền truy cập khách hàng {{customer}}",
     "RESEND_REQUEST_ACCESS_USER": "{{sender}} đã gửi lại yêu cầu cấp quyền khách hàng {{customer}}"
   },
-  "setting": {
-    "unverified": "Chưa xác thực",
-    "regulation": "Theo quy định của NHNN. chủ ví điện tử cần cung cấp hình ảnh chứng từ cá nhân để đảm bảo chính chủ, xác thực tài khoản, và tăng cường bảo mật",
-    "verifyNow": "Xác thực ngay"
-  },
-  "notice": {
-    "readAll": "Đọc tất cả",
-    "all": "Tất cả",
-    "endow": "Ưu đãi",
-    "transaction": "Giao dịch",
-    "update": "Cập nhật",
-    "tick": "Đánh dấu",
-    "deleteNotice": "Xóa thông báo",
-    "cancel": "Hủy"
-  },
   "loan": {
     "viewDetail": "Xem chi tiết",
     "register": "Đăng kí vay",
@@ -157,10 +144,30 @@
     "financialSpecialist": "CV tài chính:",
     "beingAppraised": "NH đang thẩm định",
     "fullyExchanged": "Đã trao đổi đầy đủ",
-    "successfulDisbursement": "Giải ngân thành công"
-
+    "successfulDisbursement": "Giải ngân thành công",
+    "infoLoan": {
+      "profile": {
+        "title": "Khách hàng",
+        "fullName":"Họ và tên",
+        "phone": "Số Điện Thoại",
+        "sex": "Giới tính",
+        "email": "Email"
+      },
+      "info": {
+        "title": "Thông tin khoản vay",
+        "loanDemand": "Nhu cầu vay",
+        "collateral": "Tài sản thế chấp",
+        "money": "Số tiền muốn vay",
+        "time": "Thời han vay"
+      },
+      "document": {
+        "CCCD": "CMND/CCCD",
+        "marriageRegistration": "Đăng ký kết hôn",
+        "salaryStatement": "Sao kê lương",
+        "laborContract": "Hợp đồng lao động:"
+      }
+    }
   },
-
   "setting": {
     "unverified":"Chưa xác thực",
     "regulation": "Theo quy định của NHNN. chủ ví điện tử cần cung cấp hình ảnh chứng từ cá nhân để đảm bảo chính chủ, xác thực tài khoản, và tăng cường bảo mật",
