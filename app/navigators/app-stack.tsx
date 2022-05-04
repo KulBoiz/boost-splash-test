@@ -10,6 +10,9 @@ import { View } from "react-native"
 import { isIphoneX } from 'react-native-iphone-x-helper';
 import {s, ScaledSheet} from 'react-native-size-matters'
 import SettingScreen from "../screens/settting/setting-screen"
+import { HomeActiveSVG, HomeInactiveSVG, SettingActiveSVG, SettingInactiveSVG } from "../assets/svgs"
+import i18n from "i18n-js"
+import { color } from "../theme"
 
 
 export type AppStackParamList = {
@@ -37,7 +40,7 @@ export const AppStack = () => {
             {...props}
           />
           {isIphoneX() && (
-            <View style={[styles.xFillLine, { backgroundColor: '#FFFFFF' }]}/>
+            <View style={styles.xFillLine}/>
           )}
         </View>
       )}
@@ -46,15 +49,12 @@ export const AppStack = () => {
         name={ScreenNames.HOME}
         options={(props) => {
           return {
-            tabBarIcon: ({ color }) => (
-              <Icon
-                name="home"
-                size={24}
-                color={color}
-              />
+            tabBarIcon: ({ focused }) => (
+              focused ? <HomeActiveSVG /> : <HomeInactiveSVG />
             ),
-            title: "HOME",
+            title: i18n.t('bottom_bar.home'),
             tabBarVisible: getTabBarVisibility(props.route),
+            gestureEnabled: false
           }
         }}
         component={HomeScreen}
@@ -70,7 +70,7 @@ export const AppStack = () => {
                 color={color}
               />
             ),
-            title: "CHAT",
+            title: i18n.t('bottom_bar.chat'),
             tabBarVisible: getTabBarVisibility(props.route),
           }
         }}
@@ -97,12 +97,12 @@ export const AppStack = () => {
           return {
             tabBarIcon: ({ color }) => (
               <Icon
-                name="home"
+                name="calendar"
                 size={24}
                 color={color}
               />
             ),
-            title: "SCHEDULE",
+            title: i18n.t('bottom_bar.management'),
             tabBarVisible: getTabBarVisibility(props.route),
           }
         }}
@@ -112,14 +112,10 @@ export const AppStack = () => {
         name={ScreenNames.SETTING}
         options={(props) => {
           return {
-            tabBarIcon: ({ color }) => (
-              <Icon
-                name="gear"
-                size={24}
-                color={color}
-              />
+            tabBarIcon: ({ focused }) => (
+              focused ? <SettingActiveSVG /> : <SettingInactiveSVG />
             ),
-            title: "SETTING",
+            title: i18n.t('bottom_bar.setting'),
             tabBarVisible: getTabBarVisibility(props.route),
           }
         }}
@@ -151,6 +147,7 @@ const styles = ScaledSheet.create({
   },
   itemStyle: {backgroundColor: 'white', height: '55@ms', paddingVertical: '7@s' },
   xFillLine: {
+    backgroundColor: color.background,
     position: 'absolute',
     bottom: 0,
     left: 0,

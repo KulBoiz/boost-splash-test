@@ -55,8 +55,8 @@ const styles = ScaledSheet.create({
   image: {
     width: '64@s',
     height: '64@s',
-    resizeMode: 'stretch',
-    borderRadius: 50,
+    resizeMode: 'cover',
+    borderRadius: '32@s',
     zIndex: 10,
     borderColor: color.palette.EEEEEE,
     borderWidth: 1,

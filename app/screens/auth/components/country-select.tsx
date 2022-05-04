@@ -15,7 +15,7 @@ interface Props{
 const CountrySelect = React.memo((props: Props) => {
   const {style, changePrefix} = props
   const [visible, setVisible]= useState<boolean>(false)
-  const [selectData, setSelectData] = useState<any>({cca2: 'VN'})
+  const [selectData, setSelectData] = useState<any>({cca2: 'VN', name: "Vietnam"})
 
   const openSelect =() => {
     setVisible(true)
@@ -29,7 +29,6 @@ const CountrySelect = React.memo((props: Props) => {
     changePrefix(val?.callingCode[0] ?? '')
     setSelectData(val)
   }
-
   return (
    <View style={style}>
      <AppText tx={"label.location"} style={styles.label}/>

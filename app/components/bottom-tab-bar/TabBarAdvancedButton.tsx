@@ -1,11 +1,12 @@
 import React from 'react';
 import { TouchableOpacity, View } from 'react-native';
 import { BottomTabBarButtonProps } from '@react-navigation/bottom-tabs/lib/typescript/src/types';
-import { FontAwesome as Icon } from '@expo/vector-icons';
 import { TabBg } from "./TabBg"
 import { navigate } from "../../navigators"
 import { ScreenNames } from "../../navigators/screen-names"
-import { ScaledSheet } from "react-native-size-matters"
+import { ScaledSheet, s } from "react-native-size-matters"
+import { color } from "../../theme"
+import { PlusSvg } from "../../assets/svgs"
 
 type Props = BottomTabBarButtonProps & {
   bgColor?: string;
@@ -24,10 +25,7 @@ export const TabBarAdvancedButton: React.FC<Props> = ({ bgColor, ...props }) => 
       style={styles.button}
       onPress={()=> navigate(ScreenNames.REQUEST_COUNSELLING)}
     >
-      <Icon
-        name="plus"
-        style={styles.buttonIcon}
-      />
+      <PlusSvg width={s(15)} height={s(15)}/>
     </TouchableOpacity>
   </View>
 );
@@ -39,7 +37,7 @@ const styles = ScaledSheet.create({
   },
   button: {
     alignItems: 'center',
-    backgroundColor: '#E94F37',
+    backgroundColor: color.palette.orange,
     borderRadius: '22.5@s',
     height: '45@ms',
     justifyContent: 'center',

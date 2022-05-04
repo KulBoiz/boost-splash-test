@@ -29,7 +29,7 @@ export const AuthStack = () => {
     >
       {
         AuthRoutes.map(({name, component}) => (
-          <Stack.Screen key={name} {...{name, component}} />
+          <Stack.Screen key={name} {...{name, component}}  />
         ))
       }
     </Stack.Navigator>

@@ -4,5 +4,8 @@ export const fontFamily = {
     thin: 'Inter-Thin',
     bold: 'Inter-Bold',
     semiBold: 'Inter-SemiBold',
-    light: 'Inter-Light'
+    light: 'Inter-Light',
+    mulish: {
+        bold: 'Mulish-Bold'
+    }
 }

@@ -7,6 +7,7 @@ import { useStores } from "../../../models"
 import { navigate } from "../../../navigators"
 import { ScreenNames } from "../../../navigators/screen-names"
 import { observer } from "mobx-react-lite"
+import FastImage from "react-native-fast-image"
 
 interface Props{
   style?: ViewStyle | any
@@ -14,18 +15,25 @@ interface Props{
 
 const LoginCart = observer(({ style }: Props) => {
   const {authStoreModel} = useStores()
-  const isLogin = authStoreModel?.user !== {}
+  // @ts-ignore
+  const isLogin = !!authStoreModel?.user?.fullName
+  // @ts-ignore
+  const avatar = !!authStoreModel?.user?.avatar
   const onPress = () => {
-    if (isLogin){
+    if (!isLogin){
       navigate(ScreenNames.AUTH)
     }
     return true
   }
   return (
     <Pressable style={[styles.container, style]} onPress={onPress}>
-      <DefaultAvatarSvg width={s(40)} height={s(40)} style={styles.avatar} />
+      {avatar ?
+        // @ts-ignore
+        <FastImage source={{uri: avatar}} style={[styles.avatar, styles.avatarContainer]} /> :
+        <DefaultAvatarSvg width={s(40)} height={s(40)} style={styles.avatar} />
+      }
       {
-        isLogin &&
+        !isLogin &&
         <View style={styles.wrapText}>
           <LockSvg style={styles.lock}/>
           <AppText tx={"auth.login"} color={'white'} capitalize/>
@@ -40,7 +48,12 @@ export default LoginCart;
 
 const styles = ScaledSheet.create({
     container: {flexDirection: 'row'},
-  avatar: {marginRight: '-20@s', zIndex: 10},
+  avatarContainer: {marginRight: '-20@s', zIndex: 10, borderWidth: 1, borderColor: 'white'},
+  avatar: {
+    width: '40@s',
+    height: '40@s',
+    borderRadius: '20@s'
+  },
   lock: {marginRight: '5@s'},
   wrapText: {
       alignItems: 'center',

@@ -13,5 +13,6 @@ export const initFonts = async () => {
     "Inter-SemiBold": require('./Inter-SemiBold.otf'),
     "Inter-Thin": require('./Inter-Thin.otf'),
     "Inter-Medium": require('./Inter-Medium.otf'),
+    "Mulish-Bold": require('./Mulish-Bold.otf'),
   })
 }

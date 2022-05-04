@@ -65,7 +65,7 @@ const styles = ScaledSheet.create({
     shadowOpacity: 0.3,
     shadowRadius: 10.00,
 
-    elevation: 24,
+    elevation: 12,
   },
   row: {
       flexDirection: 'row',
