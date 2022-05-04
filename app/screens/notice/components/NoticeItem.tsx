@@ -24,8 +24,8 @@ const NoticeItem = React.memo(({ item }: Props) => {
 
   const content = () => {
     const { code = '', data } = item
-    const codei18n: any = 'notice.' + code || ''
-    return translate(codei18n, data) || ''
+    const codeI18n: any = 'notice.' + code || ''
+    return translate(codeI18n, data) || ''
   }
 
   return (
