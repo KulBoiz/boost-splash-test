@@ -1,5 +1,5 @@
 import React, { FC, useRef, useState } from "react"
-import { Animated, ScrollView, View } from "react-native"
+import { Animated, BackHandler, ScrollView, View } from "react-native"
 import { StackScreenProps } from "@react-navigation/stack"
 import { observer } from "mobx-react-lite"
 import { ScreenNames } from "../../navigators/screen-names"
@@ -14,13 +14,16 @@ import PaperHeader from "./components/PaperHeader"
 import { carousel, paper } from "./constants"
 import Finance from "./finance"
 import ComingSoon from "./coming-soon"
-import { useStores } from "../../models"
+import { useFocusEffect } from "@react-navigation/native"
 
 
 
 export const HomeScreen: FC<StackScreenProps<AppStackParamList, ScreenNames.HOME>> = observer(
   ({ navigation }) => {
-    // const nextScreen = () => navigation.navigate(ScreenNames.HOME)
+    useFocusEffect(() => {
+      BackHandler.addEventListener('hardwareBackPress', () => true);
+      return () => BackHandler.removeEventListener('hardwareBackPress', () => true);
+    });
     const animatedHeaderValue = new Animated.Value(0)
     const [currentPage, setCurrentPage] = useState(1);
     const ref = useRef()

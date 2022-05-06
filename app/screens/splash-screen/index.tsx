@@ -12,6 +12,7 @@ import { color } from "../../theme"
 import { FinaSplashSvg } from "../../assets/svgs"
 import moment from "moment"
 import 'moment/locale/vi'
+import i18n from "i18n-js"
 
 export const SplashScreen: React.FunctionComponent<{ readonly navigation?: any }> = observer(({navigation}) => {
   const [progress, setProgress] = useState(0)
@@ -47,6 +48,7 @@ export const SplashScreen: React.FunctionComponent<{ readonly navigation?: any }
   }
 
   useEffect(() => {
+    i18n.locale = 'vi';
     moment.locale('vi')
     init()
   }, [])

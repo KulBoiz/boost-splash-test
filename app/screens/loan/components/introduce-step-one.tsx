@@ -1,5 +1,5 @@
 import React, { useState } from "react"
-import { View } from 'react-native';
+import { Alert, View } from "react-native"
 import * as Yup from "yup"
 import { useForm } from "react-hook-form"
 import { yupResolver } from "@hookform/resolvers/yup"
@@ -12,12 +12,15 @@ import Checkbox from "../../../components/checkbox/checkbox"
 import { color } from "../../../theme"
 import FastImage from "react-native-fast-image"
 import { images } from "../../../assets/images"
+import { observer } from "mobx-react-lite"
+import { useStores } from "../../../models"
 
 interface Props{
   nextStep(): void
 }
 
-const IntroduceStepOne = React.memo(({ nextStep }: Props) => {
+const IntroduceStepOne = observer(({ nextStep }: Props) => {
+  const {loanStore} = useStores()
   const validationSchema = Yup.object().shape({
     fullName: Yup.string()
       .trim()
@@ -31,7 +34,6 @@ const IntroduceStepOne = React.memo(({ nextStep }: Props) => {
       .required("Please enter your phone"),
     address: Yup.string()
       .trim()
-      .required("Please enter your address")
   })
   const {control, handleSubmit, formState: {errors}} = useForm({
     delayError: 0,
@@ -53,6 +55,13 @@ const IntroduceStepOne = React.memo(({ nextStep }: Props) => {
     )
   }
 
+  const sendRequest = async (data) => {
+    const send = await  loanStore.requestCounselling(data.fullName, data.email, data.phone, data.address)
+    if (send.kind === 'ok'){
+      nextStep()
+    }
+    else Alert.alert('Something went wrong')
+  }
   return (
     <View style={styles.container}>
       <FastImage source={images.banner} style={styles.banner}/>
@@ -96,7 +105,7 @@ const IntroduceStepOne = React.memo(({ nextStep }: Props) => {
         <AppText tx={"guide.enterKeyword"} style={presets.note}/>
         <Checkbox style={styles.checkbox} checkboxState={checkboxState} setCheckboxState={setCheckboxState} textComponent={_renderText()}/>
         <View style={styles.wrapBtn}>
-          <AppButton tx={"common.sentInformation"} onPress={handleSubmit(nextStep)}/>
+          <AppButton tx={"common.sentInformation"} onPress={handleSubmit(sendRequest)}/>
         </View>
       </View>
     </View>

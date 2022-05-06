@@ -18,9 +18,9 @@ const FifthScreen = React.memo((props: Props) => {
   const navigation = useNavigation()
   const {authStoreModel} = useStores()
 
-  const setFirstTime = useCallback(()=> {
-    authStoreModel.setIsFirstTime(false)
-  },[])
+  const setFirstTime = ()=> {
+    authStoreModel.setIsFirstTime()
+  }
 
   const handleStart = () => {
     setFirstTime()
@@ -30,6 +30,7 @@ const FifthScreen = React.memo((props: Props) => {
     setFirstTime()
     navigate(ScreenNames.LOGIN)
   }
+
   return (
     <View style={styles.container}>
         <FastImage source={images.fifth} style={styles.svgBackground}/>

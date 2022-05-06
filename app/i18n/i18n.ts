@@ -5,7 +5,7 @@ import ja from "./ja.json"
 import vi from "./vi.json"
 
 i18n.fallbacks = true
-i18n.translations = { en, ja, vi}
+i18n.translations = { vi, en, ja }
 
 i18n.locale = Localization.locale || "vi"
 

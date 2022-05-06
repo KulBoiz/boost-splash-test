@@ -86,7 +86,7 @@ const styles = ScaledSheet.create({
     shadowOpacity: 0.8,
     shadowRadius: 16.00,
 
-    elevation: 24,
+    elevation: 12,
   },
   wrapSpace:{
     flex: 1,

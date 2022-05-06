@@ -45,11 +45,10 @@
     "forgotPassword": "Quên Mật Khẩu",
     "emailOrPhone": "Vui lòng nhập địa chỉ email hoặc\nsố điện thoại để khôi phục mật khẩu",
     "phone": "số điện thoại",
-    "location": "vị trí",
-    "email": "Email",
-    "sex": "Giới tính"
+    "location": "vị trí"
   },
   "header": {
+    "finance": "Tài chính",
     "requestLoan": "tạo yêu cầu tư vấn vay",
     "requestInsurance": "tạo yêu cầu tư vấn mua bảo hiểm",
     "requestInvest": "tạo yêu cầu tư vấn đầu tư",
@@ -73,10 +72,10 @@
   "home": {
     "finance": {
       "finance": "Tài Chính",
-      "homeLoan": "Vay mua nhà",
-      "carLoan": "Vay mua xe",
-      "consumerLoan": "Vay tiêu dùng",
-      "repairLoad": "Vay sửa chữa"
+      "homeLoan": "Vay\nmua nhà",
+      "carLoan": "Vay\nmua xe",
+      "consumerLoan": "Vay\ntiêu dùng",
+      "repairLoad": "Vay\nsửa chữa"
     },
     "insurance": {
       "insurance": "Bảo Hiểm",
@@ -137,6 +136,7 @@
     "RESEND_REQUEST_ACCESS_USER": "{{sender}} đã gửi lại yêu cầu cấp quyền khách hàng {{customer}}"
   },
   "loan": {
+    "introduceLoanCustomer": "Giới thiệu khách hàng vay",
     "viewDetail": "Xem chi tiết",
     "register": "Đăng kí vay",
     "customerName": "Tên khách hàng:",
@@ -145,10 +145,22 @@
     "beingAppraised": "NH đang thẩm định",
     "fullyExchanged": "Đã trao đổi đầy đủ",
     "successfulDisbursement": "Giải ngân thành công",
+    "productInfo": "Thông tin sản phẩm",
+    "preferentialTime": "Thời gian ưu đãi:",
+    "preferentialInterestRate": "Lãi suất ưu đãi:",
+    "interestRateAfterIncentives": "Lãi suất sau ưu đãi:",
+    "referenceInterestRate": "Lãi suất tham chiếu:",
+    "amplitude": "Biên độ:",
+    "maximumLoanRate": "Tỉ lệ cho vay tối đa:",
+    "maximumLoanPeriod": "Thời gian cho vay tối đa:",
+    "minimumLoanPeriod": "Thời gian cho vay tối thiểu:",
+    "maximumLoanAmount": "Số tiền cho vay tối đa:",
+    "minimumLoanAmount": "Số tiền cho vay tối thiểu:",
+    "requestProfile": "Yêu cầu hồ sơ",
     "infoLoan": {
       "profile": {
         "title": "Khách hàng",
-        "fullName":"Họ và tên",
+        "fullName": "Họ và tên",
         "phone": "Số Điện Thoại",
         "sex": "Giới tính",
         "email": "Email"
@@ -159,17 +171,11 @@
         "collateral": "Tài sản thế chấp",
         "money": "Số tiền muốn vay",
         "time": "Thời han vay"
-      },
-      "document": {
-        "CCCD": "CMND/CCCD",
-        "marriageRegistration": "Đăng ký kết hôn",
-        "salaryStatement": "Sao kê lương",
-        "laborContract": "Hợp đồng lao động:"
       }
     }
   },
   "setting": {
-    "unverified":"Chưa xác thực",
+    "unverified": "Chưa xác thực",
     "regulation": "Theo quy định của NHNN. chủ ví điện tử cần cung cấp hình ảnh chứng từ cá nhân để đảm bảo chính chủ, xác thực tài khoản, và tăng cường bảo mật",
     "verifyNow": "Xác thực ngay"
   },

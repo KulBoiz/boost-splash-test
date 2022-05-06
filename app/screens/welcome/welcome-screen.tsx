@@ -1,5 +1,5 @@
 import React, { FC, useState } from "react"
-import { View } from "react-native"
+import { BackHandler, View } from "react-native"
 import { StackScreenProps } from "@react-navigation/stack"
 import { observer } from "mobx-react-lite"
 import { ScreenNames } from "../../navigators/screen-names"
@@ -13,10 +13,15 @@ import { AppText } from "../../components/app-text/AppText"
 import FourthScreen from "./fourth-screen"
 import { AuthStackParamList } from "../../navigators/auth-stack"
 import PaginationDot from "../../components/pagination-dot/pagination-dot"
+import { useFocusEffect } from "@react-navigation/native"
 
 const SLIDER_DATA = [0,1,2,3]
 export const WelcomeScreen: FC<StackScreenProps<AuthStackParamList, ScreenNames.WELCOME>> = observer(
   ({ navigation }) => {
+    useFocusEffect(() => {
+      BackHandler.addEventListener('hardwareBackPress', () => true);
+      return () => BackHandler.removeEventListener('hardwareBackPress', () => true);
+    });
     const [screen, setScreen] = useState<number>(1)
     // const nextScreen = () => navigation.navigate("demo")
 

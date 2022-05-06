@@ -11,6 +11,12 @@
   "guide": {
     "enterKeyword": "Nhập kí tự tìm kiếm và chọn từ danh sách hiện ra \n(vd: Q. 3 - Ho Chi Minh hoặc H. Dong Anh - Ha Noi)"
   },
+  "bottom_bar": {
+    "home": "Trang Chủ",
+    "chat": "Trò Chuyện",
+    "management": "Quản Lí",
+    "setting": "Thiết Lập"
+  },
   "welcome": {
     "firstLabel": "Lãi suất chỉ từ \n6.19%/năm",
     "firstContent": "Với Fina, bạn dễ dàng tra cứu, so sánh \nvà lựa chọn giải pháp phù hợp nhất",

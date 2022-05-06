@@ -99,7 +99,7 @@ export const AuthStoreModel = types
 
     verifyPasswordOtp: flow(function* verifyPasswordOtp(otp:string) {
       const authApi = new AuthApi(self.environment.api)
-      const userId = self?.userId
+      const userId = self?.userId ?? ''
       const result = yield authApi.verifyPasswordOtp(userId, otp)
       if (result.kind !== "ok") {
         return result
@@ -188,15 +188,15 @@ export const AuthStoreModel = types
       }
     },
 
-    setIsFirstTime: flow(function* isFirstTime(check: boolean) {
-      self.isFirstTime = check
+    setIsFirstTime: flow(function* isFirstTime() {
+      self.isFirstTime = false
       return self.isFirstTime
     }),
 
     refreshTheToken: flow(function* refreshTheToken() {
       const authApi = new AuthApi(self.environment.api)
-
       if (!self.refreshToken) {
+        return false
       } else {
         const result = yield authApi.refreshToken(self.refreshToken)
         if (result.kind === "ok") {

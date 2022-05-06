@@ -43,7 +43,7 @@ const RootStack = ()=> {
     >
       <Stack.Screen name={ScreenNames.SPLASH} component={SplashScreen} />
       <Stack.Screen name={ScreenNames.AUTH} component={AuthStack} />
-      <Stack.Screen name={ScreenNames.APP} component={AppStack} />
+      <Stack.Screen name={ScreenNames.APP} component={AppStack} options={{gestureEnabled: false}} />
       <Stack.Screen name={ScreenNames.REQUEST_COUNSELLING} component={RequestCounselling} />
       <Stack.Screen name={ScreenNames.NOTICE} component={NoticeScreen} />
       <Stack.Screen name={ScreenNames.LOAN_DETAIL} component={LoanDetail} />

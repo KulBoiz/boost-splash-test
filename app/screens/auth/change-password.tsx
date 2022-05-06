@@ -16,7 +16,6 @@ import { AuthStackParamList } from "../../navigators/auth-stack"
 
 export const ChangePassword: FC<StackScreenProps<AuthStackParamList, ScreenNames.CHANGE_PASSWORD>> = observer(
   ({ navigation }) => {
-    // const nextScreen = () => navigation.navigate(AppRoutes.APP)
     const validationSchema = Yup.object().shape({
       password: Yup.string().required("Please enter your password").trim(),
       passwordConfirm: Yup.string()
@@ -35,8 +34,7 @@ export const ChangePassword: FC<StackScreenProps<AuthStackParamList, ScreenNames
 
     const _handleChangePassword = async (data) => {
       const register = await authStoreModel.changePassword(data.password, data.passwordConfirm)
-      console.log('change password screen',register)
-      if (register.kind === 'ok' && register.data.status === '204') {
+      if (register.data.status === 204) {
         navigation.navigate(ScreenNames.LOGIN)
       }
       else Alert.alert('Something went wrong')

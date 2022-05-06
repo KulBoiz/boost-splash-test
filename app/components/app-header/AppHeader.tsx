@@ -9,6 +9,7 @@ import FastImage from "react-native-fast-image"
 import { images } from "../../assets/images"
 import { ScaledSheet } from 'react-native-size-matters';
 import { goBack } from "../../navigators"
+import { fontFamily } from "../../constants/font-family"
 
 const AppHeader = React.memo((props: AppHeaderProps) => {
   const {
@@ -75,7 +76,8 @@ const styles = ScaledSheet.create({
     justifyContent: "flex-end"
   },
   title: {
-      color: color.palette.black,
+    fontFamily: fontFamily.mulish.bold,
+    color: color.palette.black,
     fontSize: '16@s',
     textAlign: "center",
     textTransform: 'capitalize',
