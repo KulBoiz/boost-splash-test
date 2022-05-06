@@ -99,7 +99,7 @@ export const AuthStoreModel = types
 
     verifyPasswordOtp: flow(function* verifyPasswordOtp(otp:string) {
       const authApi = new AuthApi(self.environment.api)
-      const userId = self?.userId
+      const userId = self?.userId ?? ''
       const result = yield authApi.verifyPasswordOtp(userId, otp)
       if (result.kind !== "ok") {
         return result

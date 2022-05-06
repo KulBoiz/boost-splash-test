@@ -30,7 +30,7 @@ const LoginCart = observer(({ style }: Props) => {
       {avatar ?
         // @ts-ignore
         <FastImage source={{uri: avatar}} style={[styles.avatar, styles.avatarContainer]} /> :
-        <DefaultAvatarSvg width={s(40)} height={s(40)} style={styles.avatar} />
+        <DefaultAvatarSvg width={s(40)} height={s(40)} style={styles.avatarContainer} />
       }
       {
         !isLogin &&
@@ -48,11 +48,12 @@ export default LoginCart;
 
 const styles = ScaledSheet.create({
     container: {flexDirection: 'row'},
-  avatarContainer: {marginRight: '-20@s', zIndex: 10, borderWidth: 1, borderColor: 'white'},
+  avatarContainer: {marginRight: '-20@s', zIndex: 10},
   avatar: {
     width: '40@s',
     height: '40@s',
-    borderRadius: '20@s'
+    borderRadius: '20@s',
+    borderWidth: 1, borderColor: 'white'
   },
   lock: {marginRight: '5@s'},
   wrapText: {

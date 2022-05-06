@@ -54,7 +54,6 @@ export const AppStack = () => {
             ),
             title: i18n.t('bottom_bar.home'),
             tabBarVisible: getTabBarVisibility(props.route),
-            gestureEnabled: false
           }
         }}
         component={HomeScreen}
@@ -117,6 +116,7 @@ export const AppStack = () => {
             ),
             title: i18n.t('bottom_bar.setting'),
             tabBarVisible: getTabBarVisibility(props.route),
+
           }
         }}
         component={SettingScreen}
