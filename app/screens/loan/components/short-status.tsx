@@ -1,5 +1,5 @@
 import React from "react"
-import { Pressable, View } from "react-native"
+import { Linking, Platform, Pressable, View } from "react-native"
 import { AppText } from "../../../components/app-text/AppText"
 import { s, ScaledSheet } from "react-native-size-matters"
 import { ClockSvg, PhoneSvg, RightArrowSvg } from "../../../assets/svgs"
@@ -8,24 +8,41 @@ import moment from "moment"
 import { hidePhoneNumber } from "../../../constants/variable"
 import { navigate } from "../../../navigators"
 import { ScreenNames } from "../../../navigators/screen-names"
+import { CheckStatus } from "../constants"
 
 interface Props{
-  item?: any
+  item: any
 }
 
 const ShortStatus = React.memo(({ item }: Props) => {
   const status = item?.status
+  const name = item?.user?.fullName ?? ''
+  const tel = item?.user?.tels[0].tel
+  const assignee = item?.assignee
+
+  const _handleCall = (item) => {
+    let phoneNumber = '';
+    if (assignee?.phone?.length === 0) {
+      return;
+    }
+    if (Platform.OS === 'android') {
+      phoneNumber = `tel:+${item.phone}`;
+    } else {
+      phoneNumber = `telprompt:+${item.phone}`;
+    }
+    Linking.openURL(phoneNumber);
+  };
   return (
     <Pressable style={styles.container} onPress={()=> navigate(ScreenNames.PROFILE_DETAIL)}>
       <View style={[styles.row, styles.itemContainer]}>
         <AppText tx={"loan.customerName"} capitalize style={styles.title}/>
-        <AppText value={`${item?.name ?? 'Nguyễn Thị Thanh Tâm'} - ${hidePhoneNumber('01231231')}`}/>
+        <AppText value={`${name} - ${hidePhoneNumber(tel)}`}/>
       </View>
       <View style={[styles.row, styles.itemContainer]}>
         <AppText tx={"loan.status"} capitalize style={styles.title}/>
         <View style={styles.wrapSpace}>
-          <AppText tx={status === 'approve' ? 'loan.successfulDisbursement' : 'loan.beingAppraised'}
-          color={status === 'approve' ? color.palette.green : color.palette.orange }/>
+          <AppText value={CheckStatus(status).text}
+          color={CheckStatus(status).color}/>
           <View style={styles.boxArrow}>
             <RightArrowSvg width={s(6)} height={s(12)}/>
           </View>
@@ -34,13 +51,13 @@ const ShortStatus = React.memo(({ item }: Props) => {
       <View style={[styles.row, styles.itemContainer]}>
         <AppText tx={"loan.financialSpecialist"} capitalize style={styles.title}/>
         <View style={styles.wrapSpace}>
-          <View style={styles.row}>
-            <AppText value={'Nguyễn Văn A'} style={styles.text}/>
+          <Pressable style={styles.row} onPress={_handleCall}>
+            <AppText value={assignee?.fullName} style={styles.text}/>
             <PhoneSvg />
-          </View>
+          </Pressable>
           <View style={styles.row}>
             <ClockSvg />
-            <AppText value={moment(1641231123312).fromNow()} style={styles.time}/>
+            <AppText value={moment(item?.createdAt).fromNow()} style={styles.time}/>
           </View>
         </View>
       </View>
@@ -67,7 +84,7 @@ const styles = ScaledSheet.create({
   title: {
     color: '#AAADB7',
     fontSize: '12@ms',
-    width: '120@ms'
+    width: '115@ms'
   },
   boxArrow: {
     marginBottom: '8@s',

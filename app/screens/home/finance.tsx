@@ -36,7 +36,7 @@ const Finance = React.memo((props: Props) => {
       <View style={styles.wrapLoan}>
         <View style={styles.row}>
           <AppText value={'gói vay nổi bật'} style={styles.title} capitalize/>
-          <AppText value={'Tất Cả'} color={color.palette.blue}/>
+          <AppText value={'Tất Cả'} color={color.palette.blue} onPress={()=> navigate(ScreenNames.FINANCE)}/>
         </View>
         <BankInfo item={item} hasBorder />
       </View>
@@ -62,11 +62,11 @@ const styles = ScaledSheet.create({
     flexDirection: 'row',
     alignItems: "center",
     justifyContent: "space-between",
-    marginBottom: '8@s'
   },
   title: {
     fontSize: '12@ms',
     color: '#AAADB7',
+    marginBottom: '10@s'
   },
   wrapLoan: {
     marginBottom: '24@s'

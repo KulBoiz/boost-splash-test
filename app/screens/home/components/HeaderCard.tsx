@@ -47,9 +47,9 @@ const HeaderCard = React.memo(({ animatedValue }: Props) => {
       <View style={styles.wrapContent}>
         <LoginCard />
         <View style={ROW}>
-          <TouchableOpacity>
-            <BookSvg />
-          </TouchableOpacity>
+          {/*<TouchableOpacity>*/}
+          {/*  <BookSvg />*/}
+          {/*</TouchableOpacity>*/}
           <TouchableOpacity onPress={()=> navigate(ScreenNames.NOTICE)}>
             <BellSvg />
           </TouchableOpacity>

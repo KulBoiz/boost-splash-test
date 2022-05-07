@@ -110,3 +110,55 @@ export const PROFILE_MANAGEMENT_FILTER = [
     title:'đóng'
   },
 ]
+
+export const DEAL_STATUSES = {
+  WAIT_PROCESSING: 'wait_processing',
+  PROCESSING: 'processing',
+  MOVED_TO_FINANCIAL_ORGANIZATION: 'moved_to_financial_organization',
+  LEND_APPROVAL: 'lend_approval',
+  DISBURSING: 'disbursing',
+  TRIPARTITE_BLOCKADE: 'tripartite_blockade',
+  DISBURSED: 'disbursed',
+  CANCELLED: 'cancelled',
+}
+
+const DEAL_TEXT = {
+  DISBURSED: 'Đã giải ngân',
+  CANCELLED: 'Huỷ bỏ',
+  WAIT_PROCESSING: 'Chờ xử lý',
+  PROCESSING: 'Đang xử lý',
+  DISBURSING: 'Đang giải ngân',
+  TRIPARTITE_BLOCKADE: 'Phong toả 3 bên',
+  MOVED_TO_FINANCIAL_ORGANIZATION: 'Đã chuyển đơn vị tài chính',
+  LEND_APPROVAL: 'Duyệt giải ngân',
+};
+
+export const CheckStatus = status => {
+  switch (status){
+    case DEAL_STATUSES.WAIT_PROCESSING : {
+      return {text : DEAL_TEXT.WAIT_PROCESSING, color: 'lime'}
+    }
+    case DEAL_STATUSES.PROCESSING : {
+      return {text : DEAL_TEXT.PROCESSING, color: 'green'}
+    }
+    case DEAL_STATUSES.MOVED_TO_FINANCIAL_ORGANIZATION : {
+      return {text : DEAL_TEXT.MOVED_TO_FINANCIAL_ORGANIZATION, color: 'cyan'}
+    }
+    case DEAL_STATUSES.LEND_APPROVAL : {
+      return {text : DEAL_TEXT.LEND_APPROVAL, color: 'green'}
+    }
+    case DEAL_STATUSES.DISBURSED : {
+      return {text : DEAL_TEXT.DISBURSED, color: 'blue'}
+    }
+    case DEAL_STATUSES.DISBURSING : {
+      return {text : DEAL_TEXT.DISBURSING, color: '#1d39c4'}
+    }
+    case DEAL_STATUSES.TRIPARTITE_BLOCKADE : {
+      return {text : DEAL_TEXT.TRIPARTITE_BLOCKADE, color: 'purple'}
+    }
+    case DEAL_STATUSES.CANCELLED : {
+      return {text : DEAL_TEXT.CANCELLED, color: 'red'}
+    }
+    default:  return {text : DEAL_TEXT.WAIT_PROCESSING, color: 'lime'}
+  }
+}

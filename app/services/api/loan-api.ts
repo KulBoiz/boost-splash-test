@@ -32,7 +32,38 @@ export class LoanApi {
 
   async getRecords(): Promise<any> {
     try {
-      const response: ApiResponse<any> = await this.api.apisauce.get(`${API_ENDPOINT}/tasks`, {})
+      const response: ApiResponse<any> = await this.api.apisauce.get(`${API_ENDPOINT}/deals`, {
+        "page": 1,
+        "order": "createdAt asc",
+        "filter": {
+          "limit": 50,
+          "where": {
+            "status": {
+              "nin": [
+                "deleted"
+              ]
+            },
+            "searchingRule": "single"
+          },
+          "include": [
+            {
+              "relation": "user"
+            },
+            {
+              "relation": "category"
+            },
+            {
+              "relation": "assignee"
+            },
+            {
+              "relation": "product"
+            },
+            {
+              "relation": "dealDetails"
+            }
+          ]
+        }
+      })
       if (!response.ok) {
         const problem = getGeneralApiProblem(response)
         if (problem) return problem
@@ -43,6 +74,21 @@ export class LoanApi {
       return { kind: "bad-data", e }
     }
   }
+
+  async loadMoreRecords(param): Promise<any> {
+    try {
+      const response: ApiResponse<any> = await this.api.apisauce.get(`${API_ENDPOINT}/deals`, param)
+      if (!response.ok) {
+        const problem = getGeneralApiProblem(response)
+        if (problem) return problem
+      }
+      const data = response.data
+      return { kind: "ok", data }
+    } catch (e) {
+      return { kind: "bad-data", e }
+    }
+  }
+
 
   async getRecordDetail(id: string): Promise<any> {
     try {
@@ -60,7 +106,9 @@ export class LoanApi {
 
   async getProducts(): Promise<any> {
     try {
-      const response: ApiResponse<any> = await this.api.apisauce.get(`${API_ENDPOINT}/product-details/public?status=approved`, {})
+      const response: ApiResponse<any> = await this.api.apisauce.get(`${API_ENDPOINT}/product-details/public`, {
+        filter: {where: {status: 'approved'}}
+      })
       if (!response.ok) {
         const problem = getGeneralApiProblem(response)
         if (problem) return problem

@@ -14,11 +14,6 @@ interface BankInfoProps{
   hasBorder?: boolean
 }
 
-
-const url = 'https://storage.googleapis.com/image-fina/upload/fina/OceanBank.png'
-
-
-
 const BankInfo = React.memo((props: BankInfoProps) => {
   const {item, hasBorder} = props
   const imageUrl = item?.org?.image?.url
@@ -26,9 +21,9 @@ const BankInfo = React.memo((props: BankInfoProps) => {
   const outstandingAdvantages = item?.outstandingAdvantages
 
   return (
-    <View style={[styles.container, hasBorder && [styles.border, {borderColor: backgroundColor}]]}>
-      <View style={[styles.header, {backgroundColor}]}>
-        <FastImage source={{uri:  imageUrl ?? url}} style={styles.bankIcon}/>
+    <View style={[styles.container, hasBorder && [styles.border, {borderColor: backgroundColor ?? color.lightBlack}]]}>
+      <View style={[styles.header, {backgroundColor: backgroundColor ?? '#005992'}]}>
+        <FastImage source={{uri:  imageUrl}} style={styles.bankIcon}/>
       </View>
 
       <View style={styles.body}>
