@@ -47,12 +47,66 @@ export const LoanStoreModel = types
       const data = result.data
       if (data) {
         self.records = data
+        self.page = 1
         return  {
           kind: "ok",
           data,
         }
       }
     }),
+
+    loadMoreRecords: flow(function* loadMoreRecords() {
+      const loanApi = new LoanApi(self.environment.api)
+      const param = {
+        page: self.page + 1,
+        "filter": {
+          "order": "createdAt asc",
+          "limit": 50,
+          "where": {
+            "status": {
+              "nin": [
+                "deleted"
+              ]
+            },
+            "searchingRule": "single"
+          },
+          "include": [
+            {
+              "relation": "user"
+            },
+            {
+              "relation": "category"
+            },
+            {
+              "relation": "assignee"
+            },
+            {
+              "relation": "product"
+            },
+            {
+              "relation": "dealDetails"
+            }
+          ]
+        }
+      }
+      const result = yield loanApi.loadMoreRecords(param)
+      if (result.kind !== "ok") {
+        return result
+      }
+      const data = result.data
+      const oldData: any = [...self.records]
+      if (data) {
+        const newData:any = [...oldData, data]
+        self.page += 1
+        self.records = newData
+        return  {
+          kind: "ok",
+          data,
+        }
+      }
+    }),
+
+
 
     getRecordDetail: flow(function* getRecordDetail(id: string) {
       const loanApi = new LoanApi(self.environment.api)

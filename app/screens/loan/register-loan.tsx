@@ -49,8 +49,8 @@ const RegisterLoan = observer((props: Props) => {
   })
   useEffect(()=> {
     setValue('fullName',user?.fullName)
-    setValue('email',user?.email)
-    setValue('phone',user?.tel)
+    setValue('email',user?.emails[0].email)
+    setValue('phone',user?.tels[0].tel)
   },[])
   console.log(user)
   return (

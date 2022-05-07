@@ -16,7 +16,6 @@ import LoginText from "./components/LoginText"
 import { AuthStackParamList } from "../../navigators/auth-stack"
 import AppModal from "../../components/app-modal/app-modal"
 import { StackActions } from "@react-navigation/native"
-import BackButton from "../../components/back-button/back-button"
 
 const errorContent = 'Sai thông tin tài khoản hoặc mật khẩu.\nVui lòng kiểm tra lại.'
 
