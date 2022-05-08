@@ -8,15 +8,20 @@ import { ScaledSheet } from "react-native-size-matters"
 import { fontFamily } from "../../../constants/font-family"
 import { navigate } from "../../../navigators"
 import { ScreenNames } from "../../../navigators/screen-names"
+import { useStores } from "../../../models"
 
 interface Props{
   id: string
 }
 
 const BottomBankInfo = React.memo(({ id }: Props) => {
+  const { loanStore } = useStores()
+
   const handlePress = () => {
+    loanStore.getProductDetail(id)
     navigate(ScreenNames.LOAN_DETAIL)
   }
+
   return (
     <View style={styles.container}>
       <Pressable style={styles.row}>

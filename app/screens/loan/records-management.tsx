@@ -19,9 +19,6 @@ const RecordsManagement = observer((props: Props) => {
   const [select, setSelect] = useState<number>(0)
   const [loadMore, setLoadMore] = useState<boolean>(false)
 
-  useEffect(()=> {
-    loanStore.getAllData()
-  },[])
 
   const renderItem = useCallback(({ item }) => {
     return <ShortStatus item={item} />
