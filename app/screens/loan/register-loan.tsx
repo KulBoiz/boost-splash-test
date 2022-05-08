@@ -23,11 +23,14 @@ import AppButton from "../../components/app-button/AppButton"
 import { navigate } from "../../navigators"
 import { ScreenNames } from "../../navigators/screen-names"
 import SuccessModal from "../../components/success-modal"
+import ProductTypePicker from "./components/product-type-picker"
+import { PRODUCT_TYPE } from "./constants"
 
 interface Props{}
 
 const RegisterLoan = observer((props: Props) => {
   const [modal, setModal] = useState<boolean>(false)
+  const [type, setType] = useState<string>(PRODUCT_TYPE.LOAN)
   const {authStoreModel, loanStore} = useStores()
   const user: any = authStoreModel.user
   const validationSchema = Yup.object().shape({
@@ -55,7 +58,7 @@ const RegisterLoan = observer((props: Props) => {
   //   setValue('phone',user?.tels[0].tel)
   // },[])
   const sendInfo = async (data: any) => {
-    const send =  await loanStore.createRequestCounselling(data.email, data.fullName, data.phone, data.note)
+    const send =  await loanStore.createRequestCounselling(data.email, data.fullName, data.phone, type,data.note)
     if (send.kind === 'ok'){
       setModal(true)
     }
@@ -99,17 +102,7 @@ const pressModal = () => {
             label: 'Số điện thoại'
           }}
         />
-        <FormInput
-          {...{
-            name: 'loanType',
-            control,
-            error: errors?.loanType?.message,
-            labelStyle: [styles.label, FONT_MEDIUM_12],
-            label: 'loại vay',
-            editable: false,
-            defaultValue: 'Vay'
-          }}
-        />
+        <ProductTypePicker value={type} setValue={setType} />
         <FormInput
           {...{
             name: 'note',

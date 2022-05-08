@@ -1,5 +1,5 @@
 import React, { useCallback, useEffect, useState } from "react"
-import { View, FlatList } from "react-native"
+import { View, FlatList, ActivityIndicator } from "react-native"
 import FinanceFilter from "./components/finance-filter"
 import { PROFILE_MANAGEMENT_FILTER } from "./constants"
 import { color } from "../../theme"
@@ -8,7 +8,7 @@ import { ScaledSheet } from "react-native-size-matters"
 import { useStores } from "../../models"
 import { AppText } from "../../components/app-text/AppText"
 import { fontFamily } from "../../constants/font-family"
-import { FONT_BOLD_12 } from "../../styles/common-style"
+import { FONT_BOLD_12, MARGIN_BOTTOM_16 } from "../../styles/common-style"
 import { observer } from "mobx-react-lite"
 
 interface Props { }
@@ -19,6 +19,9 @@ const RecordsManagement = observer((props: Props) => {
   const [select, setSelect] = useState<number>(0)
   const [loadMore, setLoadMore] = useState<boolean>(false)
 
+  useEffect(()=> {
+    loanStore.getRecords()
+  },[])
 
   const renderItem = useCallback(({ item }) => {
     return <ShortStatus item={item} />
@@ -41,7 +44,7 @@ const RecordsManagement = observer((props: Props) => {
           setLoadMore(false)
         }}
       />
-      {loadMore && <AppText style={styles.text} value={'Loanding...'}/>}
+      {loadMore && <ActivityIndicator style={MARGIN_BOTTOM_16}/>}
     </View>
   )
 });

@@ -1,5 +1,5 @@
-import React from 'react';
-import { View } from 'react-native';
+import React, { useCallback, useRef, useState } from "react"
+import { View } from "react-native"
 import { AppText } from "../../components/app-text/AppText"
 import { ms, ScaledSheet } from "react-native-size-matters"
 import {
@@ -15,15 +15,31 @@ import { width } from "../../constants/variable"
 import LoanItem from "./components/loan-item"
 import LoanSupportTool from "./components/loan-support-tool"
 import BankInfo from "../loan/components/bank-info"
-import { item } from "./constants"
+import { carousel } from "./constants"
 import { ScreenNames } from "../../navigators/screen-names"
 import { navigate } from "../../navigators"
+import { useStores } from "../../models"
+import Carousel from 'react-native-snap-carousel';
+import PaginationDot from "../../components/pagination-dot/pagination-dot"
+
 
 const widthHeight = width - ms(32)
 
 interface Props{}
 
 const Finance = React.memo((props: Props) => {
+  const {loanStore} =useStores()
+  const ref = useRef()
+  const [activeDot, setActiveDot] = useState(1)
+  const data = loanStore?.products?.data.slice(0,10)
+  const renderItem = useCallback(({item}) => {
+    return (
+      <View style={{width: widthHeight - ms(32)}}>
+        <BankInfo item={item} />
+      </View>
+    )
+  },[])
+
   return (
     <View style={styles.container}>
       <AppText value={'Sản Phẩm Vay'} style={styles.title}/>
@@ -38,7 +54,18 @@ const Finance = React.memo((props: Props) => {
           <AppText value={'gói vay nổi bật'} style={styles.title} capitalize/>
           <AppText value={'Tất Cả'} color={color.palette.blue} onPress={()=> navigate(ScreenNames.FINANCE)}/>
         </View>
-        <BankInfo item={item} hasBorder />
+        <Carousel
+          ref={ref.current}
+          key={(e, i)=> e.name + i.toString()}
+          data={data}
+          renderItem={renderItem}
+          sliderWidth={width}
+          itemWidth={width}
+          loop
+          onSnapToItem={(index) => setActiveDot( index ) }
+        />
+        <PaginationDot length={data.length} activeDot={activeDot} dotShape={'circle'} />
+
       </View>
       <AppText value={'Công cụ hỗ trợ'} style={styles.title}/>
       <LoanSupportTool icon={<CalculatorSvg />} title={'Tính khả năng vay'} />

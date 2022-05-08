@@ -15,7 +15,6 @@ import { carousel, paper } from "./constants"
 import Finance from "./finance"
 import ComingSoon from "./coming-soon"
 import { useFocusEffect } from "@react-navigation/native"
-import SuccessModal from "../../components/success-modal"
 
 
 
@@ -55,7 +54,7 @@ export const HomeScreen: FC<StackScreenProps<AppStackParamList, ScreenNames.HOME
         >
           <Carousel
             ref={ref.current}
-            key={(e, i)=> '#' + i}
+            key={(e, i)=> i.toString()}
             data={carousel}
             renderItem={_renderItem}
             sliderWidth={width}
