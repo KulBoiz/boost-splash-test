@@ -48,6 +48,7 @@ export const LoanStoreModel = types
     total: types.optional(types.number, 0),
     recordDetail: types.frozen({}),
     products: types.frozen([]),
+    productDetail: types.frozen({}),
     limit: types.optional(types.number, 10),
     page: types.optional(types.number, 1),
   })
@@ -63,7 +64,24 @@ export const LoanStoreModel = types
       if (result.kind !== "ok") {
         return result
       }
-      
+
+      if (data) {
+        return  {
+          kind: "ok",
+          data,
+        }
+      }
+    }),
+
+    createRequestCounselling: flow(function* createRequestCounselling(email: string, fullName: string, tel: string, note?: string) {
+      const loanApi = new LoanApi(self.environment.api)
+      const result = yield loanApi.createRequestCounselling(email, fullName, tel, note)
+      const data = result.data
+
+      if (result.kind !== "ok") {
+        return result
+      }
+
       if (data) {
         return  {
           kind: "ok",
@@ -81,7 +99,7 @@ export const LoanStoreModel = types
       const data = result?.data?.data
       const total = result?.data?.data?.total
       console.log('getRecords', result.data?.data);
-      
+
       if (data) {
         self.records = data
         self.total=  total
@@ -153,6 +171,24 @@ export const LoanStoreModel = types
           }
         }
       }),
+
+    getProductDetail: flow(function* getProductDetail(id: string) {
+        const loanApi = new LoanApi(self.environment.api)
+        const result = yield loanApi.getProductDetail(id)
+        if (result.kind !== "ok") {
+          return result
+        }
+        const data = result.data
+        if (data) {
+          self.productDetail = data
+          return  {
+            kind: "ok",
+            data,
+          }
+        }
+      }),
+
+
 
   })) // eslint-disable-line @typescript-eslint/no-unused-vars
   .actions((self) => ({

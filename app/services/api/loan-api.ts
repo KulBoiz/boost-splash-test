@@ -30,6 +30,24 @@ export class LoanApi {
     }
   }
 
+  async createRequestCounselling(email: string, fullName: string, tel: string, note?: string): Promise<any> {
+    try {
+      // make the api call
+      const response: ApiResponse<any> = await this.api.apisauce.post(`${API_ENDPOINT}/tasks/public/insurance`, {
+        customerInfo: {email,fullName, tel}, note,type: "counselling", page: 'mobile', productType: "loan"
+      })
+      if (!response.ok) {
+        const problem = getGeneralApiProblem(response)
+        if (problem) return problem
+      }
+      const data = response.data
+      return { kind: "ok", data }
+    } catch (e) {
+      return { kind: "bad-data", e }
+    }
+  }
+
+
   async getRecords(): Promise<any> {
     try {
       const response: ApiResponse<any> = await this.api.apisauce.get(`${API_ENDPOINT}/deals`, {
@@ -107,7 +125,23 @@ export class LoanApi {
   async getProducts(): Promise<any> {
     try {
       const response: ApiResponse<any> = await this.api.apisauce.get(`${API_ENDPOINT}/product-details/public`, {
-        filter: {where: {status: 'approved'}}
+        filter: {where: {status: 'approved'}, include: [{relation: 'product'}, {relation: "org"}]}
+      })
+      if (!response.ok) {
+        const problem = getGeneralApiProblem(response)
+        if (problem) return problem
+      }
+      const data = response.data
+      return { kind: "ok", data }
+    } catch (e) {
+      return { kind: "bad-data", e }
+    }
+  }
+
+  async getProductDetail(id: string): Promise<any> {
+    try {
+      const response: ApiResponse<any> = await this.api.apisauce.get(`${API_ENDPOINT}/product-details/public/${id}`, {
+        filter: {where: {status: 'approved'}, include: [{relation: 'product'}, {relation: "org"}]}
       })
       if (!response.ok) {
         const problem = getGeneralApiProblem(response)

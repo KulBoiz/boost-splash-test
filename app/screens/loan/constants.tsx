@@ -162,3 +162,27 @@ export const CheckStatus = status => {
     default:  return {text : DEAL_TEXT.WAIT_PROCESSING, color: 'lime'}
   }
 }
+
+export const PRODUCT_TYPE = {
+  LOAN: 'loan',
+  INSURANCE: 'insurances',
+  INVESTMENT: 'investment',
+  REAL_ESTATE: 'real_estate',
+  BONDS: 'bonds',
+};
+
+export const PRODUCT_TYPES_OPTIONS = [
+  {
+    value: PRODUCT_TYPE.LOAN,
+    label: 'Vay',
+  },
+  {
+    value: PRODUCT_TYPE.INSURANCE,
+    label: 'Bảo hiểm',
+  },
+  {
+    value: PRODUCT_TYPE.REAL_ESTATE,
+    label: 'Bất động sản',
+  },
+];
+

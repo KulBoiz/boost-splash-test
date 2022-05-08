@@ -1,5 +1,5 @@
-import React, { useEffect } from "react"
-import { View, ScrollView } from "react-native"
+import React, { useEffect, useState } from "react"
+import { View, ScrollView, Alert } from "react-native"
 import AppHeader from "../../components/app-header/AppHeader"
 import { AppText } from "../../components/app-text/AppText"
 import { item } from "../home/constants"
@@ -22,11 +22,13 @@ import { observer } from "mobx-react-lite"
 import AppButton from "../../components/app-button/AppButton"
 import { navigate } from "../../navigators"
 import { ScreenNames } from "../../navigators/screen-names"
+import SuccessModal from "../../components/success-modal"
 
 interface Props{}
 
 const RegisterLoan = observer((props: Props) => {
-  const {authStoreModel} = useStores()
+  const [modal, setModal] = useState<boolean>(false)
+  const {authStoreModel, loanStore} = useStores()
   const user: any = authStoreModel.user
   const validationSchema = Yup.object().shape({
     email: Yup.string()
@@ -47,19 +49,29 @@ const RegisterLoan = observer((props: Props) => {
     resolver: yupResolver(validationSchema),
     reValidateMode: "onChange",
   })
-  useEffect(()=> {
-    setValue('fullName',user?.fullName)
-    setValue('email',user?.emails[0].email)
-    setValue('phone',user?.tels[0].tel)
-  },[])
-  console.log(user)
+  // useEffect(()=> {
+  //   setValue('fullName',user?.fullName)
+  //   setValue('email',user?.emails[0].email)
+  //   setValue('phone',user?.tels[0].tel)
+  // },[])
+  const sendInfo = async (data: any) => {
+    const send =  await loanStore.createRequestCounselling(data.email, data.fullName, data.phone, data.note)
+    if (send.kind === 'ok'){
+      setModal(true)
+    }
+    else Alert.alert('Something went wrong')
+  }
+const pressModal = () => {
+  setModal(false)
+  setTimeout(()=> navigate(ScreenNames.APP),300)
+}
   return (
     <View style={PARENT}>
       <AppHeader headerText={'Đăng ký gói vay'} isBlue/>
       <ScrollView style={CONTAINER_PADDING}>
         <View style={[styles.wrapName, MARGIN_BOTTOM_24]}>
           <AppText value={'Thông tin gói vay'} style={[FONT_MEDIUM_12, styles.title, MARGIN_BOTTOM_8]}/>
-          <AppText value={item.name} style={FONT_SEMI_BOLD_14}/>
+          <AppText value={loanStore?.productDetail?.product?.name} style={FONT_SEMI_BOLD_14}/>
         </View>
         <AppText value={'Thông tin khách hàng'} style={[FONT_MEDIUM_12, styles.title, MARGIN_BOTTOM_8]}/>
         <FormInput
@@ -86,15 +98,19 @@ const RegisterLoan = observer((props: Props) => {
             labelStyle: [styles.label, FONT_MEDIUM_12],
             label: 'Số điện thoại'
           }}
-        /><FormInput
+        />
+        <FormInput
           {...{
             name: 'loanType',
             control,
             error: errors?.loanType?.message,
             labelStyle: [styles.label, FONT_MEDIUM_12],
-            label: 'loại vay'
+            label: 'loại vay',
+            editable: false,
+            defaultValue: 'Vay'
           }}
-        /><FormInput
+        />
+        <FormInput
           {...{
             name: 'note',
             control,
@@ -104,10 +120,11 @@ const RegisterLoan = observer((props: Props) => {
             multiline: true
           }}
         />
-        <AppButton tx={'auth.registerNow'} onPress={()=> navigate(ScreenNames.REGISTER_LOAN)} containerStyle={styles.btn}/>
+        <AppButton title={'Gửi thông tin'} onPress={handleSubmit(sendInfo)} containerStyle={styles.btn}/>
         <View style={{height: 50}}/>
 
       </ScrollView>
+      <SuccessModal visible={modal} onPress={pressModal} title={'Gửi thông tin'}/>
     </View>
   )
 });

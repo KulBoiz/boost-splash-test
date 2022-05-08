@@ -15,6 +15,7 @@ interface Props{
 const LoanDetailItem = React.memo(({ item }: Props) => {
   const imageUrl = item?.org?.image?.url
   const outstandingAdvantages = item?.outstandingAdvantages
+
   return (
     <View style={styles.container}>
       <AppText value={item?.name} style={styles.name}/>
@@ -26,9 +27,9 @@ const LoanDetailItem = React.memo(({ item }: Props) => {
       }
       <FastImage source={{uri:  imageUrl}} style={styles.bankIcon}/>
       <View style={[styles.row,styles.wrapInterest]}>
-        <InterestRate style={styles.interestItem} title={'Lãi Suất'} content={'50'} isInterestRate contentColor={color.palette.blue} />
+        <InterestRate style={styles.interestItem} title={'Lãi Suất'} content={item?.info?.preferentialRate} isInterestRate contentColor={color.palette.blue} />
         <View style={styles.separate}/>
-        <InterestRate style={styles.interestItem} title={'Ưu Đãi'} content={'180'} contentColor={color.palette.blue} />
+        <InterestRate style={styles.interestItem} title={'Ưu Đãi'} content={item?.info?.preferentialTime} contentColor={color.palette.blue} />
       </View>
     </View>
   )
