@@ -138,6 +138,23 @@ export class LoanApi {
     }
   }
 
+  async loadMoreProducts(param): Promise<any> {
+    try {
+      const response: ApiResponse<any> = await this.api.apisauce.get(`${API_ENDPOINT}/product-details/public`,
+        {...param, filter: {where: {status: 'approved'}, include: [{relation: 'product'}, {relation: "org"}]}
+        }
+      )
+      if (!response.ok) {
+        const problem = getGeneralApiProblem(response)
+        if (problem) return problem
+      }
+      const data = response.data
+      return { kind: "ok", data }
+    } catch (e) {
+      return { kind: "bad-data", e }
+    }
+  }
+
   async getProductDetail(id: string): Promise<any> {
     try {
       const response: ApiResponse<any> = await this.api.apisauce.get(`${API_ENDPOINT}/product-details/public/${id}`, {

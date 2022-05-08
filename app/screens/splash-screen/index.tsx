@@ -16,7 +16,7 @@ import i18n from "i18n-js"
 
 export const SplashScreen: React.FunctionComponent<{ readonly navigation?: any }> = observer(({navigation}) => {
   const [progress, setProgress] = useState(0)
-  const { authStoreModel } = useStores()
+  const { authStoreModel, loanStore } = useStores()
 
   const refreshToken = async () => {
     await new Promise(resolve => setTimeout(resolve, 500))
@@ -50,6 +50,7 @@ export const SplashScreen: React.FunctionComponent<{ readonly navigation?: any }
   useEffect(() => {
     i18n.locale = 'vi';
     moment.locale('vi')
+    loanStore.getProducts()
     init()
   }, [])
 

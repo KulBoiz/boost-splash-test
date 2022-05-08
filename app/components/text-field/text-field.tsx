@@ -1,6 +1,6 @@
 import React, { useState } from "react"
 import { Pressable, StyleProp, TextInput, TextInputProps, TextStyle, View, ViewStyle } from "react-native"
-import { color, spacing, typography } from "../../theme"
+import { color, spacing } from "../../theme"
 import { translate, TxKeyPath } from "../../i18n"
 import { Text } from "../text/text"
 import { s, ms } from "react-native-size-matters"

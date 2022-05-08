@@ -1,4 +1,4 @@
-import React, { useEffect } from "react"
+import React  from "react"
 import { View } from 'react-native';
 import AppHeader from "../../components/app-header/AppHeader"
 import { TabView, SceneMap, TabBar } from "react-native-tab-view"
@@ -9,7 +9,6 @@ import {width} from "../../constants/variable"
 import { color } from "../../theme"
 import { FONT_MEDIUM_14 } from "../../styles/common-style"
 import { ScaledSheet } from "react-native-size-matters"
-import { useStores } from "../../models"
 
 interface Props{}
 
@@ -20,17 +19,12 @@ const renderScene = SceneMap({
 });
 
 const FinanceScreen = React.memo((props: Props) => {
-  const { loanStore } = useStores()
   const [index, setIndex] = React.useState(0);
   const [routes] = React.useState([
     { key: 'first', title: 'Giới thiệu ' },
     { key: 'second', title: 'Sản phẩm' },
     { key: 'third', title: 'Quản lí hồ sơ' },
   ]);
-
-  useEffect(()=> {
-    loanStore.getAllData()
-  },[])
 
   const renderTabBar = props => (
     <TabBar

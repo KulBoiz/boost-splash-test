@@ -98,7 +98,6 @@ export const LoanStoreModel = types
       }
       const data = result?.data?.data
       const total = result?.data?.data?.total
-      console.log('getRecords', result.data?.data);
 
       if (data) {
         self.records = data
@@ -165,12 +164,39 @@ export const LoanStoreModel = types
         const data = result.data
         if (data) {
           self.products = data
+          self.page = 1
           return  {
             kind: "ok",
             data,
           }
         }
       }),
+
+    loadMoreProducts: flow(function* loadMoreProducts() {
+      const loanApi = new LoanApi(self.environment.api)
+
+      self.page = self.page + 1
+
+      const param = {
+        page: self.page + 1,
+      }
+
+      const result = yield loanApi.loadMoreProducts(param)
+      if (result.kind !== "ok") {
+        return result
+      }
+      const data = result?.data?.data
+      const oldData: any = [...self.records]
+      if (data) {
+        const newData:any = oldData.concat(data)
+        self.page += 1
+        self.products = newData
+        return  {
+          kind: "ok",
+          data,
+        }
+      }
+    }),
 
     getProductDetail: flow(function* getProductDetail(id: string) {
         const loanApi = new LoanApi(self.environment.api)
