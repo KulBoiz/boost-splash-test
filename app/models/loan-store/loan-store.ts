@@ -7,6 +7,37 @@ import { withRootStore } from "../extensions/with-root-store"
 /**
  * Model description here for TypeScript hints.
  */
+
+const filter = {
+  "order": "createdAt asc",
+  "limit": 10,
+  "where": {
+    "status": {
+      "nin": [
+        "deleted"
+      ]
+    },
+    "searchingRule": "single"
+  },
+  "include": [
+    {
+      "relation": "user"
+    },
+    {
+      "relation": "category"
+    },
+    {
+      "relation": "assignee"
+    },
+    {
+      "relation": "product"
+    },
+    {
+      "relation": "dealDetails"
+    }
+  ]
+}
+
 export const LoanStoreModel = types
   .model("LoanStore")
   .extend(withEnvironment)
@@ -14,22 +45,25 @@ export const LoanStoreModel = types
   .props({
     id: types.optional(types.string, ''),
     records: types.frozen([]),
+    total: types.optional(types.number, 0),
     recordDetail: types.frozen({}),
     products: types.frozen([]),
     limit: types.optional(types.number, 10),
-    page: types.optional(types.number, 1)
+    page: types.optional(types.number, 1),
   })
   .views((self) => ({})) // eslint-disable-line @typescript-eslint/no-unused-vars
   .actions((self) => ({
 
     requestCounselling: flow(function* requestCounselling(customerName: string, email: string, phone: string) {
       const loanApi = new LoanApi(self.environment.api)
-      const userId = new LoanApi(self.rootStore.authStoreModel.userId)
+      const userId = new LoanApi(self?.rootStore?.authStoreModel.userId)
       const result = yield loanApi.requestCounselling(userId.api, customerName, email, phone)
+      const data = result.data
+
       if (result.kind !== "ok") {
         return result
       }
-      const data = result.data
+      
       if (data) {
         return  {
           kind: "ok",
@@ -44,9 +78,13 @@ export const LoanStoreModel = types
       if (result.kind !== "ok") {
         return result
       }
-      const data = result.data
+      const data = result?.data?.data
+      const total = result?.data?.data?.total
+      console.log('getRecords', result.data?.data);
+      
       if (data) {
         self.records = data
+        self.total=  total
         self.page = 1
         return  {
           kind: "ok",
@@ -57,46 +95,22 @@ export const LoanStoreModel = types
 
     loadMoreRecords: flow(function* loadMoreRecords() {
       const loanApi = new LoanApi(self.environment.api)
+
+      self.page = self.page + 1
+
       const param = {
         page: self.page + 1,
-        "filter": {
-          "order": "createdAt asc",
-          "limit": 50,
-          "where": {
-            "status": {
-              "nin": [
-                "deleted"
-              ]
-            },
-            "searchingRule": "single"
-          },
-          "include": [
-            {
-              "relation": "user"
-            },
-            {
-              "relation": "category"
-            },
-            {
-              "relation": "assignee"
-            },
-            {
-              "relation": "product"
-            },
-            {
-              "relation": "dealDetails"
-            }
-          ]
-        }
+        "filter": filter
       }
+
       const result = yield loanApi.loadMoreRecords(param)
       if (result.kind !== "ok") {
         return result
       }
-      const data = result.data
+      const data = result?.data?.data
       const oldData: any = [...self.records]
       if (data) {
-        const newData:any = [...oldData, data]
+        const newData:any = oldData.concat(data)
         self.page += 1
         self.records = newData
         return  {

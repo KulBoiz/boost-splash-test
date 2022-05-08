@@ -36,7 +36,7 @@ export class LoanApi {
         "page": 1,
         "order": "createdAt asc",
         "filter": {
-          "limit": 50,
+          "limit": 10,
           "where": {
             "status": {
               "nin": [

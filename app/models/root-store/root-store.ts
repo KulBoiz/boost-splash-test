@@ -18,7 +18,9 @@ export const RootStoreModel = types.model("RootStore").props({
 /**
  * The RootStore instance.
  */
-export interface RootStore extends Instance<typeof RootStoreModel> {}
+export interface RootStore extends Instance<typeof RootStoreModel> {
+  authStoreModel: any
+}
 
 /**
  * The data of a RootStore.

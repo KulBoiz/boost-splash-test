@@ -15,10 +15,16 @@ interface Props{
 }
 
 const ShortStatus = React.memo(({ item }: Props) => {
+  if (!item) {
+    return <></>
+  }
+
   const status = item?.status
   const name = item?.user?.fullName ?? ''
-  const tel = item?.user?.tels[0].tel
+  const tel = item?.user?.tels?.[0]?.tel
   const assignee = item?.assignee
+
+  const formatPhone = tel ? hidePhoneNumber(tel) : ''
 
   const _handleCall = (item) => {
     let phoneNumber = '';
@@ -36,7 +42,7 @@ const ShortStatus = React.memo(({ item }: Props) => {
     <Pressable style={styles.container} onPress={()=> navigate(ScreenNames.PROFILE_DETAIL)}>
       <View style={[styles.row, styles.itemContainer]}>
         <AppText tx={"loan.customerName"} capitalize style={styles.title}/>
-        <AppText value={`${name} - ${hidePhoneNumber(tel)}`}/>
+        <AppText value={`${name} - ${formatPhone}`}/>
       </View>
       <View style={[styles.row, styles.itemContainer]}>
         <AppText tx={"loan.status"} capitalize style={styles.title}/>
