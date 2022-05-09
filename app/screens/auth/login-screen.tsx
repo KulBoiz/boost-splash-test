@@ -16,6 +16,7 @@ import LoginText from "./components/LoginText"
 import { AuthStackParamList } from "../../navigators/auth-stack"
 import AppModal from "../../components/app-modal/app-modal"
 import { StackActions } from "@react-navigation/native"
+import { navigate } from "../../navigators"
 
 const errorContent = 'Sai thông tin tài khoản hoặc mật khẩu.\nVui lòng kiểm tra lại.'
 
@@ -82,6 +83,7 @@ export const LoginScreen: FC<StackScreenProps<AuthStackParamList, ScreenNames.LO
         />
         <AppText tx={'auth.forgotPassword'} style={styles.forgot} underline onPress={forgotPassword}/>
         <AppButton onPress={handleSubmit(_handleLogin)} tx={"auth.login"} containerStyle={styles.button}/>
+        <AppText tx={'auth.backToHome'} style={styles.backToHome} underline onPress={()=> navigation.dispatch(StackActions.push(ScreenNames.APP))}/>
         </View>
         <View style={styles.wrapBottom}>
           <LoginText firstText={'auth.dontHaveAccount'} secondText={'auth.registerNow'} action={'register'}/>
@@ -96,6 +98,11 @@ const styles = ScaledSheet.create({
     flex: 1,
     backgroundColor: color.palette.white,
     paddingHorizontal: "20@ms",
+  },
+  backToHome: {
+    color: color.palette.blue,
+    alignSelf: "center",
+    marginTop: '16@s'
   },
   body: {flex: 1, justifyContent:'center'},
   textLogin: {

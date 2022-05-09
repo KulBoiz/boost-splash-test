@@ -7,13 +7,13 @@ import { ScreenNames } from "./screen-names"
 import { SplashScreen } from "../screens"
 import { AppStack } from "./app-stack"
 import { AuthStack } from "./auth-stack"
-import RequestCounselling from "../screens/home/request-counselling-screen"
 import NoticeScreen from "../screens/notice/notice-screen"
 import LoanDetail from "../screens/loan/loan-detail"
 import RegisterLoan from "../screens/loan/register-loan"
 import ProfileDetail from "../screens/loan-profile/profile-detail"
-import IntroduceLoanCustomer from "../screens/loan/introduce-customer"
 import FinanceScreen from "../screens/loan/finance-screen"
+import TermAndPolicy from "../screens/term-and-policy"
+import RequestCounselling from "../screens/loan/request-counselling"
 
 export type NavigatorParamList = {
   [ScreenNames.SPLASH]: undefined;
@@ -24,8 +24,8 @@ export type NavigatorParamList = {
   [ScreenNames.LOAN_DETAIL]: undefined;
   [ScreenNames.REGISTER_LOAN]: undefined;
   [ScreenNames.PROFILE_DETAIL]: undefined;
-  [ScreenNames.INTRODUCE_LOAN_CUSTOMER]: undefined;
   [ScreenNames.FINANCE]: undefined;
+  [ScreenNames.TERM_AND_POLICY]: undefined;
 }
 
 // Documentation: https://reactnavigation.org/docs/stack-navigator/
@@ -49,8 +49,8 @@ const RootStack = ()=> {
       <Stack.Screen name={ScreenNames.LOAN_DETAIL} component={LoanDetail} />
       <Stack.Screen name={ScreenNames.REGISTER_LOAN} component={RegisterLoan} />
       <Stack.Screen name={ScreenNames.PROFILE_DETAIL} component={ProfileDetail} />
-      <Stack.Screen name={ScreenNames.INTRODUCE_LOAN_CUSTOMER} component={IntroduceLoanCustomer} />
       <Stack.Screen name={ScreenNames.FINANCE} component={FinanceScreen} />
+      <Stack.Screen name={ScreenNames.TERM_AND_POLICY} component={TermAndPolicy} />
     </Stack.Navigator>
   )
 }

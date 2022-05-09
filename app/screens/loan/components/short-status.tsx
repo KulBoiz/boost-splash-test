@@ -32,9 +32,9 @@ const ShortStatus = React.memo(({ item }: Props) => {
       return;
     }
     if (Platform.OS === 'android') {
-      phoneNumber = `tel:+${item.phone}`;
+      phoneNumber = `tel:+${assignee?.phone}`;
     } else {
-      phoneNumber = `telprompt:+${item.phone}`;
+      phoneNumber = `telprompt:+${assignee?.phone}`;
     }
     Linking.openURL(phoneNumber);
   };
