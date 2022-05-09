@@ -52,7 +52,8 @@ export const LoanStoreModel = types
     limit: types.optional(types.number, 10),
     page: types.optional(types.number, 1),
     comments: types.frozen([]),
-    loanDetail:  types.frozen({}),
+    loanDetail: types.frozen({}),
+    histories: types.frozen([]),
   })
   .views((self) => ({})) // eslint-disable-line @typescript-eslint/no-unused-vars
   .actions((self) => ({
@@ -60,10 +61,12 @@ export const LoanStoreModel = types
       const loanApi = new LoanApi(self.environment.api)
       const result = yield loanApi.requestLoanDetail(id)
       const resultComment = yield loanApi.requestComment(id)
+      const resultHistory = yield loanApi.requestLoanHistory(id)
       const data = result.data
 
       self.comments = resultComment?.data?.data
       self.loanDetail = data
+      self.histories = resultHistory?.data
 
       if (result.kind !== "ok") {
         return result
