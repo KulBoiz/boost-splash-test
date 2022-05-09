@@ -179,6 +179,12 @@
         "collateral": "Tài sản thế chấp",
         "money": "Số tiền muốn vay",
         "time": "Thời han vay"
+      },
+      "document": {
+        "CCCD": "CCCD",
+        "marriageRegistration": "Đăng kí kết hôn",
+        "salaryStatement": "Sao kê lương",
+        "laborContract": "Hợp đồng lao động"
       }
     }
   },

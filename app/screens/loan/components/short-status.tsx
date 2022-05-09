@@ -9,16 +9,18 @@ import { hidePhoneNumber } from "../../../constants/variable"
 import { navigate } from "../../../navigators"
 import { ScreenNames } from "../../../navigators/screen-names"
 import { CheckStatus } from "../constants"
+import { useStores } from "../../../models"
+import { observer } from "mobx-react-lite"
 
 interface Props{
   item: any
 }
 
-const ShortStatus = React.memo(({ item }: Props) => {
+const ShortStatus = observer(({ item }: Props) => {
   if (!item) {
     return <></>
   }
-
+  const { loanStore } = useStores()
   const status = item?.status
   const name = item?.user?.fullName ?? ''
   const tel = item?.user?.tels?.[0]?.tel
@@ -38,8 +40,12 @@ const ShortStatus = React.memo(({ item }: Props) => {
     }
     Linking.openURL(phoneNumber);
   };
+
   return (
-    <Pressable style={styles.container} onPress={()=> navigate(ScreenNames.PROFILE_DETAIL)}>
+    <Pressable style={styles.container} onPress={() => {
+      loanStore.getLoanDetail(item?.id)
+      navigate(ScreenNames.PROFILE_DETAIL)
+    }}>
       <View style={[styles.row, styles.itemContainer]}>
         <AppText tx={"loan.customerName"} capitalize style={styles.title}/>
         <AppText value={`${name} - ${formatPhone}`}/>

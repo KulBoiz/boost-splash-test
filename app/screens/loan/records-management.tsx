@@ -19,9 +19,9 @@ const RecordsManagement = observer((props: Props) => {
   const [select, setSelect] = useState<number>(0)
   const [loadMore, setLoadMore] = useState<boolean>(false)
 
-  useEffect(()=> {
+  useEffect(() => {
     loanStore.getRecords()
-  },[])
+  }, [])
 
   const renderItem = useCallback(({ item }) => {
     return <ShortStatus item={item} />
@@ -36,15 +36,15 @@ const RecordsManagement = observer((props: Props) => {
         renderItem={renderItem}
         style={styles.flatList}
         onEndReached={() => {
-            loanStore.loadMoreRecords()
-            setLoadMore(false)
+          loanStore.loadMoreRecords()
+          setLoadMore(false)
         }}
         onEndReachedThreshold={0.2}
         onScrollBeginDrag={() => {
           setLoadMore(false)
         }}
       />
-      {loadMore && <ActivityIndicator style={MARGIN_BOTTOM_16}/>}
+      {loadMore && <ActivityIndicator style={MARGIN_BOTTOM_16} />}
     </View>
   )
 });
