@@ -51,9 +51,31 @@ export const LoanStoreModel = types
     productDetail: types.frozen({}),
     limit: types.optional(types.number, 10),
     page: types.optional(types.number, 1),
+    comments: types.frozen([]),
+    loanDetail:  types.frozen({}),
   })
   .views((self) => ({})) // eslint-disable-line @typescript-eslint/no-unused-vars
   .actions((self) => ({
+    getLoanDetail: flow(function* getLoanDetail(id: string) {
+      const loanApi = new LoanApi(self.environment.api)
+      const result = yield loanApi.requestLoanDetail(id)
+      const resultComment = yield loanApi.requestComment(id)
+      const data = result.data
+
+      self.comments = resultComment?.data?.data
+      self.loanDetail = data
+
+      if (result.kind !== "ok") {
+        return result
+      }
+
+      if (data) {
+        return {
+          kind: "ok",
+          data,
+        }
+      }
+    }),
 
     requestCounselling: flow(function* requestCounselling(customerName: string, email: string, phone: string) {
       const loanApi = new LoanApi(self.environment.api)
@@ -66,7 +88,7 @@ export const LoanStoreModel = types
       }
 
       if (data) {
-        return  {
+        return {
           kind: "ok",
           data,
         }
@@ -83,7 +105,7 @@ export const LoanStoreModel = types
       }
 
       if (data) {
-        return  {
+        return {
           kind: "ok",
           data,
         }
@@ -97,13 +119,13 @@ export const LoanStoreModel = types
         return result
       }
       const data = result?.data?.data
-      const total = result?.data?.data?.total
+      const total = result?.data?.total
 
       if (data) {
         self.records = data
-        self.total=  total
+        self.total = total
         self.page = 1
-        return  {
+        return {
           kind: "ok",
           data,
         }
@@ -127,17 +149,15 @@ export const LoanStoreModel = types
       const data = result?.data?.data
       const oldData: any = [...self.records]
       if (data) {
-        const newData:any = oldData.concat(data)
+        const newData: any = oldData.concat(data)
         self.page += 1
         self.records = newData
-        return  {
+        return {
           kind: "ok",
           data,
         }
       }
     }),
-
-
 
     getRecordDetail: flow(function* getRecordDetail(id: string) {
       const loanApi = new LoanApi(self.environment.api)
@@ -148,29 +168,29 @@ export const LoanStoreModel = types
       const data = result.data
       if (data) {
         self.recordDetail = data
-        return  {
+        return {
           kind: "ok",
           data,
         }
       }
     }),
 
-   getProducts: flow(function* getProducts() {
-        const loanApi = new LoanApi(self.environment.api)
-        const result = yield loanApi.getProducts()
-        if (result.kind !== "ok") {
-          return result
+    getProducts: flow(function* getProducts() {
+      const loanApi = new LoanApi(self.environment.api)
+      const result = yield loanApi.getProducts()
+      if (result.kind !== "ok") {
+        return result
+      }
+      const data = result.data
+      if (data) {
+        self.products = data
+        self.page = 1
+        return {
+          kind: "ok",
+          data,
         }
-        const data = result.data
-        if (data) {
-          self.products = data
-          self.page = 1
-          return  {
-            kind: "ok",
-            data,
-          }
-        }
-      }),
+      }
+    }),
 
     loadMoreProducts: flow(function* loadMoreProducts() {
       const loanApi = new LoanApi(self.environment.api)
@@ -188,10 +208,10 @@ export const LoanStoreModel = types
       const data = result?.data?.data
       const oldData: any = [...self.records]
       if (data) {
-        const newData:any = oldData.concat(data)
+        const newData: any = oldData.concat(data)
         self.page += 1
         self.products = newData
-        return  {
+        return {
           kind: "ok",
           data,
         }
@@ -199,20 +219,20 @@ export const LoanStoreModel = types
     }),
 
     getProductDetail: flow(function* getProductDetail(id: string) {
-        const loanApi = new LoanApi(self.environment.api)
-        const result = yield loanApi.getProductDetail(id)
-        if (result.kind !== "ok") {
-          return result
+      const loanApi = new LoanApi(self.environment.api)
+      const result = yield loanApi.getProductDetail(id)
+      if (result.kind !== "ok") {
+        return result
+      }
+      const data = result.data
+      if (data) {
+        self.productDetail = data
+        return {
+          kind: "ok",
+          data,
         }
-        const data = result.data
-        if (data) {
-          self.productDetail = data
-          return  {
-            kind: "ok",
-            data,
-          }
-        }
-      }),
+      }
+    }),
 
 
 
@@ -225,7 +245,7 @@ export const LoanStoreModel = types
   }))
 
 type LoanStoreType = Instance<typeof LoanStoreModel>
-export interface LoanStore extends LoanStoreType {}
+export interface LoanStore extends LoanStoreType { }
 type LoanStoreSnapshotType = SnapshotOut<typeof LoanStoreModel>
-export interface LoanStoreSnapshot extends LoanStoreSnapshotType {}
+export interface LoanStoreSnapshot extends LoanStoreSnapshotType { }
 export const createLoanStoreDefaultModel = () => types.optional(LoanStoreModel, {})

@@ -46,7 +46,7 @@ export const AuthStoreModel = types
         authApi.setUnauthorizedFunction(() => {
           return navigate(ScreenNames.LOGIN)
         })
-        return  {
+        return {
           kind: "ok",
           data: result.data,
         }
@@ -66,7 +66,7 @@ export const AuthStoreModel = types
       const loggedInInfo = result.data
       if (loggedInInfo && loggedInInfo.user) {
         self.user = loggedInInfo.user
-        return  {
+        return {
           kind: "ok",
           data: result.data,
         }
@@ -79,14 +79,14 @@ export const AuthStoreModel = types
 
     verifyOtp: flow(function* verifyOtp(otp: string) {
       const authApi = new AuthApi(self.environment.api)
-      const userId = self?.user?.id
+      const userId = self?.user?.id;
       const result = yield authApi.verifyOtp(userId, otp)
       if (result.kind !== "ok") {
         return result
       }
       const loggedInInfo = result.data
       if (loggedInInfo) {
-        return  {
+        return {
           kind: "ok",
           data: result.data,
         }
@@ -97,16 +97,16 @@ export const AuthStoreModel = types
       }
     }),
 
-    verifyPasswordOtp: flow(function* verifyPasswordOtp(otp:string) {
+    verifyPasswordOtp: flow(function* verifyPasswordOtp(otp: string) {
       const authApi = new AuthApi(self.environment.api)
       const userId = self?.userId ?? ''
       const result = yield authApi.verifyPasswordOtp(userId, otp)
       if (result.kind !== "ok") {
         return result
       }
-        return  {
-          kind: "ok",
-          data: result,
+      return {
+        kind: "ok",
+        data: result,
       }
     }),
 
@@ -120,7 +120,7 @@ export const AuthStoreModel = types
       const loggedInInfo = result.data === null
       if (loggedInInfo) {
         navigate(ScreenNames.LOGIN)
-        return  {
+        return {
           kind: "ok",
           data: result.data,
         }
@@ -140,7 +140,7 @@ export const AuthStoreModel = types
       const loggedInInfo = result.data
       if (loggedInInfo && loggedInInfo.userId) {
         self.userId = loggedInInfo.userId
-        return  {
+        return {
           kind: "ok",
           data: result,
         }
@@ -151,7 +151,7 @@ export const AuthStoreModel = types
       }
     }),
 
-    changePassword: flow(function* changePassword(password: string, confirmPassword:string) {
+    changePassword: flow(function* changePassword(password: string, confirmPassword: string) {
       const authApi = new AuthApi(self.environment.api)
       const id = self?.userId
       const result = yield authApi.changePassword(id, password, confirmPassword)
@@ -160,7 +160,7 @@ export const AuthStoreModel = types
       }
       const loggedInInfo = result
       if (loggedInInfo) {
-        return  {
+        return {
           kind: "ok",
           data: result.data,
         }
@@ -195,25 +195,28 @@ export const AuthStoreModel = types
 
     refreshTheToken: flow(function* refreshTheToken() {
       const authApi = new AuthApi(self.environment.api)
+
       if (!self.refreshToken) {
         return false
-      } else {
-        const result = yield authApi.refreshToken(self.refreshToken)
-        if (result.kind === "ok") {
-          self.token = result.data.token
-          self.refreshToken = result.data.refreshToken
-          self.expiresIn = result.data.expiresIn
-          self.isLoggedIn = self.token !== null
-          authApi.setToken(self.token)
-        } else {
-          self.token = null
-          self.refreshToken = null
-          self.expiresIn = null
-          self.isLoggedIn = false
-          authApi.setToken(null)
-          // getParent(self).navigationStore.navigateTo("loginScreen")
-        }
       }
+
+      const result = yield authApi.refreshToken(self.refreshToken)
+
+      if (result.kind === "ok") {
+        self.token = result.data.token
+        self.refreshToken = result.data.refreshToken
+        self.expiresIn = result.data.expiresIn
+        self.isLoggedIn = self.token !== null
+        authApi.setToken(self?.token)
+        return;
+      }
+
+      self.token = null
+      self.refreshToken = null
+      self.expiresIn = null
+      self.isLoggedIn = false
+      authApi.setToken(null)
+
     }),
 
 

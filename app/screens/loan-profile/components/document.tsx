@@ -3,6 +3,7 @@ import { View } from 'react-native';
 import { ScaledSheet } from "react-native-size-matters";
 import { CheckedSvg } from '../../../assets/svgs';
 import { AppText } from "../../../components/app-text/AppText";
+import { useStores } from '../../../models';
 import { color } from "../../../theme";
 import ItemView from '../../loan/components/item-view';
 
@@ -10,15 +11,19 @@ interface Props {
 }
 
 const Document = React.memo((props: Props) => {
+  const { loanStore } = useStores()
+  const { loanDetail } = loanStore
+  const { product } = loanDetail
+  
   return (
     <View style={styles.container}>
       <View style={styles.content}>
         <AppText style={styles.title} value={"Thông tin khoản vay"} />
         <View style={styles.contentItem}>
-          <ItemView style={styles.item} title={"loan.infoLoan.info.loanDemand"} content={'Mua nhà có sổ'} />
-          <ItemView style={styles.item} title={"loan.infoLoan.info.collateral"} content={'GTK-9WI'} />
-          <ItemView style={styles.item} title={"loan.infoLoan.info.money"} content={'2,000,000'} />
-          <ItemView style={styles.item} title={"loan.infoLoan.info.time"} content={'20 Năm'} />
+          <ItemView style={styles.item} title={"loan.infoLoan.info.loanDemand"} content={product?.name} />
+          <ItemView style={styles.item} title={"loan.infoLoan.info.collateral"} content={loanDetail?.realEstateInfo?.apartmentCode} />
+          <ItemView style={styles.item} title={"loan.infoLoan.info.money"} content={loanDetail?.loanMoney ? `${loanDetail?.loanMoney?.toLocaleString()} VNĐ` : ''} />
+          <ItemView style={styles.item} title={"loan.infoLoan.info.time"} content={loanDetail?.timeLoan ? `${loanDetail?.timeLoan} Năm` :  ''} />
         </View>
       </View>
 
