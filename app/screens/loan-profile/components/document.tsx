@@ -3,6 +3,7 @@ import { View } from 'react-native';
 import { ScaledSheet } from "react-native-size-matters";
 import { CheckedSvg } from '../../../assets/svgs';
 import { AppText } from "../../../components/app-text/AppText";
+import { truncateString } from '../../../constants/variable';
 import { useStores } from '../../../models';
 import { color } from "../../../theme";
 import ItemView from '../../loan/components/item-view';
@@ -20,7 +21,7 @@ const Document = React.memo((props: Props) => {
       <View style={styles.content}>
         <AppText style={styles.title} value={"Thông tin khoản vay"} />
         <View style={styles.contentItem}>
-          <ItemView style={styles.item} title={"loan.infoLoan.info.loanDemand"} content={product?.name} />
+          <ItemView style={styles.item} title={"loan.infoLoan.info.loanDemand"} content={truncateString(product?.name, 20)} />
           <ItemView style={styles.item} title={"loan.infoLoan.info.collateral"} content={loanDetail?.realEstateInfo?.apartmentCode} />
           <ItemView style={styles.item} title={"loan.infoLoan.info.money"} content={loanDetail?.loanMoney ? `${loanDetail?.loanMoney?.toLocaleString()} VNĐ` : ''} />
           <ItemView style={styles.item} title={"loan.infoLoan.info.time"} content={loanDetail?.timeLoan ? `${loanDetail?.timeLoan} Năm` :  ''} />

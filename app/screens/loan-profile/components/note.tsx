@@ -6,20 +6,21 @@ import { AppText } from "../../../components/app-text/AppText";
 import { color } from "../../../theme";
 
 interface Props {
+  comment?: any
 }
 
 const Note = React.memo((props: Props) => {
+  const { comment } = props;
   return (
-
     <View style={styles.noteItem}>
       <Image
         style={[styles.image, View && { marginTop: 8 }]}
         source={{ uri: 'https://static.wixstatic.com/media/9d8ed5_e6ced15f72434992af9b5926526c78f6~mv2.jpg/v1/fill/w_500,h_500,al_c,q_85,usm_0.66_1.00_0.01/9d8ed5_e6ced15f72434992af9b5926526c78f6~mv2.webp' }}
       />
       <View style={styles.noteContent}>
-        <AppText style={styles.name} value={'Cẩm Uyên'} />
-        <AppText style={styles.time} value={moment().fromNow()} />
-        <AppText style={styles.valueNote} value={'Ét ô ét!! khách hàng muốn có tiền sớm'} />
+        <AppText style={styles.name} value={comment?.createdBy?.fullName} />
+        <AppText style={styles.time} value={moment(comment?.createdAt).fromNow()} />
+        <AppText style={styles.valueNote} value={comment?.content} />
         <View style={styles.reply}>
           <AppText style={styles.replyText} value={'Trả lời'} />
         </View>
@@ -40,6 +41,7 @@ const styles = ScaledSheet.create({
   },
   noteItem: {
     flexDirection: 'row',
+    marginBottom: '24@s'
   },
   image: {
     width: '24@s',
