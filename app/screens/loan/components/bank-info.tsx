@@ -20,7 +20,6 @@ const BankInfo = React.memo((props: BankInfoProps) => {
   const backgroundColor = item?.org?.backgroundColor
   const outstandingAdvantages = item?.outstandingAdvantages
 
-  console.log('product',item)
   return (
     <View style={[styles.container, hasBorder && [styles.border, {borderColor: backgroundColor ?? color.lightBlack}]]}>
       <View style={[styles.header, {backgroundColor: backgroundColor ?? '#005992'}]}>
