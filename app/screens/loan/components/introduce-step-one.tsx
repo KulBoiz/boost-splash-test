@@ -16,6 +16,7 @@ import { observer } from "mobx-react-lite"
 import { useStores } from "../../../models"
 import { navigate } from "../../../navigators"
 import { ScreenNames } from "../../../navigators/screen-names"
+import i18n from "i18n-js"
 
 interface Props{
   nextStep(): void
@@ -26,14 +27,14 @@ const IntroduceStepOne = observer(({ nextStep }: Props) => {
   const validationSchema = Yup.object().shape({
     fullName: Yup.string()
       .trim()
-      .required("Please enter your full name"),
+      .required(i18n.t('errors.requireFullName')),
     email: Yup.string()
       .trim()
-      .required("Please enter your email")
-      .email("This is not a valid email"),
+      .required(i18n.t('errors.requireEmail'))
+      .email("Không đúng định dạng email"),
     phone: Yup.string()
       .trim()
-      .required("Please enter your phone"),
+      .required(i18n.t('errors.requirePhone')),
     address: Yup.string()
       .trim()
   })
