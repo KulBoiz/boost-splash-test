@@ -32,7 +32,8 @@ const Finance = React.memo((props: Props) => {
   const {loanStore} =useStores()
   const ref = useRef()
   const [activeDot, setActiveDot] = useState(0)
-  const data = loanStore?.products?.data?.slice(0,10) || []
+  const data = loanStore?.products?.data?.slice(0, 10) || []
+  
   const renderItem = useCallback(({item}) => {
     return (
       <View style={{width: widthHeight - ms(32)}}>

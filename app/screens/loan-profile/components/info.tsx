@@ -14,6 +14,7 @@ interface Props {
 }
 
 const Info = observer((props: Props) => {
+  // @ts-ignore
   const { loanStore } = useStores()
   const { loanDetail, comments } = loanStore
   const { user } = loanDetail
@@ -44,7 +45,7 @@ const Info = observer((props: Props) => {
         </View>
       </View>
 
-      <Document />
+      <Document loanDetail={loanDetail}/>
       {
         comments?.length > 0 && <View style={styles.content}>
           <AppText style={styles.title} value={"Ghi chú"} />
