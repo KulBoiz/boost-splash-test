@@ -189,9 +189,9 @@
   },
   "errors": {
     "invalidEmail": "Invalid email address.",
-    "requireEmail": "",
-    "requirePhone": "",
-    "requireName": ""
+    "requireEmail": "Vui lòng nhập email",
+    "requirePhone": "Vui lòng nhập số điện thoại",
+    "requireFullName": "Vui lòng nhập họ và tên"
   },
   "errorScreen": {
     "title": "Something went wrong!",

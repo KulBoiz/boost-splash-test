@@ -27,7 +27,7 @@ export const HomeScreen: FC<StackScreenProps<AppStackParamList, ScreenNames.HOME
     const animatedHeaderValue = new Animated.Value(0)
     const [currentPage, setCurrentPage] = useState(1);
     const ref = useRef()
-    const [activeDot, setActiveDot] = useState(1)
+    const [activeDot, setActiveDot] = useState(0)
 
     const _renderItem = ({item, index}) => {
       return (

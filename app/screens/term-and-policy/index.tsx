@@ -7,12 +7,13 @@ import { FONT_MEDIUM_14 } from "../../styles/common-style"
 import { ScaledSheet } from "react-native-size-matters"
 import { width } from "../../constants/variable"
 import Term from "./term"
+import Policy from "./policy"
 
 interface Props{}
 
 const renderScene = SceneMap({
   first: Term,
-  second: Term,
+  second: Policy,
 });
 
 const TermAndPolicy = React.memo((props: Props) => {
