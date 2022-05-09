@@ -13,6 +13,54 @@ export class LoanApi {
     this.api = api
   }
 
+  async requestLoanDetail(id: string): Promise<any> {
+    try {
+      // make the api call
+      const response: ApiResponse<any> = await this.api.apisauce.get(`${API_ENDPOINT}/deals/${id}`, {
+        filter: {
+          include: [
+            { relation: 'user' },
+            { relation: 'product' },
+            { relation: 'assignee' },
+            { relation: 'dealProgress' },
+            { relation: 'dealDetails' },
+          ]
+        }
+      })
+      if (!response.ok) {
+        const problem = getGeneralApiProblem(response)
+        if (problem) return problem
+      }
+      const data = response?.data
+      return { kind: "ok", data }
+    } catch (e) {
+      return { kind: "bad-data", e }
+    }
+  }
+
+  async requestComment(id: string): Promise<any> {
+    try {
+      // make the api call
+      const response: ApiResponse<any> = await this.api.apisauce.get(`${API_ENDPOINT}/comments`, {
+        filter: {
+          where: {
+            belongToId: id,
+            limit: 20,
+            order: ['createdAt asc']
+          }
+        }
+      })
+      if (!response.ok) {
+        const problem = getGeneralApiProblem(response)
+        if (problem) return problem
+      }
+      const data = response?.data
+      return { kind: "ok", data }
+    } catch (e) {
+      return { kind: "bad-data", e }
+    }
+  }
+
   async requestCounselling(sourceId: string, customerName: string, email: string, phone: string): Promise<any> {
     try {
       // make the api call
@@ -106,7 +154,6 @@ export class LoanApi {
       return { kind: "bad-data", e }
     }
   }
-
 
   async getRecordDetail(id: string): Promise<any> {
     try {
