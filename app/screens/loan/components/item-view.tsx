@@ -46,7 +46,5 @@ const styles = ScaledSheet.create({
   content: {
     color: '#000',
     fontSize: '14@ms',
-    width: '150@s',
-    textAlign: 'right'
   }
 });

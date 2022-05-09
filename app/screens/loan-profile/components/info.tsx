@@ -3,6 +3,7 @@ import React from 'react';
 import { ScrollView, View } from 'react-native';
 import { ScaledSheet } from "react-native-size-matters";
 import { AppText } from "../../../components/app-text/AppText";
+import { truncateString } from '../../../constants/variable';
 import { useStores } from '../../../models';
 import { color } from "../../../theme";
 import ItemView from '../../loan/components/item-view';
@@ -14,9 +15,9 @@ interface Props {
 
 const Info = observer((props: Props) => {
   const { loanStore } = useStores()
-  const { loanDetail } = loanStore
+  const { loanDetail, comments } = loanStore
   const { user } = loanDetail
-  
+
   const checkGender = () => {
     if (!user?.gender) {
       return 'Khác'
@@ -30,13 +31,13 @@ const Info = observer((props: Props) => {
   }
 
   if (!loanDetail) return <></>
-  
+
   return (
     <ScrollView style={styles.container}>
       <View style={styles.content}>
         <AppText style={styles.title} value={"Khách hàng"} />
         <View style={styles.contentItem}>
-          <ItemView style={styles.item} title={"loan.infoLoan.profile.fullName"} content={user?.fullName} />
+          <ItemView style={styles.item} title={"loan.infoLoan.profile.fullName"} content={truncateString(user?.fullName, 20)} />
           <ItemView style={styles.item} title={"loan.infoLoan.profile.sex"} content={checkGender()} />
           <ItemView style={styles.item} title={"loan.infoLoan.profile.phone"} content={user?.tels[0]?.tel} />
           <ItemView style={styles.item} title={"loan.infoLoan.profile.email"} content={user?.emails[0]?.email} />
@@ -44,13 +45,17 @@ const Info = observer((props: Props) => {
       </View>
 
       <Document />
-
-      <View style={styles.content}>
-        <AppText style={styles.title} value={"Ghi chú"} />
-        <View style={[styles.contentItem, styles.contentItemNote]}>
-          <Note />
+      {
+        comments?.length > 0 && <View style={styles.content}>
+          <AppText style={styles.title} value={"Ghi chú"} />
+          <View style={[styles.contentItem, styles.contentItemNote]} >
+            {comments?.map((comment, index) => (
+              <Note key={index} comment={comment} />
+            ))}
+          </View>
         </View>
-      </View>
+      }
+
     </ScrollView>
   )
 });

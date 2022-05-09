@@ -22,8 +22,8 @@ export class LoanApi {
             { relation: 'user' },
             { relation: 'product' },
             { relation: 'assignee' },
-            { relation: 'dealProgress' },
-            { relation: 'dealDetails' },
+            // { relation: 'dealProgress' },
+            // { relation: 'dealDetails' },
           ]
         }
       })
@@ -43,10 +43,10 @@ export class LoanApi {
       // make the api call
       const response: ApiResponse<any> = await this.api.apisauce.get(`${API_ENDPOINT}/comments`, {
         filter: {
+          limit: 20,
+          order: ['createdAt asc'],
           where: {
             belongToId: id,
-            limit: 20,
-            order: ['createdAt asc']
           }
         }
       })
