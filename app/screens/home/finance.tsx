@@ -21,6 +21,7 @@ import { navigate } from "../../navigators"
 import { useStores } from "../../models"
 import Carousel from 'react-native-snap-carousel';
 import PaginationDot from "../../components/pagination-dot/pagination-dot"
+import RequestCounselling from "../loan/request-counselling"
 
 
 const widthHeight = width - ms(32)
@@ -69,7 +70,7 @@ const Finance = React.memo((props: Props) => {
       </View>
       <AppText value={'Công cụ hỗ trợ'} style={styles.title}/>
       <LoanSupportTool icon={<CalculatorSvg />} title={'Tính khả năng vay'} />
-      <LoanSupportTool icon={<ProfileAddSvg />} title={'Giới thiệu khách vay'} onPress={()=> navigate(ScreenNames.INTRODUCE_LOAN_CUSTOMER)} />
+      <LoanSupportTool icon={<ProfileAddSvg />} title={'Giới thiệu khách vay'} onPress={()=> navigate(ScreenNames.REQUEST_COUNSELLING)} />
       <LoanSupportTool icon={<NoteSvg />} title={'Quản lý hồ sơ vay'} hideBorder onPress={()=> navigate(ScreenNames.FINANCE)}/>
     </View>
   )

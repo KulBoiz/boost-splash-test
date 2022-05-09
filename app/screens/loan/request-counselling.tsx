@@ -5,9 +5,9 @@ import AppHeader from "../../components/app-header/AppHeader"
 import IntroduceStepOne from "./components/introduce-step-one"
 import IntroduceStepTwo from "./components/introduce-step-two"
 
-interface Props{}
+interface Props{ }
 
-const IntroduceLoanCustomer = React.memo((props: Props) => {
+const RequestCounselling = React.memo((props: Props) => {
   const [step, setStep] = useState<number>(1)
 
   const nextStep = () => {
@@ -29,13 +29,13 @@ const IntroduceLoanCustomer = React.memo((props: Props) => {
   }
   return (
     <View style={styles.container}>
-      <AppHeader headerTx={'loan.introduceLoanCustomer'} />
+      <AppHeader headerTx={'header.requestCounselling'} />
       {renderStep()}
     </View>
   )
 });
 
-export default IntroduceLoanCustomer;
+export default RequestCounselling;
 
 const styles = StyleSheet.create({
     container: {flex: 1},

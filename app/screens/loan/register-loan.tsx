@@ -58,7 +58,7 @@ const RegisterLoan = observer((props: Props) => {
   //   setValue('phone',user?.tels[0].tel)
   // },[])
   const sendInfo = async (data: any) => {
-    const send =  await loanStore.createRequestCounselling(data.email, data.fullName, data.phone, type,data.note)
+    const send =  await loanStore.createRequestCounselling(data.email, data.fullName, data.phone,data.note)
     if (send.kind === 'ok'){
       setModal(true)
     }
@@ -99,7 +99,8 @@ const pressModal = () => {
             control,
             error: errors?.phone?.message,
             labelStyle: [styles.label, FONT_MEDIUM_12],
-            label: 'Số điện thoại'
+            label: 'Số điện thoại',
+            keyboardType: 'number-pad'
           }}
         />
         <ProductTypePicker value={type} setValue={setType} />

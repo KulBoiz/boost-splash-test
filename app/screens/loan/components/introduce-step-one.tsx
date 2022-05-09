@@ -1,5 +1,5 @@
 import React, { useState } from "react"
-import { Alert, View } from "react-native"
+import { Alert, Keyboard, Pressable, View } from "react-native"
 import * as Yup from "yup"
 import { useForm } from "react-hook-form"
 import { yupResolver } from "@hookform/resolvers/yup"
@@ -14,13 +14,15 @@ import FastImage from "react-native-fast-image"
 import { images } from "../../../assets/images"
 import { observer } from "mobx-react-lite"
 import { useStores } from "../../../models"
+import { navigate } from "../../../navigators"
+import { ScreenNames } from "../../../navigators/screen-names"
 
 interface Props{
   nextStep(): void
 }
 
 const IntroduceStepOne = observer(({ nextStep }: Props) => {
-  const {loanStore} = useStores()
+  const {loanStore, authStoreModel} = useStores()
   const validationSchema = Yup.object().shape({
     fullName: Yup.string()
       .trim()
@@ -47,23 +49,32 @@ const IntroduceStepOne = observer(({ nextStep }: Props) => {
     return (
       <View style={styles.textContainer}>
         <AppText value={'Tôi đã đọc và đồng ý với các '} style={presets.note}/>
-        <AppText value={'Điều khoản sử dụng '} fontSize={s(12)} color={color.palette.blue} style={presets.bold}/>
+        <AppText value={'Điều khoản sử dụng '} onPress={()=> navigate(ScreenNames.TERM_AND_POLICY)} fontSize={s(12)} color={color.palette.blue} style={presets.bold}/>
         <AppText value={'và '} style={presets.note}/>
-        <AppText value={'Chính sách bảo mật '} fontSize={s(12)} color={color.palette.blue} style={presets.bold}/>
+        <AppText value={'Chính sách bảo mật '} onPress={()=> navigate(ScreenNames.TERM_AND_POLICY)} fontSize={s(12)} color={color.palette.blue} style={presets.bold}/>
         <AppText value={'của FINA'} style={presets.note}/>
       </View>
     )
   }
 
   const sendRequest = async (data) => {
-    const send = await  loanStore.requestCounselling(data.fullName, data.email, data.phone, data.address)
-    if (send.kind === 'ok'){
-      nextStep()
+    if (authStoreModel.token){
+      const send = await  loanStore.requestCounselling(data.fullName, data.email, data.phone, data.address)
+      if (send.kind === 'ok'){
+        nextStep()
+      }
+      else Alert.alert('Something went wrong')
     }
-    else Alert.alert('Something went wrong')
+    else{
+      const send = await  loanStore.createRequestCounselling( data.email, data.fullName, data.phone, data.address)
+      if (send.kind === 'ok'){
+        nextStep()
+      }
+      else Alert.alert('Something went wrong')
+    }
   }
   return (
-    <View style={styles.container}>
+    <Pressable style={styles.container} onPress={Keyboard.dismiss}>
       <FastImage source={images.banner} style={styles.banner}/>
       <View style={styles.body}>
         <FormInput
@@ -90,7 +101,8 @@ const IntroduceStepOne = observer(({ nextStep }: Props) => {
             placeholderTx: 'placeholder.phone',
             autoCapitalize: 'none',
             control,
-            error: errors?.phone?.message
+            error: errors?.phone?.message,
+            keyboardType: 'number-pad'
           }}
         />
         <FormInput
@@ -108,7 +120,7 @@ const IntroduceStepOne = observer(({ nextStep }: Props) => {
           <AppButton tx={"common.sentInformation"} onPress={handleSubmit(sendRequest)}/>
         </View>
       </View>
-    </View>
+    </Pressable>
   )
 });
 

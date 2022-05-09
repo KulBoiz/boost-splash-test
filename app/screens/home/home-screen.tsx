@@ -54,7 +54,7 @@ export const HomeScreen: FC<StackScreenProps<AppStackParamList, ScreenNames.HOME
         >
           <Carousel
             ref={ref.current}
-            key={(e, i)=> i.toString()}
+            key={(e, i)=> e + i.toString()}
             data={carousel}
             renderItem={_renderItem}
             sliderWidth={width}
