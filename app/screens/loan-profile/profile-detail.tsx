@@ -52,21 +52,6 @@ const ProfileDetail = React.memo((props: Props) => {
         initialLayout={{ width: width}}
         renderTabBar={renderTabBar}
       />
-      {/*<View style={styles.menu}>*/}
-      {/*  {paths.map((e, index) => {*/}
-      {/*    return (*/}
-      {/*      <TouchableOpacity key={index} onPress={() => setKey(index)} hitSlop={HIT_SLOP}>*/}
-      {/*        <View style={index === paths.length - 1 ? styles.menuText : styles.menuTextBottom}>*/}
-      {/*          <AppText style={key === index && styles.active} value={e.title} />*/}
-      {/*        </View>*/}
-      {/*      </TouchableOpacity>*/}
-      {/*    )*/}
-      {/*  })}*/}
-      {/*</View>*/}
-
-      {/*{key === 0 && <Info />}*/}
-      {/*{key === 1 && <></>}*/}
-      {/*{key === 2 && <Result />}*/}
     </View>
   )
 });
