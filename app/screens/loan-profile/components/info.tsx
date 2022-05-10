@@ -16,7 +16,7 @@ interface Props {
 const Info = observer((props: Props) => {
   // @ts-ignore
   const { loanStore } = useStores()
-  const { loanDetail, comments } = loanStore
+  const { loanDetail, comments, files, templates } = loanStore
   const { user } = loanDetail
 
   const checkGender = () => {
@@ -45,13 +45,16 @@ const Info = observer((props: Props) => {
         </View>
       </View>
 
-      <Document loanDetail={loanDetail}/>
+      <Document loanDetail={loanDetail} files={files} templates={templates} />
       {
         comments?.length > 0 && <View style={styles.content}>
           <AppText style={styles.title} value={"Ghi chú"} />
+          
           <View style={[styles.contentItem, styles.contentItemNote]} >
             {comments?.map((comment, index) => (
-              <Note key={index} comment={comment} />
+              <Note
+                key={index.toString()}
+                comment={comment} />
             ))}
           </View>
         </View>
