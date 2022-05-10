@@ -6,6 +6,7 @@ import { useStores } from "../../models"
 import { StackActions, useNavigation } from "@react-navigation/native"
 import { ScreenNames } from "../../navigators/screen-names"
 import { AppText } from "../../components/app-text/AppText"
+import AppButton from "../../components/app-button/AppButton"
 
 interface Props{}
 
@@ -19,9 +20,7 @@ const SettingScreen: FC<Props> = observer((props: Props) => {
   return (
     <View style={styles.container}>
       <AppHeader headerTx={"header.personalSetting"}/>
-      <Pressable onPress={logout}>
-        <AppText>LOGOUT</AppText>
-      </Pressable>
+      <AppButton title={'LOGOUT'} onPress={logout}/>
     </View>
   )
 });

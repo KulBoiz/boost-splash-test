@@ -15,13 +15,11 @@ import { width } from "../../constants/variable"
 import LoanItem from "./components/loan-item"
 import LoanSupportTool from "./components/loan-support-tool"
 import BankInfo from "../loan/components/bank-info"
-import { carousel } from "./constants"
 import { ScreenNames } from "../../navigators/screen-names"
 import { navigate } from "../../navigators"
 import { useStores } from "../../models"
 import Carousel from 'react-native-snap-carousel';
 import PaginationDot from "../../components/pagination-dot/pagination-dot"
-import RequestCounselling from "../loan/request-counselling"
 
 
 const widthHeight = width - ms(32)
@@ -56,6 +54,7 @@ const Finance = React.memo((props: Props) => {
           <AppText value={'gói vay nổi bật'} style={styles.title} capitalize/>
           <AppText value={'Tất Cả'} color={color.palette.blue} onPress={()=> navigate(ScreenNames.FINANCE)}/>
         </View>
+
         <Carousel
           ref={ref.current}
           key={(e, i)=> e.name + i.toString()}
@@ -66,7 +65,7 @@ const Finance = React.memo((props: Props) => {
           loop
           onSnapToItem={(index) => setActiveDot( index ) }
         />
-        <PaginationDot length={data.length} activeDot={activeDot} dotShape={'circle'} />
+        <PaginationDot length={data.length} activeDot={activeDot} dotShape={'circle'}/>
 
       </View>
       <AppText value={'Công cụ hỗ trợ'} style={styles.title}/>
@@ -104,6 +103,6 @@ const styles = ScaledSheet.create({
       flexDirection: 'row',
     justifyContent: "space-between",
     marginBottom: '24@s'
-  }
+  },
 
 });

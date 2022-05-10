@@ -76,7 +76,7 @@ const IntroduceStepOne = observer(({ nextStep }: Props) => {
   }
   return (
     <Pressable style={styles.container} onPress={Keyboard.dismiss}>
-      <FastImage source={images.banner} style={styles.banner}/>
+      {/*<FastImage source={images.banner} style={styles.banner}/>*/}
       <View style={styles.body}>
         <FormInput
           {...{
