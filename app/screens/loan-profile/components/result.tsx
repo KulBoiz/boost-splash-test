@@ -1,8 +1,9 @@
 import moment from 'moment';
-import React from 'react';
-import { ScrollView } from 'react-native';
+import React, { useCallback } from "react"
+import { FlatList, ScrollView } from "react-native"
 import { ScaledSheet } from "react-native-size-matters";
 import ResultItem from './result-item';
+import { useStores } from "../../../models"
 
 interface Props {
 }
@@ -25,12 +26,17 @@ const list = [{
 }]
 
 const Result = React.memo((props: Props) => {
+  const {loanStore} = useStores()
+  const data = loanStore?.loanDetail?.dealDetails
+  const renderItem = useCallback(({item})=> {
+    return  <ResultItem item={item}/>
+  },[])
   return (
-    <ScrollView style={styles.container}>
-      {list.map((item, index) => (
-        <ResultItem key={index} item={item}/>
-      ))}
-    </ScrollView>
+    <FlatList
+      keyExtractor={item => item.code}
+      data={data} renderItem={renderItem}
+      style={styles.container}
+    />
   )
 });
 
@@ -38,8 +44,7 @@ export default Result;
 
 const styles = ScaledSheet.create({
   container: {
-    paddingLeft: '16@s',
-    paddingRight: '16@s',
+    paddingHorizontal: '16@ms',
     paddingBottom: '16@s',
   },
 
