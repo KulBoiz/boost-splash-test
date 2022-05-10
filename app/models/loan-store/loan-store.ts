@@ -1,4 +1,5 @@
 import { flow, Instance, SnapshotOut, types } from "mobx-state-tree"
+import { DocumentTemplateApi } from "../../services/api/document-template"
 
 import { LoanApi } from "../../services/api/loan-api"
 import { withEnvironment } from "../extensions/with-environment"
@@ -54,11 +55,14 @@ export const LoanStoreModel = types
     comments: types.frozen([]),
     loanDetail: types.frozen({}),
     histories: types.frozen([]),
+    files: types.frozen([]),
+    templates: types.frozen({}),
   })
   .views((self) => ({})) // eslint-disable-line @typescript-eslint/no-unused-vars
   .actions((self) => ({
     getLoanDetail: flow(function* getLoanDetail(id: string) {
       const loanApi = new LoanApi(self.environment.api)
+      const documentApi = new DocumentTemplateApi(self.environment.api)
       const result = yield loanApi.requestLoanDetail(id)
       const resultComment = yield loanApi.requestComment(id)
       const resultHistory = yield loanApi.requestLoanHistory(id)
@@ -67,6 +71,11 @@ export const LoanStoreModel = types
       self.comments = resultComment?.data?.data
       self.loanDetail = data
       self.histories = resultHistory?.data
+
+      const resultFiles = yield documentApi.loadTemplate(data?.documentTemplateId)
+      self.templates = resultFiles?.data?.data
+      const resultTemplates = yield documentApi.loadFileTemplate(data?.documentTemplateId ,id)
+      self.files = resultTemplates?.data?.data
 
       if (result.kind !== "ok") {
         return result

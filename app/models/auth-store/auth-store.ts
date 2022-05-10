@@ -232,7 +232,7 @@ export const AuthStoreModel = types
   })) // eslint-disable-line @typescript-eslint/no-unused-vars
   .actions(self => ({
     autoRefreshToken: () => {
-      const autoRefreshTokenTimeout = setInterval(self.refreshTheToken, 20 * 60 * 1000)
+      const autoRefreshTokenTimeout = setInterval(self.refreshTheToken, 60 * 60 * 1000)
       clearInterval(autoRefreshTokenTimeout)
     },
   }))

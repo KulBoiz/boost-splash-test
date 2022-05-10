@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { View } from 'react-native';
 import { ScaledSheet } from "react-native-size-matters";
 import { CheckedSvg } from '../../../assets/svgs';
@@ -8,12 +8,46 @@ import { color } from "../../../theme";
 import ItemView from '../../loan/components/item-view';
 
 interface Props {
-  loanDetail?: any
+  loanDetail?: any,
+  files?: any[],
+  templates?: any[],
 }
 
 const Document = React.memo((props: Props) => {
-  const { loanDetail } = props
-  
+  const { loanDetail, files, templates = [] } = props
+  const [viewAllFile, setViewAllFile] = useState(false)
+
+  useEffect(() => {
+    if (templates.length > 4) setViewAllFile(false)
+  }, [])
+
+  const renderTemplate = () => {
+    const list = [...templates]
+    if (viewAllFile) {
+      return list
+    } else {
+      return list.slice(0, 4)
+    }
+  }
+
+  const checkFileUpload = (document: any) => {
+    if (!files) return "_"
+
+    const documentTemplateDetails = document?.documentTemplateDetails?.map(el => el?.documentId);
+
+    let count = 0
+    documentTemplateDetails.forEach(documentId => {
+      const file = files[documentId]
+      if (file) count = count + 1
+    })
+
+    if (count === documentTemplateDetails.length) {
+      return <CheckedSvg />
+    }
+
+    return "_"
+  }
+
   return (
     <View style={styles.container}>
       <View style={styles.content}>
@@ -22,20 +56,21 @@ const Document = React.memo((props: Props) => {
           <ItemView style={styles.item} title={"loan.infoLoan.info.loanDemand"} content={truncateString(loanDetail?.product?.name, 20)} />
           <ItemView style={styles.item} title={"loan.infoLoan.info.collateral"} content={loanDetail?.realEstateInfo?.apartmentCode} />
           <ItemView style={styles.item} title={"loan.infoLoan.info.money"} content={loanDetail?.loanMoney ? `${loanDetail?.loanMoney?.toLocaleString()} VNĐ` : ''} />
-          <ItemView style={styles.item} title={"loan.infoLoan.info.time"} content={loanDetail?.timeLoan ? `${loanDetail?.timeLoan} Năm` :  ''} />
+          <ItemView style={styles.item} title={"loan.infoLoan.info.time"} content={loanDetail?.timeLoan ? `${loanDetail?.timeLoan} Năm` : ''} />
         </View>
       </View>
 
       <View style={styles.content}>
         <AppText style={styles.title} value={"Giấy tờ của khách"} />
         <View style={styles.contentItem}>
-          <ItemView style={styles.item} title={"loan.infoLoan.document.CCCD"} content={<CheckedSvg />} />
-          <ItemView style={styles.item} title={"loan.infoLoan.document.marriageRegistration"} content={<CheckedSvg />} />
-          <ItemView style={styles.item} title={"loan.infoLoan.document.salaryStatement"} content={<CheckedSvg />} />
-          <ItemView style={styles.item} title={"loan.infoLoan.document.laborContract"} content={<CheckedSvg />} />
-          <View style={styles.viewMore}>
-            <AppText style={styles.viewMoreText} value={'Xem thêm'} />
-          </View>
+          {renderTemplate().map((el, index) =>
+            <ItemView key={index.toString()} style={styles.item} title={el?.name} content={checkFileUpload(el)} />
+          )}
+          {
+            templates?.length > 4 && <View style={styles.viewMore}>
+              <AppText style={styles.viewMoreText} value={!viewAllFile ? 'Xem thêm' : "Ẩn"} onPress={() => { setViewAllFile(!viewAllFile) }} />
+            </View>
+          }
         </View>
       </View>
     </View>
