@@ -24,7 +24,15 @@ export class LoanApi {
             { relation: 'product' },
             { relation: 'assignee' },
             // { relation: 'dealProgress' },
-            // { relation: 'dealDetails' },
+            {
+              relation: 'dealDetails',
+              scope: {
+                include: [
+                  { relation: 'partnerStaff' },
+                  { relation: 'executePartner'}
+                ]
+              }
+            },
           ]
         }
       })

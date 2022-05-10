@@ -63,7 +63,7 @@ const Document = React.memo((props: Props) => {
       <View style={styles.content}>
         <AppText style={styles.title} value={"Giấy tờ của khách"} />
         <View style={styles.contentItem}>
-          {renderTemplate().map((el, index) =>
+          {renderTemplate() ?? [].map((el, index) =>
             <ItemView key={index.toString()} style={styles.item} title={el?.name} content={checkFileUpload(el)} />
           )}
           {

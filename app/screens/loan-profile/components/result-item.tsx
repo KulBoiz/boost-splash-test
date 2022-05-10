@@ -6,6 +6,7 @@ import { AppText } from "../../../components/app-text/AppText";
 import { HIT_SLOP } from '../../../styles/common-style';
 import { color } from "../../../theme";
 import ResultItemDetail from './result-item-detail';
+import { CheckStatus } from "../../loan/constants"
 
 interface Props {
   item: any
@@ -14,6 +15,7 @@ interface Props {
 const ResultItem = React.memo((props: Props) => {
   const { item } = props
   const [view, setView] = useState(false)
+  const status = item?.status
 
   return (
     <View style={[styles.content, !view && { alignItems: 'center' }]}>
@@ -26,7 +28,7 @@ const ResultItem = React.memo((props: Props) => {
       <View style={styles.contentItem}>
         <View style={styles.item} >
           <AppText style={styles.itemLabel} value={'Trạng thái:'} />
-          <AppText style={styles.itemValueStatus} value={item?.status} />
+          <AppText color={CheckStatus(status).color} value={CheckStatus(status).text} />
         </View>
 
         {item.note &&
@@ -76,9 +78,6 @@ const styles = ScaledSheet.create({
   itemLabel: {
     width: '100@s',
     color: color.palette.BABABA,
-  },
-  itemValueStatus: {
-    color: color.palette.green,
   },
   itemValue: {
     maxWidth: '150@s'
