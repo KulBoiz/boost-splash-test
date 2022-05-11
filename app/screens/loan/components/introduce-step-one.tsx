@@ -84,6 +84,7 @@ const IntroduceStepOne = observer(({ nextStep }: Props) => {
             placeholderTx: 'placeholder.fullName',
             autoCapitalize: 'none',
             control,
+            labelTx:'placeholder.fullName',
             error: errors?.fullName?.message
           }}
         />
@@ -92,6 +93,7 @@ const IntroduceStepOne = observer(({ nextStep }: Props) => {
             name: 'email',
             placeholderTx: 'placeholder.email',
             autoCapitalize: 'none',
+            label:'Email',
             error: errors?.email?.message,
             control,
           }}
@@ -101,6 +103,7 @@ const IntroduceStepOne = observer(({ nextStep }: Props) => {
             name: 'phone',
             placeholderTx: 'placeholder.phone',
             autoCapitalize: 'none',
+            labelTx:'placeholder.phone',
             control,
             error: errors?.phone?.message,
             keyboardType: 'number-pad'
@@ -111,6 +114,7 @@ const IntroduceStepOne = observer(({ nextStep }: Props) => {
             name: 'address',
             placeholderTx: 'placeholder.address',
             autoCapitalize: 'none',
+            label: 'Địa chỉ',
             error: errors?.address?.message,
             control,
           }}

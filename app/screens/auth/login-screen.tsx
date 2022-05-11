@@ -16,7 +16,6 @@ import LoginText from "./components/LoginText"
 import { AuthStackParamList } from "../../navigators/auth-stack"
 import AppModal from "../../components/app-modal/app-modal"
 import { StackActions } from "@react-navigation/native"
-import { navigate } from "../../navigators"
 
 const errorContent = 'Sai thông tin tài khoản hoặc mật khẩu.\nVui lòng kiểm tra lại.'
 
@@ -25,9 +24,9 @@ export const LoginScreen: FC<StackScreenProps<AuthStackParamList, ScreenNames.LO
     const validationSchema = Yup.object().shape({
       email: Yup.string()
         .trim()
-        .required("Please enter your email or phone number"),
+        .required("Vui lòng nhập email hoặc số điện thoại"),
         // .email("This is not a valid email"),
-      password: Yup.string().required("Please enter your password").trim(),
+      password: Yup.string().required("Vui lòng nhập mật khẩu").trim(),
     })
     const {control, handleSubmit, formState: {errors}} = useForm({
       delayError: 0,
@@ -65,7 +64,8 @@ export const LoginScreen: FC<StackScreenProps<AuthStackParamList, ScreenNames.LO
         <FormInput
           {...{
             name: 'email',
-            placeholderTx: 'placeholder.emailAndPhone',
+            label: 'Số điện thoại hoặc email',
+            placeholder: 'Vui lòng nhập email hoặc số điện thoại',
             autoCapitalize: 'none',
             control,
             error: errors?.email?.message
@@ -74,7 +74,8 @@ export const LoginScreen: FC<StackScreenProps<AuthStackParamList, ScreenNames.LO
         <FormInput
           {...{
             name: 'password',
-            placeholderTx: 'placeholder.password',
+            label: 'mật khẩu',
+            placeholder: 'Vui lòng nhập mật khẩu',
             autoCapitalize: 'none',
             error: errors?.password?.message,
             control,

@@ -49,8 +49,7 @@ export class AuthApi {
         telOrEmail
       })
       if (!response.ok) {
-        const problem = getGeneralApiProblem(response)
-        if (problem) return problem
+        return response.data
       }
       const data = response.data
       return { kind: "ok", data }

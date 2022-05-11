@@ -1,15 +1,15 @@
 import React from 'react';
-import { View, Pressable, ScrollView } from "react-native"
+import { View, Pressable, ScrollView, ViewStyle } from "react-native"
 import { AppText } from "../../../components/app-text/AppText"
 import FastImage from "react-native-fast-image"
 import { ScaledSheet } from "react-native-size-matters"
 import { color } from "../../../theme"
-import { FINANCE_FILTER } from "../constants"
 
 interface Props{
   currentSelected : number
   setCurrentSelected(e: number): void
   filterData: Array<any>
+  style?: ViewStyle | any
 }
 interface ButtonProps {
   icon: number
@@ -23,6 +23,7 @@ const FilterButton = React.memo((props: ButtonProps) => {
                style={props.isCurrent ? [styles.filterContainer,styles.isSelectContainer]
                : [styles.filterContainer,styles.unselectContainer]}>
       <FastImage source={props.icon} style={styles.icon}
+                 resizeMode={'contain'}
                  tintColor={props.isCurrent ? color.palette.white : color.palette.blue}/>
       <AppText value={props.title} style={styles.title} color={props.isCurrent ? color.text : color.palette.blue}/>
     </Pressable>
@@ -34,8 +35,8 @@ const FinanceFilter = React.memo((props: Props) => {
     props.setCurrentSelected(id)
   }
   return (
-    <View style={styles.container}>
-      <ScrollView horizontal showsHorizontalScrollIndicator={false} style={styles.filterItem}>
+    <View style={[styles.container, props.style]}>
+      <ScrollView horizontal showsHorizontalScrollIndicator={false} >
         {props.filterData.map((val, id)=> {
           const isCurrent = props.currentSelected === id
           return(

@@ -53,7 +53,7 @@ const styles = ScaledSheet.create({
     },
   dash: {
     borderWidth: 1,
-    height: '320@s',
+    height: '300@vs',
     borderStyle: 'dashed',
     position: 'absolute',
     left: '25@ms',

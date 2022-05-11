@@ -72,11 +72,11 @@
     "emailAndPhone": "Nhập địa chỉ email hoặc số điện thoại",
     "password": "Mật Khẩu",
     "reenteredPassword": "Nhập Lại Mật Khẩu",
-    "fullName": "Họ và tên",
+    "fullName": "Nhập họ và tên của bạn",
     "email": "Nhập Địa Chỉ Email",
-    "phone": "Số Điện Thoại",
-    "address": "Huyện/Tỉnh (Quận/TP)"
-  },
+    "phone": "Nhập số điện thoại của bạn",
+    "address": "Nhập địa chỉ của bạn"
+},
   "home": {
     "finance": {
       "finance": "Tài Chính",
@@ -179,6 +179,12 @@
         "collateral": "Tài sản thế chấp",
         "money": "Số tiền muốn vay",
         "time": "Thời han vay"
+      },
+      "document": {
+        "CCCD": "CCCD",
+        "marriageRegistration": "Đăng kí kết hôn",
+        "salaryStatement": "Sao kê lương",
+        "laborContract": "Hợp đồng lao động"
       }
     }
   },

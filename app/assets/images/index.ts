@@ -20,4 +20,8 @@ export const images = {
   chart: require('./chart.png'),
   clock: require('./clock.png'),
   icon_x: require('./blue_x.png'),
+  shield: require('./shield.png'),
+  plane: require('./plane.png'),
+  tool: require('./tool.png'),
+  crash: require('./crash.png'),
 }

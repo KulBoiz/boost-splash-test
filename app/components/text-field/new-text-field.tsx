@@ -1,4 +1,4 @@
-import React, { useState } from "react"
+import React, { useCallback, useRef, useState } from "react"
 import { Pressable, StyleProp, TextInput, TextInputProps, TextStyle, View, ViewStyle } from "react-native"
 import { color, spacing } from "../../theme"
 import { translate, TxKeyPath } from "../../i18n"
@@ -29,6 +29,7 @@ const WRAPPER_PADDING: ViewStyle = {
 const WRAP_INPUT: ViewStyle = {
   flexDirection: 'row',
   alignItems: "center",
+  justifyContent: "space-between"
 }
 const PRESS : ViewStyle = {
   marginLeft: s(13),
@@ -44,15 +45,15 @@ const EYE : ImageStyle = {
 
 // the base styling for the TextInput
 const INPUT: TextStyle = {
-  flex: 1,
   fontFamily:'Inter-Medium',
   color: color.palette.black,
   // minHeight: s(40),
+  maxWidth: ms(280),
   fontSize: ms(14),
 }
 const LABEL: TextStyle = {
   fontFamily: 'Inter-Medium',
-  fontSize: ms(12),
+  fontSize: ms(11),
   marginBottom: s(4),
   textTransform: 'capitalize'
 }
@@ -130,33 +131,48 @@ export function NewTextField(props: TextFieldProps) {
   const inputStyles = [INPUT, inputStyleOverride]
   const errorMessageStyles = [ERROR, errorStyleOverride]
   const actualPlaceholder = placeholderTx ? translate(placeholderTx) : placeholder
+  const inputRef = useRef(null)
+  const [isFocused, setIsFocused] = useState(false);
 
   const _handleShowPass = ()=> {
     setShowPassword(!showPassword)
   }
-
+  const handleInputFocus =() => {
+    setIsFocused(true);
+  }
+  const handleInputBlur = () => {
+    setIsFocused(false);
+  }
+  const handleFocus = () => {
+    // @ts-ignore
+    inputRef.current.focus()
+  }
   return (
-    <View style={containerStyles}>
-      <View style={[WRAPPER, {borderColor: !!errorMessage ? color.palette.angry : color.palette.blue}, !(label || labelTx || isOptional)? WRAPPER_PADDING : {}]}>
+    <Pressable onPress={handleFocus} style={containerStyles}>
+      <View style={[WRAPPER, {borderColor: errorMessage ? color.palette.angry : color.palette.blue}, !(label || labelTx || isOptional)? WRAPPER_PADDING : {}]}>
+      <View style={WRAP_INPUT}>
+        <View>
       <View style={ROW}>
         {(label || labelTx) &&
           <Text preset="fieldLabel" tx={labelTx} text={label}
-                style={[{ color: !!errorMessage ? color.palette.angry : color.palette.blue }, labelStyles ]}/>
+                style={[{ color: errorMessage ? color.palette.angry : isFocused ? color.palette.blue : color.palette.black }, labelStyles ]}/>
         }
         {isOptional && <Text text={' (Optional)'} style={optionalStyles}/>}
       </View>
-      <View style={WRAP_INPUT}>
         <TextInput
+          ref={inputRef}
           placeholder={actualPlaceholder}
           placeholderTextColor={color.placeholder}
           underlineColorAndroid={color.transparent}
           secureTextEntry={showIcon ? showPassword : false}
           {...rest}
+          onFocus={handleInputFocus}
+          onBlur={handleInputBlur}
           multiline={multiline}
           style={[inputStyles, multiline ? MULTILINE : {}]}
           textAlignVertical={multiline ? 'top' : "bottom"}
-          ref={forwardedRef}
         />
+        </View>
         {showIcon &&
           <>{showPassword ?
             <Pressable onPress={_handleShowPass} style={PRESS}>
@@ -171,6 +187,6 @@ export function NewTextField(props: TextFieldProps) {
       </View>
       </View>
       {!!errorMessage &&  <Text tx={errorTx} text={errorMessage} style={errorMessage ? errorMessageStyles : null}/>}
-    </View>
+    </Pressable>
   )
 }

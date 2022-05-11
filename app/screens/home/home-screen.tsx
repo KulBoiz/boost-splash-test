@@ -6,15 +6,13 @@ import { ScreenNames } from "../../navigators/screen-names"
 import { AppStackParamList } from "../../navigators/app-stack"
 import {ScaledSheet} from 'react-native-size-matters'
 import HeaderCard from "./components/HeaderCard"
-import Carousel from 'react-native-snap-carousel';
-import { width } from "../../constants/variable"
-import FastImage from "react-native-fast-image"
-import PaginationDot from "../../components/pagination-dot/pagination-dot"
 import PaperHeader from "./components/PaperHeader"
-import { carousel, paper } from "./constants"
+import { paper } from "./constants"
 import Finance from "./finance"
 import ComingSoon from "./coming-soon"
 import { useFocusEffect } from "@react-navigation/native"
+import HomeBanner from "./components/home-banner"
+import Insurance from "./insurance"
 
 
 
@@ -26,16 +24,7 @@ export const HomeScreen: FC<StackScreenProps<AppStackParamList, ScreenNames.HOME
     });
     const animatedHeaderValue = new Animated.Value(0)
     const [currentPage, setCurrentPage] = useState(1);
-    const ref = useRef()
-    const [activeDot, setActiveDot] = useState(0)
 
-    const _renderItem = ({item, index}) => {
-      return (
-        <View style={{alignItems: 'center'}}>
-          <FastImage source={{uri : item.url}} style={styles.image}/>
-        </View>
-      );
-    }
     const handleSelectPage = (value: number) => {
       setCurrentPage(value);
     };
@@ -52,24 +41,14 @@ export const HomeScreen: FC<StackScreenProps<AppStackParamList, ScreenNames.HOME
             {useNativeDriver: false},
           )}
         >
-          <Carousel
-            ref={ref.current}
-            key={(e, i)=> e + i.toString()}
-            data={carousel}
-            renderItem={_renderItem}
-            sliderWidth={width}
-            itemWidth={width}
-            loop
-            autoplay
-            onSnapToItem={(index) => setActiveDot( index ) }
-          />
-          <PaginationDot length={carousel.length} activeDot={activeDot} dotShape={'oval'} />
+          <HomeBanner />
           <View style={styles.wrapItem}>
             <PaperHeader paperData={paper} handleSelectPage={handleSelectPage} currentPage={currentPage}/>
             <View style={styles.pagerView}>
               {currentPage === 1 ?
                 <Finance />
-                :
+                : currentPage === 2 ?
+                <Insurance /> :
                 <ComingSoon />
               }
             </View>
@@ -83,11 +62,7 @@ export const HomeScreen: FC<StackScreenProps<AppStackParamList, ScreenNames.HOME
 )
 const styles = ScaledSheet.create({
   full: {flex: 1},
-  image:{
-    width: '305@s',
-    height: '170@s',
-    borderRadius: '8@s'
-  },
+
   pagerView: {
     flex: 1,
     alignItems: "center",
