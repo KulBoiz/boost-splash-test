@@ -9,7 +9,24 @@ export const carousel = [
   {url: 'https://images.pexels.com/photos/8110956/pexels-photo-8110956.jpeg?auto=compress&cs=tinysrgb&dpr=2&w=500'},
   {url: 'https://images.pexels.com/photos/7120424/pexels-photo-7120424.png?auto=compress&cs=tinysrgb&dpr=2&w=500'}
 ]
-
+export const INSURANCE_FILTER = [
+  {
+    icon: images.cube,
+    title:'tất cả'
+  },{
+    icon: images.shield,
+    title:'Sức khỏe'
+  },{
+    icon: images.crash,
+    title:'tai nạn'
+  },{
+    icon: images.plane,
+    title:'du lịch'
+  },{
+    icon: images.tool,
+    title:'sửa chữa'
+  },
+]
 export const paper = [
   {
     key: 1,

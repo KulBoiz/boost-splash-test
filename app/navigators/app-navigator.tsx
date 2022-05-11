@@ -14,6 +14,7 @@ import ProfileDetail from "../screens/loan-profile/profile-detail"
 import FinanceScreen from "../screens/loan/finance-screen"
 import TermAndPolicy from "../screens/term-and-policy"
 import RequestCounselling from "../screens/loan/request-counselling"
+import InsuranceDetail from "../screens/insurance/insurance-detail"
 
 export type NavigatorParamList = {
   [ScreenNames.SPLASH]: undefined;
@@ -26,6 +27,7 @@ export type NavigatorParamList = {
   [ScreenNames.PROFILE_DETAIL]: undefined;
   [ScreenNames.FINANCE]: undefined;
   [ScreenNames.TERM_AND_POLICY]: undefined;
+  [ScreenNames.INSURANCE_DETAIL]: undefined;
 }
 
 // Documentation: https://reactnavigation.org/docs/stack-navigator/
@@ -51,6 +53,7 @@ const RootStack = ()=> {
       <Stack.Screen name={ScreenNames.PROFILE_DETAIL} component={ProfileDetail} />
       <Stack.Screen name={ScreenNames.FINANCE} component={FinanceScreen} />
       <Stack.Screen name={ScreenNames.TERM_AND_POLICY} component={TermAndPolicy} />
+      <Stack.Screen name={ScreenNames.INSURANCE_DETAIL} component={InsuranceDetail} />
     </Stack.Navigator>
   )
 }

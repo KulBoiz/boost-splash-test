@@ -43,11 +43,12 @@ const RegisterPhoneScreen: FC<StackScreenProps<AuthStackParamList, ScreenNames.R
   const _handleContinue = async (data) => {
     const phone = `${prefix}${data.phone}`
     const register = await authStoreModel.registerEmail(phone)
+    console.log(register)
     if (register.kind === 'ok'){
       navigation.navigate(ScreenNames.OTP, { phoneNumber: phone ?? '', isRegister: true})
     }
     else {
-      Alert.alert('Something went wrong')
+      Alert.alert(register?.error?.message)
     }
   }
   return (

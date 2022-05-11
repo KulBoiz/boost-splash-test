@@ -12,6 +12,7 @@ import Finance from "./finance"
 import ComingSoon from "./coming-soon"
 import { useFocusEffect } from "@react-navigation/native"
 import HomeBanner from "./components/home-banner"
+import Insurance from "./insurance"
 
 
 
@@ -46,7 +47,8 @@ export const HomeScreen: FC<StackScreenProps<AppStackParamList, ScreenNames.HOME
             <View style={styles.pagerView}>
               {currentPage === 1 ?
                 <Finance />
-                :
+                : currentPage === 2 ?
+                <Insurance /> :
                 <ComingSoon />
               }
             </View>

@@ -1,9 +1,8 @@
 import React from 'react';
 import { View } from 'react-native';
-import { s, ScaledSheet } from "react-native-size-matters"
+import { ScaledSheet } from "react-native-size-matters"
 import { AppText } from "../../../components/app-text/AppText"
 import { TxKeyPath } from "../../../i18n"
-import { RightArrowSvg } from "../../../assets/svgs"
 
 interface Props{
   icon: JSX.Element
