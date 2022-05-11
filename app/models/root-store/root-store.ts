@@ -4,6 +4,7 @@ import { AuthStoreModel } from "../auth-store"
 import { NotificationStoreModel } from "../notification-store/notification-store"
 import { LoanStoreModel } from "../loan-store/loan-store"
 import { BannerStoreModel } from "../banner-store/banner-store"
+import { DealDetailStoreModel } from "../deal-detail-store/deal-detail-store"
 
 /**
  * A RootStore model.
@@ -15,6 +16,7 @@ export const RootStoreModel = types.model("RootStore").props({
   notificationModel: types.optional(NotificationStoreModel, {} as any),
   loanStore: types.optional(LoanStoreModel, {} as any),
   bannerStore: types.optional(BannerStoreModel, {} as any),
+  dealDetailStoreModel: types.optional(DealDetailStoreModel, {} as any),
 })
 
 /**

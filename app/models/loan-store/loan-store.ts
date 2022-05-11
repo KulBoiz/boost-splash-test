@@ -1,7 +1,9 @@
 import { flow, Instance, SnapshotOut, types } from "mobx-state-tree"
+import { CommentApi } from "../../services/api/comment-api"
 import { DocumentTemplateApi } from "../../services/api/document-template"
 
 import { LoanApi } from "../../services/api/loan-api"
+import { TransactionApi } from "../../services/api/transaction-api"
 import { withEnvironment } from "../extensions/with-environment"
 import { withRootStore } from "../extensions/with-root-store"
 
@@ -62,14 +64,17 @@ export const LoanStoreModel = types
   .actions((self) => ({
     getLoanDetail: flow(function* getLoanDetail(id: string) {
       const loanApi = new LoanApi(self.environment.api)
+      const commentApi =  new CommentApi(self.environment.api)
       const documentApi = new DocumentTemplateApi(self.environment.api)
-      const result = yield loanApi.requestLoanDetail(id)
-      const resultComment = yield loanApi.requestComment(id)
-      const resultHistory = yield loanApi.requestLoanHistory(id)
-      const data = result.data
 
-      self.comments = resultComment?.data?.data
+      const result = yield loanApi.requestLoanDetail(id)
+      const data = result.data
       self.loanDetail = data
+
+      const resultComment = yield commentApi.requestComment(id)
+      self.comments = resultComment?.data?.data
+
+      const resultHistory = yield loanApi.requestLoanHistory(id)
       self.histories = resultHistory?.data
 
       const resultFiles = yield documentApi.loadTemplate(data?.documentTemplateId)
@@ -246,7 +251,27 @@ export const LoanStoreModel = types
       }
     }),
 
+    getTransaction: flow(function* getTransaction(dealId: string, dealDetailId: string) {
+      const transactionApi = new TransactionApi(self.environment.api)
+      const commentApi = new CommentApi(self.environment.api)
+      
+      const resultComment = yield commentApi.requestComment(dealDetailId)
+      self.comments = resultComment?.data?.data
 
+      const result = yield transactionApi.getTransaction(dealId, dealDetailId)
+      
+      if (result.kind !== "ok") {
+        return result
+      }
+      const data = result.data
+      if (data) {
+        self.productDetail = data
+        return {
+          kind: "ok",
+          data,
+        }
+      }
+    }),
 
   })) // eslint-disable-line @typescript-eslint/no-unused-vars
   .actions((self) => ({
