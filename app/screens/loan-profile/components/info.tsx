@@ -49,7 +49,7 @@ const Info = observer((props: Props) => {
       {
         comments?.length > 0 && <View style={styles.content}>
           <AppText style={styles.title} value={"Ghi chú"} />
-          
+
           <View style={[styles.contentItem, styles.contentItemNote]} >
             {comments?.map((comment, index) => (
               <Note

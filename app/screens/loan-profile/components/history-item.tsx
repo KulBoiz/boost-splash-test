@@ -29,7 +29,7 @@ const HistoryItem = React.memo((props: Props) => {
     <View style={styles.container}>
       <View style={[ROW, SPACE_BETWEEN]}>
         {item?.createBy?.avatar ? <FastImage source={{ uri: item?.createBy?.avatar }} style={styles.avatar} /> :
-                  <DefaultAvatarSvg width={s(40)} height={s(40)} style={styles.avatarContainer} />
+                  <DefaultAvatarSvg width={s(48)} height={s(48)} style={styles.avatarContainer} />
         }
         
         <View style={{ flex: 1, marginLeft: 16 }}>

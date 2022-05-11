@@ -1,29 +1,45 @@
 import moment from 'moment';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { View, Image, TouchableOpacity } from 'react-native';
-import { ScaledSheet } from "react-native-size-matters";
+import { ScaledSheet, s } from "react-native-size-matters";
 import { AppText } from "../../../components/app-text/AppText";
 import { HIT_SLOP } from '../../../styles/common-style';
 import { color } from "../../../theme";
 import ResultItemDetail from './result-item-detail';
 import { CheckStatus } from "../../loan/constants"
+import { DefaultAvatarSvg } from '../../../assets/svgs';
+import { observer } from 'mobx-react-lite';
 
 interface Props {
-  item: any
+  item: any,
+  dealDetailStoreModel: any,
+  loanStore: any,
 }
 
-const ResultItem = React.memo((props: Props) => {
-  const { item } = props
-  const [view, setView] = useState(false)
+const ResultItem = observer((props: Props) => {
+  const [view, setView] = useState(false);
+  const { item , dealDetailStoreModel, loanStore} = props
   const status = item?.status
+  const { comments, transaction, dealDetailId } = dealDetailStoreModel;
 
   return (
-    <View style={[styles.content, !view && { alignItems: 'center' }]}>
-      <TouchableOpacity style={{zIndex: 10}} onPress={() => setView(!view)} hitSlop={HIT_SLOP}>
-        <Image
-          style={[styles.image, view && { marginTop: 8 }]}
-          source={{ uri: 'https://static.wixstatic.com/media/9d8ed5_e6ced15f72434992af9b5926526c78f6~mv2.jpg/v1/fill/w_500,h_500,al_c,q_85,usm_0.66_1.00_0.01/9d8ed5_e6ced15f72434992af9b5926526c78f6~mv2.webp' }}
-        />
+    <View style={[styles.content, dealDetailId !== item?.id && { alignItems: 'center' }]}>
+      <TouchableOpacity
+        style={{ zIndex: 10 }}
+        onPress={() => {
+          setView(!view)
+          dealDetailStoreModel.setDealDetailId(item?.id)
+          dealDetailStoreModel.getTransaction(loanStore.loanDetail?.id, item?.id)
+        }}
+        hitSlop={HIT_SLOP}
+      >
+        {item?.partner?.avatar?.url ?
+          <Image
+            style={[styles.image, dealDetailId === item?.id && { marginTop: 8 }]}
+            source={{ uri: item?.partner?.avatar?.url }}
+          /> :
+          <DefaultAvatarSvg width={s(64)} height={s(64)} />
+        }
       </TouchableOpacity>
       <View style={styles.contentItem}>
         <View style={styles.item} >
@@ -39,9 +55,9 @@ const ResultItem = React.memo((props: Props) => {
 
         <View style={styles.item} >
           <AppText style={styles.itemLabel} value={'Cập nhập:'} />
-          <AppText style={styles.itemValue} value={moment(item.createdAt).format('DD/MM/YYYY')} />
+          <AppText style={styles.itemValue} value={moment(item.updatedAt).format('DD/MM/YYYY')} />
         </View>
-        {view && <ResultItemDetail item={item} />}
+        {(dealDetailId === item?.id && view)  && <ResultItemDetail item={item} comments={comments} transaction={transaction} />}
       </View>
     </View>
   )
