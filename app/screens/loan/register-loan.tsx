@@ -82,7 +82,7 @@ const pressModal = () => {
             name: 'fullName',
             control,
             error: errors?.fullName?.message,
-            labelStyle: [styles.label, FONT_MEDIUM_12],
+            // labelStyle: [styles.label, FONT_MEDIUM_12],
             label: 'họ và tên người mua'
           }}
         /><FormInput
@@ -90,7 +90,7 @@ const pressModal = () => {
             name: 'email',
             control,
             error: errors?.email?.message,
-            labelStyle: [styles.label, FONT_MEDIUM_12],
+            // labelStyle: [styles.label, FONT_MEDIUM_12],
             label: 'địa chỉ Email'
           }}
         /><FormInput
@@ -98,7 +98,7 @@ const pressModal = () => {
             name: 'phone',
             control,
             error: errors?.phone?.message,
-            labelStyle: [styles.label, FONT_MEDIUM_12],
+            // labelStyle: [styles.label, FONT_MEDIUM_12],
             label: 'Số điện thoại',
             keyboardType: 'number-pad'
           }}
@@ -109,7 +109,7 @@ const pressModal = () => {
             name: 'note',
             control,
             error: errors?.note?.message,
-            labelStyle: [styles.label, FONT_MEDIUM_12],
+            // labelStyle: [styles.label, FONT_MEDIUM_12],
             label: 'ghi chú',
             multiline: true
           }}

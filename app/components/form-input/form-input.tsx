@@ -6,6 +6,7 @@ import { Control } from "react-hook-form/dist/types/form"
 import { FieldValues } from "react-hook-form/dist/types/fields"
 import { TxKeyPath } from "../../i18n"
 import i18n from "i18n-js"
+import { NewTextField } from "../text-field/new-text-field"
 
 export interface FormInputProps extends TextFieldProps, UseControllerProps{
   name: string,
@@ -47,7 +48,7 @@ const FormInput = React.memo((props: FormInputProps) => {
         defaultValue={defaultValue}
         rules={rules}
         render={({ field: { onChange, onBlur, value, ref } }) => (
-          <TextField
+          <NewTextField
             label={label}
             labelTx={labelTx}
             placeholder={placeholder}
