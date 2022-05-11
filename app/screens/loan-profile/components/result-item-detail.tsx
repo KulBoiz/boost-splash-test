@@ -7,11 +7,24 @@ import { color } from "../../../theme";
 import Note from './note';
 
 interface Props {
-  item: any
+  item: any,
+  comments: any[],
+  transaction: any
 }
 
 const ResultItemDetail = React.memo((props: Props) => {
-  const { item } = props
+  const { item, comments, transaction } = props
+
+  const getTotalMonetForControl = () => {
+    const transactionDetails = transaction?.[0]?.transactionDetails?.filter(el => el?.status === 'for_control')
+    return transactionDetails?.reduce((acc: number, item: any) => acc + Number(item.amount), 0) || 0
+  }
+
+  const getTransactionForControlNew = () => {
+    const transactionDetails = transaction?.[0]?.transactionDetails?.filter(el => el?.status === 'for_control')
+
+    return transactionDetails?.[0]?.amount || 0
+  }
 
   return (
     <View style={styles.itemDetail}>
@@ -19,30 +32,35 @@ const ResultItemDetail = React.memo((props: Props) => {
       <View style={styles.content}>
         <View style={styles.item}>
           <AppText style={styles.label} value={'Trạng thái:'} />
-          <AppText style={styles.value} value={'100.000.000'} />
+          <AppText style={styles.value} value={item?.info?.approvalAmount?.toLocaleString()} />
         </View>
         <View style={styles.item}>
           <AppText style={styles.label} value={'Thời hạn vay:'} />
-          <AppText style={styles.value} value={'20 năm'} />
+          <AppText style={styles.value} value={item?.info?.borrowTime ? `${item?.info?.borrowTime} Năm` : ''} />
         </View>
         <View style={styles.item}>
           <AppText style={styles.label} value={'Ngày phê duyệt:'} />
-          <AppText style={styles.value} value={moment().format('DD/MM/YYYY')} />
+          <AppText style={styles.value} value={moment(item?.info?.approvalDate).format('DD/MM/YYYY')} />
         </View>
         <View style={styles.item}>
           <AppText style={styles.label} value={'Giải ngân tổng cộng:'} />
-          <AppText style={styles.value} value={'600.000.000'} />
+          <AppText style={styles.value} value={getTotalMonetForControl()?.toLocaleString()} />
         </View>
         <View style={styles.item}>
           <AppText style={styles.label} value={'Giải ngân mới nhất:'} />
-          <AppText style={styles.value} value={'600.000.000'} />
+          <AppText style={styles.value} value={getTransactionForControlNew().toLocaleString()} />
         </View>
       </View>
-      <AppText style={styles.labelNote} value={'Ghi chú của ngân hàng:'} />
 
-      <View style={styles.note}>
-        <Note />
+      {comments?.length > 0 && <>
+        <AppText style={styles.labelNote} value={'Ghi chú của ngân hàng:'} />
+        <View style={styles.note}>
+        {comments?.map((comment, index) => (
+          <Note key={index.toString()} comment={comment} />
+        ))}
       </View>
+      </>}
+
     </View>
   )
 });

@@ -22,7 +22,7 @@ const Document = React.memo((props: Props) => {
   }, [])
 
   const renderTemplate = () => {
-    const list = [...templates]
+    const list = [...templates] || []
     if (viewAllFile) {
       return list
     } else {
@@ -60,19 +60,22 @@ const Document = React.memo((props: Props) => {
         </View>
       </View>
 
-      <View style={styles.content}>
-        <AppText style={styles.title} value={"Giấy tờ của khách"} />
-        <View style={styles.contentItem}>
-          {renderTemplate() ?? [].map((el, index) =>
-            <ItemView key={index.toString()} style={styles.item} title={el?.name} content={checkFileUpload(el)} />
-          )}
-          {
-            templates?.length > 4 && <View style={styles.viewMore}>
-              <AppText style={styles.viewMoreText} value={!viewAllFile ? 'Xem thêm' : "Ẩn"} onPress={() => { setViewAllFile(!viewAllFile) }} />
-            </View>
-          }
+      {
+        templates?.length > 0 && <View style={styles.content}>
+          <AppText style={styles.title} value={"Giấy tờ của khách"} />
+          <View style={styles.contentItem}>
+            {renderTemplate().map((el: any, index: number) =>
+              <ItemView key={index.toString()} style={styles.item} title={el?.name} content={checkFileUpload(el)} />
+            )}
+            {
+              templates?.length > 4 && <View style={styles.viewMore}>
+                <AppText style={styles.viewMoreText} value={!viewAllFile ? 'Xem thêm' : "Ẩn"} onPress={() => { setViewAllFile(!viewAllFile) }} />
+              </View>
+            }
+          </View>
         </View>
-      </View>
+      }
+
     </View>
   )
 });
