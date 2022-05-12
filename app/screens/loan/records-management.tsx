@@ -13,6 +13,7 @@ import { observer } from "mobx-react-lite"
 
 interface Props { }
 const RecordsManagement = observer((props: Props) => {
+  // @ts-ignore
   const { loanStore } = useStores()
   const data = loanStore?.records ?? []
   const total = loanStore?.total ?? 0

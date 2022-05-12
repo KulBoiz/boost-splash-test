@@ -15,19 +15,14 @@ const filter = {
   "order": "createdAt asc",
   "limit": 10,
   "where": {
-    "status": {
-      "nin": [
-        "deleted"
-      ]
+    type: {
+      inq: ["INTRODUCE_BUYER", "WANT_TO_BUY", "counselling"]
     },
-    "searchingRule": "single"
+    belongOrgType: 'sub_org'
   },
   "include": [
     {
       "relation": "user"
-    },
-    {
-      "relation": "category"
     },
     {
       "relation": "assignee"
@@ -35,9 +30,6 @@ const filter = {
     {
       "relation": "product"
     },
-    {
-      "relation": "dealDetails"
-    }
   ]
 }
 
@@ -59,9 +51,13 @@ export const LoanStoreModel = types
     histories: types.frozen([]),
     files: types.frozen([]),
     templates: types.frozen({}),
+    task: types.frozen({}),
   })
   .views((self) => ({})) // eslint-disable-line @typescript-eslint/no-unused-vars
   .actions((self) => ({
+    setTaskDetail: (task) => {
+      self.task = task
+    },
     getLoanDetail: flow(function* getLoanDetail(id: string) {
       const loanApi = new LoanApi(self.environment.api)
       const commentApi =  new CommentApi(self.environment.api)
@@ -74,8 +70,10 @@ export const LoanStoreModel = types
       const resultComment = yield commentApi.requestComment(id)
       self.comments = resultComment?.data?.data
 
-      const resultHistory = yield loanApi.requestLoanHistory(id)
-      self.histories = resultHistory?.data
+      if (data) {
+        const resultHistory = yield loanApi.requestLoanHistory(data?.id)
+        self.histories = resultHistory?.data
+      }
 
       const resultFiles = yield documentApi.loadTemplate(data?.documentTemplateId)
       self.templates = resultFiles?.data?.data
