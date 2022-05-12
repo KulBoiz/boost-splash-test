@@ -16,8 +16,8 @@ interface Props {
 const Info = observer((props: Props) => {
   // @ts-ignore
   const { loanStore } = useStores()
-  const { loanDetail, comments, files, templates } = loanStore
-  const { user } = loanDetail
+  const { loanDetail, comments, files, templates, task } = loanStore
+  const { user } = task
 
   const checkGender = () => {
     if (!user?.gender) {
@@ -40,14 +40,15 @@ const Info = observer((props: Props) => {
         <View style={styles.contentItem}>
           <ItemView style={styles.item} title={"loan.infoLoan.profile.fullName"} content={truncateString(user?.fullName, 20)} />
           <ItemView style={styles.item} title={"loan.infoLoan.profile.sex"} content={checkGender()} />
-          <ItemView style={styles.item} title={"loan.infoLoan.profile.phone"} content={user?.tels[0]?.tel} />
-          <ItemView style={styles.item} title={"loan.infoLoan.profile.email"} content={user?.emails[0]?.email} />
+          <ItemView style={styles.item} title={"loan.infoLoan.profile.phone"} content={user?.tels?.[0]?.tel} />
+          <ItemView style={styles.item} title={"loan.infoLoan.profile.email"} content={user?.emails?.[0]?.email} />
         </View>
       </View>
 
-      <Document loanDetail={loanDetail} files={files} templates={templates} />
+      {loanDetail?.id && <Document loanDetail={loanDetail} files={files} templates={templates} />}
+      
       {
-        comments?.length > 0 && <View style={styles.content}>
+        loanDetail?.id && comments?.length > 0 && <View style={styles.content}>
           <AppText style={styles.title} value={"Ghi chú"} />
 
           <View style={[styles.contentItem, styles.contentItemNote]} >

@@ -16,21 +16,20 @@ export class LoanApi {
   async requestLoanDetail(id: string): Promise<any> {
     try {
       // make the api call
-      const response: ApiResponse<any> = await this.api.apisauce.get(`${API_ENDPOINT}/deals/${id}`, {
+      const response: ApiResponse<any> = await this.api.apisauce.get(`${API_ENDPOINT}/deals`, {
         filter: {
-          where: {},
+          where: {
+            taskId: id
+          },
           include: [
             { relation: 'user' },
             { relation: 'product' },
             { relation: 'assignee' },
-            // { relation: 'dealProgress' },
             {
               relation: 'dealDetails',
               scope: {
                 include: [
                   { relation: 'partner' },
-                  { relation: 'partnerStaff' },
-                  { relation: 'executePartner'}
                 ]
               }
             },
@@ -41,7 +40,7 @@ export class LoanApi {
         const problem = getGeneralApiProblem(response)
         if (problem) return problem
       }
-      const data = response?.data
+      const data = response?.data?.data?.[0]
       return { kind: "ok", data }
     } catch (e) {
       return { kind: "bad-data", e }
@@ -100,25 +99,20 @@ export class LoanApi {
 
   async getRecords(): Promise<any> {
     try {
-      const response: ApiResponse<any> = await this.api.apisauce.get(`${API_ENDPOINT}/deals`, {
+      const response: ApiResponse<any> = await this.api.apisauce.get(`${API_ENDPOINT}/tasks`, {
         "page": 1,
         "order": "createdAt asc",
         "filter": {
           "limit": 10,
           "where": {
-            "status": {
-              "nin": [
-                "deleted"
-              ]
+            type: {
+              inq: ["INTRODUCE_BUYER", "WANT_TO_BUY", "counselling"]
             },
-            "searchingRule": "single"
+            belongOrgType: 'sub_org'
           },
           "include": [
             {
               "relation": "user"
-            },
-            {
-              "relation": "category"
             },
             {
               "relation": "assignee"
@@ -126,9 +120,6 @@ export class LoanApi {
             {
               "relation": "product"
             },
-            {
-              "relation": "dealDetails"
-            }
           ]
         }
       })
@@ -145,7 +136,7 @@ export class LoanApi {
 
   async loadMoreRecords(param): Promise<any> {
     try {
-      const response: ApiResponse<any> = await this.api.apisauce.get(`${API_ENDPOINT}/deals`, param)
+      const response: ApiResponse<any> = await this.api.apisauce.get(`${API_ENDPOINT}/tasks`, param)
       if (!response.ok) {
         const problem = getGeneralApiProblem(response)
         if (problem) return problem

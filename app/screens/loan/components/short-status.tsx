@@ -20,9 +20,10 @@ const ShortStatus = observer(({ item }: Props) => {
   if (!item) {
     return <></>
   }
+  // @ts-ignore
   const { loanStore } = useStores()
   const status = item?.status
-  const name = item?.user?.fullName ?? ''
+  const name = item?.user?.fullName || ''
   const tel = item?.user?.tels?.[0]?.tel
   const assignee = item?.assignee
 
@@ -43,6 +44,7 @@ const ShortStatus = observer(({ item }: Props) => {
 
   return (
     <Pressable style={styles.container} onPress={() => {
+      loanStore.setTaskDetail(item)
       loanStore.getLoanDetail(item?.id)
       navigate(ScreenNames.PROFILE_DETAIL)
     }}>
