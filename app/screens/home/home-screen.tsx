@@ -1,4 +1,4 @@
-import React, { FC, useRef, useState } from "react"
+import React, { FC, useState } from "react"
 import { Animated, BackHandler, ScrollView, View } from "react-native"
 import { StackScreenProps } from "@react-navigation/stack"
 import { observer } from "mobx-react-lite"
@@ -13,6 +13,7 @@ import ComingSoon from "./coming-soon"
 import { useFocusEffect } from "@react-navigation/native"
 import HomeBanner from "./components/home-banner"
 import Insurance from "./insurance"
+import { color } from "../../theme"
 
 
 
@@ -61,7 +62,10 @@ export const HomeScreen: FC<StackScreenProps<AppStackParamList, ScreenNames.HOME
   },
 )
 const styles = ScaledSheet.create({
-  full: {flex: 1},
+  full: {
+    flex: 1,
+    backgroundColor: color.palette.lightBlue
+  },
 
   pagerView: {
     flex: 1,

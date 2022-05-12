@@ -42,7 +42,7 @@ const Finance = React.memo((props: Props) => {
 
   return (
     <View style={styles.container}>
-      <AppText value={'Sản Phẩm Vay'} style={styles.title}/>
+      <AppText value={'Sản phẩm vay'} style={styles.title}/>
       <View style={styles.wrapIcon}>
         <LoanItem icon={<HouseLoanSvg/>} title={'home.finance.homeLoan'}/>
         <LoanItem icon={<CarLoanSvg/>} title={'home.finance.carLoan'}/>
@@ -51,8 +51,8 @@ const Finance = React.memo((props: Props) => {
       </View>
       <View style={styles.wrapLoan}>
         <View style={styles.row}>
-          <AppText value={'gói vay nổi bật'} style={styles.title} capitalize/>
-          <AppText value={'Tất Cả'} color={color.palette.blue} onPress={()=> navigate(ScreenNames.FINANCE)}/>
+          <AppText value={'Gói vay nổi bật'} style={styles.title}/>
+          <AppText value={'Xem thêm'} color={color.palette.blue} onPress={()=> navigate(ScreenNames.FINANCE)}/>
         </View>
 
         <Carousel

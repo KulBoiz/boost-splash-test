@@ -1,4 +1,5 @@
 import { Dimensions, Platform } from "react-native"
+import { TxKeyPath } from "../i18n"
 
 export const isIos = Platform.OS === "ios"
 export const isAndroid = Platform.OS === "android"
@@ -15,3 +16,7 @@ export const truncateString = (str: string, length: number, lastText?: string) =
 export const hidePhoneNumber = (phone: string) => {
   return `****${phone.slice(-3)}` ?? ''
 }
+
+export const capitalizeFirstString = (str: string | TxKeyPath | undefined) => {
+  return str ? str.charAt(0).toUpperCase() + str.slice(1).toLowerCase().replace(/_/g, ' ') : '';
+};

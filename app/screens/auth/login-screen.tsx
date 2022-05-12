@@ -64,8 +64,8 @@ export const LoginScreen: FC<StackScreenProps<AuthStackParamList, ScreenNames.LO
         <FormInput
           {...{
             name: 'email',
-            label: 'Số điện thoại hoặc email',
-            placeholder: 'Vui lòng nhập email hoặc số điện thoại',
+            labelTx: 'label.login.emailAndPhone',
+            placeholderTx: 'placeholder.login.emailAndPhone',
             autoCapitalize: 'none',
             control,
             error: errors?.email?.message
@@ -74,8 +74,8 @@ export const LoginScreen: FC<StackScreenProps<AuthStackParamList, ScreenNames.LO
         <FormInput
           {...{
             name: 'password',
-            label: 'mật khẩu',
-            placeholder: 'Vui lòng nhập mật khẩu',
+            labelTx: 'label.login.password',
+            placeholderTx: 'placeholder.login.password',
             autoCapitalize: 'none',
             error: errors?.password?.message,
             control,

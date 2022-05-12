@@ -25,7 +25,7 @@ export type NavigatorParamList = {
   [ScreenNames.LOAN_DETAIL]: undefined;
   [ScreenNames.REGISTER_LOAN]: undefined;
   [ScreenNames.PROFILE_DETAIL]: undefined;
-  [ScreenNames.FINANCE]: undefined;
+  [ScreenNames.FINANCE]: { index: number };
   [ScreenNames.TERM_AND_POLICY]: undefined;
   [ScreenNames.INSURANCE_DETAIL]: undefined;
 }

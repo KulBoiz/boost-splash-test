@@ -24,9 +24,9 @@ const LoginText = React.memo(({ firstText, secondText, action}: Props) => {
   }
   return (
     <View style={styles.container}>
-      <AppText tx={firstText} style={styles.firstText} capitalize fontSize={s(14)}/>
+      <AppText tx={firstText} style={styles.firstText} fontSize={s(14)}/>
       <Pressable style={styles.wrapText}>
-        <AppText tx={secondText} style={styles.secondText} capitalize onPress={action === 'register' ? _goToRegister: _goToLogin}/>
+        <AppText tx={secondText} style={styles.secondText} onPress={action === 'register' ? _goToRegister: _goToLogin}/>
         <LongRightArrowSvg />
       </Pressable>
     </View>

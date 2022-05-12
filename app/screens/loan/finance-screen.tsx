@@ -9,6 +9,7 @@ import {width} from "../../constants/variable"
 import { color } from "../../theme"
 import { FONT_MEDIUM_14 } from "../../styles/common-style"
 import { ScaledSheet } from "react-native-size-matters"
+import { useRoute } from "@react-navigation/native"
 
 interface Props{}
 
@@ -19,6 +20,7 @@ const renderScene = SceneMap({
 });
 
 const FinanceScreen = React.memo((props: Props) => {
+  const route = useRoute()
   const [index, setIndex] = React.useState(0);
   const [routes] = React.useState([
     { key: 'first', title: 'Giới thiệu ' },

@@ -12,10 +12,10 @@
     "enterKeyword": "Nhập kí tự tìm kiếm và chọn từ danh sách hiện ra \n(vd: Q. 3 - Ho Chi Minh hoặc H. Dong Anh - Ha Noi)"
   },
   "bottom_bar": {
-    "home": "Trang Chủ",
-    "chat": "Trò Chuyện",
-    "management": "Quản Lí",
-    "setting": "Thiết Lập"
+    "home": "Trang chủ",
+    "chat": "Trò chuyện",
+    "management": "Quản lí",
+    "setting": "Thiết lập"
   },
   "welcome": {
     "firstLabel": "Lãi suất chỉ từ \n6.19%/năm",
@@ -26,21 +26,21 @@
     "thirdContent": "Nắm bắt cơ hội sở hữu ngôi nhà mơ ước\nngay hôm nay",
     "selection": "Chọn ít nhất 1 trong 3 lựa chọn",
     "interested": "Bạn quan tâm đến...",
-    "loan": "Vay Vốn",
-    "insurance": "Bảo Hiểm",
-    "realEstate": "Bất Động Sản",
+    "loan": "Vay vốn",
+    "insurance": "Bảo hiểm",
+    "realEstate": "Bất động sản",
     "lastLabel": "welcome",
     "lastContent": "Stay on top by effortlessly tracking your subscriptions & bills"
   },
   "auth": {
-    "backToHome": "Trở về trang chú",
+    "backToHome": "Trở về trang chủ",
     "haveAccount": "Bạn đã có tài khoản?",
     "dontHaveAccount": "Bạn chưa có tài khoản?",
     "login": "Đăng nhập",
     "loginNow": "Đăng nhập ngay",
-    "register": "Đăng Ký",
-    "registerNow": "Đăng Kí Ngay",
-    "otpCode": "Mã Xác Thực",
+    "register": "Đăng ký",
+    "registerNow": "Đăng kí ngay",
+    "otpCode": "Mã xác thực",
     "enterPhone": "Vui lòng nhập số điện thoại và vị trí\nđể chúng tôi có thể xác minh bạn.",
     "checkPhoneInbox": "Hãy kiểm tra hộp thư đến, chúng tôi đã gửi mã xác thực vào số",
     "checkEmailInbox": "Hãy kiểm tra hộp thư đến, chúng tôi đã gửi mã xác thực vào hộp thư",
@@ -49,12 +49,13 @@
     "resentCode": "Gửi lại mã",
     "endProcess": "Quá trình sẽ kết thúc trong 60 giây.",
     "agree": "I’ve read and agree to the terms of privacy policy",
-    "forgotPassword": "Quên Mật Khẩu",
+    "forgotPassword": "Quên mật khẩu",
     "emailOrPhone": "Vui lòng nhập địa chỉ email hoặc\nsố điện thoại để khôi phục mật khẩu",
     "phone": "số điện thoại",
     "location": "vị trí"
   },
   "header": {
+    "insurance": "Bảo hiểm",
     "finance": "Tài chính",
     "requestCounselling": "tạo yêu cầu tư vấn",
     "requestLoan": "tạo yêu cầu tư vấn vay",
@@ -64,29 +65,37 @@
     "personalSetting": "Thiết lập cá nhân"
   },
   "label": {
+    "login": {
+      "emailAndPhone": "Email hoặc số điện thoại",
+      "password": "Mật khẩu"
+    },
     "location": "Enter your location",
     "phoneNumber": "Enter your Phone Number"
   },
   "placeholder": {
+    "login": {
+      "emailAndPhone": "Vui lòng địa chỉ email hoặc số điện thoại",
+      "password": "Vui lòng mật khẩu"
+    },
     "location": "Chọn vị trí của bạn",
     "emailAndPhone": "Nhập địa chỉ email hoặc số điện thoại",
     "password": "Mật Khẩu",
     "reenteredPassword": "Nhập Lại Mật Khẩu",
-    "fullName": "Họ và tên",
+    "fullName": "Nhập họ và tên của bạn",
     "email": "Nhập Địa Chỉ Email",
-    "phone": "Số Điện Thoại",
-    "address": "Huyện/Tỉnh (Quận/TP)"
+    "phone": "Nhập số điện thoại của bạn",
+    "address": "Nhập địa chỉ của bạn"
   },
   "home": {
     "finance": {
-      "finance": "Tài Chính",
-      "homeLoan": "Vay\nmua nhà",
-      "carLoan": "Vay\nmua xe",
-      "consumerLoan": "Vay\ntiêu dùng",
-      "repairLoad": "Vay\nsửa chữa"
+      "finance": "Tài chính",
+      "homeLoan": "Mua nhà",
+      "carLoan": "Mua xe",
+      "consumerLoan": "Tiêu dùng",
+      "repairLoad": "Sửa chữa"
     },
     "insurance": {
-      "insurance": "Bảo Hiểm",
+      "insurance": "Bảo hiểm",
       "productInsurance": "Sản phẩm bảo hiểm",
       "vehicleInsurance": "Bảo hiểm phương tiện",
       "healthInsurance": "Bảo hiểm sức khoẻ",
@@ -94,7 +103,7 @@
       "otherInsurance": "Bảo hiểm khác"
     },
     "invest": {
-      "invest": "Đầu Tư",
+      "invest": "Đầu tư",
       "product": "Sản phầm",
       "interestPaymentSchedule": "Lịch trả lãi",
       "asset": "Tài sản"
@@ -169,7 +178,7 @@
       "profile": {
         "title": "Khách hàng",
         "fullName": "Họ và tên",
-        "phone": "Số Điện Thoại",
+        "phone": "Số điện thoại",
         "sex": "Giới tính",
         "email": "Email"
       },

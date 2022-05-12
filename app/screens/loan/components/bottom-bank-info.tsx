@@ -25,8 +25,8 @@ const BottomBankInfo = React.memo(({ id }: Props) => {
   return (
     <View style={styles.container}>
       <Pressable style={styles.row}>
-        <AppText tx={"loan.viewDetail"} style={styles.detailText} capitalize/>
-        <FastImage source={images.arrowLeft} style={styles.backIcon} tintColor={color.palette.blue}/>
+        {/*<AppText tx={"loan.viewDetail"} style={styles.detailText} capitalize/>*/}
+        {/*<FastImage source={images.arrowLeft} style={styles.backIcon} tintColor={color.palette.blue}/>*/}
       </Pressable>
       <Pressable style={styles.button} onPress={handlePress}>
         <AppText tx={'loan.register'} style={styles.titleStyle} capitalize />
