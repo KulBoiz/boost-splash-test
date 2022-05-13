@@ -8,7 +8,6 @@ export enum ScreenNames {
   NOTICE = "Notice",
   WELCOME = "Welcome",
   HOME = "Home",
-  FIFTH_SCREEN = "FifthScreen",
   OTP = "Otp",
   SETTING = "Setting",
   CHAT = "Chat",
@@ -22,5 +21,7 @@ export enum ScreenNames {
   PROFILE_DETAIL = "ProfileDetail",
   FINANCE = 'Finance',
   TERM_AND_POLICY = 'TermAndPolicy',
-  INSURANCE_DETAIL = 'InsuranceDetail'
+  INSURANCE_SCREEN = 'InsuranceScreen',
+  INSURANCE_DETAIL = 'InsuranceDetail',
+  INSURANCE_PACKAGE = 'InsurancePackage'
 }

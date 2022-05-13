@@ -7,6 +7,7 @@ import { s, ms } from "react-native-size-matters"
 import FastImage, { ImageStyle } from "react-native-fast-image"
 import { images } from "../../assets/images"
 import { ROW } from "../../styles/common-style"
+import { capitalizeFirstString } from "../../constants/variable"
 
 // the base styling for the container
 const CONTAINER: ViewStyle = {
@@ -55,7 +56,6 @@ const LABEL: TextStyle = {
   fontFamily: 'Inter-Medium',
   fontSize: ms(11),
   marginBottom: s(4),
-  textTransform: 'capitalize'
 }
 const OPTIONAL: TextStyle = {
   fontFamily: 'Inter-Medium',
@@ -154,7 +154,7 @@ export function NewTextField(props: TextFieldProps) {
         <View>
       <View style={ROW}>
         {(label || labelTx) &&
-          <Text preset="fieldLabel" tx={labelTx} text={label}
+          <Text preset="fieldLabel" tx={labelTx} text={capitalizeFirstString(label)}
                 style={[{ color: errorMessage ? color.palette.angry : isFocused ? color.palette.blue : color.palette.black }, labelStyles ]}/>
         }
         {isOptional && <Text text={' (Optional)'} style={optionalStyles}/>}

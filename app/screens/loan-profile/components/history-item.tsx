@@ -1,6 +1,6 @@
-import React from 'react';
+import React, { useCallback, useState } from "react"
 import { View, Pressable } from "react-native"
-import { ROW, SPACE_BETWEEN } from "../../../styles/common-style"
+import { ALIGN_CENTER, ROW, SPACE_BETWEEN } from "../../../styles/common-style"
 import FastImage from "react-native-fast-image"
 import ItemView from "../../loan/components/item-view"
 import { AppText } from "../../../components/app-text/AppText"
@@ -9,6 +9,7 @@ import { fontFamily } from "../../../constants/font-family"
 import { color } from "../../../theme"
 import { ScaledSheet, ms, s } from "react-native-size-matters"
 import moment from 'moment';
+import DashedLine from "react-native-dashed-line"
 
 const TYPE = {
   TASK: 'task',
@@ -41,10 +42,13 @@ const STATUS_DEAL_DETAIL = {
 
 interface Props {
   item?: any
+  isLastItem: boolean
 }
 
 const HistoryItem = React.memo((props: Props) => {
-  const { item } = props
+  const { item, isLastItem } = props
+  const [itemHeight,setItemHeight] = useState<number>(0)
+
   const renderContent = () => {
     return (
       <Pressable>
@@ -70,14 +74,18 @@ const HistoryItem = React.memo((props: Props) => {
 
     return "_"
   }
-
   return (
-    <View style={styles.container}>
+    <View style={styles.container} onLayout={useCallback((event) => {
+      const {height} = event.nativeEvent.layout;
+      setItemHeight(height)
+    },[])}>
       <View style={[ROW, SPACE_BETWEEN]}>
+        <View style={ALIGN_CENTER}>
         {item?.createBy?.avatar ? <FastImage source={{ uri: item?.createBy?.avatar }} style={styles.avatar} /> :
           <DefaultAvatarSvg width={s(48)} height={s(48)} style={styles.avatarContainer} />
         }
-
+        {!isLastItem && <DashedLine axis='vertical' dashLength={10} dashThickness={1.5} dashGap={9} dashColor='blue' style={[styles.dashLine, {height: itemHeight}]} /> }
+        </View>
         <View style={{ flex: 1, marginLeft: 16 }}>
           <ItemView title={item?.createBy?.fullName} titleStyle={styles.title} content={renderContent()} />
 
@@ -102,7 +110,13 @@ const styles = ScaledSheet.create({
   container: {
     marginBottom: '24@s'
   },
+  dashLine: {
+    top: '20@vs',
+    position: 'absolute',
+    zIndex: -1
+  },
   avatar: {
+    zIndex: 1,
     width: '48@s',
     height: '48@s',
     borderRadius: '24@s'

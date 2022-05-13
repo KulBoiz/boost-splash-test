@@ -19,5 +19,6 @@ export const palette = {
   deepPurple: "#5D2555",
   deepGray: "#AAADB7",
   EEEEEE: "#EEEEEE",
-  BABABA: "#BABABA"
+  BABABA: "#BABABA",
+  grayDarker: "#4F4F4F"
 }

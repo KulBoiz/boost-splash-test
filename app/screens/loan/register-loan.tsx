@@ -25,38 +25,34 @@ import { ScreenNames } from "../../navigators/screen-names"
 import SuccessModal from "../../components/success-modal"
 import ProductTypePicker from "./components/product-type-picker"
 import { PRODUCT_TYPE } from "./constants"
+import i18n from "i18n-js"
 
 interface Props{}
 
 const RegisterLoan = observer((props: Props) => {
   const [modal, setModal] = useState<boolean>(false)
   const [type, setType] = useState<string>(PRODUCT_TYPE.LOAN)
-  const {authStoreModel, loanStore} = useStores()
-  const user: any = authStoreModel.user
+  const {loanStore} = useStores()
   const validationSchema = Yup.object().shape({
     email: Yup.string()
       .trim()
-      .required("Please enter your email or phone number")
-      .email("This is not a valid email"),
+      .required(i18n.t('errors.requireEmail'))
+      .email(i18n.t('errors.invalidEmail')),
     fullName: Yup.string()
       .trim()
-      .required("Please enter the customer full name"),
+      .required(i18n.t('errors.customerFullName')),
     phone: Yup.string()
       .trim()
-      .required("Please enter the phone number")
+      .required(i18n.t('errors.requirePhone'))
   })
-  const {control, handleSubmit, formState: {errors}, setValue} = useForm({
+  const {control, handleSubmit, formState: {errors}} = useForm({
     delayError: 0,
     defaultValues: undefined,
     mode: "all",
     resolver: yupResolver(validationSchema),
     reValidateMode: "onChange",
   })
-  // useEffect(()=> {
-  //   setValue('fullName',user?.fullName)
-  //   setValue('email',user?.emails[0].email)
-  //   setValue('phone',user?.tels[0].tel)
-  // },[])
+
   const sendInfo = async (data: any) => {
     const send =  await loanStore.createRequestCounselling(data.email, data.fullName, data.phone,data.note)
     if (send.kind === 'ok'){
@@ -82,24 +78,25 @@ const pressModal = () => {
             name: 'fullName',
             control,
             error: errors?.fullName?.message,
-            // labelStyle: [styles.label, FONT_MEDIUM_12],
-            label: 'họ và tên người mua'
+            label: 'họ và tên người mua',
+            placeholder: 'Họ và tên người mua'
           }}
         /><FormInput
           {...{
             name: 'email',
             control,
             error: errors?.email?.message,
-            // labelStyle: [styles.label, FONT_MEDIUM_12],
-            label: 'địa chỉ Email'
+            label: 'địa chỉ Email',
+            placeholderTx: 'placeholder.email'
+
           }}
         /><FormInput
           {...{
             name: 'phone',
             control,
             error: errors?.phone?.message,
-            // labelStyle: [styles.label, FONT_MEDIUM_12],
             label: 'Số điện thoại',
+            placeholder:'Vui lòng nhập số điện thoại',
             keyboardType: 'number-pad'
           }}
         />
@@ -109,7 +106,6 @@ const pressModal = () => {
             name: 'note',
             control,
             error: errors?.note?.message,
-            // labelStyle: [styles.label, FONT_MEDIUM_12],
             label: 'ghi chú',
             multiline: true
           }}
@@ -129,11 +125,9 @@ const styles = ScaledSheet.create({
 
   title: {
     color: color.palette.blue,
-    textTransform: 'capitalize'
   },
   label: {
     color: color.palette.lighterGray,
-    textTransform: 'capitalize'
   },
   wrapName: {
     paddingVertical: '24@s',

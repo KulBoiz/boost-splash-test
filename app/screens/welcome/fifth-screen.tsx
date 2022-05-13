@@ -1,4 +1,4 @@
-import React, { useCallback } from "react"
+import React  from "react"
 import { View } from 'react-native';
 import { height, width } from "../../constants/variable"
 import { GradientBackground } from "../../components"
@@ -33,14 +33,14 @@ const FifthScreen = React.memo((props: Props) => {
 
   return (
     <View style={styles.container}>
-        <FastImage source={images.fifth} style={styles.svgBackground}/>
-        <GradientBackground colors={['#064DD6', 'rgba(98, 150, 249, 0.4)']} />
+      <FastImage source={images.fifth} style={styles.svgBackground}/>
+      <GradientBackground colors={['#064DD6', 'rgba(98, 150, 249, 0.4)']} />
       <FastImage source={images.fina_logo} style={styles.logo} />
-        <AppText tx={'welcome.lastLabel'} style={styles.welcome} capitalize/>
-        <AppText tx={'welcome.lastContent'} style={styles.content}/>
+      <AppText tx={'welcome.lastLabel'} style={styles.welcome} capitalize/>
+      <AppText tx={'welcome.lastContent'} style={styles.content}/>
 
       <View style={styles.wrapBtn}>
-        <AppButton title={'Bắt đầu'} containerStyle={styles.button} onPress={handleStart}/>
+        <AppButton title={'Bắt đầu'} containerStyle={styles.button} onPress={handleStart} upperCase/>
         <View style={styles.wrapText}>
           <AppText tx={'auth.haveAccount'} fontSize={s(16)}/>
           <AppText tx={'auth.login'} style={styles.text} onPress={handleLogin}/>
@@ -54,7 +54,7 @@ export default FifthScreen;
 FifthScreen.displayName = 'FifthScreen'
 
 const styles = ScaledSheet.create({
-  container: {flex: 1, alignItems: 'center', paddingTop: '100@s'},
+  container: {flex: 1, alignItems: 'center', paddingTop: '100@s', paddingHorizontal: '20@s'},
   welcome: {
     color: color.text,
     fontSize: '44@s',
@@ -71,7 +71,7 @@ const styles = ScaledSheet.create({
     textAlign: 'center'
   },
   svgBackground: {
-      position: 'absolute',
+    position: 'absolute',
     width: width,
     height: height
   },
@@ -89,7 +89,7 @@ const styles = ScaledSheet.create({
     paddingBottom: '30@s',
   },
   button: {
-    width: '45%',
+    width: '50%',
     backgroundColor: color.palette.orange,
     marginBottom: '24@s'
   },

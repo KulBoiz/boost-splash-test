@@ -26,10 +26,10 @@ const IntroduceStepTwo = React.memo(({ preStep }: Props) => {
     <View style={[styles.container, CONTAINER_PADDING]}>
         <View style={styles.item}>
           <CheckProfileNoteSvg />
-          <AppText value={'Nhận Hồ Sơ Thành Công'} style={[FONT_BOLD_24, styles.text]} capitalize/>
+          <AppText value={'Nhận hồ sơ thành công'} style={[FONT_BOLD_24, styles.text]}/>
         </View>
-      <AppButton title={'+ Thêm Hồ Sơ Khách Hàng Vay'} onPress={preStep} containerStyle={MARGIN_BOTTOM_16}/>
-      <AppText value={'Theo Dõi Hồ Sơ'} underline style={FONT_BOLD_14} color={color.palette.blue} onPress={goToFinance}/>
+      <AppButton title={'+ Thêm hồ sơ khách hàng vay'} onPress={preStep} containerStyle={MARGIN_BOTTOM_16}/>
+      <AppText value={'Theo dõi sồ sơ'} underline style={FONT_BOLD_14} color={color.palette.blue} onPress={goToFinance}/>
     </View>
   )
 });

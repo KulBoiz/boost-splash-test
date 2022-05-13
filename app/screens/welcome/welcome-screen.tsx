@@ -14,6 +14,7 @@ import FourthScreen from "./fourth-screen"
 import { AuthStackParamList } from "../../navigators/auth-stack"
 import PaginationDot from "../../components/pagination-dot/pagination-dot"
 import { useFocusEffect } from "@react-navigation/native"
+import FifthScreen from "./fifth-screen"
 
 const SLIDER_DATA = [0,1,2,3]
 export const WelcomeScreen: FC<StackScreenProps<AuthStackParamList, ScreenNames.WELCOME>> = observer(
@@ -38,16 +39,23 @@ export const WelcomeScreen: FC<StackScreenProps<AuthStackParamList, ScreenNames.
     }
 
     const _goToFifth = ()=> {
-      navigation.navigate(ScreenNames.FIFTH_SCREEN)
+      // navigation.navigate(ScreenNames.FIFTH_SCREEN)
+      setScreen(5)
     }
     return (
       <View testID="WelcomeScreen" style={styles.container}>
-        <View style={styles.wrapSkip}>
-          <AppText value={'SKIP'} onPress={_goToFifth}/>
-        </View>
-        {_renderScreen()}
-        <PaginationDot length={SLIDER_DATA.length} activeDot={screen - 1} dotContainer={styles.dotContainer}/>
-        <AppButton title={'Tiếp theo'} onPress={screen < 4 ? _nextScreen : _goToFifth} containerStyle={styles.button}/>
+        {screen < 4 ?
+          <>
+            <View style={styles.wrapSkip}>
+              <AppText value={'SKIP'} onPress={_goToFifth}/>
+            </View>
+            {_renderScreen()}
+            <PaginationDot length={SLIDER_DATA.length} activeDot={screen - 1} dotContainer={styles.dotContainer}/>
+            <AppButton title={'Tiếp theo'} onPress={screen < 4 ? _nextScreen : _goToFifth} containerStyle={styles.button}/>
+          </>
+          : <FifthScreen />
+        }
+
       </View>
     )
   },

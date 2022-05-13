@@ -33,6 +33,15 @@ export const PARENT : ViewStyle = {
   flex:1,
   backgroundColor: color.background
 }
+export const MARGIN_TOP_8 : ViewStyle = {
+  marginTop: s(8)
+}
+export const MARGIN_TOP_16 : ViewStyle = {
+  marginTop: s(16)
+}
+export const MARGIN_TOP_24 : ViewStyle = {
+  marginTop: s(24)
+}
 export const MARGIN_BOTTOM_8 : ViewStyle = {
   marginBottom: s(8)
 }
@@ -60,6 +69,9 @@ export const CENTER_ELEMENTS : ViewStyle = {
 
 export const SPACE_BETWEEN : ViewStyle = {
   justifyContent: 'space-between',
+}
+export const ALIGN_CENTER : ViewStyle = {
+  alignItems: "center",
 }
 
 export const FONT_MEDIUM_12: TextStyle = {

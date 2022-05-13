@@ -25,7 +25,7 @@ const LoanDetail : React.FC<Props> = observer(() => {
 
   return (
     <View style={styles.container}>
-      <AppHeader headerText={'Chi Tiết Gói Vay'} isBlue/>
+      <AppHeader headerText={'Chi tiết gói vay'} isBlue/>
       {loading ?
         <ActivityIndicator style={styles.loading} />
         :
