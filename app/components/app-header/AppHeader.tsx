@@ -10,6 +10,7 @@ import { images } from "../../assets/images"
 import { ScaledSheet } from 'react-native-size-matters';
 import { goBack } from "../../navigators"
 import { fontFamily } from "../../constants/font-family"
+import { capitalizeFirstString } from "../../constants/variable"
 
 const AppHeader = React.memo((props: AppHeaderProps) => {
   const {
@@ -40,7 +41,7 @@ const AppHeader = React.memo((props: AppHeaderProps) => {
             )}
 
         <View style={styles.titleView}>
-          <Text style={[styles.title, titleStyle, {color: isBlue? color.text : color.palette.black}]} text={header} />
+          <Text style={[styles.title, titleStyle, {color: isBlue? color.text : color.palette.black}]} text={capitalizeFirstString(header)} />
         </View>
 
         {renderRightIcon ?
@@ -80,7 +81,6 @@ const styles = ScaledSheet.create({
     color: color.palette.black,
     fontSize: '16@s',
     textAlign: "center",
-    textTransform: 'capitalize',
     fontWeight: '700'
   },
   backIcon:{

@@ -24,4 +24,11 @@ export const images = {
   plane: require('./plane.png'),
   tool: require('./tool.png'),
   crash: require('./crash.png'),
+  ribbon: require('./ribbon.png'),
+  caution: require('./caution.png'),
+  first_aid: require('./first_aid.png'),
+  shield_star: require('./shield_star.png'),
+  dollar_coin: require('./dollar_coin.png'),
+  note: require('./note.png'),
+  wallet: require('./wallet.png'),
 }

@@ -29,7 +29,7 @@ const BottomBankInfo = React.memo(({ id }: Props) => {
         {/*<FastImage source={images.arrowLeft} style={styles.backIcon} tintColor={color.palette.blue}/>*/}
       </Pressable>
       <Pressable style={styles.button} onPress={handlePress}>
-        <AppText tx={'loan.register'} style={styles.titleStyle} capitalize />
+        <AppText tx={'loan.register'} style={styles.titleStyle} />
       </Pressable>
     </View>
   )

@@ -80,9 +80,9 @@
     "location": "Chọn vị trí của bạn",
     "emailAndPhone": "Nhập địa chỉ email hoặc số điện thoại",
     "password": "Mật Khẩu",
-    "reenteredPassword": "Nhập Lại Mật Khẩu",
+    "reenteredPassword": "Nhập lại mật khẩu",
     "fullName": "Nhập họ và tên của bạn",
-    "email": "Nhập Địa Chỉ Email",
+    "email": "Nhập địa chỉ email",
     "phone": "Nhập số điện thoại của bạn",
     "address": "Nhập địa chỉ của bạn"
   },
@@ -203,7 +203,8 @@
     "verifyNow": "Xác thực ngay"
   },
   "errors": {
-    "invalidEmail": "Invalid email address.",
+    "customerFullName": "Vui lòng nhập tên người mua",
+    "invalidEmail": "Vui lòng nhập đúng định dạng",
     "requireEmail": "Vui lòng nhập email",
     "requirePhone": "Vui lòng nhập số điện thoại",
     "requireFullName": "Vui lòng nhập họ và tên"

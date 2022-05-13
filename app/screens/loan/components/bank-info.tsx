@@ -38,9 +38,9 @@ const BankInfo = React.memo((props: BankInfoProps) => {
         </View>
 
         <View style={[styles.row, styles.interestRateContainer]}>
-          <InterestRate title={'Lãi Suất'} content={item?.info?.preferentialRate} isInterestRate/>
+          <InterestRate title={'Lãi suất'} content={item?.info?.preferentialRate} isInterestRate/>
           <View style={styles.separate}/>
-          <InterestRate title={'Ưu Đãi'} content={item?.info?.preferentialTime} />
+          <InterestRate title={'Ưu đãi'} content={item?.info?.preferentialTime} />
         </View>
 
         <View style={styles.contentContainer}>

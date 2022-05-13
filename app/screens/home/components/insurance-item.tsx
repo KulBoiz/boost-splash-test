@@ -1,11 +1,12 @@
 import React from 'react';
-import { View, StyleSheet } from 'react-native';
+import { View, Pressable } from "react-native"
 import FastImage from "react-native-fast-image"
 import { ScaledSheet } from "react-native-size-matters"
 import { AppText } from "../../../components/app-text/AppText"
 import { FONT_MEDIUM_12, FONT_SEMI_BOLD_14 } from "../../../styles/common-style"
 import { color } from "../../../theme"
-import { width } from "../../../constants/variable"
+import { navigate } from "../../../navigators"
+import { ScreenNames } from "../../../navigators/screen-names"
 interface Props{}
 
 const TEST_DATA = [
@@ -24,7 +25,7 @@ const TaqItem = ({title}: {title: string}) => {
 }
 const InsuranceItem = React.memo((props: Props) => {
   return (
-    <View style={styles.container}>
+    <Pressable style={styles.container} onPress={()=> navigate(ScreenNames.INSURANCE_SCREEN)}>
       <FastImage source={{uri: url}} style={styles.image}/>
       <View>
         <AppText value={'vững tâm mùa dịch'} capitalize style={FONT_MEDIUM_12}/>
@@ -36,7 +37,7 @@ const InsuranceItem = React.memo((props: Props) => {
 
         <AppText value={'Từ 200.000đ/ năm'} style={FONT_SEMI_BOLD_14} color={color.palette.blue}/>
       </View>
-    </View>
+    </Pressable>
   )
 });
 

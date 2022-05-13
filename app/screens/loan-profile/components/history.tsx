@@ -1,5 +1,5 @@
 import React, { useCallback } from "react"
-import { View, StyleSheet, FlatList } from "react-native"
+import { View, FlatList } from "react-native"
 import HistoryItem from "./history-item"
 import { ScaledSheet } from "react-native-size-matters"
 import { color } from "../../../theme"
@@ -12,8 +12,9 @@ const History = React.memo((props: Props) => {
   const { loanStore } = useStores()
   const { histories = [] } = loanStore
 
-  const renderItem = useCallback(({ item }) => {
-    return <HistoryItem item={item} />
+  const renderItem = useCallback(({ item, index }) => {
+    const isLastItem = index + 1 === histories.length
+    return <HistoryItem item={item} isLastItem={isLastItem} />
   }, [])
 
   return (

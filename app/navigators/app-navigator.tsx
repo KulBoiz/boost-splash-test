@@ -14,6 +14,8 @@ import ProfileDetail from "../screens/loan-profile/profile-detail"
 import FinanceScreen from "../screens/loan/finance-screen"
 import TermAndPolicy from "../screens/term-and-policy"
 import RequestCounselling from "../screens/loan/request-counselling"
+import InsuranceScreen from "../screens/insurance/insurance-screen"
+import InsurancePackage from "../screens/insurance/insurance-package"
 import InsuranceDetail from "../screens/insurance/insurance-detail"
 
 export type NavigatorParamList = {
@@ -27,6 +29,8 @@ export type NavigatorParamList = {
   [ScreenNames.PROFILE_DETAIL]: undefined;
   [ScreenNames.FINANCE]: { index: number };
   [ScreenNames.TERM_AND_POLICY]: undefined;
+  [ScreenNames.INSURANCE_SCREEN]: undefined;
+  [ScreenNames.INSURANCE_PACKAGE]: undefined;
   [ScreenNames.INSURANCE_DETAIL]: undefined;
 }
 
@@ -44,7 +48,7 @@ const RootStack = ()=> {
       initialRouteName={ScreenNames.SPLASH}
     >
       <Stack.Screen name={ScreenNames.SPLASH} component={SplashScreen} />
-      <Stack.Screen name={ScreenNames.AUTH} component={AuthStack} />
+      <Stack.Screen name={ScreenNames.AUTH} component={AuthStack} options={{gestureEnabled: false}}/>
       <Stack.Screen name={ScreenNames.APP} component={AppStack} options={{gestureEnabled: false}} />
       <Stack.Screen name={ScreenNames.REQUEST_COUNSELLING} component={RequestCounselling} />
       <Stack.Screen name={ScreenNames.NOTICE} component={NoticeScreen} />
@@ -53,6 +57,8 @@ const RootStack = ()=> {
       <Stack.Screen name={ScreenNames.PROFILE_DETAIL} component={ProfileDetail} />
       <Stack.Screen name={ScreenNames.FINANCE} component={FinanceScreen} />
       <Stack.Screen name={ScreenNames.TERM_AND_POLICY} component={TermAndPolicy} />
+      <Stack.Screen name={ScreenNames.INSURANCE_SCREEN} component={InsuranceScreen} />
+      <Stack.Screen name={ScreenNames.INSURANCE_PACKAGE} component={InsurancePackage} />
       <Stack.Screen name={ScreenNames.INSURANCE_DETAIL} component={InsuranceDetail} />
     </Stack.Navigator>
   )

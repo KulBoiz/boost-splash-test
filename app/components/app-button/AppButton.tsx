@@ -5,6 +5,7 @@ import { Text } from "../text/text"
 import { color } from "../../theme"
 import { translate, TxKeyPath } from "../../i18n"
 import i18n from "i18n-js"
+import { fontFamily } from "../../constants/font-family"
 
 export interface BaseButtonProps extends TouchableOpacityProps  {
   title?: string
@@ -16,6 +17,7 @@ export interface BaseButtonProps extends TouchableOpacityProps  {
   containerStyle?: ViewStyle | any
   titleStyle?: TextStyle
   colorBtn?: string
+  upperCase?:boolean
 }
 
 const AppButton: FC<BaseButtonProps> = ({
@@ -28,6 +30,7 @@ const AppButton: FC<BaseButtonProps> = ({
   containerStyle,
   titleStyle,
   colorBtn,
+  upperCase = false,
   ...props
 }: BaseButtonProps) => {
   const content = tx && translate(tx, txOptions)
@@ -45,7 +48,7 @@ const AppButton: FC<BaseButtonProps> = ({
       {loading ? (
         <ActivityIndicator size={15} color={color.palette.white} />
       ) : (
-        <Text style={[styles.title, titleStyle]}>{title || content}</Text>
+        <Text style={[styles.title, upperCase && styles.upperCase, titleStyle]}>{title || content}</Text>
       )}
     </TouchableOpacity>
   )
@@ -54,20 +57,23 @@ const AppButton: FC<BaseButtonProps> = ({
 const styles = ScaledSheet.create({
   container: {
     width: "100%",
-    borderRadius: "4@s",
+    borderRadius: "8@s",
     justifyContent: "center",
     alignItems: "center",
     paddingVertical: "14@vs",
   },
   disableStyle: {
     width: "100%",
-    borderRadius: "4@s",
+    borderRadius: "8@s",
     justifyContent: "center",
     alignItems: "center",
     paddingVertical: "14@vs",
     opacity: 0.6
   },
-  title: { fontSize: "15@s", color: color.palette.white, fontWeight: '700', textTransform: 'uppercase'},
+  title: { fontSize: "15@s", color: color.palette.white, fontWeight: '700', fontFamily: fontFamily.mulish.bold},
+  upperCase: {
+    textTransform: "uppercase"
+  }
 })
 
 export default memo(AppButton)

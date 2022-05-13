@@ -21,7 +21,7 @@ const LoginCart = observer(({ style }: Props) => {
   const avatar = !!authStoreModel?.user?.avatar
   const onPress = () => {
     if (!isLogin){
-      navigate(ScreenNames.AUTH)
+      navigate(ScreenNames.LOGIN)
     }
     return true
   }

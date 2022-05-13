@@ -2,28 +2,27 @@ import React  from "react"
 import { View } from 'react-native';
 import AppHeader from "../../components/app-header/AppHeader"
 import { TabView, SceneMap, TabBar } from "react-native-tab-view"
-
 import {width} from "../../constants/variable"
 import { color } from "../../theme"
 import { FONT_MEDIUM_14 } from "../../styles/common-style"
 import { ScaledSheet } from "react-native-size-matters"
-import { useRoute } from "@react-navigation/native"
-import Product from "../loan/product"
-import RecordsManagement from "../loan/records-management"
+import InsuranceInfo from "./components/insurance-info"
+import BuyInsurance from "./buy-insurance"
 
 interface Props{}
 
 const renderScene = SceneMap({
-  second: Product,
-  third : RecordsManagement,
+  first: InsuranceInfo,
+  second: BuyInsurance,
+  third : InsuranceInfo,
 });
 
 const InsuranceScreen = React.memo((props: Props) => {
-  const route = useRoute()
   const [index, setIndex] = React.useState(0);
   const [routes] = React.useState([
-    { key: 'second', title: 'Sản phẩm' },
-    { key: 'third', title: 'Quản lí hồ sơ' },
+    { key: 'first', title: 'Thông tin' },
+    { key: 'second', title: 'Mua BH' },
+    { key: 'third', title: 'Giao dịch' },
   ]);
 
   const renderTabBar = props => (
@@ -37,7 +36,7 @@ const InsuranceScreen = React.memo((props: Props) => {
   );
   return (
     <View style={styles.container}>
-      <AppHeader headerTx={"header.insurance" } isBlue/>
+      <AppHeader headerTx={"header.insurance"} isBlue/>
       <TabView
         navigationState={{ index, routes }}
         renderScene={renderScene}

@@ -27,8 +27,8 @@ const SuccessModal = React.memo((props: Props) => {
     >
       <View style={styles.body}>
           <SuccessSvg />
-          <AppText style={[FONT_REGULAR_14, styles.title]} capitalize>{title}</AppText>
-          <AppText value={'Thành Công'} style={styles.successText}/>
+          <AppText style={[FONT_REGULAR_14, styles.title]}>{title}</AppText>
+          <AppText value={'Thành công'} style={styles.successText}/>
       </View>
     </Modal>
   )

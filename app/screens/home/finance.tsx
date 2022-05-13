@@ -52,7 +52,7 @@ const Finance = React.memo((props: Props) => {
       <View style={styles.wrapLoan}>
         <View style={styles.row}>
           <AppText value={'Gói vay nổi bật'} style={styles.title}/>
-          <AppText value={'Xem thêm'} color={color.palette.blue} onPress={()=> navigate(ScreenNames.FINANCE)}/>
+          <AppText value={'Xem thêm'} color={color.palette.blue} onPress={()=> navigate(ScreenNames.FINANCE, {index: 1})}/>
         </View>
 
         <Carousel
@@ -71,7 +71,7 @@ const Finance = React.memo((props: Props) => {
       <AppText value={'Công cụ hỗ trợ'} style={styles.title}/>
       <LoanSupportTool icon={<CalculatorSvg />} title={'Tính khả năng vay'} />
       <LoanSupportTool icon={<ProfileAddSvg />} title={'Giới thiệu khách vay'} onPress={()=> navigate(ScreenNames.REQUEST_COUNSELLING)} />
-      <LoanSupportTool icon={<NoteSvg />} title={'Quản lý hồ sơ vay'} hideBorder onPress={()=> navigate(ScreenNames.FINANCE)}/>
+      <LoanSupportTool icon={<NoteSvg />} title={'Quản lý hồ sơ vay'} hideBorder onPress={()=> navigate(ScreenNames.FINANCE, {index: 2})}/>
     </View>
   )
 });

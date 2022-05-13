@@ -7,7 +7,6 @@ import { useStores } from "../models"
 export type AuthStackParamList = {
   [ScreenNames.WELCOME]: undefined;
   [ScreenNames.LOGIN]: undefined;
-  [ScreenNames.FIFTH_SCREEN]: undefined;
   [ScreenNames.OTP]: { phoneNumber: string, isRegister: boolean };
   [ScreenNames.REGISTER]: undefined;
   [ScreenNames.REGISTER_PHONE]: undefined;

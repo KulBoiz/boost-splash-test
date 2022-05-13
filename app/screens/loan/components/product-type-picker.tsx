@@ -14,6 +14,7 @@ import {
   ROW,
   SPACE_BETWEEN,
 } from "../../../styles/common-style"
+import { fontFamily } from "../../../constants/font-family"
 
 interface Props{
   value: string,
@@ -35,9 +36,11 @@ const ProductTypePicker = React.memo((props: Props) => {
   }
   return (
     <View style={styles.wrapper}>
-      <AppText value={'Loại vay'} style={[styles.label, FONT_MEDIUM_12]}/>
-      <Pressable style={[ROW, SPACE_BETWEEN,styles.container, open && styles.openContainer]} onPress={handleModal}>
+      <Pressable style={[ROW, SPACE_BETWEEN,styles.container, styles.openContainer]} onPress={handleModal}>
+        <View>
+        <AppText value={'Loại vay'} style={[styles.label]}/>
         <AppText value={label} style={FONT_MEDIUM_14} capitalize/>
+        </View>
         <FastImage
           source={open ? images.arrow_up : images.arrow_down}
           style={styles.icon}
@@ -69,9 +72,10 @@ const styles = ScaledSheet.create({
     marginVertical: spacing[3]
   },
   container: {
-    backgroundColor: color.dim,
-    padding: '12@s',
-    borderRadius: '8@s'
+    paddingVertical: '11@ms',
+    paddingHorizontal: '16@ms',
+    borderRadius: '12@s',
+    alignItems: "center"
   },
   icon :{
     width: '16@s',
@@ -84,20 +88,20 @@ const styles = ScaledSheet.create({
   itemWrapper: {
     borderWidth: 1,
     borderColor: color.palette.blue,
-    borderRadius: '8@s',
+    borderRadius: '12@s',
     marginTop: '4@s',
-    paddingHorizontal: '12@s',
-    backgroundColor: color.dim,
+    paddingHorizontal: '16@s',
 
   },
   label:{
-    color: color.palette.lighterGray,
-    textTransform: 'capitalize',
-    marginBottom: '13@s'
+    fontSize: '11@ms',
+    fontFamily: fontFamily.medium,
+    color: color.palette.lightBlack,
+    marginBottom: '4@s'
   },
   itemContainer: {
     borderBottomWidth: 1,
     borderColor: '#DEE0E3',
-    paddingVertical: '12@s'
+    paddingVertical: '20@ms'
   }
 });

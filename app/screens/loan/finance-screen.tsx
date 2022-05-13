@@ -9,7 +9,8 @@ import {width} from "../../constants/variable"
 import { color } from "../../theme"
 import { FONT_MEDIUM_14 } from "../../styles/common-style"
 import { ScaledSheet } from "react-native-size-matters"
-import { useRoute } from "@react-navigation/native"
+import { RouteProp, useRoute } from "@react-navigation/native"
+import { NavigatorParamList } from "../../navigators"
 
 interface Props{}
 
@@ -20,14 +21,14 @@ const renderScene = SceneMap({
 });
 
 const FinanceScreen = React.memo((props: Props) => {
-  const route = useRoute()
-  const [index, setIndex] = React.useState(0);
+  const route = useRoute<RouteProp<NavigatorParamList>>()
+  const param = route?.params?.index ?? 0
+  const [index, setIndex] = React.useState(param);
   const [routes] = React.useState([
     { key: 'first', title: 'Giới thiệu ' },
     { key: 'second', title: 'Sản phẩm' },
     { key: 'third', title: 'Quản lí hồ sơ' },
   ]);
-
   const renderTabBar = props => (
     <TabBar
       {...props}
