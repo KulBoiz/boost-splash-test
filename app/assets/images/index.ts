@@ -31,4 +31,5 @@ export const images = {
   dollar_coin: require('./dollar_coin.png'),
   note: require('./note.png'),
   wallet: require('./wallet.png'),
+  check: require('./check.png'),
 }

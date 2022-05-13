@@ -48,3 +48,60 @@ export const SHARE_SOCIAL_NETWORK = [
 ]
 
 export const PERSONAL_ACCOUNT = 'Thông tin tài khoản cá nhân khi bạn đăng ký trên fina.com.vn  sẽ chỉ thuộc sỡ hữu của bạn. Bạn có thể xóa tài khoản bất cứ lúc nào bạn không có nhu cầu sử dụng nữa.'
+
+export const DEFINE = [
+  'FINA: là Công ty cổ phần Dịch vụ Tài chính Bất động sản Tulip, một công ty được thành lập hợp lệ và hoạt động theo pháp luật của nước Cộng Hòa Xã Hội Chủ Nghĩa Việt Nam, có Giấy Chứng Nhận Đăng Ký Doanh Nghiệp Số 0316008661 cấp lần đầu ngày 08/11/2019.',
+  'Ứng dụng FINA: là ứng dụng trên nền tảng di động do FINA phát triển và vận hành để cung cấp các Dịch vụ được Nhà nước Việt Nam cấp phép triển khai.',
+  'Tài khoản FINA: là tài khoản điện tử trên hệ thống công nghệ thông tin của FINA do khách hàng/người dùng tạo lập và quản lý thông qua nhiều hình thức khác nhau, bao gồm nhưng không giới hạn bởi ứng dụng trên điện thoại di động, website.'
+]
+
+export const INFORMATION_PROTECTION = [
+  'Khách hàng sẽ được yêu cầu điền đầy đủ các thông tin theo các trường thông tin theo mẫu có sẵn trên Nền tảng FINA như: Họ và Tên, địa chỉ email (công ty hoặc cá nhân), số điện thoại (di động, nhà riêng hoặc văn phòng) và trong mức độ có thể, các tuỳ chọn… Thông tin này được yêu cầu để đặt và hoàn tất việc xác nhận đầu tư của Khách hàng (bao gồm gửi email xác nhận đặt hàng đến Khách hàng).',
+  'Về cookie và đèn báo hiệu web: Cookie là những thư mục dữ liệu được lưu trữ tạm thời hoặc lâu dài trong ổ cứng máy tính của Khách hàng. Các cookie được sử dụng để xác minh, truy tìm lược (bảo vệ trạng thái) và duy trì thông tin cụ thể về việc sử dụng và người sử dụng Website fina.com.vn. Nếu không đồng ý, Khách hàng có thể xoá tất cả các cookie đã nằm trong ổ cứng máy tính của mình bằng cách tìm kiếm các thư mục với “cookie” trong tên của nó và xoá đi. Trong tương lai, Khách hàng có thể chỉnh sửa các lựa chọn trong trình duyệt của mình để các cookie (tương lai) bị chặn;',
+]
+
+export const SCOPE_OF_APPLICATION = 'Chính Sách này quy định về cách thức mà FINA thu thập, sử dụng, bảo mật thông tin áp dụng đối với các thông tin được Người Sử Dụng cung cấp khi mở, sử dụng Tài Khoản FINA qua Ứng Dụng FINA hoặc qua website fina.com.vn của FINA.'
+
+export const PURPOSE_OF_INFORMATION_COLLECTION = 'Cung cấp dịch vụ cho Khách hàng và quản lý, sử dụng thông tin cá nhân của  Khách hàng nhằm mục đích quản lý cơ sở dữ liệu về Khách hàng và kịp thời xử lý các tình huống phát sinh (nếu có).'
+
+export const SCOPE_OF_USE_OF_PERSONAL_INFORMATION = [
+  'Cung cấp các dịch vụ đến Khách hàng;',
+  'Gửi các thông báo về các hoạt động trao đổi thông tin giữa  Khách hàng và FINA;',
+  'Ngăn ngừa các hoạt động phá hủy, chiếm đoạt tài khoản người dùng của  Khách hàng hoặc các hoạt động giả mạo Khách hàng;',
+  'Liên lạc và giải quyết khiếu nại với Khách hàng;',
+  'Xác nhận và trao đổi thông tin về giao dịch của Khách hàng tại FINA;'
+]
+
+export const PERSONAL_INFORMATION_STORAGE_TIME = 'Không có thời hạn ngoại trừ trường hợp Khách hàng gửi có yêu cầu hủy bỏ tới cho Ban quản trị hoặc Công ty giải thể hoặc bị phá sản.'
+
+export const PEOPLE_OR_ORGANIZATION = [
+  'Ban quản trị',
+  'Bên thứ ba có dịch vụ tích hợp với Nền tảng FINA',
+  'Cơ quan nhà nước có thẩm quyền trong trường hợp có yêu cầu theo quy định tại quy chế hoạt động',
+  'Cố vấn tài chính, pháp lý và Công ty kiểm toán',
+  'Theo yêu cầu của cơ quan nhà nước có thẩm quyền'
+]
+
+export const ADDRESS = [
+  'Địa chỉ: L17-11, Tầng 17, Toà nhà Vincom Center Đồng Khởi, Số 72 Lê Thánh Tôn, Phường Bến Nghé, Quận 1, TP.HCM',
+  'Điện thoại: 08 5749 8668',
+  'Email: support@fina.com.vn'
+]
+
+export const MEANS_AND_TOOLS_FOR_CUSTOMERS_TO_ACCESS = 'Khách hàng có quyền tự kiểm tra, cập nhật, điều chỉnh hoặc hủy bỏ thông tin cá nhân của mình bằng cách đăng nhập vào Nền tảng FINA và chỉnh sửa thông tin cá nhân hoặc yêu cầu Ban quản trị thực hiện việc này.\n' +
+  '\n' +
+  'Khách hàng có quyền gửi khiếu nại về việc lộ thông tin cá nhân của mình cho bên thứ 3 đến Ban quản trị. Khi tiếp nhận những phản hồi này, FINA sẽ xác nhận lại thông tin, phải có trách nhiệm trả lời lý do và hướng dẫn Khách hàng khôi phục và bảo mật lại thông tin.\n' +
+  '\n' +
+  'Các hình thức tiếp nhận thông tin khiếu nại của  Khách hàng:\n' +
+  '\t- Qua email: support@fina.com.vn\n' +
+  '\t- Qua điện thoại:  08 5749 8668\n'
+
+export const COMMITMENT_TO_SECURITY_OF_CUSTOMERS_PERSONAL_INFORMATION = 'Thông tin cá nhân của Khách hàng trên Nền tảng FINA được Ban quản trị cam kết bảo mật tuyệt đối theo chính sách bảo mật thông tin cá nhân được đăng tải trên Nền tảng FINA. Việc thu thập và sử dụng thông tin của mỗi Khách hàng chỉ được thực hiện khi có sự đồng ý của Khách hàng trừ những trường hợp pháp luật có quy định khác và quy định này.\n' +
+  '\n\n' +
+  'Không sử dụng, không chuyển giao, cung cấp hoặc tiết lộ cho bên thứ 3 về thông tin cá nhân của Khách hàng khi không có sự đồng ý của Khách hàng ngoại trừ các trường hợp được quy định tại quy định này hoặc quy định của pháp luật.\n' +
+  '\n\n' +
+  'Trong trường hợp máy chủ lưu trữ thông tin bị hacker tấn công dẫn đến mất mát dữ liệu cá nhân của Khách hàng, Ban quản trị có trách nhiệm thông báo và làm việc với cơ quan chức năng điều tra và xử lý kịp thời, đồng thời thông báo cho Khách hàng được biết về vụ việc.\n' +
+  '\n\n' +
+  'Bảo mật tuyệt đối mọi thông tin giao dịch trực tuyến của Khách hàng bao gồm thông tin hóa đơn kế toán chứng từ số hóa.'
+
+export const MECHANISM_FOR_RECEIVING = 'Khi phát hiện thông tin cá nhân của mình bị sử dụng sai mục đích hoặc phạm vi, Khách hàng gửi email khiếu nại đến email support@fina.com.vn hoặc gọi điện thoại tới số 08 5749 8668 để khiếu nại và cung cấp chứng cứ liên quan tới vụ việc cho Ban quản trị. Ban quản trị cam kết sẽ phản hồi ngay lập tức hoặc muộn nhất là trong vòng 24 (hai mươi tư) giờ làm việc kể từ thời điểm nhận được khiếu nại.'
