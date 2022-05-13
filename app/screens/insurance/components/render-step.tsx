@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, StyleSheet } from 'react-native';
+import { View } from 'react-native';
 import StepIndicator from "react-native-step-indicator"
 import { color } from "../../../theme"
 import { images } from "../../../assets/images"
@@ -30,7 +30,7 @@ const getStepIndicatorIconConfig = ({ position, stepStatus }: {
 }) => {
   const iconConfig = {
     source: images.shield,
-    tintColor: stepStatus === 'finished' || position === 0 ? color.palette.blue : color.palette.deepGray,
+    tintColor: stepStatus === 'finished' || stepStatus === 'current' || position === 0 ? color.palette.blue : color.palette.deepGray,
     style: styles.icon,
   };
   switch (position) {

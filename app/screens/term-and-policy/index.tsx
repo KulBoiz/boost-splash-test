@@ -8,6 +8,9 @@ import { ScaledSheet } from "react-native-size-matters"
 import { width } from "../../constants/variable"
 import Term from "./term"
 import Policy from "./policy"
+import { RouteProp, useRoute } from "@react-navigation/native"
+import { NavigatorParamList } from "../../navigators"
+import { ScreenNames } from "../../navigators/screen-names"
 
 interface Props{}
 
@@ -17,7 +20,9 @@ const renderScene = SceneMap({
 });
 
 const TermAndPolicy = React.memo((props: Props) => {
-  const [index, setIndex] = React.useState(0);
+  const route = useRoute<RouteProp<NavigatorParamList, ScreenNames.TERM_AND_POLICY>>()
+  const param = route?.params?.id ?? 0
+  const [index, setIndex] = React.useState(param);
   const [routes] = React.useState([
     { key: 'first', title: 'Điều Khoản' },
     { key: 'second', title: 'Chính Sách' },

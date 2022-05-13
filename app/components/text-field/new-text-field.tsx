@@ -125,7 +125,8 @@ export function NewTextField(props: TextFieldProps) {
     ...rest
   } = props
   const [showPassword, setShowPassword] = useState<boolean>(true)
-  const containerStyles = [CONTAINER, PRESETS[preset], styleOverride]
+  const containerStyles = [CONTAINER, PRESETS[preset]]
+  const wrapperStyles = [WRAPPER,  styleOverride]
   const optionalStyles = [OPTIONAL]
   const labelStyles = [LABEL, labelStyleOverride]
   const inputStyles = [INPUT, inputStyleOverride]
@@ -149,7 +150,7 @@ export function NewTextField(props: TextFieldProps) {
   }
   return (
     <Pressable onPress={handleFocus} style={containerStyles}>
-      <View style={[WRAPPER, {borderColor: errorMessage ? color.palette.angry : color.palette.blue}, !(label || labelTx || isOptional)? WRAPPER_PADDING : {}]}>
+      <View style={[wrapperStyles, {borderColor: errorMessage ? color.palette.angry : color.palette.blue}, !(label || labelTx || isOptional)? WRAPPER_PADDING : {}]}>
       <View style={WRAP_INPUT}>
         <View>
       <View style={ROW}>

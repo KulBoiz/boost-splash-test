@@ -12,17 +12,15 @@ import BuyInsurance from "./buy-insurance"
 interface Props{}
 
 const renderScene = SceneMap({
-  first: InsuranceInfo,
-  second: BuyInsurance,
-  third : InsuranceInfo,
+  first: BuyInsurance,
+  second: InsuranceInfo,
 });
 
 const InsuranceScreen = React.memo((props: Props) => {
   const [index, setIndex] = React.useState(0);
   const [routes] = React.useState([
-    { key: 'first', title: 'Thông tin' },
-    { key: 'second', title: 'Mua BH' },
-    { key: 'third', title: 'Giao dịch' },
+    { key: 'first', title: 'Mua BH' },
+    { key: 'second', title: 'Giao dịch' },
   ]);
 
   const renderTabBar = props => (
@@ -53,6 +51,6 @@ export default InsuranceScreen;
 const styles = ScaledSheet.create({
   container: {backgroundColor: color.palette.blue, flex: 1},
   tab:{ backgroundColor: 'white', borderTopLeftRadius: '8@s', borderTopRightRadius: '8@s' },
-  indicatorStyle:{ backgroundColor: color.palette.blue, width: '65@ms', marginLeft: '32.5@ms' }
+  indicatorStyle:{ backgroundColor: color.palette.blue, width: '65@ms', marginLeft: '65@ms' }
 
 });

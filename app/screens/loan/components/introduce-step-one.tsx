@@ -10,8 +10,6 @@ import { AppText } from "../../../components/app-text/AppText"
 import { presets } from "../../../constants/presets"
 import Checkbox from "../../../components/checkbox/checkbox"
 import { color } from "../../../theme"
-import FastImage from "react-native-fast-image"
-import { images } from "../../../assets/images"
 import { observer } from "mobx-react-lite"
 import { useStores } from "../../../models"
 import { navigate } from "../../../navigators"
@@ -50,9 +48,9 @@ const IntroduceStepOne = observer(({ nextStep }: Props) => {
     return (
       <View style={styles.textContainer}>
         <AppText value={'Tôi đã đọc và đồng ý với các '} style={presets.note}/>
-        <AppText value={'Điều khoản sử dụng '} onPress={()=> navigate(ScreenNames.TERM_AND_POLICY)} fontSize={s(12)} color={color.palette.blue} style={presets.bold}/>
+        <AppText value={'Điều khoản sử dụng '} onPress={()=> navigate(ScreenNames.TERM_AND_POLICY, {id: 0})} fontSize={s(12)} color={color.palette.blue} style={presets.bold}/>
         <AppText value={'và '} style={presets.note}/>
-        <AppText value={'Chính sách bảo mật '} onPress={()=> navigate(ScreenNames.TERM_AND_POLICY)} fontSize={s(12)} color={color.palette.blue} style={presets.bold}/>
+        <AppText value={'Chính sách bảo mật '} onPress={()=> navigate(ScreenNames.TERM_AND_POLICY, {id: 1})} fontSize={s(12)} color={color.palette.blue} style={presets.bold}/>
         <AppText value={'của FINA'} style={presets.note}/>
       </View>
     )

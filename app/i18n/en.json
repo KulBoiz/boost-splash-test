@@ -29,8 +29,8 @@
     "loan": "Vay vốn",
     "insurance": "Bảo hiểm",
     "realEstate": "Bất động sản",
-    "lastLabel": "welcome",
-    "lastContent": "Stay on top by effortlessly tracking your subscriptions & bills"
+    "lastLabel": "Xin chào",
+    "lastContent": "Dễ dàng tra cứu tài khoản và hóa đơn giao dịch của bạn chỉ với vài thao tác trên FINA"
   },
   "auth": {
     "backToHome": "Trở về trang chủ",
@@ -69,6 +69,15 @@
       "emailAndPhone": "Email hoặc số điện thoại",
       "password": "Mật khẩu"
     },
+    "fullName": "Họ và tên",
+    "dateOfBirth": "Ngày sinh",
+    "sex": "Giới tính",
+    "citizenIdentification": "Số CMND / CCCD",
+    "dateRange": "Ngày cấp",
+    "issuedBy": "Nơi cấp",
+    "contactAddress": "Địa chỉ liên hệ",
+    "phoneInsurance": "Số điện thoại nhận thông tin bảo hiểm",
+    "emailInsurance": "Email nhận chứng nhận bảo hiểm",
     "location": "Enter your location",
     "phoneNumber": "Enter your Phone Number"
   },
@@ -77,6 +86,11 @@
       "emailAndPhone": "Vui lòng địa chỉ email hoặc số điện thoại",
       "password": "Vui lòng mật khẩu"
     },
+    "dateOfBirth": "Nhập ngày sinh",
+    "sex": "Nhập giới tính",
+    "citizenIdentification": "Nhập số CMND / CCCD",
+    "dateRange": "Nhập ngày cấp",
+    "issuedBy": "Nhập nơi cấp",
     "location": "Chọn vị trí của bạn",
     "emailAndPhone": "Nhập địa chỉ email hoặc số điện thoại",
     "password": "Mật Khẩu",

@@ -55,6 +55,7 @@ const FormInput = React.memo((props: FormInputProps) => {
             placeholderTx={placeholderTx}
             onChangeText={onChange}
             onBlur={onBlur}
+            style={style}
             value={value}
             multiline={multiline}
             errorMessage={error}

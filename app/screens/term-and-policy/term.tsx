@@ -32,7 +32,7 @@ const Term = React.memo((props: Props) => {
           return (
             <View key={id.toString()} style={[MARGIN_BOTTOM_16, ROW]}>
               <View style={styles.circle}/>
-              <AppText value={`${val}`} style={styles.content}/>
+              <AppText value={val} style={styles.content}/>
             </View>
           )
         })
@@ -45,7 +45,7 @@ const Term = React.memo((props: Props) => {
           return (
                  <View key={id.toString()} style={[MARGIN_BOTTOM_16, ROW]}>
               <View style={styles.circle}/>
-              <AppText value={`${val}`} style={styles.content}/>
+              <AppText value={val} style={styles.content}/>
             </View>
           )
         })
@@ -56,7 +56,7 @@ const Term = React.memo((props: Props) => {
           return (
                  <View key={id.toString()} style={[MARGIN_BOTTOM_16, ROW]}>
               <View style={styles.circle}/>
-              <AppText value={`${val}`} style={styles.content}/>
+              <AppText value={val} style={styles.content}/>
             </View>
           )
         })
@@ -68,7 +68,7 @@ const Term = React.memo((props: Props) => {
           return (
                  <View key={id.toString()} style={[MARGIN_BOTTOM_16, ROW]}>
               <View style={styles.circle}/>
-              <AppText value={`${val}`} style={styles.content}/>
+              <AppText value={val} style={styles.content}/>
             </View>
           )
         })
@@ -79,7 +79,7 @@ const Term = React.memo((props: Props) => {
           return (
                  <View key={id.toString()} style={[MARGIN_BOTTOM_16, ROW]}>
               <View style={styles.circle}/>
-              <AppText value={`${val}`} style={styles.content}/>
+              <AppText value={val} style={styles.content}/>
             </View>
           )
         })
