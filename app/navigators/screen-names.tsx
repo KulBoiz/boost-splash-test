@@ -23,5 +23,6 @@ export enum ScreenNames {
   TERM_AND_POLICY = 'TermAndPolicy',
   INSURANCE_SCREEN = 'InsuranceScreen',
   INSURANCE_DETAIL = 'InsuranceDetail',
-  INSURANCE_PACKAGE = 'InsurancePackage'
+  INSURANCE_PACKAGE = 'InsurancePackage',
+  INTRODUCE_SCREEN = 'IntroduceScreen'
 }

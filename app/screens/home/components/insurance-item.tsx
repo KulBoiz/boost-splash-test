@@ -7,6 +7,7 @@ import { FONT_MEDIUM_12, FONT_SEMI_BOLD_14 } from "../../../styles/common-style"
 import { color } from "../../../theme"
 import { navigate } from "../../../navigators"
 import { ScreenNames } from "../../../navigators/screen-names"
+import { useStores } from "../../../models"
 interface Props{}
 
 const TEST_DATA = [
@@ -24,8 +25,15 @@ const TaqItem = ({title}: {title: string}) => {
   )
 }
 const InsuranceItem = React.memo((props: Props) => {
+  const {insuranceStore} = useStores()
+  const handlePress = () => {
+    if (insuranceStore.isFirstTime){
+      navigate(ScreenNames.INTRODUCE_SCREEN)
+    }
+    else navigate(ScreenNames.INSURANCE_SCREEN)
+  }
   return (
-    <Pressable style={styles.container} onPress={()=> navigate(ScreenNames.INSURANCE_SCREEN)}>
+    <Pressable style={styles.container} onPress={handlePress}>
       <FastImage source={{uri: url}} style={styles.image}/>
       <View>
         <AppText value={'vững tâm mùa dịch'} capitalize style={FONT_MEDIUM_12}/>

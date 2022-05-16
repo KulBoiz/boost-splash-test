@@ -1,4 +1,4 @@
-import React, { useState } from "react"
+import React, { useEffect, useState } from "react"
 import { View, TouchableOpacity } from "react-native"
 import Modal from "react-native-modal"
 import { Colors } from "react-native/Libraries/NewAppScreen"
@@ -12,18 +12,26 @@ import { color } from "../../../theme"
 interface Props{
   visible: boolean,
   closeModal(): void
+  stepThree(): void
 }
 
 const CELL_COUNT = 6;
 
 const PinModal = React.memo((props: Props) => {
-  const {visible, closeModal} = props
+  const {visible, closeModal, stepThree} = props
   const [value, setValue] = useState('');
   const ref = useBlurOnFulfill({value, cellCount: CELL_COUNT});
   const [prop, getCellOnLayoutHandler] = useClearByFocusCell({
     value,
     setValue,
   });
+
+  useEffect(()=> {
+    if (value.length === 6){
+      stepThree()
+    }
+  },[value])
+
   return (
     <Modal
       isVisible={visible}

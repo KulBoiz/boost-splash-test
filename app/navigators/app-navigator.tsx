@@ -17,6 +17,7 @@ import RequestCounselling from "../screens/loan/request-counselling"
 import InsuranceScreen from "../screens/insurance/insurance-screen"
 import InsurancePackage from "../screens/insurance/insurance-package"
 import InsuranceDetail from "../screens/insurance/insurance-detail"
+import { IntroduceScreen } from "../screens/insurance/introduce/introduce-screen"
 
 export type NavigatorParamList = {
   [ScreenNames.SPLASH]: undefined;
@@ -32,6 +33,7 @@ export type NavigatorParamList = {
   [ScreenNames.INSURANCE_SCREEN]: undefined;
   [ScreenNames.INSURANCE_PACKAGE]: undefined;
   [ScreenNames.INSURANCE_DETAIL]: undefined;
+  [ScreenNames.INTRODUCE_SCREEN]: undefined;
 }
 
 // Documentation: https://reactnavigation.org/docs/stack-navigator/
@@ -60,6 +62,7 @@ const RootStack = ()=> {
       <Stack.Screen name={ScreenNames.INSURANCE_SCREEN} component={InsuranceScreen} />
       <Stack.Screen name={ScreenNames.INSURANCE_PACKAGE} component={InsurancePackage} />
       <Stack.Screen name={ScreenNames.INSURANCE_DETAIL} component={InsuranceDetail} />
+      <Stack.Screen name={ScreenNames.INTRODUCE_SCREEN} component={IntroduceScreen} />
     </Stack.Navigator>
   )
 }
