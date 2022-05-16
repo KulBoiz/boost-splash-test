@@ -8,6 +8,8 @@ import * as Yup from "yup"
 import { useForm } from "react-hook-form"
 import { yupResolver } from "@hookform/resolvers/yup/dist/yup"
 import BuyStepTwo from "./components/buy-step-two"
+import BuyStepThree from "./components/buy-step-three"
+import BuyRecords from "./components/buy-records"
 
 interface Props{}
 
@@ -28,20 +30,32 @@ const BuyInsurance = React.memo((props: Props) => {
   })
   const ref = useRef(null)
   const [currentPosition, setCurrentPosition] = useState(0)
-  const renderScreen = () => {
-    switch (currentPosition){
-      case 0: return      <BuyStepOne  {...{control, errors, onPress:stepTwo}}/>
-      case 1: return <BuyStepTwo />
-    }
-  }
+  const [insuranceType, setInsuranceType] = useState<number>(0)
+
+
   const stepTwo = () => {
     // @ts-ignore
     ref.current.scrollTo({ x: 0, animated: true })
     setCurrentPosition(1)
   }
+  const stepThree = () => {
+    setCurrentPosition(2)
+  }
+  const buyRecords = () => {
+    setCurrentPosition(3)
+  }
+
+  const renderScreen = () => {
+    switch (currentPosition){
+      case 0: return <BuyStepOne  {...{control, errors, onPress:stepTwo, insuranceType, setInsuranceType}}/>
+      case 1: return <BuyStepTwo {...{stepThree}}/>
+      case 2: return <BuyStepThree {...{onPress: buyRecords}}/>
+      case 3: return <BuyRecords />
+    }
+  }
   return (
     <ScrollView style={styles.container} ref={ref}>
-     <RenderStep {...{currentPosition}}/>
+      {currentPosition < 3 &&  <RenderStep {...{currentPosition}}/>}
       {renderScreen()}
     </ScrollView>
   )

@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, StyleSheet } from 'react-native';
+import { View } from 'react-native';
 import { AppText } from "../../../components/app-text/AppText"
 import { ALIGN_CENTER, FONT_MEDIUM_14, ROW, SPACE_BETWEEN } from "../../../styles/common-style"
 import { PaymeSvg } from "../../../assets/svgs"

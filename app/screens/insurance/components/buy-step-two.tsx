@@ -10,10 +10,12 @@ import PinModal from "./pin-modal"
 
 
 interface Props{
+  stepThree(): void
 }
 
-const BuyStepTwo = React.memo((props: Props) => {
+const BuyStepTwo = React.memo(({ stepThree }: Props) => {
   const [modal,setModal] = useState(false)
+
   return (
     <View style={styles.container}>
       <Benefit />
@@ -21,7 +23,7 @@ const BuyStepTwo = React.memo((props: Props) => {
       <CollapsibleInfoCustomer />
       <PaymentMethod  />
       <CalculateMoney onPress={()=> setModal(true)}/>
-      <PinModal visible={modal} closeModal={()=> setModal(false)} />
+      <PinModal visible={modal} closeModal={()=> setModal(false)} stepThree={stepThree}/>
     </View>
   )
 });

@@ -15,7 +15,7 @@ export interface BaseButtonProps extends TouchableOpacityProps  {
   disable?: boolean
   loading?: boolean
   containerStyle?: ViewStyle | any
-  titleStyle?: TextStyle
+  titleStyle?: TextStyle | any
   colorBtn?: string
   upperCase?:boolean
 }

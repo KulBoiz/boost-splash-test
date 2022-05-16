@@ -15,15 +15,17 @@ interface Props{
   control: Control,
   errors: FieldErrors<FieldValues>
   onPress(): void
+  insuranceType: number
+  setInsuranceType(e: number): void
 }
 
 const BuyStepOne = React.memo((props: Props) => {
-  const {control, errors, onPress} = props
+  const {control, errors, onPress, insuranceType, setInsuranceType} = props
 
   return (
     <View style={styles.container}>
       <Benefit />
-      <InsurancePicker />
+      <InsurancePicker {...{insuranceType,setInsuranceType}}/>
       <SurveyQuestion />
       <InputCustomer  {...{control, errors}}/>
       <HomeInsurance />

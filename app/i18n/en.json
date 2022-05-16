@@ -124,6 +124,14 @@
     },
     "currentInvestmentTrends": "xu hướng đầu tư hiện nay"
   },
+  "insurance": {
+    "firstLabel": "Tiết kiệm chi phí",
+    "firstContent": "Đầu tư cho tương lai chính là bảo vệ tương lai của bạn. Chi phí tuy nhỏ nhưng bảo vệ cực lớn. Hãy sẵn sàng ngay từ bây giờ!",
+    "secondLabel": "Sản phẩm đa dạng, đối tác uy tín",
+    "secondContent": "Cùng với các đối tác bảo hiểm lớn, chúng tôi mang lại cho bạn sự lựa chọn đa dạng và ngày càng ưu việt hơn",
+    "thirdLabel": "Bảo vệ toàn diện",
+    "thirdContent": "Chúng tôi cung cấp các loại hình bảo hiểm phi nhân thọ và nhân thọ: từ con người đến tài sản. Bảo vệ bạn và gia đình một cách toàn diện nhất"
+  },
   "notice": {
     "readAll": "Đọc tất cả",
     "all": "Tất cả",
