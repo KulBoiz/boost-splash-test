@@ -1,5 +1,5 @@
 import React, { FC } from "react"
-import { View } from 'react-native';
+import { Pressable, Keyboard } from 'react-native';
 import { StackScreenProps } from "@react-navigation/stack"
 import { observer } from "mobx-react-lite"
 import { ScreenNames } from "../../navigators/screen-names"
@@ -18,13 +18,13 @@ const OtpScreen :FC<StackScreenProps<AuthStackParamList, ScreenNames.OTP>> = obs
     const {params: {phoneNumber, isRegister}} = useRoute<RouteProp<AuthStackParamList, ScreenNames.OTP>>()
     const isNum = Number(phoneNumber)
     return (
-      <View style={styles.container}>
+      <Pressable style={styles.container} onPress={Keyboard.dismiss}>
         <BackButton />
         <AppText tx={'auth.otpCode'} style={[presets.header, styles.header]}/>
         <AppText tx={isNum ? 'auth.checkPhoneInbox' : 'auth.checkEmailInbox'} style={presets.secondary}/>
         <AppText value={isNum ? `+${phoneNumber}`: phoneNumber} style={[presets.secondary, presets.bold]}/>
         <OtpItem {...{phoneNumber, isRegister}} />
-      </View>
+      </Pressable>
     )
   });
 

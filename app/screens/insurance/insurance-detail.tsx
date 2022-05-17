@@ -12,8 +12,9 @@ const InsuranceDetail = React.memo((props: Props) => {
     <View style={styles.container}>
       <AppHeader headerText={'BH mất cấp / Cướp xe máy '} isBlue/>
       <View style={styles.body}>
-        <AppText value={'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Risus vivamus aliquet porttitor ac.\n' +
-          'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Risus vivamus aliquet porttitor ac. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Risus vivamus aliquet porttitor ac.'} />
+        <AppText value={'Đầu tư cho tương lai chính là bảo vệ tương lai của bạn. Chi phí tuy nhỏ nhưng bảo vệ cực lớn. Hãy sẵn sàng ngay từ bây giờ!\n'} />
+        <AppText value={'Cùng với các đối tác bảo hiểm lớn, chúng tôi mang lại cho bạn sự lựa chọn đa dạng và ngày càng ưu việt hơn\n'} />
+        <AppText value={'Chúng tôi cung cấp các loại hình bảo hiểm phi nhân thọ và nhân thọ: từ con người đến tài sản. Bảo vệ bạn và gia đình một cách toàn diện nhất'} />
       </View>
     </View>
   )

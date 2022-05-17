@@ -16,6 +16,8 @@ import LoginText from "./components/LoginText"
 import { AuthStackParamList } from "../../navigators/auth-stack"
 import AppModal from "../../components/app-modal/app-modal"
 import { StackActions } from "@react-navigation/native"
+import { fontFamily } from "../../constants/font-family"
+import { presets } from "../../constants/presets"
 
 const errorContent = 'Sai thông tin tài khoản hoặc mật khẩu.\nVui lòng kiểm tra lại.'
 
@@ -55,12 +57,10 @@ export const LoginScreen: FC<StackScreenProps<AuthStackParamList, ScreenNames.LO
       navigation.navigate(ScreenNames.FORGOT_PASSWORD)
     }
 
-
-
     return (
       <Pressable style={styles.container} onPress={Keyboard.dismiss}>
         <View style={styles.body}>
-        <AppText value={'Đăng Nhập'} style={styles.textLogin}/>
+        <AppText tx={'auth.login'} style={[presets.header,styles.textLogin]}/>
         <FormInput
           {...{
             name: 'email',
@@ -101,14 +101,13 @@ const styles = ScaledSheet.create({
     paddingHorizontal: "20@ms",
   },
   backToHome: {
-    color: color.palette.blue,
+    color: color.palette.orange,
     alignSelf: "center",
     marginTop: '16@s'
   },
   body: {flex: 1, justifyContent:'center'},
   textLogin: {
-    fontSize: '44@ms',
-    fontWeight: '400', marginBottom: '40@s',
+    marginBottom: '30@s',
     marginLeft: '20@ms'
   },
   button: {
@@ -119,6 +118,7 @@ const styles = ScaledSheet.create({
     color: color.palette.blue
   },
   wrapBottom: {
-    paddingBottom: '30@s'
+    paddingBottom: '30@s',
+    alignItems: "center"
   }
 })

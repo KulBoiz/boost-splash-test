@@ -23,7 +23,7 @@ const RenderCheckbox = React.memo(({text, state, setState}: {text: string, state
 const SurveyQuestion = React.memo((props: Props) => {
   const [injured, setInjured] = useState<string>('')
   const [fatalDisease, setFatalDisease] = useState<string>('')
-  const isValid = injured === 'yes' || fatalDisease === 'yes'
+  const isValid = injured === 'no' && fatalDisease === 'no'
   return (
     <View style={styles.container}>
       <AppText value={'Câu hỏi khảo sát theo sản phẩm'} style={styles.title}/>

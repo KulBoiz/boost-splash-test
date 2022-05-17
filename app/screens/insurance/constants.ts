@@ -3,24 +3,24 @@ import { images } from "../../assets/images"
 export const HAVE_INSURANCE = [
   {
     icon: images.ribbon,
-    title: 'Lorem ipsum dolor sit amet'
+    title: 'Giấy chứng nhận'
   },{
     icon: images.caution,
-    title: 'Lorem ipsum dolor sit amet'
+    title: 'An toàn khi xảy ra sự cố'
   },{
     icon: images.first_aid,
-    title: 'Lorem ipsum dolor sit amet'
+    title: 'Được chăm sóc hoàn thảo'
   },
 ]
 export const NOT_HAVE_INSURANCE = [
   {
     icon: images.shield_star,
-    title: 'Lorem ipsum dolor sit amet'
+    title: 'Không được bảo vệ'
   },{
     icon: images.dollar_coin,
-    title: 'Lorem ipsum dolor sit amet'
+    title: 'Chi phí cao'
   },{
     icon: images.first_aid,
-    title: 'Lorem ipsum dolor sit amet'
+    title: 'Chăm sóc kém'
   },
 ]

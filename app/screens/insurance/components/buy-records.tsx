@@ -46,6 +46,8 @@ export default BuyRecords;
 
 const styles = ScaledSheet.create({
     container: {
+      flex: 1,
+      backgroundColor: color.palette.lightBlue,
       paddingHorizontal: '16@ms',
       paddingVertical: '24@s'
     },

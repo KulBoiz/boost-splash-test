@@ -5,6 +5,10 @@ import RegisterPhoneScreen from "../screens/auth/register-phone-screen"
 import { RegisterScreen } from "../screens/auth/register-screen"
 import ForgotPasswordScreen from "../screens/auth/forgot-password-screen"
 import { ChangePassword } from "../screens/auth/change-password"
+import BecomeAgent from "../screens/agent/become-agent"
+import PhotoTutorial from "../screens/agent/photo-tutorial"
+import RegisterAgent from "../screens/agent/register-agent"
+import RegisterInfo from "../screens/agent/register-info"
 
 export const AuthRoutes = [
 	{
@@ -39,5 +43,21 @@ export const AppRoutes = [
 	{
 		name: ScreenNames.SPLASH,
 		component: SplashScreen,
+	},
+];
+
+export const AgentRoutes = [
+	{
+		name: ScreenNames.BECOME_SCREEN,
+		component: BecomeAgent,
+	},{
+		name: ScreenNames.PHOTO_TUTORIAL,
+		component: PhotoTutorial,
+	},{
+		name: ScreenNames.REGISTER_AGENT,
+		component: RegisterAgent,
+	},{
+		name: ScreenNames.REGISTER_INFO,
+		component: RegisterInfo,
 	},
 ];

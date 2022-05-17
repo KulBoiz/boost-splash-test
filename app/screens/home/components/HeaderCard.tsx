@@ -20,8 +20,8 @@ interface Props{
 }
 
 const HeaderCard = React.memo(({ animatedValue }: Props) => {
-  const MIN_HEIGHT = isIphoneX() ? s(110) : s(90)
-  const MAX_HEIGHT = isIphoneX() ? s(200) : s(180)
+  const MIN_HEIGHT = isIphoneX() ? s(90) : s(70)
+  const MAX_HEIGHT = isIphoneX() ? s(160) : s(140)
 
   const animatedHeaderHeight = animatedValue.interpolate({
     inputRange: [0, MAX_HEIGHT - MIN_HEIGHT],
@@ -41,7 +41,8 @@ const HeaderCard = React.memo(({ animatedValue }: Props) => {
 
   return (
     <><Animated.View style={[styles.header, { height: animatedHeaderHeight }]}>
-      <Header style={{ top: animatedHeaderBarHeight }} headerText={"FINA"} renderRightIcon={<SearchSvg />}
+      <Header style={{ top: animatedHeaderBarHeight }} headerText={"FINA"}
+              // renderRightIcon={<SearchSvg />}
               titleStyle={[presets.secondary, presets.bold, { color: "white" }]} />
       <FastImage source={images.headerDecor} style={styles.image} />
       <View style={styles.wrapContent}>
@@ -74,6 +75,7 @@ const styles = ScaledSheet.create({
     flexDirection: "row",
     justifyContent: "space-between",
     alignItems: "center",
+    marginBottom: '20@s'
   },
   image: {
     top:20,
@@ -81,6 +83,7 @@ const styles = ScaledSheet.create({
     position: 'absolute'
   },
   header: {
+      paddingTop: '10@s',
     alignItems:'center',
     justifyContent: 'center',
     backgroundColor: color.palette.blue

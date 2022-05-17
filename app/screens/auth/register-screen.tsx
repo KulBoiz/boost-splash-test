@@ -1,4 +1,4 @@
-import React, { FC, useState } from "react"
+import React, { FC, useEffect, useState } from "react"
 import { Alert, Keyboard, Pressable, View } from "react-native"
 import { StackScreenProps } from "@react-navigation/stack"
 import { observer } from "mobx-react-lite"
@@ -29,7 +29,7 @@ export const RegisterScreen: FC<StackScreenProps<AuthStackParamList, ScreenNames
         .trim()
         .oneOf([Yup.ref('password'), null], 'Password do not match'),
     })
-    const {control, handleSubmit, formState: {errors}} = useForm({
+    const {control, handleSubmit, formState: {errors}, setValue} = useForm({
       delayError: 0,
       defaultValues: undefined,
       mode: "all",
@@ -41,12 +41,14 @@ export const RegisterScreen: FC<StackScreenProps<AuthStackParamList, ScreenNames
     const [checkboxState, setCheckboxState] = useState(false);
 
     const _handleRegister = async (data) => {
-      const register = await authStoreModel.register(data.fullName,data.email, data.password, data.passwordConfirm)
-      console.log('register screen',register)
+      const register = await authStoreModel.register(data.fullName, data.password, data.passwordConfirm)
       if (register.kind !== 'ok') {
-        Alert.alert('Something went wrong')
+        Alert.alert(register?.error?.message ?? 'Something went wrong')
       }
     }
+    useEffect(()=> {
+      setValue('email', authStoreModel?.user?.emails[0]?.email ?? authStoreModel?.user?.tels[0]?.tel)
+    },[])
 
     return (
       <Pressable style={styles.container} onPress={Keyboard.dismiss}>
@@ -55,6 +57,7 @@ export const RegisterScreen: FC<StackScreenProps<AuthStackParamList, ScreenNames
           <FormInput
             {...{
               name: 'fullName',
+              labelTx: 'label.fullName',
               placeholderTx: 'placeholder.fullName',
               autoCapitalize: 'none',
               control,
@@ -64,16 +67,19 @@ export const RegisterScreen: FC<StackScreenProps<AuthStackParamList, ScreenNames
           <FormInput
             {...{
               name: 'email',
+              labelTx: 'label.login.emailAndPhone',
               placeholderTx: 'placeholder.email',
               autoCapitalize: 'none',
               error: errors?.email?.message,
               control,
+              editable: false
             }}
           />
 
           <FormInput
             {...{
               name: 'password',
+              labelTx: 'label.login.password',
               placeholderTx: 'placeholder.password',
               autoCapitalize: 'none',
               error: errors?.password?.message,
@@ -83,6 +89,7 @@ export const RegisterScreen: FC<StackScreenProps<AuthStackParamList, ScreenNames
           />
           <FormInput
             {...{
+              label: 'Nhập lại mật khẩu',
               name: 'passwordConfirm',
               placeholderTx: 'placeholder.reenteredPassword',
               autoCapitalize: 'none',
@@ -94,9 +101,9 @@ export const RegisterScreen: FC<StackScreenProps<AuthStackParamList, ScreenNames
           <TermCheckbox checkboxState={checkboxState} setCheckboxState={setCheckboxState} />
           <AppButton onPress={handleSubmit(_handleRegister)} tx={"auth.register"} containerStyle={styles.button}/>
         </View>
-        <View style={styles.wrapBottom}>
-          <LoginText firstText={'auth.haveAccount'} secondText={'auth.loginNow'} action={'login'}/>
-        </View>
+        {/*<View style={styles.wrapBottom}>*/}
+        {/*  <LoginText firstText={'auth.haveAccount'} secondText={'auth.loginNow'} action={'login'}/>*/}
+        {/*</View>*/}
       </Pressable>
     )
   },

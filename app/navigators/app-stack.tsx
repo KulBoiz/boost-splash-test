@@ -13,6 +13,7 @@ import SettingScreen from "../screens/settting/setting-screen"
 import { HomeActiveSVG, HomeInactiveSVG, SettingActiveSVG, SettingInactiveSVG } from "../assets/svgs"
 import i18n from "i18n-js"
 import { color } from "../theme"
+import ComingSoon from "../components/coming-soon"
 
 
 export type AppStackParamList = {
@@ -73,7 +74,7 @@ export const AppStack = () => {
             tabBarVisible: getTabBarVisibility(props.route),
           }
         }}
-        component={HomeScreen}
+        component={ComingSoon}
       />
       <Tab.Screen
         name={ScreenNames.PLUS}
@@ -105,7 +106,7 @@ export const AppStack = () => {
             tabBarVisible: getTabBarVisibility(props.route),
           }
         }}
-        component={HomeScreen}
+        component={ComingSoon}
       />
       <Tab.Screen
         name={ScreenNames.SETTING}

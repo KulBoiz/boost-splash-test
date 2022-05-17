@@ -10,6 +10,10 @@ import { yupResolver } from "@hookform/resolvers/yup/dist/yup"
 import BuyStepTwo from "./components/buy-step-two"
 import BuyStepThree from "./components/buy-step-three"
 import BuyRecords from "./components/buy-records"
+import i18n from "i18n-js"
+import { navigate } from "../../navigators"
+import { ScreenNames } from "../../navigators/screen-names"
+import { StackActions, useNavigation } from "@react-navigation/native"
 
 interface Props{}
 
@@ -17,21 +21,29 @@ const BuyInsurance = React.memo((props: Props) => {
   const validationSchema = Yup.object().shape({
     email: Yup.string()
       .trim()
-      .required("Vui lòng nhập email hoặc số điện thoại"),
-    // .email("This is not a valid email"),
-    password: Yup.string().required("Vui lòng nhập mật khẩu").trim(),
+      .required(i18n.t('errors.requireEmail'))
+      .email(i18n.t('errors.invalidEmail')),
+    fullName: Yup.string().required(i18n.t('errors.requireFullName')),
+    dateOfBirth: Yup.string().required(i18n.t('errors.requireDateOfBirth')),
+    sex: Yup.string().required(i18n.t('errors.requireSex')),
+    citizenIdentification: Yup.string().required(i18n.t('errors.requireCitizenIdentification')),
+    dateRange: Yup.string().required(i18n.t('errors.requireDateRange')),
+    issuedBy: Yup.string().required(i18n.t('errors.requireIssuedBy')),
+    contactAddress: Yup.string().required(i18n.t('errors.requireAddress')),
+    phone: Yup.string().required(i18n.t('errors.requirePhone'))
+
   })
   const {control, handleSubmit, formState: {errors}} = useForm({
     delayError: 0,
     defaultValues: undefined,
     mode: "all",
     resolver: yupResolver(validationSchema),
-    reValidateMode: "onChange",
+    reValidateMode: "onChange" || "onTouched",
   })
   const ref = useRef(null)
+  const navigation = useNavigation()
   const [currentPosition, setCurrentPosition] = useState(0)
   const [insuranceType, setInsuranceType] = useState<number>(0)
-
 
   const stepTwo = () => {
     // @ts-ignore
@@ -42,20 +54,19 @@ const BuyInsurance = React.memo((props: Props) => {
     setCurrentPosition(2)
   }
   const buyRecords = () => {
-    setCurrentPosition(3)
+    navigation.dispatch(StackActions.push(ScreenNames.INSURANCE_SCREEN, {id :1}))
   }
 
   const renderScreen = () => {
     switch (currentPosition){
-      case 0: return <BuyStepOne  {...{control, errors, onPress:stepTwo, insuranceType, setInsuranceType}}/>
+      case 0: return <BuyStepOne  {...{control, errors, onPress:handleSubmit(stepTwo), insuranceType, setInsuranceType}}/>
       case 1: return <BuyStepTwo {...{stepThree}}/>
       case 2: return <BuyStepThree {...{onPress: buyRecords}}/>
-      case 3: return <BuyRecords />
     }
   }
   return (
     <ScrollView style={styles.container} ref={ref}>
-      {currentPosition < 3 &&  <RenderStep {...{currentPosition}}/>}
+      {currentPosition < 2 &&  <RenderStep {...{currentPosition}}/>}
       {renderScreen()}
     </ScrollView>
   )

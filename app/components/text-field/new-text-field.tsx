@@ -175,15 +175,9 @@ export function NewTextField(props: TextFieldProps) {
         />
         </View>
         {showIcon &&
-          <>{showPassword ?
             <Pressable onPress={_handleShowPass} style={PRESS}>
-              <FastImage source={images.close_eye} style={EYE}/>
+              <FastImage source={showPassword ? images.close_eye : images.open_eye} style={EYE}/>
             </Pressable>
-            :
-            <Pressable onPress={_handleShowPass} style={PRESS}>
-              <FastImage source={images.close_eye} style={EYE}/>
-            </Pressable>}
-          </>
         }
       </View>
       </View>

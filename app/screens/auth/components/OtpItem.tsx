@@ -1,5 +1,5 @@
 import React, {FC, useEffect, useState } from "react"
-import { View } from 'react-native';
+import { Alert, View } from "react-native"
 
 import { observer } from "mobx-react-lite"
 import { AppText } from "../../../components/app-text/AppText"
@@ -25,7 +25,7 @@ interface Props{
 const OtpItem:FC<Props> = observer(
   ({ phoneNumber, isRegister } : Props) => {
     const [value, setValue] = useState('');
-    const defaultTime = 60*1000
+    const defaultTime = 5 * 60 * 1000
     const { authStoreModel } = useStores()
     const ref = useBlurOnFulfill({value, cellCount: CELL_COUNT});
     const [prop, getCellOnLayoutHandler] = useClearByFocusCell({
@@ -58,23 +58,30 @@ const OtpItem:FC<Props> = observer(
         if (otp.kind === 'ok') {
           navigate(ScreenNames.REGISTER)
         }
+        else Alert.alert('Bạn đã nhập sai mã xác nhận')
       } else {
         const otp = await authStoreModel.verifyPasswordOtp(value)
         if (otp.kind === 'ok') {
           navigate(ScreenNames.CHANGE_PASSWORD)
-
         }
+        else Alert.alert('Bạn đã nhập sai mã xác nhận')
       }
     }
 
-    const resendCode = () => {
-      if (isRegister){
-        authStoreModel.registerEmail(phoneNumber)
+    const resendCode = async () => {
+      if (isRegister) {
+        const resend = await authStoreModel.resendOtp(phoneNumber)
+        if (resend.kind === 'ok') {
+          setTime(defaultTime)
+          setStartCheck(true)
+        }
+      } else {
+        const resend = await authStoreModel.forgotPassword(phoneNumber)
+        if (resend.kind === 'ok') {
+          setTime(defaultTime)
+          setStartCheck(true)
+        }
       }
-      else {
-        authStoreModel.forgotPassword(phoneNumber)
-      }
-      setStartCheck(true)
     }
 
     useEffect(()=> {

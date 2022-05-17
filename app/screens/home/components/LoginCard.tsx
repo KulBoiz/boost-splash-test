@@ -18,16 +18,18 @@ const LoginCart = observer(({ style }: Props) => {
   // @ts-ignore
   const isLogin = !!authStoreModel?.user?.fullName
   // @ts-ignore
-  const avatar = !!authStoreModel?.user?.avatar
+  const haveAvatar = !!authStoreModel?.user?.avatar
+  const avatar = authStoreModel?.user?.avatar
   const onPress = () => {
     if (!isLogin){
-      navigate(ScreenNames.LOGIN)
+      navigate(ScreenNames.AUTH)
     }
     return true
   }
+
   return (
     <Pressable style={[styles.container, style]} onPress={onPress}>
-      {avatar ?
+      {haveAvatar ?
         // @ts-ignore
         <FastImage source={{uri: avatar}} style={[styles.avatar, styles.avatarContainer]} /> :
         <DefaultAvatarSvg width={s(40)} height={s(40)} style={styles.avatarContainer} />
@@ -53,7 +55,8 @@ const styles = ScaledSheet.create({
     width: '40@s',
     height: '40@s',
     borderRadius: '20@s',
-    borderWidth: 1, borderColor: 'white'
+    borderWidth: 1,
+    borderColor: 'white',
   },
   lock: {marginRight: '5@s'},
   wrapText: {

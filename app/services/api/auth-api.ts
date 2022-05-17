@@ -58,6 +58,21 @@ export class AuthApi {
     }
   }
 
+  async resendOtp(telOrEmail: string): Promise<any> {
+    try {
+      const response: ApiResponse<any> = await this.api.apisauce.post(`${API_ENDPOINT}/users/send-otp`, {
+        telOrEmail
+      })
+      if (!response.ok) {
+        return response
+      }
+      const data = response
+      return { kind: "ok", data }
+    } catch (e) {
+      return { kind: "bad-data", e }
+    }
+  }
+
   async verifyOtp(id, otp: string): Promise<any> {
     try {
       const response: ApiResponse<any> = await this.api.apisauce.post(`${API_ENDPOINT}/signup/${id}/verify-otp`, {
@@ -90,10 +105,10 @@ export class AuthApi {
     }
   }
 
-  async register(id: string, fullName: string, telOrEmail: string, password: string, confirmPassword): Promise<any> {
+  async register(id: string, fullName: string, password: string, confirmPassword): Promise<any> {
     try {
       const response: ApiResponse<any> = await this.api.apisauce.put(`${API_ENDPOINT}/users/${id}/register-information-user`, {
-        fullName, telOrEmail, password, confirmPassword
+        fullName, password, confirmPassword
       })
       if (!response.ok) {
         const problem = getGeneralApiProblem(response)

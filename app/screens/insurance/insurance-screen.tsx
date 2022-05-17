@@ -1,4 +1,4 @@
-import React  from "react"
+import React, { useEffect } from "react"
 import { Pressable, View } from "react-native"
 import AppHeader from "../../components/app-header/AppHeader"
 import { TabView, SceneMap, TabBar } from "react-native-tab-view"
@@ -8,21 +8,24 @@ import { FONT_MEDIUM_14 } from "../../styles/common-style"
 import { ScaledSheet } from "react-native-size-matters"
 import InsuranceInfo from "./components/insurance-info"
 import BuyInsurance from "./buy-insurance"
-import { navigate } from "../../navigators"
+import { navigate, NavigatorParamList } from "../../navigators"
 import { ScreenNames } from "../../navigators/screen-names"
 import { AppText } from "../../components/app-text/AppText"
-import { StackActions, useNavigation } from "@react-navigation/native"
+import { RouteProp, StackActions, useNavigation, useRoute } from "@react-navigation/native"
+import BuyRecords from "./components/buy-records"
 
 interface Props{}
 
 const renderScene = SceneMap({
   first: BuyInsurance,
-  second: InsuranceInfo,
+  second: BuyRecords,
 });
 
 const InsuranceScreen = React.memo((props: Props) => {
+  const route = useRoute<RouteProp<NavigatorParamList, ScreenNames.INSURANCE_SCREEN>>()
+  const id = route?.params?.id
   const navigation = useNavigation()
-  const [index, setIndex] = React.useState(0);
+  const [index, setIndex] = React.useState(id ?? 0);
   const [routes] = React.useState([
     { key: 'first', title: 'Mua BH' },
     { key: 'second', title: 'Giao dịch' },

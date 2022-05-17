@@ -9,6 +9,7 @@ export const images = {
   fina_logo: require('./finaLogo.png'),
   headerDecor: require('./headerDecor.png'),
   close_eye: require('./close_eye.png'),
+  open_eye: require('./open_eye.png'),
   fifth: require('./fitth.png'),
   bank: require('./bank.png'),
   insurance: require('./insurance.png'),
@@ -32,4 +33,10 @@ export const images = {
   note: require('./note.png'),
   wallet: require('./wallet.png'),
   check: require('./check.png'),
+  defaultBackground: require('./defaultBackground.png'),
+  id_front: require('./id_front.png'),
+  id_back: require('./id_back.png'),
+  id_deviate: require('./id_deviate.png'),
+  id_too_dark: require('./id_too_dark.png'),
+  id_too_light: require('./id_too_light.png'),
 }

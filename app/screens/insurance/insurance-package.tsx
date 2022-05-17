@@ -14,13 +14,7 @@ const InsurancePackage = React.memo((props: Props) => {
     <View style={styles.container}>
       <AppHeader headerText={'Gói vàng'} isBlue/>
       <ScrollView style={styles.body}>
-        <AppText value={text} />
-        <AppText value={text} />
-        <AppText value={text} />
-        <AppText value={text} />
-        <AppText value={text} />
-        <AppText value={text} />
-        <AppText value={text} />
+        <AppText value={'Đây là bảo hiểm gói vàng. Thông tin đang được cập nhật.'} />
       </ScrollView>
 
       <View style={styles.wrapButton}>
