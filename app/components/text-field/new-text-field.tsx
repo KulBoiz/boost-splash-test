@@ -7,7 +7,7 @@ import { s, ms } from "react-native-size-matters"
 import FastImage, { ImageStyle } from "react-native-fast-image"
 import { images } from "../../assets/images"
 import { ROW } from "../../styles/common-style"
-import { capitalizeFirstString } from "../../constants/variable"
+import { capitalizeFirstString, isAndroid } from "../../constants/variable"
 
 // the base styling for the container
 const CONTAINER: ViewStyle = {
@@ -17,7 +17,7 @@ const WRAPPER: ViewStyle = {
   borderWidth: 1,
   borderRadius: s(12),
   paddingHorizontal: ms(16),
-  paddingVertical: ms(12),
+  paddingVertical:isAndroid? ms(0): ms(12),
   justifyContent: "center"
 }
 const WRAPPER_PADDING: ViewStyle = {
@@ -49,13 +49,14 @@ const INPUT: TextStyle = {
   fontFamily:'Inter-Medium',
   color: color.palette.black,
   // minHeight: s(40),
-  maxWidth: ms(280),
+  maxWidth: ms(270),
   fontSize: ms(14),
 }
 const LABEL: TextStyle = {
+  marginTop: isAndroid ? s(3): 0,
   fontFamily: 'Inter-Medium',
   fontSize: ms(11),
-  marginBottom: s(4),
+  marginBottom: isAndroid ? s(-5) : s(4),
 }
 const OPTIONAL: TextStyle = {
   fontFamily: 'Inter-Medium',
@@ -175,15 +176,9 @@ export function NewTextField(props: TextFieldProps) {
         />
         </View>
         {showIcon &&
-          <>{showPassword ?
             <Pressable onPress={_handleShowPass} style={PRESS}>
-              <FastImage source={images.close_eye} style={EYE}/>
+              <FastImage source={showPassword ? images.close_eye : images.open_eye} style={EYE}/>
             </Pressable>
-            :
-            <Pressable onPress={_handleShowPass} style={PRESS}>
-              <FastImage source={images.close_eye} style={EYE}/>
-            </Pressable>}
-          </>
         }
       </View>
       </View>

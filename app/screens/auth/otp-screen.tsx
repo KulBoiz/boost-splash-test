@@ -1,5 +1,5 @@
-import React, { FC } from "react"
-import { View } from 'react-native';
+import React, { FC, useState } from "react"
+import { Pressable, Keyboard } from 'react-native';
 import { StackScreenProps } from "@react-navigation/stack"
 import { observer } from "mobx-react-lite"
 import { ScreenNames } from "../../navigators/screen-names"
@@ -11,29 +11,47 @@ import { color } from "../../theme"
 import OtpItem from "./components/OtpItem"
 import { AuthStackParamList } from "../../navigators/auth-stack"
 import { RouteProp, useRoute } from "@react-navigation/native"
+import RenderAuthStep from "./components/render-step-auth"
+import ConfirmModal from "../../components/app-modal/confirm-modal"
+import { goBack } from "../../navigators"
 
 
 const OtpScreen :FC<StackScreenProps<AuthStackParamList, ScreenNames.OTP>> = observer(
   ({ navigation }) => {
     const {params: {phoneNumber, isRegister}} = useRoute<RouteProp<AuthStackParamList, ScreenNames.OTP>>()
+    const [modal, setModal] = useState<boolean>(false)
     const isNum = Number(phoneNumber)
     return (
-      <View style={styles.container}>
+      <Pressable style={styles.container} onPress={Keyboard.dismiss}>
         <BackButton />
+        <RenderAuthStep currentPosition={1} />
         <AppText tx={'auth.otpCode'} style={[presets.header, styles.header]}/>
         <AppText tx={isNum ? 'auth.checkPhoneInbox' : 'auth.checkEmailInbox'} style={presets.secondary}/>
         <AppText value={isNum ? `+${phoneNumber}`: phoneNumber} style={[presets.secondary, presets.bold]}/>
+        <AppText onPress={()=> setModal(true)} value={isNum ? 'Đổi số điện thoại' : 'Đổi địa chỉ email'} style={styles.changeText}/>
         <OtpItem {...{phoneNumber, isRegister}} />
-      </View>
+        <ConfirmModal
+          visible={modal}
+          closeModal={()=>setModal(false)}
+          onPress={goBack}
+          title={isNum ? 'Nhập sai số điện thoại?': 'Nhập sai địa chỉ email'}
+          content={'Vui lòng chờ, FINA sẽ gửi mã OTP cho bạn trong ít phút.'}/>
+      </Pressable>
     )
   });
 
 export default OtpScreen;
 
 const styles = ScaledSheet.create({
-  container: {flex: 1, paddingHorizontal: '20@s', paddingTop: '150@s', backgroundColor: color.background},
+  container: {flex: 1, paddingHorizontal: '16@ms', paddingTop: '80@vs', backgroundColor: color.background},
   header: {
     marginBottom: '20@s',
   },
   title: {fontSize: 30, textAlign: 'center'},
+  changeText: {
+    fontSize: '12@ms',
+    color: color.palette.blue,
+    textDecorationLine: "underline",
+    marginTop: '4@s'
+  }
 });

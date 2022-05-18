@@ -6,6 +6,7 @@
     "continue": "Tiếp tục",
     "start": "Bắt đầu",
     "sent": "Gửi",
+    "sentCheck": "Gửi kiểm tra",
     "sentInformation": "Gửi thông tin"
   },
   "guide": {
@@ -33,7 +34,8 @@
     "lastContent": "Dễ dàng tra cứu tài khoản và hóa đơn giao dịch của bạn chỉ với vài thao tác trên FINA"
   },
   "auth": {
-    "backToHome": "Trở về trang chủ",
+    "hello": "Fina xin chào!",
+    "backToHome": "Trải nghiệm không cần tài khoản",
     "haveAccount": "Bạn đã có tài khoản?",
     "dontHaveAccount": "Bạn chưa có tài khoản?",
     "login": "Đăng nhập",
@@ -47,8 +49,9 @@
     "resetPassword": "Đặt lại mật khẩu",
     "notReceiveCode": "Không nhận được mã xác thực? ",
     "resentCode": "Gửi lại mã",
-    "endProcess": "Quá trình sẽ kết thúc trong 60 giây.",
+    "endProcess": "Quá trình sẽ kết thúc trong 5 phút.",
     "agree": "I’ve read and agree to the terms of privacy policy",
+    "loginForgotPassword": "Quên mật khẩu?",
     "forgotPassword": "Quên mật khẩu",
     "emailOrPhone": "Vui lòng nhập địa chỉ email hoặc\nsố điện thoại để khôi phục mật khẩu",
     "phone": "số điện thoại",
@@ -83,8 +86,8 @@
   },
   "placeholder": {
     "login": {
-      "emailAndPhone": "Vui lòng địa chỉ email hoặc số điện thoại",
-      "password": "Vui lòng mật khẩu"
+      "emailAndPhone": "Nhập email hoặc số điện thoại     ",
+      "password": "Nhập mật khẩu"
     },
     "dateOfBirth": "Nhập ngày sinh",
     "sex": "Nhập giới tính",
@@ -92,7 +95,7 @@
     "dateRange": "Nhập ngày cấp",
     "issuedBy": "Nhập nơi cấp",
     "location": "Chọn vị trí của bạn",
-    "emailAndPhone": "Nhập địa chỉ email hoặc số điện thoại",
+    "emailAndPhone": "Nhập email hoặc số điện thoại     ",
     "password": "Mật Khẩu",
     "reenteredPassword": "Nhập lại mật khẩu",
     "fullName": "Nhập họ và tên của bạn",
@@ -228,8 +231,15 @@
     "customerFullName": "Vui lòng nhập tên người mua",
     "invalidEmail": "Vui lòng nhập đúng định dạng",
     "requireEmail": "Vui lòng nhập email",
+    "requireEmailOrPhone": "Vui lòng nhập email hoặc số điện thoại",
     "requirePhone": "Vui lòng nhập số điện thoại",
-    "requireFullName": "Vui lòng nhập họ và tên"
+    "requireFullName": "Vui lòng nhập họ và tên",
+    "requireDateOfBirth": "Vui lòng nhập ngày sinh",
+    "requireSex": "Vui lòng nhập giới tính",
+    "requireCitizenIdentification": "Vui lòng nhập CMND / CCCD",
+    "requireDateRange": "Vui lòng nhập ngày cấp",
+    "requireIssuedBy": "Vui lòng nhập nơi cấp",
+    "requireAddress": "Vui lòng nhập địa chỉ"
   },
   "errorScreen": {
     "title": "Something went wrong!",

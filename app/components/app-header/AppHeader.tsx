@@ -41,7 +41,7 @@ const AppHeader = React.memo((props: AppHeaderProps) => {
             )}
 
         <View style={styles.titleView}>
-          <Text style={[styles.title, titleStyle, {color: isBlue? color.text : color.palette.black}]} text={capitalizeFirstString(header)} />
+          <Text style={[styles.title, titleStyle, {color: isBlue? color.text : color.palette.black}]} text={header} />
         </View>
 
         {renderRightIcon ?

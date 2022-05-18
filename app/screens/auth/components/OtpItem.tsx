@@ -1,5 +1,5 @@
 import React, {FC, useEffect, useState } from "react"
-import { View } from 'react-native';
+import { Alert, View } from "react-native"
 
 import { observer } from "mobx-react-lite"
 import { AppText } from "../../../components/app-text/AppText"
@@ -16,6 +16,8 @@ import moment from "moment"
 import { navigate } from "../../../navigators"
 import { ScreenNames } from "../../../navigators/screen-names"
 import { useStores } from "../../../models"
+import ConfirmModal from "../../../components/app-modal/confirm-modal"
+import SuccessModal from "../../../components/success-modal"
 
 const CELL_COUNT = 6;
 interface Props{
@@ -24,8 +26,10 @@ interface Props{
 }
 const OtpItem:FC<Props> = observer(
   ({ phoneNumber, isRegister } : Props) => {
+    const [successModal, setSuccessModal] = useState<boolean>(false);
+    const [resendModal, setResendModal] = useState<boolean>(false);
     const [value, setValue] = useState('');
-    const defaultTime = 60*1000
+    const defaultTime = 5 * 60 * 1000
     const { authStoreModel } = useStores()
     const ref = useBlurOnFulfill({value, cellCount: CELL_COUNT});
     const [prop, getCellOnLayoutHandler] = useClearByFocusCell({
@@ -58,23 +62,34 @@ const OtpItem:FC<Props> = observer(
         if (otp.kind === 'ok') {
           navigate(ScreenNames.REGISTER)
         }
+        else Alert.alert('Bạn đã nhập sai mã xác nhận')
       } else {
         const otp = await authStoreModel.verifyPasswordOtp(value)
         if (otp.kind === 'ok') {
           navigate(ScreenNames.CHANGE_PASSWORD)
-
         }
+        else Alert.alert('Bạn đã nhập sai mã xác nhận')
       }
     }
 
-    const resendCode = () => {
-      if (isRegister){
-        authStoreModel.registerEmail(phoneNumber)
-      }
-      else {
-        authStoreModel.forgotPassword(phoneNumber)
-      }
+    const success = () => {
+      setSuccessModal(true)
+      setTime(defaultTime)
       setStartCheck(true)
+    }
+
+    const resendCode = async () => {
+      if (isRegister) {
+        const resend = await authStoreModel.resendOtp(phoneNumber)
+        if (resend.kind === 'ok') {
+          success()
+        }
+      } else {
+        const resend = await authStoreModel.forgotPassword(phoneNumber)
+        if (resend.kind === 'ok') {
+          success()
+        }
+      }
     }
 
     useEffect(()=> {
@@ -116,7 +131,13 @@ const OtpItem:FC<Props> = observer(
            <AppText tx={'auth.notReceiveCode'} style={styles.text}/>
           <AppText onPress={resendCode} tx={'auth.resentCode'} style={presets.bold} color={color.palette.blue} underline />
         </View>
-
+        <ConfirmModal
+          visible={resendModal}
+          closeModal={()=>setResendModal(false)}
+          onPress={resendCode}
+          title={'Bạn chưa nhận được mã OTP?'}
+          content={'Vui lòng chờ, FINA sẽ gửi mã OTP cho bạn trong ít phút.'}/>
+        <SuccessModal title={'Gửi lại mã xác nhận'} visible={successModal} onPress={ () => setSuccessModal(false)} />
       </View>
     )
   });
@@ -126,15 +147,16 @@ export default OtpItem;
 const styles = ScaledSheet.create({
   cellRoot: {
     alignItems: 'center',
-    borderBottomColor: '#ccc',
-    borderBottomWidth: 2,
-    height: '60@s',
+    borderColor: '#ccc',
+    borderRadius: '8@s',
+    borderWidth: 1,
+    height: '55@ms',
     justifyContent: 'center',
-    width: '35@s',
+    width: '48@ms',
   },
   cellText: {
     color: '#000',
-    fontSize: '40@ms',
+    fontSize: '35@ms',
     textAlign: 'center',
   },
   codeFieldRoot: {
@@ -150,8 +172,8 @@ const styles = ScaledSheet.create({
   },
   container: {},
   focusCell: {
-    borderBottomColor: '#007AFF',
-    borderBottomWidth: 2,
+    borderColor: '#007AFF',
+    borderWidth: 1,
   },
   text: {
     color: '#486484',

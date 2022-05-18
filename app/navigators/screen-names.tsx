@@ -1,5 +1,6 @@
 export enum ScreenNames {
   SPLASH = 'splash',
+  AGENT = "Agent",
   AUTH = "Auth",
   APP = "App",
   LOGIN = "Login",
@@ -24,5 +25,10 @@ export enum ScreenNames {
   INSURANCE_SCREEN = 'InsuranceScreen',
   INSURANCE_DETAIL = 'InsuranceDetail',
   INSURANCE_PACKAGE = 'InsurancePackage',
-  INTRODUCE_SCREEN = 'IntroduceScreen'
+  INTRODUCE_SCREEN = 'IntroduceScreen',
+  BECOME_SCREEN = 'BecomeScreen',
+  REGISTER_AGENT = 'RegisterAgent',
+  REGISTER_INFO =  'RegisterInfo',
+  PHOTO_TUTORIAL = 'PhotoTutorial',
+  TAKE_PHOTO = 'TakePhoto'
 }

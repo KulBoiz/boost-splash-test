@@ -1,7 +1,6 @@
 import React, { useCallback, useEffect, useRef, useState } from "react"
-import { View, StyleSheet } from 'react-native';
+import { View } from 'react-native';
 import { observer } from "mobx-react-lite"
-import { carousel } from "../constants"
 import { width } from "../../../constants/variable"
 import PaginationDot from "../../../components/pagination-dot/pagination-dot"
 import FastImage from "react-native-fast-image"
@@ -35,7 +34,7 @@ const HomeBanner = observer((props: Props) => {
     <View style={styles.container}>
       <Carousel
         ref={ref.current}
-        key={(e, i)=> e + i.toString()}
+        key={(e, i)=> e?.id + i.toString()}
         data={banners}
         renderItem={_renderItem}
         sliderWidth={width}

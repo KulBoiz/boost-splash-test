@@ -1,5 +1,5 @@
-import React, { FC, useState } from "react"
-import { Alert, Keyboard, Pressable, View } from "react-native"
+import React, { FC, useEffect, useState } from "react"
+import { Alert, View } from "react-native"
 import { StackScreenProps } from "@react-navigation/stack"
 import { observer } from "mobx-react-lite"
 import { ScaledSheet } from "react-native-size-matters"
@@ -12,9 +12,11 @@ import { ScreenNames } from "../../navigators/screen-names"
 import { color } from "../../theme"
 import { useStores } from "../../models"
 import { AppText } from "../../components/app-text/AppText"
-import LoginText from "./components/LoginText"
 import { AuthStackParamList } from "../../navigators/auth-stack"
 import TermCheckbox from "./components/TermCheckbox"
+import RenderAuthStep from "./components/render-step-auth"
+import { fontFamily } from "../../constants/font-family"
+import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view"
 
 export const RegisterScreen: FC<StackScreenProps<AuthStackParamList, ScreenNames.REGISTER>> = observer(
   ({ navigation }) => {
@@ -29,7 +31,7 @@ export const RegisterScreen: FC<StackScreenProps<AuthStackParamList, ScreenNames
         .trim()
         .oneOf([Yup.ref('password'), null], 'Password do not match'),
     })
-    const {control, handleSubmit, formState: {errors}} = useForm({
+    const {control, handleSubmit, formState: {errors}, setValue} = useForm({
       delayError: 0,
       defaultValues: undefined,
       mode: "all",
@@ -41,20 +43,26 @@ export const RegisterScreen: FC<StackScreenProps<AuthStackParamList, ScreenNames
     const [checkboxState, setCheckboxState] = useState(false);
 
     const _handleRegister = async (data) => {
-      const register = await authStoreModel.register(data.fullName,data.email, data.password, data.passwordConfirm)
-      console.log('register screen',register)
+      const register = await authStoreModel.register(data.fullName, data.password, data.passwordConfirm)
       if (register.kind !== 'ok') {
-        Alert.alert('Something went wrong')
+        Alert.alert(register?.error?.message ?? 'Something went wrong')
       }
     }
+    useEffect(()=> {
+      if (authStoreModel?.user){
+        setValue('email', authStoreModel?.user?.emails[0]?.email ?? authStoreModel?.user?.tels[0]?.tel)
+      }
+    },[])
 
     return (
-      <Pressable style={styles.container} onPress={Keyboard.dismiss}>
+      <KeyboardAwareScrollView style={styles.container}>
         <View style={styles.body}>
+          <RenderAuthStep currentPosition={2}/>
           <AppText tx={'auth.register'} style={styles.textLogin}/>
           <FormInput
             {...{
               name: 'fullName',
+              labelTx: 'label.fullName',
               placeholderTx: 'placeholder.fullName',
               autoCapitalize: 'none',
               control,
@@ -64,16 +72,19 @@ export const RegisterScreen: FC<StackScreenProps<AuthStackParamList, ScreenNames
           <FormInput
             {...{
               name: 'email',
+              labelTx: 'label.login.emailAndPhone',
               placeholderTx: 'placeholder.email',
               autoCapitalize: 'none',
               error: errors?.email?.message,
               control,
+              editable: false
             }}
           />
 
           <FormInput
             {...{
               name: 'password',
+              labelTx: 'label.login.password',
               placeholderTx: 'placeholder.password',
               autoCapitalize: 'none',
               error: errors?.password?.message,
@@ -83,6 +94,7 @@ export const RegisterScreen: FC<StackScreenProps<AuthStackParamList, ScreenNames
           />
           <FormInput
             {...{
+              label: 'Nhập lại mật khẩu',
               name: 'passwordConfirm',
               placeholderTx: 'placeholder.reenteredPassword',
               autoCapitalize: 'none',
@@ -94,10 +106,7 @@ export const RegisterScreen: FC<StackScreenProps<AuthStackParamList, ScreenNames
           <TermCheckbox checkboxState={checkboxState} setCheckboxState={setCheckboxState} />
           <AppButton onPress={handleSubmit(_handleRegister)} tx={"auth.register"} containerStyle={styles.button}/>
         </View>
-        <View style={styles.wrapBottom}>
-          <LoginText firstText={'auth.haveAccount'} secondText={'auth.loginNow'} action={'login'}/>
-        </View>
-      </Pressable>
+      </KeyboardAwareScrollView>
     )
   },
 )
@@ -107,10 +116,12 @@ const styles = ScaledSheet.create({
     backgroundColor: color.palette.white,
     paddingHorizontal: "20@s",
   },
-  body: {flex: 1, justifyContent:'center'},
+  body: {flex: 1,     paddingTop: '80@vs'
+  },
   textLogin: {
     fontSize: '44@s',
-    fontWeight: '400', marginBottom: '40@s',
+    fontFamily: fontFamily.mulish.bold,
+    marginBottom: '20@s',
   },
   button: {
     marginTop: '40@s'

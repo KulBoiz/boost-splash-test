@@ -77,6 +77,20 @@ export const AuthStoreModel = types
       }
     }),
 
+    resendOtp: flow(function* resendOtp(telOrEmail: string) {
+      const authApi = new AuthApi(self.environment.api)
+      const result = yield authApi.resendOtp(telOrEmail)
+      if (result.kind !== "ok") {
+        return result
+      }
+      if (result) {
+        return {
+          kind: "ok",
+          data: result,
+        }
+      }
+    }),
+
     verifyOtp: flow(function* verifyOtp(otp: string) {
       const authApi = new AuthApi(self.environment.api)
       const userId = self?.user?.id;
@@ -110,10 +124,10 @@ export const AuthStoreModel = types
       }
     }),
 
-    register: flow(function* register(fullName: string, telOrEmail: string, password: string, confirmPassword: string) {
+    register: flow(function* register(fullName: string, password: string, confirmPassword: string) {
       const authApi = new AuthApi(self.environment.api)
       const userId = self?.user?.id
-      const result = yield authApi.register(userId, fullName, telOrEmail, password, confirmPassword)
+      const result = yield authApi.register(userId, fullName, password, confirmPassword)
       if (result.kind !== "ok") {
         return result
       }

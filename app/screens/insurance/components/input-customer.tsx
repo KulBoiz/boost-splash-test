@@ -26,7 +26,7 @@ const InputCustomer = React.memo((props: Props) => {
           labelTx: 'label.fullName',
           placeholderTx: 'placeholder.fullName',
           control,
-          error: errors?.email?.fullName
+          error: errors?.fullName?.message
         }}
       />
       <View style={[ROW,SPACE_BETWEEN]}>
@@ -37,7 +37,7 @@ const InputCustomer = React.memo((props: Props) => {
           labelTx: 'label.dateOfBirth',
           placeholderTx: 'placeholder.dateOfBirth',
           control,
-          error: errors?.email?.dateOfBirth
+          error: errors?.dateOfBirth?.message
         }}
       />
       <FormInput
@@ -47,7 +47,7 @@ const InputCustomer = React.memo((props: Props) => {
           labelTx: 'label.sex',
           placeholderTx: 'placeholder.sex',
           control,
-          error: errors?.email?.sex
+          error: errors?.sex?.message
         }}
       />
       </View>
@@ -57,7 +57,7 @@ const InputCustomer = React.memo((props: Props) => {
           labelTx: 'label.citizenIdentification',
           placeholderTx: 'placeholder.citizenIdentification',
           control,
-          error: errors?.email?.citizenIdentification,
+          error: errors?.citizenIdentification?.message,
           keyboardType: 'number-pad'
         }}
       />
@@ -69,7 +69,7 @@ const InputCustomer = React.memo((props: Props) => {
           labelTx: 'label.dateRange',
           placeholderTx: 'placeholder.dateRange',
           control,
-          error: errors?.email?.dateRange
+          error: errors?.dateRange?.message
         }}
       />
       <FormInput
@@ -79,7 +79,7 @@ const InputCustomer = React.memo((props: Props) => {
           labelTx: 'label.issuedBy',
           placeholderTx: 'placeholder.issuedBy',
           control,
-          error: errors?.email?.issuedBy
+          error: errors?.issuedBy?.message
         }}
       />
       </View>
@@ -89,7 +89,7 @@ const InputCustomer = React.memo((props: Props) => {
           labelTx: 'label.contactAddress',
           placeholderTx: 'placeholder.address',
           control,
-          error: errors?.email?.address
+          error: errors?.contactAddress?.message
         }}
       />
       <FormInput
@@ -98,7 +98,7 @@ const InputCustomer = React.memo((props: Props) => {
           labelTx: 'label.phoneInsurance',
           placeholderTx: 'placeholder.phone',
           control,
-          error: errors?.email?.phone,
+          error: errors?.phone?.message,
           keyboardType: 'number-pad'
         }}
       />
@@ -108,7 +108,7 @@ const InputCustomer = React.memo((props: Props) => {
           labelTx: 'label.emailInsurance',
           placeholderTx: 'placeholder.email',
           control,
-          error: errors?.email?.email
+          error: errors?.email?.message
         }}
       />
     </View>

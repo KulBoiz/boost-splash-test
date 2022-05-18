@@ -24,7 +24,7 @@ const LoginText = React.memo(({ firstText, secondText, action}: Props) => {
   }
   return (
     <View style={styles.container}>
-      <AppText tx={firstText} style={styles.firstText} fontSize={s(14)}/>
+      <AppText tx={firstText} style={styles.firstText} />
       <Pressable style={styles.wrapText}>
         <AppText tx={secondText} style={styles.secondText} onPress={action === 'register' ? _goToRegister: _goToLogin}/>
         <LongRightArrowSvg />
@@ -37,9 +37,9 @@ export default LoginText;
 LoginText.displayName = 'LoginText'
 
 const styles = ScaledSheet.create({
-  container: {},
-  firstText: {marginBottom: '11@s', fontSize: '14@ms', fontFamily: 'Inter-Medium'},
-  secondText: {fontSize: '16@s', color:color.palette.blue, fontWeight: '500', marginRight: '10@ms'},
+  container: {flexDirection: "row", alignItems: "center"},
+  firstText: {fontSize: '14@ms', fontFamily: 'Inter-Medium', marginRight: '7@ms'},
+  secondText: {fontSize: '14@ms', color:color.palette.blue, fontWeight: '500', marginRight: '10@ms'},
   wrapText: {
     alignItems: 'center',
     flexDirection: 'row',

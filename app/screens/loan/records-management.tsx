@@ -34,6 +34,7 @@ const RecordsManagement = observer((props: Props) => {
       <AppText style={styles.text}>Có Tất Cả <AppText value={total} color={color.palette.blue} style={FONT_BOLD_12} /> Hồ Sơ</AppText>
       <FlatList
         data={data}
+        keyExtractor={(e, i)=> i.toString()}
         renderItem={renderItem}
         style={styles.flatList}
         onEndReached={() => {
