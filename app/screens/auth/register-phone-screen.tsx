@@ -62,7 +62,7 @@ const RegisterPhoneScreen: FC<StackScreenProps<AuthStackParamList, ScreenNames.R
           style={presets.secondary}
           parse={
             [
-              {pattern: /số điện thoại|vị trí/, style: styles.bold},
+              {pattern: /số điện thoại|email/, style: styles.bold},
             ]
           }
           childrenProps={{allowFontScaling: false}}

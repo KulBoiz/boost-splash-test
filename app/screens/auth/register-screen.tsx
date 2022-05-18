@@ -17,19 +17,17 @@ import TermCheckbox from "./components/TermCheckbox"
 import RenderAuthStep from "./components/render-step-auth"
 import { fontFamily } from "../../constants/font-family"
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view"
+import i18n from "i18n-js"
 
 export const RegisterScreen: FC<StackScreenProps<AuthStackParamList, ScreenNames.REGISTER>> = observer(
   ({ navigation }) => {
     // const nextScreen = () => navigation.navigate(AppRoutes.APP)
     const validationSchema = Yup.object().shape({
-      email: Yup.string()
-        .trim()
-        .required("Please enter your email")
-        .email("This is not a valid email"),
-      password: Yup.string().required("Please enter your password").trim(),
+      fullName: Yup.string().required(i18n.t('errors.requireFullName')).trim(),
+      password: Yup.string().required(i18n.t('errors.requirePassword')).trim(),
       passwordConfirm: Yup.string()
         .trim()
-        .oneOf([Yup.ref('password'), null], 'Password do not match'),
+        .oneOf([Yup.ref('password'), null], i18n.t('errors.passwordNotMatch')),
     })
     const {control, handleSubmit, formState: {errors}, setValue} = useForm({
       delayError: 0,
@@ -104,7 +102,7 @@ export const RegisterScreen: FC<StackScreenProps<AuthStackParamList, ScreenNames
             }}
           />
           <TermCheckbox checkboxState={checkboxState} setCheckboxState={setCheckboxState} />
-          <AppButton onPress={handleSubmit(_handleRegister)} tx={"auth.register"} containerStyle={styles.button}/>
+          <AppButton onPress={handleSubmit(_handleRegister)} tx={"auth.register"} disable={!checkboxState} containerStyle={styles.button}/>
         </View>
       </KeyboardAwareScrollView>
     )

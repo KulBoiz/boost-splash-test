@@ -73,7 +73,8 @@ const OtpItem:FC<Props> = observer(
     }
 
     const success = () => {
-      setSuccessModal(true)
+      setResendModal(false)
+      setTimeout(()=> setSuccessModal(true), 500)
       setTime(defaultTime)
       setStartCheck(true)
     }
@@ -129,7 +130,7 @@ const OtpItem:FC<Props> = observer(
         }
         <View style={styles.wrapText}>
            <AppText tx={'auth.notReceiveCode'} style={styles.text}/>
-          <AppText onPress={resendCode} tx={'auth.resentCode'} style={presets.bold} color={color.palette.blue} underline />
+          <AppText onPress={()=> setResendModal(true)} tx={'auth.resentCode'} style={presets.bold} color={color.palette.blue} underline />
         </View>
         <ConfirmModal
           visible={resendModal}

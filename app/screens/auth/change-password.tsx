@@ -13,14 +13,15 @@ import { color } from "../../theme"
 import { useStores } from "../../models"
 import { AppText } from "../../components/app-text/AppText"
 import { AuthStackParamList } from "../../navigators/auth-stack"
+import i18n from "i18n-js"
 
 export const ChangePassword: FC<StackScreenProps<AuthStackParamList, ScreenNames.CHANGE_PASSWORD>> = observer(
   ({ navigation }) => {
     const validationSchema = Yup.object().shape({
-      password: Yup.string().required("Please enter your password").trim(),
+      password: Yup.string().required(i18n.t('errors.requirePassword')).trim(),
       passwordConfirm: Yup.string()
         .trim()
-        .oneOf([Yup.ref('password'), null], 'Password do not match'),
+        .oneOf([Yup.ref('password'), null], i18n.t('errors.passwordNotMatch')),
     })
     const {control, handleSubmit, formState: {errors}} = useForm({
       delayError: 0,
@@ -37,7 +38,7 @@ export const ChangePassword: FC<StackScreenProps<AuthStackParamList, ScreenNames
       if (register.data.status === 204) {
         navigation.navigate(ScreenNames.LOGIN)
       }
-      else Alert.alert('Something went wrong')
+      else Alert.alert(register?.data?.message)
     }
 
     return (

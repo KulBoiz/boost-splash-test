@@ -43,7 +43,7 @@
     "register": "Đăng ký",
     "registerNow": "Đăng kí ngay",
     "otpCode": "Mã xác thực",
-    "enterPhone": "Vui lòng nhập số điện thoại và vị trí\nđể chúng tôi có thể xác minh bạn.",
+    "enterPhone": "Vui lòng nhập số điện thoại hoặc email\nđể đăng nhập hoặc đăng ký tài khoản.",
     "checkPhoneInbox": "Hãy kiểm tra hộp thư đến, chúng tôi đã gửi mã xác thực vào số",
     "checkEmailInbox": "Hãy kiểm tra hộp thư đến, chúng tôi đã gửi mã xác thực vào hộp thư",
     "resetPassword": "Đặt lại mật khẩu",
@@ -239,7 +239,9 @@
     "requireCitizenIdentification": "Vui lòng nhập CMND / CCCD",
     "requireDateRange": "Vui lòng nhập ngày cấp",
     "requireIssuedBy": "Vui lòng nhập nơi cấp",
-    "requireAddress": "Vui lòng nhập địa chỉ"
+    "requireAddress": "Vui lòng nhập địa chỉ",
+    "requirePassword": "Vui lòng nhập mật khẩu",
+    "passwordNotMatch": "Mật khẩu không khớp"
   },
   "errorScreen": {
     "title": "Something went wrong!",
