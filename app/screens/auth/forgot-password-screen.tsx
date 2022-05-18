@@ -67,12 +67,13 @@ const ForgotPasswordScreen :FC<StackScreenProps<AuthStackParamList, ScreenNames.
               {...{
                 name: 'telOrEmail',
                 autoCapitalize: 'none',
+                labelTx: 'label.login.emailAndPhone',
                 placeholderTx:'placeholder.emailAndPhone',
                 error: errors?.telOrEmail?.message,
                 control,
               }}
             />
-            <AppButton tx={'common.sent'} onPress={handleSubmit(_handlePress)} containerStyle={styles.btn}/>
+            <AppButton tx={'common.sentCheck'} onPress={handleSubmit(_handlePress)} containerStyle={styles.btn}/>
           </Pressable>
 
       </View>
@@ -84,7 +85,7 @@ export default ForgotPasswordScreen;
 const styles = ScaledSheet.create({
   container: {  flex: 1,
     backgroundColor: color.palette.white,
-    paddingHorizontal: "20@s",
+    paddingHorizontal: "16@ms",
   },
   text: {
     marginBottom: '50@s'

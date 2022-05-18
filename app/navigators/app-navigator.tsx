@@ -55,7 +55,7 @@ const RootStack = ()=> {
       initialRouteName={ScreenNames.SPLASH}
     >
       <Stack.Screen name={ScreenNames.SPLASH} component={SplashScreen} />
-      <Stack.Screen name={ScreenNames.AGENT} component={RegisterInfo} options={{gestureEnabled: false}}/>
+      <Stack.Screen name={ScreenNames.AGENT} component={AgentStack} options={{gestureEnabled: false}}/>
       <Stack.Screen name={ScreenNames.AUTH} component={AuthStack} options={{gestureEnabled: false}}/>
       <Stack.Screen name={ScreenNames.APP} component={AppStack} options={{gestureEnabled: false}} />
       <Stack.Screen name={ScreenNames.REQUEST_COUNSELLING} component={RequestCounselling} />

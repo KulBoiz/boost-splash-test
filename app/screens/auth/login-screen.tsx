@@ -82,7 +82,7 @@ export const LoginScreen: FC<StackScreenProps<AuthStackParamList, ScreenNames.LO
             showIcon: true,
           }}
         />
-        <AppText tx={'auth.forgotPassword'} style={styles.forgot} underline onPress={forgotPassword}/>
+        <AppText tx={'auth.loginForgotPassword'} style={styles.forgot} underline onPress={forgotPassword}/>
         <AppButton onPress={handleSubmit(_handleLogin)} tx={"auth.login"} containerStyle={styles.button}/>
         <AppText tx={'auth.backToHome'} style={styles.backToHome} underline onPress={()=> navigation.dispatch(StackActions.push(ScreenNames.APP))}/>
         </View>

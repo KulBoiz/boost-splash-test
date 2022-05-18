@@ -1,5 +1,5 @@
 import React, { FC, useEffect, useState } from "react"
-import { Alert, Keyboard, Pressable, View } from "react-native"
+import { Alert, View } from "react-native"
 import { StackScreenProps } from "@react-navigation/stack"
 import { observer } from "mobx-react-lite"
 import { ScaledSheet } from "react-native-size-matters"
@@ -12,9 +12,11 @@ import { ScreenNames } from "../../navigators/screen-names"
 import { color } from "../../theme"
 import { useStores } from "../../models"
 import { AppText } from "../../components/app-text/AppText"
-import LoginText from "./components/LoginText"
 import { AuthStackParamList } from "../../navigators/auth-stack"
 import TermCheckbox from "./components/TermCheckbox"
+import RenderAuthStep from "./components/render-step-auth"
+import { fontFamily } from "../../constants/font-family"
+import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view"
 
 export const RegisterScreen: FC<StackScreenProps<AuthStackParamList, ScreenNames.REGISTER>> = observer(
   ({ navigation }) => {
@@ -47,12 +49,15 @@ export const RegisterScreen: FC<StackScreenProps<AuthStackParamList, ScreenNames
       }
     }
     useEffect(()=> {
-      setValue('email', authStoreModel?.user?.emails[0]?.email ?? authStoreModel?.user?.tels[0]?.tel)
+      if (authStoreModel?.user){
+        setValue('email', authStoreModel?.user?.emails[0]?.email ?? authStoreModel?.user?.tels[0]?.tel)
+      }
     },[])
 
     return (
-      <Pressable style={styles.container} onPress={Keyboard.dismiss}>
+      <KeyboardAwareScrollView style={styles.container}>
         <View style={styles.body}>
+          <RenderAuthStep currentPosition={2}/>
           <AppText tx={'auth.register'} style={styles.textLogin}/>
           <FormInput
             {...{
@@ -101,10 +106,7 @@ export const RegisterScreen: FC<StackScreenProps<AuthStackParamList, ScreenNames
           <TermCheckbox checkboxState={checkboxState} setCheckboxState={setCheckboxState} />
           <AppButton onPress={handleSubmit(_handleRegister)} tx={"auth.register"} containerStyle={styles.button}/>
         </View>
-        {/*<View style={styles.wrapBottom}>*/}
-        {/*  <LoginText firstText={'auth.haveAccount'} secondText={'auth.loginNow'} action={'login'}/>*/}
-        {/*</View>*/}
-      </Pressable>
+      </KeyboardAwareScrollView>
     )
   },
 )
@@ -114,10 +116,12 @@ const styles = ScaledSheet.create({
     backgroundColor: color.palette.white,
     paddingHorizontal: "20@s",
   },
-  body: {flex: 1, justifyContent:'center'},
+  body: {flex: 1,     paddingTop: '80@vs'
+  },
   textLogin: {
     fontSize: '44@s',
-    fontWeight: '400', marginBottom: '40@s',
+    fontFamily: fontFamily.mulish.bold,
+    marginBottom: '20@s',
   },
   button: {
     marginTop: '40@s'

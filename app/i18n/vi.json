@@ -6,6 +6,7 @@
     "continue": "Tiếp tục",
     "start": "Bắt đầu",
     "sent": "Gửi",
+    "sentCheck": "Gửi kiểm tra",
     "sentInformation": "Gửi thông tin"
   },
   "guide": {
@@ -48,9 +49,10 @@
     "resetPassword": "Đặt lại mật khẩu",
     "notReceiveCode": "Không nhận được mã xác thực? ",
     "resentCode": "Gửi lại mã",
-    "endProcess": "Quá trình sẽ kết thúc trong 60 giây.",
+    "endProcess": "Quá trình sẽ kết thúc trong 5 phút.",
     "agree": "I’ve read and agree to the terms of privacy policy",
-    "forgotPassword": "Quên mật khẩu?",
+    "loginForgotPassword": "Quên mật khẩu?",
+    "forgotPassword": "Quên mật khẩu",
     "emailOrPhone": "Vui lòng nhập địa chỉ email hoặc\nsố điện thoại để khôi phục mật khẩu",
     "phone": "số điện thoại",
     "location": "vị trí"
@@ -84,7 +86,7 @@
   },
   "placeholder": {
     "login": {
-      "emailAndPhone": "Nhập địa chỉ email hoặc số điện thoại",
+      "emailAndPhone": "Nhập email hoặc số điện thoại     ",
       "password": "Nhập mật khẩu"
     },
     "dateOfBirth": "Nhập ngày sinh",
@@ -93,7 +95,7 @@
     "dateRange": "Nhập ngày cấp",
     "issuedBy": "Nhập nơi cấp",
     "location": "Chọn vị trí của bạn",
-    "emailAndPhone": "Nhập địa chỉ email hoặc số điện thoại",
+    "emailAndPhone": "Nhập email hoặc số điện thoại     ",
     "password": "Mật Khẩu",
     "reenteredPassword": "Nhập lại mật khẩu",
     "fullName": "Nhập họ và tên của bạn",

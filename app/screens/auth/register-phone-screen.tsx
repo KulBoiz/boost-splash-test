@@ -15,11 +15,12 @@ import { ScreenNames } from "../../navigators/screen-names"
 import { observer } from "mobx-react-lite"
 import { numberOnly } from "../../constants/regex"
 import CountrySelect from "./components/country-select"
-import PhoneInput from "./components/phone-input"
 import { useStores } from "../../models"
 import ParsedText from 'react-native-parsed-text';
 import i18n from "i18n-js"
 import FormInput from "../../components/form-input/form-input"
+import RenderAuthStep from "./components/render-step-auth"
+import BackButton from "../../components/back-button/back-button"
 
 
 
@@ -32,7 +33,6 @@ const RegisterPhoneScreen: FC<StackScreenProps<AuthStackParamList, ScreenNames.R
       // .matches(numberOnly,"Invalid phone number")
   })
     const { authStoreModel } = useStores()
-    const [prefix, setPrefix] = useState<string>('84')
 
   const {control, handleSubmit, formState: { errors } } = useForm({
     delayError: 0,
@@ -43,10 +43,8 @@ const RegisterPhoneScreen: FC<StackScreenProps<AuthStackParamList, ScreenNames.R
   })
 
   const _handleContinue = async (data) => {
-    console.log(data)
     const phone = `${data.phone}`
     const register = await authStoreModel.registerEmail(phone)
-    console.log(register)
     if (register.kind === 'ok'){
       navigation.navigate(ScreenNames.OTP, { phoneNumber: phone ?? '', isRegister: true})
     }
@@ -56,6 +54,8 @@ const RegisterPhoneScreen: FC<StackScreenProps<AuthStackParamList, ScreenNames.R
   }
   return (
     <Pressable style={styles.container} onPress={Keyboard.dismiss}>
+      <BackButton />
+      <RenderAuthStep currentPosition={0} />
       <View style={styles.body}>
       <AppText tx={'auth.hello'} style={[presets.header, styles.header]}/>
         <ParsedText
@@ -70,17 +70,6 @@ const RegisterPhoneScreen: FC<StackScreenProps<AuthStackParamList, ScreenNames.R
           {i18n.t('auth.enterPhone')}
         </ParsedText>
        {/*<CountrySelect style={styles.location} changePrefix={setPrefix}/>*/}
-       {/* <PhoneInput*/}
-       {/*   {...{*/}
-       {/*     prefix,*/}
-       {/*     name: 'phone',*/}
-       {/*     labelTx:'label.phoneNumber',*/}
-       {/*     autoCapitalize: 'none',*/}
-       {/*     error: errors?.phone?.message,*/}
-       {/*     keyboardType: 'number-pad',*/}
-       {/*     control,*/}
-       {/*   }}*/}
-       {/* />*/}
         <FormInput
           {...{
             name: 'phone',
@@ -92,10 +81,9 @@ const RegisterPhoneScreen: FC<StackScreenProps<AuthStackParamList, ScreenNames.R
             style: {marginTop: s(30)}
           }}
         />
-        <AppButton tx={'common.continue'} onPress={handleSubmit(_handleContinue)} containerStyle={styles.btn}/>
       </View>
       <View style={styles.wrapBottom}>
-        <LoginText firstText={'auth.haveAccount'} secondText={'auth.loginNow'} action={'login'}/>
+        <AppButton tx={'common.continue'} onPress={handleSubmit(_handleContinue)} containerStyle={styles.btn}/>
       </View>
     </Pressable>
   )
@@ -105,7 +93,9 @@ export default RegisterPhoneScreen;
 RegisterPhoneScreen.displayName = "RegisterPhoneScreen"
 
 const styles = ScaledSheet.create({
-  container: {  flex: 1,
+  container: {
+    flex: 1,
+    paddingTop: '80@vs',
     backgroundColor: color.palette.white,
     paddingHorizontal: "20@s",
   },
@@ -119,7 +109,7 @@ const styles = ScaledSheet.create({
     marginBottom: '15@s',
     marginTop: '60@s'
   },
-  body: {flex: 1, justifyContent:'center'},
+  body: {flex: 1},
   btn: {
     marginTop: '33@s'
   },

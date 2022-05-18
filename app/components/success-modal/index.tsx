@@ -58,7 +58,7 @@ const styles = ScaledSheet.create({
   successText: {
     fontFamily: fontFamily.bold,
     fontSize: '24@ms',
-    color: color.palette.green
+    color: color.palette.blue
   }
 
 });
