@@ -14,6 +14,7 @@ import { useFocusEffect } from "@react-navigation/native"
 import HomeBanner from "./components/home-banner"
 import Insurance from "./insurance"
 import { color } from "../../theme"
+import { useStores } from "../../models"
 
 
 
@@ -25,9 +26,16 @@ export const HomeScreen: FC<StackScreenProps<AppStackParamList, ScreenNames.HOME
     });
     const animatedHeaderValue = new Animated.Value(0)
     const [currentPage, setCurrentPage] = useState(1);
+    // @ts-ignore
+    const { menuFilterStore, productStore } = useStores()
 
     const handleSelectPage = (value: number) => {
       setCurrentPage(value);
+      
+      if (value === 2) {
+        menuFilterStore.get();
+        productStore.get();
+      }
     };
 
     return (

@@ -42,4 +42,5 @@ export const images = {
   id_deviate: require('./id_deviate.png'),
   id_too_dark: require('./id_too_dark.png'),
   id_too_light: require('./id_too_light.png'),
+  insurance_default: require('./insurance-default.png'),
 }
