@@ -13,14 +13,15 @@ export class ProductApi {
     this.api = api
   }
 
-  async get(): Promise<any> {
+  async get(params?: any): Promise<any> {
     try {
       const response: ApiResponse<any> = await this.api.apisauce.get(`${API_ENDPOINT}/products/public`, {
         page: 1,
         filter: {
           limit: API_PAGE_SIZE,
           where: {
-            type: "insurances"
+            type: "insurances",
+            ...params
           }
         }
       })
