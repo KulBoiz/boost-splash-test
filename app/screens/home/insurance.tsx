@@ -1,40 +1,55 @@
-import React, { useState } from "react"
+import { observer } from "mobx-react-lite"
+import React, { useEffect, useState } from "react"
 import { View } from "react-native"
 import { ms, ScaledSheet } from "react-native-size-matters"
-import { color } from "../../theme"
-import { width } from "../../constants/variable"
-import MenuFilter from "../loan/components/finance-filter"
-import { INSURANCE_FILTER } from "./constants"
-import InsuranceItem from "./components/insurance-item"
-import { useStores } from "../../models"
 import { images } from "../../assets/images"
+import { width } from "../../constants/variable"
+import { useStores } from "../../models"
+import { color } from "../../theme"
+import MenuFilter from "../loan/components/finance-filter"
+import InsuranceItem from "./components/insurance-item"
 
 const widthHeight = width - ms(32)
 
 interface Props { }
 
-const Insurance = React.memo((props: Props) => {
-  const [select, setSelect] = useState<number>(0)
+const Insurance = observer((props: Props) => {
+  const [select, setSelect] = useState<any>()
   // @ts-ignore
   const { menuFilterStore, productStore } = useStores();
   const { categories } = menuFilterStore;
   const { records } = productStore;
 
+  const filter = (value) => {
+    if (value?.key === select?.key) {
+      return;
+    }
+    setSelect(value);
+
+    if (value?.key !== 'all') {
+      productStore.get({ categoryId: value?.key });
+    } else {
+      productStore.get();
+    }
+  }
+
   return (
     <View style={styles.container}>
       <MenuFilter
         currentSelected={select}
-        setCurrentSelected={setSelect}
+        setCurrentSelected={(value) => { filter(value) }}
         filterData={[{
+          key: 'all',
           icon: images.cube,
           title: 'tất cả'
         }].concat(categories)}
         style={styles.filter} />
-      <View style={styles.body}>
+      
+      {records?.length > 0 && <View style={styles.body}>
         {records.map((val, index) => {
           return <InsuranceItem key={index.toString()} item={val} />
         })}
-      </View>
+      </View>}
     </View>
   )
 });

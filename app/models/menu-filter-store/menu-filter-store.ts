@@ -22,7 +22,7 @@ export const MenuFilterStoreModel = types
       const data = result?.data?.data
 
       if (data) {
-        self.categories = data?.map(el => ({icon: el?.icon?.url, title: el?.name}))
+        self.categories = data?.map(el => ({icon: el?.icon?.url, title: el?.name, key: el?.id}))
       }
 
       if (result.kind !== "ok") {

@@ -8,7 +8,7 @@ import { SvgUri } from 'react-native-svg';
 
 interface Props {
   currentSelected: number
-  setCurrentSelected(e: number): void
+  setCurrentSelected(e: any): void
   filterData: Array<any>
   style?: ViewStyle | any
 }
@@ -33,8 +33,8 @@ const FilterButton = React.memo((props: ButtonProps) => {
 })
 
 const MenuFilter = React.memo((props: Props) => {
-  const onPress = (id) => {
-    props.setCurrentSelected(id)
+  const onPress = (item) => {
+    props.setCurrentSelected(item)
   }
 
   return (
@@ -43,7 +43,7 @@ const MenuFilter = React.memo((props: Props) => {
         {props.filterData.map((val, id) => {
           const isCurrent = props.currentSelected === id
           return (
-            <FilterButton key={id.toString()} icon={val.icon} title={val.title} onPress={() => onPress(id)} isCurrent={isCurrent} />
+            <FilterButton key={id.toString()} icon={val.icon} title={val.title} onPress={() => onPress(val)} isCurrent={isCurrent} />
           )
         })}
       </ScrollView>

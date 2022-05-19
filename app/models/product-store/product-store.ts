@@ -15,11 +15,13 @@ export const ProductStoreModel = types
   })
   .views((self) => ({})) // eslint-disable-line @typescript-eslint/no-unused-vars
   .actions((self) => ({
-    get: flow(function* get(id: string) {
-      const api = new ProductApi(self.environment.api)
+    get: flow(function* get(params?: string) {
+      self.records = []
 
-      const result = yield api.get()
+      const api = new ProductApi(self.environment.api)
+      const result = yield api.get(params)
       const data = result?.data?.data
+      
       if (data) {
         self.records = data
       }
