@@ -1,7 +1,7 @@
 import React, { useCallback, useEffect, useState } from "react"
 import { ActivityIndicator, FlatList, View } from "react-native"
 import { color } from "../../theme"
-import FinanceFilter from "./components/finance-filter"
+import MenuFilter from "./components/finance-filter"
 import BankInfo from "./components/bank-info"
 import { ScaledSheet } from "react-native-size-matters"
 import { CONTAINER_PADDING, MARGIN_BOTTOM_16 } from "../../styles/common-style"
@@ -25,7 +25,7 @@ const Product = React.memo((props: Props) => {
 
   return (
     <View style={styles.container}>
-      <FinanceFilter currentSelected={select} setCurrentSelected={setSelect} filterData={FINANCE_FILTER}/>
+      <MenuFilter currentSelected={select} setCurrentSelected={setSelect} filterData={FINANCE_FILTER}/>
       <FlatList style={[CONTAINER_PADDING,{flex: 1}]} data={data} renderItem={renderItem}
                 onEndReached={() => {
                   loanStore.loadMoreProducts()

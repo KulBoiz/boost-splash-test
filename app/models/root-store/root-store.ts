@@ -6,6 +6,8 @@ import { LoanStoreModel } from "../loan-store/loan-store"
 import { BannerStoreModel } from "../banner-store/banner-store"
 import { DealDetailStoreModel } from "../deal-detail-store/deal-detail-store"
 import { InsuranceStoreModel } from "../insurance-store/insurance-store"
+import { MenuFilterStoreModel } from "../menu-filter-store/menu-filter-store"
+import { ProductStoreModel } from "../product-store/product-store"
 
 /**
  * A RootStore model.
@@ -19,11 +21,14 @@ export const RootStoreModel = types.model("RootStore").props({
   bannerStore: types.optional(BannerStoreModel, {} as any),
   dealDetailStoreModel: types.optional(DealDetailStoreModel, {} as any),
   insuranceStore: types.optional(InsuranceStoreModel, {} as any),
+  menuFilterStore: types.optional(MenuFilterStoreModel, {} as any),
+  productStore: types.optional(ProductStoreModel, {} as any),
 })
 
 /**
  * The RootStore instance.
  */
+// @ts-ignore
 export interface RootStore extends Instance<typeof RootStoreModel> {
   authStoreModel: any
 }
