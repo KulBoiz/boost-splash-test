@@ -1,4 +1,4 @@
-import React, { FC, useState } from "react"
+import React, { FC, useEffect, useState } from "react"
 import { Keyboard, Pressable, View } from "react-native"
 import { StackScreenProps } from "@react-navigation/stack"
 import { observer } from "mobx-react-lite"
@@ -15,8 +15,7 @@ import { AppText } from "../../components/app-text/AppText"
 import LoginText from "./components/LoginText"
 import { AuthStackParamList } from "../../navigators/auth-stack"
 import AppModal from "../../components/app-modal/app-modal"
-import { StackActions } from "@react-navigation/native"
-import { fontFamily } from "../../constants/font-family"
+import { StackActions, useIsFocused } from "@react-navigation/native"
 import { presets } from "../../constants/presets"
 
 const errorContent = 'Sai thông tin tài khoản hoặc mật khẩu.\nVui lòng kiểm tra lại.'
@@ -30,7 +29,7 @@ export const LoginScreen: FC<StackScreenProps<AuthStackParamList, ScreenNames.LO
         // .email("This is not a valid email"),
       password: Yup.string().required("Vui lòng nhập mật khẩu").trim(),
     })
-    const {control, handleSubmit, formState: {errors}} = useForm({
+    const {control, handleSubmit, formState: {errors}, resetField} = useForm({
       delayError: 0,
       defaultValues: undefined,
       mode: "all",
@@ -38,6 +37,8 @@ export const LoginScreen: FC<StackScreenProps<AuthStackParamList, ScreenNames.LO
       reValidateMode: "onChange",
     })
 
+
+    const isFocused = useIsFocused()
     const { authStoreModel } = useStores()
     const [visible, setVisible] = useState<boolean>(false)
 
@@ -56,6 +57,10 @@ export const LoginScreen: FC<StackScreenProps<AuthStackParamList, ScreenNames.LO
     const forgotPassword = ()=> {
       navigation.navigate(ScreenNames.FORGOT_PASSWORD)
     }
+    useEffect(()=> {
+      resetField('email')
+      resetField('password')
+    },[isFocused])
 
     return (
       <Pressable style={styles.container} onPress={Keyboard.dismiss}>
@@ -64,7 +69,7 @@ export const LoginScreen: FC<StackScreenProps<AuthStackParamList, ScreenNames.LO
         <FormInput
           {...{
             name: 'email',
-            labelTx: 'label.login.emailAndPhone',
+            labelTx: 'label.emailAndPhone',
             placeholderTx: 'placeholder.login.emailAndPhone',
             autoCapitalize: 'none',
             control,
@@ -74,7 +79,7 @@ export const LoginScreen: FC<StackScreenProps<AuthStackParamList, ScreenNames.LO
         <FormInput
           {...{
             name: 'password',
-            labelTx: 'label.login.password',
+            labelTx: 'label.password',
             placeholderTx: 'placeholder.login.password',
             autoCapitalize: 'none',
             error: errors?.password?.message,

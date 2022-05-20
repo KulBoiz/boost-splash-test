@@ -48,9 +48,9 @@ export const ChangePassword: FC<StackScreenProps<AuthStackParamList, ScreenNames
 
           <FormInput
             {...{
+              labelTx: 'label.password',
               name: 'password',
               placeholderTx: 'placeholder.password',
-              autoCapitalize: 'none',
               error: errors?.password?.message,
               control,
               showIcon: true,
@@ -58,9 +58,9 @@ export const ChangePassword: FC<StackScreenProps<AuthStackParamList, ScreenNames
           />
           <FormInput
             {...{
+              labelTx: 'label.password',
               name: 'passwordConfirm',
               placeholderTx: 'placeholder.reenteredPassword',
-              autoCapitalize: 'none',
               control,
               showIcon: true,
               error: errors?.passwordConfirm?.message

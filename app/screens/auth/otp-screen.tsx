@@ -35,7 +35,7 @@ const OtpScreen :FC<StackScreenProps<AuthStackParamList, ScreenNames.OTP>> = obs
           closeModal={()=>setModal(false)}
           onPress={goBack}
           title={isNum ? 'Nhập sai số điện thoại?': 'Nhập sai địa chỉ email'}
-          content={'Vui lòng chờ, FINA sẽ gửi mã OTP cho bạn trong ít phút.'}/>
+          content={isNum ? 'Vui lòng nhập số điện thoại mới để nhận OTP.' : 'Vui lòng nhập địa chỉ email mới để nhận OTP.'}/>
       </Pressable>
     )
   });

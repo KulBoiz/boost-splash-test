@@ -18,6 +18,7 @@ import RenderAuthStep from "./components/render-step-auth"
 import { fontFamily } from "../../constants/font-family"
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view"
 import i18n from "i18n-js"
+import {get} from 'lodash'
 
 export const RegisterScreen: FC<StackScreenProps<AuthStackParamList, ScreenNames.REGISTER>> = observer(
   ({ navigation }) => {
@@ -39,6 +40,8 @@ export const RegisterScreen: FC<StackScreenProps<AuthStackParamList, ScreenNames
 
     const { authStoreModel } = useStores()
     const [checkboxState, setCheckboxState] = useState(false);
+    const email = get(authStoreModel?.user,'emails[0].email')
+    const phone = get(authStoreModel?.user,'tels[0].tel')
 
     const _handleRegister = async (data) => {
       const register = await authStoreModel.register(data.fullName, data.password, data.passwordConfirm)
@@ -48,7 +51,7 @@ export const RegisterScreen: FC<StackScreenProps<AuthStackParamList, ScreenNames
     }
     useEffect(()=> {
       if (authStoreModel?.user){
-        setValue('email', authStoreModel?.user?.emails[0]?.email ?? authStoreModel?.user?.tels[0]?.tel)
+        setValue('email', email ?? phone)
       }
     },[])
 
@@ -70,7 +73,7 @@ export const RegisterScreen: FC<StackScreenProps<AuthStackParamList, ScreenNames
           <FormInput
             {...{
               name: 'email',
-              labelTx: 'label.login.emailAndPhone',
+              labelTx: 'label.emailAndPhone',
               placeholderTx: 'placeholder.email',
               autoCapitalize: 'none',
               error: errors?.email?.message,
@@ -82,7 +85,7 @@ export const RegisterScreen: FC<StackScreenProps<AuthStackParamList, ScreenNames
           <FormInput
             {...{
               name: 'password',
-              labelTx: 'label.login.password',
+              labelTx: 'label.password',
               placeholderTx: 'placeholder.password',
               autoCapitalize: 'none',
               error: errors?.password?.message,
@@ -92,7 +95,7 @@ export const RegisterScreen: FC<StackScreenProps<AuthStackParamList, ScreenNames
           />
           <FormInput
             {...{
-              label: 'Nhập lại mật khẩu',
+              labelTx: 'label.rePassword',
               name: 'passwordConfirm',
               placeholderTx: 'placeholder.reenteredPassword',
               autoCapitalize: 'none',

@@ -22,6 +22,10 @@ import { AgentStack } from "./agent-stack"
 import { RegisterScreen } from "../screens/auth/register-screen"
 import PhotoTutorial from "../screens/agent/photo-tutorial"
 import RegisterInfo from "../screens/agent/register-info"
+import BecomeAgent from "../screens/agent/become-agent"
+import CheckInfo from "../screens/agent/check-info"
+import CaptureId from "../screens/agent/capture-id"
+import RegisterAgent from "../screens/agent/register-agent"
 
 export type NavigatorParamList = {
   [ScreenNames.SPLASH]: undefined;
@@ -55,7 +59,7 @@ const RootStack = ()=> {
       initialRouteName={ScreenNames.SPLASH}
     >
       <Stack.Screen name={ScreenNames.SPLASH} component={SplashScreen} />
-      <Stack.Screen name={ScreenNames.AGENT} component={AgentStack} options={{gestureEnabled: false}}/>
+      <Stack.Screen name={ScreenNames.AGENT} component={RegisterAgent} options={{gestureEnabled: false}}/>
       <Stack.Screen name={ScreenNames.AUTH} component={AuthStack} options={{gestureEnabled: false}}/>
       <Stack.Screen name={ScreenNames.APP} component={AppStack} options={{gestureEnabled: false}} />
       <Stack.Screen name={ScreenNames.REQUEST_COUNSELLING} component={RequestCounselling} />

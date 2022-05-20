@@ -67,7 +67,7 @@ const ForgotPasswordScreen :FC<StackScreenProps<AuthStackParamList, ScreenNames.
               {...{
                 name: 'telOrEmail',
                 autoCapitalize: 'none',
-                labelTx: 'label.login.emailAndPhone',
+                labelTx: 'label.emailAndPhone',
                 placeholderTx:'placeholder.emailAndPhone',
                 error: errors?.telOrEmail?.message,
                 control,

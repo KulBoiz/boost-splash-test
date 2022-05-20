@@ -9,6 +9,7 @@ import { BecomeAgentSvg } from "../../assets/svgs"
 import { fontFamily } from "../../constants/font-family"
 import { color } from "../../theme"
 import { width } from "../../constants/variable"
+import { ROW } from "../../styles/common-style"
 
 interface Props{}
 
@@ -17,9 +18,11 @@ const BecomeAgent = React.memo((props: Props) => {
     <View style={styles.container}>
       <View style={styles.body}>
         <FastImage source={images.fina_logo} style={styles.logo} />
-        <AppText value={'Bạn có muốn trở thành'} style={styles.firstText}/>
-        <AppText value={'Cộng tác viên'} style={styles.secondText}/>
-        <AppText value={'của Fina ?'} style={styles.thirdText}/>
+        <AppText value={'Bạn muốn trở thành'} style={styles.firstText}/>
+        <View style={ROW}>
+          <AppText value={'Cộng tác viên'} style={styles.secondText}/>
+          <AppText value={' FINA?'} style={styles.secondText} color={color.palette.blue}/>
+        </View>
         <AppButton title={'Đăng ký cộng tác viên'} onPress={()=> {}} containerStyle={styles.btn}/>
         <AppText value={'Quay lại đăng nhập'} style={styles.loginText} underline/>
       </View>
@@ -43,9 +46,9 @@ const styles = ScaledSheet.create({
     paddingHorizontal: '16@ms'
   },
   logo: {
-    width: '60@s',
-    height: '60@s',
-    marginBottom: '36@s'
+    width: '85@s',
+    height: '85@s',
+    marginBottom: '30@s'
   },
   firstText: {
       marginBottom: '8@s',
@@ -54,12 +57,7 @@ const styles = ScaledSheet.create({
     color: color.palette.BABABA
   },
   secondText: {
-    fontSize: '46@ms',
-    fontFamily: fontFamily.mulish.bold,
-    color: color.palette.blue,
-  },
-  thirdText: {
-    fontSize: '44@ms',
+    fontSize: '36@ms',
     fontFamily: fontFamily.mulish.bold,
   },
   btn: {
@@ -75,6 +73,5 @@ const styles = ScaledSheet.create({
   imageContainer: {
     flex: 1,
     justifyContent: 'flex-end',
-    paddingBottom: '30@s'
   }
 });
