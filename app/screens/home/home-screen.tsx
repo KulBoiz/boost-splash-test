@@ -15,6 +15,7 @@ import HomeBanner from "./components/home-banner"
 import Insurance from "./insurance"
 import { color } from "../../theme"
 import { useStores } from "../../models"
+import FullScreenModal from "../../components/app-modal/full-screen-modal"
 
 
 
@@ -31,7 +32,7 @@ export const HomeScreen: FC<StackScreenProps<AppStackParamList, ScreenNames.HOME
 
     const handleSelectPage = (value: number) => {
       setCurrentPage(value);
-      
+
       if (value === 2) {
         menuFilterStore.get();
         productStore.get();

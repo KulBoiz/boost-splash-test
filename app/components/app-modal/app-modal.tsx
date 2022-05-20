@@ -2,10 +2,10 @@ import React from 'react';
 import { View, TouchableOpacity } from "react-native"
 import Modal from "react-native-modal"
 import { AppText } from "../app-text/AppText"
-import { Colors } from "react-native/Libraries/NewAppScreen"
 import { ScaledSheet } from "react-native-size-matters"
 import { CancelSvg } from "../../assets/svgs"
 import AppButton from "../app-button/AppButton"
+import { color } from "../../theme"
 
 interface Props{
   visible: boolean,
@@ -48,7 +48,7 @@ const styles = ScaledSheet.create({
       position: 'relative', margin: 0, paddingHorizontal: '12@s'
     },
   body: {
-      backgroundColor: Colors.white,
+      backgroundColor: color.background,
     borderRadius: '8@s',
     padding: '10@s'
   },

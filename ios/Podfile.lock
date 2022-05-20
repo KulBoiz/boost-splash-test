@@ -306,6 +306,8 @@ PODS:
     - React-Core
   - react-native-safe-area-context (3.1.8):
     - React-Core
+  - react-native-signature-capture (0.4.12):
+    - React
   - react-native-webview (11.18.2):
     - React-Core
   - React-perflogger (0.67.2)
@@ -458,6 +460,7 @@ DEPENDENCIES:
   - React-logger (from `../node_modules/react-native/ReactCommon/logger`)
   - react-native-pager-view (from `../node_modules/react-native-pager-view`)
   - react-native-safe-area-context (from `../node_modules/react-native-safe-area-context`)
+  - react-native-signature-capture (from `../node_modules/react-native-signature-capture`)
   - react-native-webview (from `../node_modules/react-native-webview`)
   - React-perflogger (from `../node_modules/react-native/ReactCommon/reactperflogger`)
   - React-RCTActionSheet (from `../node_modules/react-native/Libraries/ActionSheetIOS`)
@@ -560,6 +563,8 @@ EXTERNAL SOURCES:
     :path: "../node_modules/react-native-pager-view"
   react-native-safe-area-context:
     :path: "../node_modules/react-native-safe-area-context"
+  react-native-signature-capture:
+    :path: "../node_modules/react-native-signature-capture"
   react-native-webview:
     :path: "../node_modules/react-native-webview"
   React-perflogger:
@@ -649,6 +654,7 @@ SPEC CHECKSUMS:
   React-logger: 23de8ea0f44fa00ee77e96060273225607fd4d78
   react-native-pager-view: b1914469643f40042e65d78cbf3d3dfebd6fb0d9
   react-native-safe-area-context: 79fea126c6830c85f65947c223a5e3058a666937
+  react-native-signature-capture: 416a3947684e049a5b012cdd6496f878dc797f16
   react-native-webview: 8ec7ddf9eb4ddcd92b32cee7907efec19a9ec7cb
   React-perflogger: 3c9bb7372493e49036f07a82c44c8cf65cbe88db
   React-RCTActionSheet: 052606483045a408693aa7e864410b4a052f541a
