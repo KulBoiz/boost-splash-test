@@ -79,7 +79,7 @@ const styles = ScaledSheet.create({
   title: {
     fontFamily: fontFamily.mulish.bold,
     color: color.palette.black,
-    fontSize: '16@s',
+    fontSize: '16@ms',
     textAlign: "center",
     fontWeight: '700'
   },
@@ -88,6 +88,6 @@ const styles = ScaledSheet.create({
     height: '24@s'
   },
   defaultView: {
-      width: '32@s'
+      width: '24@s'
   }
 });

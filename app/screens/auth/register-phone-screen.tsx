@@ -1,9 +1,8 @@
-import React, { FC, useState } from "react"
+import React, { FC } from "react"
 import { Alert, Keyboard, Pressable, View } from "react-native"
 import { s, ScaledSheet } from "react-native-size-matters"
 import { AppText } from "../../components/app-text/AppText"
 import { presets } from "../../constants/presets"
-import LoginText from "./components/LoginText"
 import { color } from "../../theme"
 import * as Yup from "yup"
 import { useForm } from "react-hook-form"
@@ -62,7 +61,7 @@ const RegisterPhoneScreen: FC<StackScreenProps<AuthStackParamList, ScreenNames.R
           style={presets.secondary}
           parse={
             [
-              {pattern: /số điện thoại|vị trí/, style: styles.bold},
+              {pattern: /số điện thoại|email/, style: styles.bold},
             ]
           }
           childrenProps={{allowFontScaling: false}}
@@ -73,7 +72,7 @@ const RegisterPhoneScreen: FC<StackScreenProps<AuthStackParamList, ScreenNames.R
         <FormInput
           {...{
             name: 'phone',
-            labelTx: 'label.login.emailAndPhone',
+            labelTx: 'label.emailAndPhone',
             placeholderTx: 'placeholder.emailAndPhone',
             autoCapitalize: 'none',
             error: errors?.phone?.message,

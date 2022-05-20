@@ -25,7 +25,7 @@ const SettingScreen: FC<Props> = observer((props: Props) => {
   return (
     <View style={styles.container}>
       <AppHeader headerTx={"header.personalSetting"}/>
-      {/*<AppButton title={'Đăng kí cộng tác viên'} containerStyle={[MARGIN_BOTTOM_16, MARGIN_TOP_16]} onPress={registerAgent}/>*/}
+      <AppButton title={'Đăng kí cộng tác viên'} containerStyle={[MARGIN_BOTTOM_16, MARGIN_TOP_16]} onPress={registerAgent}/>
       <AppButton title={'Đăng xuất'} onPress={logout}/>
     </View>
   )

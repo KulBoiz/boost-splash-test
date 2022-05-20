@@ -26,7 +26,7 @@ const ForgotPasswordScreen :FC<StackScreenProps<AuthStackParamList, ScreenNames.
     const validationSchema = Yup.object().shape({
       telOrEmail: Yup.string()
         .trim()
-        .required("Please enter your email or phone number")
+        .required(i18n.t('errors.requireEmailOrPhone'))
     })
     const {control, handleSubmit, formState: {errors}, setError} = useForm({
       delayError: 0,
@@ -67,7 +67,7 @@ const ForgotPasswordScreen :FC<StackScreenProps<AuthStackParamList, ScreenNames.
               {...{
                 name: 'telOrEmail',
                 autoCapitalize: 'none',
-                labelTx: 'label.login.emailAndPhone',
+                labelTx: 'label.emailAndPhone',
                 placeholderTx:'placeholder.emailAndPhone',
                 error: errors?.telOrEmail?.message,
                 control,

@@ -38,7 +38,7 @@ const AppButton: FC<BaseButtonProps> = ({
     <TouchableOpacity
       style={
         disable
-          ? [styles.disableStyle, containerStyle]
+          ? [styles.disableStyle, { backgroundColor: colorBtn ?? color.palette.blue }, containerStyle]
           : [styles.container, { backgroundColor: colorBtn ?? color.palette.blue }, containerStyle]
       }
       onPress={onPress}
@@ -61,6 +61,7 @@ const styles = ScaledSheet.create({
     justifyContent: "center",
     alignItems: "center",
     paddingVertical: "14@vs",
+
   },
   disableStyle: {
     width: "100%",
@@ -68,7 +69,7 @@ const styles = ScaledSheet.create({
     justifyContent: "center",
     alignItems: "center",
     paddingVertical: "14@vs",
-    opacity: 0.6
+    opacity: 0.6,
   },
   title: { fontSize: "15@s", color: color.palette.white, fontWeight: '700', fontFamily: fontFamily.mulish.bold},
   upperCase: {

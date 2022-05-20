@@ -1,5 +1,5 @@
 import React, { useCallback, useEffect, useRef, useState } from "react"
-import { View } from 'react-native';
+import { View} from 'react-native';
 import { observer } from "mobx-react-lite"
 import { width } from "../../../constants/variable"
 import PaginationDot from "../../../components/pagination-dot/pagination-dot"

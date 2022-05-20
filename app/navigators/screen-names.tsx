@@ -30,5 +30,6 @@ export enum ScreenNames {
   REGISTER_AGENT = 'RegisterAgent',
   REGISTER_INFO =  'RegisterInfo',
   PHOTO_TUTORIAL = 'PhotoTutorial',
-  TAKE_PHOTO = 'TakePhoto'
+  TAKE_PHOTO = 'TakePhoto',
+  CHECK_INFO = 'CheckInfo'
 }

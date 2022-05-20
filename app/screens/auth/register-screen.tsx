@@ -17,19 +17,18 @@ import TermCheckbox from "./components/TermCheckbox"
 import RenderAuthStep from "./components/render-step-auth"
 import { fontFamily } from "../../constants/font-family"
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view"
+import i18n from "i18n-js"
+import {get} from 'lodash'
 
 export const RegisterScreen: FC<StackScreenProps<AuthStackParamList, ScreenNames.REGISTER>> = observer(
   ({ navigation }) => {
     // const nextScreen = () => navigation.navigate(AppRoutes.APP)
     const validationSchema = Yup.object().shape({
-      email: Yup.string()
-        .trim()
-        .required("Please enter your email")
-        .email("This is not a valid email"),
-      password: Yup.string().required("Please enter your password").trim(),
+      fullName: Yup.string().required(i18n.t('errors.requireFullName')).trim(),
+      password: Yup.string().required(i18n.t('errors.requirePassword')).trim(),
       passwordConfirm: Yup.string()
         .trim()
-        .oneOf([Yup.ref('password'), null], 'Password do not match'),
+        .oneOf([Yup.ref('password'), null], i18n.t('errors.passwordNotMatch')),
     })
     const {control, handleSubmit, formState: {errors}, setValue} = useForm({
       delayError: 0,
@@ -41,6 +40,8 @@ export const RegisterScreen: FC<StackScreenProps<AuthStackParamList, ScreenNames
 
     const { authStoreModel } = useStores()
     const [checkboxState, setCheckboxState] = useState(false);
+    const email = get(authStoreModel?.user,'emails[0].email')
+    const phone = get(authStoreModel?.user,'tels[0].tel')
 
     const _handleRegister = async (data) => {
       const register = await authStoreModel.register(data.fullName, data.password, data.passwordConfirm)
@@ -50,7 +51,7 @@ export const RegisterScreen: FC<StackScreenProps<AuthStackParamList, ScreenNames
     }
     useEffect(()=> {
       if (authStoreModel?.user){
-        setValue('email', authStoreModel?.user?.emails[0]?.email ?? authStoreModel?.user?.tels[0]?.tel)
+        setValue('email', email ?? phone)
       }
     },[])
 
@@ -72,7 +73,7 @@ export const RegisterScreen: FC<StackScreenProps<AuthStackParamList, ScreenNames
           <FormInput
             {...{
               name: 'email',
-              labelTx: 'label.login.emailAndPhone',
+              labelTx: 'label.emailAndPhone',
               placeholderTx: 'placeholder.email',
               autoCapitalize: 'none',
               error: errors?.email?.message,
@@ -84,7 +85,7 @@ export const RegisterScreen: FC<StackScreenProps<AuthStackParamList, ScreenNames
           <FormInput
             {...{
               name: 'password',
-              labelTx: 'label.login.password',
+              labelTx: 'label.password',
               placeholderTx: 'placeholder.password',
               autoCapitalize: 'none',
               error: errors?.password?.message,
@@ -94,7 +95,7 @@ export const RegisterScreen: FC<StackScreenProps<AuthStackParamList, ScreenNames
           />
           <FormInput
             {...{
-              label: 'Nhập lại mật khẩu',
+              labelTx: 'label.rePassword',
               name: 'passwordConfirm',
               placeholderTx: 'placeholder.reenteredPassword',
               autoCapitalize: 'none',
@@ -104,7 +105,7 @@ export const RegisterScreen: FC<StackScreenProps<AuthStackParamList, ScreenNames
             }}
           />
           <TermCheckbox checkboxState={checkboxState} setCheckboxState={setCheckboxState} />
-          <AppButton onPress={handleSubmit(_handleRegister)} tx={"auth.register"} containerStyle={styles.button}/>
+          <AppButton onPress={handleSubmit(_handleRegister)} tx={"auth.register"} disable={!checkboxState} containerStyle={styles.button}/>
         </View>
       </KeyboardAwareScrollView>
     )

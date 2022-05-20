@@ -43,7 +43,7 @@
     "register": "Đăng ký",
     "registerNow": "Đăng kí ngay",
     "otpCode": "Mã xác thực",
-    "enterPhone": "Vui lòng nhập số điện thoại và vị trí\nđể chúng tôi có thể xác minh bạn.",
+    "enterPhone": "Vui lòng nhập số điện thoại hoặc email\nđể đăng nhập hoặc đăng ký tài khoản.",
     "checkPhoneInbox": "Hãy kiểm tra hộp thư đến, chúng tôi đã gửi mã xác thực vào số",
     "checkEmailInbox": "Hãy kiểm tra hộp thư đến, chúng tôi đã gửi mã xác thực vào hộp thư",
     "resetPassword": "Đặt lại mật khẩu",
@@ -60,18 +60,17 @@
   "header": {
     "insurance": "Bảo hiểm",
     "finance": "Tài chính",
-    "requestCounselling": "tạo yêu cầu tư vấn",
-    "requestLoan": "tạo yêu cầu tư vấn vay",
-    "requestInsurance": "tạo yêu cầu tư vấn mua bảo hiểm",
-    "requestInvest": "tạo yêu cầu tư vấn đầu tư",
+    "requestCounselling": "Tạo yêu cầu tư vấn",
+    "requestLoan": "Tạo yêu cầu tư vấn vay",
+    "requestInsurance": "Tạo yêu cầu tư vấn mua bảo hiểm",
+    "requestInvest": "Tạo yêu cầu tư vấn đầu tư",
     "notice": "Thông báo",
     "personalSetting": "Thiết lập cá nhân"
   },
   "label": {
-    "login": {
-      "emailAndPhone": "Email hoặc số điện thoại",
-      "password": "Mật khẩu"
-    },
+    "emailAndPhone": "Email hoặc số điện thoại",
+    "password": "Mật khẩu",
+    "rePassword": "Nhập lại mật khẩu",
     "fullName": "Họ và tên",
     "dateOfBirth": "Ngày sinh",
     "sex": "Giới tính",
@@ -82,7 +81,7 @@
     "phoneInsurance": "Số điện thoại nhận thông tin bảo hiểm",
     "emailInsurance": "Email nhận chứng nhận bảo hiểm",
     "location": "Enter your location",
-    "phoneNumber": "Enter your Phone Number"
+    "phoneNumber": "Số điện thoại"
   },
   "placeholder": {
     "login": {
@@ -239,7 +238,9 @@
     "requireCitizenIdentification": "Vui lòng nhập CMND / CCCD",
     "requireDateRange": "Vui lòng nhập ngày cấp",
     "requireIssuedBy": "Vui lòng nhập nơi cấp",
-    "requireAddress": "Vui lòng nhập địa chỉ"
+    "requireAddress": "Vui lòng nhập địa chỉ",
+    "requirePassword": "Vui lòng nhập mật khẩu",
+    "passwordNotMatch": "Mật khẩu không khớp"
   },
   "errorScreen": {
     "title": "Something went wrong!",

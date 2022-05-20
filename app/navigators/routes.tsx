@@ -9,6 +9,7 @@ import BecomeAgent from "../screens/agent/become-agent"
 import PhotoTutorial from "../screens/agent/photo-tutorial"
 import RegisterAgent from "../screens/agent/register-agent"
 import RegisterInfo from "../screens/agent/register-info"
+import CheckInfo from "../screens/agent/check-info"
 
 export const AuthRoutes = [
 	{
@@ -59,5 +60,8 @@ export const AgentRoutes = [
 	},{
 		name: ScreenNames.REGISTER_INFO,
 		component: RegisterInfo,
+	},{
+		name: ScreenNames.CHECK_INFO,
+		component: CheckInfo,
 	},
 ];
