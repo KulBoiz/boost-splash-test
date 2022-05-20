@@ -1,6 +1,6 @@
 import React, { useCallback, useEffect, useState } from "react"
 import { View, FlatList, ActivityIndicator } from "react-native"
-import FinanceFilter from "./components/finance-filter"
+import MenuFilter from "./components/finance-filter"
 import { PROFILE_MANAGEMENT_FILTER } from "./constants"
 import { color } from "../../theme"
 import ShortStatus from "./components/short-status"
@@ -30,7 +30,7 @@ const RecordsManagement = observer((props: Props) => {
 
   return (
     <View style={styles.container}>
-      <FinanceFilter currentSelected={select} setCurrentSelected={setSelect} filterData={PROFILE_MANAGEMENT_FILTER} />
+      <MenuFilter currentSelected={select} setCurrentSelected={setSelect} filterData={PROFILE_MANAGEMENT_FILTER} />
       <AppText style={styles.text}>Có Tất Cả <AppText value={total} color={color.palette.blue} style={FONT_BOLD_12} /> Hồ Sơ</AppText>
       <FlatList
         data={data}

@@ -1,30 +1,55 @@
-import React, { useState } from "react"
+import { observer } from "mobx-react-lite"
+import React, { useEffect, useState } from "react"
 import { View } from "react-native"
 import { ms, ScaledSheet } from "react-native-size-matters"
-import { color } from "../../theme"
+import { images } from "../../assets/images"
 import { width } from "../../constants/variable"
-import FinanceFilter from "../loan/components/finance-filter"
-import { INSURANCE_FILTER } from "./constants"
+import { useStores } from "../../models"
+import { color } from "../../theme"
+import MenuFilter from "../loan/components/finance-filter"
 import InsuranceItem from "./components/insurance-item"
 
-const data = [0,1,2,3,4]
 const widthHeight = width - ms(32)
 
-interface Props{}
+interface Props { }
 
-const Insurance = React.memo((props: Props) => {
-  const [select, setSelect] = useState<number>(0)
+const Insurance = observer((props: Props) => {
+  const [select, setSelect] = useState<any>()
+  // @ts-ignore
+  const { menuFilterStore, productStore } = useStores();
+  const { categories } = menuFilterStore;
+  const { records } = productStore;
 
+  const filter = (value) => {
+    if (value?.key === select?.key) {
+      return;
+    }
+    setSelect(value);
+
+    if (value?.key !== 'all') {
+      productStore.get({ categoryId: value?.key });
+    } else {
+      productStore.get();
+    }
+  }
 
   return (
     <View style={styles.container}>
-      <FinanceFilter currentSelected={select} setCurrentSelected={setSelect} filterData={INSURANCE_FILTER} style={styles.filter}/>
-      <View style={styles.body}>
-        {data.map((val, index)=> {
-          return <InsuranceItem key={index.toString()}/>
+      <MenuFilter
+        currentSelected={select}
+        setCurrentSelected={(value) => { filter(value) }}
+        filterData={[{
+          key: 'all',
+          icon: images.cube,
+          title: 'tất cả'
+        }].concat(categories)}
+        style={styles.filter} />
+      
+      {records?.length > 0 && <View style={styles.body}>
+        {records.map((val, index) => {
+          return <InsuranceItem key={index.toString()} item={val} />
         })}
-      </View>
-
+      </View>}
     </View>
   )
 });
@@ -32,12 +57,12 @@ const Insurance = React.memo((props: Props) => {
 export default Insurance;
 
 const styles = ScaledSheet.create({
-    container: {
-      borderRadius: '8@s',
-      width: widthHeight,
-      backgroundColor: color.background
-    },
-  filter:{
+  container: {
+    borderRadius: '8@s',
+    width: widthHeight,
+    backgroundColor: color.background
+  },
+  filter: {
     borderRadius: '8@s',
     backgroundColor: color.background,
     paddingTop: '30@s'

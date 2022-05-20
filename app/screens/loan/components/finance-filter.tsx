@@ -2,45 +2,48 @@ import React from 'react';
 import { View, Pressable, ScrollView, ViewStyle } from "react-native"
 import { AppText } from "../../../components/app-text/AppText"
 import FastImage from "react-native-fast-image"
-import { ScaledSheet } from "react-native-size-matters"
+import { s, ScaledSheet } from "react-native-size-matters"
 import { color } from "../../../theme"
+import { SvgUri } from 'react-native-svg';
 
-interface Props{
-  currentSelected : number
-  setCurrentSelected(e: number): void
+interface Props {
+  currentSelected: number
+  setCurrentSelected(e: any): void
   filterData: Array<any>
   style?: ViewStyle | any
 }
 interface ButtonProps {
-  icon: number
+  icon: string | number
   title: string
   onPress(): void
   isCurrent: boolean
 }
 const FilterButton = React.memo((props: ButtonProps) => {
-  return(
+  return (
     <Pressable onPress={props.onPress}
-               style={props.isCurrent ? [styles.filterContainer,styles.isSelectContainer]
-               : [styles.filterContainer,styles.unselectContainer]}>
-      <FastImage source={props.icon} style={styles.icon}
-                 resizeMode={'contain'}
-                 tintColor={props.isCurrent ? color.palette.white : color.palette.blue}/>
-      <AppText value={props.title} style={styles.title} color={props.isCurrent ? color.text : color.palette.blue}/>
+      style={props.isCurrent ? [styles.filterContainer, styles.isSelectContainer]
+        : [styles.filterContainer, styles.unselectContainer]}
+    >
+      {props.icon && <FastImage source={ typeof props.icon === 'number' ? props.icon : { uri: props.icon }} style={styles.icon}
+        resizeMode={'contain'}
+        tintColor={props.isCurrent ? color.palette.white : color.palette.blue} />}
+      <AppText value={props.title} style={styles.title} color={props.isCurrent ? color.text : color.palette.blue} />
     </Pressable>
   )
 })
 
-const FinanceFilter = React.memo((props: Props) => {
-  const onPress = (id) => {
-    props.setCurrentSelected(id)
+const MenuFilter = React.memo((props: Props) => {
+  const onPress = (item) => {
+    props.setCurrentSelected(item)
   }
+
   return (
     <View style={[styles.container, props.style]}>
       <ScrollView horizontal showsHorizontalScrollIndicator={false} >
-        {props.filterData.map((val, id)=> {
+        {props.filterData.map((val, id) => {
           const isCurrent = props.currentSelected === id
-          return(
-            <FilterButton key={id.toString()} icon={val.icon} title={val.title} onPress={()=>onPress(id)} isCurrent={isCurrent} />
+          return (
+            <FilterButton key={id.toString()} icon={val.icon} title={val.title} onPress={() => onPress(val)} isCurrent={isCurrent} />
           )
         })}
       </ScrollView>
@@ -48,7 +51,7 @@ const FinanceFilter = React.memo((props: Props) => {
   )
 });
 
-export default FinanceFilter;
+export default MenuFilter;
 
 const styles = ScaledSheet.create({
   container: {
@@ -71,11 +74,11 @@ const styles = ScaledSheet.create({
   isSelectContainer: {
     backgroundColor: color.palette.blue
   },
-  unselectContainer:{
+  unselectContainer: {
     borderWidth: 1,
     borderColor: color.palette.blue
   },
-  title:{
+  title: {
     marginLeft: '8@s',
     textTransform: "capitalize",
     fontSize: '10@ms'
