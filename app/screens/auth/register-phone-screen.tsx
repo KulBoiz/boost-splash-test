@@ -96,7 +96,7 @@ const styles = ScaledSheet.create({
     flex: 1,
     paddingTop: '80@vs',
     backgroundColor: color.palette.white,
-    paddingHorizontal: "20@s",
+    paddingHorizontal: "16@ms",
   },
   bold: {
     fontFamily: 'Inter-Bold'

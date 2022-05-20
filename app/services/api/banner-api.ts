@@ -34,5 +34,25 @@ export class BannerApi {
     }
   }
 
+  async getPublicNews(): Promise<any> {
+    try {
+      const response: ApiResponse<any> = await this.api.apisauce.get(`${API_ENDPOINT}/news/public`, {
+        page: 1,
+        filter: {
+          limit: 20,
+          // order: ['priority asc'],
+        }
+      })
+      if (!response.ok) {
+        const problem = getGeneralApiProblem(response)
+        if (problem) return problem
+      }
+      const data = response?.data
+      return { kind: "ok", data }
+    } catch (e) {
+      return { kind: "bad-data", e }
+    }
+  }
+
 
 }

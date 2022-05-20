@@ -105,6 +105,9 @@ export const RegisterScreen: FC<StackScreenProps<AuthStackParamList, ScreenNames
             }}
           />
           <TermCheckbox checkboxState={checkboxState} setCheckboxState={setCheckboxState} />
+
+        </View>
+        <View style={styles.wrapBtn}>
           <AppButton onPress={handleSubmit(_handleRegister)} tx={"auth.register"} disable={!checkboxState} containerStyle={styles.button}/>
         </View>
       </KeyboardAwareScrollView>
@@ -115,9 +118,11 @@ const styles = ScaledSheet.create({
   container: {
     flex: 1,
     backgroundColor: color.palette.white,
-    paddingHorizontal: "20@s",
+    paddingHorizontal: "16@ms",
   },
-  body: {flex: 1,     paddingTop: '80@vs'
+  body: {
+    flex: 1,
+    paddingTop: '80@vs'
   },
   textLogin: {
     fontSize: '44@s',
@@ -125,13 +130,16 @@ const styles = ScaledSheet.create({
     marginBottom: '20@s',
   },
   button: {
-    marginTop: '40@s'
+    marginTop: '40@s',
   },
   forgot: {
     alignSelf:'flex-end',
     color: color.palette.blue
   },
-  wrapBottom: {
-    paddingBottom: '30@s'
+  wrapBtn :{
+    flex:1,
+    justifyContent: "flex-end",
+    marginBottom: '30@s',
+    backgroundColor: 'coral'
   }
 })

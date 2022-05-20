@@ -1,5 +1,5 @@
 import React, { useCallback, useEffect, useRef, useState } from "react"
-import { View} from 'react-native';
+import { Pressable, View } from "react-native"
 import { observer } from "mobx-react-lite"
 import { width } from "../../../constants/variable"
 import PaginationDot from "../../../components/pagination-dot/pagination-dot"
@@ -7,6 +7,8 @@ import FastImage from "react-native-fast-image"
 import Carousel from 'react-native-snap-carousel';
 import { ScaledSheet } from "react-native-size-matters"
 import { useStores } from "../../../models"
+import { navigate } from "../../../navigators"
+import { ScreenNames } from "../../../navigators/screen-names"
 
 
 interface Props{}
@@ -21,12 +23,11 @@ const HomeBanner = observer((props: Props) => {
   },[])
 
   const banners = bannerStore.publicBanners ?? []
-
   const _renderItem = useCallback(({item}) => {
     return (
-      <View style={{alignItems: 'center'}}>
+      <Pressable style={{alignItems: 'center'}} onPress={()=> navigate(ScreenNames.BANNER_DETAIL, {url : item?.link})}>
         <FastImage source={{uri : item?.mobileImage?.url}} style={styles.image}/>
-      </View>
+      </Pressable>
     );
   },[])
 

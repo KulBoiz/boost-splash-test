@@ -2,12 +2,11 @@ import React from 'react';
 import { View } from "react-native"
 import Modal from "react-native-modal"
 import { AppText } from "../app-text/AppText"
-import { Colors } from "react-native/Libraries/NewAppScreen"
 import { ScaledSheet } from "react-native-size-matters"
 import AppButton from "../app-button/AppButton"
 import { color } from "../../theme"
 import { fontFamily } from "../../constants/font-family"
-import { FONT_SEMI_BOLD_12, TEXT_CENTER } from "../../styles/common-style"
+import { FONT_SEMI_BOLD_12 } from "../../styles/common-style"
 
 interface Props{
   visible: boolean,
@@ -45,7 +44,7 @@ const styles = ScaledSheet.create({
       position: 'relative', margin: 0, paddingHorizontal: '36@ms'
     },
   body: {
-    backgroundColor: Colors.white,
+    backgroundColor:color.background,
     borderRadius: '8@s',
     padding: '24@ms',
   },
