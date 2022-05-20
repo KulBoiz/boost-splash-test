@@ -103,7 +103,7 @@ const styles = ScaledSheet.create({
   container: {
     flex: 1,
     backgroundColor: color.palette.white,
-    paddingHorizontal: "20@ms",
+    paddingHorizontal: "16@ms",
   },
   backToHome: {
     color: color.palette.orange,

@@ -76,7 +76,7 @@ const styles = ScaledSheet.create({
   container: {
     flex: 1,
     backgroundColor: color.palette.white,
-    paddingHorizontal: "20@s",
+    paddingHorizontal: "16@ms",
   },
   body: {flex: 1, justifyContent:'center'},
   textLogin: {

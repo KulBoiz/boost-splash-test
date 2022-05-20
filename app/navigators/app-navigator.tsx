@@ -18,14 +18,8 @@ import InsuranceScreen from "../screens/insurance/insurance-screen"
 import InsurancePackage from "../screens/insurance/insurance-package"
 import InsuranceDetail from "../screens/insurance/insurance-detail"
 import { IntroduceScreen } from "../screens/insurance/introduce/introduce-screen"
-import { AgentStack } from "./agent-stack"
-import { RegisterScreen } from "../screens/auth/register-screen"
-import PhotoTutorial from "../screens/agent/photo-tutorial"
-import RegisterInfo from "../screens/agent/register-info"
-import BecomeAgent from "../screens/agent/become-agent"
-import CheckInfo from "../screens/agent/check-info"
-import CaptureId from "../screens/agent/capture-id"
 import RegisterAgent from "../screens/agent/register-agent"
+import BannerDetail from "../screens/home/banner-detail"
 
 export type NavigatorParamList = {
   [ScreenNames.SPLASH]: undefined;
@@ -43,6 +37,7 @@ export type NavigatorParamList = {
   [ScreenNames.INSURANCE_PACKAGE]: undefined;
   [ScreenNames.INSURANCE_DETAIL]: undefined;
   [ScreenNames.INTRODUCE_SCREEN]: undefined;
+  [ScreenNames.BANNER_DETAIL]: { url : string};
 }
 
 // Documentation: https://reactnavigation.org/docs/stack-navigator/
@@ -73,6 +68,7 @@ const RootStack = ()=> {
       <Stack.Screen name={ScreenNames.INSURANCE_PACKAGE} component={InsurancePackage} />
       <Stack.Screen name={ScreenNames.INSURANCE_DETAIL} component={InsuranceDetail} />
       <Stack.Screen name={ScreenNames.INTRODUCE_SCREEN} component={IntroduceScreen} />
+      <Stack.Screen name={ScreenNames.BANNER_DETAIL} component={BannerDetail} />
     </Stack.Navigator>
   )
 }

@@ -44,15 +44,15 @@ export const CollaboratorContractInfoDesktop = (props: Props) => {
       `
     <b>
       <div style={{display: 'flex', textAlign: 'center', fontFamily: 'Arial', fontWeight: 'bold'}}>
-      <div style={{flexGrow: 1}}>
-      <div>CÔNG TY CỔ PHẦN DỊCH VỤ TÀI</div>
-      <div>CHÍNH BẤT ĐỘNG SẢN TULIP</div>
-      </div>
-      <div>
-      <div>CỘNG HÒA XÃ HỘI CHỦ NGHĨA VIỆT NAM</div>
-      <div>Độc lập - Tự do - Hạnh phúc</div>
-      <div>~~~~~</div>
-      </div>
+        <div style={{flexGrow: 1}}>
+        <div>CÔNG TY CỔ PHẦN DỊCH VỤ TÀI</div>
+        <div>CHÍNH BẤT ĐỘNG SẢN TULIP</div>
+        </div>
+        <div>
+        <div>CỘNG HÒA XÃ HỘI CHỦ NGHĨA VIỆT NAM</div>
+        <div>Độc lập - Tự do - Hạnh phúc</div>
+        <div>~~~~~</div>
+        </div>
       </div>
     </b>
     <p

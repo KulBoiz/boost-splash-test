@@ -10,12 +10,29 @@ export const BannerStoreModel = types
   .extend(withEnvironment)
   .props({
     publicBanners: types.frozen([]),
+    publicNews: types.frozen([]),
   })
   .views((self) => ({})) // eslint-disable-line @typescript-eslint/no-unused-vars
   .actions((self) => ({
     getPublicBanners: flow(function* getPublicBanners() {
       const loanApi = new BannerApi(self.environment.api)
       const result = yield loanApi.getPublicBanners()
+      const data = result.data
+      if (result.kind !== "ok") {
+        return result
+      }
+      if (data) {
+        self.publicBanners = data
+        return {
+          kind: "ok",
+          data,
+        }
+      }
+    }),
+
+    getPublicNews: flow(function* getPublicNews() {
+      const loanApi = new BannerApi(self.environment.api)
+      const result = yield loanApi.getPublicNews()
       const data = result.data
       if (result.kind !== "ok") {
         return result
