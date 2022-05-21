@@ -4,7 +4,7 @@ import { DarkTheme, DefaultTheme, NavigationContainer } from "@react-navigation/
 import { createNativeStackNavigator } from "@react-navigation/native-stack"
 import { navigationRef } from "./navigation-utilities"
 import { ScreenNames } from "./screen-names"
-import { SplashScreen } from "../screens"
+import { SplashScreen, WelcomeScreen } from "../screens"
 import { AppStack } from "./app-stack"
 import { AuthStack } from "./auth-stack"
 import NoticeScreen from "../screens/notice/notice-screen"
@@ -18,11 +18,12 @@ import InsuranceScreen from "../screens/insurance/insurance-screen"
 import InsurancePackage from "../screens/insurance/insurance-package"
 import InsuranceDetail from "../screens/insurance/insurance-detail"
 import { IntroduceScreen } from "../screens/insurance/introduce/introduce-screen"
-import RegisterAgent from "../screens/agent/register-agent"
 import BannerDetail from "../screens/home/banner-detail"
+import { AgentStack } from "./agent-stack"
 
 export type NavigatorParamList = {
   [ScreenNames.SPLASH]: undefined;
+  [ScreenNames.WELCOME]: undefined;
   [ScreenNames.AGENT]: undefined;
   [ScreenNames.AUTH]: undefined;
   [ScreenNames.APP]: undefined;
@@ -54,8 +55,9 @@ const RootStack = ()=> {
       initialRouteName={ScreenNames.SPLASH}
     >
       <Stack.Screen name={ScreenNames.SPLASH} component={SplashScreen} />
-      <Stack.Screen name={ScreenNames.AGENT} component={RegisterAgent} options={{gestureEnabled: false}}/>
-      <Stack.Screen name={ScreenNames.AUTH} component={AuthStack} options={{gestureEnabled: false}}/>
+      <Stack.Screen name={ScreenNames.WELCOME} component={WelcomeScreen} options={{gestureEnabled: false}}/>
+      <Stack.Screen name={ScreenNames.AGENT} component={AgentStack} options={{gestureEnabled: false}}/>
+      <Stack.Screen name={ScreenNames.AUTH} component={AuthStack} />
       <Stack.Screen name={ScreenNames.APP} component={AppStack} options={{gestureEnabled: false}} />
       <Stack.Screen name={ScreenNames.REQUEST_COUNSELLING} component={RequestCounselling} />
       <Stack.Screen name={ScreenNames.NOTICE} component={NoticeScreen} />

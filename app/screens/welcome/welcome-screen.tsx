@@ -44,7 +44,7 @@ export const WelcomeScreen: FC<StackScreenProps<AuthStackParamList, ScreenNames.
     }
     return (
       <View testID="WelcomeScreen" style={styles.container}>
-        {screen < 4 ?
+        {screen < 5 ?
           <>
             <View style={styles.wrapSkip}>
               <AppText value={'SKIP'} onPress={_goToFifth}/>

@@ -12,11 +12,12 @@ import { CONTAINER_PADDING } from "../../styles/common-style"
 import { color } from "../../theme"
 import AppButton from "../../components/app-button/AppButton"
 import { ScaledSheet } from "react-native-size-matters"
+import { navigate } from "../../navigators"
+import { ScreenNames } from "../../navigators/screen-names"
 
 interface Props{}
 
 const RegisterInfo = React.memo((props: Props) => {
-  const [currentPosition, setCurrentPosition] = useState(0)
   const validationSchema = Yup.object().shape({
     email: Yup.string()
       .trim()
@@ -43,12 +44,12 @@ const RegisterInfo = React.memo((props: Props) => {
   return (
     <View style={styles.container}>
       <AppHeader headerText={'Đăng ký thông tin'} isBlue/>
-      <RenderStepAgent currentPosition={currentPosition} />
+      <RenderStepAgent currentPosition={0} />
       <View style={CONTAINER_PADDING}>
         <AgentForm {...{control, errors}} />
       </View>
       <View style={styles.wrapBtn}>
-        <AppButton tx={'common.continue'} onPress={()=> {}}/>
+        <AppButton tx={'common.continue'} onPress={()=> navigate(ScreenNames.PHOTO_TUTORIAL)}/>
       </View>
     </View>
   )

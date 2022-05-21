@@ -7,6 +7,8 @@ import { width } from "../../constants/variable"
 import { CollaboratorContractInfoDesktop } from "./constants"
 import { ScaledSheet } from "react-native-size-matters"
 import SignatureModal from "./components/signature-modal"
+import { navigate } from "../../navigators"
+import { ScreenNames } from "../../navigators/screen-names"
 
 interface Props{}
 
@@ -23,7 +25,7 @@ const RegisterAgent = React.memo((props: Props) => {
       </ScrollView>
 
       <View style={styles.btnContainer}>
-        <AppButton title={'Tiếp tục'} onPress={()=> setSignatureModal(true)}/>
+        <AppButton title={'Tiếp tục'} onPress={()=> navigate(ScreenNames.REGISTER_INFO)}/>
       </View>
       <SignatureModal visible={signatureModal} closeModal={()=> setSignatureModal(false)} onSubmit={()=>{}} />
     </View>

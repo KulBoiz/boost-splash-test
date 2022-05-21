@@ -27,12 +27,12 @@ export const SplashScreen: React.FunctionComponent<{ readonly navigation?: any }
   const redirectToNextScreen = () => {
     if (authStoreModel.isFirstTime) {
       setTimeout(() => {
-        navigation.navigate(ScreenNames.AUTH)
-      }, 3000)
+        navigation.navigate(ScreenNames.WELCOME)
+      }, 2000)
     } else {
       setTimeout(() => {
         navigation.navigate(ScreenNames.APP)
-      }, 3000)
+      }, 2000)
     }
   }
 
