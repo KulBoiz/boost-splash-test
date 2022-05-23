@@ -12,8 +12,7 @@ import { withRootStore } from "../extensions/with-root-store"
  */
 
 const filter = {
-  "order": "createdAt asc",
-  "limit": 10,
+  "limit": 20,
   "where": {
     type: {
       inq: ["INTRODUCE_BUYER", "WANT_TO_BUY", "counselling"]
@@ -59,8 +58,14 @@ export const LoanStoreModel = types
       self.task = task
     },
     getLoanDetail: flow(function* getLoanDetail(id: string) {
+      self.loanDetail = {}
+      self.comments = []
+      self.histories = []
+      self.templates = {}
+      self.files = []
+
       const loanApi = new LoanApi(self.environment.api)
-      const commentApi =  new CommentApi(self.environment.api)
+      const commentApi = new CommentApi(self.environment.api)
       const documentApi = new DocumentTemplateApi(self.environment.api)
 
       const result = yield loanApi.requestLoanDetail(id)
@@ -70,14 +75,12 @@ export const LoanStoreModel = types
       const resultComment = yield commentApi.requestComment(id)
       self.comments = resultComment?.data?.data
 
-      if (data) {
-        const resultHistory = yield loanApi.requestLoanHistory(data?.id)
-        self.histories = resultHistory?.data
-      }
+      const resultHistory = yield loanApi.requestLoanHistory(id)
+      self.histories = resultHistory?.data
 
       const resultFiles = yield documentApi.loadTemplate(data?.documentTemplateId)
       self.templates = resultFiles?.data?.data
-      const resultTemplates = yield documentApi.loadFileTemplate(data?.documentTemplateId ,id)
+      const resultTemplates = yield documentApi.loadFileTemplate(data?.documentTemplateId, id)
       self.files = resultTemplates?.data?.data
 
       if (result.kind !== "ok") {
@@ -128,8 +131,16 @@ export const LoanStoreModel = types
     }),
 
     getRecords: flow(function* getRecords() {
+      self.records = []
+      self.total = 0
+
+      const param = {
+        page: 1,
+        "filter": filter
+      }
+
       const loanApi = new LoanApi(self.environment.api)
-      const result = yield loanApi.getRecords()
+      const result = yield loanApi.getRecords(param)
       if (result.kind !== "ok") {
         return result
       }
@@ -149,11 +160,11 @@ export const LoanStoreModel = types
 
     loadMoreRecords: flow(function* loadMoreRecords() {
       const loanApi = new LoanApi(self.environment.api)
-
-      self.page = self.page + 1
+      const nextPage = self.page + 1
+      self.page = nextPage
 
       const param = {
-        page: self.page + 1,
+        page: nextPage,
         "filter": filter
       }
 
@@ -252,12 +263,12 @@ export const LoanStoreModel = types
     getTransaction: flow(function* getTransaction(dealId: string, dealDetailId: string) {
       const transactionApi = new TransactionApi(self.environment.api)
       const commentApi = new CommentApi(self.environment.api)
-      
+
       const resultComment = yield commentApi.requestComment(dealDetailId)
       self.comments = resultComment?.data?.data
 
       const result = yield transactionApi.getTransaction(dealId, dealDetailId)
-      
+
       if (result.kind !== "ok") {
         return result
       }

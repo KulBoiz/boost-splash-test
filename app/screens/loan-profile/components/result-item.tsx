@@ -6,7 +6,7 @@ import { AppText } from "../../../components/app-text/AppText";
 import { HIT_SLOP } from '../../../styles/common-style';
 import { color } from "../../../theme";
 import ResultItemDetail from './result-item-detail';
-import { CheckStatus } from "../../loan/constants"
+import { mappingStatus } from "../../loan/constants"
 import { DefaultAvatarSvg } from '../../../assets/svgs';
 import { observer } from 'mobx-react-lite';
 
@@ -44,7 +44,7 @@ const ResultItem = observer((props: Props) => {
       <View style={styles.contentItem}>
         <View style={styles.item} >
           <AppText style={styles.itemLabel} value={'Trạng thái:'} />
-          <AppText color={CheckStatus(status).color} value={CheckStatus(status).text} />
+          <AppText color={mappingStatus(status, item)?.color} value={mappingStatus(status, item)?.status} />
         </View>
 
         {item.note &&

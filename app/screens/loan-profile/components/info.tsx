@@ -33,12 +33,24 @@ const Info = observer((props: Props) => {
 
   if (!loanDetail) return <></>
 
+  const name = () => {
+    if (user?.fullName)  {
+      return user?.fullName
+    } else {
+      if (user?.firstName || user?.lastName) {
+        return (user?.firstName || '') + " " + (user?.lastName || '')
+      }
+
+      return  ''
+    }
+  }
+
   return (
     <ScrollView style={styles.container}>
       <View style={styles.content}>
         <AppText style={styles.title} value={"Khách hàng"} />
         <View style={styles.contentItem}>
-          <ItemView style={styles.item} title={"loan.infoLoan.profile.fullName"} content={truncateString(user?.fullName, 20)} />
+          <ItemView style={styles.item} title={"loan.infoLoan.profile.fullName"} content={truncateString(name(), 20)} />
           <ItemView style={styles.item} title={"loan.infoLoan.profile.sex"} content={checkGender()} />
           <ItemView style={styles.item} title={"loan.infoLoan.profile.phone"} content={user?.tels?.[0]?.tel} />
           <ItemView style={styles.item} title={"loan.infoLoan.profile.email"} content={user?.emails?.[0]?.email} />

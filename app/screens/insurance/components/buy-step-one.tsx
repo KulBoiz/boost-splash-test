@@ -26,7 +26,7 @@ const BuyStepOne = React.memo((props: Props) => {
 
   return (
     <View style={styles.container}>
-      <Benefit />
+      {/* <Benefit /> */}
       <InsurancePicker {...{ insuranceType, setInsuranceType }} productDetail={productDetail} />
       <SurveyQuestion productDetail={productDetail} questionGroups={questionGroups} />
       <InputCustomer  {...{ control, errors }} />

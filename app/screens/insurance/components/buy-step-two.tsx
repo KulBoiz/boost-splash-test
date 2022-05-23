@@ -23,7 +23,7 @@ const BuyStepTwo = React.memo(({ stepThree, getValues, insuranceType, productDet
   const insurance = productDetail?.packages?.[insuranceType]
   return (
     <View style={styles.container}>
-      <Benefit />
+      {/* <Benefit /> */}
       <InsuranceInfo insurance={insurance} productDetail={productDetail}/>
       <CollapsibleInfoCustomer infoCustomer={getValues}/>
       <PaymentMethod  />

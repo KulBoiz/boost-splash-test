@@ -89,7 +89,7 @@ const HistoryItem = React.memo((props: Props) => {
         <View style={{ flex: 1, marginLeft: 16 }}>
           <ItemView title={item?.createBy?.fullName} titleStyle={styles.title} content={renderContent()} />
 
-          <AppText value={'chuyên viên tư vấn FINA'} style={styles.role} capitalize />
+          <AppText value={item?.createBy?.type === 'teller' ? 'Nhân viên tài chính' : 'chuyên viên tư vấn FINA'} style={styles.role} capitalize />
 
           <AppText value={renderDetail()} capitalize />
 
