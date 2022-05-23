@@ -5,17 +5,23 @@ import { ScaledSheet } from "react-native-size-matters"
 import { AppText } from "../../../components/app-text/AppText"
 import { color } from "../../../theme"
 
-interface Props{}
-const data = [0,1]
-const url = 'https://images.pexels.com/photos/8003045/pexels-photo-8003045.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500'
+interface Props{
+  productDetail: any
+}
+const data = [0]
+// const url = 'https://images.pexels.com/photos/8003045/pexels-photo-8003045.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500'
 const HomeInsurance = React.memo((props: Props) => {
+  const { productDetail } = props 
+  
+  console.log(productDetail);
+  
   return (
     <View style={styles.container}>
       <AppText value={'Nhà Bảo Hiểm'} style={styles.title}/>
       <View style={styles.wrapImage}>
         {data.map((_,id)=> {
           return(
-            <FastImage key={id.toString()} source={{uri: url}} style={styles.image}/>
+            <FastImage key={id.toString()} source={{uri: productDetail?.info?.image?.url}} style={styles.image}/>
           )
         })}
       </View>

@@ -1,23 +1,25 @@
-import React, { useRef, useState } from "react"
-import { ScrollView } from "react-native"
-import { color } from "../../theme"
-import { ScaledSheet } from "react-native-size-matters"
-import BuyStepOne from "./components/buy-step-one"
-import RenderStep from "./components/render-step"
-import * as Yup from "yup"
-import { useForm } from "react-hook-form"
 import { yupResolver } from "@hookform/resolvers/yup/dist/yup"
-import BuyStepTwo from "./components/buy-step-two"
-import BuyStepThree from "./components/buy-step-three"
-import BuyRecords from "./components/buy-records"
-import i18n from "i18n-js"
-import { navigate } from "../../navigators"
-import { ScreenNames } from "../../navigators/screen-names"
 import { StackActions, useNavigation } from "@react-navigation/native"
+import i18n from "i18n-js"
+import React, { useRef, useState } from "react"
+import { useForm } from "react-hook-form"
+import { ScrollView } from "react-native"
+import { ScaledSheet } from "react-native-size-matters"
+import * as Yup from "yup"
+import { useStores } from '../../models/root-store/root-store-context'
+import { ScreenNames } from "../../navigators/screen-names"
+import { color } from "../../theme"
+import BuyStepOne from "./components/buy-step-one"
+import BuyStepThree from "./components/buy-step-three"
+import BuyStepTwo from "./components/buy-step-two"
+import RenderStep from "./components/render-step"
 
-interface Props{}
+interface Props { }
 
 const BuyInsurance = React.memo((props: Props) => {
+  // @ts-ignore
+  const { productStore } = useStores()
+  const { productDetail, questionGroups } = productStore
   const validationSchema = Yup.object().shape({
     email: Yup.string()
       .trim()
@@ -33,7 +35,7 @@ const BuyInsurance = React.memo((props: Props) => {
     phone: Yup.string().required(i18n.t('errors.requirePhone'))
 
   })
-  const {control, handleSubmit, formState: {errors}} = useForm({
+  const { control, handleSubmit, getValues, formState: { errors } } = useForm({
     delayError: 0,
     defaultValues: undefined,
     mode: "all",
@@ -54,19 +56,33 @@ const BuyInsurance = React.memo((props: Props) => {
     setCurrentPosition(2)
   }
   const buyRecords = () => {
-    navigation.dispatch(StackActions.push(ScreenNames.INSURANCE_SCREEN, {id :1}))
+    navigation.dispatch(StackActions.push(ScreenNames.INSURANCE_SCREEN, { id: 1 }))
   }
 
   const renderScreen = () => {
-    switch (currentPosition){
-      case 0: return <BuyStepOne  {...{control, errors, onPress:handleSubmit(stepTwo), insuranceType, setInsuranceType}}/>
-      case 1: return <BuyStepTwo {...{stepThree}}/>
-      case 2: return <BuyStepThree {...{onPress: buyRecords}}/>
+    switch (currentPosition) {
+      case 0: return <BuyStepOne  {...{
+        control,
+        errors,
+        onPress: handleSubmit(stepTwo),
+        insuranceType,
+        setInsuranceType,
+        productDetail,
+        questionGroups
+      }} />
+      case 1: return <BuyStepTwo {...{
+        stepThree,
+        productDetail,
+        questionGroups,
+        insuranceType
+      }}
+        getValues={getValues()} />
+      case 2: return <BuyStepThree {...{ onPress: buyRecords }} />
     }
   }
   return (
     <ScrollView style={styles.container} ref={ref}>
-      {currentPosition < 2 &&  <RenderStep {...{currentPosition}}/>}
+      {currentPosition < 2 && <RenderStep {...{ currentPosition }} />}
       {renderScreen()}
     </ScrollView>
   )
@@ -75,8 +91,8 @@ const BuyInsurance = React.memo((props: Props) => {
 export default BuyInsurance;
 
 const styles = ScaledSheet.create({
-    container: {
-      flex: 1,
-      backgroundColor: color.palette.lightBlue,
-    },
+  container: {
+    flex: 1,
+    backgroundColor: color.palette.lightBlue,
+  },
 });

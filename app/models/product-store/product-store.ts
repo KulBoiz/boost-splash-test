@@ -1,5 +1,6 @@
 import { flow, Instance, SnapshotOut, types } from "mobx-state-tree"
 import { ProductApi } from "../../services/api/product-api"
+import { QuestionGroupApi } from "../../services/api/question-group-api"
 import { withEnvironment } from "../extensions/with-environment"
 import { withRootStore } from "../extensions/with-root-store"
 
@@ -12,6 +13,8 @@ export const ProductStoreModel = types
   .extend(withRootStore)
   .props({
     records: types.frozen([]),
+    productDetail: types.frozen({}),
+    questionGroups: types.frozen([]),
   })
   .views((self) => ({})) // eslint-disable-line @typescript-eslint/no-unused-vars
   .actions((self) => ({
@@ -21,10 +24,34 @@ export const ProductStoreModel = types
       const api = new ProductApi(self.environment.api)
       const result = yield api.get(params)
       const data = result?.data?.data
-      
+
       if (data) {
         self.records = data
       }
+
+      if (result.kind !== "ok") {
+        return result
+      }
+
+      if (data) {
+        return {
+          kind: "ok",
+          data,
+        }
+      }
+    }),
+
+    getDetail: flow(function* getDetail(id: string) {
+      self.productDetail = {}
+
+      const api = new ProductApi(self.environment.api)
+      const apiQuestion = new QuestionGroupApi(self.environment.api)
+      const result = yield api.getDetail(id)
+      const data = result?.data
+      self.productDetail = data
+
+      const resultQuestionGroup = yield apiQuestion.getDetail(data?.questionGroupId)
+      self.questionGroups = resultQuestionGroup?.data
 
       if (result.kind !== "ok") {
         return result
