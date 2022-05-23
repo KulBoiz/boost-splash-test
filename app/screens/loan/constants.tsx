@@ -122,7 +122,7 @@ export const DEAL_STATUSES = {
   CANCELLED: 'cancelled',
 }
 
-const DEAL_TEXT = {
+const TASK_TEXT = {
   DISBURSED: 'Đã giải ngân',
   CANCELLED: 'Huỷ bỏ',
   WAIT_PROCESSING: 'Chờ xử lý',
@@ -133,35 +133,115 @@ const DEAL_TEXT = {
   LEND_APPROVAL: 'Duyệt giải ngân',
 };
 
-export const CheckStatus = status => {
-  switch (status){
-    case DEAL_STATUSES.WAIT_PROCESSING : {
-      return {text : DEAL_TEXT.WAIT_PROCESSING, color: 'lime'}
-    }
-    case DEAL_STATUSES.PROCESSING : {
-      return {text : DEAL_TEXT.PROCESSING, color: 'green'}
-    }
-    case DEAL_STATUSES.MOVED_TO_FINANCIAL_ORGANIZATION : {
-      return {text : DEAL_TEXT.MOVED_TO_FINANCIAL_ORGANIZATION, color: 'cyan'}
-    }
-    case DEAL_STATUSES.LEND_APPROVAL : {
-      return {text : DEAL_TEXT.LEND_APPROVAL, color: 'green'}
-    }
-    case DEAL_STATUSES.DISBURSED : {
-      return {text : DEAL_TEXT.DISBURSED, color: 'blue'}
-    }
-    case DEAL_STATUSES.DISBURSING : {
-      return {text : DEAL_TEXT.DISBURSING, color: '#1d39c4'}
-    }
-    case DEAL_STATUSES.TRIPARTITE_BLOCKADE : {
-      return {text : DEAL_TEXT.TRIPARTITE_BLOCKADE, color: 'purple'}
-    }
-    case DEAL_STATUSES.CANCELLED : {
-      return {text : DEAL_TEXT.CANCELLED, color: 'red'}
-    }
-    default:  return {text : DEAL_TEXT.WAIT_PROCESSING, color: 'lime'}
-  }
+const TASK_STATUSES = {
+  NEW: 'new',
+	PROCESSING: 'processing',
+	CANCEL: 'cancel',
+	DONE: 'done',
+	DELETED: 'deleted',
+	CREATED: 'created',
+	ASSIGNED: 'assigned',
+	CONSULTED: 'consulted',
 }
+
+const TASK_STATUSES_ASSIGNED = {
+	NOT_PROCESSING: 'not_processing', // chưa xủ lý
+	PROCESSING: 'processing', // đang xử lý
+	WAITING_FOR_BANK_APPROVAL: 'waiting_for_bank_approval', // chờ ngân hàng phản hồi,
+	WAITING_FOR_BANK_PROCESS: 'waiting_for_bank_process', // chờ ngân hàng xử lý,
+	BANK_APPROVAL: 'received', // ngân hàng phê duyệt,
+	BANK_REJECT: 'reject',
+	WAITING_FOR_STAFF_FINA: 'waiting_for_staff_fina',
+	CREATE_PROFILE:'create_profile',
+	OVERDUE_FOR_BANK_RESPONSE: 'overdue_for_bank_response',
+};
+
+// export const CheckStatusTask = status => {
+//   switch (status){
+//     case TASK_STATUSES.CREATED : {
+//       return {text : TASK_TEXT.WAIT_PROCESSING, color: 'lime'}
+//     }
+//     case TASK_STATUSES.ASSIGNED : {
+//       return {text : TASK_TEXT.PROCESSING, color: 'green'}
+//     }
+//     case TASK_STATUSES.PROCESSING : {
+//       return {text : TASK_TEXT.DISBURSING, color: 'cyan'}
+//     }
+//     case TASK_STATUSES.CONSULTED : {
+//       return {text : TASK_TEXT.DISBURSED, color: 'blue'}
+//     }
+//     case TASK_STATUSES.CANCEL : {
+//       return {text : TASK_TEXT.CANCELLED, color: 'red'}
+//     }
+//     default:  return {text : '', color: 'lime'}
+//   }
+// }
+
+export const mappingStatus = (value, doc) => {
+  let status = '_';
+  let color = 'lime';
+
+		if (value === TASK_STATUSES.CREATED) {
+      status = 'Ghi nhận'
+      color = 'lime'
+		}
+
+		if (value === TASK_STATUSES.DONE) {
+      status = 'Đóng yêu cầu tư vấn'
+      color = 'red'
+		}
+
+		if (value === TASK_STATUSES.CONSULTED) {
+      status = 'Chờ khách hàng phản hồi'
+      color = 'green'
+		}
+
+		if (value === TASK_STATUSES.ASSIGNED
+			&& (doc?.statusAssign === TASK_STATUSES_ASSIGNED.NOT_PROCESSING || !doc?.statusAssign)) {
+      status = 'Thu thập thông tin'
+      color = 'green'
+		}
+
+		if (value === TASK_STATUSES.ASSIGNED
+			&& doc?.statusAssign === TASK_STATUSES_ASSIGNED.WAITING_FOR_BANK_APPROVAL) {
+      status = 'Chờ phản hồi của đối tác'
+      color = 'green'
+		}
+
+		if (value === TASK_STATUSES.ASSIGNED
+			&& doc?.statusAssign === TASK_STATUSES_ASSIGNED.BANK_APPROVAL) {
+      status = 'Đối tác đang xử lý'
+      color = 'green'
+		}
+
+		if (value === TASK_STATUSES.ASSIGNED
+			&& doc?.statusAssign === TASK_STATUSES_ASSIGNED.WAITING_FOR_BANK_PROCESS) {
+      status = 'Đối tác đang xử lý'
+      color = 'blue'
+		}
+
+		if (value === TASK_STATUSES.CONSULTED) {
+      status = 'Chờ khách hàng phản hồi'
+      color = 'blue'
+		}
+
+		if (doc?.statusAssign === TASK_STATUSES_ASSIGNED.WAITING_FOR_STAFF_FINA) {
+      status = 'Chờ phản hồi của nhân viên Fina'
+      color = 'blue'
+		}
+
+		if (doc?.statusAssign === TASK_STATUSES_ASSIGNED.CREATE_PROFILE) {
+			status = 'Tạo hồ sơ vay'
+      color = 'blue'
+		}
+
+		if (doc?.statusAssign === TASK_STATUSES_ASSIGNED.OVERDUE_FOR_BANK_RESPONSE && doc?.status === TASK_STATUSES.ASSIGNED) {
+			status = 'Quá hạn chia sẻ'
+      color = 'red'
+		}
+
+		return {status, color};
+	};
 
 export const PRODUCT_TYPE = {
   LOAN: 'loan',

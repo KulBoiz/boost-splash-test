@@ -8,11 +8,18 @@ import moment from "moment"
 import { hidePhoneNumber } from "../../../constants/variable"
 import { navigate } from "../../../navigators"
 import { ScreenNames } from "../../../navigators/screen-names"
-import { CheckStatus } from "../constants"
+import { mappingStatus } from "../constants"
 import { useStores } from "../../../models"
 import { observer } from "mobx-react-lite"
 
-interface Props{
+const fullName = (user) => {
+  if (!user) return ''
+  if (user?.fullName) return user.fullName
+  if (user?.firstName || user?.lastName) return user?.firstName + " " + user?.lastName
+  return '***'
+}
+
+interface Props {
   item: any
 }
 
@@ -23,7 +30,7 @@ const ShortStatus = observer(({ item }: Props) => {
   // @ts-ignore
   const { loanStore } = useStores()
   const status = item?.status
-  const name = item?.user?.fullName || ''
+  const name = fullName(item?.user)
   const tel = item?.user?.tels?.[0]?.tel
   const assignee = item?.assignee
 
@@ -49,31 +56,33 @@ const ShortStatus = observer(({ item }: Props) => {
       navigate(ScreenNames.PROFILE_DETAIL)
     }}>
       <View style={[styles.row, styles.itemContainer]}>
-        <AppText tx={"loan.customerName"} capitalize style={styles.title}/>
-        <AppText value={`${name} - ${formatPhone}`}/>
+        <AppText tx={"loan.customerName"} capitalize style={styles.title} />
+        <AppText value={`${name} - ${formatPhone}`} />
       </View>
       <View style={[styles.row, styles.itemContainer]}>
-        <AppText tx={"loan.status"} capitalize style={styles.title}/>
+        <AppText tx={"loan.status"} capitalize style={styles.title} />
         <View style={styles.wrapSpace}>
-          <AppText value={CheckStatus(status).text}
-          color={CheckStatus(status).color}/>
+          <AppText value={mappingStatus(status, item)?.status}
+            color={mappingStatus(status, item)?.color} />
           <View style={styles.boxArrow}>
-            <RightArrowSvg width={s(6)} height={s(12)}/>
+            <RightArrowSvg width={s(6)} height={s(12)} />
           </View>
         </View>
       </View>
       <View style={[styles.row, styles.itemContainer]}>
-        <AppText tx={"loan.financialSpecialist"} capitalize style={styles.title}/>
-        <View style={styles.wrapSpace}>
+        <AppText tx={"loan.financialSpecialist"} capitalize style={styles.title} />
+
+        {!!fullName(assignee) && <View style={styles.wrapSpace}>
           <Pressable style={styles.row} onPress={_handleCall}>
-            <AppText value={assignee?.fullName} style={styles.text}/>
+            <AppText value={fullName(assignee)} style={styles.text} />
             <PhoneSvg />
           </Pressable>
           <View style={styles.row}>
             <ClockSvg />
-            <AppText value={moment(item?.createdAt).fromNow()} style={styles.time}/>
+            <AppText value={moment(item?.createdAt).fromNow()} style={styles.time} />
           </View>
-        </View>
+        </View>}
+
       </View>
     </Pressable>
   )
@@ -88,7 +97,7 @@ const styles = ScaledSheet.create({
     borderBottomWidth: 1,
     borderBottomColor: color.palette.whiteDarker
   },
-  itemContainer:{
+  itemContainer: {
     marginBottom: '12@s'
   },
   row: {
@@ -109,7 +118,7 @@ const styles = ScaledSheet.create({
     alignItems: "center",
     justifyContent: "center",
     paddingLeft: '2@ms',
-    shadowColor: color.palette.blue ,
+    shadowColor: color.palette.blue,
     shadowOffset: {
       width: 0,
       height: 12,
@@ -119,7 +128,7 @@ const styles = ScaledSheet.create({
 
     elevation: 12,
   },
-  wrapSpace:{
+  wrapSpace: {
     flex: 1,
     flexDirection: 'row',
     justifyContent: 'space-between',
@@ -136,3 +145,4 @@ const styles = ScaledSheet.create({
     marginLeft: '6@ms'
   }
 });
+

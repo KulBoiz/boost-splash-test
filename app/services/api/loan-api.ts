@@ -50,7 +50,7 @@ export class LoanApi {
   async requestLoanHistory(id: string): Promise<any> {
     try {
       // make the api call
-      const response: ApiResponse<any> = await this.api.apisauce.get(`${API_ENDPOINT}/deals/${id}/status-histories`)
+      const response: ApiResponse<any> = await this.api.apisauce.get(`${API_ENDPOINT}/tasks/${id}/status-histories`)
       if (!response.ok) {
         const problem = getGeneralApiProblem(response)
         if (problem) return problem
@@ -97,32 +97,9 @@ export class LoanApi {
   }
 
 
-  async getRecords(): Promise<any> {
+  async getRecords(param): Promise<any> {
     try {
-      const response: ApiResponse<any> = await this.api.apisauce.get(`${API_ENDPOINT}/tasks`, {
-        "page": 1,
-        "order": "createdAt asc",
-        "filter": {
-          "limit": 10,
-          "where": {
-            type: {
-              inq: ["INTRODUCE_BUYER", "WANT_TO_BUY", "counselling"]
-            },
-            belongOrgType: 'sub_org'
-          },
-          "include": [
-            {
-              "relation": "user"
-            },
-            {
-              "relation": "assignee"
-            },
-            {
-              "relation": "product"
-            },
-          ]
-        }
-      })
+      const response: ApiResponse<any> = await this.api.apisauce.get(`${API_ENDPOINT}/tasks`, param)
       if (!response.ok) {
         const problem = getGeneralApiProblem(response)
         if (problem) return problem
