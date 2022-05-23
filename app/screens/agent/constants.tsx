@@ -66,7 +66,7 @@ export const CollaboratorContractInfoDesktop = (props: Props) => {
       <b>HỢP ĐỒNG CỘNG TÁC VIÊN</b>
       </h1>
       <p>
-        Hợp Đồng Cộng Tác Viên này (gọi tắt là “Hợp Đồng”) được lập và có hiệu lực từ ngày{' '}
+        Hợp Đồng Cộng Tác Viên này (gọi tắt là “Hợp Đồng”) được lập và có hiệu lực từ ngày 
       ${day || moment().date()} tháng ${month || moment().month() + 1} năm ${year ||  moment().year()} (“Ngày Hiệu Lực”) giữa Các Bên dưới
         đây:
       </p>
@@ -85,17 +85,23 @@ export const CollaboratorContractInfoDesktop = (props: Props) => {
       <div style={{ marginTop: '0.2rem', marginBottom: '0.2rem' }}>
         <span style={{ width: '7rem', display: 'inline-block' }}>Người đại diện</span>
         <b style={{ width: '12rem', display: 'inline-block' }}>: PHẠM ANH KHÔI</b>
+      </div>
+      <div>
         <span style={{ width: '7rem', display: 'inline-block' }}>Chức vụ</span>: Tổng Giám đốc
       </div>
       <div style={{ marginTop: '0.2rem', marginBottom: '0.2rem' }}>
         <span style={{ width: '7rem', display: 'inline-block' }}>Email</span>
         <span style={{ width: '12rem', display: 'inline-block' }}>: ceo@fina.com.vn</span>
-        <span style={{ width: '7rem', display: 'inline-block' }}>Số điện thoại</span>: 0857498668
+      </div>
+      <div>
+         <span style={{ width: '7rem', display: 'inline-block' }}>Số điện thoại</span>: 0857498668
       </div>
       <div style={{ marginTop: '0.2rem', marginBottom: '0.2rem' }}>
         <span style={{ width: '7rem', display: 'inline-block' }}>Số Tài khoản</span>
         <span style={{ width: '12rem', display: 'inline-block' }}>: 111002804377 </span>
-        <span style={{ width: '7rem', display: 'inline-block' }}>Ngân hàng </span>
+      </div>
+      <div>
+       <span style={{ width: '7rem', display: 'inline-block' }}>Ngân hàng </span>
         <span style={{ width: '12rem', display: 'inline-block' }}>: Vietinbank CN4 </span>
       </div>
       <span style={{ marginTop: '0.2rem', marginBottom: '0.2rem' }}>(gọi tắt là “TULIP”)</span>
@@ -105,7 +111,7 @@ export const CollaboratorContractInfoDesktop = (props: Props) => {
       <div>
         <b>
           <span style={{ width: '7rem', display: 'inline-block' }}>CÁ NHÂN</span>:${' '}
-          ${fullName || '__________________________'}${' '}
+          ${fullName || '__________________________'}
         </b>
       </div>
       <div style={{ marginTop: '0.2rem', marginBottom: '0.2rem' }}>
@@ -124,7 +130,9 @@ export const CollaboratorContractInfoDesktop = (props: Props) => {
         <span style={{ width: '7rem', display: 'inline-block' }}>
 					${issuedOn || '_____________'}
 				</span>
-        Nơi cấp: ${placeOfIssue || '_____________'}
+      </div>
+      <div>
+          Nơi cấp: ${placeOfIssue || '_____________'}
       </div>
       <div style={{ marginTop: '0.2rem', marginBottom: '0.2rem' }}>
         <span style={{ width: '7rem', display: 'inline-block' }}>Địa chỉ</span>:${' '}
@@ -133,14 +141,18 @@ export const CollaboratorContractInfoDesktop = (props: Props) => {
       <div style={{ marginTop: '0.2rem', marginBottom: '0.2rem' }}>
         <span style={{ width: '7rem', display: 'inline-block' }}>Email</span>:${' '}
         <span style={{ width: '15rem', display: 'inline-block' }}>${email || '_____________'}</span>
-        -Số điện thoại: ${tel || '_____________'}
+      </div>
+      <div>
+      Số điện thoại: ${tel || '_____________'}
       </div>
       <div>
         <span style={{ width: '7rem', display: 'inline-block' }}>Số Tài khoản</span>:${' '}
         <span style={{ width: '15rem', display: 'inline-block' }}>
 					${bankAccount || '_____________'}
 				</span>
-        -Ngân hàng: ${bankName || '_____________'}
+      </div>
+      <div>
+         Ngân hàng: ${bankName || '_____________'}
       </div>
       <span>(gọi tắt là “Cộng Tác Viên”)</span>
 <p>
@@ -150,26 +162,23 @@ export const CollaboratorContractInfoDesktop = (props: Props) => {
 <b>XÉT RẰNG</b>
 </div>
 <div style={{display: 'flex', marginBottom: '5px'}}>
-<div style={{marginRight: '15px'}}>A.</div>
 <div>
-          TULIP là đơn vị sở hữu hợp pháp và cung cấp nền tảng công nghệ (“Nền tảng”) nhằm kết nối, giới thiệu và trung
+        A.  TULIP là đơn vị sở hữu hợp pháp và cung cấp nền tảng công nghệ (“Nền tảng”) nhằm kết nối, giới thiệu và trung
           gian cung ứng các sản phẩm dịch vụ của (các) bên đối tác (“Đối Tác”) đến với khách hàng cá nhân, tổ chức
           (“Khách Hàng”). Theo đó, TULIP mong muốn gia tăng số lượng Khách Hàng và phát triển Nền tảng hoạt động một
           cách hiệu quả.
 </div>
 </div>
 <div style={{display: 'flex', marginBottom: '5px'}}>
-<div style={{marginRight: '15px'}}>B.</div>
 <div>
-          Cộng Tác Viên có đủ khả năng và mối quan hệ để thực hiện các công việc nhằm làm đa dạng hóa hệ thống dữ liệu
+        B.  Cộng Tác Viên có đủ khả năng và mối quan hệ để thực hiện các công việc nhằm làm đa dạng hóa hệ thống dữ liệu
           trên Nền tảng, thúc đẩy và kết nối Đối Tác của TULIP với Khách Hàng có nhu cầu, giúp Nền tảng phát huy được
           giá trị kinh doanh trong mối quan hệ với Đối Tác.
 </div>
 </div>
 <div style={{display: 'flex', marginBottom: '5px'}}>
-<div style={{marginRight: '15px'}}>C.</div>
 <div>
-          TULIP và Cộng Tác Viên cùng đồng ý hợp tác dựa trên thế mạnh, khả năng và nguyện vọng của Các Bên theo các
+        C.  TULIP và Cộng Tác Viên cùng đồng ý hợp tác dựa trên thế mạnh, khả năng và nguyện vọng của Các Bên theo các
           điều khoản, điều kiện nêu tại Hợp Đồng này.
 </div>
 </div>
@@ -291,7 +300,7 @@ textAlign: 'center',
 <p>
 <span>
 Theo chính sách của TULIP tùy từng thời điểm, chi tiết KPI sẽ được phân bổ cho
-Cộng Tác Viên theo thông báo bằng văn bản.{' '}
+Cộng Tác Viên theo thông báo bằng văn bản.
 </span>
 </p>
 <p>
@@ -376,7 +385,7 @@ textAlign: 'center',
 </div>
 <div style={{marginBottom: '5px'}}>
 <strong>
-<span style={{display: 'inline-block', width: '25px'}}>1. </span>Thực hiện Hợp Đồng{' '}
+<span style={{display: 'inline-block', width: '25px'}}>1. </span>Thực hiện Hợp Đồng
 </strong>
 </div>
 <ol className="decimal_type" style={{paddingLeft: '0px'}}>
@@ -647,10 +656,10 @@ nhau, mỗi Bên giữ 01 (một) bản.
 <span>(Ký tên, đóng dấu)</span>
 </em>
 </p>
-// <img
-// src="https://storage.googleapis.com/image-fina/upload/fina/sign_ceo.png"
-// style={{width: '150px'}} alt=""
-// />
+<img
+src="https://storage.googleapis.com/image-fina/upload/fina/sign_ceo.png"
+style={{width: '150px'}} alt=""
+/>
 <p>
 <strong>
 <span>PHẠM ANH KH&Ocirc;I</span>
@@ -670,7 +679,7 @@ nhau, mỗi Bên giữ 01 (một) bản.
 </p>
 <p>
 <strong>
-<span>{fullName || '________________'}</span>
+<span>${fullName || '________________'}</span>
 </strong>
 </p>
 </td>

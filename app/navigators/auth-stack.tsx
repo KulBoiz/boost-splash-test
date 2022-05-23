@@ -4,7 +4,6 @@ import React from "react"
 import { createNativeStackNavigator } from "@react-navigation/native-stack"
 
 export type AuthStackParamList = {
-  [ScreenNames.WELCOME]: undefined;
   [ScreenNames.LOGIN]: undefined;
   [ScreenNames.OTP]: { phoneNumber: string, isRegister: boolean };
   [ScreenNames.REGISTER]: undefined;

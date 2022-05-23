@@ -16,7 +16,7 @@ import PaginationDot from "../../components/pagination-dot/pagination-dot"
 import { useFocusEffect } from "@react-navigation/native"
 import FifthScreen from "./fifth-screen"
 
-const SLIDER_DATA = [0,1,2,3]
+const SLIDER_DATA = [0,1,2]
 export const WelcomeScreen: FC<StackScreenProps<AuthStackParamList, ScreenNames.WELCOME>> = observer(
   ({ navigation }) => {
     useFocusEffect(() => {
@@ -24,7 +24,6 @@ export const WelcomeScreen: FC<StackScreenProps<AuthStackParamList, ScreenNames.
       return () => BackHandler.removeEventListener('hardwareBackPress', () => true);
     });
     const [screen, setScreen] = useState<number>(1)
-    // const nextScreen = () => navigation.navigate("demo")
 
     const _renderScreen = () => {
       switch (screen){
@@ -39,12 +38,11 @@ export const WelcomeScreen: FC<StackScreenProps<AuthStackParamList, ScreenNames.
     }
 
     const _goToFifth = ()=> {
-      // navigation.navigate(ScreenNames.FIFTH_SCREEN)
-      setScreen(5)
+      setScreen(4)
     }
     return (
       <View testID="WelcomeScreen" style={styles.container}>
-        {screen < 5 ?
+        {screen < 4 ?
           <>
             <View style={styles.wrapSkip}>
               <AppText value={'SKIP'} onPress={_goToFifth}/>
@@ -55,7 +53,6 @@ export const WelcomeScreen: FC<StackScreenProps<AuthStackParamList, ScreenNames.
           </>
           : <FifthScreen />
         }
-
       </View>
     )
   },

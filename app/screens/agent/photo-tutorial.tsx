@@ -40,7 +40,7 @@ const PhotoTutorial = React.memo((props: Props) => {
       })}
       </ScrollView>
       <View style={styles.wrapBtn}>
-        <AppButton tx={'common.continue'} onPress={()=> navigate(ScreenNames.CAPTURE_ID)}/>
+        <AppButton tx={'common.continue'} onPress={()=> navigate(ScreenNames.CHECK_INFO)}/>
       </View>
     </View>
   )

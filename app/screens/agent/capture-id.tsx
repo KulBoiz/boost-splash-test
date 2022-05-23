@@ -1,30 +1,43 @@
 import React, { useCallback, useRef, useState } from "react"
-import { View } from 'react-native';
+import { Platform, View } from "react-native"
 import { Camera, useCameraDevices, PhotoFile } from "react-native-vision-camera"
 import AppHeader from "../../components/app-header/AppHeader"
-import { ScaledSheet } from "react-native-size-matters"
+import { s, ScaledSheet, vs } from "react-native-size-matters"
 import RenderStepAgent from "./components/render-step"
 import ImageTutorialItem from "./components/image-tutorial-item"
 import { images } from "../../assets/images"
 import { AppText } from "../../components/app-text/AppText"
 import AppButton from "../../components/app-button/AppButton"
+import ActionItem from "./components/action-item"
+import { CaptureFrameSvg, ThunderSvg } from "../../assets/svgs"
+import { color } from "../../theme"
+import { height, width } from "../../constants/variable"
+import PreviewModal from "./components/preview-modal"
 
 interface Props{}
 
 const CaptureId = React.memo((props: Props) => {
   const camera = useRef<Camera>(null)
+  const [preview, setPreview] = React.useState(false);
+  const [front, setFront] = React.useState('');
   const [hasPermission, setHasPermission] = React.useState(false);
   const [flash, setFlash] = useState<'off' | 'on'>('off');
   const devices = useCameraDevices()
   const device = devices.back
 
+  // React.useEffect(() => {
+  //   (async () => {
+  //     const cameraPermission = await Camera.getCameraPermissionStatus();
+  //     if (cameraPermission === 'not-determined') {
+  //       await Camera.requestCameraPermission();
+  //     }
+  //     setHasPermission(cameraPermission === 'authorized');
+  //   })();
+  // }, []);
   React.useEffect(() => {
     (async () => {
-      const cameraPermission = await Camera.getCameraPermissionStatus();
-      if (cameraPermission === 'not-determined') {
-        await Camera.requestCameraPermission();
-      }
-      setHasPermission(cameraPermission === 'authorized');
+      const status = await Camera.requestCameraPermission();
+      setHasPermission(status === 'authorized');
     })();
   }, []);
 
@@ -36,9 +49,14 @@ const CaptureId = React.memo((props: Props) => {
   const takePhoto = useCallback(async ()=> {
     // @ts-ignore
       const data = await camera.current.takePhoto({
-        enableAutoStabilization: true,
+        skipMetadata: true
       });
-      console.log(data);
+    let filePath = data.path;
+    if (Platform.OS === 'android') {
+      filePath = `file://${filePath}`;
+    }
+      setFront(filePath)
+      setPreview(true)
   },[])
 
   return (
@@ -51,7 +69,7 @@ const CaptureId = React.memo((props: Props) => {
       </View>
 
       {device != null &&
-        hasPermission && (
+        hasPermission ? (
           <Camera
             style={styles.camera}
             ref={camera}
@@ -59,16 +77,23 @@ const CaptureId = React.memo((props: Props) => {
             isActive={true}
             photo={true}
             torch={flash}
-          />
-        )}
-      <View style={styles.wrapAction}>
-        <AppText value={'Bật đèn flash'} onPress={onFlashPressed}/>
-        <AppText value={'Thư viện ảnh'}/>
-      </View>
-      <View style={styles.btnContainer}>
-        <AppButton title={'Chup'} onPress={takePhoto}/>
 
+          />)
+        : <View style={styles.camera} />
+        }
+      <View style={styles.wrapFrame}>
+        <CaptureFrameSvg width={width}/>
       </View>
+      <View style={styles.wrapAction}>
+        <ActionItem onPress={onFlashPressed} icon={<ThunderSvg />} text={'Bật đèn flash'} />
+        <AppText value={'|'} color={color.text} fontSize={s(20)}/>
+        <ActionItem onPress={onFlashPressed} icon={<ThunderSvg />} text={'Thư viện ảnh'} />
+      </View>
+
+      <View style={styles.btnContainer}>
+        <AppButton title={'Chụp'} onPress={takePhoto}/>
+      </View>
+      <PreviewModal visible={preview} image={front} closeModal={()=> setPreview(false)}/>
     </View>
   )
 });
@@ -78,13 +103,20 @@ export default CaptureId;
 const styles = ScaledSheet.create({
     container: {
       flex:1,
-      backgroundColor: 'transparent'
+      backgroundColor: 'rgba(122, 123, 120, 0.5)',
     },
   stepContainer: {
     backgroundColor: 'transparent'
   },
   camera :{
-      flex: 1
+      flex: 1,
+    marginVertical: '20@s'
+  },
+  wrapFrame: {
+    position: "absolute",
+    marginVertical: height / 2 - vs(40),
+    alignItems: "center", justifyContent: 'center',
+    width: width,
   },
   idContainer: {
       flexDirection: "row",
@@ -92,6 +124,9 @@ const styles = ScaledSheet.create({
     paddingHorizontal: '16@ms'
   },
   wrapAction: {
+      backgroundColor: '#080706',
+    marginHorizontal: '16@ms',
+    borderRadius: '16@s',
       paddingVertical: '20@s',
       flexDirection: 'row',
     justifyContent: "space-evenly"

@@ -18,7 +18,9 @@ import i18n from "i18n-js"
 export const ChangePassword: FC<StackScreenProps<AuthStackParamList, ScreenNames.CHANGE_PASSWORD>> = observer(
   ({ navigation }) => {
     const validationSchema = Yup.object().shape({
-      password: Yup.string().required(i18n.t('errors.requirePassword')).trim(),
+      password: Yup.string().required(i18n
+        .t('errors.requirePassword')).trim()
+        .min(8, 'Mật khẩu cần ít nhất 8 ký tự'),
       passwordConfirm: Yup.string()
         .trim()
         .oneOf([Yup.ref('password'), null], i18n.t('errors.passwordNotMatch')),
