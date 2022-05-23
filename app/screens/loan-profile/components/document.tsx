@@ -20,7 +20,7 @@ const Document = React.memo((props: Props) => {
   useEffect(() => {
     if (templates.length > 4) setViewAllFile(false)
   }, [])
-
+  console.log('templates', templates)
   const renderTemplate = () => {
     const list = [...templates] || []
     if (viewAllFile) {

@@ -21,14 +21,18 @@ const BottomBankInfo = React.memo(({ id }: Props) => {
     loanStore.getProductDetail(id)
     navigate(ScreenNames.LOAN_DETAIL)
   }
+  const handlePressRegister = () => {
+    loanStore.getProductDetail(id)
+    navigate(ScreenNames.REGISTER_LOAN)
+  }
 
   return (
     <View style={styles.container}>
-      <Pressable style={styles.row}>
-        {/*<AppText tx={"loan.viewDetail"} style={styles.detailText} capitalize/>*/}
-        {/*<FastImage source={images.arrowLeft} style={styles.backIcon} tintColor={color.palette.blue}/>*/}
+      <Pressable style={styles.row} onPress={handlePress}>
+        <AppText tx={"loan.viewDetail"} style={styles.detailText} capitalize/>
+        <FastImage source={images.arrowLeft} style={styles.backIcon} tintColor={color.palette.blue}/>
       </Pressable>
-      <Pressable style={styles.button} onPress={handlePress}>
+      <Pressable style={styles.button} onPress={handlePressRegister}>
         <AppText tx={'loan.register'} style={styles.titleStyle} />
       </Pressable>
     </View>

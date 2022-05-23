@@ -118,9 +118,9 @@ const IntroduceStepOne = observer(({ nextStep }: Props) => {
           }}
         />
         <AppText tx={"guide.enterKeyword"} style={presets.note}/>
-        <Checkbox style={styles.checkbox} checkboxState={checkboxState} setCheckboxState={setCheckboxState} textComponent={_renderText()}/>
+        <Checkbox style={styles.checkbox} checkboxState={checkboxState}  setCheckboxState={setCheckboxState} textComponent={_renderText()}/>
         <View style={styles.wrapBtn}>
-          <AppButton tx={"common.sentInformation"} onPress={handleSubmit(sendRequest)}/>
+          <AppButton tx={"common.sentInformation"} disable={!checkboxState} onPress={handleSubmit(sendRequest)}/>
         </View>
       </View>
     </Pressable>
