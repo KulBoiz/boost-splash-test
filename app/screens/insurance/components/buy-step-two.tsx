@@ -11,16 +11,21 @@ import PinModal from "./pin-modal"
 
 interface Props{
   stepThree(): void
+  getValues: any
+  insuranceType: number
+  productDetail: any
+  questionGroups: any
 }
 
-const BuyStepTwo = React.memo(({ stepThree }: Props) => {
+const BuyStepTwo = React.memo(({ stepThree, getValues, insuranceType, productDetail }: Props) => {
   const [modal,setModal] = useState(false)
 
+  const insurance = productDetail?.packages?.[insuranceType]
   return (
     <View style={styles.container}>
       <Benefit />
-      <InsuranceInfo />
-      <CollapsibleInfoCustomer />
+      <InsuranceInfo insurance={insurance} productDetail={productDetail}/>
+      <CollapsibleInfoCustomer infoCustomer={getValues}/>
       <PaymentMethod  />
       <CalculateMoney onPress={()=> setModal(true)}/>
       <PinModal visible={modal} closeModal={()=> setModal(false)} stepThree={stepThree}/>

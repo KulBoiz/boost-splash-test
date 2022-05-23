@@ -52,7 +52,7 @@ const CalculateMoney = React.memo(({ onPress }: Props) => {
   return (
     <View style={styles.container}>
       <ItemView title={'Tổng tiền:'} content={`${price.toLocaleString()}đ`} style={MARGIN_BOTTOM_16} contentStyle={styles.price}/>
-      <ItemView title={'Số lượng:'} content={renderInput()} style={MARGIN_BOTTOM_16}/>
+      {/* <ItemView title={'Số lượng:'} content={renderInput()} style={MARGIN_BOTTOM_16}/> */}
       <AppButton title={'Mua bảo hiểm'} onPress={onPress}/>
     </View>
   )

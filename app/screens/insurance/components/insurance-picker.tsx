@@ -1,60 +1,59 @@
 import React from 'react';
-import { Pressable, View } from "react-native"
-import ItemView from "../../loan/components/item-view"
-import { color } from "../../../theme"
-import { ScaledSheet } from "react-native-size-matters"
-import { AppText } from "../../../components/app-text/AppText"
-import ViewDetail from "../../../components/view-detail"
-import { fontFamily } from "../../../constants/font-family"
-import { navigate } from "../../../navigators"
-import { ScreenNames } from "../../../navigators/screen-names"
-import FastImage from "react-native-fast-image"
-import { images } from "../../../assets/images"
+import { ImageBackground, Pressable, View } from "react-native";
+import FastImage from "react-native-fast-image";
+import { ScaledSheet } from "react-native-size-matters";
+import { images } from "../../../assets/images";
+import { AppText } from "../../../components/app-text/AppText";
+import { fontFamily } from "../../../constants/font-family";
+import { color } from "../../../theme";
 
-interface Props{
+interface Props {
   insuranceType: number
   setInsuranceType(e: any): void
+  productDetail: any
 }
-interface ItemProps{
+interface ItemProps {
   id: number
   insuranceType: number
   setInsuranceType(e: number): void
+  detail: any
 }
 
-const data = [0,1,2]
-
-const RenderCheckbox = React.memo(({id, insuranceType} : {id: number, insuranceType: number}) => {
+const RenderCheckbox = React.memo(({ id, insuranceType }: { id: number, insuranceType: number }) => {
   return (
     <>
       {id === insuranceType ?
         <View style={[styles.circle, styles.select]}>
-          <FastImage source={images.check} style={styles.iconCheck}/>
+          <FastImage source={images.check} style={styles.iconCheck} />
         </View>
-       :
-        <View style={[styles.circle,  styles.unselect]}/>
+        :
+        <View style={[styles.circle, styles.unselect]} />
       }
     </>
   )
 })
 
-const Item = ({id, insuranceType, setInsuranceType}: ItemProps) => {
+const Item = ({ id, insuranceType, setInsuranceType, detail }: ItemProps) => {
   const isSelect = id === insuranceType
-  return(
-    <Pressable style={[styles.itemContainer, isSelect && styles.selectContainer]} onPress={()=>setInsuranceType(id)}>
-      <ItemView title={'Gói vàng'} content={<RenderCheckbox {...{id, insuranceType}}/>} titleStyle={styles.title}/>
-      <AppText value={'20.000.000vnđ / người'}/>
-      <ViewDetail style={styles.viewDetail} onPress={()=> navigate(ScreenNames.INSURANCE_PACKAGE)}/>
+
+  return (
+    <Pressable style={[styles.itemContainer, isSelect && styles.selectContainer]} onPress={() => setInsuranceType(id)}>
+      <FastImage source={{ uri: detail?.image?.url }} resizeMode="cover" style={styles.imageBackground}>
+        <RenderCheckbox {...{ id, insuranceType }} />
+      </FastImage>
     </Pressable>
   )
 }
 
 const InsurancePicker = React.memo((props: Props) => {
-  const {insuranceType, setInsuranceType} = props
+  const { insuranceType, setInsuranceType, productDetail } = props
+
   return (
     <View style={styles.container}>
-      <AppText value={'Chọn gói bảo hiểm'} style={styles.header}/>
-      {data.map((_,id)=> (
-        <Item key={id.toString()} id={id} insuranceType={insuranceType} setInsuranceType={setInsuranceType}/>
+      <AppText value={'Chọn gói bảo hiểm'} style={styles.header} />
+
+      {productDetail?.packages && productDetail?.packages?.map((el, id) => (
+        <Item key={id.toString()} id={id} insuranceType={insuranceType} setInsuranceType={setInsuranceType} detail={el} />
       ))}
     </View>
   )
@@ -69,20 +68,14 @@ const styles = ScaledSheet.create({
     paddingVertical: '24@ms',
     backgroundColor: color.background
   },
-  header:{
+  header: {
     fontSize: '16@ms',
     fontFamily: fontFamily.semiBold,
     marginBottom: '8@s'
   },
-  title: {
-    fontSize: '16@ms',
-    color: color.palette.blue,
-    fontFamily: fontFamily.semiBold
-  },
   itemContainer: {
     marginTop: '16@s',
     borderRadius: '8@s',
-    padding: '16@ms',
     height: '170@ms',
     backgroundColor: color.background,
     shadowColor: "#000",
@@ -101,7 +94,7 @@ const styles = ScaledSheet.create({
     backgroundColor: color.palette.lightBlue
   },
   viewDetail: {
-    flex:1,
+    flex: 1,
     justifyContent: "flex-end",
     alignItems: "flex-end"
   },
@@ -110,9 +103,11 @@ const styles = ScaledSheet.create({
     height: '20@s',
     borderRadius: '10@s',
     alignItems: "center",
-    justifyContent: "center"
+    justifyContent: "center",
+    marginTop: '16@s',
+    marginRight: '16@s',
   },
-  select :{
+  select: {
     backgroundColor: color.palette.blue,
   },
   unselect: {
@@ -121,6 +116,12 @@ const styles = ScaledSheet.create({
   },
   iconCheck: {
     width: '9@s',
-    height: '6@s'
-  }
+    height: '6@s',
+  },
+  imageBackground: {
+    flex: 1,
+    flexDirection: 'row',
+    justifyContent: "flex-end",
+    borderRadius: '8@s',
+  },
 });

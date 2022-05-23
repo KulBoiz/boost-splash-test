@@ -11,25 +11,27 @@ import { Control } from "react-hook-form/dist/types/form"
 import { FieldErrors } from "react-hook-form/dist/types/errors"
 import { FieldValues } from "react-hook-form/dist/types/fields"
 
-interface Props{
+interface Props {
   control: Control,
   errors: FieldErrors<FieldValues>
   onPress(): void
   insuranceType: number
   setInsuranceType(e: number): void
+  productDetail: any
+  questionGroups: any
 }
 
 const BuyStepOne = React.memo((props: Props) => {
-  const {control, errors, onPress, insuranceType, setInsuranceType} = props
+  const { control, errors, onPress, insuranceType, setInsuranceType, productDetail, questionGroups } = props
 
   return (
     <View style={styles.container}>
       <Benefit />
-      <InsurancePicker {...{insuranceType,setInsuranceType}}/>
-      <SurveyQuestion />
-      <InputCustomer  {...{control, errors}}/>
-      <HomeInsurance />
-      <CalculateMoney {...{onPress}}/>
+      <InsurancePicker {...{ insuranceType, setInsuranceType }} productDetail={productDetail} />
+      <SurveyQuestion productDetail={productDetail} questionGroups={questionGroups} />
+      <InputCustomer  {...{ control, errors }} />
+      <HomeInsurance productDetail={productDetail} />
+      <CalculateMoney {...{ onPress }} />
     </View>
   )
 });

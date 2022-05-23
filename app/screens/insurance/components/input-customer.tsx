@@ -107,6 +107,7 @@ const InputCustomer = React.memo((props: Props) => {
           name: 'email',
           labelTx: 'label.emailInsurance',
           placeholderTx: 'placeholder.email',
+          autoCapitalize: 'none',
           control,
           error: errors?.email?.message
         }}

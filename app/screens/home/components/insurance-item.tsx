@@ -14,13 +14,6 @@ interface Props {
   item: any
 }
 
-const TEST_DATA = [
-  'Duis ullamcorper.  mcorper',
-  'Duis ullamcorper...',
-  'Duis ullamcorper.',
-  'Duis ullamcorper.'
-]
-const url = 'https://images.pexels.com/photos/11301535/pexels-photo-11301535.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500'
 const TaqItem = ({ title }: { title: string }) => {
   return (
     <View style={styles.tagContainer}>
@@ -28,13 +21,20 @@ const TaqItem = ({ title }: { title: string }) => {
     </View>
   )
 }
+
 const InsuranceItem = React.memo((props: Props) => {
   // @ts-ignore
-  const { insuranceStore } = useStores()
+  const { insuranceStore, productStore } = useStores()
   const { item } = props
   const handlePress = () => {
+    productStore.getDetail(item?.id);
+
     if (insuranceStore.isFirstTime) {
       navigate(ScreenNames.INTRODUCE_SCREEN)
+
+      if (item?.source) {
+        // open popup
+      }
     }
     else navigate(ScreenNames.INSURANCE_SCREEN)
   }
@@ -47,6 +47,15 @@ const InsuranceItem = React.memo((props: Props) => {
     />
     return <FastImage source={item?.info?.image?.url ? { uri: item?.info?.image?.url } : images.insurance_default} style={styles.image} />
   }
+
+  const price = () => {
+    if (item?.packages && item?.packages?.length > 0) {
+      return Math.max(...item?.packages.map(el => el?.price))
+    }
+
+    return '_'
+  }
+
   return (
     <Pressable style={styles.container} onPress={handlePress}>
       <View style={styles.image}>
@@ -62,7 +71,7 @@ const InsuranceItem = React.memo((props: Props) => {
         </View>
 
         <View style={styles.amount}>
-          <AppText value={'Từ 200.000đ/ năm'} style={FONT_SEMI_BOLD_14} color={color.palette.blue} />
+          <AppText value={`Từ ${price()}đ/ năm`} style={FONT_SEMI_BOLD_14} color={color.palette.blue} />
         </View>
       </View>
     </Pressable>
