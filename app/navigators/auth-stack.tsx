@@ -2,10 +2,8 @@ import { ScreenNames } from "./screen-names"
 import { AuthRoutes } from "./routes"
 import React from "react"
 import { createNativeStackNavigator } from "@react-navigation/native-stack"
-import { useStores } from "../models"
 
 export type AuthStackParamList = {
-  [ScreenNames.WELCOME]: undefined;
   [ScreenNames.LOGIN]: undefined;
   [ScreenNames.OTP]: { phoneNumber: string, isRegister: boolean };
   [ScreenNames.REGISTER]: undefined;
@@ -18,13 +16,12 @@ const Stack = createNativeStackNavigator<AuthStackParamList>()
 
 
 export const AuthStack = () => {
-  const {authStoreModel} = useStores()
   return (
     <Stack.Navigator
       screenOptions={{
         headerShown: false,
       }}
-      initialRouteName={authStoreModel.isFirstTime ? ScreenNames.WELCOME : ScreenNames.LOGIN}
+      initialRouteName={ScreenNames.LOGIN}
     >
       {
         AuthRoutes.map(({name, component}) => (

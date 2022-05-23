@@ -1,5 +1,5 @@
 import React, { useState } from "react"
-import { View } from 'react-native';
+import { View } from "react-native"
 import DropDownPicker from 'react-native-dropdown-picker';
 import { ScaledSheet } from "react-native-size-matters"
 import { color, spacing } from "../../theme"
@@ -14,14 +14,18 @@ interface Props{
   errorMessage?: string
 }
 
-const
-  ItemPicker = React.memo((props: Props) => {
+const ItemPicker = React.memo((props: Props) => {
   const {label, value, setValue, errorMessage, placeholder} = props
   const [open, setOpen] = useState(false);
   const [items, setItems] = useState([
     {label: 'Apple', value: 'apple'},
     {label: 'Banana', value: 'banana'}
   ]);
+
+  const handleSelect = ()=> {
+    setValue()
+    setOpen(false)
+  }
   return (
     <View style={styles.wrapper}>
     <View style={styles.container}>
@@ -35,6 +39,7 @@ const
         style={styles.dropdownContainer}
         listItemContainerStyle={styles.listItemContainerStyle}
         items={items}
+        zIndex={1}
         setOpen={setOpen}
         setValue={setValue}
         setItems={setItems}

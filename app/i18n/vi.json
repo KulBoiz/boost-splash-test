@@ -95,11 +95,11 @@
     "issuedBy": "Nhập nơi cấp  ",
     "location": "Chọn vị trí của bạn",
     "emailAndPhone": "Nhập email hoặc số điện thoại    ",
-    "password": "Mật Khẩu   ",
-    "reenteredPassword": "Nhập lại mật khẩu   ",
-    "fullName": "Nhập họ và tên    ",
-    "email": "Nhập địa chỉ email   ",
-    "phone": "Nhập số điện thoại   ",
+    "password": "Mật Khẩu    ",
+    "reenteredPassword": "Nhập lại mật khẩu    ",
+    "fullName": "Nhập họ và tên     ",
+    "email": "Nhập địa chỉ email    ",
+    "phone": "Nhập số điện thoại    ",
     "address": "Nhập địa chỉ    "
   },
   "home": {

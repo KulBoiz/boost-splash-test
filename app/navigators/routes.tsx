@@ -10,12 +10,9 @@ import PhotoTutorial from "../screens/agent/photo-tutorial"
 import RegisterAgent from "../screens/agent/register-agent"
 import RegisterInfo from "../screens/agent/register-info"
 import CheckInfo from "../screens/agent/check-info"
+import CaptureId from "../screens/agent/capture-id"
 
 export const AuthRoutes = [
-	{
-		name: ScreenNames.WELCOME,
-		component: WelcomeScreen,
-	},
 	{
 		name: ScreenNames.LOGIN,
 		component: LoginScreen,
@@ -40,13 +37,6 @@ export const AuthRoutes = [
 	},
 ];
 
-export const AppRoutes = [
-	{
-		name: ScreenNames.SPLASH,
-		component: SplashScreen,
-	},
-];
-
 export const AgentRoutes = [
 	{
 		name: ScreenNames.BECOME_SCREEN,
@@ -63,5 +53,8 @@ export const AgentRoutes = [
 	},{
 		name: ScreenNames.CHECK_INFO,
 		component: CheckInfo,
+	},{
+		name: ScreenNames.CAPTURE_ID,
+		component: CaptureId,
 	},
 ];

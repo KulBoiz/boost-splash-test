@@ -9,9 +9,11 @@ import { color } from "../../../theme"
 import { fontFamily } from "../../../constants/font-family"
 import ItemView from "../../loan/components/item-view"
 import { MARGIN_TOP_16 } from "../../../styles/common-style"
-interface Props {}
+interface Props {
+  infoCustomer: any
+}
 
-const CollapsibleInfoCustomer = React.memo((props: Props) => {
+const CollapsibleInfoCustomer = React.memo(({infoCustomer}: Props) => {
   const [activeSections, setActiveSections] = useState<number[]>([]);
   const _handleSections = (index: number[]) => {
     setActiveSections(index);
@@ -36,10 +38,10 @@ const CollapsibleInfoCustomer = React.memo((props: Props) => {
   const renderContent = () => {
     return (
       <View style={styles.contentContainer}>
-        <ItemView title={'Họ và tên:'} content={'điểu nguyễn trọng nguyên'} style={MARGIN_TOP_16}/>
-        <ItemView title={'Ngày sinh:'} content={'10/05/2001'} style={MARGIN_TOP_16}/>
-        <ItemView title={'CMND/ CCCD:'} content={'123456789'} style={MARGIN_TOP_16}/>
-        <ItemView title={'Email'} content={'nguyendnt@gmail.com'} style={MARGIN_TOP_16}/>
+        <ItemView title={'Họ và tên:'} content={infoCustomer?.fullName} style={MARGIN_TOP_16}/>
+        <ItemView title={'Ngày sinh:'} content={infoCustomer?.dateOfBirth} style={MARGIN_TOP_16}/>
+        <ItemView title={'CMND/ CCCD:'} content={infoCustomer?.citizenIdentification} style={MARGIN_TOP_16}/>
+        <ItemView title={'Email'} content={infoCustomer?.email} style={MARGIN_TOP_16}/>
       </View>
     );
   };

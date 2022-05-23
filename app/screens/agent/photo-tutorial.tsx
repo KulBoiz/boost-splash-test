@@ -11,6 +11,8 @@ import CheckItem from "./components/check-item"
 import { fontFamily } from "../../constants/font-family"
 import { FONT_SEMI_BOLD_14 } from "../../styles/common-style"
 import AppButton from "../../components/app-button/AppButton"
+import { navigate } from "../../navigators"
+import { ScreenNames } from "../../navigators/screen-names"
 
 interface Props{}
 
@@ -38,7 +40,7 @@ const PhotoTutorial = React.memo((props: Props) => {
       })}
       </ScrollView>
       <View style={styles.wrapBtn}>
-        <AppButton tx={'common.continue'} onPress={()=> {}}/>
+        <AppButton tx={'common.continue'} onPress={()=> navigate(ScreenNames.CHECK_INFO)}/>
       </View>
     </View>
   )

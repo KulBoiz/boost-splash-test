@@ -28,7 +28,7 @@ const FifthScreen = React.memo((props: Props) => {
   }
   const handleLogin = () => {
     setFirstTime()
-    navigate(ScreenNames.LOGIN)
+    navigate(ScreenNames.AUTH)
   }
 
   return (

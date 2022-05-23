@@ -6,6 +6,7 @@ import { FieldValues } from "react-hook-form/dist/types/fields"
 import FormInput from "../../../components/form-input/form-input"
 import FormItemPicker from "../../../components/form-item-picker"
 import { ScaledSheet } from "react-native-size-matters"
+import FormDatePicker from "../../../components/form-date-time"
 
 interface Props{
   control: Control
@@ -34,15 +35,16 @@ const IdForm = React.memo((props: Props) => {
           error: errors?.phone?.message
         }}
       />
-      <FormItemPicker
-        {...{
-          name: 'bank',
-          label: 'Tên ngân hàng',
-          placeholder: 'Chọn ngân hàng',
-          control,
-          error: errors?.bank?.message
-        }}
-      />
+      {/*<FormInput*/}
+      {/*  {...{*/}
+      {/*    name: 'dateRange',*/}
+      {/*    labelTx: 'label.dateRange',*/}
+      {/*    placeholderTx: 'placeholder.dateRange',*/}
+      {/*    control,*/}
+      {/*    error: errors?.phone?.dateRange*/}
+      {/*  }}*/}
+      {/*/>*/}
+      <FormDatePicker name={'dateRange'} control={control} error={errors?.phone?.dateRange} />
       <FormInput
         {...{
           name: 'issuedBy',

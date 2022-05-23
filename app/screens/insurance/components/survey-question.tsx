@@ -1,49 +1,114 @@
 import React, { useState } from "react"
-import { TouchableOpacity, View } from "react-native"
+import { TextInput, TouchableOpacity, View } from "react-native"
 import { AppText } from "../../../components/app-text/AppText"
-import { ScaledSheet } from "react-native-size-matters"
+import { s, ScaledSheet } from "react-native-size-matters"
 import { fontFamily } from "../../../constants/font-family"
-import { ALIGN_CENTER, FONT_MEDIUM_12, ROW } from "../../../styles/common-style"
+import { ALIGN_CENTER, FONT_MEDIUM_12, MARGIN_TOP_16, MARGIN_TOP_8, ROW, SPACE_BETWEEN } from "../../../styles/common-style"
 import { color } from "../../../theme"
 
-interface Props{}
+const QUESTION_TYPES = {
+  OPEN_ENDED: 'OPEN_ENDED',
+  OPEN_ENDED_NUMBER: 'OPEN_ENDED_NUMBER',
+  REORDER: 'REORDER',
+  IMAGE_SELECTION: 'IMAGE_SELECTION',
+  TEXT_SELECTION: 'TEXT_SELECTION',
+  DATE: 'DATE',
+};
 
-const RenderCheckbox = React.memo(({text, state, setState}: {text: string, state: string, setState(): void}) => {
-  const check = (text ==='Có' && state === 'yes') || (text === 'Không' && state === 'no')
+interface Props {
+  productDetail: any,
+  questionGroups: any,
+}
+
+const RenderCheckbox = React.memo(({ text, state }: { text?: string, state?: string }) => {
+  const check = (text === 'Có' && state === 'yes') || (text === 'Không' && state === 'no')
   return (
-    <TouchableOpacity onPress={setState} style={[ROW, ALIGN_CENTER]}>
-      <View style={styles.bigCircle}>
-        {check && <View style={styles.circle}/>}
+    <TouchableOpacity
+      onPress={() => {
+        // todo
+      }}
+      style={[ROW, ALIGN_CENTER, SPACE_BETWEEN, { width: '50%'}, MARGIN_TOP_8]}
+    >
+      <View style={[ROW, ALIGN_CENTER]}>
+        <View style={styles.bigCircle}>
+          {check && <View style={styles.circle} />}
+        </View>
+        <AppText value={'Có'} />
       </View>
-      <AppText value={text}/>
+      <View style={[ROW, ALIGN_CENTER]}>
+        <View style={styles.bigCircle}>
+          {check && <View style={styles.circle} />}
+        </View>
+        <AppText value={'Không'} />
+      </View>
+    </TouchableOpacity>
+  )
+})
+
+const RenderInput = React.memo(({ text }: { text?: string }) => {
+  return (
+    <TouchableOpacity onPress={() => {
+      // todo
+    }} style={[ROW, ALIGN_CENTER]}>
+      <TextInput
+        multiline={true}
+        value={text}
+        placeholder={"1231"}
+        style={{
+          height: s(50),
+          marginTop: s(8),
+          borderWidth: 0.5,
+          width: '100%',
+          borderRadius: s(6),
+          padding: s(8),
+        }}
+      />
     </TouchableOpacity>
   )
 })
 
 const SurveyQuestion = React.memo((props: Props) => {
-  const [injured, setInjured] = useState<string>('')
-  const [fatalDisease, setFatalDisease] = useState<string>('')
-  const isValid = injured === 'no' && fatalDisease === 'no'
+  const { questionGroups } = props
+  // const [injured, setInjured] = useState<string>('')
+  // const [fatalDisease, setFatalDisease] = useState<string>('')
+  // const isValid = injured === 'no' && fatalDisease === 'no'
+
+  console.log('questionGroup', questionGroups);
+
+  const PreviewQuestionType = (type) => {
+    switch (type) {
+      // case QUESTION_TYPES.IMAGE_SELECTION:
+      // 	return PreviewImageSelectionQuestion;
+      case QUESTION_TYPES.TEXT_SELECTION:
+        return <RenderCheckbox />;
+      case QUESTION_TYPES.OPEN_ENDED:
+        return <RenderInput />;
+      // case QUESTION_TYPES.REORDER:
+      // 	return PreviewReorderQuestion;
+      // case QUESTION_TYPES.OPEN_ENDED_NUMBER:
+      // 	return PreviewOpenEndedNumberQuestion;
+      // case QUESTION_TYPES.DATE:
+      // 	return PreviewDateQuestion;
+      default:
+        return <></>;
+    }
+  };
+
   return (
     <View style={styles.container}>
-      <AppText value={'Câu hỏi khảo sát theo sản phẩm'} style={styles.title}/>
-      <AppText value={'1. Anh/Chị có thương tật vĩnh viễn từ 50% không?'} style={FONT_MEDIUM_12} color={color.palette.lighterGray}/>
-     <View style={styles.wrapCheckbox}>
-       <RenderCheckbox text={"Có"} {...{state: injured, setState:()=> setInjured('yes')}}/>
-       <RenderCheckbox text={"Không"} {...{state: injured, setState:()=>  setInjured('no')}} />
-     </View>
-      <AppText value={'2. Anh/Chị có mắc bệnh hiểm nghèo không?'} style={FONT_MEDIUM_12} color={color.palette.lighterGray}/>
-      <View style={styles.wrapCheckbox}>
-        <RenderCheckbox text={"Có"} {...{state: fatalDisease, setState:()=> setFatalDisease('yes')}}/>
-        <RenderCheckbox text={"Không"}  {...{state: fatalDisease, setState:()=>  setFatalDisease('no')}}/>
-      </View>
-      <View style={styles.wrapCondition}>
-        {!!injured && !!fatalDisease &&
-          <AppText style={FONT_MEDIUM_12}
-                   value={ isValid ? 'Đủ điều kiện mua bảo hiểm' : 'Không đủ điều kiện mua bảo hiểm'}
-                   color={isValid ? color.palette.green : color.palette.angry }/>
-        }
-      </View>
+      <AppText value={'Câu hỏi khảo sát theo sản phẩm'} style={styles.title} />
+      {
+        questionGroups?.children?.map((question, index) => {
+          return (<View key={index.toString()}>
+            <AppText
+              value={question.content?.blocks?.[0]?.text}
+              style={[FONT_MEDIUM_12, MARGIN_TOP_8]}
+              color={color.palette.lighterGray}
+            />
+            {PreviewQuestionType(question?.type)}
+          </View>)
+        })
+      }
     </View>
   )
 });
@@ -51,14 +116,14 @@ const SurveyQuestion = React.memo((props: Props) => {
 export default SurveyQuestion;
 
 const styles = ScaledSheet.create({
-    container: {
-      paddingHorizontal: '16@ms',
-      paddingVertical: '24@s',
-      backgroundColor: color.background,
-      marginTop: '24@s'
-    },
+  container: {
+    paddingHorizontal: '16@ms',
+    paddingVertical: '24@s',
+    backgroundColor: color.background,
+    marginTop: '24@s'
+  },
   title: {
-      fontSize: '16@ms',
+    fontSize: '16@ms',
     fontFamily: fontFamily.semiBold,
     textAlign: "center",
     marginBottom: '24@s'
@@ -70,7 +135,7 @@ const styles = ScaledSheet.create({
     backgroundColor: color.palette.blue
   },
   bigCircle: {
-      marginRight: '4@s',
+    marginRight: '4@s',
     width: '16@s',
     height: '16@s',
     borderRadius: '8@s',
@@ -79,16 +144,16 @@ const styles = ScaledSheet.create({
     justifyContent: "center",
   },
   wrapCheckbox: {
-      flexDirection: 'row',
-      marginVertical: '16@s',
+    flexDirection: 'row',
+    marginVertical: '16@s',
     justifyContent: "space-between",
     width: '50%'
   },
   wrapCondition: {
-      borderTopWidth: 1,
+    borderTopWidth: 1,
     borderTopColor: color.dim,
-      alignItems: "center",
-    paddingTop:'16@s'
+    alignItems: "center",
+    paddingTop: '16@s'
   }
 
 });

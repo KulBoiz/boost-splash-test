@@ -25,7 +25,8 @@ export const RegisterScreen: FC<StackScreenProps<AuthStackParamList, ScreenNames
     // const nextScreen = () => navigation.navigate(AppRoutes.APP)
     const validationSchema = Yup.object().shape({
       fullName: Yup.string().required(i18n.t('errors.requireFullName')).trim(),
-      password: Yup.string().required(i18n.t('errors.requirePassword')).trim(),
+      password: Yup.string().required(i18n.t('errors.requirePassword')).trim()
+        .min(8, 'Mật khẩu cần ít nhất 8 ký tự'),
       passwordConfirm: Yup.string()
         .trim()
         .oneOf([Yup.ref('password'), null], i18n.t('errors.passwordNotMatch')),
@@ -140,6 +141,5 @@ const styles = ScaledSheet.create({
     flex:1,
     justifyContent: "flex-end",
     marginBottom: '30@s',
-    backgroundColor: 'coral'
   }
 })

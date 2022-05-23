@@ -10,6 +10,8 @@ import { fontFamily } from "../../constants/font-family"
 import { color } from "../../theme"
 import { width } from "../../constants/variable"
 import { ROW } from "../../styles/common-style"
+import { navigate } from "../../navigators"
+import { ScreenNames } from "../../navigators/screen-names"
 
 interface Props{}
 
@@ -23,8 +25,8 @@ const BecomeAgent = React.memo((props: Props) => {
           <AppText value={'Cộng tác viên'} style={styles.secondText}/>
           <AppText value={' FINA?'} style={styles.secondText} color={color.palette.blue}/>
         </View>
-        <AppButton title={'Đăng ký cộng tác viên'} onPress={()=> {}} containerStyle={styles.btn}/>
-        <AppText value={'Quay lại đăng nhập'} style={styles.loginText} underline/>
+        <AppButton title={'Đăng ký cộng tác viên'} onPress={()=> navigate(ScreenNames.REGISTER_AGENT)} containerStyle={styles.btn}/>
+        <AppText value={'Quay lại đăng nhập'} style={styles.loginText} underline onPress={()=> navigate(ScreenNames.LOGIN)}/>
       </View>
       <View style={styles.imageContainer}>
         <BecomeAgentSvg width={width}/>
