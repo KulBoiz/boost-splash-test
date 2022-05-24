@@ -1,0 +1,54 @@
+{
+  "project_info": {
+    "project_number": "106335021489",
+    "project_id": "fina-1140f",
+    "storage_bucket": "fina-1140f.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:106335021489:android:6b82e298897e941098b590",
+        "android_client_info": {
+          "package_name": "com.fina.mobile"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "106335021489-d3t56nb2cs4golnlkiglpm4r1g9ln03a.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.fina.mobile",
+            "certificate_hash": "149d5e39eb1d010aaae8843f4571a3a92f58f041"
+          }
+        },
+        {
+          "client_id": "106335021489-koa37830157hro58ai9i2b5r8e3p9jeb.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAbjPOlhHRTr8swENkwVlf2iN16okIzYXU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "106335021489-koa37830157hro58ai9i2b5r8e3p9jeb.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "106335021489-vikovktb1djt0b2vvro9odgppchc5afd.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.fina.vn"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
