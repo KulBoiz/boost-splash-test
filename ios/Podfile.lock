@@ -463,6 +463,8 @@ PODS:
     - RNNotifee/NotifeeCore (= 5.2.2)
   - RNNotifee/NotifeeCore (5.2.2):
     - React-Core
+  - RNPermissions (3.3.1):
+    - React-Core
   - RNScreens (3.8.0):
     - React-Core
     - React-RCTImage
@@ -562,6 +564,7 @@ DEPENDENCIES:
   - RNImageCropPicker (from `../node_modules/react-native-image-crop-picker`)
   - RNKeychain (from `../node_modules/react-native-keychain`)
   - "RNNotifee (from `../node_modules/@notifee/react-native`)"
+  - RNPermissions (from `../node_modules/react-native-permissions`)
   - RNScreens (from `../node_modules/react-native-screens`)
   - RNSVG (from `../node_modules/react-native-svg`)
   - UMTaskManagerInterface (from `../node_modules/unimodules-task-manager-interface/ios`)
@@ -703,6 +706,8 @@ EXTERNAL SOURCES:
     :path: "../node_modules/react-native-keychain"
   RNNotifee:
     :path: "../node_modules/@notifee/react-native"
+  RNPermissions:
+    :path: "../node_modules/react-native-permissions"
   RNScreens:
     :path: "../node_modules/react-native-screens"
   RNSVG:
@@ -790,6 +795,7 @@ SPEC CHECKSUMS:
   RNImageCropPicker: 44e2807bc410741f35d4c45b6586aedfe3da39d2
   RNKeychain: b8e0711b959a19c5b057d1e970d3c83d159b6da5
   RNNotifee: d90cdc08df61ace410b4f98aeff97a5ac12e2ce6
+  RNPermissions: 34d678157c800b25b22a488e4d8babb57456e796
   RNScreens: 6e1ea5787989f92b0671049b808aef64fa1ef98c
   RNSVG: 302bfc9905bd8122f08966dc2ce2d07b7b52b9f8
   SDWebImage: a7f831e1a65eb5e285e3fb046a23fcfbf08e696d
