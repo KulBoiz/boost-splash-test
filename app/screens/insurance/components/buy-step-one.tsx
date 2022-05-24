@@ -24,6 +24,8 @@ interface Props {
 const BuyStepOne = React.memo((props: Props) => {
   const { control, errors, onPress, insuranceType, setInsuranceType, productDetail, questionGroups } = props
 
+  const insurance = productDetail?.packages?.[insuranceType]
+
   return (
     <View style={styles.container}>
       {/* <Benefit /> */}
@@ -31,7 +33,7 @@ const BuyStepOne = React.memo((props: Props) => {
       <SurveyQuestion productDetail={productDetail} questionGroups={questionGroups} />
       <InputCustomer  {...{ control, errors }} />
       <HomeInsurance productDetail={productDetail} />
-      <CalculateMoney {...{ onPress }} />
+      <CalculateMoney {...{ onPress }} insurance={insurance}/>
     </View>
   )
 });

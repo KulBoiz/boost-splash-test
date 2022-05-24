@@ -1,16 +1,15 @@
-import React, { useState } from 'react';
-import { View, Pressable } from "react-native"
-import FastImage from "react-native-fast-image"
-import { s, ScaledSheet } from "react-native-size-matters"
-import { AppText } from "../../../components/app-text/AppText"
-import { FONT_MEDIUM_12, FONT_SEMI_BOLD_14 } from "../../../styles/common-style"
-import { color } from "../../../theme"
-import { navigate } from "../../../navigators"
-import { ScreenNames } from "../../../navigators/screen-names"
-import { useStores } from "../../../models"
-import { images } from '../../../assets/images';
+import React from 'react';
+import { Pressable, View } from "react-native";
+import FastImage from "react-native-fast-image";
+import { s, ScaledSheet } from "react-native-size-matters";
 import { SvgUri } from 'react-native-svg';
-import FullScreenModal from '../../../components/app-modal/full-screen-modal';
+import { images } from '../../../assets/images';
+import { AppText } from "../../../components/app-text/AppText";
+import { useStores } from "../../../models";
+import { navigate } from "../../../navigators";
+import { ScreenNames } from "../../../navigators/screen-names";
+import { FONT_MEDIUM_12, FONT_SEMI_BOLD_14 } from "../../../styles/common-style";
+import { color } from "../../../theme";
 interface Props {
   item: any
 }
@@ -27,18 +26,15 @@ const InsuranceItem = React.memo((props: Props) => {
   // @ts-ignore
   const { insuranceStore, productStore } = useStores()
   const { item } = props
-  const [visible, setVisible]= useState<boolean>(false)
   const handlePress = () => {
     productStore.getDetail(item?.id);
 
     if (insuranceStore.isFirstTime) {
       navigate(ScreenNames.INTRODUCE_SCREEN)
     } else {
-      if (item?.source) {
-        setVisible(true)
-      } else {
+      productStore.getDetail(item?.id).then(() => {
         navigate(ScreenNames.INSURANCE_SCREEN)
-      }
+      })
     }
   }
 
@@ -76,13 +72,6 @@ const InsuranceItem = React.memo((props: Props) => {
         <View style={styles.amount}>
           <AppText value={`Từ ${price()}đ/ năm`} style={FONT_SEMI_BOLD_14} color={color.palette.blue} />
         </View>
-
-        <FullScreenModal
-          visible={visible}
-          closeModal={() => { setVisible(false) }}
-          url={item?.info?.productUrlOriginal}
-          animationType="slideVertical"
-        />
       </View>
     </Pressable>
   )

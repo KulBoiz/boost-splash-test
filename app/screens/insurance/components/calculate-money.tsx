@@ -9,10 +9,11 @@ import { fontFamily } from "../../../constants/font-family"
 import { AppText } from "../../../components/app-text/AppText"
 
 interface Props{
-  onPress():void
+  onPress(): void
+  insurance: any
 }
 
-const CalculateMoney = React.memo(({ onPress }: Props) => {
+const CalculateMoney = React.memo(({ onPress, insurance }: Props) => {
   const defaultPrice = 10000
   const [price, setPrice] = useState<string | number>(0)
   const [quantity, setQuantity] = useState<string | number>('1');
@@ -51,7 +52,7 @@ const CalculateMoney = React.memo(({ onPress }: Props) => {
   }
   return (
     <View style={styles.container}>
-      <ItemView title={'Tổng tiền:'} content={`${price.toLocaleString()}đ`} style={MARGIN_BOTTOM_16} contentStyle={styles.price}/>
+      <ItemView title={'Tổng tiền:'} content={`${insurance?.price.toLocaleString()}đ`} style={MARGIN_BOTTOM_16} contentStyle={styles.price}/>
       {/* <ItemView title={'Số lượng:'} content={renderInput()} style={MARGIN_BOTTOM_16}/> */}
       <AppButton title={'Mua bảo hiểm'} onPress={onPress}/>
     </View>
