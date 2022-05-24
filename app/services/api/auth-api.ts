@@ -18,9 +18,9 @@ export class AuthApi {
     this.api.onUnauthorized = callback
   }
 
-  setToken(token: string) {
-    this.api.apisauce.setHeader("Authorization", "Bearer " + token)
-  }
+  // setToken(token: string) {
+  //   this.api.apisauce.setHeader("Authorization", "Bearer " + token)
+  // }
 
   async login(username: string, password: string): Promise<any> {
     try {
