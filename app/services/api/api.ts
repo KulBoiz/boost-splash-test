@@ -3,6 +3,7 @@ import { getGeneralApiProblem } from "./api-problem"
 import { ApiConfig, DEFAULT_API_CONFIG } from "./api-config"
 import * as Types from "./api.types"
 import {API_ENDPOINT} from "@env"
+import AsyncStorage from "@react-native-async-storage/async-storage"
 
 /**
  * Manages all requests to the API.
@@ -43,6 +44,12 @@ export class Api {
       headers: {
         Accept: "application/json",
       },
+    })
+    this.apisauce.addAsyncRequestTransform(request => async () => {
+      const authKey = await AsyncStorage.getItem("accessToken");
+      if (authKey) {
+        request.headers.Authorization = "Bearer " + authKey
+      }
     })
   }
 

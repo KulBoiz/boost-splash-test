@@ -20,7 +20,7 @@ import { RootStore, RootStoreProvider, setupRootStore } from "./models"
 import { ToggleStorybook } from "../storybook/toggle-storybook"
 import { ErrorBoundary } from "./screens/error/error-boundary"
 import messaging from '@react-native-firebase/messaging';
-
+import notifee from '@notifee/react-native';
 // This puts screens in a native ViewController or Activity. If you want fully native
 // stack navigation, use `createNativeStackNavigator` in place of `createStackNavigator`:
 // https://github.com/kmagiera/react-native-screens#using-native-stack-navigator
@@ -37,8 +37,36 @@ function App() {
     onNavigationStateChange,
     isRestored: isNavigationStateRestored,
   } = useNavigationPersistence(storage, NAVIGATION_PERSISTENCE_KEY)
+
+  async function requestUserPermission() {
+    const authStatus = await messaging().requestPermission();
+    const enabled =
+      authStatus === messaging.AuthorizationStatus.AUTHORIZED ||
+      authStatus === messaging.AuthorizationStatus.PROVISIONAL;
+
+    if (enabled) {
+      console.log('Authorization status:', authStatus);
+    }
+  }
+
   async function onMessageReceived(message) {
     // Do something
+    const data =  JSON.parse(JSON.stringify(message, null, 2))
+    console.log(data)
+    const  noti = data.notification ?? {}
+     notifee.displayNotification({
+      id: data?.messageId ?? Math.random() * 6,
+      title: noti?.title ?? '',
+      body: noti?.body ?? '',
+    });
+  }
+
+  async function onAppBootstrap() {
+    // Register the device with FCM
+    await messaging().registerDeviceForRemoteMessages();
+    // Get the token
+    const token = await messaging().getToken();
+    console.log(token)
   }
 
   messaging().onMessage(onMessageReceived);
@@ -48,6 +76,8 @@ function App() {
     ;(async () => {
       await initFonts() // expo
       setupRootStore().then(setRootStore)
+      await onAppBootstrap()
+      await requestUserPermission()
     })()
   }, [])
 

@@ -3,6 +3,7 @@ import { ScreenNames } from "../../navigators/screen-names"
 import { withEnvironment } from "../extensions/with-environment"
 import { AuthApi } from "../../services/api/auth-api"
 import { navigate } from "../../navigators"
+import AsyncStorage from "@react-native-async-storage/async-storage"
 
 /**
  * Model description here for TypeScript hints.
@@ -35,6 +36,7 @@ export const AuthStoreModel = types
       }
       const loggedInInfo = result.data
       if (loggedInInfo && loggedInInfo.user) {
+        AsyncStorage.setItem("accessToken", loggedInInfo.accessToken)
         self.user = loggedInInfo.user
         self.userId = loggedInInfo.user.id
         self.token = loggedInInfo.accessToken
@@ -42,7 +44,7 @@ export const AuthStoreModel = types
         self.expiresIn = loggedInInfo.expiresIn
         self.type = loggedInInfo.type
         self.isLoggedIn = true
-        authApi.setToken(self.token)
+        // authApi.setToken(self.token)
         authApi.setUnauthorizedFunction(() => {
           return navigate(ScreenNames.LOGIN)
         })
@@ -198,7 +200,7 @@ export const AuthStoreModel = types
         authApi.setUnauthorizedFunction(() => {
           return navigate(ScreenNames.LOGIN)
         })
-        authApi.setToken(self.token)
+        // authApi.setToken(self.token)
       }
     },
 
@@ -217,19 +219,21 @@ export const AuthStoreModel = types
       const result = yield authApi.refreshToken(self.refreshToken)
 
       if (result.kind === "ok") {
-        self.token = result.data.token
+        self.token = result.data.accessToken
         self.refreshToken = result.data.refreshToken
-        self.expiresIn = result.data.expiresIn
-        self.isLoggedIn = self.token !== null
-        authApi.setToken(self?.token)
+        AsyncStorage.setItem("accessToken", result.data.accessToken)
+
+        // self.expiresIn = result.data.expiresIn
+        // self.isLoggedIn = self.token !== null
+        // authApi.setToken(result.data.accessToken)
         return;
       }
 
       self.token = null
       self.refreshToken = null
-      self.expiresIn = null
+      // self.expiresIn = null
       self.isLoggedIn = false
-      authApi.setToken(null)
+      // authApi.setToken(null)
 
     }),
 

@@ -20,7 +20,7 @@
 		A4B148D367B119F99EC2C2E5 /* libPods-fina.a in Frameworks */ = {isa = PBXBuildFile; fileRef = EADEA568884090C1B008E181 /* libPods-fina.a */; };
 		D3BBD1EE28083B32DCCCD9E7 /* ExpoModulesProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32BB11C19824A84866ED4603 /* ExpoModulesProvider.swift */; };
 		E0E402AF856107EC82190244 /* libPods-fina-finaTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 301BE758935A381A571F5B21 /* libPods-fina-finaTests.a */; };
-		E9C72583283C58DA0084057D /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = E9C72582283C58DA0084057D /* GoogleService-Info.plist */; };
+		E9FADDB4283C8B4E000A0A76 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = E9FADDB3283C8B4E000A0A76 /* GoogleService-Info.plist */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -63,7 +63,7 @@
 		B5CD00143C8AA5EF71C17FFB /* ExpoModulesProvider.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = ExpoModulesProvider.swift; path = "Pods/Target Support Files/Pods-fina/ExpoModulesProvider.swift"; sourceTree = "<group>"; };
 		E9A75AE3274586F80062D054 /* fina-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "fina-Bridging-Header.h"; sourceTree = "<group>"; };
 		E9C72580283BBED30084057D /* fina.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; name = fina.entitlements; path = fina/fina.entitlements; sourceTree = "<group>"; };
-		E9C72582283C58DA0084057D /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "GoogleService-Info.plist"; path = "../../../../Desktop/GoogleService-Info.plist"; sourceTree = "<group>"; };
+		E9FADDB3283C8B4E000A0A76 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "GoogleService-Info.plist"; path = "../../../../Desktop/GoogleService-Info.plist"; sourceTree = "<group>"; };
 		EADEA568884090C1B008E181 /* libPods-fina.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-fina.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		ED297162215061F000B7C4FE /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = System/Library/Frameworks/JavaScriptCore.framework; sourceTree = SDKROOT; };
 		ED2971642150620600B7C4FE /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = Platforms/AppleTVOS.platform/Developer/SDKs/AppleTVOS12.0.sdk/System/Library/Frameworks/JavaScriptCore.framework; sourceTree = DEVELOPER_DIR; };
@@ -185,7 +185,7 @@
 		83CBB9F61A601CBA00E9B192 = {
 			isa = PBXGroup;
 			children = (
-				E9C72582283C58DA0084057D /* GoogleService-Info.plist */,
+				E9FADDB3283C8B4E000A0A76 /* GoogleService-Info.plist */,
 				13B07FAE1A68108700A75B9A /* fina */,
 				832341AE1AAA6A7D00B99B32 /* Libraries */,
 				00E356EF1AD99517003FC87E /* finaTests */,
@@ -372,7 +372,7 @@
 			files = (
 				81AB9BB82411601600AC10FF /* LaunchScreen.storyboard in Resources */,
 				13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */,
-				E9C72583283C58DA0084057D /* GoogleService-Info.plist in Resources */,
+				E9FADDB4283C8B4E000A0A76 /* GoogleService-Info.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
