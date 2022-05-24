@@ -17,7 +17,7 @@ interface Props{
 }
 
 const FullScreenModal = React.memo((props: Props) => {
-  const {visible, closeModal, children, animationType, url } = props
+  const {visible, closeModal, children, animationType, url = '' } = props
   return (
     <Modal
       isVisible={visible}
@@ -32,7 +32,7 @@ const FullScreenModal = React.memo((props: Props) => {
           </TouchableOpacity>
         </View>
         {children}
-        {url && <WebView
+        {url !== '' && <WebView
             source={{uri: url}}
           />}
       </View>

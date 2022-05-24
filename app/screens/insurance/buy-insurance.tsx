@@ -1,10 +1,12 @@
 import { yupResolver } from "@hookform/resolvers/yup/dist/yup"
 import { StackActions, useNavigation } from "@react-navigation/native"
 import i18n from "i18n-js"
+import { observer } from "mobx-react-lite"
 import React, { useRef, useState } from "react"
 import { useForm } from "react-hook-form"
 import { ScrollView } from "react-native"
 import { ScaledSheet } from "react-native-size-matters"
+import WebView from "react-native-webview"
 import * as Yup from "yup"
 import { useStores } from '../../models/root-store/root-store-context'
 import { ScreenNames } from "../../navigators/screen-names"
@@ -16,7 +18,7 @@ import RenderStep from "./components/render-step"
 
 interface Props { }
 
-const BuyInsurance = React.memo((props: Props) => {
+const BuyInsurance = observer((props: Props) => {
   // @ts-ignore
   const { productStore } = useStores()
   const { productDetail, questionGroups } = productStore
@@ -59,6 +61,12 @@ const BuyInsurance = React.memo((props: Props) => {
     navigation.dispatch(StackActions.push(ScreenNames.INSURANCE_SCREEN, { id: 1 }))
   }
 
+  if (productDetail && productDetail?.source) {
+    return (<WebView
+      source={{uri: productDetail?.info?.productUrlOriginal}}
+    />)
+  }
+
   const renderScreen = () => {
     switch (currentPosition) {
       case 0: return <BuyStepOne  {...{
@@ -80,10 +88,11 @@ const BuyInsurance = React.memo((props: Props) => {
       case 2: return <BuyStepThree {...{ onPress: buyRecords }} />
     }
   }
+
   return (
     <ScrollView style={styles.container} ref={ref}>
       {currentPosition < 2 && <RenderStep {...{ currentPosition }} />}
-      {renderScreen()}
+      {!!productDetail?.id && renderScreen()}
     </ScrollView>
   )
 });

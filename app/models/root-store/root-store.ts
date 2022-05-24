@@ -8,6 +8,7 @@ import { DealDetailStoreModel } from "../deal-detail-store/deal-detail-store"
 import { InsuranceStoreModel } from "../insurance-store/insurance-store"
 import { MenuFilterStoreModel } from "../menu-filter-store/menu-filter-store"
 import { ProductStoreModel } from "../product-store/product-store"
+import { PaymentStoreModel } from "../payment-store/payment-store"
 
 /**
  * A RootStore model.
@@ -23,6 +24,7 @@ export const RootStoreModel = types.model("RootStore").props({
   insuranceStore: types.optional(InsuranceStoreModel, {} as any),
   menuFilterStore: types.optional(MenuFilterStoreModel, {} as any),
   productStore: types.optional(ProductStoreModel, {} as any),
+  paymentStore: types.optional(PaymentStoreModel, {} as any),
 })
 
 /**
