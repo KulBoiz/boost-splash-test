@@ -27,9 +27,10 @@ const IntroduceStepTwo = React.memo(({ preStep }: Props) => {
         <View style={styles.item}>
           <CheckProfileNoteSvg />
           <AppText value={'Nhận hồ sơ thành công'} style={[FONT_BOLD_24, styles.text]}/>
+          <AppText value={'Cảm ơn quý khách!'} style={[FONT_BOLD_24, styles.textThanks]}/>
         </View>
-      <AppButton title={'+ Thêm hồ sơ khách hàng vay'} onPress={preStep} containerStyle={MARGIN_BOTTOM_16}/>
-      <AppText value={'Theo dõi sồ sơ'} underline style={FONT_BOLD_14} color={color.palette.blue} onPress={goToFinance}/>
+      <AppButton title={'Tạo thêm yêu cầu tư vấn'} onPress={preStep} containerStyle={MARGIN_BOTTOM_16}/>
+      <AppText value={'Theo dõi hồ sơ'} underline style={FONT_BOLD_14} color={color.palette.blue} onPress={goToFinance}/>
     </View>
   )
 });
@@ -45,7 +46,13 @@ const styles = ScaledSheet.create({
 
     },
   text: {
+      color: color.palette.blue,
       marginTop: '40@s'
+  },
+  textThanks: {
+    color: color.palette.blue,
+    fontSize:"20@ms",
+    marginTop: '8@s'
   },
   item:{
       flex: 1,

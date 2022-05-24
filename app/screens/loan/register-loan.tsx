@@ -1,8 +1,7 @@
-import React, { useEffect, useState } from "react"
-import { View, ScrollView, Alert } from "react-native"
+import React, { useState } from "react"
+import { View, Alert } from "react-native"
 import AppHeader from "../../components/app-header/AppHeader"
 import { AppText } from "../../components/app-text/AppText"
-import { item } from "../home/constants"
 import { ScaledSheet } from "react-native-size-matters"
 import {
   CONTAINER_PADDING,
@@ -26,6 +25,7 @@ import SuccessModal from "../../components/success-modal"
 import ProductTypePicker from "./components/product-type-picker"
 import { PRODUCT_TYPE } from "./constants"
 import i18n from "i18n-js"
+import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view"
 
 interface Props{}
 
@@ -67,7 +67,7 @@ const pressModal = () => {
   return (
     <View style={PARENT}>
       <AppHeader headerText={'Đăng ký gói vay'} isBlue/>
-      <ScrollView style={CONTAINER_PADDING}>
+      <KeyboardAwareScrollView style={CONTAINER_PADDING}>
         <View style={[styles.wrapName, MARGIN_BOTTOM_24]}>
           <AppText value={'Thông tin gói vay'} style={[FONT_MEDIUM_12, styles.title, MARGIN_BOTTOM_8]}/>
           <AppText value={loanStore?.productDetail?.product?.name} style={FONT_SEMI_BOLD_14}/>
@@ -78,15 +78,15 @@ const pressModal = () => {
             name: 'fullName',
             control,
             error: errors?.fullName?.message,
-            label: 'họ và tên người mua',
-            placeholder: 'Họ và tên người mua'
+            label: 'Họ và tên người mua',
+            placeholder: 'Nhập họ và tên'
           }}
         /><FormInput
           {...{
             name: 'email',
             control,
             error: errors?.email?.message,
-            label: 'địa chỉ Email',
+            label: 'Địa chỉ Email',
             placeholderTx: 'placeholder.email'
 
           }}
@@ -96,7 +96,7 @@ const pressModal = () => {
             control,
             error: errors?.phone?.message,
             label: 'Số điện thoại',
-            placeholder:'Vui lòng nhập số điện thoại',
+            placeholderTx: 'placeholder.phone',
             keyboardType: 'number-pad'
           }}
         />
@@ -106,14 +106,14 @@ const pressModal = () => {
             name: 'note',
             control,
             error: errors?.note?.message,
-            label: 'ghi chú',
+            label: 'Ghi chú',
             multiline: true
           }}
         />
         <AppButton title={'Gửi thông tin'} onPress={handleSubmit(sendInfo)} containerStyle={styles.btn}/>
         <View style={{height: 50}}/>
 
-      </ScrollView>
+      </KeyboardAwareScrollView>
       <SuccessModal visible={modal} onPress={pressModal} title={'Gửi thông tin'}/>
     </View>
   )
