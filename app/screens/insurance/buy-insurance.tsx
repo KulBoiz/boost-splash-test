@@ -2,7 +2,7 @@ import { yupResolver } from "@hookform/resolvers/yup/dist/yup"
 import { StackActions, useNavigation } from "@react-navigation/native"
 import i18n from "i18n-js"
 import { observer } from "mobx-react-lite"
-import React, { useRef, useState } from "react"
+import React, { useEffect, useRef, useState } from "react"
 import { useForm } from "react-hook-form"
 import { ScrollView } from "react-native"
 import { ScaledSheet } from "react-native-size-matters"
@@ -34,36 +34,58 @@ const BuyInsurance = observer((props: Props) => {
     dateRange: Yup.string().required(i18n.t('errors.requireDateRange')),
     issuedBy: Yup.string().required(i18n.t('errors.requireIssuedBy')),
     contactAddress: Yup.string().required(i18n.t('errors.requireAddress')),
-    phone: Yup.string().required(i18n.t('errors.requirePhone'))
-
+    phone: Yup.string().required(i18n.t('errors.requirePhone')),
+    //
+    emailCustomer: Yup.string()
+      .trim()
+      .required(i18n.t('errors.requireEmail'))
+      .email(i18n.t('errors.invalidEmail')),
+    fullNameCustomer: Yup.string().required(i18n.t('errors.requireFullName')),
+    dateOfBirthCustomer: Yup.string().required(i18n.t('errors.requireDateOfBirth')),
+    sexCustomer: Yup.string().required(i18n.t('errors.requireSex')),
+    citizenIdentificationCustomer: Yup.string().required(i18n.t('errors.requireCitizenIdentification')),
+    dateRangeCustomer: Yup.string().required(i18n.t('errors.requireDateRange')),
+    issuedByCustomer: Yup.string().required(i18n.t('errors.requireIssuedBy')),
+    contactAddressCustomer: Yup.string().required(i18n.t('errors.requireAddress')),
+    phoneCustomer: Yup.string().required(i18n.t('errors.requirePhone'))
   })
-  const { control, handleSubmit, getValues, formState: { errors } } = useForm({
+  const {
+    control,
+    handleSubmit,
+    getValues,
+    formState: { errors },
+    setValue
+  } = useForm({
     delayError: 0,
     defaultValues: undefined,
     mode: "all",
     resolver: yupResolver(validationSchema),
     reValidateMode: "onChange" || "onTouched",
   })
+
   const ref = useRef(null)
   const navigation = useNavigation()
   const [currentPosition, setCurrentPosition] = useState(0)
-  const [insuranceType, setInsuranceType] = useState<number>(0)
+  const [insuranceType, setInsuranceType] = useState(0)
+  // const [checkboxState, setCheckboxState] = useState<boolean>(true)
 
   const stepTwo = () => {
-    // @ts-ignore
+    // @ts-ignore 
     ref.current.scrollTo({ x: 0, animated: true })
     setCurrentPosition(1)
   }
+
   const stepThree = () => {
     setCurrentPosition(2)
   }
+
   const buyRecords = () => {
     navigation.dispatch(StackActions.push(ScreenNames.INSURANCE_SCREEN, { id: 1 }))
   }
 
   if (productDetail && productDetail?.source) {
     return (<WebView
-      source={{uri: productDetail?.info?.productUrlOriginal}}
+      source={{ uri: productDetail?.info?.productUrlOriginal }}
     />)
   }
 
@@ -76,7 +98,8 @@ const BuyInsurance = observer((props: Props) => {
         insuranceType,
         setInsuranceType,
         productDetail,
-        questionGroups
+        questionGroups,
+        setValue,
       }} />
       case 1: return <BuyStepTwo {...{
         stepThree,
@@ -84,7 +107,8 @@ const BuyInsurance = observer((props: Props) => {
         questionGroups,
         insuranceType
       }}
-        getValues={getValues()} />
+        getValues={getValues()}
+      />
       case 2: return <BuyStepThree {...{ onPress: buyRecords }} />
     }
   }

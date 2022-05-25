@@ -1,5 +1,5 @@
 import React from 'react';
-import { ImageBackground, Pressable, View } from "react-native";
+import { Pressable, View } from "react-native";
 import FastImage from "react-native-fast-image";
 import { ScaledSheet } from "react-native-size-matters";
 import { images } from "../../../assets/images";
@@ -63,7 +63,7 @@ export default InsurancePicker;
 
 const styles = ScaledSheet.create({
   container: {
-    marginTop: '24@s',
+    // marginTop: '24@s',
     paddingHorizontal: '16@ms',
     paddingVertical: '24@ms',
     backgroundColor: color.background

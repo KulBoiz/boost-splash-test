@@ -156,27 +156,6 @@ const TASK_STATUSES_ASSIGNED = {
 	OVERDUE_FOR_BANK_RESPONSE: 'overdue_for_bank_response',
 };
 
-// export const CheckStatusTask = status => {
-//   switch (status){
-//     case TASK_STATUSES.CREATED : {
-//       return {text : TASK_TEXT.WAIT_PROCESSING, color: 'lime'}
-//     }
-//     case TASK_STATUSES.ASSIGNED : {
-//       return {text : TASK_TEXT.PROCESSING, color: 'green'}
-//     }
-//     case TASK_STATUSES.PROCESSING : {
-//       return {text : TASK_TEXT.DISBURSING, color: 'cyan'}
-//     }
-//     case TASK_STATUSES.CONSULTED : {
-//       return {text : TASK_TEXT.DISBURSED, color: 'blue'}
-//     }
-//     case TASK_STATUSES.CANCEL : {
-//       return {text : TASK_TEXT.CANCELLED, color: 'red'}
-//     }
-//     default:  return {text : '', color: 'lime'}
-//   }
-// }
-
 export const mappingStatus = (value, doc) => {
   let status = '_';
   let color = 'lime';

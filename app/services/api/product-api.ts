@@ -63,4 +63,34 @@ export class ProductApi {
     }
   }
 
+  async getTransactionInsurance(productId: string, search: string): Promise<any> {
+    try {
+      const response: ApiResponse<any> = await this.api.apisauce.get(`${API_ENDPOINT}/transactions`,
+        {
+          filter: {
+            order: ['createdAt DESC'],
+            where: {
+              productId: productId,
+              _q: search
+            },
+            include: [
+              { relation: "transactionDetails" },
+              { relation: "customer" },
+              { relation: "product" }
+            ],
+            limit: 50
+          },
+          page: 1,
+        }
+      )
+      if (!response.ok) {
+        const problem = getGeneralApiProblem(response)
+        if (problem) return problem
+      }
+      const data = response.data
+      return { kind: "ok", data }
+    } catch (e) {
+      return { kind: "bad-data", e }
+    }
+  }
 }

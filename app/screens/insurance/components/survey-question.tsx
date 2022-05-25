@@ -1,4 +1,4 @@
-import React, { useState } from "react"
+import React, { useEffect, useState } from "react"
 import { TextInput, TouchableOpacity, View } from "react-native"
 import { AppText } from "../../../components/app-text/AppText"
 import { s, ScaledSheet } from "react-native-size-matters"
@@ -18,71 +18,21 @@ const QUESTION_TYPES = {
 interface Props {
   productDetail: any,
   questionGroups: any,
+  checkEnabledForm: (value) => void,
 }
 
-const RenderCheckbox = React.memo(({ text, state }: { text?: string, state?: string }) => {
-  const check = (text === 'Có' && state === 'yes') || (text === 'Không' && state === 'no')
-  return (
-    <TouchableOpacity
-      onPress={() => {
-        // todo
-      }}
-      style={[ROW, ALIGN_CENTER, SPACE_BETWEEN, { width: '50%'}, MARGIN_TOP_8]}
-    >
-      <View style={[ROW, ALIGN_CENTER]}>
-        <View style={styles.bigCircle}>
-          {check && <View style={styles.circle} />}
-        </View>
-        <AppText value={'Có'} />
-      </View>
-      <View style={[ROW, ALIGN_CENTER]}>
-        <View style={styles.bigCircle}>
-          {check && <View style={styles.circle} />}
-        </View>
-        <AppText value={'Không'} />
-      </View>
-    </TouchableOpacity>
-  )
-})
-
-const RenderInput = React.memo(({ text }: { text?: string }) => {
-  return (
-    <TouchableOpacity onPress={() => {
-      // todo
-    }} style={[ROW, ALIGN_CENTER]}>
-      <TextInput
-        multiline={true}
-        value={text}
-        placeholder={"1231"}
-        style={{
-          height: s(50),
-          marginTop: s(8),
-          borderWidth: 0.5,
-          width: '100%',
-          borderRadius: s(6),
-          padding: s(8),
-        }}
-      />
-    </TouchableOpacity>
-  )
-})
-
 const SurveyQuestion = React.memo((props: Props) => {
-  const { questionGroups } = props
-  // const [injured, setInjured] = useState<string>('')
-  // const [fatalDisease, setFatalDisease] = useState<string>('')
-  // const isValid = injured === 'no' && fatalDisease === 'no'
+  const { questionGroups, checkEnabledForm } = props
+  const [keysQuestion, setKeyQuestion] = useState<string[]>([])
 
-  console.log('questionGroup', questionGroups);
-
-  const PreviewQuestionType = (type) => {
+  const PreviewQuestionType = (type, question) => {
     switch (type) {
       // case QUESTION_TYPES.IMAGE_SELECTION:
       // 	return PreviewImageSelectionQuestion;
       case QUESTION_TYPES.TEXT_SELECTION:
-        return <RenderCheckbox />;
+        return <RenderCheckbox question={question} />;
       case QUESTION_TYPES.OPEN_ENDED:
-        return <RenderInput />;
+        return <RenderInput question={question} />;
       // case QUESTION_TYPES.REORDER:
       // 	return PreviewReorderQuestion;
       // case QUESTION_TYPES.OPEN_ENDED_NUMBER:
@@ -94,6 +44,69 @@ const SurveyQuestion = React.memo((props: Props) => {
     }
   };
 
+  const RenderCheckbox = React.memo(({ question }: { question: any }) => {
+    const findKey = keysQuestion.find(el => el === question._iid)
+
+    return (
+      <TouchableOpacity
+        style={[ROW, ALIGN_CENTER, SPACE_BETWEEN, { width: '50%' }, MARGIN_TOP_16]}
+      >
+        <View style={[ROW, ALIGN_CENTER]}>
+          <TouchableOpacity
+            onPress={() => {
+              const keys = [...keysQuestion]
+              const findKey = keys.find(el => el === question._iid)
+              if (findKey) {
+                setKeyQuestion(keys.filter(el => el !== question._iid))
+              }
+            }}>
+            <View style={styles.bigCircle}>
+              {!findKey && <View style={styles.circle} />}
+            </View>
+          </TouchableOpacity>
+          <AppText value={'Không'} />
+        </View>
+        <View style={[ROW, ALIGN_CENTER]}>
+          <TouchableOpacity
+            onPress={() => {
+              const keys = [...keysQuestion]
+              const findKey = keys.find(el => el === question._iid)
+              if (!findKey) {
+                setKeyQuestion(keys.concat([question._iid]))
+              }
+            }}>
+            <View style={styles.bigCircle}>
+              {findKey && <View style={styles.circle} />}
+            </View>
+          </TouchableOpacity>
+          <AppText value={'Có'} />
+        </View>
+      </TouchableOpacity>
+    )
+  })
+
+  const RenderInput = React.memo(({ text, question }: { text?: string, question: any }) => {
+    return (
+      <TextInput
+        multiline={true}
+        value={text}
+        placeholder={"1231"}
+        style={{
+          height: s(50),
+          marginTop: s(16),
+          borderWidth: 0.5,
+          width: '100%',
+          borderRadius: s(6),
+          padding: s(8),
+        }}
+      />
+    )
+  })
+
+  useEffect(() => {
+    checkEnabledForm(keysQuestion?.length > 0) 
+  }, [keysQuestion])
+
   return (
     <View style={styles.container}>
       <AppText value={'Câu hỏi khảo sát theo sản phẩm'} style={styles.title} />
@@ -102,13 +115,16 @@ const SurveyQuestion = React.memo((props: Props) => {
           return (<View key={index.toString()}>
             <AppText
               value={question.content?.blocks?.[0]?.text}
-              style={[FONT_MEDIUM_12, MARGIN_TOP_8]}
+              style={[FONT_MEDIUM_12, MARGIN_TOP_16]}
               color={color.palette.lighterGray}
             />
-            {PreviewQuestionType(question?.type)}
+            {PreviewQuestionType(question?.type, question)}
           </View>)
         })
       }
+
+      {keysQuestion.length > 0 && <View style={styles.noti}>
+        <AppText value={'Không đủ điều kiện mua bảo hiểm'} style={styles.noti} /></View>}
     </View>
   )
 });
@@ -154,7 +170,13 @@ const styles = ScaledSheet.create({
     borderTopColor: color.dim,
     alignItems: "center",
     paddingTop: '16@s'
+  },
+  noti: {
+    textAlign: 'center',
+    color: color.palette.orange,
+    marginTop: '16@s',
+    borderTopWidth: 1,
+    borderColor: color.palette.lightBlue,
   }
-
 });
 

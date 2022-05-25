@@ -36,5 +36,4 @@ export class TransactionApi {
       return { kind: "bad-data", e }
     }
   }
-
 }
