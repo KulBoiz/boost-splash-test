@@ -1,13 +1,14 @@
 import React from 'react';
 import { Pressable, View, ViewStyle } from "react-native"
 import { s, ScaledSheet } from 'react-native-size-matters';
-import { DefaultAvatarSvg, LockSvg } from "../../../assets/svgs"
+import { DefaultAvatarSvg } from "../../../assets/svgs"
 import { AppText } from "../../../components/app-text/AppText"
 import { useStores } from "../../../models"
 import { navigate } from "../../../navigators"
 import { ScreenNames } from "../../../navigators/screen-names"
 import { observer } from "mobx-react-lite"
 import FastImage from "react-native-fast-image"
+import { FONT_SEMI_BOLD_12 } from "../../../styles/common-style"
 
 interface Props{
   style?: ViewStyle | any
@@ -37,8 +38,7 @@ const LoginCart = observer(({ style }: Props) => {
       {
         !isLogin &&
         <View style={styles.wrapText}>
-          <LockSvg style={styles.lock}/>
-          <AppText tx={"auth.login"} color={'white'} capitalize/>
+          <AppText tx={"auth.login"} color={'white'} style={FONT_SEMI_BOLD_12}/>
         </View>
       }
 
@@ -49,7 +49,7 @@ const LoginCart = observer(({ style }: Props) => {
 export default LoginCart;
 
 const styles = ScaledSheet.create({
-    container: {flexDirection: 'row'},
+    container: {flexDirection: 'row', alignItems: "center"},
   avatarContainer: {marginRight: '-20@s', zIndex: 10},
   avatar: {
     width: '40@s',
@@ -58,13 +58,13 @@ const styles = ScaledSheet.create({
     borderWidth: 1,
     borderColor: 'white',
   },
-  lock: {marginRight: '5@s'},
   wrapText: {
-      alignItems: 'center',
-      flexDirection: 'row',
+    alignItems: 'center',
+    flexDirection: 'row',
     backgroundColor: '#407BFF',
-    paddingVertical: '9@s',
-    paddingRight: '16@s',
-    paddingLeft: '30@s',
-    borderRadius: '8@s'}
+    height: '30@s',
+    paddingRight: '8@s',
+    paddingLeft: '28@ms',
+    borderRadius: '8@s'
+    }
 });

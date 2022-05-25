@@ -1,55 +1,31 @@
 import React from 'react';
-import { View, Animated, TouchableOpacity } from "react-native"
-import { Header } from "../../../components"
-import { BellSvg, BookSvg, SearchSvg } from "../../../assets/svgs"
-import { presets } from "../../../constants/presets"
+import { View, TouchableOpacity } from "react-native"
+import { BellSvg, SearchSvg } from "../../../assets/svgs"
 import FastImage from "react-native-fast-image"
 import { images } from "../../../assets/images"
 import LoginCard from "./LoginCard"
-import Wallet from "./Wallet"
 import { isIphoneX } from "react-native-iphone-x-helper"
-import { s ,ScaledSheet} from "react-native-size-matters"
+import { ScaledSheet} from "react-native-size-matters"
 import { color } from "../../../theme"
-
 import { ROW } from "../../../styles/common-style"
 import { navigate } from "../../../navigators"
 import { ScreenNames } from "../../../navigators/screen-names"
+import { AppText } from "../../../components/app-text/AppText"
+import { fontFamily } from "../../../constants/font-family"
+import Wallet from "./Wallet"
 
-interface Props{
-  animatedValue: Animated.Value
-}
+interface Props{}
 
-const HeaderCard = React.memo(({ animatedValue }: Props) => {
-  const MIN_HEIGHT = isIphoneX() ? s(90) : s(70)
-  const MAX_HEIGHT = isIphoneX() ? s(160) : s(140)
-
-  const animatedHeaderHeight = animatedValue.interpolate({
-    inputRange: [0, MAX_HEIGHT - MIN_HEIGHT],
-    outputRange: [MAX_HEIGHT, MIN_HEIGHT],
-    extrapolate: 'clamp'
-  })
-  const animatedHeaderBarHeight = animatedValue.interpolate({
-    inputRange: [0, 70],
-    outputRange: [0, -50],
-    extrapolate: 'clamp'
-  })
-  const animatedHeaderOpacity= animatedValue.interpolate({
-    inputRange: [0,90],
-    outputRange: [1,0],
-    extrapolate: 'clamp'
-  })
-
+const HeaderCard = React.memo((props: Props) => {
   return (
-    <><Animated.View style={[styles.header, { height: animatedHeaderHeight }]}>
-      <Header style={{ top: animatedHeaderBarHeight }} headerText={"FINA"}
-              // renderRightIcon={<SearchSvg />}
-              titleStyle={[presets.secondary, presets.bold, { color: "white" }]} />
+    <><View style={styles.header}>
       <FastImage source={images.headerDecor} style={styles.image} />
       <View style={styles.wrapContent}>
-        <LoginCard />
-        <View style={ROW}>
+        <LoginCard style={styles.itemContainer}/>
+        <AppText value={'FINA'} style={styles.fina}/>
+        <View style={[ROW,styles.itemContainer, {justifyContent: "flex-end"}]}>
           {/*<TouchableOpacity>*/}
-          {/*  <BookSvg />*/}
+          {/*  <SearchSvg /> */}
           {/*</TouchableOpacity>*/}
           <TouchableOpacity onPress={()=> navigate(ScreenNames.NOTICE)}>
             <BellSvg />
@@ -57,10 +33,10 @@ const HeaderCard = React.memo(({ animatedValue }: Props) => {
         </View>
       </View>
 
-    </Animated.View>
-      {/*<Animated.View style={[styles.wallet, { opacity: animatedHeaderOpacity }]}>*/}
+    </View>
+      {/*<View style={styles.wallet}>*/}
       {/*  <Wallet />*/}
-      {/*</Animated.View>*/}
+      {/*</View>*/}
     </>
   )
 });
@@ -75,7 +51,14 @@ const styles = ScaledSheet.create({
     flexDirection: "row",
     justifyContent: "space-between",
     alignItems: "center",
-    marginBottom: '20@s'
+  },
+  itemContainer: {
+    width: '35%'   ,
+  },
+  fina: {
+    fontSize: '24@ms',
+    color: color.text,
+    fontFamily: fontFamily.bold
   },
   image: {
     top:20,
@@ -83,7 +66,7 @@ const styles = ScaledSheet.create({
     position: 'absolute'
   },
   header: {
-      paddingTop: '10@s',
+    height: isIphoneX() ? '110@vs' : '90@vs',
     alignItems:'center',
     justifyContent: 'center',
     backgroundColor: color.palette.blue
@@ -97,6 +80,15 @@ const styles = ScaledSheet.create({
     width: '90%',
     borderRadius: '8@s',
     backgroundColor: color.palette.white,
-    marginTop: '-25@s'
+    marginTop: '-25@s',
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 3.84,
+
+    elevation: 5,
   },
 });

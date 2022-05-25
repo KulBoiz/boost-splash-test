@@ -24,3 +24,7 @@ export const capitalizeFirstString = (str: string | TxKeyPath | undefined) => {
 export function randomId() {
   return `mantine-${Math.random().toString(36).slice(2, 11)}`;
 }
+
+export function numberWithCommas(x: number | string) {
+  return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") ?? '';
+}

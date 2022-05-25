@@ -18,12 +18,6 @@ const renderScene = SceneMap({
   third : Result,
 });
 const ProfileDetail = React.memo((props: Props) => {
-  const [key, setKey] = React.useState<number>(0);
-  const [paths] = React.useState([
-    { title: 'Thông tin' },
-    { title: 'Lịch sử xử lý' },
-    { title: 'Kết quả' },
-  ]);
 
   const [index, setIndex] = React.useState(0);
   const [routes] = React.useState([

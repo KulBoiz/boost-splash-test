@@ -1,6 +1,5 @@
 import React, { useState } from "react"
 import { Pressable, View } from "react-native"
-import DateTimePicker  from "@react-native-community/datetimepicker"
 import { ScaledSheet } from "react-native-size-matters"
 import { AppText } from "../app-text/AppText"
 import { color, spacing } from "../../theme"

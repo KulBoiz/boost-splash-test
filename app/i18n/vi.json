@@ -85,22 +85,25 @@
   },
   "placeholder": {
     "login": {
-      "emailAndPhone": "Nhập email hoặc số điện thoại     ",
+      "emailAndPhone": "09******** | email@adress.com",
       "password": "Nhập mật khẩu   "
     },
-    "dateOfBirth": "Nhập ngày sinh   ",
-    "sex": "Nhập giới tính  ",
-    "citizenIdentification": "Nhập số CMND / CCCD  ",
-    "dateRange": "Nhập ngày cấp  ",
-    "issuedBy": "Nhập nơi cấp  ",
+    "dateOfBirth": "01/01/2000",
+    "sex": "Giới tính",
+    "citizenIdentification": "Nhập số CMND / CCCD",
+    "dateRange": "01/01/2000",
+    "issuedBy": "Tên thành phố",
     "location": "Chọn vị trí của bạn",
-    "emailAndPhone": "Nhập email hoặc số điện thoại    ",
-    "password": "Mật Khẩu    ",
-    "reenteredPassword": "Nhập lại mật khẩu    ",
-    "fullName": "Nhập họ và tên     ",
-    "email": "Nhập địa chỉ email    ",
-    "phone": "Nhập số điện thoại    ",
-    "address": "Nhập địa chỉ    "
+    "bankNumber" : "*** *** **",
+    "bankBranch": "Chi nhánh quản lý",
+    "emailAndPhone": "09******** | email@adress.com",
+    "password": "*******",
+    "reenteredPassword": "*******",
+    "fullName": "Nguyễn Văn A",
+    "email": "email@adress.com",
+    "phone": "09********",
+    "address": "Nhập địa chỉ",
+    "contactAddress": "Nơi bạn đang sinh sống"
   },
   "home": {
     "finance": {
@@ -211,7 +214,7 @@
         "loanDemand": "Nhu cầu vay",
         "collateral": "Tài sản thế chấp",
         "money": "Số tiền muốn vay",
-        "time": "Thời han vay"
+        "time": "Thời hạn vay"
       },
       "document": {
         "CCCD": "CCCD",
@@ -240,7 +243,8 @@
     "requireIssuedBy": "Vui lòng nhập nơi cấp",
     "requireAddress": "Vui lòng nhập địa chỉ",
     "requirePassword": "Vui lòng nhập mật khẩu",
-    "passwordNotMatch": "Mật khẩu không khớp"
+    "passwordNotMatch": "Mật khẩu không khớp",
+    "minPassword": "Vui lòng nhập mật khẩu tối thiểu 8 ký tự"
   },
   "errorScreen": {
     "title": "Something went wrong!",

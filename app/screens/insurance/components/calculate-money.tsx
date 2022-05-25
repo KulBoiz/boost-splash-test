@@ -7,6 +7,7 @@ import AppButton from "../../../components/app-button/AppButton"
 import { MARGIN_BOTTOM_16 } from "../../../styles/common-style"
 import { fontFamily } from "../../../constants/font-family"
 import { AppText } from "../../../components/app-text/AppText"
+import { numberWithCommas } from "../../../constants/variable"
 
 interface Props{
   onPress(): void
@@ -52,7 +53,7 @@ const CalculateMoney = React.memo(({ onPress, insurance }: Props) => {
   }
   return (
     <View style={styles.container}>
-      <ItemView title={'Tổng tiền:'} content={`${insurance?.price.toLocaleString()}đ`} style={MARGIN_BOTTOM_16} contentStyle={styles.price}/>
+      <ItemView title={'Tổng tiền:'} content={`${numberWithCommas(insurance?.price)}đ`} style={MARGIN_BOTTOM_16} contentStyle={styles.price}/>
       {/* <ItemView title={'Số lượng:'} content={renderInput()} style={MARGIN_BOTTOM_16}/> */}
       <AppButton title={'Mua bảo hiểm'} onPress={onPress}/>
     </View>

@@ -5,6 +5,7 @@ import { ScaledSheet } from "react-native-size-matters";
 import { AppText } from '../../../components/app-text/AppText';
 import { color } from "../../../theme";
 import Note from './note';
+import { numberWithCommas } from "../../../constants/variable"
 
 interface Props {
   item: any,
@@ -31,8 +32,8 @@ const ResultItemDetail = React.memo((props: Props) => {
       <View style={styles.borderBottom}></View>
       <View style={styles.content}>
         <View style={styles.item}>
-          <AppText style={styles.label} value={'Trạng thái:'} />
-          <AppText style={styles.value} value={item?.info?.approvalAmount?.toLocaleString()} />
+          <AppText style={styles.label} value={'Số tiền phê duyệt:'} />
+          <AppText style={styles.value} value={numberWithCommas(item?.info?.approvalAmount)} />
         </View>
         <View style={styles.item}>
           <AppText style={styles.label} value={'Thời hạn vay:'} />
@@ -44,11 +45,11 @@ const ResultItemDetail = React.memo((props: Props) => {
         </View>
         <View style={styles.item}>
           <AppText style={styles.label} value={'Giải ngân tổng cộng:'} />
-          <AppText style={styles.value} value={getTotalMonetForControl()?.toLocaleString()} />
+          <AppText style={styles.value} value={numberWithCommas(getTotalMonetForControl())} />
         </View>
         <View style={styles.item}>
           <AppText style={styles.label} value={'Giải ngân mới nhất:'} />
-          <AppText style={styles.value} value={getTransactionForControlNew().toLocaleString()} />
+          <AppText style={styles.value} value={numberWithCommas(getTransactionForControlNew())} />
         </View>
       </View>
 

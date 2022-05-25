@@ -2,7 +2,6 @@ import React from 'react';
 import Modal from "react-native-modal"
 import { ScaledSheet } from "react-native-size-matters"
 import { color } from "../../theme"
-import { fontFamily } from "../../constants/font-family"
 import DateTimePicker from "@react-native-community/datetimepicker"
 import { View } from 'react-native';
 

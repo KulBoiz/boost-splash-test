@@ -1,7 +1,5 @@
 import React, { useCallback, useEffect, useState } from "react"
 import { View, FlatList, ActivityIndicator } from "react-native"
-import MenuFilter from "./components/finance-filter"
-import { PROFILE_MANAGEMENT_FILTER } from "./constants"
 import { color } from "../../theme"
 import ShortStatus from "./components/short-status"
 import { ScaledSheet } from "react-native-size-matters"
