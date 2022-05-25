@@ -11,21 +11,23 @@ import ItemView from "../../loan/components/item-view"
 import { MARGIN_TOP_16 } from "../../../styles/common-style"
 interface Props {
   infoCustomer: any
+  infoBuyInsurance: any
 }
 
-const CollapsibleInfoCustomer = React.memo(({infoCustomer}: Props) => {
+const CollapsibleInfoCustomer = React.memo(({infoCustomer, infoBuyInsurance}: Props) => {
   const [activeSections, setActiveSections] = useState<number[]>([]);
   const _handleSections = (index: number[]) => {
     setActiveSections(index);
   };
-  const renderHeader = (index: number) => {
+
+  const renderHeader = (index: number, title: string) => {
     const isOpen = activeSections[0] === index
     return (
       <>
         <View
           style={styles.headerBody}>
             <AppText
-              value={'Thông tin người được bảo hiểm'}
+              value={title}
               style={styles.headerText}
             />
           <FastImage source={activeSections?.includes(index) ? images.arrow_up : images.arrow_down} style={styles.icon} />
@@ -35,24 +37,36 @@ const CollapsibleInfoCustomer = React.memo(({infoCustomer}: Props) => {
   );
   };
 
-  const renderContent = () => {
+  const renderContent = (info: any) => {
     return (
       <View style={styles.contentContainer}>
-        <ItemView title={'Họ và tên:'} content={infoCustomer?.fullName} style={MARGIN_TOP_16}/>
-        <ItemView title={'Ngày sinh:'} content={infoCustomer?.dateOfBirth} style={MARGIN_TOP_16}/>
-        <ItemView title={'CMND/ CCCD:'} content={infoCustomer?.citizenIdentification} style={MARGIN_TOP_16}/>
-        <ItemView title={'Email'} content={infoCustomer?.email} style={MARGIN_TOP_16}/>
+        <ItemView title={'Họ và tên:'} content={info?.fullName} style={MARGIN_TOP_16}/>
+        <ItemView title={'Ngày sinh:'} content={info?.dateOfBirth} style={MARGIN_TOP_16}/>
+        <ItemView title={'CMND/ CCCD:'} content={info?.citizenIdentification} style={MARGIN_TOP_16}/>
+        <ItemView title={'Email'} content={info?.email} style={MARGIN_TOP_16}/>
       </View>
     );
   };
+
   return (
     <View style={styles.container}>
       <Accordion
         containerStyle={[styles.collapsibleContainer,  {borderWidth: activeSections.length > 0 ? 1: 0}]}
         sections={[0]}
         activeSections={activeSections}
-        renderHeader={(content, index) => renderHeader(index)}
-        renderContent={renderContent}
+        renderHeader={(content, index) => renderHeader(index, 'Thông tin người mua bảo hiểm')}
+        renderContent={() =>renderContent(infoBuyInsurance)}
+        onChange={(indexes) => _handleSections(indexes)}
+        keyExtractor={(v, i) => i.toString()}
+        underlayColor={'transparent'}
+      />
+
+      <Accordion
+        containerStyle={[styles.collapsibleContainer,  {borderWidth: activeSections.length > 0 ? 1: 0}]}
+        sections={[0]}
+        activeSections={activeSections}
+        renderHeader={(content, index) => renderHeader(index, 'Thông tin người được bảo hiểm')}
+        renderContent={() =>renderContent(infoCustomer)}
         onChange={(indexes) => _handleSections(indexes)}
         keyExtractor={(v, i) => i.toString()}
         underlayColor={'transparent'}

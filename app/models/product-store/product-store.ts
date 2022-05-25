@@ -15,6 +15,7 @@ export const ProductStoreModel = types
     records: types.frozen([]),
     productDetail: types.frozen({}),
     questionGroups: types.frozen([]),
+    transactionInsurance: types.frozen({}),
   })
   .views((self) => ({})) // eslint-disable-line @typescript-eslint/no-unused-vars
   .actions((self) => ({
@@ -64,6 +65,27 @@ export const ProductStoreModel = types
         }
       }
     }),
+
+    getTransactionInsurance: flow(function* getTransactionInsurance(productId: string, search: string) {
+      self.transactionInsurance = {}
+
+      const api = new ProductApi(self.environment.api)
+      const result = yield api.getTransactionInsurance(productId, search)
+      const data = result?.data
+      self.transactionInsurance = data
+      
+      if (result.kind !== "ok") {
+        return result
+      }
+
+      if (data) {
+        return {
+          kind: "ok",
+          data,
+        }
+      }
+    }),
+
   })) // eslint-disable-line @typescript-eslint/no-unused-vars
 
 type ProductStoreType = Instance<typeof ProductStoreModel>

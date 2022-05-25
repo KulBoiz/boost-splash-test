@@ -27,14 +27,13 @@ const InsuranceItem = React.memo((props: Props) => {
   const { insuranceStore, productStore } = useStores()
   const { item } = props
   const handlePress = () => {
-    productStore.getDetail(item?.id);
-
     if (insuranceStore.isFirstTime) {
       navigate(ScreenNames.INTRODUCE_SCREEN)
     } else {
       productStore.getDetail(item?.id).then(() => {
         navigate(ScreenNames.INSURANCE_SCREEN)
       })
+      productStore.getTransactionInsurance(item?.id)
     }
   }
 

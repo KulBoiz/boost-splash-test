@@ -1,6 +1,6 @@
 import React, { useState } from "react"
 import { Pressable, View } from "react-native"
-import DateTimePicker  from "@react-native-community/datetimepicker"
+import DateTimePicker from "@react-native-community/datetimepicker"
 import { ScaledSheet } from "react-native-size-matters"
 import { AppText } from "../app-text/AppText"
 import { color, spacing } from "../../theme"
@@ -14,8 +14,8 @@ import { FONT_MEDIUM_14 } from "../../styles/common-style"
 import ModalDatePicker from "./modal-pick-date"
 
 
-interface Props{
-  value : string
+interface Props {
+  value: string
   setValue: UseFormSetValue<FieldValues>
   errorMessage: string
   label: string
@@ -24,7 +24,7 @@ interface Props{
 }
 
 const DatePicker = React.memo((props: Props) => {
-  const {value, setValue, errorMessage, placeholder, label, name} = props
+  const { value, setValue, errorMessage, placeholder, label, name } = props
   const [date, setDate] = useState(new Date(1598051730000));
   const [show, setShow] = useState(false);
 
@@ -61,21 +61,21 @@ const DatePicker = React.memo((props: Props) => {
 export default DatePicker;
 
 const styles = ScaledSheet.create({
-    container: {
-      paddingVertical: spacing[3]
-    },
+  container: {
+    paddingVertical: spacing[3]
+  },
   wrapper: {
     flexDirection: "row",
     justifyContent: "space-between",
-    alignItems:"center",
+    alignItems: "center",
     borderWidth: 1,
     borderColor: color.palette.blue,
     borderRadius: '12@s',
     paddingVertical: '11@ms',
     paddingHorizontal: '16@ms'
   },
-  datePicker:{
-      flex:1,
+  datePicker: {
+    flex: 1,
     backgroundColor: 'transparent'
   },
   errorMessage: {
@@ -84,7 +84,7 @@ const styles = ScaledSheet.create({
     fontSize: '13@ms',
     marginTop: '10@s'
   },
-  label:{
+  label: {
     fontSize: '11@ms',
     fontFamily: fontFamily.medium,
     marginBottom: '4@s'
