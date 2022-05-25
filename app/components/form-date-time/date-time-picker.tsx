@@ -11,6 +11,7 @@ import { FieldValues } from "react-hook-form/dist/types/fields"
 import moment from "moment"
 import { FieldPath } from "react-hook-form/dist/types"
 import { FONT_MEDIUM_14 } from "../../styles/common-style"
+import ModalDatePicker from "./modal-pick-date"
 
 
 interface Props{
@@ -52,15 +53,7 @@ const DatePicker = React.memo((props: Props) => {
         <CalenderSvg />
       </Pressable>
       {!!errorMessage && <AppText value={errorMessage} style={styles.errorMessage}/> }
-      {show && (
-        <DateTimePicker
-          testID="dateTimePicker"
-          value={date}
-          mode={'date'}
-          display={'inline'}
-          onChange={onChange}
-        />
-      )}
+        <ModalDatePicker visible={show} onChange={onChange} date={date} closeModal={()=> setShow(false)}/>
     </View>
   )
 });

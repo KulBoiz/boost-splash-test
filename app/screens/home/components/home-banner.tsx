@@ -21,11 +21,11 @@ const HomeBanner = observer((props: Props) => {
   useEffect(()=> {
     bannerStore.getPublicNews()
   },[])
-
+  // onPress={()=> navigate(ScreenNames.BANNER_DETAIL, {url : item?.link})}
   const news = bannerStore.publicNews ?? []
   const _renderItem = useCallback(({item}) => {
     return (
-      <Pressable style={{alignItems: 'center'}} onPress={()=> navigate(ScreenNames.BANNER_DETAIL, {url : item?.link})}>
+      <Pressable style={{alignItems: 'center'}} >
         <FastImage source={{uri : item?.image}} style={styles.image} resizeMode={'stretch'}/>
       </Pressable>
     );
