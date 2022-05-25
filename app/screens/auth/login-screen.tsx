@@ -18,18 +18,21 @@ import AppModal from "../../components/app-modal/app-modal"
 import { StackActions, useIsFocused } from "@react-navigation/native"
 import { presets } from "../../constants/presets"
 
-const errorContent = 'Sai thông tin tài khoản hoặc mật khẩu.\nVui lòng kiểm tra lại.'
+const errorContent = "Sai thông tin tài khoản hoặc mật khẩu.\nVui lòng kiểm tra lại."
 
 export const LoginScreen: FC<StackScreenProps<AuthStackParamList, ScreenNames.LOGIN>> = observer(
   ({ navigation }) => {
     const validationSchema = Yup.object().shape({
-      email: Yup.string()
-        .trim()
-        .required("Vui lòng nhập email hoặc số điện thoại"),
-        // .email("This is not a valid email"),
+      email: Yup.string().trim().required("Vui lòng nhập email hoặc số điện thoại"),
+      // .email("This is not a valid email"),
       password: Yup.string().required("Vui lòng nhập mật khẩu").trim(),
     })
-    const {control, handleSubmit, formState: {errors}, resetField} = useForm({
+    const {
+      control,
+      handleSubmit,
+      formState: { errors },
+      resetField,
+    } = useForm({
       delayError: 0,
       defaultValues: undefined,
       mode: "all",
@@ -37,64 +40,80 @@ export const LoginScreen: FC<StackScreenProps<AuthStackParamList, ScreenNames.LO
       reValidateMode: "onChange",
     })
 
-
     const isFocused = useIsFocused()
     const { authStoreModel } = useStores()
     const [visible, setVisible] = useState<boolean>(false)
 
     const _handleLogin = async (data) => {
       const auth = await authStoreModel.login(data.email, data.password)
-      if (auth.kind === 'ok'){
+      if (auth.kind === "ok") {
         navigation.dispatch(StackActions.push(ScreenNames.APP))
-      }
-      else setVisible(true)
+      } else setVisible(true)
     }
 
-    const closeModal = ()=> {
+    const closeModal = () => {
       setVisible(false)
     }
 
-    const forgotPassword = ()=> {
+    const forgotPassword = () => {
       navigation.navigate(ScreenNames.FORGOT_PASSWORD)
     }
-    useEffect(()=> {
-      resetField('email')
-      resetField('password')
-    },[isFocused])
+    useEffect(() => {
+      resetField("email")
+      resetField("password")
+    }, [isFocused])
 
     return (
       <Pressable style={styles.container} onPress={Keyboard.dismiss}>
         <View style={styles.body}>
-        <AppText tx={'auth.login'} style={[presets.header,styles.textLogin]}/>
-        <FormInput
-          {...{
-            name: 'email',
-            labelTx: 'label.emailAndPhone',
-            placeholderTx: 'placeholder.login.emailAndPhone',
-            autoCapitalize: 'none',
-            control,
-            error: errors?.email?.message
-          }}
-        />
-        <FormInput
-          {...{
-            name: 'password',
-            labelTx: 'label.password',
-            placeholderTx: 'placeholder.login.password',
-            autoCapitalize: 'none',
-            error: errors?.password?.message,
-            control,
-            showIcon: true,
-          }}
-        />
-        <AppText tx={'auth.loginForgotPassword'} style={styles.forgot} underline onPress={forgotPassword}/>
-        <AppButton onPress={handleSubmit(_handleLogin)} tx={"auth.login"} containerStyle={styles.button}/>
-        <AppText tx={'auth.backToHome'} style={styles.backToHome} underline onPress={()=> navigation.dispatch(StackActions.push(ScreenNames.APP))}/>
+          <AppText tx={"auth.login"} style={[presets.header, styles.textLogin]} />
+          <FormInput
+            {...{
+              name: "email",
+              labelTx: "label.emailAndPhone",
+              placeholderTx: "placeholder.login.emailAndPhone",
+              autoCapitalize: "none",
+              control,
+              error: errors?.email?.message,
+            }}
+          />
+          <FormInput
+            {...{
+              name: "password",
+              labelTx: "label.password",
+              placeholderTx: "placeholder.login.password",
+              autoCapitalize: "none",
+              error: errors?.password?.message,
+              control,
+              showIcon: true,
+            }}
+          />
+          <AppText
+            tx={"auth.loginForgotPassword"}
+            style={styles.forgot}
+            underline
+            onPress={forgotPassword}
+          />
+          <AppButton
+            onPress={handleSubmit(_handleLogin)}
+            tx={"auth.login"}
+            containerStyle={styles.button}
+          />
+          <AppText
+            tx={"auth.backToHome"}
+            style={styles.backToHome}
+            underline
+            onPress={() => navigation.dispatch(StackActions.push(ScreenNames.APP))}
+          />
         </View>
         <View style={styles.wrapBottom}>
-          <LoginText firstText={'auth.dontHaveAccount'} secondText={'auth.registerNow'} action={'register'}/>
+          <LoginText
+            firstText={"auth.dontHaveAccount"}
+            secondText={"auth.registerNow"}
+            action={"register"}
+          />
         </View>
-        <AppModal {...{visible, closeModal, content: errorContent}}/>
+        <AppModal {...{ visible, closeModal, content: errorContent }} />
       </Pressable>
     )
   },
@@ -108,22 +127,22 @@ const styles = ScaledSheet.create({
   backToHome: {
     color: color.palette.orange,
     alignSelf: "center",
-    marginTop: '16@s'
+    marginTop: "16@s",
   },
-  body: {flex: 1, justifyContent:'center'},
+  body: { flex: 1, justifyContent: "center" },
   textLogin: {
-    marginBottom: '30@s',
-    marginLeft: '20@ms'
+    marginBottom: "30@s",
+    marginLeft: "20@ms",
   },
   button: {
-    marginTop: '40@s'
+    marginTop: "40@s",
   },
   forgot: {
-    alignSelf:'flex-end',
-    color: color.palette.blue
+    alignSelf: "flex-end",
+    color: color.palette.blue,
   },
   wrapBottom: {
-    paddingBottom: '30@s',
-    alignItems: "center"
-  }
+    paddingBottom: "30@s",
+    alignItems: "center",
+  },
 })
