@@ -55,33 +55,33 @@ const InputCustomer = React.memo((props: Props) => {
             placeholderTx: 'placeholder.fullName',
             control,
             error: errors?.fullName?.message,
-            onChangeText: (value)=>onChangeText(value, 'fullName')
+            onChangeText: (value) => onChangeText(value, 'fullName')
           }}
         />
-        {/* <View style={[ROW, SPACE_BETWEEN]}> */}
-        <FormDatePicker
-          {...{
-            style: { flex: 1, marginRight: 5 },
-            name: 'dateOfBirth',
-            label: i18n.t('label.dateOfBirth'),
-            placeholder: 'DD/MM/YYYY',
-            setValue: (key, value) => setValueDatePicker(key, value),
-            control,
-            error: errors?.dateOfBirth?.message
-          }}
-        />
-        <FormInput
-          {...{
-            style: { flex: 1 },
-            name: 'sex',
-            labelTx: 'label.sex',
-            placeholderTx: 'placeholder.sex',
-            control,
-            error: errors?.sex?.message,
-            onChangeText: (value)=>onChangeText(value, 'sex')
-          }}
-        />
-        {/* </View> */}
+        <View style={[ROW, SPACE_BETWEEN]}>
+          <FormDatePicker
+            {...{
+              style: { flex: 1, marginRight: 5 },
+              name: 'dateOfBirth',
+              label: i18n.t('label.dateOfBirth'),
+              placeholder: 'DD/MM/YYYY',
+              setValue: (key, value) => setValueDatePicker(key, value),
+              control,
+              error: errors?.dateOfBirth?.message
+            }}
+          />
+          <FormInput
+            {...{
+              style: { flex: 1 },
+              name: 'sex',
+              labelTx: 'label.sex',
+              placeholderTx: 'placeholder.sex',
+              control,
+              error: errors?.sex?.message,
+              onChangeText: (value) => onChangeText(value, 'sex')
+            }}
+          />
+        </View>
         <FormInput
           {...{
             name: 'citizenIdentification',
@@ -90,33 +90,33 @@ const InputCustomer = React.memo((props: Props) => {
             control,
             error: errors?.citizenIdentification?.message,
             keyboardType: 'number-pad',
-            onChangeText: (value)=>onChangeText(value, 'citizenIdentification')
+            onChangeText: (value) => onChangeText(value, 'citizenIdentification')
           }}
         />
-        {/* <View style={[ROW, SPACE_BETWEEN]}> */}
-        <FormDatePicker
-          {...{
-            style: { flex: 1, marginRight: 5 },
-            name: 'dateRange',
-            label: i18n.t('label.dateRange'),
-            placeholder: 'DD/MM/YYYY',
-            setValue: (key, value) => setValueDatePicker(key, value),
-            control,
-            error: errors?.dateRange?.message
-          }}
-        />
-        <FormInput
-          {...{
-            style: { flex: 1 },
-            name: 'issuedBy',
-            labelTx: 'label.issuedBy',
-            placeholderTx: 'placeholder.issuedBy',
-            control,
-            error: errors?.issuedBy?.message,
-            onChangeText: (value)=>onChangeText(value, 'issuedBy')
-          }}
-        />
-        {/* </View> */}
+        <View style={[ROW, SPACE_BETWEEN]}>
+          <FormDatePicker
+            {...{
+              style: { flex: 1, marginRight: 5 },
+              name: 'dateRange',
+              label: i18n.t('label.dateRange'),
+              placeholder: 'DD/MM/YYYY',
+              setValue: (key, value) => setValueDatePicker(key, value),
+              control,
+              error: errors?.dateRange?.message
+            }}
+          />
+          <FormInput
+            {...{
+              style: { flex: 1 },
+              name: 'issuedBy',
+              labelTx: 'label.issuedBy',
+              placeholderTx: 'placeholder.issuedBy',
+              control,
+              error: errors?.issuedBy?.message,
+              onChangeText: (value) => onChangeText(value, 'issuedBy')
+            }}
+          />
+        </View>
         <FormInput
           {...{
             name: 'contactAddress',
@@ -124,7 +124,7 @@ const InputCustomer = React.memo((props: Props) => {
             placeholderTx: 'placeholder.address',
             control,
             error: errors?.contactAddress?.message,
-            onChangeText: (value)=>onChangeText(value, 'contactAddress')
+            onChangeText: (value) => onChangeText(value, 'contactAddress')
           }}
         />
         <FormInput
@@ -135,7 +135,7 @@ const InputCustomer = React.memo((props: Props) => {
             control,
             error: errors?.phone?.message,
             keyboardType: 'number-pad',
-            onChangeText: (value)=>onChangeText(value, 'phone')
+            onChangeText: (value) => onChangeText(value, 'phone')
           }}
         />
         <FormInput
@@ -146,7 +146,7 @@ const InputCustomer = React.memo((props: Props) => {
             autoCapitalize: 'none',
             control,
             error: errors?.email?.message,
-            onChangeText: (value)=>onChangeText(value, 'email')
+            onChangeText: (value) => onChangeText(value, 'email')
           }}
         />
       </View>
@@ -170,29 +170,29 @@ const InputCustomer = React.memo((props: Props) => {
             error: errors?.fullNameCustomer?.message
           }}
         />
-        {/* <View style={[ROW, SPACE_BETWEEN]}> */}
-        <FormDatePicker
-          {...{
-            style: { flex: 1, marginRight: 5 },
-            name: 'dateOfBirthCustomer',
-            label: i18n.t('label.dateOfBirth'),
-            placeholder: 'DD/MM/YYYY',
-            setValue: setValue,
-            control,
-            error: errors?.dateOfBirthCustomer?.message
-          }}
-        />
-        <FormInput
-          {...{
-            style: { flex: 1 },
-            name: 'sexCustomer',
-            labelTx: 'label.sex',
-            placeholderTx: 'placeholder.sex',
-            control,
-            error: errors?.sexCustomer?.message
-          }}
-        />
-        {/* </View> */}
+        <View style={[ROW, SPACE_BETWEEN]}>
+          <FormDatePicker
+            {...{
+              style: { flex: 1, marginRight: 5 },
+              name: 'dateOfBirthCustomer',
+              label: i18n.t('label.dateOfBirth'),
+              placeholder: 'DD/MM/YYYY',
+              setValue: setValue,
+              control,
+              error: errors?.dateOfBirthCustomer?.message
+            }}
+          />
+          <FormInput
+            {...{
+              style: { flex: 1 },
+              name: 'sexCustomer',
+              labelTx: 'label.sex',
+              placeholderTx: 'placeholder.sex',
+              control,
+              error: errors?.sexCustomer?.message
+            }}
+          />
+        </View>
         <FormInput
           {...{
             name: 'citizenIdentificationCustomer',
@@ -203,7 +203,7 @@ const InputCustomer = React.memo((props: Props) => {
             keyboardType: 'number-pad'
           }}
         />
-        {/* <View style={[ROW, SPACE_BETWEEN]}> */}
+        <View style={[ROW, SPACE_BETWEEN]}>
         <FormDatePicker
           {...{
             style: { flex: 1, marginRight: 5 },
@@ -225,7 +225,7 @@ const InputCustomer = React.memo((props: Props) => {
             error: errors?.issuedByCustomer?.message
           }}
         />
-        {/* </View> */}
+        </View>
         <FormInput
           {...{
             name: 'contactAddressCustomer',
