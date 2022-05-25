@@ -6,55 +6,56 @@ import { ScaledSheet, ms } from "react-native-size-matters"
 import AppButton from "../../../components/app-button/AppButton"
 import { MARGIN_BOTTOM_16 } from "../../../styles/common-style"
 import { fontFamily } from "../../../constants/font-family"
-import { AppText } from "../../../components/app-text/AppText"
+// import { AppText } from "../../../components/app-text/AppText"
 
 interface Props{
   onPress(): void
   insurance: any
+  enable?: any
 }
 
-const CalculateMoney = React.memo(({ onPress, insurance }: Props) => {
-  const defaultPrice = 10000
-  const [price, setPrice] = useState<string | number>(0)
-  const [quantity, setQuantity] = useState<string | number>('1');
+const CalculateMoney = React.memo(({ onPress, insurance, enable = false }: Props) => {
+  // const defaultPrice = 10000
+  // const [price, setPrice] = useState<string | number>(0)
+  // const [quantity, setQuantity] = useState<string | number>('1');
 
-  useEffect(()=> {
-    setPrice(defaultPrice * Number(quantity))
-  },[quantity])
+  // useEffect(()=> {
+  //   setPrice(defaultPrice * Number(quantity))
+  // },[quantity])
 
-  const handleChangeInput = (txt: string) => {
-    setQuantity(txt);
-  };
-  const _handlePlus = () => {
-    setQuantity(Number(quantity) + 1);
-  };
+  // const handleChangeInput = (txt: string) => {
+  //   setQuantity(txt);
+  // };
+  // const _handlePlus = () => {
+  //   setQuantity(Number(quantity) + 1);
+  // };
 
-  const _handleSub = () => {
-    if (Number(quantity) > 1) {
-      setQuantity(Number(quantity) - 1);
-    }
-  };
+  // const _handleSub = () => {
+  //   if (Number(quantity) > 1) {
+  //     setQuantity(Number(quantity) - 1);
+  //   }
+  // };
 
-  const renderInput = ()=> {
-    return(
-      <View style={styles.wrapMath}>
-        <Pressable style={[styles.box, styles.minus]} onPress={_handleSub}>
-          <AppText value={'-'} style={styles.minusText} />
-        </Pressable>
-        <View style={styles.wrapNumber}>
-          <TextInput value={quantity?.toString()} onChangeText={handleChangeInput} keyboardType={'number-pad'} />
-        </View>
-        <Pressable style={[styles.box, styles.plus]} onPress={_handlePlus}>
-          <AppText value={'+'} style={styles.plusText} color={color.text}/>
-        </Pressable>
-      </View>
-    )
-  }
+  // const renderInput = ()=> {
+  //   return(
+  //     <View style={styles.wrapMath}>
+  //       <Pressable style={[styles.box, styles.minus]} onPress={_handleSub}>
+  //         <AppText value={'-'} style={styles.minusText} />
+  //       </Pressable>
+  //       <View style={styles.wrapNumber}>
+  //         <TextInput value={quantity?.toString()} onChangeText={handleChangeInput} keyboardType={'number-pad'} />
+  //       </View>
+  //       <Pressable style={[styles.box, styles.plus]} onPress={_handlePlus}>
+  //         <AppText value={'+'} style={styles.plusText} color={color.text}/>
+  //       </Pressable>
+  //     </View>
+  //   )
+  // }
   return (
     <View style={styles.container}>
       <ItemView title={'Tổng tiền:'} content={`${insurance?.price.toLocaleString()}đ`} style={MARGIN_BOTTOM_16} contentStyle={styles.price}/>
       {/* <ItemView title={'Số lượng:'} content={renderInput()} style={MARGIN_BOTTOM_16}/> */}
-      <AppButton title={'Mua bảo hiểm'} onPress={onPress}/>
+      <AppButton title={'Mua bảo hiểm'} onPress={onPress} disable={enable}/>
     </View>
   )
 });
