@@ -49,25 +49,25 @@ const Finance = React.memo((props: Props) => {
         <LoanItem icon={<ConsumerLoanSvg/>} title={'home.finance.consumerLoan'}/>
         <LoanItem icon={<RepairLoanSvg/>} title={'home.finance.repairLoad'}/>
       </View>
-      <View style={styles.wrapLoan}>
-        <View style={styles.row}>
-          <AppText value={'Gói vay nổi bật'} style={styles.title}/>
-          <AppText value={'Xem thêm'} color={color.palette.blue} onPress={()=> navigate(ScreenNames.FINANCE, {index: 1})}/>
-        </View>
+      {/*<View style={styles.wrapLoan}>*/}
+        {/*<View style={styles.row}>*/}
+        {/*  <AppText value={'Gói vay nổi bật'} style={styles.title}/>*/}
+        {/*  <AppText value={'Xem thêm'} color={color.palette.blue} onPress={()=> navigate(ScreenNames.FINANCE, {index: 1})}/>*/}
+        {/*</View>*/}
 
-        <Carousel
-          ref={ref.current}
-          key={(e, i)=> e.name + i.toString()}
-          data={data}
-          renderItem={renderItem}
-          sliderWidth={width}
-          itemWidth={width}
-          loop
-          onSnapToItem={(index) => setActiveDot( index ) }
-        />
-        <PaginationDot length={data.length} activeDot={activeDot} dotShape={'circle'}/>
+      {/*  <Carousel*/}
+      {/*    ref={ref.current}*/}
+      {/*    key={(e, i)=> e.name + i.toString()}*/}
+      {/*    data={data}*/}
+      {/*    renderItem={renderItem}*/}
+      {/*    sliderWidth={width}*/}
+      {/*    itemWidth={width}*/}
+      {/*    loop*/}
+      {/*    onSnapToItem={(index) => setActiveDot( index ) }*/}
+      {/*  />*/}
+      {/*  <PaginationDot length={data.length} activeDot={activeDot} dotShape={'circle'}/>*/}
 
-      </View>
+      {/*</View>*/}
       <AppText value={'Công cụ hỗ trợ'} style={styles.title}/>
       <LoanSupportTool icon={<CalculatorSvg />} title={'Tính khả năng vay'} />
       <LoanSupportTool icon={<ProfileAddSvg />} title={'Giới thiệu khách vay'} onPress={()=> navigate(ScreenNames.REQUEST_COUNSELLING)} />

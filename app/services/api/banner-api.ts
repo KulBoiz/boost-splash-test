@@ -47,7 +47,7 @@ export class BannerApi {
         const problem = getGeneralApiProblem(response)
         if (problem) return problem
       }
-      const data = response?.data
+      const data = response?.data?.data
       return { kind: "ok", data }
     } catch (e) {
       return { kind: "bad-data", e }
