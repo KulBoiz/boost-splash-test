@@ -27,6 +27,7 @@ const widthHeight = width - ms(32)
 interface Props{}
 
 const Finance = React.memo((props: Props) => {
+  // @ts-ignore
   const {loanStore} =useStores()
   const ref = useRef()
   const [activeDot, setActiveDot] = useState(0)
