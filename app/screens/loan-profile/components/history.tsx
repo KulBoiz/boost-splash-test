@@ -13,9 +13,9 @@ const History = React.memo((props: Props) => {
   const { histories = [] } = loanStore
 
   const renderItem = useCallback(({ item, index }) => {
-    const isLastItem = index + 1 === histories.length
+    const isLastItem = index + 1  === histories?.length
     return <HistoryItem item={item} isLastItem={isLastItem} />
-  }, [])
+  }, [histories?.length])
 
   return (
     <View style={styles.container}>

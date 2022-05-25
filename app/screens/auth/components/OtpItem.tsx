@@ -1,5 +1,5 @@
-import React, {FC, useEffect, useState } from "react"
-import { Alert, View } from "react-native"
+import React, { FC, useEffect, useRef, useState } from "react"
+import { Alert, AppState, View } from "react-native"
 
 import { observer } from "mobx-react-lite"
 import { AppText } from "../../../components/app-text/AppText"
@@ -18,6 +18,7 @@ import { ScreenNames } from "../../../navigators/screen-names"
 import { useStores } from "../../../models"
 import ConfirmModal from "../../../components/app-modal/confirm-modal"
 import SuccessModal from "../../../components/success-modal"
+import AsyncStorage from "@react-native-async-storage/async-storage"
 
 const CELL_COUNT = 6;
 interface Props{
@@ -38,6 +39,42 @@ const OtpItem:FC<Props> = observer(
     });
     const [time, setTime] = useState(defaultTime)
     const [isStartCheck, setStartCheck] = useState<boolean>(true);
+    const appState = useRef(AppState.currentState);
+    const [appStateVisible, setAppStateVisible] = useState(appState.current);
+
+    const _handleAppStateChange = (nextAppState: any) => {
+      appState.current = nextAppState;
+      setAppStateVisible(appState.current);
+    };
+
+    useEffect(() => {
+      AsyncStorage.setItem('otpTime', moment().toISOString());
+      setStartCheck(true);
+      AppState.addEventListener('change', _handleAppStateChange);
+      return () => {
+        AppState.removeEventListener('change', _handleAppStateChange);
+      };
+
+
+    }, []);
+
+    useEffect(() => {
+      const initOtpTime = async () => {
+        if (appStateVisible === 'active') {
+          const createdAt = await AsyncStorage.getItem('otpTime');
+          if (createdAt) {
+            const timePassed = moment().diff(createdAt, 'milliseconds');
+            if (timePassed >= defaultTime) {
+              setTime(0);
+              setStartCheck(false);
+            } else {
+              setTime(defaultTime - timePassed);
+            }
+          }
+        }
+      };
+      initOtpTime();
+    }, [appStateVisible]);
 
     useEffect(() => {
       if (isStartCheck) {
@@ -50,10 +87,10 @@ const OtpItem:FC<Props> = observer(
             clearInterval(timeout);
           }
         }, 1000);
+        return () => {
+          clearInterval(timeout);
+        };
       }
-      return () => {
-        clearInterval(timeout);
-      };
     }, [isStartCheck, time]);
 
     const checkOtp = async () => {
@@ -76,6 +113,7 @@ const OtpItem:FC<Props> = observer(
       setResendModal(false)
       setTimeout(()=> setSuccessModal(true), 500)
       setTime(defaultTime)
+      AsyncStorage.setItem('otpTime', moment().toISOString());
       setStartCheck(true)
     }
 

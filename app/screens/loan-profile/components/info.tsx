@@ -9,7 +9,6 @@ import { color } from "../../../theme";
 import ItemView from '../../loan/components/item-view';
 import Document from './document';
 import Note from './note';
-import CollapsibleInfoUpload from "./collapsible-info-upload"
 
 interface Props {
 }

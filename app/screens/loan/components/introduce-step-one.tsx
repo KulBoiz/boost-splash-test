@@ -101,7 +101,7 @@ const IntroduceStepOne = observer(({ nextStep }: Props) => {
             name: 'phone',
             placeholderTx: 'placeholder.phone',
             autoCapitalize: 'none',
-            labelTx:'placeholder.phone',
+            labelTx:'label.phoneNumber',
             control,
             error: errors?.phone?.message,
             keyboardType: 'number-pad'

@@ -1,5 +1,5 @@
 import moment from 'moment';
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { View, Image, TouchableOpacity } from 'react-native';
 import { ScaledSheet, s } from "react-native-size-matters";
 import { AppText } from "../../../components/app-text/AppText";

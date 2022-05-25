@@ -1,10 +1,8 @@
-import moment from 'moment';
-import React, { useCallback, useState } from "react"
-import { FlatList, ScrollView } from "react-native"
+import React from "react"
+import { FlatList } from "react-native"
 import { ScaledSheet } from "react-native-size-matters";
 import ResultItem from './result-item';
 import { useStores } from "../../../models"
-import Accordion from 'react-native-collapsible/Accordion';
 
 interface Props {
 }
@@ -13,8 +11,8 @@ const Result = React.memo((props: Props) => {
   // @ts-ignore
   const { loanStore, dealDetailStoreModel } = useStores()
   const data = loanStore?.loanDetail?.dealDetails
-  const [index, setIndex] =  useState<number>()
 
+  console.log('data', data)
   const renderItem = ({ item }) => {
     return <ResultItem
       item={item}

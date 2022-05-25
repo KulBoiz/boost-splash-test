@@ -3,7 +3,7 @@ import { View } from 'react-native';
 import { ScaledSheet } from "react-native-size-matters";
 import { CheckedSvg } from '../../../assets/svgs';
 import { AppText } from "../../../components/app-text/AppText";
-import { truncateString } from '../../../constants/variable';
+import { numberWithCommas, truncateString } from "../../../constants/variable"
 import { color } from "../../../theme";
 import ItemView from '../../loan/components/item-view';
 import CollapsibleInfoUpload from "./collapsible-info-upload"
@@ -55,7 +55,7 @@ const Document = React.memo((props: Props) => {
         <View style={styles.contentItem}>
           <ItemView style={styles.item} title={"loan.infoLoan.info.loanDemand"} content={truncateString(loanDetail?.product?.name, 20)} />
           <ItemView style={styles.item} title={"loan.infoLoan.info.collateral"} content={loanDetail?.realEstateInfo?.apartmentCode} />
-          <ItemView style={styles.item} title={"loan.infoLoan.info.money"} content={loanDetail?.loanMoney ? `${loanDetail?.loanMoney?.toLocaleString()} VNĐ` : ''} />
+          <ItemView style={styles.item} title={"loan.infoLoan.info.money"} content={loanDetail?.loanMoney ? `${numberWithCommas(loanDetail?.loanMoney)} VNĐ` : ''} />
           <ItemView style={styles.item} title={"loan.infoLoan.info.time"} content={loanDetail?.timeLoan ? `${loanDetail?.timeLoan} Năm` : ''} />
         </View>
       </View>

@@ -1,5 +1,5 @@
 import React, { FC, useState } from "react"
-import { Animated, BackHandler, ScrollView, View } from "react-native"
+import { BackHandler, ScrollView, View } from "react-native"
 import { StackScreenProps } from "@react-navigation/stack"
 import { observer } from "mobx-react-lite"
 import { ScreenNames } from "../../navigators/screen-names"
@@ -24,9 +24,7 @@ export const HomeScreen: FC<StackScreenProps<AppStackParamList, ScreenNames.HOME
       BackHandler.addEventListener('hardwareBackPress', () => true);
       return () => BackHandler.removeEventListener('hardwareBackPress', () => true);
     });
-    const animatedHeaderValue = new Animated.Value(0)
     const [currentPage, setCurrentPage] = useState(1);
-    // @ts-ignore
     const { menuFilterStore, productStore } = useStores()
 
     const handleSelectPage = (value: number) => {
@@ -40,15 +38,10 @@ export const HomeScreen: FC<StackScreenProps<AppStackParamList, ScreenNames.HOME
 
     return (
       <View testID="WelcomeScreen" style={styles.full}>
-        <HeaderCard animatedValue={animatedHeaderValue} />
+        <HeaderCard  />
         <ScrollView
           style={{paddingTop: 50}}
           nestedScrollEnabled
-          scrollEventThrottle={16}
-          onScroll={Animated.event([
-              {nativeEvent : {contentOffset: {y : animatedHeaderValue}}}],
-            {useNativeDriver: false},
-          )}
         >
           <HomeBanner />
           <View style={styles.wrapItem}>

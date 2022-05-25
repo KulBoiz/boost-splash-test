@@ -1,6 +1,5 @@
 import React, { useState } from "react"
 import { Pressable, View } from "react-native"
-import DateTimePicker from "@react-native-community/datetimepicker"
 import { ScaledSheet } from "react-native-size-matters"
 import { AppText } from "../app-text/AppText"
 import { color, spacing } from "../../theme"
@@ -25,7 +24,7 @@ interface Props {
 
 const DatePicker = React.memo((props: Props) => {
   const { value, setValue, errorMessage, placeholder, label, name } = props
-  const [date, setDate] = useState(new Date(1598051730000));
+  const [date, setDate] = useState(new Date());
   const [show, setShow] = useState(false);
 
   const onChange = (event, selectedDate) => {

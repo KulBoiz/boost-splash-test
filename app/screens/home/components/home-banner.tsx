@@ -7,9 +7,6 @@ import FastImage from "react-native-fast-image"
 import Carousel from 'react-native-snap-carousel';
 import { ScaledSheet } from "react-native-size-matters"
 import { useStores } from "../../../models"
-import { navigate } from "../../../navigators"
-import { ScreenNames } from "../../../navigators/screen-names"
-
 
 interface Props{}
 
