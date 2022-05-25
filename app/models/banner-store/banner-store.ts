@@ -38,7 +38,7 @@ export const BannerStoreModel = types
         return result
       }
       if (data) {
-        self.publicBanners = data
+        self.publicNews = data
         return {
           kind: "ok",
           data,

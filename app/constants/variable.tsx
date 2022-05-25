@@ -20,3 +20,7 @@ export const hidePhoneNumber = (phone: string) => {
 export const capitalizeFirstString = (str: string | TxKeyPath | undefined) => {
   return str ? str.charAt(0).toUpperCase() + str.slice(1).toLowerCase().replace(/_/g, ' ') : '';
 };
+
+export function randomId() {
+  return `mantine-${Math.random().toString(36).slice(2, 11)}`;
+}

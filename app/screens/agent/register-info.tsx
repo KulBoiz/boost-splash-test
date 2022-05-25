@@ -33,7 +33,7 @@ const RegisterInfo = React.memo((props: Props) => {
     phone: Yup.string().required(i18n.t('errors.requirePhone'))
 
   })
-  const {control, handleSubmit, formState: {errors}} = useForm({
+  const {control, handleSubmit, formState: {errors}, setValue} = useForm({
     delayError: 0,
     defaultValues: undefined,
     mode: "all",
@@ -46,7 +46,7 @@ const RegisterInfo = React.memo((props: Props) => {
       <AppHeader headerText={'Đăng ký thông tin'} isBlue/>
       <RenderStepAgent currentPosition={0} />
       <View style={CONTAINER_PADDING}>
-        <AgentForm {...{control, errors}} />
+        <AgentForm {...{control, errors, setValue}} />
       </View>
       <View style={styles.wrapBtn}>
         <AppButton tx={'common.continue'} onPress={()=> navigate(ScreenNames.PHOTO_TUTORIAL)}/>

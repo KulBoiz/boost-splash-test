@@ -9,20 +9,24 @@ import { color } from "../../../theme"
 import { fontFamily } from "../../../constants/font-family"
 import { REQUEST_PROFILE } from "../../loan/constants"
 import { ALIGN_CENTER, FONT_REGULAR_14, ROW } from "../../../styles/common-style"
-interface Props {}
+import UploadImage from "../../../components/loan-upload/upload-image"
+interface Props {
+  data : any[]
+}
 
-const CollapsibleInfoUpload = React.memo((props: Props) => {
+const CollapsibleInfoUpload = React.memo(({ data }: Props) => {
   const [activeSections, setActiveSections] = useState<number[]>([]);
+  const [mediaIds, setMediaIds] = useState<string[]>([])
   const _handleSections = (index: number[]) => {
     setActiveSections(index);
   };
-  const renderHeader = (index: number) => {
+  const renderHeader = (item, index: number) => {
     const isOpen = activeSections?.includes(index)
     return (
       <View
         style={styles.headerBody}>
           <AppText
-            value={'CMND / CCCD / Hộ chiếu'}
+            value={item?.name}
             style={styles.headerText}
           />
         <View style={[ROW, ALIGN_CENTER]}>
@@ -41,7 +45,7 @@ const CollapsibleInfoUpload = React.memo((props: Props) => {
   const renderContent = () => {
     return (
       <View style={styles.contentContainer}>
-        
+          <UploadImage setMediaIds={setMediaIds} mediaIds={mediaIds} />
       </View>
     );
   };
@@ -51,7 +55,7 @@ const CollapsibleInfoUpload = React.memo((props: Props) => {
         containerStyle={[styles.collapsibleContainer,  {borderWidth: activeSections.length > 0 ? 1: 0}]}
         sections={[0]}
         activeSections={activeSections}
-        renderHeader={(content, index) => renderHeader(index)}
+        renderHeader={(content, index) => renderHeader(content,index)}
         renderContent={renderContent}
         onChange={(indexes) => _handleSections(indexes)}
         keyExtractor={(v, i) => i.toString()}

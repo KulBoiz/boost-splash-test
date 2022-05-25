@@ -26,13 +26,14 @@ const CheckInfo = React.memo((props: Props) => {
     contactAddress: Yup.string().required(i18n.t('errors.requireAddress')),
 
   })
-  const {control, handleSubmit, formState: {errors}} = useForm({
+  const {control, handleSubmit, formState: {errors}, setValue, getValues} = useForm({
     delayError: 0,
     defaultValues: undefined,
     mode: "all",
     resolver: yupResolver(validationSchema),
     reValidateMode: "onChange" || "onTouched",
   })
+  console.log(getValues())
   return (
     <View style={styles.container}>
       <AppHeader headerText={'Kiểm tra thông tin CMND / CCCD / HC'} isBlue/>
@@ -42,7 +43,7 @@ const CheckInfo = React.memo((props: Props) => {
           <FastImage source={{uri: ''}} style={styles.image}/>
           <FastImage source={{uri: ''}} style={styles.image}/>
         </View>
-        <IdForm control={control} errors={errors} />
+        <IdForm control={control} errors={errors} setValue={setValue} />
         <AgentCheckbox checkboxState={checkboxState} setCheckboxState={setCheckboxState} />
       </View>
       <View style={styles.wrapBtn}>

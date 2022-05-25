@@ -6,6 +6,7 @@ import { AppText } from "../../../components/app-text/AppText";
 import { truncateString } from '../../../constants/variable';
 import { color } from "../../../theme";
 import ItemView from '../../loan/components/item-view';
+import CollapsibleInfoUpload from "./collapsible-info-upload"
 
 interface Props {
   loanDetail?: any,
@@ -20,7 +21,6 @@ const Document = React.memo((props: Props) => {
   useEffect(() => {
     if (templates.length > 4) setViewAllFile(false)
   }, [])
-  console.log('templates', templates)
   const renderTemplate = () => {
     const list = [...templates] || []
     if (viewAllFile) {
@@ -64,9 +64,10 @@ const Document = React.memo((props: Props) => {
         templates?.length > 0 && <View style={styles.content}>
           <AppText style={styles.title} value={"Giấy tờ của khách"} />
           <View style={styles.contentItem}>
-            {renderTemplate().map((el: any, index: number) =>
-              <ItemView key={index.toString()} style={styles.item} title={el?.name} content={checkFileUpload(el)} />
-            )}
+            <CollapsibleInfoUpload data={renderTemplate()}/>
+            {/*{renderTemplate().map((el: any, index: number) =>*/}
+            {/*  <ItemView key={index.toString()} style={styles.item} title={el?.name} content={checkFileUpload(el)} />*/}
+            {/*)}*/}
             {
               templates?.length > 4 && <View style={styles.viewMore}>
                 <AppText style={styles.viewMoreText} value={!viewAllFile ? 'Xem thêm' : "Ẩn"} onPress={() => { setViewAllFile(!viewAllFile) }} />

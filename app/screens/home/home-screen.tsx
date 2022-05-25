@@ -15,7 +15,6 @@ import HomeBanner from "./components/home-banner"
 import Insurance from "./insurance"
 import { color } from "../../theme"
 import { useStores } from "../../models"
-import FullScreenModal from "../../components/app-modal/full-screen-modal"
 
 
 

@@ -19,14 +19,14 @@ const HomeBanner = observer((props: Props) => {
   const [activeDot, setActiveDot] = useState(0)
 
   useEffect(()=> {
-    bannerStore.getPublicBanners()
+    bannerStore.getPublicNews()
   },[])
 
-  const banners = bannerStore.publicBanners ?? []
+  const news = bannerStore.publicNews ?? []
   const _renderItem = useCallback(({item}) => {
     return (
       <Pressable style={{alignItems: 'center'}} onPress={()=> navigate(ScreenNames.BANNER_DETAIL, {url : item?.link})}>
-        <FastImage source={{uri : item?.mobileImage?.url}} style={styles.image}/>
+        <FastImage source={{uri : item?.image}} style={styles.image} resizeMode={'stretch'}/>
       </Pressable>
     );
   },[])
@@ -36,7 +36,7 @@ const HomeBanner = observer((props: Props) => {
       <Carousel
         ref={ref.current}
         key={(e, i)=> e?.id + i.toString()}
-        data={banners}
+        data={news}
         renderItem={_renderItem}
         sliderWidth={width}
         itemWidth={width}
@@ -44,7 +44,7 @@ const HomeBanner = observer((props: Props) => {
         autoplay
         onSnapToItem={(index) => setActiveDot( index ) }
       />
-      <PaginationDot length={banners?.length} activeDot={activeDot} dotShape={'oval'} />
+      <PaginationDot length={news?.length} activeDot={activeDot} dotShape={'oval'} />
     </View>
   )
 });
