@@ -36,7 +36,12 @@ const BuyInsurance = observer((props: Props) => {
     contactAddress: Yup.string().required(i18n.t('errors.requireAddress')),
     phone: Yup.string().required(i18n.t('errors.requirePhone'))
   })
-  const { control, handleSubmit, getValues, formState: { errors } } = useForm({
+  const {
+    control,
+    handleSubmit,
+    getValues,
+    formState: { errors }
+  } = useForm({
     delayError: 0,
     defaultValues: undefined,
     mode: "all",
@@ -58,7 +63,13 @@ const BuyInsurance = observer((props: Props) => {
     contactAddress: Yup.string().required(i18n.t('errors.requireAddress')),
     phone: Yup.string().required(i18n.t('errors.requirePhone'))
   })
-  const { control: controlCustomer, handleSubmit: handleSubmitCustomer, getValues: getValuesCustomer, formState: { errors: errorsCustomer } } = useForm({
+
+  const {
+    control: controlCustomer,
+    handleSubmit: handleSubmitCustomer,
+    getValues: getValuesCustomer,
+    formState: { errors: errorsCustomer }
+  } = useForm({
     delayError: 0,
     defaultValues: undefined,
     mode: "all",
@@ -74,14 +85,7 @@ const BuyInsurance = observer((props: Props) => {
   const stepTwo = () => {
     // @ts-ignore 
     ref.current.scrollTo({ x: 0, animated: true })
-    // setCurrentPosition(1)
-
-    handleSubmitCustomer((data) => {
-      // todo
-
-      console.log(data);
-      
-    })
+    setCurrentPosition(1)
   }
 
   const stepThree = () => {
@@ -91,6 +95,15 @@ const BuyInsurance = observer((props: Props) => {
   const buyRecords = () => {
     navigation.dispatch(StackActions.push(ScreenNames.INSURANCE_SCREEN, { id: 1 }))
   }
+
+  const onSubmitFormCustomer = (data, e) => {
+    console.log(2,data, e)
+  };
+
+  const onSubmitFormUserBuy = (data, e) => {
+    console.log(1, data, e)
+    handleSubmitCustomer(onSubmitFormCustomer)
+  };
 
   if (productDetail && productDetail?.source) {
     return (<WebView
@@ -105,8 +118,9 @@ const BuyInsurance = observer((props: Props) => {
         controlCustomer,
         errors,
         errorsCustomer,
+        onPress: handleSubmit(onSubmitFormUserBuy),
         // onPress: handleSubmit(stepTwo),
-        onPress: handleSubmitCustomer(stepTwo),
+        // onPress: handleSubmit(stepTwo),
         insuranceType,
         setInsuranceType,
         productDetail,

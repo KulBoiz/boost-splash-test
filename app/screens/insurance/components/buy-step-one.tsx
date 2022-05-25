@@ -33,8 +33,8 @@ const BuyStepOne = React.memo((props: Props) => {
       {/* <Benefit /> */}
       <InsurancePicker {...{ insuranceType, setInsuranceType }} productDetail={productDetail} />
       <SurveyQuestion productDetail={productDetail} questionGroups={questionGroups} />
-      <InputCustomer  {...{ control, errors }} />
-      <InputCustomer  {...{ control: controlCustomer, errors: errorsCustomer }} />
+      <InputCustomer  {...{ control, errors }}/>
+      <InputCustomer  {...{ control: controlCustomer, errors: errorsCustomer }} type="customer"/>
       <HomeInsurance productDetail={productDetail} />
       <CalculateMoney {...{ onPress }} insurance={insurance} />
     </View>
