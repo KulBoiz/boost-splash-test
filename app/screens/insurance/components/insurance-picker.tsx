@@ -63,7 +63,7 @@ export default InsurancePicker;
 
 const styles = ScaledSheet.create({
   container: {
-    marginTop: '24@s',
+    // marginTop: '24@s',
     paddingHorizontal: '16@ms',
     paddingVertical: '24@ms',
     backgroundColor: color.background

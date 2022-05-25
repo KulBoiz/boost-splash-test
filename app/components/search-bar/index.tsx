@@ -5,16 +5,18 @@ import { color } from "../../theme"
 import { ScaledSheet } from "react-native-size-matters"
 
 interface Props{
-  onPress(): void
+  onPress?(): void
+  onChangeText(e: string): void
+  placeholder?: string
 }
 
-const SearchBar = React.memo(({ onPress }: Props) => {
+const SearchBar = React.memo(({ onChangeText, onPress, placeholder = 'Bạn đang tìm gì' }: Props) => {
   return (
     <View style={styles.container}>
       <TouchableOpacity>
         <SearchNormalSvg />
       </TouchableOpacity>
-      <TextInput style={styles.input} placeholder={'Bạn đang tìm gì?'}/>
+      <TextInput onChangeText={onChangeText} style={styles.input} placeholder={placeholder}/>
     </View>
   )
 });

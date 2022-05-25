@@ -14,6 +14,8 @@ import { FieldValues } from "react-hook-form/dist/types/fields"
 interface Props {
   control: Control,
   errors: FieldErrors<FieldValues>
+  controlCustomer: Control,
+  errorsCustomer: FieldErrors<FieldValues>
   onPress(): void
   insuranceType: number
   setInsuranceType(e: number): void
@@ -22,7 +24,7 @@ interface Props {
 }
 
 const BuyStepOne = React.memo((props: Props) => {
-  const { control, errors, onPress, insuranceType, setInsuranceType, productDetail, questionGroups } = props
+  const { control, controlCustomer, errors, errorsCustomer, onPress, insuranceType, setInsuranceType, productDetail, questionGroups } = props
 
   const insurance = productDetail?.packages?.[insuranceType]
 
@@ -31,9 +33,10 @@ const BuyStepOne = React.memo((props: Props) => {
       {/* <Benefit /> */}
       <InsurancePicker {...{ insuranceType, setInsuranceType }} productDetail={productDetail} />
       <SurveyQuestion productDetail={productDetail} questionGroups={questionGroups} />
-      <InputCustomer  {...{ control, errors }} />
+      <InputCustomer  {...{ control, errors }}/>
+      <InputCustomer  {...{ control: controlCustomer, errors: errorsCustomer }} type="customer"/>
       <HomeInsurance productDetail={productDetail} />
-      <CalculateMoney {...{ onPress }} insurance={insurance}/>
+      <CalculateMoney {...{ onPress }} insurance={insurance} />
     </View>
   )
 });

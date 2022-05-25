@@ -15,12 +15,13 @@ import { AppText } from "../../../components/app-text/AppText";
 interface Props {
   stepThree(): void
   getValues: any
+  getValuesCustomer: any
   insuranceType: number
   productDetail: any
   questionGroups: any
 }
 
-const BuyStepTwo = React.memo(({ stepThree, getValues, insuranceType, productDetail }: Props) => {
+const BuyStepTwo = React.memo(({ stepThree, getValues, getValuesCustomer, insuranceType, productDetail }: Props) => {
   // @ts-ignore
   const { paymentStore } = useStores()
   const [modal, setModal] = useState(false)
@@ -48,7 +49,7 @@ const BuyStepTwo = React.memo(({ stepThree, getValues, insuranceType, productDet
     <View style={styles.container}>
       {/* <Benefit /> */}
       <InsuranceInfo insurance={insurance} productDetail={productDetail} />
-      <CollapsibleInfoCustomer infoCustomer={getValues} />
+      <CollapsibleInfoCustomer infoCustomer={getValuesCustomer} infoBuyInsurance={getValues}/>
       <PaymentMethod />
 
       <CalculateMoney
@@ -57,7 +58,7 @@ const BuyStepTwo = React.memo(({ stepThree, getValues, insuranceType, productDet
           openPayment()
         }}
       />
-      
+
       <FullScreenModal
         visible={modal}
         closeModal={() => { setModal(false) }}
