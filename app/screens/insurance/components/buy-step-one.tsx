@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { View } from 'react-native';
 import { ScaledSheet } from "react-native-size-matters"
 import Benefit from "./benefit"
@@ -14,29 +14,46 @@ import { FieldValues } from "react-hook-form/dist/types/fields"
 interface Props {
   control: Control,
   errors: FieldErrors<FieldValues>
-  controlCustomer: Control,
-  errorsCustomer: FieldErrors<FieldValues>
   onPress(): void
   insuranceType: number
   setInsuranceType(e: number): void
   productDetail: any
   questionGroups: any
+  setValue: any
+  // checkboxState?: boolean,
+  // setCheckboxState?: any
 }
 
 const BuyStepOne = React.memo((props: Props) => {
-  const { control, controlCustomer, errors, errorsCustomer, onPress, insuranceType, setInsuranceType, productDetail, questionGroups } = props
+  const {
+    control,
+    errors,
+    onPress,
+    insuranceType,
+    setInsuranceType,
+    productDetail,
+    questionGroups,
+    setValue,
+  } = props
 
   const insurance = productDetail?.packages?.[insuranceType]
+  const [enable, setEnable] = useState();
 
   return (
     <View style={styles.container}>
       {/* <Benefit /> */}
       <InsurancePicker {...{ insuranceType, setInsuranceType }} productDetail={productDetail} />
-      <SurveyQuestion productDetail={productDetail} questionGroups={questionGroups} />
-      <InputCustomer  {...{ control, errors }}/>
-      <InputCustomer  {...{ control: controlCustomer, errors: errorsCustomer }} type="customer"/>
+      <SurveyQuestion productDetail={productDetail} questionGroups={questionGroups} checkEnabledForm={(value) => setEnable(value)} />
+      {
+        !enable && <>
+          <InputCustomer
+            {...{ control, errors, setValue }}
+          />
+        </>
+      }
+
       <HomeInsurance productDetail={productDetail} />
-      <CalculateMoney {...{ onPress }} insurance={insurance} />
+      <CalculateMoney {...{ onPress }} insurance={insurance} enable={enable}/>
     </View>
   )
 });

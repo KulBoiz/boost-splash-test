@@ -1,4 +1,4 @@
-import React, { useState } from "react"
+import React, { useEffect, useState } from "react"
 import { TextInput, TouchableOpacity, View } from "react-native"
 import { AppText } from "../../../components/app-text/AppText"
 import { s, ScaledSheet } from "react-native-size-matters"
@@ -18,13 +18,11 @@ const QUESTION_TYPES = {
 interface Props {
   productDetail: any,
   questionGroups: any,
+  checkEnabledForm: (value) => void,
 }
 
 const SurveyQuestion = React.memo((props: Props) => {
-  const { questionGroups } = props
-  // const [injured, setInjured] = useState<string>('')
-  // const [fatalDisease, setFatalDisease] = useState<string>('')
-  // const isValid = injured === 'no' && fatalDisease === 'no'
+  const { questionGroups, checkEnabledForm } = props
   const [keysQuestion, setKeyQuestion] = useState<string[]>([])
 
   const PreviewQuestionType = (type, question) => {
@@ -32,9 +30,9 @@ const SurveyQuestion = React.memo((props: Props) => {
       // case QUESTION_TYPES.IMAGE_SELECTION:
       // 	return PreviewImageSelectionQuestion;
       case QUESTION_TYPES.TEXT_SELECTION:
-        return <RenderCheckbox question={question}/>;
+        return <RenderCheckbox question={question} />;
       case QUESTION_TYPES.OPEN_ENDED:
-        return <RenderInput question={question}/>;
+        return <RenderInput question={question} />;
       // case QUESTION_TYPES.REORDER:
       // 	return PreviewReorderQuestion;
       // case QUESTION_TYPES.OPEN_ENDED_NUMBER:
@@ -46,8 +44,7 @@ const SurveyQuestion = React.memo((props: Props) => {
     }
   };
 
-  const RenderCheckbox = React.memo(({ text, state, question }: { text?: string, state?: string , question: any}) => {
-    // const check = (text === 'Có' && state === 'yes') || (text === 'Không' && state === 'no')
+  const RenderCheckbox = React.memo(({ question }: { question: any }) => {
     const findKey = keysQuestion.find(el => el === question._iid)
 
     return (
@@ -57,9 +54,6 @@ const SurveyQuestion = React.memo((props: Props) => {
         <View style={[ROW, ALIGN_CENTER]}>
           <TouchableOpacity
             onPress={() => {
-
-              console.log('question', question,keysQuestion );
-              
               const keys = [...keysQuestion]
               const findKey = keys.find(el => el === question._iid)
               if (findKey) {
@@ -90,24 +84,28 @@ const SurveyQuestion = React.memo((props: Props) => {
       </TouchableOpacity>
     )
   })
-  
+
   const RenderInput = React.memo(({ text, question }: { text?: string, question: any }) => {
     return (
-        <TextInput
-          multiline={true}
-          value={text}
-          placeholder={"1231"}
-          style={{
-            height: s(50),
-            marginTop: s(16),
-            borderWidth: 0.5,
-            width: '100%',
-            borderRadius: s(6),
-            padding: s(8),
-          }}
-        />
+      <TextInput
+        multiline={true}
+        value={text}
+        placeholder={"1231"}
+        style={{
+          height: s(50),
+          marginTop: s(16),
+          borderWidth: 0.5,
+          width: '100%',
+          borderRadius: s(6),
+          padding: s(8),
+        }}
+      />
     )
   })
+
+  useEffect(() => {
+    checkEnabledForm(keysQuestion?.length > 0) 
+  }, [keysQuestion])
 
   return (
     <View style={styles.container}>
@@ -126,7 +124,7 @@ const SurveyQuestion = React.memo((props: Props) => {
       }
 
       {keysQuestion.length > 0 && <View style={styles.noti}>
-      <AppText value={'Không đủ điều kiện mua bảo hiểm'} style={styles.noti} /></View>}
+        <AppText value={'Không đủ điều kiện mua bảo hiểm'} style={styles.noti} /></View>}
     </View>
   )
 });

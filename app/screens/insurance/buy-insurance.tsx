@@ -2,7 +2,7 @@ import { yupResolver } from "@hookform/resolvers/yup/dist/yup"
 import { StackActions, useNavigation } from "@react-navigation/native"
 import i18n from "i18n-js"
 import { observer } from "mobx-react-lite"
-import React, { useRef, useState } from "react"
+import React, { useEffect, useRef, useState } from "react"
 import { useForm } from "react-hook-form"
 import { ScrollView } from "react-native"
 import { ScaledSheet } from "react-native-size-matters"
@@ -34,13 +34,27 @@ const BuyInsurance = observer((props: Props) => {
     dateRange: Yup.string().required(i18n.t('errors.requireDateRange')),
     issuedBy: Yup.string().required(i18n.t('errors.requireIssuedBy')),
     contactAddress: Yup.string().required(i18n.t('errors.requireAddress')),
-    phone: Yup.string().required(i18n.t('errors.requirePhone'))
+    phone: Yup.string().required(i18n.t('errors.requirePhone')),
+    //
+    emailCustomer: Yup.string()
+      .trim()
+      .required(i18n.t('errors.requireEmail'))
+      .email(i18n.t('errors.invalidEmail')),
+    fullNameCustomer: Yup.string().required(i18n.t('errors.requireFullName')),
+    dateOfBirthCustomer: Yup.string().required(i18n.t('errors.requireDateOfBirth')),
+    sexCustomer: Yup.string().required(i18n.t('errors.requireSex')),
+    citizenIdentificationCustomer: Yup.string().required(i18n.t('errors.requireCitizenIdentification')),
+    dateRangeCustomer: Yup.string().required(i18n.t('errors.requireDateRange')),
+    issuedByCustomer: Yup.string().required(i18n.t('errors.requireIssuedBy')),
+    contactAddressCustomer: Yup.string().required(i18n.t('errors.requireAddress')),
+    phoneCustomer: Yup.string().required(i18n.t('errors.requirePhone'))
   })
   const {
     control,
     handleSubmit,
     getValues,
-    formState: { errors }
+    formState: { errors },
+    setValue
   } = useForm({
     delayError: 0,
     defaultValues: undefined,
@@ -49,38 +63,11 @@ const BuyInsurance = observer((props: Props) => {
     reValidateMode: "onChange" || "onTouched",
   })
 
-  const validationSchemaCustomer = Yup.object().shape({
-    email: Yup.string()
-      .trim()
-      .required(i18n.t('errors.requireEmail'))
-      .email(i18n.t('errors.invalidEmail')),
-    fullName: Yup.string().required(i18n.t('errors.requireFullName')),
-    dateOfBirth: Yup.string().required(i18n.t('errors.requireDateOfBirth')),
-    sex: Yup.string().required(i18n.t('errors.requireSex')),
-    citizenIdentification: Yup.string().required(i18n.t('errors.requireCitizenIdentification')),
-    dateRange: Yup.string().required(i18n.t('errors.requireDateRange')),
-    issuedBy: Yup.string().required(i18n.t('errors.requireIssuedBy')),
-    contactAddress: Yup.string().required(i18n.t('errors.requireAddress')),
-    phone: Yup.string().required(i18n.t('errors.requirePhone'))
-  })
-
-  const {
-    control: controlCustomer,
-    handleSubmit: handleSubmitCustomer,
-    getValues: getValuesCustomer,
-    formState: { errors: errorsCustomer }
-  } = useForm({
-    delayError: 0,
-    defaultValues: undefined,
-    mode: "all",
-    resolver: yupResolver(validationSchemaCustomer),
-    reValidateMode: "onChange" || "onTouched",
-  })
-
   const ref = useRef(null)
   const navigation = useNavigation()
   const [currentPosition, setCurrentPosition] = useState(0)
-  const [insuranceType, setInsuranceType] = useState<number>(0)
+  const [insuranceType, setInsuranceType] = useState(0)
+  // const [checkboxState, setCheckboxState] = useState<boolean>(true)
 
   const stepTwo = () => {
     // @ts-ignore 
@@ -96,15 +83,6 @@ const BuyInsurance = observer((props: Props) => {
     navigation.dispatch(StackActions.push(ScreenNames.INSURANCE_SCREEN, { id: 1 }))
   }
 
-  const onSubmitFormCustomer = (data, e) => {
-    console.log(2,data, e)
-  };
-
-  const onSubmitFormUserBuy = (data, e) => {
-    console.log(1, data, e)
-    handleSubmitCustomer(onSubmitFormCustomer)
-  };
-
   if (productDetail && productDetail?.source) {
     return (<WebView
       source={{ uri: productDetail?.info?.productUrlOriginal }}
@@ -115,16 +93,13 @@ const BuyInsurance = observer((props: Props) => {
     switch (currentPosition) {
       case 0: return <BuyStepOne  {...{
         control,
-        controlCustomer,
         errors,
-        errorsCustomer,
-        onPress: handleSubmit(onSubmitFormUserBuy),
-        // onPress: handleSubmit(stepTwo),
-        // onPress: handleSubmit(stepTwo),
+        onPress: handleSubmit(stepTwo),
         insuranceType,
         setInsuranceType,
         productDetail,
-        questionGroups
+        questionGroups,
+        setValue,
       }} />
       case 1: return <BuyStepTwo {...{
         stepThree,
@@ -133,7 +108,7 @@ const BuyInsurance = observer((props: Props) => {
         insuranceType
       }}
         getValues={getValues()}
-        getValuesCustomer={getValuesCustomer()} />
+      />
       case 2: return <BuyStepThree {...{ onPress: buyRecords }} />
     }
   }
