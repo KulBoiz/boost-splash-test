@@ -11,6 +11,7 @@ import { FieldValues } from "react-hook-form/dist/types/fields"
 import moment from "moment"
 import { FieldPath } from "react-hook-form/dist/types"
 import { FONT_MEDIUM_14 } from "../../styles/common-style"
+import ModalDatePicker from "./modal-pick-date"
 
 
 interface Props {
@@ -40,32 +41,20 @@ const DatePicker = React.memo((props: Props) => {
 
 
   return (
-    <>
-      <View style={styles.container}>
-        <Pressable style={[styles.wrapper, {
-          borderColor: errorMessage ? color.palette.angry : color.palette.blue
-        }]} onPress={showMode}>
-          <View>
-            <AppText value={label} style={styles.label} color={color.palette.black} />
-            <AppText
-              value={value ? moment(value).format('DD/MM/YYYY') : placeholder}
-              style={FONT_MEDIUM_14} color={value ? color.palette.black : color.palette.deepGray}
-            />
-          </View>
-          <CalenderSvg />
-        </Pressable>
-        {!!errorMessage && <AppText value={errorMessage} style={styles.errorMessage} />}
-      </View>
-      {show && (
-        <DateTimePicker
-          testID="dateTimePicker"
-          value={date}
-          mode={'date'}
-          display={'inline'}
-          onChange={onChange}
-        />
-      )}
-    </>
+    <View style={styles.container}>
+      <Pressable style={styles.wrapper} onPress={showMode}>
+        <View>
+          <AppText value={label} style={styles.label} color={color.palette.black}/>
+          <AppText
+            value={value ? moment(value).format('DD/MM/YYYY') : placeholder}
+             style={FONT_MEDIUM_14} color={value ? color.palette.black : color.palette.deepGray}
+          />
+        </View>
+        <CalenderSvg />
+      </Pressable>
+      {!!errorMessage && <AppText value={errorMessage} style={styles.errorMessage}/> }
+        <ModalDatePicker visible={show} onChange={onChange} date={date} closeModal={()=> setShow(false)}/>
+    </View>
   )
 });
 
