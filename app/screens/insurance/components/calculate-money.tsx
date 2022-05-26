@@ -7,9 +7,10 @@ import AppButton from "../../../components/app-button/AppButton"
 import { MARGIN_BOTTOM_16 } from "../../../styles/common-style"
 import { fontFamily } from "../../../constants/font-family"
 import { numberWithCommas } from "../../../constants/variable"
+import ShareComponent from "../../../components/share"
 // import { AppText } from "../../../components/app-text/AppText"
 
-interface Props{
+interface Props {
   onPress(): void
   insurance: any
   enable?: any
@@ -54,9 +55,17 @@ const CalculateMoney = React.memo(({ onPress, insurance, enable = false }: Props
   // }
   return (
     <View style={styles.container}>
-      <ItemView title={'Tổng tiền:'} content={`${numberWithCommas(insurance?.price)}đ`} style={MARGIN_BOTTOM_16} contentStyle={styles.price}/>
+      <ItemView title={'Tổng tiền:'} content={`${numberWithCommas(insurance?.price)}đ`} style={MARGIN_BOTTOM_16} contentStyle={styles.price} />
       {/* <ItemView title={'Số lượng:'} content={renderInput()} style={MARGIN_BOTTOM_16}/> */}
-      <AppButton title={'Mua bảo hiểm'} onPress={onPress} disable={enable}/>
+      <View style={{ flexDirection: 'row', justifyContent: 'space-between'}}>
+        <View style={{ width: '48%' }}>
+          <ShareComponent url={`${insurance?.name}-${insurance?.price}`} />
+        </View>
+
+        <View style={{ width: '48%' }}>
+          <AppButton title={'Mua bảo hiểm'} onPress={onPress} disable={enable} />
+        </View>
+      </View>
     </View>
   )
 });
@@ -64,23 +73,23 @@ const CalculateMoney = React.memo(({ onPress, insurance, enable = false }: Props
 export default CalculateMoney;
 
 const styles = ScaledSheet.create({
-    container: {
-      borderTopLeftRadius: '8@s',
-      borderTopRightRadius: '8@s',
-      marginTop: '24@s',
-      backgroundColor: color.background,
-      paddingHorizontal: '16@ms',
-      paddingVertical: '24@s',
-      shadowColor: "#000",
-      shadowOffset: {
-        width: 0,
-        height: 1,
-      },
-      shadowOpacity: 0.3,
-      shadowRadius: 5,
-
-      elevation: 5,
+  container: {
+    borderTopLeftRadius: '8@s',
+    borderTopRightRadius: '8@s',
+    marginTop: '24@s',
+    backgroundColor: color.background,
+    paddingHorizontal: '16@ms',
+    paddingVertical: '24@s',
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: 1,
     },
+    shadowOpacity: 0.3,
+    shadowRadius: 5,
+
+    elevation: 5,
+  },
   price: {
     fontSize: '24@ms',
     color: color.palette.blue,
@@ -100,7 +109,7 @@ const styles = ScaledSheet.create({
     minWidth: '25%',
     borderWidth: 1,
     height: '24@s',
-    borderColor:color.palette.blue,
+    borderColor: color.palette.blue,
   },
   box: {
     width: '24@s',

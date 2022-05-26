@@ -86,7 +86,8 @@ const styles = ScaledSheet.create({
   collapsibleContainer:{
     backgroundColor: color.background,
     borderRadius: '8@s',
-    borderColor: color.palette.blue
+    borderColor: color.palette.blue,
+    marginBottom: '8@s'
   },
   headerText:{
     fontSize: '14@ms',
