@@ -482,6 +482,8 @@ PODS:
   - RNScreens (3.8.0):
     - React-Core
     - React-RCTImage
+  - RNShare (7.4.1):
+    - React-Core
   - RNSVG (12.3.0):
     - React-Core
   - SDWebImage (5.11.1):
@@ -586,6 +588,7 @@ DEPENDENCIES:
   - "RNNotifee (from `../node_modules/@notifee/react-native`)"
   - RNPermissions (from `../node_modules/react-native-permissions`)
   - RNScreens (from `../node_modules/react-native-screens`)
+  - RNShare (from `../node_modules/react-native-share`)
   - RNSVG (from `../node_modules/react-native-svg`)
   - UMTaskManagerInterface (from `../node_modules/unimodules-task-manager-interface/ios`)
   - VisionCamera (from `../node_modules/react-native-vision-camera`)
@@ -742,6 +745,8 @@ EXTERNAL SOURCES:
     :path: "../node_modules/react-native-permissions"
   RNScreens:
     :path: "../node_modules/react-native-screens"
+  RNShare:
+    :path: "../node_modules/react-native-share"
   RNSVG:
     :path: "../node_modules/react-native-svg"
   UMTaskManagerInterface:
@@ -835,6 +840,7 @@ SPEC CHECKSUMS:
   RNNotifee: d90cdc08df61ace410b4f98aeff97a5ac12e2ce6
   RNPermissions: 34d678157c800b25b22a488e4d8babb57456e796
   RNScreens: 6e1ea5787989f92b0671049b808aef64fa1ef98c
+  RNShare: 2074af48908436c310847c6c47ebb6129db1dc89
   RNSVG: 302bfc9905bd8122f08966dc2ce2d07b7b52b9f8
   SDWebImage: a7f831e1a65eb5e285e3fb046a23fcfbf08e696d
   SDWebImageWebPCoder: f93010f3f6c031e2f8fb3081ca4ee6966c539815

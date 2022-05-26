@@ -8,7 +8,7 @@ import { FontAwesome as Icon } from '@expo/vector-icons';
 import { TabBarAdvancedButton } from "../components/bottom-tab-bar/TabBarAdvancedButton"
 import { View } from "react-native"
 import { isIphoneX } from 'react-native-iphone-x-helper';
-import {s, ScaledSheet} from 'react-native-size-matters'
+import { vs, ScaledSheet } from 'react-native-size-matters'
 import SettingScreen from "../screens/settting/setting-screen"
 import { HomeActiveSVG, HomeInactiveSVG, SettingActiveSVG, SettingInactiveSVG } from "../assets/svgs"
 import i18n from "i18n-js"
@@ -36,7 +36,7 @@ export const AppStack = () => {
       initialRouteName={ScreenNames.HOME}
       screenOptions={{ headerShown: false ,tabBarStyle: styles.navigator, tabBarItemStyle: styles.itemStyle}}
       tabBar={(props) => (
-        <View style={[styles.navigatorContainer, !isIphoneX() && {height: s(50)}]}>
+        <View style={[styles.navigatorContainer, !isIphoneX() && {height: vs(50)}]}>
           <BottomTabBar
             {...props}
           />
@@ -146,7 +146,7 @@ const styles = ScaledSheet.create({
     backgroundColor: 'transparent',
     elevation: 30
   },
-  itemStyle: {backgroundColor: 'white', height: '55@ms', paddingBottom: '5@vs', paddingTop: '10@vs' },
+  itemStyle: {backgroundColor: 'white', height: '55@ms', paddingVertical: '7@vs' },
   xFillLine: {
     backgroundColor: color.background,
     position: 'absolute',
