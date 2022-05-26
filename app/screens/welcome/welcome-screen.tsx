@@ -48,7 +48,7 @@ export const WelcomeScreen: FC<StackScreenProps<AuthStackParamList, ScreenNames.
               <AppText value={'SKIP'} onPress={_goToFifth}/>
             </View>
             {_renderScreen()}
-            <PaginationDot length={SLIDER_DATA.length} activeDot={screen - 1} dotContainer={styles.dotContainer}/>
+            <PaginationDot length={SLIDER_DATA.length} activeDot={screen - 1} dotContainer={styles.dotContainer} dotShape={'oval'}/>
             <AppButton title={'Tiếp theo'} onPress={screen < 4 ? _nextScreen : _goToFifth} containerStyle={styles.button}/>
           </>
           : <FifthScreen />

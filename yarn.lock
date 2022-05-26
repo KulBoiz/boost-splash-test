@@ -12806,11 +12806,6 @@ react-native-tab-view@^3.1.1:
   resolved "https://registry.yarnpkg.com/react-native-tab-view/-/react-native-tab-view-3.1.1.tgz#1f8d7a835ab4f5b1b1407ec8dddc1053b53fa3c6"
   integrity sha512-M5pRN6utQfytKWoKlKVzg5NbkYu308qNoW1khGTtEOTs1k14p2dHJ/BWOJoJYHKbPVUyZldbG9MFT7gUl4YHnw==
 
-react-native-view-shot@^3.2.1:
-  version "3.2.1"
-  resolved "https://registry.yarnpkg.com/react-native-view-shot/-/react-native-view-shot-3.2.1.tgz#ad4a4b5ee9bd8de6dc4ce6099a8b8ef00c16bcfb"
-  integrity sha512-fdxYs/4pGceuGM6k1YTpCbxnCcUpYTJ942PH48m/l/ZeWs+6Cy8DXI0UqsoDMPdz+pPTHlPAlG1LdM9GBd4AdA==
-
 react-native-vision-camera@^2.13.3:
   version "2.13.3"
   resolved "https://registry.yarnpkg.com/react-native-vision-camera/-/react-native-vision-camera-2.13.3.tgz#cacd20b7f3fd777691496f007a47a34c02be93be"

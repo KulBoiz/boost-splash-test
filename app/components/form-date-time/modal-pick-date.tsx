@@ -29,6 +29,7 @@ const ModalDatePicker = React.memo((props: Props) => {
             mode={'date'}
             display={'inline'}
             onChange={onChange}
+            themeVariant="light"
           />
         </View>
 
@@ -45,7 +46,7 @@ const styles = ScaledSheet.create({
       margin: 0,
     },
   dateContainer: {
-      backgroundColor: color.background,
+    backgroundColor: color.background,
     paddingTop: '10@s',
     borderTopLeftRadius: '8@s',
     borderTopRightRadius: '8@s'

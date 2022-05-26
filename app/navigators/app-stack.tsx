@@ -146,13 +146,13 @@ const styles = ScaledSheet.create({
     backgroundColor: 'transparent',
     elevation: 30
   },
-  itemStyle: {backgroundColor: 'white', height: '55@ms', paddingVertical: '7@s' },
+  itemStyle: {backgroundColor: 'white', height: '55@ms', paddingBottom: '5@vs', paddingTop: '10@vs' },
   xFillLine: {
     backgroundColor: color.background,
     position: 'absolute',
     bottom: 0,
     left: 0,
     right: 0,
-    height: '20@s'
+    height: '20@vs'
   }
 });
