@@ -82,7 +82,7 @@ const IntroduceStepOne = observer(({ nextStep }: Props) => {
             placeholderTx: 'placeholder.fullName',
             autoCapitalize: 'none',
             control,
-            labelTx:'placeholder.fullName',
+            labelTx:'label.fullName',
             error: errors?.fullName?.message
           }}
         />

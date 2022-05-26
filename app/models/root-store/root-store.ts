@@ -9,6 +9,7 @@ import { InsuranceStoreModel } from "../insurance-store/insurance-store"
 import { MenuFilterStoreModel } from "../menu-filter-store/menu-filter-store"
 import { ProductStoreModel } from "../product-store/product-store"
 import { PaymentStoreModel } from "../payment-store/payment-store"
+import { BankStoreModel } from "../bank-store/bank-store"
 
 /**
  * A RootStore model.
@@ -25,6 +26,7 @@ export const RootStoreModel = types.model("RootStore").props({
   menuFilterStore: types.optional(MenuFilterStoreModel, {} as any),
   productStore: types.optional(ProductStoreModel, {} as any),
   paymentStore: types.optional(PaymentStoreModel, {} as any),
+  bankStore: types.optional(BankStoreModel, {} as any),
 })
 
 /**
