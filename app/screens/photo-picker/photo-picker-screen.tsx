@@ -162,7 +162,12 @@ export const PhotoPickerScreen: FC<
         onEndReached={loadMore}
       />
       <View style={styles.footer}>
-        <AppButton title={"Tải lên"} onPress={onUpload} />
+        <AppButton
+          title={"Tải lên"}
+          onPress={onUpload}
+          disabled={!photoSelected}
+          colorBtn={photoSelected ? color.primary : color.palette.BABABA}
+        />
       </View>
     </View>
   )

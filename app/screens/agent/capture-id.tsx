@@ -4,17 +4,16 @@ import { Camera, useCameraDevices } from "react-native-vision-camera"
 import AppHeader from "../../components/app-header/AppHeader"
 import { s, ScaledSheet } from "react-native-size-matters"
 import RenderStepAgent from "./components/render-step"
-import ImageTutorialItem from "./components/image-tutorial-item"
-import { images } from "../../assets/images"
 import { AppText } from "../../components/app-text/AppText"
 import AppButton from "../../components/app-button/AppButton"
 import ActionItem from "./components/action-item"
-import { PhotoSvg, ThunderSvg } from "../../assets/svgs"
+import { InfoSvg, PhotoSvg, ThunderSvg } from "../../assets/svgs"
 import { color } from "../../theme"
 import { width } from "../../constants/variable"
 import { manipulateAsync, SaveFormat } from "expo-image-manipulator"
 import { ScreenNames } from "../../navigators/screen-names"
 import { navigate } from "../../navigators"
+import PreviewPhotoId from "./components/preview-photo-id"
 interface Props {}
 
 const CaptureId = React.memo((props: Props) => {
@@ -48,7 +47,7 @@ const CaptureId = React.memo((props: Props) => {
   }, [])
 
   const setPhoto = useCallback(
-    async (photo) => {
+    (photo) => {
       if (imageType === "front") {
         setFrontImage(photo)
         setImageType("back")
@@ -92,14 +91,24 @@ const CaptureId = React.memo((props: Props) => {
 
   const navigateToPhotoPicker = useCallback(() => {
     const onConfirm = (photoSelected: any) => {
-      console.log(photoSelected)
-
       setPhoto(photoSelected)
     }
     navigate(ScreenNames.PHOTO_PICKER, {
       onConfirm,
     })
   }, [setPhoto])
+
+  const onReTake = useCallback((type) => {
+    if (type === "front") {
+      setFrontImage("")
+      setImageType("front")
+    } else {
+      setBackImage("")
+      setImageType("back")
+    }
+  }, [])
+
+  const onContinue = useCallback((type) => {}, [])
 
   return (
     <View style={styles.container}>
@@ -117,21 +126,21 @@ const CaptureId = React.memo((props: Props) => {
       ) : (
         <View style={styles.camera} />
       )}
-      <AppHeader isBlue headerText={"Chụp ảnh CMND / CCCD / HC"} />
+      <AppHeader isBlue headerText={"Chụp ảnh CMND / CCCD / HC"} renderRightIcon={<InfoSvg />} />
       <RenderStepAgent currentPosition={1} style={styles.stepContainer} />
       <View style={styles.idContainer}>
-        <ImageTutorialItem
-          image={frontImage ? { uri: frontImage } : images.id_front}
-          imageStyle={styles.previewStyle as any}
-          type={"big"}
-          text={"Mặt trước"}
+        <PreviewPhotoId
+          type="front"
+          image={frontImage}
+          isSelect={imageType === "front"}
+          onReTake={onReTake}
         />
         <View style={styles.previewSpaceStyle} />
-        <ImageTutorialItem
-          image={backImage ? { uri: backImage } : images.id_back}
-          imageStyle={styles.previewStyle as any}
-          type={"big"}
-          text={"Mặt sau"}
+        <PreviewPhotoId
+          type="back"
+          image={backImage}
+          isSelect={imageType === "back"}
+          onReTake={onReTake}
         />
       </View>
       <View style={styles.wrapFrame}>
@@ -153,7 +162,10 @@ const CaptureId = React.memo((props: Props) => {
       </View>
 
       <View style={styles.btnContainer}>
-        <AppButton title={"Chụp"} onPress={takePhoto} />
+        <AppButton
+          title={frontImage && backImage ? "Tiếp tục" : "Chụp"}
+          onPress={frontImage && backImage ? onContinue : takePhoto}
+        />
       </View>
     </View>
   )
@@ -245,6 +257,7 @@ const styles = ScaledSheet.create({
   previewStyle: {
     width: "124@s",
     height: "81@s",
+    borderRadius: "8@s",
   },
   previewSpaceStyle: {
     width: "24@s",
@@ -265,5 +278,12 @@ const styles = ScaledSheet.create({
   btnContainer: {
     paddingVertical: "24@s",
     paddingHorizontal: "16@ms",
+  },
+  previewWrap: {
+    alignItems: "center",
+    justifyContent: "center",
+  },
+  previewText: {
+    marginTop: "4@vs",
   },
 })

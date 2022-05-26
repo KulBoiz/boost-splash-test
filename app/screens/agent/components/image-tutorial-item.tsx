@@ -19,7 +19,6 @@ const ImageTutorialItem = React.memo((props: Props) => {
       <FastImage
         source={image}
         style={[type === "big" ? styles.bigImage : styles.smallImage, props.imageStyle]}
-        fallback
       />
       <AppText value={text} style={type === "big" ? styles.bigText : styles.smallText} />
     </View>
