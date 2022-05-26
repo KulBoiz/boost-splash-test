@@ -108,7 +108,7 @@ const CaptureId = React.memo((props: Props) => {
     }
   }, [])
 
-  const onContinue = useCallback((type) => {}, [])
+  const onContinue = useCallback(() => {}, [])
 
   return (
     <View style={styles.container}>
@@ -164,7 +164,7 @@ const CaptureId = React.memo((props: Props) => {
       <View style={styles.btnContainer}>
         <AppButton
           title={frontImage && backImage ? "Tiếp tục" : "Chụp"}
-          onPress={frontImage && backImage ? onContinue : takePhoto}
+          onPress={() => (frontImage && backImage ? onContinue() : takePhoto())}
         />
       </View>
     </View>
@@ -268,7 +268,7 @@ const styles = ScaledSheet.create({
     paddingHorizontal: "16@ms",
   },
   wrapAction: {
-    backgroundColor: "#080706",
+    backgroundColor: "rgba(0,0,0,0.7)",
     marginHorizontal: "16@ms",
     borderRadius: "16@s",
     paddingVertical: "20@s",

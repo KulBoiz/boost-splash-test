@@ -22,30 +22,35 @@ export const MediaStoreModel = types
   .views((self) => ({})) // eslint-disable-line @typescript-eslint/no-unused-vars
   .actions((self) => ({
     getMediaPermission: flow(function* getMediaPermission() {
-      const KEY: any = Platform.select({
-        ios: PERMISSIONS.IOS.PHOTO_LIBRARY,
-        android: PERMISSIONS.ANDROID.READ_EXTERNAL_STORAGE,
-      })
-      const result = yield request(KEY)
-      self.permission = result
-      if (result === RESULTS.GRANTED || result === RESULTS.LIMITED) {
-        return true
+      if (Platform.OS === "android") {
+        const result = yield MediaLibrary.requestPermissionsAsync()
+        return result.granted
       } else {
-        const permission = yield check(KEY)
+        const KEY: any = Platform.select({
+          ios: PERMISSIONS.IOS.PHOTO_LIBRARY,
+          android: PERMISSIONS.ANDROID.ACCESS_MEDIA_LOCATION,
+        })
+        const result = yield request(KEY)
         self.permission = result
-        __DEV__ && console.log(permission)
-        if (permission === RESULTS.GRANTED || permission === RESULTS.LIMITED) {
+        if (result === RESULTS.GRANTED || result === RESULTS.LIMITED) {
           return true
         } else {
-          Alert.alert(
-            translate("common.pleaseAllowAccess"),
-            translate("common.photoPermissionsMessage"),
-            [
-              { text: translate("common.donTAllow") },
-              { text: translate("common.openSettings"), onPress: openSettings },
-            ],
-          )
-          return false
+          const permission = yield check(KEY)
+          self.permission = result
+          __DEV__ && console.log(permission)
+          if (permission === RESULTS.GRANTED || permission === RESULTS.LIMITED) {
+            return true
+          } else {
+            Alert.alert(
+              translate("common.pleaseAllowAccess"),
+              translate("common.photoPermissionsMessage"),
+              [
+                { text: translate("common.donTAllow") },
+                { text: translate("common.openSettings"), onPress: openSettings },
+              ],
+            )
+            return false
+          }
         }
       }
     }),
