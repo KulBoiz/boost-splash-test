@@ -9,6 +9,7 @@ import { color } from "../../../theme"
 import { fontFamily } from "../../../constants/font-family"
 import ItemView from "../../loan/components/item-view"
 import { MARGIN_TOP_16 } from "../../../styles/common-style"
+import moment from "moment"
 interface Props {
   infoCustomer: any
   infoBuyInsurance: any
@@ -41,7 +42,7 @@ const CollapsibleInfoCustomer = React.memo(({infoCustomer, infoBuyInsurance}: Pr
     return (
       <View style={styles.contentContainer}>
         <ItemView title={'Họ và tên:'} content={info?.fullName} style={MARGIN_TOP_16}/>
-        <ItemView title={'Ngày sinh:'} content={info?.dateOfBirth} style={MARGIN_TOP_16}/>
+        <ItemView title={'Ngày sinh:'} content={`${moment(info?.dateOfBirth).format('DD/MM/YYYY')}`} style={MARGIN_TOP_16}/>
         <ItemView title={'CMND/ CCCD:'} content={info?.citizenIdentification} style={MARGIN_TOP_16}/>
         <ItemView title={'Email'} content={info?.email} style={MARGIN_TOP_16}/>
       </View>
