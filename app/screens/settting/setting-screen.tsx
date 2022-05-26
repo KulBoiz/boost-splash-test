@@ -11,12 +11,12 @@ import { navigate } from "../../navigators"
 import { SETTING_LIST } from "./constants"
 import SettingItem from "./components/setting-item"
 
-interface Props{}
+interface Props {}
 
 const SettingScreen: FC<Props> = observer((props: Props) => {
   const navigation = useNavigation()
-  const {authStoreModel} = useStores()
-  const logout= async ()=> {
+  const { authStoreModel } = useStores()
+  const logout = async () => {
     await authStoreModel.logout()
     navigation.dispatch(StackActions.push(ScreenNames.AUTH))
   }
@@ -26,22 +26,26 @@ const SettingScreen: FC<Props> = observer((props: Props) => {
   }
   return (
     <View style={styles.container}>
-      <AppHeader headerTx={"header.personalSetting"}/>
+      <AppHeader headerTx={"header.personalSetting"} />
+      <AppButton
+        title={"Đăng kí cộng tác viên"}
+        containerStyle={[MARGIN_BOTTOM_16, MARGIN_TOP_16]}
+        onPress={registerAgent}
+      />
       <ScrollView>
-        {SETTING_LIST.map((value, index)=> (
+        {SETTING_LIST.map((value, index) => (
           <SettingItem key={index.toString()} icon={value.icon} title={value.title} />
         ))}
-        <AppButton title={'Đăng xuất'} onPress={logout}/>
+        <AppButton title={"Đăng xuất"} onPress={logout} />
 
-        <View style={{height: 100}}/>
+        <View style={{ height: 100 }} />
       </ScrollView>
-      {/*<AppButton title={'Đăng kí cộng tác viên'} containerStyle={[MARGIN_BOTTOM_16, MARGIN_TOP_16]} onPress={registerAgent}/>*/}
     </View>
   )
-});
+})
 
-export default SettingScreen;
+export default SettingScreen
 
 const styles = StyleSheet.create({
-    container: {flex:1},
-});
+  container: { flex: 1 },
+})

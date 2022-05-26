@@ -9,10 +9,12 @@ import { images } from "../../assets/images"
 import { AppText } from "../../components/app-text/AppText"
 import AppButton from "../../components/app-button/AppButton"
 import ActionItem from "./components/action-item"
-import { ThunderSvg } from "../../assets/svgs"
+import { PhotoSvg, ThunderSvg } from "../../assets/svgs"
 import { color } from "../../theme"
 import { width } from "../../constants/variable"
 import { manipulateAsync, SaveFormat } from "expo-image-manipulator"
+import { ScreenNames } from "../../navigators/screen-names"
+import { navigate } from "../../navigators"
 interface Props {}
 
 const CaptureId = React.memo((props: Props) => {
@@ -45,6 +47,18 @@ const CaptureId = React.memo((props: Props) => {
     setFlash((f) => (f === "off" ? "on" : "off"))
   }, [])
 
+  const setPhoto = useCallback(
+    async (photo) => {
+      if (imageType === "front") {
+        setFrontImage(photo)
+        setImageType("back")
+      } else {
+        setBackImage(photo)
+      }
+    },
+    [imageType],
+  )
+
   const takePhoto = useCallback(async () => {
     // @ts-ignore
     const data = await cameraRef.current.takePhoto({
@@ -73,13 +87,19 @@ const CaptureId = React.memo((props: Props) => {
         format: SaveFormat.PNG,
       },
     )
-    if (imageType === "front") {
-      setFrontImage(manipResult.uri)
-      setImageType("back")
-    } else {
-      setBackImage(manipResult.uri)
+    setPhoto(manipResult.uri)
+  }, [imageType, cameraRef, setPhoto])
+
+  const navigateToPhotoPicker = useCallback(() => {
+    const onConfirm = (photoSelected: any) => {
+      console.log(photoSelected)
+
+      setPhoto(photoSelected)
     }
-  }, [imageType, cameraRef])
+    navigate(ScreenNames.PHOTO_PICKER, {
+      onConfirm,
+    })
+  }, [setPhoto])
 
   return (
     <View style={styles.container}>
@@ -129,7 +149,7 @@ const CaptureId = React.memo((props: Props) => {
           text={flash === "on" ? "Tắt đèn flash" : "Bật đèn flash"}
         />
         <AppText value={"|"} color={color.text} fontSize={s(20)} />
-        <ActionItem onPress={onFlashPressed} icon={<ThunderSvg />} text={"Thư viện ảnh"} />
+        <ActionItem onPress={navigateToPhotoPicker} icon={<PhotoSvg />} text={"Thư viện ảnh"} />
       </View>
 
       <View style={styles.btnContainer}>

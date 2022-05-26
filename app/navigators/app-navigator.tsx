@@ -4,7 +4,7 @@ import { DarkTheme, DefaultTheme, NavigationContainer } from "@react-navigation/
 import { createNativeStackNavigator } from "@react-navigation/native-stack"
 import { navigationRef } from "./navigation-utilities"
 import { ScreenNames } from "./screen-names"
-import { SplashScreen, WelcomeScreen } from "../screens"
+import { SplashScreen, WelcomeScreen, PhotoPickerScreen } from "../screens"
 import { AppStack } from "./app-stack"
 import { AuthStack } from "./auth-stack"
 import NoticeScreen from "../screens/notice/notice-screen"
@@ -22,31 +22,33 @@ import BannerDetail from "../screens/home/banner-detail"
 import { AgentStack } from "./agent-stack"
 
 export type NavigatorParamList = {
-  [ScreenNames.SPLASH]: undefined;
-  [ScreenNames.WELCOME]: undefined;
-  [ScreenNames.AGENT]: undefined;
-  [ScreenNames.AUTH]: undefined;
-  [ScreenNames.APP]: undefined;
-  [ScreenNames.REQUEST_COUNSELLING]: undefined;
-  [ScreenNames.NOTICE]: undefined;
-  [ScreenNames.LOAN_DETAIL]: undefined;
-  [ScreenNames.REGISTER_LOAN]: undefined;
-  [ScreenNames.PROFILE_DETAIL]: undefined;
-  [ScreenNames.FINANCE]: { index: number };
-  [ScreenNames.TERM_AND_POLICY]: { id: number };
-  [ScreenNames.INSURANCE_SCREEN]: {id?: number};
-  [ScreenNames.INSURANCE_PACKAGE]: undefined;
-  [ScreenNames.INSURANCE_DETAIL]: undefined;
-  [ScreenNames.INTRODUCE_SCREEN]: undefined;
-  [ScreenNames.BANNER_DETAIL]: { url : string};
+  [ScreenNames.SPLASH]: undefined
+  [ScreenNames.WELCOME]: undefined
+  [ScreenNames.AGENT]: undefined
+  [ScreenNames.AUTH]: undefined
+  [ScreenNames.APP]: undefined
+  [ScreenNames.REQUEST_COUNSELLING]: undefined
+  [ScreenNames.NOTICE]: undefined
+  [ScreenNames.LOAN_DETAIL]: undefined
+  [ScreenNames.REGISTER_LOAN]: undefined
+  [ScreenNames.PROFILE_DETAIL]: undefined
+  [ScreenNames.FINANCE]: { index: number }
+  [ScreenNames.TERM_AND_POLICY]: { id: number }
+  [ScreenNames.INSURANCE_SCREEN]: { id?: number }
+  [ScreenNames.INSURANCE_PACKAGE]: undefined
+  [ScreenNames.INSURANCE_DETAIL]: undefined
+  [ScreenNames.INTRODUCE_SCREEN]: undefined
+  [ScreenNames.BANNER_DETAIL]: { url: string }
+  [ScreenNames.BANNER_DETAIL]: { url: string }
+  [ScreenNames.PHOTO_PICKER]: {
+    onConfirm?: (photo) => void
+  }
 }
 
 // Documentation: https://reactnavigation.org/docs/stack-navigator/
 const Stack = createNativeStackNavigator<NavigatorParamList>()
 
-
-
-const RootStack = ()=> {
+const RootStack = () => {
   return (
     <Stack.Navigator
       screenOptions={{
@@ -55,10 +57,22 @@ const RootStack = ()=> {
       initialRouteName={ScreenNames.SPLASH}
     >
       <Stack.Screen name={ScreenNames.SPLASH} component={SplashScreen} />
-      <Stack.Screen name={ScreenNames.WELCOME} component={WelcomeScreen} options={{gestureEnabled: false}}/>
-      <Stack.Screen name={ScreenNames.AGENT} component={AgentStack} options={{gestureEnabled: false}}/>
+      <Stack.Screen
+        name={ScreenNames.WELCOME}
+        component={WelcomeScreen}
+        options={{ gestureEnabled: false }}
+      />
+      <Stack.Screen
+        name={ScreenNames.AGENT}
+        component={AgentStack}
+        options={{ gestureEnabled: false }}
+      />
       <Stack.Screen name={ScreenNames.AUTH} component={AuthStack} />
-      <Stack.Screen name={ScreenNames.APP} component={AppStack} options={{gestureEnabled: false}} />
+      <Stack.Screen
+        name={ScreenNames.APP}
+        component={AppStack}
+        options={{ gestureEnabled: false }}
+      />
       <Stack.Screen name={ScreenNames.REQUEST_COUNSELLING} component={RequestCounselling} />
       <Stack.Screen name={ScreenNames.NOTICE} component={NoticeScreen} />
       <Stack.Screen name={ScreenNames.LOAN_DETAIL} component={LoanDetail} />
@@ -71,6 +85,7 @@ const RootStack = ()=> {
       <Stack.Screen name={ScreenNames.INSURANCE_DETAIL} component={InsuranceDetail} />
       <Stack.Screen name={ScreenNames.INTRODUCE_SCREEN} component={IntroduceScreen} />
       <Stack.Screen name={ScreenNames.BANNER_DETAIL} component={BannerDetail} />
+      <Stack.Screen name={ScreenNames.PHOTO_PICKER} component={PhotoPickerScreen} />
     </Stack.Navigator>
   )
 }
