@@ -382,6 +382,8 @@ PODS:
     - React-Core
   - react-native-signature-capture (0.4.12):
     - React
+  - react-native-view-shot (3.1.2):
+    - React
   - react-native-webview (11.18.2):
     - React-Core
   - React-perflogger (0.67.2)
@@ -465,6 +467,8 @@ PODS:
     - React-Core
     - RNFBApp
   - RNGestureHandler (1.10.3):
+    - React-Core
+  - RNHoleView (2.1.0):
     - React-Core
   - RNImageCropPicker (0.37.3):
     - React-Core
@@ -573,6 +577,7 @@ DEPENDENCIES:
   - react-native-pager-view (from `../node_modules/react-native-pager-view`)
   - react-native-safe-area-context (from `../node_modules/react-native-safe-area-context`)
   - react-native-signature-capture (from `../node_modules/react-native-signature-capture`)
+  - react-native-view-shot (from `../node_modules/react-native-view-shot`)
   - react-native-webview (from `../node_modules/react-native-webview`)
   - React-perflogger (from `../node_modules/react-native/ReactCommon/reactperflogger`)
   - React-RCTActionSheet (from `../node_modules/react-native/Libraries/ActionSheetIOS`)
@@ -592,6 +597,7 @@ DEPENDENCIES:
   - "RNFBApp (from `../node_modules/@react-native-firebase/app`)"
   - "RNFBMessaging (from `../node_modules/@react-native-firebase/messaging`)"
   - RNGestureHandler (from `../node_modules/react-native-gesture-handler`)
+  - RNHoleView (from `../node_modules/react-native-hole-view`)
   - RNImageCropPicker (from `../node_modules/react-native-image-crop-picker`)
   - RNKeychain (from `../node_modules/react-native-keychain`)
   - "RNNotifee (from `../node_modules/@notifee/react-native`)"
@@ -711,6 +717,8 @@ EXTERNAL SOURCES:
     :path: "../node_modules/react-native-safe-area-context"
   react-native-signature-capture:
     :path: "../node_modules/react-native-signature-capture"
+  react-native-view-shot:
+    :path: "../node_modules/react-native-view-shot"
   react-native-webview:
     :path: "../node_modules/react-native-webview"
   React-perflogger:
@@ -749,6 +757,8 @@ EXTERNAL SOURCES:
     :path: "../node_modules/@react-native-firebase/messaging"
   RNGestureHandler:
     :path: "../node_modules/react-native-gesture-handler"
+  RNHoleView:
+    :path: "../node_modules/react-native-hole-view"
   RNImageCropPicker:
     :path: "../node_modules/react-native-image-crop-picker"
   RNKeychain:
@@ -834,6 +844,7 @@ SPEC CHECKSUMS:
   react-native-pager-view: c0ff94cb1e670bcba387bdf575515c58dfa85f04
   react-native-safe-area-context: 79fea126c6830c85f65947c223a5e3058a666937
   react-native-signature-capture: 416a3947684e049a5b012cdd6496f878dc797f16
+  react-native-view-shot: 4475fde003fe8a210053d1f98fb9e06c1d834e1c
   react-native-webview: 8ec7ddf9eb4ddcd92b32cee7907efec19a9ec7cb
   React-perflogger: 3c9bb7372493e49036f07a82c44c8cf65cbe88db
   React-RCTActionSheet: 052606483045a408693aa7e864410b4a052f541a
@@ -853,6 +864,7 @@ SPEC CHECKSUMS:
   RNFBApp: bef4ec5a6d31a3da9bf285379d0c4857c6b7313e
   RNFBMessaging: bb601451343f61ea26c5806690b4aa62a06aa054
   RNGestureHandler: a479ebd5ed4221a810967000735517df0d2db211
+  RNHoleView: 53ff8702cf2f708c536ecbff6f0c9469e1af14bb
   RNImageCropPicker: 44e2807bc410741f35d4c45b6586aedfe3da39d2
   RNKeychain: b8e0711b959a19c5b057d1e970d3c83d159b6da5
   RNNotifee: d90cdc08df61ace410b4f98aeff97a5ac12e2ce6
@@ -869,6 +881,6 @@ SPEC CHECKSUMS:
   Yoga: 9b6696970c3289e8dea34b3eda93f23e61fb8121
   YogaKit: f782866e155069a2cca2517aafea43200b01fd5a
 
-PODFILE CHECKSUM: d13abb6ae2244a79fe07f93848e37d8a79ede676
+PODFILE CHECKSUM: 04809a2a3b18c35616c3d77a64aa34d762732cd7
 
 COCOAPODS: 1.11.2

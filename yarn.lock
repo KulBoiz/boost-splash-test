@@ -12674,6 +12674,11 @@ react-native-gesture-handler@1.10.3:
     invariant "^2.2.4"
     prop-types "^15.7.2"
 
+react-native-hole-view@^2.1.0:
+  version "2.1.0"
+  resolved "https://registry.yarnpkg.com/react-native-hole-view/-/react-native-hole-view-2.1.0.tgz#aae4886039ce0f29461b27a817298be005a263e8"
+  integrity sha512-ujwiFkUnbxnhz308xRcjEYKHL8Kg0x1h1e01bd1fyRKhyd3+uxJUEOKoJu6ZKTPHtOstQuwo93Pan/WJAKhoEA==
+
 react-native-image-crop-picker@^0.37.3:
   version "0.37.3"
   resolved "https://registry.yarnpkg.com/react-native-image-crop-picker/-/react-native-image-crop-picker-0.37.3.tgz#f260e40b6a6ba8e98f4db3dde25a8f09e0936385"
@@ -12825,6 +12830,11 @@ react-native-vector-icons@^9.1.0:
   dependencies:
     prop-types "^15.7.2"
     yargs "^16.1.1"
+
+react-native-view-shot@^3.1.2:
+  version "3.1.2"
+  resolved "https://registry.yarnpkg.com/react-native-view-shot/-/react-native-view-shot-3.1.2.tgz#8c8e84c67a4bc8b603e697dbbd59dbc9b4f84825"
+  integrity sha512-9u9fPtp6a52UMoZ/UCPrCjKZk8tnkI9To0Eh6yYnLKFEGkRZ7Chm6DqwDJbYJHeZrheCCopaD5oEOnRqhF4L2Q==
 
 react-native-vision-camera@^2.13.3:
   version "2.13.3"
