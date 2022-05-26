@@ -46,6 +46,7 @@ export default HeaderCard;
 const styles = ScaledSheet.create({
     container: {},
   wrapContent: {
+    paddingTop: isIphoneX() ? '20@s' : 0,
     width: "100%",
     paddingHorizontal: 20,
     flexDirection: "row",
