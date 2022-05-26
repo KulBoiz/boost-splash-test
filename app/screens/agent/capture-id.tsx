@@ -1,4 +1,4 @@
-import React, { useCallback, useRef, useState, Image } from "react"
+import React, { useCallback, useRef, useState } from "react"
 import { Platform, View } from "react-native"
 import { Camera, useCameraDevices } from "react-native-vision-camera"
 import AppHeader from "../../components/app-header/AppHeader"
