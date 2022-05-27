@@ -1,5 +1,5 @@
 import React  from "react"
-import { View } from 'react-native';
+import { ScrollView, View } from "react-native"
 import AppHeader from "../../components/app-header/AppHeader"
 import RenderStepAgent from "./components/render-step"
 import AgentForm from "./components/agent-form"
@@ -13,6 +13,7 @@ import AppButton from "../../components/app-button/AppButton"
 import { ScaledSheet } from "react-native-size-matters"
 import { navigate } from "../../navigators"
 import { ScreenNames } from "../../navigators/screen-names"
+import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view"
 
 interface Props{}
 
@@ -44,9 +45,9 @@ const RegisterInfo = React.memo((props: Props) => {
     <View style={styles.container}>
       <AppHeader headerText={'Đăng ký thông tin'} isBlue/>
       <RenderStepAgent currentPosition={0} />
-      <View style={CONTAINER_PADDING}>
+      <KeyboardAwareScrollView style={[CONTAINER_PADDING, {flex:1}]}>
         <AgentForm {...{control, errors, setValue, watch}} />
-      </View>
+      </KeyboardAwareScrollView>
       <View style={styles.wrapBtn}>
         <AppButton tx={'common.continue'} onPress={handleSubmit(nextStep)}/>
       </View>
@@ -62,9 +63,10 @@ const styles = ScaledSheet.create({
       flex:1
     },
   wrapBtn:{
-      flex:1,
+    // flex:1,
     justifyContent: "flex-end",
     paddingBottom: '30@s',
+    paddingTop: '20@s',
     paddingHorizontal: '16@ms'
   }
 });
