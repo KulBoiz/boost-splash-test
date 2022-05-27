@@ -47,7 +47,7 @@ const Document = React.memo((props: Props) => {
 
     return "_"
   }
-
+  console.log('templates', templates)
   return (
     <View style={styles.container}>
       <View style={styles.content}>
@@ -64,7 +64,7 @@ const Document = React.memo((props: Props) => {
         templates?.length > 0 && <View style={styles.content}>
           <AppText style={styles.title} value={"Giấy tờ của khách"} />
           <View style={styles.contentItem}>
-            <CollapsibleInfoUpload data={renderTemplate()}/>
+            <CollapsibleInfoUpload data={templates}/>
             {/*{renderTemplate().map((el: any, index: number) =>*/}
             {/*  <ItemView key={index.toString()} style={styles.item} title={el?.name} content={checkFileUpload(el)} />*/}
             {/*)}*/}
@@ -94,7 +94,7 @@ const styles = ScaledSheet.create({
   },
   contentItem: {
     borderRadius: '8@s',
-    padding: '8@s',
+    // padding: '8@s',
     backgroundColor: color.palette.white,
   },
   item: {

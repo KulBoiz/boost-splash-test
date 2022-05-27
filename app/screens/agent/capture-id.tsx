@@ -13,6 +13,9 @@ import { GallerySvg, ThunderSvg } from "../../assets/svgs"
 import { color } from "../../theme"
 import { width } from "../../constants/variable"
 import { manipulateAsync, SaveFormat } from "expo-image-manipulator"
+import { navigate } from "../../navigators"
+import { ScreenNames } from "../../navigators/screen-names"
+import AsyncStorage from "@react-native-async-storage/async-storage"
 interface Props {}
 
 const CaptureId = React.memo((props: Props) => {
@@ -65,10 +68,13 @@ const CaptureId = React.memo((props: Props) => {
       },
     )
     if (imageType === "front") {
+      AsyncStorage.setItem('frontImage', manipResult.uri)
       setFrontImage(manipResult.uri)
       setImageType("back")
     } else {
+      AsyncStorage.setItem('backImage', manipResult.uri)
       setBackImage(manipResult.uri)
+      navigate(ScreenNames.CHECK_INFO)
     }
   }, [imageType, cameraRef])
 
@@ -124,7 +130,7 @@ const CaptureId = React.memo((props: Props) => {
       </View>
 
       <View style={styles.btnContainer}>
-        <AppButton title={"Chụp"} onPress={takePhoto} />
+        <AppButton title={!!backImage ? "Tiếp tục" : "Chụp"} onPress={takePhoto} />
       </View>
     </View>
   )

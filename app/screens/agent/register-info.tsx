@@ -23,11 +23,7 @@ const RegisterInfo = React.memo((props: Props) => {
       .required(i18n.t('errors.requireEmail'))
       .email(i18n.t('errors.invalidEmail')),
     fullName: Yup.string().required(i18n.t('errors.requireFullName')),
-    dateOfBirth: Yup.string().required(i18n.t('errors.requireDateOfBirth')),
-    sex: Yup.string().required(i18n.t('errors.requireSex')),
-    citizenIdentification: Yup.string().required(i18n.t('errors.requireCitizenIdentification')),
-    dateRange: Yup.string().required(i18n.t('errors.requireDateRange')),
-    issuedBy: Yup.string().required(i18n.t('errors.requireIssuedBy')),
+    // sex: Yup.string().required(i18n.t('errors.requireSex')),
     contactAddress: Yup.string().required(i18n.t('errors.requireAddress')),
     phone: Yup.string().required(i18n.t('errors.requirePhone'))
 
@@ -39,7 +35,9 @@ const RegisterInfo = React.memo((props: Props) => {
     resolver: yupResolver(validationSchema),
     reValidateMode: "onChange" || "onTouched",
   })
-
+  const nextStep = () => {
+    navigate(ScreenNames.PHOTO_TUTORIAL)
+  }
   return (
     <View style={styles.container}>
       <AppHeader headerText={'Đăng ký thông tin'} isBlue/>
@@ -48,7 +46,7 @@ const RegisterInfo = React.memo((props: Props) => {
         <AgentForm {...{control, errors, setValue, watch}} />
       </View>
       <View style={styles.wrapBtn}>
-        <AppButton tx={'common.continue'} onPress={()=> navigate(ScreenNames.PHOTO_TUTORIAL)}/>
+        <AppButton tx={'common.continue'} onPress={handleSubmit(nextStep)}/>
       </View>
     </View>
   )

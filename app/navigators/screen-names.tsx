@@ -33,4 +33,5 @@ export enum ScreenNames {
   CAPTURE_ID = 'CaptureId',
   CHECK_INFO = 'CheckInfo',
   BANNER_DETAIL = 'BannerDetail',
+  SIGN_CONTRACT = 'SignContract',
 }

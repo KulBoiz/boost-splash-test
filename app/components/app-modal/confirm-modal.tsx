@@ -10,6 +10,8 @@ import { FONT_SEMI_BOLD_12 } from "../../styles/common-style"
 
 interface Props{
   visible: boolean,
+  cancelTitle?: string,
+  submitTitle?: string,
   title?: string,
   content?:string,
   closeModal(): void
@@ -17,7 +19,7 @@ interface Props{
 }
 
 const ConfirmModal = React.memo((props: Props) => {
-  const {visible, title = '', content = '', closeModal, onPress} = props
+  const {visible, title = '', content = '', closeModal, onPress, cancelTitle = '', submitTitle = ''} = props
   return (
       <Modal
         isVisible={visible}
@@ -29,8 +31,8 @@ const ConfirmModal = React.memo((props: Props) => {
             <AppText style={styles.title}>{title}</AppText>
            <AppText style={styles.content} value={content} />
           <View style={styles.btnContainer}>
-            <AppButton title={'Hủy'} onPress={closeModal} titleStyle={styles.cancelText} style={[styles.btn, styles.cancelBtn]}/>
-            <AppButton title={'Đồng ý'} onPress={onPress} titleStyle={FONT_SEMI_BOLD_12} style={[styles.btn, styles.submitBtn]}/>
+            <AppButton title={!!cancelTitle ? cancelTitle : 'Hủy'} onPress={closeModal} titleStyle={styles.cancelText} style={[styles.btn, styles.cancelBtn]}/>
+            <AppButton title={!!submitTitle ? submitTitle :'Đồng ý'} onPress={onPress} titleStyle={FONT_SEMI_BOLD_12} style={[styles.btn, styles.submitBtn]}/>
           </View>
         </View>
       </Modal>
@@ -52,16 +54,12 @@ const styles = ScaledSheet.create({
     color: color.palette.lightBlack,
     fontSize: '16@ms',
     fontFamily: fontFamily.semiBold,
-    textAlign: "center"
   },
    content: {
-     fontSize: '12@ms',
-     color: color.palette.deepGray,
+     fontSize: '14@ms',
+     color: color.palette.lightBlack,
      marginTop: '8@s',
      marginBottom: '24@s',
-     textAlign: "center"
-
-
    },
   btnContainer:{
       flexDirection: 'row',

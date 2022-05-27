@@ -20,6 +20,7 @@ const CollapsibleInfoUpload = React.memo(({ data }: Props) => {
     setActiveSections(index);
   };
   const renderHeader = (item, index: number) => {
+    console.log('item', item)
     const isOpen = activeSections?.includes(index)
     return (
       <View
@@ -52,7 +53,7 @@ const CollapsibleInfoUpload = React.memo(({ data }: Props) => {
     <View style={styles.container}>
       <Accordion
         containerStyle={[styles.collapsibleContainer,  {borderWidth: activeSections.length > 0 ? 1: 0}]}
-        sections={[0]}
+        sections={data}
         activeSections={activeSections}
         renderHeader={(content, index) => renderHeader(content,index)}
         renderContent={renderContent}

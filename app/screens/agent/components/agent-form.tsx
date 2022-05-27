@@ -16,17 +16,25 @@ interface Props {
 
 const AgentForm = React.memo((props: Props) => {
   // @ts-ignore
-  const { bankStore } = useStores()
+  const { bankStore, authStoreModel } = useStores()
   const { control, errors, setValue } = props
   const [bank, setBank] = useState([])
 
   useEffect(() => {
     bankStore.getBankList()
+    const user = authStoreModel?.user
+    if (user?.emails[0]?.email){
+      setValue('email', user?.emails[0]?.email)
+    }
+    if (user?.tels[0]?.tel){
+      setValue('phone', user?.tels[0]?.tel)
+
+    }
   }, [])
 
   // useEffect(() => {
   //   console.log('1');
-    
+
   //   setValue('bankBranch', '')
   //   setReloadBankBranch(true)
 
@@ -52,7 +60,7 @@ const AgentForm = React.memo((props: Props) => {
 
   const handleSelectBank = (bank) => {
     setValue('bankBranch', '');
-    
+
     bankStore.getBankBranch(bank?.value).then((res) => {
       setBank(res?.data?.map((val) => ({
         value: val.id,

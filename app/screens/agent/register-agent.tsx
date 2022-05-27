@@ -28,7 +28,6 @@ const RegisterAgent = React.memo((props: Props) => {
       <RenderHtml
         contentWidth={width}
         source={CollaboratorContractInfoDesktop({fullName})}
-        // allowedStyles={}
       />
       </ScrollView>
 

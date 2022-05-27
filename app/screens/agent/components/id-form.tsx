@@ -28,12 +28,12 @@ const IdForm = React.memo((props: Props) => {
       />
       <FormInput
         {...{
-          name: 'phone',
-          labelTx: 'label.phoneNumber',
-          placeholderTx: 'placeholder.phone',
+          name: 'citizenIdentification',
+          labelTx: 'label.citizenIdentification',
+          placeholderTx: 'placeholder.citizenIdentification',
           control,
           keyboardType: 'number-pad',
-          error: errors?.phone?.message
+          error: errors?.citizenIdentification?.message
         }}
       />
       <FormDatePicker

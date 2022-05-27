@@ -182,12 +182,12 @@ export const CollaboratorContractInfoDesktop = (props: Props) => {
           điều khoản, điều kiện nêu tại Hợp Đồng này.
 </div>
 </div>
-<div style={{marginBottom: '5px'}}>
+<div style="marginBottom:5px">
 <b>DO VẬY,</b> Các Bên đồng ý ký kết Hợp Đồng với các điều khoản như sau:
 </div>
-<div style={{marginBottom: '5px', marginTop: '10px'}}>
+<div style="marginBottom: 5px; marginTop: 10px">
 <b>
-<span style={{display: 'inline-block', width: '25px'}}>I. </span> KHÁI QUÁT NỘI DUNG
+<span style="display: inline-block; width: 25px">I. </span> KHÁI QUÁT NỘI DUNG
           DỊCH VỤ
 </b>
 </div>
@@ -421,11 +421,11 @@ Cộng Tác Viên cam kết thực hiện Hợp Đồng này theo đúng nội d
 <li style={{display: 'flex'}}>
 <span style={{display: 'inline-block', width: '25px'}}>2.1</span>
 
-<span style={{width: 'fit-content'}}>
+<span style="width: fit-content">
 Cộng Tác Viên được hưởng Thù lao như nêu tại Mục I. Khái quát nội dung dịch vụ của Hợp Đồng này.
 </span>
 </li>
-<li style={{display: 'flex'}}>
+<li style="display: flex">
 <span style={{display: 'inline-block', width: '25px'}}>2.2</span>
 
 <span style={{width: 'fit-content'}}>
@@ -658,7 +658,7 @@ nhau, mỗi Bên giữ 01 (một) bản.
 </p>
 <img
 src="https://storage.googleapis.com/image-fina/upload/fina/sign_ceo.png"
-style={{width: '150px'}} alt=""
+style="width: 170px" alt=""
 />
 <p>
 <strong>
@@ -679,7 +679,7 @@ style={{width: '150px'}} alt=""
 </p>
 <p>
 <strong>
-<span>${fullName || '________________'}</span>
+<span>${fullName || ''}</span>
 </strong>
 </p>
 </td>
