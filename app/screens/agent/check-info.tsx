@@ -33,7 +33,6 @@ const CheckInfo = React.memo((props: Props) => {
     resolver: yupResolver(validationSchema),
     reValidateMode: "onChange" || "onTouched",
   })
-  console.log(getValues())
   return (
     <View style={styles.container}>
       <AppHeader headerText={'Kiểm tra thông tin CMND / CCCD / HC'} isBlue/>

@@ -1,5 +1,5 @@
 import React from 'react';
-import { View } from "react-native"
+import { StatusBar, View } from "react-native"
 import { AppHeaderProps } from "./app.header.props"
 import { translate } from "../../i18n"
 import { Button } from "../button/button"
@@ -10,7 +10,7 @@ import { images } from "../../assets/images"
 import { ScaledSheet } from 'react-native-size-matters';
 import { goBack } from "../../navigators"
 import { fontFamily } from "../../constants/font-family"
-import { capitalizeFirstString } from "../../constants/variable"
+import { isIphoneX } from "react-native-iphone-x-helper"
 
 const AppHeader = React.memo((props: AppHeaderProps) => {
   const {
@@ -30,7 +30,8 @@ const AppHeader = React.memo((props: AppHeaderProps) => {
 
   return (
     <View style={[styles.container, style, {backgroundColor: isBlue ? color.palette.blue : color.background}]}>
-        {renderLeftIcon ?
+      <StatusBar backgroundColor={isBlue ? color.palette.blue : color.background} barStyle={isBlue ? 'light-content' : 'dark-content'}/>
+      {renderLeftIcon ?
             <Button preset="link" onPress={onLeftPress} style={width}>
               {renderLeftIcon}
             </Button>
@@ -63,7 +64,7 @@ const styles = ScaledSheet.create({
     container: {
       backgroundColor: color.background,
       flexDirection: "row",
-      height: '90@s',
+      height: isIphoneX() ? '80@vs' : '60@vs',
       paddingLeft: '10@s',
       paddingRight: '16@s',
       alignItems: "flex-end",

@@ -114,8 +114,7 @@ export class AuthApi {
         const problem = getGeneralApiProblem(response)
         if (problem) return problem
       }
-      const data = response.data
-      return { kind: "ok", data }
+      return { kind: "ok", response }
     } catch (e) {
       return { kind: "bad-data", e }
     }

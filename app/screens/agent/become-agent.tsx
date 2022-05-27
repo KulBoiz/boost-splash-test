@@ -26,7 +26,7 @@ const BecomeAgent = React.memo((props: Props) => {
           <AppText value={' FINA?'} style={styles.secondText} color={color.palette.blue}/>
         </View>
         <AppButton title={'Đăng ký cộng tác viên'} onPress={()=> navigate(ScreenNames.REGISTER_AGENT)} containerStyle={styles.btn}/>
-        <AppText value={'Quay lại đăng nhập'} style={styles.loginText} underline onPress={()=> navigate(ScreenNames.LOGIN)}/>
+        <AppText value={'Quay lại đăng nhập'} style={styles.loginText} underline onPress={()=> navigate(ScreenNames.AUTH)}/>
       </View>
       <View style={styles.imageContainer}>
         <BecomeAgentSvg width={width}/>

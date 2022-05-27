@@ -133,12 +133,11 @@ export const AuthStoreModel = types
       if (result.kind !== "ok") {
         return result
       }
-      const loggedInInfo = result.data === null
-      if (loggedInInfo) {
+      if (result.response) {
         navigate(ScreenNames.LOGIN)
         return {
           kind: "ok",
-          data: result.data,
+          data: result,
         }
       }
       return {

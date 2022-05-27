@@ -10,6 +10,7 @@ import { MARGIN_BOTTOM_16, MARGIN_TOP_16 } from "../../styles/common-style"
 import { navigate } from "../../navigators"
 import { SETTING_LIST } from "./constants"
 import SettingItem from "./components/setting-item"
+import { color } from "../../theme"
 
 interface Props{}
 
@@ -21,18 +22,14 @@ const SettingScreen: FC<Props> = observer((props: Props) => {
     navigation.dispatch(StackActions.push(ScreenNames.AUTH))
   }
 
-  const registerAgent = () => {
-    navigate(ScreenNames.AGENT)
-  }
   return (
     <View style={styles.container}>
       <AppHeader headerTx={"header.personalSetting"}/>
       <ScrollView>
         {SETTING_LIST.map((value, index)=> (
-          <SettingItem key={index.toString()} icon={value.icon} title={value.title} />
+          <SettingItem key={index.toString()} icon={value.icon} title={value.title} onPress={value.onPress}/>
         ))}
         <AppButton title={'Đăng xuất'} onPress={logout}/>
-        <AppButton title={'Đăng kí cộng tác viên'} containerStyle={[MARGIN_BOTTOM_16, MARGIN_TOP_16]} onPress={registerAgent}/>
 
         <View style={{height: 100}}/>
       </ScrollView>
@@ -43,5 +40,5 @@ const SettingScreen: FC<Props> = observer((props: Props) => {
 export default SettingScreen;
 
 const styles = StyleSheet.create({
-    container: {flex:1},
+    container: {backgroundColor: color.palette.lightBlue, flex:1},
 });

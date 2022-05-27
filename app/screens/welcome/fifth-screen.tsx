@@ -1,5 +1,5 @@
 import React  from "react"
-import { View } from 'react-native';
+import { StatusBar, View } from "react-native"
 import { height, width } from "../../constants/variable"
 import { GradientBackground } from "../../components"
 import { AppText } from "../../components/app-text/AppText"
@@ -33,6 +33,7 @@ const FifthScreen = React.memo((props: Props) => {
 
   return (
     <View style={styles.container}>
+      <StatusBar backgroundColor={color.palette.blue} barStyle={'light-content'}/>
       <FastImage source={images.fifth} style={styles.svgBackground}/>
       <GradientBackground colors={['#064DD6', 'rgba(98, 150, 249, 0.4)']} />
       <FastImage source={images.fina_logo} style={styles.logo} />
@@ -73,7 +74,7 @@ const styles = ScaledSheet.create({
   svgBackground: {
     position: 'absolute',
     width: width,
-    height: height
+    height: height + 20
   },
   linear: {
     position: 'absolute',

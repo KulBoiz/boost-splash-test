@@ -8,43 +8,45 @@ import {
   SimCardSvg,
   StarSettingSvg, TransactionSvg,
 } from "../../assets/svgs"
+import { navigate } from "../../navigators"
+import { ScreenNames } from "../../navigators/screen-names"
 
 export const SETTING_LIST = [
   {
     icon: <ProfileSvg />,
     title: 'Thông tin cá nhân',
-    onPress: '',
+    onPress: () => {},
   },{
     icon: <MedalSvg />,
     title: 'Đăng ký làm cộng tác viên',
-    onPress: '',
+    onPress: () => navigate(ScreenNames.AGENT),
   },{
     icon: <ShieldSecuritySvg />,
     title: 'Quản lí mật khẩu & mã PIN',
-    onPress: '',
+    onPress: () => {},
   },{
     icon: <DocumentSvg />,
     title: 'Tài liệu của tôi',
-    onPress: '',
+    onPress: () => {},
   },{
     icon: <SimCardSvg />,
     title: 'Thông tin nâng cao',
-    onPress: '',
+    onPress: () => {},
   },{
     icon: <ElementSvg />,
     title: 'Cơ cấu tổ chức',
-    onPress: '',
+    onPress: () => {},
   },{
     icon: <StarSettingSvg />,
     title: 'Đánh giá',
-    onPress: '',
+    onPress: () => {},
   },{
     icon: <TransactionSvg />,
     title: 'Giao dịch',
-    onPress: '',
+    onPress: () => {},
   },{
     icon: <SettingSvg />,
     title: 'Cài đặt',
-    onPress: '',
+    onPress: () => {},
   },
 ]

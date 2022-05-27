@@ -43,7 +43,7 @@ export const LoanStoreModel = types
     recordDetail: types.frozen({}),
     products: types.frozen([]),
     productDetail: types.frozen({}),
-    limit: types.optional(types.number, 10),
+    limit: types.optional(types.number, 20),
     page: types.optional(types.number, 1),
     comments: types.frozen([]),
     loanDetail: types.frozen({}),
@@ -165,7 +165,7 @@ export const LoanStoreModel = types
 
       const param = {
         page: nextPage,
-        "filter": filter
+        "filter": {...filter, skip: self.limit * (self.page -1)}
       }
 
       const result = yield loanApi.loadMoreRecords(param)
@@ -220,11 +220,13 @@ export const LoanStoreModel = types
 
     loadMoreProducts: flow(function* loadMoreProducts() {
       const loanApi = new LoanApi(self.environment.api)
-
-      self.page = self.page + 1
+      const nextPage = self.page + 1
+      self.page = nextPage
 
       const param = {
-        page: self.page + 1,
+        page: self.page,
+        limit: 20,
+        skip: self.limit * (self.page - 1)
       }
 
       const result = yield loanApi.loadMoreProducts(param)
