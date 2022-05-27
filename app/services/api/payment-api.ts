@@ -13,7 +13,7 @@ export class PaymentApi {
 
   async post(body?: any): Promise<any> {
     try {
-      const response: ApiResponse<any> = await this.api.apisauce.post(`${API_ENDPOINT}/payments/pay-me/generate-link`, body)
+      const response: ApiResponse<any> = await this.api.apisauce.post(`${API_ENDPOINT}/transactions/public/insurance-fina`, body)
       if (!response.ok) {
         const problem = getGeneralApiProblem(response)
         if (problem) return problem

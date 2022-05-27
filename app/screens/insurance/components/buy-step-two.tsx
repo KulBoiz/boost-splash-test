@@ -10,6 +10,7 @@ import PinModal from "./pin-modal"
 import { useStores } from "../../../models";
 import FullScreenModal from "../../../components/app-modal/full-screen-modal";
 import { AppText } from "../../../components/app-text/AppText";
+import moment from "moment";
 
 
 interface Props {
@@ -21,9 +22,7 @@ interface Props {
   questionGroups: any
 }
 
-const BuyStepTwo = React.memo(({ stepThree, getValues,
-  // getValuesCustomer
-  insuranceType, productDetail }: Props) => {
+const BuyStepTwo = React.memo(({ stepThree, getValues, insuranceType, productDetail }: Props) => {
   // @ts-ignore
   const { paymentStore } = useStores()
   const [modal, setModal] = useState(false)
@@ -32,15 +31,36 @@ const BuyStepTwo = React.memo(({ stepThree, getValues,
   const insurance = productDetail?.packages?.[insuranceType]
 
   const openPayment = () => {
+    const {
+      fullName,
+      phone,
+      email,
+      sex,
+      fullNameCustomer,
+      emailCustomer,
+      sexCustomer,
+      phoneCustomer
+    } = getValues
+    const data = {
+      agreement: true,
+      productId: productDetail?.id,
+      staffInfo: { email, fullName, tel: phone, gender: sex },
+      customerInfo: { email: emailCustomer, fullName: fullNameCustomer, tel: phoneCustomer, gender: sexCustomer },
+      type: 'insurances',
+      subType: 'fina',
+      metaData: {
+        package: insurance.price,
+        effectiveTime: moment(),
+        expirationTime: moment().add(1, 'y')
+      }
+    }
 
     const desc = `${insurance.name}-${insurance.price}`
-    paymentStore.post({
-      "amount": insurance.price,
-      "desc": desc
-    }).then((res) => {
-      if (res?.data?.info?.link) {
+
+    paymentStore.post(data).then((res) => {
+      if (res?.data?.paymentInfo?.url) {
         setModal(true)
-        setLink(res?.data?.info?.link)
+        setLink(res?.data?.paymentInfo?.url)
       } else {
         Alert.alert("Thanh toán đanh gặp vấn đề")
       }
@@ -51,7 +71,7 @@ const BuyStepTwo = React.memo(({ stepThree, getValues,
     <View style={styles.container}>
       {/* <Benefit /> */}
       <InsuranceInfo insurance={insurance} productDetail={productDetail} />
-      <CollapsibleInfoCustomer infoCustomer={getValues} infoBuyInsurance={getValues}/>
+      <CollapsibleInfoCustomer infoCustomer={getValues} infoBuyInsurance={getValues} />
       <PaymentMethod />
 
       <CalculateMoney
