@@ -6,6 +6,8 @@ import { FieldValues } from "react-hook-form/dist/types/fields"
 import FormInput from "../../../components/form-input/form-input"
 import FormItemPicker from "../../../components/form-item-picker"
 import { useStores } from "../../../models"
+import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
+import { observer } from "mobx-react-lite";
 
 interface Props {
   control: Control
@@ -14,14 +16,17 @@ interface Props {
   watch: UseFormWatch<FieldValues>
 }
 
-const AgentForm = React.memo((props: Props) => {
+const AgentForm = observer((props: Props) => {
   // @ts-ignore
-  const { bankStore, authStoreModel } = useStores()
+  const { bankStore, locationStore, authStoreModel } = useStores()
   const { control, errors, setValue } = props
   const [bank, setBank] = useState([])
+  const [stateCountry, setStateCountry] = useState([])
+  const [townDistrict, setTownDistrict] = useState([])
+  const [subDistrict, setSubDistrict] = useState([])
 
   useEffect(() => {
-    bankStore.getBankList()
+    bankStore.getBankList();
     const user = authStoreModel?.user
     if (user?.emails[0]?.email){
       setValue('email', user?.emails[0]?.email)
@@ -30,18 +35,17 @@ const AgentForm = React.memo((props: Props) => {
       setValue('phone', user?.tels[0]?.tel)
 
     }
+    locationStore.get('country', 'VN').then((res) => {
+      const idCountry = res?.data?.data?.[0]?.id
+
+      locationStore.get('state', undefined, idCountry).then((state) => {
+        setStateCountry(state.data?.data?.map((val) => ({
+          value: val.id,
+          label: val.name
+        })))
+      })
+    })
   }, [])
-
-  // useEffect(() => {
-  //   console.log('1');
-
-  //   setValue('bankBranch', '')
-  //   setReloadBankBranch(true)
-
-  //   bankStore.getBankBranch(watch('bank')).then(() => {
-  //     setReloadBankBranch(false)
-  //   })
-  // }, [watch('bank')])
 
   const listBank = () => {
     const banks = bankStore?.banks ?? []
@@ -69,50 +73,116 @@ const AgentForm = React.memo((props: Props) => {
     })
   }
 
+  const handleSelectState = (state) => {
+    console.log('state____', state);
+
+    locationStore.get('town_district', undefined, state?.value).then((res) => {
+      setTownDistrict(res.data?.data?.map((val) => ({
+        value: val.id,
+        label: val.name
+      })))
+    })
+  }
+
+  const handleSelectDistrict = (state) => {
+    locationStore.get('sub_district', undefined, state?.value).then((res) => {
+      setSubDistrict(res.data?.data?.map((val) => ({
+        value: val.id,
+        label: val.name
+      })))
+    })
+  }
+
   return (
     <View style={styles.container}>
-      <FormInput
-        {...{
-          name: 'email',
-          label: 'Email',
-          placeholderTx: 'placeholder.email',
-          control,
-          error: errors?.email?.message
-        }}
-      />
-      <FormInput
-        {...{
-          name: 'phone',
-          labelTx: 'label.phoneNumber',
-          placeholderTx: 'placeholder.phone',
-          control,
-          error: errors?.phone?.message
-        }}
-      />
-      <FormItemPicker
-        {...{
-          name: 'bank',
-          label: 'Tên ngân hàng',
-          placeholder: 'Chọn ngân hàng',
-          control,
-          setValue,
-          error: errors?.bank?.message,
-          data: listBank(),
-          handleSelectBank
-        }}
-      />
-      {bank && bank.length > 0 && <FormItemPicker
-        {...{
-          data: listBankBranch(),
-          name: 'bankBranch',
-          label: 'Chi nhánh ngân hàng',
-          placeholder: 'Chọn chi nhánh ngân hàng',
-          control,
-          setValue,
-          error: errors?.banks?.message
-        }}
-      />}
+      <KeyboardAwareScrollView>
+        <FormInput
+          {...{
+            name: 'email',
+            label: 'Email',
+            placeholderTx: 'placeholder.email',
+            control,
+            error: errors?.email?.message
+          }}
+        />
+        <FormInput
+          {...{
+            name: 'phone',
+            labelTx: 'label.phoneNumber',
+            placeholderTx: 'placeholder.phone',
+            control,
+            error: errors?.phone?.message
+          }}
+        />
+        <FormItemPicker
+          {...{
+            name: 'bank',
+            label: 'Tên ngân hàng',
+            placeholder: 'Chọn ngân hàng',
+            control,
+            setValue,
+            error: errors?.bank?.message,
+            data: listBank(),
+            handleSelect: handleSelectBank
+          }}
+        />
+        {bank && bank.length > 0 && <FormItemPicker
+          {...{
+            data: listBankBranch(),
+            name: 'bankBranch',
+            label: 'Chi nhánh ngân hàng',
+            placeholder: 'Chọn chi nhánh ngân hàng',
+            control,
+            setValue,
+            error: errors?.banks?.message
+          }}
+        />}
 
+        <FormItemPicker
+          {...{
+            name: 'state',
+            label: 'Tỉnh / TP trực thuộc',
+            placeholder: 'Tỉnh / TP trực thuộc',
+            control,
+            setValue,
+            error: errors?.bank?.message,
+            data: stateCountry,
+            handleSelect: handleSelectState
+          }}
+        />
+        <FormItemPicker
+          {...{
+            name: 'district',
+            label: 'Quận / huyện',
+            placeholder: 'Quận / huyện',
+            control,
+            setValue,
+            error: errors?.bank?.message,
+            data: townDistrict,
+            handleSelect: handleSelectDistrict
+          }}
+        />
+        <FormItemPicker
+          {...{
+            name: 'sub_district',
+            label: 'Phường / xã',
+            placeholder: 'Phường / xã',
+            control,
+            setValue,
+            error: errors?.bank?.message,
+            data: subDistrict,
+          }}
+        />
+        <FormInput
+          {...{
+            name: 'address',
+            label: 'Địa chỉ cụ thể',
+            placeholder: 'Nhập số nhà và tên đường',
+            control,
+            error: errors?.phone?.message
+          }}
+        />
+      </KeyboardAwareScrollView>
     </View>
   )
 });
