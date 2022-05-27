@@ -24,9 +24,10 @@ interface Props {
 
 const BuyStepTwo = React.memo(({ stepThree, getValues, insuranceType, productDetail }: Props) => {
   // @ts-ignore
-  const { paymentStore } = useStores()
+  const { paymentStore, productStore } = useStores()
   const [modal, setModal] = useState(false)
   const [link, setLink] = useState('')
+  const [infoPayment, setInfoPayment] = useState<any>({})
 
   const insurance = productDetail?.packages?.[insuranceType]
 
@@ -55,12 +56,11 @@ const BuyStepTwo = React.memo(({ stepThree, getValues, insuranceType, productDet
       }
     }
 
-    const desc = `${insurance.name}-${insurance.price}`
-
     paymentStore.post(data).then((res) => {
       if (res?.data?.paymentInfo?.url) {
         setModal(true)
         setLink(res?.data?.paymentInfo?.url)
+        setInfoPayment(res?.data)
       } else {
         Alert.alert("Thanh toán đanh gặp vấn đề")
       }
@@ -83,7 +83,18 @@ const BuyStepTwo = React.memo(({ stepThree, getValues, insuranceType, productDet
 
       <FullScreenModal
         visible={modal}
-        closeModal={() => { setModal(false) }}
+        closeModal={() => {
+          productStore.getTransactionInsurance(productDetail?.id).then((res) => {
+            const checkTransaction = res?.data?.data?.find(item => item?.id === infoPayment?.id);
+            if (checkTransaction) {
+              stepThree()
+            }
+
+            setModal(false)
+          }).catch(() => {
+            setModal(false)
+          })
+        }}
         url={link}
         animationType="slideVertical"
       />
