@@ -24,10 +24,11 @@ interface Props{
   data: Array<DataProps>
   name: FieldPath<FieldValues>
   value: string
+  handleSelectBank?: any
 }
 
 const NewItemPicker = React.memo((props: Props) => {
-  const { value, label, placeholder,errorMessage, setValue, data = [{value: '', label: ''}], name} = props
+  const { value, label, placeholder,errorMessage, setValue, data = [{value: '', label: ''}], name, handleSelectBank} = props
   const [open, setOpen] = useState<boolean>(false)
   const [title, setTitle] = useState<string>('')
 
@@ -39,6 +40,7 @@ const NewItemPicker = React.memo((props: Props) => {
     setTitle(val.label)
     setValue(name, val.value)
     setOpen(false)
+    if (handleSelectBank) handleSelectBank(val)
   }
 
   useEffect(()=> {
@@ -52,7 +54,7 @@ const NewItemPicker = React.memo((props: Props) => {
       <Pressable style={styles.valueContainer} onPress={toggleItem}>
         <View>
           <AppText value={label} style={styles.label}/>
-          <AppText style={FONT_MEDIUM_14} value={!!title ? title : placeholder} color={!!title ? color.palette.lightBlack : color.palette.gray}/>
+          <AppText style={FONT_MEDIUM_14} value={title || placeholder} color={title ? color.palette.lightBlack : color.palette.gray}/>
         </View>
         <FastImage source={open ? images.arrow_up : images.arrow_down} style={styles.icon}/>
       </Pressable>

@@ -18,7 +18,8 @@ export interface FormItemPickerProps extends UseControllerProps{
   error: string,
   style?: ViewStyle | any,
   defaultValue?: string,
-  data: Array<DataProps>
+  data: Array<DataProps>,
+  handleSelectBank?: any
 }
 
 const FormItemPicker = React.memo((props: FormItemPickerProps) => {
@@ -32,6 +33,7 @@ const FormItemPicker = React.memo((props: FormItemPickerProps) => {
     defaultValue,
     rules,
     setValue,
+    handleSelectBank,
     data = [{value: '', label: ''}],
   } = props
 
@@ -50,7 +52,8 @@ const FormItemPicker = React.memo((props: FormItemPickerProps) => {
             errorMessage:error,
             label,
             placeholder,
-            data
+            data,
+            handleSelectBank
             }}
           />
         )}

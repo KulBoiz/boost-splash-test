@@ -1,4 +1,4 @@
-import React, { useEffect } from "react"
+import React, { useEffect, useState } from "react"
 import { View, StyleSheet } from 'react-native';
 import { Control, UseFormSetValue, UseFormWatch } from "react-hook-form/dist/types/form"
 import { FieldErrors } from "react-hook-form/dist/types/errors"
@@ -7,7 +7,7 @@ import FormInput from "../../../components/form-input/form-input"
 import FormItemPicker from "../../../components/form-item-picker"
 import { useStores } from "../../../models"
 
-interface Props{
+interface Props {
   control: Control
   errors: FieldErrors<FieldValues>
   setValue: UseFormSetValue<FieldValues>
@@ -15,22 +15,28 @@ interface Props{
 }
 
 const AgentForm = React.memo((props: Props) => {
-  const {bankStore} = useStores()
-  const {control, errors, setValue, watch} = props
+  // @ts-ignore
+  const { bankStore } = useStores()
+  const { control, errors, setValue } = props
+  const [bank, setBank] = useState([])
 
-  useEffect(()=> {
+  useEffect(() => {
     bankStore.getBankList()
-  },[])
+  }, [])
 
-  useEffect(()=> {
-    setValue('bankBranch', '')
-    bankStore.getBankBranch(watch('bank'))
-  },[watch('bank')])
+  // useEffect(() => {
+  //   console.log('1');
+    
+  //   setValue('bankBranch', '')
+  //   setReloadBankBranch(true)
 
-  const banks = bankStore?.banks ?? []
-  const bankBranches = bankStore?.bankBranches ?? []
+  //   bankStore.getBankBranch(watch('bank')).then(() => {
+  //     setReloadBankBranch(false)
+  //   })
+  // }, [watch('bank')])
 
   const listBank = () => {
+    const banks = bankStore?.banks ?? []
     return banks?.map((val) => ({
       value: val.id,
       label: val.name
@@ -38,10 +44,21 @@ const AgentForm = React.memo((props: Props) => {
   }
 
   const listBankBranch = () => {
-    return bankBranches?.map((val) => ({
+    return bankStore?.bankBranches?.map((val) => ({
       value: val.id,
       label: val.name
     }))
+  }
+
+  const handleSelectBank = (bank) => {
+    setValue('bankBranch', '');
+    
+    bankStore.getBankBranch(bank?.value).then((res) => {
+      setBank(res?.data?.map((val) => ({
+        value: val.id,
+        label: val.name
+      })))
+    })
   }
 
   return (
@@ -72,10 +89,11 @@ const AgentForm = React.memo((props: Props) => {
           control,
           setValue,
           error: errors?.bank?.message,
-          data: listBank()
+          data: listBank(),
+          handleSelectBank
         }}
       />
-      <FormItemPicker
+      {bank && bank.length > 0 && <FormItemPicker
         {...{
           data: listBankBranch(),
           name: 'bankBranch',
@@ -85,7 +103,7 @@ const AgentForm = React.memo((props: Props) => {
           setValue,
           error: errors?.banks?.message
         }}
-      />
+      />}
 
     </View>
   )
@@ -94,5 +112,5 @@ const AgentForm = React.memo((props: Props) => {
 export default AgentForm;
 
 const styles = StyleSheet.create({
-    container: {},
+  container: {},
 });
