@@ -134,7 +134,7 @@ const AgentForm = observer((props: Props) => {
             placeholder: 'Chọn chi nhánh ngân hàng',
             control,
             setValue,
-            error: errors?.banks?.message
+            error: errors?.bankBranch?.message
           }}
         />}
 
@@ -145,7 +145,7 @@ const AgentForm = observer((props: Props) => {
             placeholder: 'Tỉnh / TP trực thuộc',
             control,
             setValue,
-            error: errors?.bank?.message,
+            error: errors?.state?.message,
             data: stateCountry,
             handleSelect: handleSelectState
           }}
@@ -157,7 +157,7 @@ const AgentForm = observer((props: Props) => {
             placeholder: 'Quận / huyện',
             control,
             setValue,
-            error: errors?.bank?.message,
+            error: errors?.district?.message,
             data: townDistrict,
             handleSelect: handleSelectDistrict
           }}
@@ -169,7 +169,7 @@ const AgentForm = observer((props: Props) => {
             placeholder: 'Phường / xã',
             control,
             setValue,
-            error: errors?.bank?.message,
+            error: errors?.sub_district?.message,
             data: subDistrict,
           }}
         />
@@ -179,7 +179,7 @@ const AgentForm = observer((props: Props) => {
             label: 'Địa chỉ cụ thể',
             placeholder: 'Nhập số nhà và tên đường',
             control,
-            error: errors?.phone?.message
+            error: errors?.address?.message
           }}
         />
       </KeyboardAwareScrollView>

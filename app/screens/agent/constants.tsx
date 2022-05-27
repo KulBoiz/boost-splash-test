@@ -62,9 +62,9 @@ export const CollaboratorContractInfoDesktop = (props: Props) => {
       </span>
       <span style={{fontFamily: 'Arial', fontStyle: 'italic'}}></span>
       </p>
-      <h1 style={{textAlign: 'center'}}>
+      <h2 style="textAlign: center">
       <b>HỢP ĐỒNG CỘNG TÁC VIÊN</b>
-      </h1>
+      </h2>
       <p>
         Hợp Đồng Cộng Tác Viên này (gọi tắt là “Hợp Đồng”) được lập và có hiệu lực từ ngày 
       ${day || moment().date()} tháng ${month || moment().month() + 1} năm ${year ||  moment().year()} (“Ngày Hiệu Lực”) giữa Các Bên dưới

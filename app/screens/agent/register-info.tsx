@@ -22,11 +22,13 @@ const RegisterInfo = React.memo((props: Props) => {
       .trim()
       .required(i18n.t('errors.requireEmail'))
       .email(i18n.t('errors.invalidEmail')),
-    fullName: Yup.string().required(i18n.t('errors.requireFullName')),
     // sex: Yup.string().required(i18n.t('errors.requireSex')),
-    contactAddress: Yup.string().required(i18n.t('errors.requireAddress')),
-    phone: Yup.string().required(i18n.t('errors.requirePhone'))
-
+    address: Yup.string().required(i18n.t('errors.requireAddress')),
+    phone: Yup.string().required(i18n.t('errors.requirePhone')),
+    bank: Yup.string().required('Chọn địa ngân hàng'),
+    state: Yup.string().required('Chọn tỉnh / thành phố'),
+    district: Yup.string().required('Chọn quận / huyện'),
+    sub_district: Yup.string().required('Chọn phường xã'),
   })
   const {control, handleSubmit, formState: {errors}, setValue, watch} = useForm({
     delayError: 0,
