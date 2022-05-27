@@ -1,5 +1,5 @@
-import React, { useState } from "react"
-import { View, Pressable } from "react-native"
+import React, { useEffect, useState } from "react"
+import { View, Pressable, ViewStyle } from "react-native"
 import { AppText } from "../app-text/AppText"
 import FastImage from "react-native-fast-image"
 import { images } from "../../assets/images"
@@ -12,47 +12,56 @@ import { UseFormSetValue } from "react-hook-form/dist/types/form"
 import { FieldValues } from "react-hook-form/dist/types/fields"
 import { FieldPath } from "react-hook-form/dist/types"
 
+interface DataProps{
+  value: string
+  label:string
+}
 interface Props{
   label:string
   placeholder: string
   errorMessage: string
   setValue: UseFormSetValue<FieldValues>
-  value: string
-  data: any[]
+  data: Array<DataProps>
   name: FieldPath<FieldValues>
+  value: string
 }
-const testData = [
-  'a',
-  'b',
-  'c'
-]
+
 const NewItemPicker = React.memo((props: Props) => {
-  const {label, value, placeholder,errorMessage, setValue, data = [], name} = props
+  const { value, label, placeholder,errorMessage, setValue, data = [{value: '', label: ''}], name} = props
   const [open, setOpen] = useState<boolean>(false)
+  const [title, setTitle] = useState<string>('')
 
   const toggleItem = () => {
     setOpen(!open)
   }
 
   const handleSelect = (val) => {
-    setValue(name, val)
+    setTitle(val.label)
+    setValue(name, val.value)
     setOpen(false)
   }
+
+  useEffect(()=> {
+    if (!value){
+      setTitle('')
+    }
+  },[value])
+
   return (
     <View style={styles.container}>
       <Pressable style={styles.valueContainer} onPress={toggleItem}>
         <View>
           <AppText value={label} style={styles.label}/>
-          <AppText style={FONT_MEDIUM_14} value={value ?? placeholder} color={value ? color.palette.lightBlack : color.palette.gray}/>
+          <AppText style={FONT_MEDIUM_14} value={!!title ? title : placeholder} color={!!title ? color.palette.lightBlack : color.palette.gray}/>
         </View>
         <FastImage source={open ? images.arrow_up : images.arrow_down} style={styles.icon}/>
       </Pressable>
       {open &&
         <View>
           <ScrollView style={styles.itemContainer}>
-            {testData.map((val, index) => (
+            {data.map((val, index) => (
               <Pressable key={index.toString()} style={styles.item} onPress={()=> handleSelect(val)}>
-                <AppText value={val} />
+                <AppText value={val.label} />
               </Pressable>
             ))}
           </ScrollView>

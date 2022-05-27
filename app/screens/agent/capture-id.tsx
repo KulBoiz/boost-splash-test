@@ -9,7 +9,7 @@ import { images } from "../../assets/images"
 import { AppText } from "../../components/app-text/AppText"
 import AppButton from "../../components/app-button/AppButton"
 import ActionItem from "./components/action-item"
-import { ThunderSvg } from "../../assets/svgs"
+import { GallerySvg, ThunderSvg } from "../../assets/svgs"
 import { color } from "../../theme"
 import { width } from "../../constants/variable"
 import { manipulateAsync, SaveFormat } from "expo-image-manipulator"
@@ -25,15 +25,6 @@ const CaptureId = React.memo((props: Props) => {
   const devices = useCameraDevices()
   const device = devices.back
 
-  // React.useEffect(() => {
-  //   (async () => {
-  //     const cameraPermission = await Camera.getCameraPermissionStatus();
-  //     if (cameraPermission === 'not-determined') {
-  //       await Camera.requestCameraPermission();
-  //     }
-  //     setHasPermission(cameraPermission === 'authorized');
-  //   })();
-  // }, []);
   React.useEffect(() => {
     ;(async () => {
       const status = await Camera.requestCameraPermission()
@@ -129,7 +120,7 @@ const CaptureId = React.memo((props: Props) => {
           text={flash === "on" ? "Tắt đèn flash" : "Bật đèn flash"}
         />
         <AppText value={"|"} color={color.text} fontSize={s(20)} />
-        <ActionItem onPress={onFlashPressed} icon={<ThunderSvg />} text={"Thư viện ảnh"} />
+        <ActionItem onPress={onFlashPressed} icon={<GallerySvg />} text={"Thư viện ảnh"} />
       </View>
 
       <View style={styles.btnContainer}>

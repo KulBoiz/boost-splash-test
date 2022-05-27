@@ -2,10 +2,13 @@ import React from 'react';
 import { View, StyleSheet, ViewStyle } from "react-native"
 import { Controller, UseControllerProps } from "react-hook-form"
 import { Control, UseFormSetValue } from "react-hook-form/dist/types/form"
-import ItemPicker from "./item-picker"
 import NewItemPicker from "./new-item-picker"
 import { FieldValues } from "react-hook-form/dist/types/fields"
 
+interface DataProps{
+  value: string
+  label:string
+}
 export interface FormItemPickerProps extends UseControllerProps{
   name: string,
   label?: string,
@@ -15,7 +18,7 @@ export interface FormItemPickerProps extends UseControllerProps{
   error: string,
   style?: ViewStyle | any,
   defaultValue?: string,
-  data: any[]
+  data: Array<DataProps>
 }
 
 const FormItemPicker = React.memo((props: FormItemPickerProps) => {
@@ -29,7 +32,7 @@ const FormItemPicker = React.memo((props: FormItemPickerProps) => {
     defaultValue,
     rules,
     setValue,
-    data = [],
+    data = [{value: '', label: ''}],
   } = props
 
   return (
@@ -41,8 +44,8 @@ const FormItemPicker = React.memo((props: FormItemPickerProps) => {
         rules={rules}
         render={({ field: { onChange, value, ref } }) => (
           <NewItemPicker {...{
-            setValue: setValue,
             value,
+            setValue,
             name,
             errorMessage:error,
             label,

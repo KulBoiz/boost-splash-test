@@ -4,10 +4,11 @@ import i18n from "i18n-js"
 import { observer } from "mobx-react-lite"
 import React, { useEffect, useRef, useState } from "react"
 import { useForm } from "react-hook-form"
-import { ScrollView } from "react-native"
+import { ScrollView, View } from "react-native"
 import { ScaledSheet } from "react-native-size-matters"
 import WebView from "react-native-webview"
 import * as Yup from "yup"
+import ShareComponent from "../../components/share"
 import { useStores } from '../../models/root-store/root-store-context'
 import { ScreenNames } from "../../navigators/screen-names"
 import { color } from "../../theme"
@@ -84,9 +85,19 @@ const BuyInsurance = observer((props: Props) => {
   }
 
   if (productDetail && productDetail?.source) {
-    return (<WebView
-      source={{ uri: productDetail?.info?.productUrlOriginal }}
-    />)
+    return (
+    //   <WebView
+    //   source={{ uri: productDetail?.info?.productUrlOriginal }}
+    // />
+      <View style={{ position: 'relative' }}>
+        <View style={{ height: '100%' }}>
+          <WebView
+            source={{ uri: productDetail?.info?.productUrlOriginal }}
+          />
+        </View>
+        <ShareComponent url={productDetail?.info?.productUrlOriginal} isIcon={true}/>
+      </View>
+    )
   }
 
   const renderScreen = () => {
@@ -100,7 +111,9 @@ const BuyInsurance = observer((props: Props) => {
         productDetail,
         questionGroups,
         setValue,
-      }} />
+      }}
+        getValues={getValues()}
+      />
       case 1: return <BuyStepTwo {...{
         stepThree,
         productDetail,

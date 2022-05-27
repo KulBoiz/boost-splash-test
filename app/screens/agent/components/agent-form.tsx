@@ -1,6 +1,6 @@
 import React, { useEffect } from "react"
 import { View, StyleSheet } from 'react-native';
-import { Control, UseFormSetValue } from "react-hook-form/dist/types/form"
+import { Control, UseFormSetValue, UseFormWatch } from "react-hook-form/dist/types/form"
 import { FieldErrors } from "react-hook-form/dist/types/errors"
 import { FieldValues } from "react-hook-form/dist/types/fields"
 import FormInput from "../../../components/form-input/form-input"
@@ -11,15 +11,39 @@ interface Props{
   control: Control
   errors: FieldErrors<FieldValues>
   setValue: UseFormSetValue<FieldValues>
+  watch: UseFormWatch<FieldValues>
 }
 
 const AgentForm = React.memo((props: Props) => {
   const {bankStore} = useStores()
-  const {control, errors, setValue} = props
+  const {control, errors, setValue, watch} = props
+
   useEffect(()=> {
     bankStore.getBankList()
   },[])
-  console.log('bank list',bankStore.banks)
+
+  useEffect(()=> {
+    setValue('bankBranch', '')
+    bankStore.getBankBranch(watch('bank'))
+  },[watch('bank')])
+
+  const banks = bankStore?.banks ?? []
+  const bankBranches = bankStore?.bankBranches ?? []
+
+  const listBank = () => {
+    return banks?.map((val) => ({
+      value: val.id,
+      label: val.name
+    }))
+  }
+
+  const listBankBranch = () => {
+    return bankBranches?.map((val) => ({
+      value: val.id,
+      label: val.name
+    }))
+  }
+
   return (
     <View style={styles.container}>
       <FormInput
@@ -47,12 +71,14 @@ const AgentForm = React.memo((props: Props) => {
           placeholder: 'Chọn ngân hàng',
           control,
           setValue,
-          error: errors?.bank?.message
+          error: errors?.bank?.message,
+          data: listBank()
         }}
       />
       <FormItemPicker
         {...{
-          name: 'banks',
+          data: listBankBranch(),
+          name: 'bankBranch',
           label: 'Chi nhánh ngân hàng',
           placeholder: 'Chọn chi nhánh ngân hàng',
           control,

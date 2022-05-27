@@ -6,7 +6,6 @@ import { withEnvironment } from "../extensions/with-environment"
  * Model description here for TypeScript hints.
  */
 const filter = {
-  skip: 0,
   where: {
     orgId: '60e0533b8cf80a69dda333dc',
     type: 'bank'
@@ -14,8 +13,8 @@ const filter = {
   include: [
     { relation: 'children' },
   ]
-
 }
+
 export const BankStoreModel = types
   .model("BankStore")
   .extend(withEnvironment)
@@ -23,6 +22,7 @@ export const BankStoreModel = types
     total: types.optional(types.number, 0),
     page: types.optional(types.number, 1),
     banks: types.frozen([]),
+    bankBranches: types.frozen([]),
   })
   .views((self) => ({})) // eslint-disable-line @typescript-eslint/no-unused-vars
   .actions((self) => ({
@@ -36,7 +36,7 @@ export const BankStoreModel = types
       if (result.kind !== "ok") {
         return result
       }
-      const data = result?.data
+      const data = result?.data?.data
       if (data) {
         self.banks = data
         return {
@@ -60,7 +60,7 @@ export const BankStoreModel = types
       if (result.kind !== "ok") {
         return result
       }
-      const data = result?.data
+      const data = result?.data?.data
       const oldData: any = [...self.banks]
       if (data) {
         const newData: any = oldData.concat(data)
@@ -72,6 +72,35 @@ export const BankStoreModel = types
         }
       }
     }),
+
+    getBankBranch: flow(function* getBankBranch(parentId: string) {
+      const loanApi = new BankApi(self.environment.api)
+      const param = {
+        page: 1,
+        limit: 50,
+        "filter": {
+          where: {
+            parentOrgId: parentId,
+          },
+          include: [
+            { relation: 'children' },
+          ] }
+      }
+      const result = yield loanApi.getBankBranch(param)
+      if (result.kind !== "ok") {
+        return result
+      }
+      const data = result?.data?.data
+      console.log(data)
+      if (data) {
+        self.bankBranches = data
+        return {
+          kind: "ok",
+          data,
+        }
+      }
+    }),
+
   })) // eslint-disable-line @typescript-eslint/no-unused-vars
 
 type BankStoreType = Instance<typeof BankStoreModel>

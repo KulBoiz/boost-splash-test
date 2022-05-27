@@ -43,4 +43,19 @@ export class BankApi {
     }
   }
 
+  async getBankBranch(param: any): Promise<any> {
+    try {
+      // make the api call
+      const response: ApiResponse<any> = await this.api.apisauce.get(`${API_ENDPOINT}/organizations`, { param })
+      if (!response.ok) {
+        const problem = getGeneralApiProblem(response)
+        if (problem) return problem
+      }
+      const data = response?.data
+      return { kind: "ok", data }
+    } catch (e) {
+      return { kind: "bad-data", e }
+    }
+  }
+
 }

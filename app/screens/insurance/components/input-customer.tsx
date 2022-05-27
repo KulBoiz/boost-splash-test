@@ -19,11 +19,11 @@ interface Props {
   errors: FieldErrors<FieldValues>,
   type?: string,
   setValue: any,
+  getValues: any
 }
 
 const InputCustomer = React.memo((props: Props) => {
-  const { control, errors, type, setValue,
-  } = props
+  const { control, errors, type, setValue, getValues } = props
   const [checkboxState, setCheckboxState] = useState(true)
 
   const onChangeText = (value: any, key: string) => {
@@ -42,6 +42,35 @@ const InputCustomer = React.memo((props: Props) => {
     if (checkboxState) {
       setValue(name, value)
     }
+  }
+
+  const resetCustomer = () => {
+    ['emailCustomer',
+      'fullNameCustomer',
+      'dateOfBirthCustomer',
+      'sexCustomer',
+      'citizenIdentificationCustomer',
+      'dateRangeCustomer',
+      'issuedByCustomer',
+      'contactAddressCustomer',
+      'phoneCustomer'].forEach(el => {
+        setValue(el, '')
+      })
+  }
+
+  const setCustomer = () => {
+    ['email',
+      'fullName',
+      'dateOfBirth',
+      'sex',
+      'citizenIdentification',
+      'dateRange',
+      'issuedBy',
+      'contactAddress',
+      'phone'].forEach(el => {
+        const key = el + 'Customer'
+        setValue(key, getValues[el])
+      })
   }
 
   return (
@@ -158,6 +187,11 @@ const InputCustomer = React.memo((props: Props) => {
           setCheckboxState={(value) => {
             // const 
             setCheckboxState(value)
+            if (value === false) {
+              resetCustomer()
+            } else {
+              setCustomer()
+            }
           }}
         />
 
@@ -204,27 +238,27 @@ const InputCustomer = React.memo((props: Props) => {
           }}
         />
         <View style={[ROW, SPACE_BETWEEN]}>
-        <FormDatePicker
-          {...{
-            style: { flex: 1, marginRight: 5 },
-            name: 'dateRangeCustomer',
-            label: i18n.t('label.dateRange'),
-            placeholder: 'DD/MM/YYYY',
-            setValue: setValue,
-            control,
-            error: errors?.dateRangeCustomer?.message
-          }}
-        />
-        <FormInput
-          {...{
-            style: { flex: 1 },
-            name: 'issuedByCustomer',
-            labelTx: 'label.issuedBy',
-            placeholderTx: 'placeholder.issuedBy',
-            control,
-            error: errors?.issuedByCustomer?.message
-          }}
-        />
+          <FormDatePicker
+            {...{
+              style: { flex: 1, marginRight: 5 },
+              name: 'dateRangeCustomer',
+              label: i18n.t('label.dateRange'),
+              placeholder: 'DD/MM/YYYY',
+              setValue: setValue,
+              control,
+              error: errors?.dateRangeCustomer?.message
+            }}
+          />
+          <FormInput
+            {...{
+              style: { flex: 1 },
+              name: 'issuedByCustomer',
+              labelTx: 'label.issuedBy',
+              placeholderTx: 'placeholder.issuedBy',
+              control,
+              error: errors?.issuedByCustomer?.message
+            }}
+          />
         </View>
         <FormInput
           {...{

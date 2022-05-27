@@ -32,7 +32,7 @@ const SettingScreen: FC<Props> = observer((props: Props) => {
           <SettingItem key={index.toString()} icon={value.icon} title={value.title} />
         ))}
         <AppButton title={'Đăng xuất'} onPress={logout}/>
-        {/*<AppButton title={'Đăng kí cộng tác viên'} containerStyle={[MARGIN_BOTTOM_16, MARGIN_TOP_16]} onPress={registerAgent}/>*/}
+        <AppButton title={'Đăng kí cộng tác viên'} containerStyle={[MARGIN_BOTTOM_16, MARGIN_TOP_16]} onPress={registerAgent}/>
 
         <View style={{height: 100}}/>
       </ScrollView>

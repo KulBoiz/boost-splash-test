@@ -1,10 +1,9 @@
 import React from 'react';
-import { View, StyleSheet } from 'react-native';
+import { View } from 'react-native';
 import { Control, UseFormSetValue } from "react-hook-form/dist/types/form"
 import { FieldErrors } from "react-hook-form/dist/types/errors"
 import { FieldValues } from "react-hook-form/dist/types/fields"
 import FormInput from "../../../components/form-input/form-input"
-import FormItemPicker from "../../../components/form-item-picker"
 import { ScaledSheet } from "react-native-size-matters"
 import FormDatePicker from "../../../components/form-date-time"
 
