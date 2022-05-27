@@ -122,13 +122,16 @@ const BuyInsurance = observer((props: Props) => {
       }}
         getValues={getValues()}
       />
-      case 2: return <BuyStepThree {...{ onPress: buyRecords }} />
+      case 2: return <BuyStepThree
+        {...{ onPress: buyRecords, productDetail, insuranceType}}
+        getValues={getValues()}
+      />
     }
   }
 
   return (
     <ScrollView style={styles.container} ref={ref}>
-      {currentPosition < 2 && <RenderStep {...{ currentPosition }} />}
+      {/* {currentPosition < 2 && <RenderStep {...{ currentPosition }} />} */}
       {!!productDetail?.id && renderScreen()}
     </ScrollView>
   )
