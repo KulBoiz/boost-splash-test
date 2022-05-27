@@ -24,11 +24,11 @@ interface Props{
   data: Array<DataProps>
   name: FieldPath<FieldValues>
   value: string
-  handleSelectBank?: any
+  handleSelect?: any
 }
 
 const NewItemPicker = React.memo((props: Props) => {
-  const { value, label, placeholder,errorMessage, setValue, data = [{value: '', label: ''}], name, handleSelectBank} = props
+  const { value, label, placeholder,errorMessage, setValue, data = [{value: '', label: ''}], name, handleSelect} = props
   const [open, setOpen] = useState<boolean>(false)
   const [title, setTitle] = useState<string>('')
 
@@ -36,11 +36,11 @@ const NewItemPicker = React.memo((props: Props) => {
     setOpen(!open)
   }
 
-  const handleSelect = (val) => {
+  const handleSelectOption = (val) => {
     setTitle(val.label)
     setValue(name, val.value)
     setOpen(false)
-    if (handleSelectBank) handleSelectBank(val)
+    if (handleSelect) handleSelect(val)
   }
 
   useEffect(()=> {
@@ -62,7 +62,7 @@ const NewItemPicker = React.memo((props: Props) => {
         <View>
           <ScrollView style={styles.itemContainer}>
             {data.map((val, index) => (
-              <Pressable key={index.toString()} style={styles.item} onPress={()=> handleSelect(val)}>
+              <Pressable key={index.toString()} style={styles.item} onPress={()=> handleSelectOption(val)}>
                 <AppText value={val.label} />
               </Pressable>
             ))}
