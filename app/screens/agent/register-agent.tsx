@@ -10,18 +10,24 @@ import SignatureModal from "./components/signature-modal"
 import { navigate } from "../../navigators"
 import { ScreenNames } from "../../navigators/screen-names"
 import { CONTAINER_PADDING } from "../../styles/common-style"
+import { useStores } from "../../models"
+import { color } from "../../theme"
 
 interface Props{}
 
 const RegisterAgent = React.memo((props: Props) => {
+  const {authStoreModel} = useStores()
   const [signatureModal, setSignatureModal] = useState<boolean>(false)
+
+  const fullName = authStoreModel?.user?.fullName || authStoreModel?.user?.firstName + authStoreModel?.user?.lastName || ''
+
   return (
     <View style={styles.container}>
       <AppHeader headerText={'Đăng ký làm cộng tác viên'} isBlue/>
       <ScrollView style={CONTAINER_PADDING}>
       <RenderHtml
         contentWidth={width}
-        source={CollaboratorContractInfoDesktop({fullName: ''})}
+        source={CollaboratorContractInfoDesktop({fullName})}
       />
       </ScrollView>
 
@@ -36,7 +42,7 @@ const RegisterAgent = React.memo((props: Props) => {
 export default RegisterAgent;
 
 const styles = ScaledSheet.create({
-    container: {flex:1},
+    container: {flex:1, backgroundColor: color.background},
   btnContainer :{
       flexGrow: 1,
     justifyContent: "flex-end",

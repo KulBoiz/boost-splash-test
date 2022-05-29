@@ -11,16 +11,27 @@ import { FONT_MEDIUM_12, FONT_SEMI_BOLD_12 } from "../../../styles/common-style"
 interface Props{
   visible: boolean,
   closeModal(): void
-  onSubmit(): void
+  setSignature?(e?: any): void
 }
 
 const SignatureModal = React.memo((props: Props) => {
-  const {visible, closeModal, onSubmit} = props
+  const {visible, closeModal, setSignature} = props
   const signRef = useRef(null)
 
   const resetSign = () =>  {
     // @ts-ignore
-    signRef.current.resetImage();
+    signRef?.current?.resetImage();
+  }
+  const _onSaveEvent = (result) => {
+    if (setSignature) {
+      setSignature(result?.encoded)
+    }
+  }
+
+  const onSubmit =()=> {
+    // @ts-ignore
+    signRef?.current?.saveImage();
+    closeModal()
   }
   return (
     <Modal
@@ -43,6 +54,7 @@ const SignatureModal = React.memo((props: Props) => {
           showBorder={false}
           minStrokeWidth={5}
           maxStrokeWidth={5}
+          onSaveEvent={_onSaveEvent}
         />
         <View style={styles.btnContainer}>
           <AppButton title={'Hủy'} onPress={closeModal} titleStyle={styles.cancelText} style={[styles.btn, styles.cancelBtn]}/>

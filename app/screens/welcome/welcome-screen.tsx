@@ -1,5 +1,5 @@
 import React, { FC, useState } from "react"
-import { BackHandler, View } from "react-native"
+import { BackHandler, StatusBar, View } from "react-native"
 import { StackScreenProps } from "@react-navigation/stack"
 import { observer } from "mobx-react-lite"
 import { ScreenNames } from "../../navigators/screen-names"
@@ -44,6 +44,7 @@ export const WelcomeScreen: FC<StackScreenProps<AuthStackParamList, ScreenNames.
       <View testID="WelcomeScreen" style={styles.container}>
         {screen < 4 ?
           <>
+            <StatusBar backgroundColor={color.background} barStyle={'dark-content'}/>
             <View style={styles.wrapSkip}>
               <AppText value={'SKIP'} onPress={_goToFifth}/>
             </View>

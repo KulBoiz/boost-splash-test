@@ -5,17 +5,28 @@ import { ScaledSheet } from "react-native-size-matters"
 import { color, spacing } from "../../theme"
 import { AppText } from "../app-text/AppText"
 import { fontFamily } from "../../constants/font-family"
+import { UseFormSetValue } from "react-hook-form/dist/types/form"
+import { FieldValues } from "react-hook-form/dist/types/fields"
+import { FieldPath } from "react-hook-form/dist/types"
+
+interface DataProps{
+  value: string
+  label:string
+}
 
 interface Props{
-  label?: string
-  placeholder?: string
-  value: any
-  setValue(): void
-  errorMessage?: string
+  label:string
+  placeholder: string
+  errorMessage: string
+  setValue: UseFormSetValue<FieldValues>
+  data: Array<DataProps>
+  name: FieldPath<FieldValues>
+  value: string
+  handleSelect?: any
 }
 
 const ItemPicker = React.memo((props: Props) => {
-  const {label, value, setValue, errorMessage, placeholder} = props
+  const { value, label, placeholder,errorMessage, setValue, data = [{value: '', label: ''}], name, handleSelect} = props
   const [open, setOpen] = useState(false);
   const [items, setItems] = useState([
     {label: 'Apple', value: 'apple'},

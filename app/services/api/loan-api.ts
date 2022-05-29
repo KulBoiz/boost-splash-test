@@ -142,7 +142,7 @@ export class LoanApi {
   async getProducts(): Promise<any> {
     try {
       const response: ApiResponse<any> = await this.api.apisauce.get(`${API_ENDPOINT}/product-details/public`, {
-        filter: {where: {status: 'approved'}, include: [{relation: 'product'}, {relation: "org"}]}
+        filter: {where: {status: 'approved'}, include: [{relation: 'product'}, {relation: "org"}]}, skip: 20
       })
       if (!response.ok) {
         const problem = getGeneralApiProblem(response)

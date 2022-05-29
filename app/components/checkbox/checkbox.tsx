@@ -4,7 +4,7 @@ import BouncyCheckbox from "react-native-bouncy-checkbox"
 import { color } from "../../theme"
 
 interface Props{
-  checkboxState: boolean
+  checkboxState?: boolean
   setCheckboxState(e: boolean): void
   textComponent?: JSX.Element
   text?: string

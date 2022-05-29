@@ -43,8 +43,8 @@ export const CollaboratorContractInfoDesktop = (props: Props) => {
     html:
       `
     <b>
-      <div style={{display: 'flex', textAlign: 'center', fontFamily: 'Arial', fontWeight: 'bold'}}>
-        <div style={{flexGrow: 1}}>
+      <div style="display: flex; textAlign: center; fontFamily: Arial; fontWeight: bold">
+        <div style="flexGrow: 1">
         <div>CÔNG TY CỔ PHẦN DỊCH VỤ TÀI</div>
         <div>CHÍNH BẤT ĐỘNG SẢN TULIP</div>
         </div>
@@ -56,15 +56,15 @@ export const CollaboratorContractInfoDesktop = (props: Props) => {
       </div>
     </b>
     <p
-      style={{marginTop: '0pt', marginBottom: '0pt', textAlign: 'right', widows: 0, orphans: 0, fontSize: '11pt'}}>
+      style="marginTop: 0pt; marginBottom: 0pt; textAlign: right; widows: 0; orphans: 0; fontSize: 11pt">
       <span style={{fontFamily: 'Arial', fontStyle: 'italic'}}>
                 Tp. Hồ Chí Minh, ngày ${day || moment().date()} tháng ${month || moment().month() + 1} năm ${year ||  moment().year()}
       </span>
       <span style={{fontFamily: 'Arial', fontStyle: 'italic'}}></span>
       </p>
-      <h1 style={{textAlign: 'center'}}>
+      <h2 style="textAlign: center">
       <b>HỢP ĐỒNG CỘNG TÁC VIÊN</b>
-      </h1>
+      </h2>
       <p>
         Hợp Đồng Cộng Tác Viên này (gọi tắt là “Hợp Đồng”) được lập và có hiệu lực từ ngày 
       ${day || moment().date()} tháng ${month || moment().month() + 1} năm ${year ||  moment().year()} (“Ngày Hiệu Lực”) giữa Các Bên dưới
@@ -182,12 +182,12 @@ export const CollaboratorContractInfoDesktop = (props: Props) => {
           điều khoản, điều kiện nêu tại Hợp Đồng này.
 </div>
 </div>
-<div style={{marginBottom: '5px'}}>
+<div style="marginBottom:5px">
 <b>DO VẬY,</b> Các Bên đồng ý ký kết Hợp Đồng với các điều khoản như sau:
 </div>
-<div style={{marginBottom: '5px', marginTop: '10px'}}>
+<div style="marginBottom: 5px; marginTop: 10px">
 <b>
-<span style={{display: 'inline-block', width: '25px'}}>I. </span> KHÁI QUÁT NỘI DUNG
+<span style="display: inline-block; width: 25px">I. </span> KHÁI QUÁT NỘI DUNG
           DỊCH VỤ
 </b>
 </div>
@@ -195,12 +195,12 @@ export const CollaboratorContractInfoDesktop = (props: Props) => {
 <tbody>
 <tr>
 <td
-style={{
-border: '1px solid #000000',
-padding: '0in 0.08in',
-width: '25%',
-textAlign: 'center',
-}}
+style="
+border: 1px solid #000000;
+padding: 0in 0.08in;
+width: 25%;
+textAlign: center;
+"
 >
 <p>
 <strong>
@@ -208,7 +208,7 @@ textAlign: 'center',
 </strong>
 </p>
 </td>
-<td style={{border: '1px solid #000000', padding: '0in 0.08in', textAlign: 'center'}}>
+<td style="border: 1px solid #000000; padding: 0in 0.08in; textAlign: center">
 <p>
 <strong>
 <span>Nội dung</span>
@@ -218,12 +218,12 @@ textAlign: 'center',
 </tr>
 <tr>
 <td
-style={{
-border: '1px solid #000000',
-padding: '0in 0.08in',
-width: '25%',
-textAlign: 'center',
-}}
+style="
+border: 1px solid #000000;
+padding: 0in 0.08in;
+width: 25%;
+textAlign: center;
+"
 >
 <p>
 <span>Phạm vi công việc</span>
@@ -232,12 +232,12 @@ textAlign: 'center',
 <span>(Dịch Vụ)</span>
 </p>
 </td>
-<td style={{border: '1px solid #000000', padding: '0in 0.08in'}}>
+<td style="border: 1px solid #000000; padding: 0in 0.08in">
 <p>
 <span>Cộng Tác Viên sẽ thực hiện các công việc sau cho TULIP:</span>
 </p>
 <div>
-<ol style={{paddingLeft: '13px'}}>
+<ol style="paddingLeft: 13px">
 <li>
 <span>
 1. Cug cấp dữ liệu Khách Hàng bằng cách đăng tải, đưa thông tin của Khách Hàng có nhu cầu sử dụng các sản phẩm, dịch vụ của Đối Tác (“Sản Phẩm”) lên Nền tảng, nhằm làm đa đạng hóa hệ thống dữ liệu và mở rộng mạng lưới Khách Hàng tiếp cận với Sản Phẩm của Đối Tác trên Nền tảng.
@@ -264,18 +264,18 @@ textAlign: 'center',
 </tr>
 <tr>
 <td
-style={{
-border: '1px solid #000000',
-padding: '0in 0.08in',
-width: '25%',
-textAlign: 'center',
-}}
+style="
+border: 1px solid #000000;
+padding: 0in 0.08in;
+width: 25%;
+textAlign: center;
+"
 >
 <p>
 <span>Giao Dịch Thành Công</span>
 </p>
 </td>
-<td style={{border: '1px solid #000000', padding: '0in 0.08in'}}>
+<td style="border: 1px solid #000000; padding: 0in 0.08in">
 <p>
 <span>
 Là giao dịch được xác nhận và hoàn tất trên Nền tảng khi Khách Hàng xác nhận sử dụng Sản Phẩm trên hệ thống theo dõi giao dịch của TULIP. Giao Dịch Thành Công sẽ được xác nhận bởi TULIP và/hoặc bên Đối Tác.
@@ -285,18 +285,18 @@ Là giao dịch được xác nhận và hoàn tất trên Nền tảng khi Khá
 </tr>
 <tr>
 <td
-style={{
-border: '1px solid #000000',
-padding: '0in 0.08in',
-width: '25%',
-textAlign: 'center',
-}}
+style="
+border: 1px solid #000000;
+padding: 0in 0.08in;
+width: 25%;
+textAlign: center;
+"
 >
 <p>
 <span>KPI</span>
 </p>
 </td>
-<td style={{border: '1px solid #000000', padding: '0in 0.08in'}}>
+<td style="border: 1px solid #000000; padding: 0in 0.08in">
 <p>
 <span>
 Theo chính sách của TULIP tùy từng thời điểm, chi tiết KPI sẽ được phân bổ cho
@@ -310,18 +310,18 @@ Cộng Tác Viên theo thông báo bằng văn bản.
 </tr>
 <tr>
 <td
-style={{
-border: '1px solid #000000',
-padding: '0in 0.08in',
-width: '25%',
-textAlign: 'center',
-}}
+style="
+border: 1px solid #000000;
+padding: 0in 0.08in;
+width: 25%;
+textAlign: center;
+"
 >
 <p>
 <span>Thù lao</span>
 </p>
 </td>
-<td style={{border: '1px solid #000000', padding: '0in 0.08in'}}>
+<td style="border: 1px solid #000000; padding: 0in 0.08in">
 <p>
 <span>
 Theo chính sách của TULIP tùy từng thời điểm dựa trên KPI và Giao Dịch Thành Công
@@ -336,18 +336,18 @@ Theo chính sách của TULIP tùy từng thời điểm dựa trên KPI và Gia
 </tr>
 <tr>
 <td
-style={{
-border: '1px solid #000000',
-padding: '0in 0.08in',
-width: '25%',
-textAlign: 'center',
-}}
+style="
+border: 1px solid #000000;
+padding: 0in 0.08in;
+width: 25%;
+textAlign: center;
+"
 >
 <p>
 <span>Thời hạn thanh toán thù lao</span>
 </p>
 </td>
-<td style={{border: '1px solid #000000', padding: '0in 0.08in'}}>
+<td style="border: 1px solid #000000; padding: 0in 0.08in">
 <p>
 <span>
 Sau khi chốt KPI và Giao Dịch Thành Công. Chi tiết theo chính sách của TULIP tùy
@@ -358,18 +358,18 @@ từng thời điểm.
 </tr>
 <tr>
 <td
-style={{
-border: '1px solid #000000',
-padding: '0in 0.08in',
-width: '25%',
-textAlign: 'center',
-}}
+style="
+border: 1px solid #000000;
+padding: 0in 0.08in;
+width: 25%;
+textAlign: center
+"
 >
 <p>
 <span>Hiệu lực của Hợp Đồng</span>
 </p>
 </td>
-<td style={{border: '1px solid #000000', padding: '0in 0.08in'}}>
+<td style="border: 1px solid #000000; padding: 0in 0.08in">
 <p>
 <span>Hợp Đồng có hiệu lực kể từ ngày đề tại phần đầu của Hợp Đồng.</span>
 </p>
@@ -377,9 +377,9 @@ textAlign: 'center',
 </tr>
 </tbody>
 </table>
-<div style={{marginBottom: '5px', marginTop: '10px'}}>
+<div style="marginBottom: 5px; marginTop: 10px">
 <b>
-<span style={{display: 'inline-block', width: '25px'}}>II. </span> NỘI DUNG CHI TIẾT HỢP
+<span style="display: inline-block; width: 25px">II. </span> NỘI DUNG CHI TIẾT HỢP
           ĐỒNG
 </b>
 </div>
@@ -421,11 +421,11 @@ Cộng Tác Viên cam kết thực hiện Hợp Đồng này theo đúng nội d
 <li style={{display: 'flex'}}>
 <span style={{display: 'inline-block', width: '25px'}}>2.1</span>
 
-<span style={{width: 'fit-content'}}>
+<span style="width: fit-content">
 Cộng Tác Viên được hưởng Thù lao như nêu tại Mục I. Khái quát nội dung dịch vụ của Hợp Đồng này.
 </span>
 </li>
-<li style={{display: 'flex'}}>
+<li style="display: flex">
 <span style={{display: 'inline-block', width: '25px'}}>2.2</span>
 
 <span style={{width: 'fit-content'}}>
@@ -658,7 +658,7 @@ nhau, mỗi Bên giữ 01 (một) bản.
 </p>
 <img
 src="https://storage.googleapis.com/image-fina/upload/fina/sign_ceo.png"
-style={{width: '150px'}} alt=""
+style="width: 170px" alt=""
 />
 <p>
 <strong>
@@ -679,7 +679,7 @@ style={{width: '150px'}} alt=""
 </p>
 <p>
 <strong>
-<span>${fullName || '________________'}</span>
+<span>${fullName || ''}</span>
 </strong>
 </p>
 </td>

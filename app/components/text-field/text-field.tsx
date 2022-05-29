@@ -1,5 +1,6 @@
 import React, { useState } from "react"
-import { Pressable, StyleProp, TextInput, TextInputProps, TextStyle, View, ViewStyle } from "react-native"
+import { Pressable, StyleProp, TextInputProps, TextStyle, View, ViewStyle } from "react-native"
+import { TextInput } from 'react-native-paper';
 import { color, spacing } from "../../theme"
 import { translate, TxKeyPath } from "../../i18n"
 import { Text } from "../text/text"
@@ -13,19 +14,9 @@ const CONTAINER: ViewStyle = {
 }
 const WRAP_INPUT: ViewStyle = {
   flexDirection: 'row',
-  minHeight: s(40),
-  backgroundColor: color.dim,
-  borderRadius: s(8),
   alignItems: "center",
-  paddingHorizontal: s(13)
 }
-const PRESS : ViewStyle = {
-  marginLeft: s(13),
-}
-const MULTILINE : ViewStyle = {
-  paddingTop: s(12),
-  minHeight: s(90),
-}
+
 const EYE : ImageStyle = {
   width: s(18),
   height: s(15)
@@ -36,15 +27,10 @@ const INPUT: TextStyle = {
   flex: 1,
   fontFamily:'Inter-Medium',
   color: color.palette.black,
-  minHeight: s(40),
   fontSize: ms(14),
+  backgroundColor: color.background
 }
-const LABEL: TextStyle = {
-  fontFamily: 'Inter-SemiBold',
-  color: color.palette.black,
-  fontSize: ms(12),
-  marginBottom: s(13)
-}
+
 const ERROR: TextStyle = {
   fontFamily: 'Inter-Medium',
   color: color.palette.angry,
@@ -89,8 +75,6 @@ export interface TextFieldProps extends TextInputProps {
    */
   inputStyle?: StyleProp<TextStyle>
 
-  labelStyle?: StyleProp<TextStyle>
-
   errorStyle?: StyleProp<TextStyle>
 
   /**
@@ -119,7 +103,6 @@ export function TextField(props: TextFieldProps) {
     label,
     preset = "default",
     style: styleOverride,
-    labelStyle: labelStyleOverride,
     inputStyle: inputStyleOverride,
     errorStyle: errorStyleOverride,
     forwardedRef,
@@ -130,44 +113,41 @@ export function TextField(props: TextFieldProps) {
   } = props
   const [showPassword, setShowPassword] = useState<boolean>(true)
   const containerStyles = [CONTAINER, PRESETS[preset], styleOverride]
-  const labelStyles = [LABEL, labelStyleOverride]
   const inputStyles = [INPUT, inputStyleOverride]
   const errorMessageStyles = [ERROR, errorStyleOverride]
   const actualPlaceholder = placeholderTx ? translate(placeholderTx) : placeholder
+  const actualLabel = labelTx ? translate(labelTx) : label
 
   const _handleShowPass = ()=> {
     setShowPassword(!showPassword)
   }
 
+  const renderRight = () => {
+    return(
+      <Pressable onPress={_handleShowPass}>
+        {showIcon && <FastImage source={showPassword ? images.close_eye : images.open_eye} style={EYE}/> }
+      </Pressable>
+    )
+  }
   return (
     <View style={containerStyles}>
-      {(label || labelTx) && <Text preset="fieldLabel" tx={labelTx} text={label} style={labelStyles}/>}
       <View style={WRAP_INPUT}>
         <TextInput
+          label={actualLabel}
+          mode={'outlined'}
           placeholder={actualPlaceholder}
-          placeholderTextColor={color.placeholder}
-          underlineColorAndroid={color.transparent}
           secureTextEntry={showIcon ? showPassword : false}
           {...rest}
           multiline={multiline}
-          style={[inputStyles, multiline ? MULTILINE : {}]}
-          textAlignVertical={multiline ? 'top' : "bottom"}
+          style={inputStyles}
           ref={forwardedRef}
+          right={renderRight()}
+          error={!!errorMessage}
+          activeOutlineColor={color.palette.blue}
         />
-        {showIcon &&
-          <>{showPassword ?
-            <Pressable onPress={_handleShowPass} style={PRESS}>
-              <FastImage source={images.close_eye} style={EYE}/>
-            </Pressable>
-            :
-            <Pressable onPress={_handleShowPass} style={PRESS}>
-              <FastImage source={images.close_eye} style={EYE}/>
-            </Pressable>}
-          </>
-        }
       </View>
-
       {!!errorMessage &&  <Text tx={errorTx} text={errorMessage} style={errorMessage ? errorMessageStyles : null}/>}
+
     </View>
   )
 }

@@ -1,10 +1,9 @@
 import React from 'react';
-import { View, StyleSheet } from 'react-native';
+import { View } from 'react-native';
 import { Control, UseFormSetValue } from "react-hook-form/dist/types/form"
 import { FieldErrors } from "react-hook-form/dist/types/errors"
 import { FieldValues } from "react-hook-form/dist/types/fields"
 import FormInput from "../../../components/form-input/form-input"
-import FormItemPicker from "../../../components/form-item-picker"
 import { ScaledSheet } from "react-native-size-matters"
 import FormDatePicker from "../../../components/form-date-time"
 
@@ -24,17 +23,17 @@ const IdForm = React.memo((props: Props) => {
           labelTx: 'label.fullName',
           placeholderTx: 'placeholder.fullName',
           control,
-          error: errors?.email?.message
+          error: errors?.fullName?.message
         }}
       />
       <FormInput
         {...{
-          name: 'phone',
-          labelTx: 'label.phoneNumber',
-          placeholderTx: 'placeholder.phone',
+          name: 'citizenIdentification',
+          labelTx: 'label.citizenIdentification',
+          placeholderTx: 'placeholder.citizenIdentification',
           control,
           keyboardType: 'number-pad',
-          error: errors?.phone?.message
+          error: errors?.citizenIdentification?.message
         }}
       />
       <FormDatePicker
@@ -43,7 +42,7 @@ const IdForm = React.memo((props: Props) => {
         placeholder={'Ngày cấp'}
         setValue={setValue}
         control={control}
-        error={errors?.phone?.dateRange}
+        error={errors?.dateRange?.message}
       />
       <FormInput
         {...{
@@ -51,7 +50,7 @@ const IdForm = React.memo((props: Props) => {
           labelTx: 'label.issuedBy',
           placeholderTx: 'placeholder.issuedBy',
           control,
-          error: errors?.phone?.message
+          error: errors?.issuedBy?.message
         }}
       />
 

@@ -34,7 +34,7 @@ export default SettingItem;
 
 const styles = ScaledSheet.create({
   container: {
-    paddingVertical: '18@s',
+    paddingVertical: '10@s',
     backgroundColor: color.background,
     paddingHorizontal: '16@ms'
   },

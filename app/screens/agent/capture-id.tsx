@@ -44,7 +44,7 @@ const CaptureId = React.memo((props: Props) => {
   }, [])
 
   const setPhoto = useCallback(
-    (photo) => {
+    async (photo) => {
       if (imageType === "front") {
         setFrontImage(photo)
         setImageType("back")
@@ -61,7 +61,6 @@ const CaptureId = React.memo((props: Props) => {
       Platform.OS === "ios"
         ? await cameraRef.current.takePhoto(options)
         : await cameraRef.current.takeSnapshot(options)
-    console.log(data)
 
     const imageWidth = Math.min(data.height, data.width)
     const imageHeight = Math.max(data.height, data.width)
@@ -115,7 +114,9 @@ const CaptureId = React.memo((props: Props) => {
     [frontImage],
   )
 
-  const onContinue = useCallback(() => {}, [])
+  const onContinue = useCallback(() => {
+    navigate(ScreenNames.CHECK_INFO, {frontImage, backImage})
+  }, [frontImage, backImage])
 
   return (
     <View style={styles.container}>
