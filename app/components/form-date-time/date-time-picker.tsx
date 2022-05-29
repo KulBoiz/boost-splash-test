@@ -43,7 +43,7 @@ const DatePicker = React.memo((props: Props) => {
 
   return (
     <View style={styles.container}>
-      <Pressable style={styles.wrapper} onPress={showMode}>
+      <Pressable style={[styles.wrapper , {borderColor: errorMessage ? color.palette.angry : color.palette.blue, }]} onPress={showMode}>
         <View>
           <AppText value={label} style={styles.label} color={color.palette.black}/>
           <AppText
@@ -83,9 +83,8 @@ const styles = ScaledSheet.create({
     justifyContent: "space-between",
     alignItems: "center",
     borderWidth: 1,
-    borderColor: color.palette.blue,
-    borderRadius: '12@s',
-    paddingVertical: '11@ms',
+    borderRadius: '4@s',
+    paddingVertical: '7@ms',
     paddingHorizontal: '16@ms'
   },
   datePicker: {

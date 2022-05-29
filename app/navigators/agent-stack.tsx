@@ -8,6 +8,7 @@ export type AgentStackParamList = {
   [ScreenNames.REGISTER_AGENT]: undefined;
   [ScreenNames.REGISTER_INFO]: undefined;
   [ScreenNames.PHOTO_TUTORIAL]: undefined;
+  [ScreenNames.CHECK_INFO]: { frontImage: string, backImage: string };
 
 }
 

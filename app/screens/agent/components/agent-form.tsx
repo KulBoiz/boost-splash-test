@@ -8,6 +8,7 @@ import FormItemPicker from "../../../components/form-item-picker"
 import { useStores } from "../../../models"
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import { observer } from "mobx-react-lite";
+import { get } from "lodash"
 
 interface Props {
   control: Control
@@ -25,14 +26,16 @@ const AgentForm = observer((props: Props) => {
   const [townDistrict, setTownDistrict] = useState([])
   const [subDistrict, setSubDistrict] = useState([])
 
+  const email = get(authStoreModel?.user,'emails[0].email')
+  const phone = get(authStoreModel?.user,'tels[0].tel')
+
   useEffect(() => {
     bankStore.getBankList();
-    const user = authStoreModel?.user
-    if (user?.emails[0]?.email){
-      setValue('email', user?.emails[0]?.email)
+    if (email){
+      setValue('email', email)
     }
-    if (user?.tels[0]?.tel){
-      setValue('phone', user?.tels[0]?.tel)
+    if (phone){
+      setValue('phone', phone)
 
     }
     locationStore.get('country', 'VN').then((res) => {

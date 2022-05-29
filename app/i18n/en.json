@@ -7,7 +7,18 @@
     "start": "Bắt đầu",
     "sent": "Gửi",
     "sentCheck": "Gửi kiểm tra",
-    "sentInformation": "Gửi thông tin"
+    "sentInformation": "Gửi thông tin",
+    "photoPermissionsMessage": "You must give Fina access to the photos from the settings menu",
+    "cameraPermissionsMessage": "You must give Fina access to the camera from the settings menu",
+    "pleaseAllowAccess": "Please Allow Access",
+    "goToSetting": "Go to setting Fina",
+    "donTAllow": "Don't allow",
+    "openSettings": "Open settings",
+    "youVeAllowedAccessToSelectPhotosYouCanAddMoreOrAllowAccessToAllPhotos": "You’ve allowed access to select photos. You can add more or allow access to all photos.",
+    "selectMorePhotosOrGoToSettingsToAllowAccessToAllPhotos": "Select more photos or go to Settings to allow access to all photos.",
+    "selectMorePhotos": "Select More Photos",
+    "allowAccessToAllPhotos": "Allow Access to All Photos",
+    "manage": "Manage"
   },
   "guide": {
     "enterKeyword": "Nhập kí tự tìm kiếm và chọn từ danh sách hiện ra \n(vd: Q. 3 - Ho Chi Minh hoặc H. Dong Anh - Ha Noi)"
@@ -94,7 +105,7 @@
     "dateRange": "01/01/2000",
     "issuedBy": "Tên thành phố",
     "location": "Chọn vị trí của bạn",
-    "bankNumber" : "*** *** **",
+    "bankNumber": "*** *** **",
     "bankBranch": "Chi nhánh quản lý",
     "emailAndPhone": "09******** | email@adress.com",
     "password": "*******",

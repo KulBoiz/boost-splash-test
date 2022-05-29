@@ -1,5 +1,11 @@
 import React, { FC, memo } from "react"
-import { ActivityIndicator, TextStyle, TouchableOpacity, TouchableOpacityProps, ViewStyle } from "react-native"
+import {
+  ActivityIndicator,
+  TextStyle,
+  TouchableOpacity,
+  TouchableOpacityProps,
+  ViewStyle,
+} from "react-native"
 import { ScaledSheet } from "react-native-size-matters"
 import { Text } from "../text/text"
 import { color } from "../../theme"
@@ -7,7 +13,7 @@ import { translate, TxKeyPath } from "../../i18n"
 import i18n from "i18n-js"
 import { fontFamily } from "../../constants/font-family"
 
-export interface BaseButtonProps extends TouchableOpacityProps  {
+export interface BaseButtonProps extends TouchableOpacityProps {
   title?: string
   tx?: TxKeyPath
   txOptions?: i18n.TranslateOptions
@@ -17,7 +23,7 @@ export interface BaseButtonProps extends TouchableOpacityProps  {
   containerStyle?: ViewStyle | any
   titleStyle?: TextStyle | any
   colorBtn?: string
-  upperCase?:boolean
+  upperCase?: boolean
 }
 
 const AppButton: FC<BaseButtonProps> = ({
@@ -38,17 +44,24 @@ const AppButton: FC<BaseButtonProps> = ({
     <TouchableOpacity
       style={
         disable
-          ? [styles.disableStyle, { backgroundColor: colorBtn ?? color.palette.blue }, containerStyle]
+          ? [
+              styles.disableStyle,
+              { backgroundColor: colorBtn ?? color.palette.blue },
+              containerStyle,
+            ]
           : [styles.container, { backgroundColor: colorBtn ?? color.palette.blue }, containerStyle]
       }
       onPress={onPress}
       disabled={disable || loading}
+      activeOpacity={0.7}
       {...props}
     >
       {loading ? (
         <ActivityIndicator size={15} color={color.palette.white} />
       ) : (
-        <Text style={[styles.title, upperCase && styles.upperCase, titleStyle]}>{title || content}</Text>
+        <Text style={[styles.title, upperCase && styles.upperCase, titleStyle]}>
+          {title || content}
+        </Text>
       )}
     </TouchableOpacity>
   )
@@ -61,7 +74,6 @@ const styles = ScaledSheet.create({
     justifyContent: "center",
     alignItems: "center",
     paddingVertical: "14@vs",
-
   },
   disableStyle: {
     width: "100%",
@@ -71,10 +83,15 @@ const styles = ScaledSheet.create({
     paddingVertical: "14@vs",
     opacity: 0.6,
   },
-  title: { fontSize: "15@s", color: color.palette.white, fontWeight: '700', fontFamily: fontFamily.mulish.bold},
+  title: {
+    fontSize: "15@s",
+    color: color.palette.white,
+    fontWeight: "700",
+    fontFamily: fontFamily.mulish.bold,
+  },
   upperCase: {
-    textTransform: "uppercase"
-  }
+    textTransform: "uppercase",
+  },
 })
 
 export default memo(AppButton)

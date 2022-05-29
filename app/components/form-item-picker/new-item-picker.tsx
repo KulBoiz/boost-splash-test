@@ -51,7 +51,7 @@ const NewItemPicker = React.memo((props: Props) => {
 
   return (
     <View style={styles.container}>
-      <Pressable style={styles.valueContainer} onPress={toggleItem}>
+      <Pressable style={[styles.valueContainer, {borderColor: errorMessage ? color.palette.angry : color.palette.blue, }]} onPress={toggleItem}>
         <View>
           <AppText value={label} style={styles.label}/>
           <AppText style={FONT_MEDIUM_14} value={title || placeholder} color={title ? color.palette.lightBlack : color.palette.gray}/>
@@ -60,7 +60,7 @@ const NewItemPicker = React.memo((props: Props) => {
       </Pressable>
       {open &&
         <View>
-          <ScrollView style={styles.itemContainer}>
+          <ScrollView style={[styles.itemContainer, {borderColor: errorMessage ? color.palette.angry : color.palette.blue, }]}>
             {data.map((val, index) => (
               <Pressable key={index.toString()} style={styles.item} onPress={()=> handleSelectOption(val)}>
                 <AppText value={val.label} />
@@ -87,12 +87,11 @@ const styles = ScaledSheet.create({
   },
   valueContainer:{
     flexDirection: 'row',
-    borderRadius: '12@s',
+    borderRadius: '4@s',
     borderWidth:1,
-    borderColor: color.palette.blue,
     alignItems: "center",
     justifyContent: "space-between",
-    paddingVertical: '10@s',
+    paddingVertical: '7@s',
     paddingHorizontal: '16@ms'
   },
   label:{
@@ -103,9 +102,8 @@ const styles = ScaledSheet.create({
   itemContainer:{
     zIndex: 1,
     marginTop: '4@s',
-    borderRadius: '12@s',
+    borderRadius: '4@s',
     borderWidth:1,
-    borderColor: color.palette.blue,
     paddingHorizontal: '16@ms',
     height: '120@s',
     width: '100%',

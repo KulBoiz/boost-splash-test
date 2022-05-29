@@ -23,7 +23,7 @@ const IdForm = React.memo((props: Props) => {
           labelTx: 'label.fullName',
           placeholderTx: 'placeholder.fullName',
           control,
-          error: errors?.email?.message
+          error: errors?.fullName?.message
         }}
       />
       <FormInput
@@ -42,7 +42,7 @@ const IdForm = React.memo((props: Props) => {
         placeholder={'Ngày cấp'}
         setValue={setValue}
         control={control}
-        error={errors?.phone?.dateRange}
+        error={errors?.dateRange?.message}
       />
       <FormInput
         {...{
@@ -50,7 +50,7 @@ const IdForm = React.memo((props: Props) => {
           labelTx: 'label.issuedBy',
           placeholderTx: 'placeholder.issuedBy',
           control,
-          error: errors?.phone?.message
+          error: errors?.issuedBy?.message
         }}
       />
 

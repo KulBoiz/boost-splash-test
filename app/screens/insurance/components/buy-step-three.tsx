@@ -5,13 +5,16 @@ import BuySuccess from "./buy-success"
 
 
 interface Props{
-  onPress(): void
+  onPress(): void,
+  productDetail,
+  insuranceType,
+  getValues
 }
 
-const BuyStepTwo = React.memo(({ onPress }: Props) => {
+const BuyStepTwo = React.memo((props: Props) => {
   return (
     <View style={styles.container}>
-      <BuySuccess {...{onPress}}/>
+      <BuySuccess {...props}/>
     </View>
   )
 });

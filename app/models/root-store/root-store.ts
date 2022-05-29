@@ -11,6 +11,7 @@ import { ProductStoreModel } from "../product-store/product-store"
 import { PaymentStoreModel } from "../payment-store/payment-store"
 import { BankStoreModel } from "../bank-store/bank-store"
 import { LocationStoreModel } from "../location-store/location-store"
+import { MediaStoreModel } from "../media-store/media-store"
 
 /**
  * A RootStore model.
@@ -27,6 +28,7 @@ export const RootStoreModel = types.model("RootStore").props({
   menuFilterStore: types.optional(MenuFilterStoreModel, {} as any),
   productStore: types.optional(ProductStoreModel, {} as any),
   paymentStore: types.optional(PaymentStoreModel, {} as any),
+  mediaStore: types.optional(MediaStoreModel, {} as any),
   bankStore: types.optional(BankStoreModel, {} as any),
   locationStore: types.optional(LocationStoreModel, {} as any)
 })

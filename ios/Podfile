@@ -22,7 +22,6 @@ target 'fina' do
   pod 'Permission-PhotoLibrary', :path => "#{permissions_path}/PhotoLibrary"
   pod 'Permission-Camera', :path => "#{permissions_path}/Camera"
   pod 'Permission-Notifications', :path => "#{permissions_path}/Notifications"
-  pod 'RNSVG', :path => '../node_modules/react-native-svg'
 
 
   target 'finaTests' do

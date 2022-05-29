@@ -1,18 +1,25 @@
 import React, { FC } from "react"
-import { View } from 'react-native';
+import { View, ViewStyle } from "react-native"
 import { observer } from "mobx-react-lite"
 import { ScaledSheet } from "react-native-size-matters";
 import FastImage from "react-native-fast-image"
 import { images } from "../../assets/images"
 import { color } from "../../theme"
+import { useStores } from "../../models"
+import { get } from "lodash"
 
-interface Props{}
+interface Props{
+  style?: ViewStyle | any
+}
 
-const UserAvatar:FC<Props> = observer((props: Props) => {
+const UserAvatar:FC<Props> = observer(({ style }: Props) => {
+  const {authStoreModel} = useStores()
+  const avatar = get(authStoreModel?.user,'avatar')
+
   return (
-    <View style={styles.container}>
+    <View style={[styles.container, style]}>
       <View style={styles.wrapAvatar}>
-        <FastImage source={images.avatar} style={styles.avatar}/>
+        <FastImage source={avatar ? {uri: avatar} : images.avatar} style={styles.avatar}/>
       </View>
     </View>
   )
@@ -23,6 +30,7 @@ export default UserAvatar;
 const styles = ScaledSheet.create({
   container: {},
   wrapAvatar: {
+    backgroundColor: color.background,
     width: '108@s',
     height: '108@s',
     borderRadius: '54@s',

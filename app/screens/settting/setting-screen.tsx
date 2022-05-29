@@ -11,6 +11,7 @@ import { navigate } from "../../navigators"
 import { SETTING_LIST } from "./constants"
 import SettingItem from "./components/setting-item"
 import { color } from "../../theme"
+import VerifyUser from "./components/verify-user"
 
 interface Props{}
 
@@ -26,6 +27,7 @@ const SettingScreen: FC<Props> = observer((props: Props) => {
     <View style={styles.container}>
       <AppHeader headerTx={"header.personalSetting"}/>
       <ScrollView>
+        <VerifyUser />
         {SETTING_LIST.map((value, index)=> (
           <SettingItem key={index.toString()} icon={value.icon} title={value.title} onPress={value.onPress}/>
         ))}
