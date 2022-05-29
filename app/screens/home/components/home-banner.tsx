@@ -7,22 +7,30 @@ import FastImage from "react-native-fast-image"
 import Carousel from 'react-native-snap-carousel';
 import { ScaledSheet } from "react-native-size-matters"
 import { useStores } from "../../../models"
+import { ScreenNames } from "../../../navigators/screen-names"
+import { navigate } from "../../../navigators"
 
 interface Props{}
 
 const HomeBanner = observer((props: Props) => {
+  // @ts-ignore
   const {bannerStore} = useStores()
   const ref = useRef()
   const [activeDot, setActiveDot] = useState(0)
 
   useEffect(()=> {
     bannerStore.getPublicNews()
-  },[])
-  // onPress={()=> navigate(ScreenNames.BANNER_DETAIL, {url : item?.link})}
+  }, [])
+
   const news = bannerStore.publicNews ?? []
-  const _renderItem = useCallback(({item}) => {
+
+  const _renderItem = useCallback(({ item }) => {
+    const onPress = () => {
+      navigate(ScreenNames.BANNER_DETAIL, {url : item?.slug})
+    }
+
     return (
-      <Pressable style={{alignItems: 'center'}} >
+      <Pressable style={{alignItems: 'center'}} onPress={onPress}>
         <FastImage source={{uri : item?.image}} style={styles.image} resizeMode={'stretch'}/>
       </Pressable>
     );
