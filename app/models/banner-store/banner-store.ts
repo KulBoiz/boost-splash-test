@@ -30,6 +30,23 @@ export const BannerStoreModel = types
       }
     }),
 
+    getPublicBannerDetail: flow(function* getPublicBannerDetail(id: string) {
+      const loanApi = new BannerApi(self.environment.api)
+      const result = yield loanApi.getPublicBannerDetail(id)
+      const data = result.data
+      
+      if (result.kind !== "ok") {
+        return result
+      }
+      if (data) {
+        self.publicBanners = data
+        return {
+          kind: "ok",
+          data,
+        }
+      }
+    }),
+
     getPublicNews: flow(function* getPublicNews() {
       const loanApi = new BannerApi(self.environment.api)
       const result = yield loanApi.getPublicNews()
