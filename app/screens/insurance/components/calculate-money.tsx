@@ -1,65 +1,84 @@
-import React, { useEffect, useState } from "react"
-import { Pressable, TextInput, View } from "react-native"
-import ItemView from "../../loan/components/item-view"
-import { color } from "../../../theme"
-import { ScaledSheet, ms } from "react-native-size-matters"
+import moment from "moment"
+import React from "react"
+import { View } from "react-native"
+import { ScaledSheet } from "react-native-size-matters"
 import AppButton from "../../../components/app-button/AppButton"
-import { MARGIN_BOTTOM_16 } from "../../../styles/common-style"
+import ShareComponent from "../../../components/share"
 import { fontFamily } from "../../../constants/font-family"
 import { numberWithCommas } from "../../../constants/variable"
-import ShareComponent from "../../../components/share"
+import { MARGIN_BOTTOM_16 } from "../../../styles/common-style"
+import { color } from "../../../theme"
+import ItemView from "../../loan/components/item-view"
 // import { AppText } from "../../../components/app-text/AppText"
+import {API_ENDPOINT} from "@env"
 
 interface Props {
   onPress(): void
   insurance: any
   enable?: any
+  getValues?: any
+  productDetail: any
 }
 
-const CalculateMoney = React.memo(({ onPress, insurance, enable = false }: Props) => {
-  // const defaultPrice = 10000
-  // const [price, setPrice] = useState<string | number>(0)
-  // const [quantity, setQuantity] = useState<string | number>('1');
+const CalculateMoney = React.memo(({ onPress, insurance, enable = false, getValues, productDetail }: Props) => {
 
-  // useEffect(()=> {
-  //   setPrice(defaultPrice * Number(quantity))
-  // },[quantity])
+  const linkShare = () => {
+    console.log('getValues', getValues);
+    console.log('productDetail', productDetail);
 
-  // const handleChangeInput = (txt: string) => {
-  //   setQuantity(txt);
-  // };
-  // const _handlePlus = () => {
-  //   setQuantity(Number(quantity) + 1);
-  // };
+    if (getValues) {
+      // todo
+      const {
+        fullName,
+        phone,
+        email,
+        sex,
+        citizenIdentification,
+        dateOfBirth,
+        contactAddress,
+        fullNameCustomer,
+        emailCustomer,
+        sexCustomer,
+        phoneCustomer,
+        citizenIdentificationCustomer,
+        dateOfBirthCustomer,
+        contactAddressCustomer
+      } = getValues
+      const data = {
+        productDetail,
+        agreement: true,
+        insurance: insurance,
+        step: 1,
+        staffInfo: {
+          email, fullName, tel: phone, gender: sex,
+          idNumber: citizenIdentification, yearOfBirth: dateOfBirth, address:contactAddress
+        },
+        customerInfo: {
+          email: emailCustomer, fullName: fullNameCustomer, tel: phoneCustomer, gender: sexCustomer,
+          idNumber: citizenIdentificationCustomer, yearOfBirth: dateOfBirthCustomer, address: contactAddressCustomer
+        },
+        type: 'insurances',
+        subType: 'fina',
+        metaData: {
+          package: insurance.price,
+          effectiveTime: moment(),
+          expirationTime: moment().add(1, 'y')
+        }
+      }
 
-  // const _handleSub = () => {
-  //   if (Number(quantity) > 1) {
-  //     setQuantity(Number(quantity) - 1);
-  //   }
-  // };
+      return API_ENDPOINT + `landing-bao-hiem?token=${JSON.stringify(data)}`
+    }
 
-  // const renderInput = ()=> {
-  //   return(
-  //     <View style={styles.wrapMath}>
-  //       <Pressable style={[styles.box, styles.minus]} onPress={_handleSub}>
-  //         <AppText value={'-'} style={styles.minusText} />
-  //       </Pressable>
-  //       <View style={styles.wrapNumber}>
-  //         <TextInput value={quantity?.toString()} onChangeText={handleChangeInput} keyboardType={'number-pad'} />
-  //       </View>
-  //       <Pressable style={[styles.box, styles.plus]} onPress={_handlePlus}>
-  //         <AppText value={'+'} style={styles.plusText} color={color.text}/>
-  //       </Pressable>
-  //     </View>
-  //   )
-  // }
+    return "Bảo hiểm FINA-" + productDetail?.name + "-" + `${insurance?.name}-${insurance?.price}`
+  }
+
   return (
     <View style={styles.container}>
       <ItemView title={'Tổng tiền:'} content={`${numberWithCommas(insurance?.price)}đ`} style={MARGIN_BOTTOM_16} contentStyle={styles.price} />
       {/* <ItemView title={'Số lượng:'} content={renderInput()} style={MARGIN_BOTTOM_16}/> */}
-      <View style={{ flexDirection: 'row', justifyContent: 'space-between'}}>
+      <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
         <View style={{ width: '48%' }}>
-          <ShareComponent url={`${insurance?.name}-${insurance?.price}`} />
+          <ShareComponent url={linkShare()} />
         </View>
 
         <View style={{ width: '48%' }}>

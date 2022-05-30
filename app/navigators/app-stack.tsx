@@ -10,7 +10,7 @@ import { View } from "react-native"
 import { isIphoneX } from 'react-native-iphone-x-helper';
 import { vs, ScaledSheet } from 'react-native-size-matters'
 import SettingScreen from "../screens/settting/setting-screen"
-import { HomeActiveSVG, HomeInactiveSVG, SettingActiveSVG, SettingInactiveSVG } from "../assets/svgs"
+import { AccountHomeActiveSvg, AccountHomeInactiveSvg, ChatHomeActiveSvg, ChatHomeInactiveSvg, FileHomeActiveSvg, FileHomeInactiveSvg, HomeActiveSVG, HomeInactiveSVG, SettingActiveSVG, SettingInactiveSVG } from "../assets/svgs"
 import i18n from "i18n-js"
 import { color } from "../theme"
 import ComingSoon from "../components/coming-soon"
@@ -63,12 +63,9 @@ export const AppStack = () => {
         name={ScreenNames.CHAT}
         options={(props) => {
           return {
-            tabBarIcon: ({ color }) => (
-              <Icon
-                name="wechat"
-                size={24}
-                color={color}
-              />
+            tabBarIcon: ({ focused }) => (
+              // eslint-disable-next-line react/jsx-no-undef
+              focused ? <ChatHomeActiveSvg /> : <ChatHomeInactiveSvg />
             ),
             title: i18n.t('bottom_bar.chat'),
             tabBarVisible: getTabBarVisibility(props.route),
@@ -95,12 +92,9 @@ export const AppStack = () => {
         name={ScreenNames.SCHEDULE}
         options={(props) => {
           return {
-            tabBarIcon: ({ color }) => (
-              <Icon
-                name="calendar"
-                size={24}
-                color={color}
-              />
+            tabBarIcon: ({ focused }) => (
+              // eslint-disable-next-line react/jsx-no-undef
+              focused ? <FileHomeActiveSvg /> : <FileHomeInactiveSvg />
             ),
             title: i18n.t('bottom_bar.management'),
             tabBarVisible: getTabBarVisibility(props.route),
@@ -113,7 +107,8 @@ export const AppStack = () => {
         options={(props) => {
           return {
             tabBarIcon: ({ focused }) => (
-              focused ? <SettingActiveSVG /> : <SettingInactiveSVG />
+              // eslint-disable-next-line react/jsx-no-undef
+              focused ? <AccountHomeActiveSvg /> : <AccountHomeInactiveSvg />
             ),
             title: i18n.t('bottom_bar.setting'),
             tabBarVisible: getTabBarVisibility(props.route),

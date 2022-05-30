@@ -5,25 +5,36 @@ import { s, ScaledSheet } from "react-native-size-matters"
 import { color } from "../../../theme"
 import FastImage from "react-native-fast-image"
 import { images } from "../../../assets/images"
+import { FontAwesome as Icon } from '@expo/vector-icons';
 
-interface Props{
+interface Props {
   icon: JSX.Element
   title: string
+  active: boolean
   onPress?(): void
 }
 
 const SettingItem = React.memo((props: Props) => {
-  const {icon, title, onPress} = props
+  const { icon, title, active, onPress } = props
+
   return (
     <Pressable style={styles.container} onPress={onPress}>
       <View style={[styles.row, styles.space]}>
-        <View style={styles.row}>
+        <View style={[styles.row, !active && { opacity: 0.5 }]}>
           <View style={styles.wrapIcon}>
             {icon}
           </View>
-          <AppText value={title} style={styles.title}/>
+          <AppText value={title} style={styles.title} />
         </View>
-          <FastImage source={images.arrowLeft} style={styles.icon}/>
+        <View style={[styles.row, styles.space]}>
+          {!active && <Icon
+            name="lock"
+            size={21}
+            color={'gray'}
+          />}
+
+          <FastImage source={images.arrowLeft} style={[styles.icon, !active && { opacity: 0.5 }]} />
+        </View>
       </View>
 
     </Pressable>
@@ -42,7 +53,7 @@ const styles = ScaledSheet.create({
     width: '40@s',
     height: '40@s',
     backgroundColor: color.palette.lightBlue,
-    alignItems:"center",
+    alignItems: "center",
     justifyContent: "center",
     borderRadius: '8@s'
   },
@@ -57,15 +68,15 @@ const styles = ScaledSheet.create({
   },
   row: {
     flexDirection: 'row',
-    alignItems:"center"
+    alignItems: "center"
   },
   space: {
-      justifyContent: "space-between",
+    justifyContent: "space-between",
   },
-  icon:{
-      width: '24@s',
+  icon: {
+    width: '24@s',
     height: '24@s',
-    transform: [{rotate: '180deg'}]
+    transform: [{ rotate: '180deg' }]
   }
 
 });

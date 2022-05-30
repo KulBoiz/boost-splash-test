@@ -1,13 +1,11 @@
 import React, { FC } from "react"
-import { View, StyleSheet, Pressable, ScrollView } from "react-native"
+import { View, StyleSheet, ScrollView } from "react-native"
 import { observer } from "mobx-react-lite"
 import AppHeader from "../../components/app-header/AppHeader"
 import { useStores } from "../../models"
 import { StackActions, useNavigation } from "@react-navigation/native"
 import { ScreenNames } from "../../navigators/screen-names"
 import AppButton from "../../components/app-button/AppButton"
-import { MARGIN_BOTTOM_16, MARGIN_TOP_16 } from "../../styles/common-style"
-import { navigate } from "../../navigators"
 import { SETTING_LIST } from "./constants"
 import SettingItem from "./components/setting-item"
 import { color } from "../../theme"
@@ -36,7 +34,7 @@ const SettingScreen: FC<Props> = observer((props: Props) => {
         <ScrollView>
           <VerifyUser />
           {SETTING_LIST.map((value, index) => (
-            <SettingItem key={index.toString()} icon={value.icon} title={value.title} onPress={value.onPress} />
+            <SettingItem key={index.toString()} active={value.active} icon={value.icon} title={value.title} onPress={value.onPress} />
           ))}
           <AppButton title={'Đăng xuất'} onPress={logout} />
 
