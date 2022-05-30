@@ -28,6 +28,7 @@ const RenderItem = React.memo(({ svg, title, hideBorder, onPress }: { svg: JSX.E
 })
 
 const NoticeModal = observer(({ visible, close, item }: Props) => {
+  // @ts-ignore
   const { notificationModel } = useStores()
 
   const readNoti = () => {
@@ -38,11 +39,19 @@ const NoticeModal = observer(({ visible, close, item }: Props) => {
     }
   }
 
+  const deleteNoti = () => {
+    notificationModel.deleteNotification(item)
+    
+    if (close) {
+      close();
+    }
+  }
+
   return (
     <Modal isVisible={visible} style={styles.modalContainer} onBackdropPress={close}>
       <View style={styles.container}>
         {item?.status === STATUS.UNREAD && <RenderItem svg={<TickSvg />} title={'notice.tick'} onPress={readNoti} />}
-        <RenderItem svg={<TrashSvg />} title={'notice.deleteNotice'} hideBorder />
+        <RenderItem svg={<TrashSvg />} title={'notice.deleteNotice'} hideBorder onPress={deleteNoti}/>
         {/* <RenderItem svg={<CancelSvg />} title={'notice.cancel'} hideBorder /> */}
       </View>
     </Modal>

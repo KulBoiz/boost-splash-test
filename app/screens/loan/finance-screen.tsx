@@ -11,24 +11,31 @@ import { FONT_MEDIUM_14 } from "../../styles/common-style"
 import { ScaledSheet } from "react-native-size-matters"
 import { RouteProp, useRoute } from "@react-navigation/native"
 import { NavigatorParamList } from "../../navigators"
+import { useStores } from "../../models";
+import SettingAuthScreen from "../../components/app-niew-no-auth";
 
 interface Props{}
-
-const renderScene = SceneMap({
-  first: Introduce,
-  second: Product,
-  third : RecordsManagement,
-});
 
 const FinanceScreen = React.memo((props: Props) => {
   const route = useRoute<RouteProp<NavigatorParamList>>()
   const param = route?.params?.index ?? 0
   const [index, setIndex] = React.useState(param);
+  // @ts-ignore
+  const { authStoreModel } = useStores();
+
+
   const [routes] = React.useState([
     { key: 'first', title: 'Giới thiệu ' },
     { key: 'second', title: 'Sản phẩm' },
     { key: 'third', title: 'Quản lí hồ sơ' },
   ]);
+
+  const renderScene = SceneMap({
+    first: Introduce,
+    second: Product,
+    third : !authStoreModel?.isLoggedIn ? SettingAuthScreen :  RecordsManagement,
+  });
+
   const renderTabBar = props => (
     <TabBar
       {...props}

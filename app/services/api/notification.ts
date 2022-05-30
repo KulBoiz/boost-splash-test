@@ -75,4 +75,22 @@ export class NotificationApi {
       return { kind: "bad-data", e }
     }
   }
+
+  async deleteNotification(nodeName: string, id: string): Promise<any> {
+    try {
+      // make the api call
+      const response: ApiResponse<any> = await this.api.apisauce.delete(`${API_ENDPOINT}/${nodeName}/${id}`)
+
+      // the typical ways to die when calling an api
+      if (!response.ok) {
+        const problem = getGeneralApiProblem(response)
+        if (problem) return problem
+      }
+
+      const data = response?.data
+      return { kind: "ok", data }
+    } catch (e) {
+      return { kind: "bad-data", e }
+    }
+  }
 }

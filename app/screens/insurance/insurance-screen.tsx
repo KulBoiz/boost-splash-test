@@ -4,6 +4,7 @@ import { Pressable, View } from "react-native"
 import { ScaledSheet } from "react-native-size-matters"
 import { SceneMap, TabBar, TabView } from "react-native-tab-view"
 import AppHeader from "../../components/app-header/AppHeader"
+import SettingAuthScreen from "../../components/app-niew-no-auth"
 import { AppText } from "../../components/app-text/AppText"
 import { width } from "../../constants/variable"
 import { useStores } from "../../models"
@@ -16,11 +17,6 @@ import BuyRecords from "./components/buy-records"
 
 interface Props { }
 
-const renderScene = SceneMap({
-  first: BuyInsurance,
-  second: BuyRecords,
-});
-
 const InsuranceScreen = React.memo((props: Props) => {
   const route = useRoute<RouteProp<NavigatorParamList, ScreenNames.INSURANCE_SCREEN>>()
   const id = route?.params?.id
@@ -31,7 +27,12 @@ const InsuranceScreen = React.memo((props: Props) => {
     { key: 'second', title: 'Giao dịch' },
   ]);
   // @ts-ignore
-  const { productStore } = useStores();
+  const { productStore, authStoreModel } = useStores();
+
+  const renderScene = SceneMap({
+    first: !authStoreModel?.isLoggedIn ? SettingAuthScreen : BuyInsurance,
+    second: !authStoreModel?.isLoggedIn ? SettingAuthScreen : BuyRecords,
+  });
 
   const renderTabBar = props => (
     <TabBar
@@ -42,6 +43,7 @@ const InsuranceScreen = React.memo((props: Props) => {
       style={styles.tab}
     />
   );
+  
   const renderRightIcon = () => {
     return (
       <Pressable style={styles.wrapRightIcon} onPress={() => navigation.dispatch(StackActions.push(ScreenNames.INTRODUCE_SCREEN))}>
@@ -49,6 +51,7 @@ const InsuranceScreen = React.memo((props: Props) => {
       </Pressable>
     )
   }
+
   return (
     <View style={styles.container}>
       <AppHeader headerTx={"header.insurance"} isBlue onLeftPress={() => navigate(ScreenNames.HOME)} renderRightIcon={renderRightIcon()} />

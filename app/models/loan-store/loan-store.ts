@@ -247,6 +247,8 @@ export const LoanStoreModel = types
     }),
 
     getProductDetail: flow(function* getProductDetail(id: string) {
+      self.productDetail = {};
+      
       const loanApi = new LoanApi(self.environment.api)
       const result = yield loanApi.getProductDetail(id)
       if (result.kind !== "ok") {
