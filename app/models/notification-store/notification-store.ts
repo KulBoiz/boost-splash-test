@@ -46,6 +46,35 @@ export const NotificationStoreModel = types
       }
     }),
 
+    loadMoreNotifications: flow(function* getListNotifications(filters, userId) {
+      const api = new NotificationApi(self.environment.api)
+      const nextPage = self.page + 1
+      self.page = nextPage
+
+      const params = {
+        userId: userId,
+        page: nextPage,
+        filter: {
+          limit: 20,
+          skip: self.limit * (self.page - 1),
+          ...filters
+        }
+      }
+      const result = yield api.getNotificationPagination('notifications', params)
+      self.dataSources = result?.data
+      if (result.kind === "ok") {
+        return {
+          kind: "ok",
+          data: result.data,
+        }
+      }
+
+      return {
+        kind: "notOk",
+        data: result,
+      }
+    }),
+
     readAllNotifications: flow(function* readAllNotifications() {
       const api = new NotificationApi(self.environment.api)
       const result = yield api.readAllNotifications('notifications/read-all')
@@ -73,6 +102,30 @@ export const NotificationStoreModel = types
       const dataSources: any = [...self.dataSources]
       const index = dataSources?.findIndex((el: any) => item?.id === el.id)
       dataSources.splice(index, 1, notiRead)
+      self.dataSources = dataSources
+
+      if (result.kind === "ok") {
+        return {
+          kind: "ok",
+          data: result.data,
+        }
+      }
+
+      return {
+        kind: "notOk",
+        data: result,
+      }
+    }),
+
+    deleteNotification: flow(function* deleteNotification(item: any) {
+      const api = new NotificationApi(self.environment.api)
+
+      const result = yield api.deleteNotification('notifications', item?.id)
+      const dataSources: any = [...self.dataSources]
+      const index = dataSources?.findIndex((el: any) => item?.id === el.id)
+
+      dataSources.splice(index, 1)
+      
       self.dataSources = dataSources
 
       if (result.kind === "ok") {

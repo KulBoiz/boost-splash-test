@@ -11,6 +11,7 @@ import SettingItem from "./components/setting-item"
 import { color } from "../../theme"
 import VerifyUser from "./components/verify-user"
 import { AppText } from "../../components/app-text/AppText"
+import SettingAuthScreen from "../../components/app-niew-no-auth"
 
 interface Props{}
 
@@ -24,7 +25,6 @@ const SettingScreen: FC<Props> = observer((props: Props) => {
 
   const login = () => {
     navigation.dispatch(StackActions.push(ScreenNames.AUTH))
-
   }
 
   return (
@@ -41,10 +41,11 @@ const SettingScreen: FC<Props> = observer((props: Props) => {
           <View style={{ height: 100 }} />
         </ScrollView>
         :
-        <View style={styles.login}>
-          <AppText value={'Bạn cần phải đăng nhập để sử dụng tính năng này'}/>
-          <AppText value={'Đăng nhập'} underline onPress={login} color={color.palette.blue}/>
-        </View>
+        <SettingAuthScreen />
+        // <View style={styles.login}>
+        //   <AppText value={'Bạn cần phải đăng nhập để sử dụng tính năng này'}/>
+        //   <AppText value={'Đăng nhập'} underline onPress={login} color={color.palette.blue}/>
+        // </View>
       }
     </View>
   )
