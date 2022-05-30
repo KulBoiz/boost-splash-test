@@ -19,7 +19,6 @@ import ParsedText from 'react-native-parsed-text';
 import i18n from "i18n-js"
 import FormInput from "../../components/form-input/form-input"
 import RenderAuthStep from "./components/render-step-auth"
-import BackButton from "../../components/back-button/back-button"
 
 
 

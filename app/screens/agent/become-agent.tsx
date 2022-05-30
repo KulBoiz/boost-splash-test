@@ -12,12 +12,14 @@ import { width } from "../../constants/variable"
 import { ROW } from "../../styles/common-style"
 import { navigate } from "../../navigators"
 import { ScreenNames } from "../../navigators/screen-names"
+import BackButton from "../../components/back-button/back-button"
 
 interface Props{}
 
 const BecomeAgent = React.memo((props: Props) => {
   return (
     <View style={styles.container}>
+      <BackButton />
       <View style={styles.body}>
         <FastImage source={images.fina_logo} style={styles.logo} />
         <AppText value={'Bạn muốn trở thành'} style={styles.firstText}/>

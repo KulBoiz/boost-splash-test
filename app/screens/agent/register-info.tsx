@@ -1,4 +1,4 @@
-import React  from "react"
+import React, { useState } from "react"
 import { ScrollView, View } from "react-native"
 import AppHeader from "../../components/app-header/AppHeader"
 import RenderStepAgent from "./components/render-step"
@@ -7,17 +7,20 @@ import * as Yup from "yup"
 import i18n from "i18n-js"
 import { useForm } from "react-hook-form"
 import { yupResolver } from "@hookform/resolvers/yup/dist/yup"
-import { CONTAINER_PADDING } from "../../styles/common-style"
+import { CONTAINER_PADDING, FONT_REGULAR_12 } from "../../styles/common-style"
 import { color } from "../../theme"
 import AppButton from "../../components/app-button/AppButton"
 import { ScaledSheet } from "react-native-size-matters"
 import { navigate } from "../../navigators"
 import { ScreenNames } from "../../navigators/screen-names"
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view"
+import { AppText } from "../../components/app-text/AppText"
+import CustomCheckbox from "../../components/checkbox/custom-checkbox"
 
 interface Props{}
 
 const RegisterInfo = React.memo((props: Props) => {
+  const [gender,setGender] = useState<'Nam'|'Nữ'>('Nam')
   const validationSchema = Yup.object().shape({
     email: Yup.string()
       .trim()
@@ -46,6 +49,11 @@ const RegisterInfo = React.memo((props: Props) => {
       <AppHeader headerText={'Đăng ký thông tin'} isBlue/>
       <RenderStepAgent currentPosition={0} />
       <KeyboardAwareScrollView style={[CONTAINER_PADDING, {flex:1}]}>
+        <View style={styles.wrapCheckbox}>
+          <AppText value={'Giới tính'} style={FONT_REGULAR_12} color={color.palette.deepGray}/>
+          <CustomCheckbox onPress={()=> setGender('Nam')} text={'Nam'} isChecked={gender === 'Nam'}/>
+          <CustomCheckbox onPress={()=> setGender('Nữ')} text={'Nữ'} isChecked={gender === 'Nữ'}/>
+        </View>
         <AgentForm {...{control, errors, setValue, watch}} />
       </KeyboardAwareScrollView>
       <View style={styles.wrapBtn}>
@@ -62,6 +70,14 @@ const styles = ScaledSheet.create({
       backgroundColor: color.background,
       flex:1
     },
+  wrapCheckbox:{
+    alignItems: "center",
+    justifyContent: "space-between",
+    flexDirection: 'row',
+    width: '70%',
+    marginTop: '26@s',
+    marginBottom: '10@s'
+  },
   wrapBtn:{
     // flex:1,
     justifyContent: "flex-end",

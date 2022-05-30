@@ -10,7 +10,7 @@ import { images } from "../../assets/images"
 
 // the base styling for the container
 const CONTAINER: ViewStyle = {
-  paddingVertical: spacing[3],
+  marginVertical: spacing[3],
 }
 const WRAP_INPUT: ViewStyle = {
   flexDirection: 'row',

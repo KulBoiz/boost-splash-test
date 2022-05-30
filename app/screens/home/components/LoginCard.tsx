@@ -17,7 +17,7 @@ interface Props{
 const LoginCart = observer(({ style }: Props) => {
   const {authStoreModel} = useStores()
   // @ts-ignore
-  const isLogin = !!authStoreModel?.user?.fullName
+  const isLogin = authStoreModel?.isLoggedIn
   // @ts-ignore
   const haveAvatar = !!authStoreModel?.user?.avatar
   const avatar = authStoreModel?.user?.avatar
@@ -25,7 +25,8 @@ const LoginCart = observer(({ style }: Props) => {
     if (!isLogin){
       navigate(ScreenNames.AUTH)
     }
-    return true
+    else navigate(ScreenNames.SETTING)
+
   }
 
   return (

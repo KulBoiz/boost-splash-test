@@ -8,7 +8,7 @@ import { Control } from "react-hook-form/dist/types/form"
 import { FieldErrors } from "react-hook-form/dist/types/errors"
 import { FieldValues } from "react-hook-form/dist/types/fields"
 import { color } from "../../../theme"
-import { ROW, SPACE_BETWEEN } from "../../../styles/common-style"
+import { ALIGN_CENTER, ROW, SPACE_BETWEEN } from "../../../styles/common-style"
 import Checkbox from '../../../components/checkbox/checkbox';
 import { truncate } from 'lodash';
 import FormDatePicker from '../../../components/form-date-time';
@@ -87,7 +87,7 @@ const InputCustomer = React.memo((props: Props) => {
             onChangeText: (value) => onChangeText(value, 'fullName')
           }}
         />
-        <View style={[ROW, SPACE_BETWEEN]}>
+        <View style={[ROW, SPACE_BETWEEN, ALIGN_CENTER]}>
           <FormDatePicker
             {...{
               style: { flex: 1, marginRight: 5 },
@@ -185,7 +185,7 @@ const InputCustomer = React.memo((props: Props) => {
           textComponent={<AppText value={"Người mua là người được bảo hiểm"} style={{ marginLeft: s(8) }} />}
           checkboxState={checkboxState}
           setCheckboxState={(value) => {
-            // const 
+            // const
             setCheckboxState(value)
             if (value === false) {
               resetCustomer()
@@ -204,7 +204,7 @@ const InputCustomer = React.memo((props: Props) => {
             error: errors?.fullNameCustomer?.message
           }}
         />
-        <View style={[ROW, SPACE_BETWEEN]}>
+        <View style={[ROW, SPACE_BETWEEN, ALIGN_CENTER]}>
           <FormDatePicker
             {...{
               style: { flex: 1, marginRight: 5 },
@@ -237,7 +237,7 @@ const InputCustomer = React.memo((props: Props) => {
             keyboardType: 'number-pad'
           }}
         />
-        <View style={[ROW, SPACE_BETWEEN]}>
+        <View style={[ROW, SPACE_BETWEEN, ALIGN_CENTER]}>
           <FormDatePicker
             {...{
               style: { flex: 1, marginRight: 5 },

@@ -66,3 +66,11 @@ export { default as SelectedPhotoSvg } from "./selected-photo.svg"
 export { default as CardIdFrontSvg } from "./card-id-front.svg"
 export { default as CardIdBackSvg } from "./card-id-back.svg"
 export { default as InfoSvg } from "./info.svg"
+
+// home
+export { default as AccountHomeActiveSvg } from "./account-home-active.svg"
+export { default as AccountHomeInactiveSvg } from "./account-home-inactive.svg"
+export { default as ChatHomeActiveSvg } from "./chat-home-active.svg"
+export { default as ChatHomeInactiveSvg } from "./chat-home-inactive.svg"
+export { default as FileHomeActiveSvg } from "./file-home-active.svg"
+export { default as FileHomeInactiveSvg } from "./file-home-inactive.svg"

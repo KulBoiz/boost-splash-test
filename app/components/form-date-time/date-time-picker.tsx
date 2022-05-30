@@ -76,7 +76,8 @@ export default DatePicker;
 
 const styles = ScaledSheet.create({
   container: {
-    paddingVertical: spacing[3]
+    marginVertical: spacing[3],
+    paddingTop: '4@vs'
   },
   wrapper: {
     flexDirection: "row",
@@ -86,10 +87,6 @@ const styles = ScaledSheet.create({
     borderRadius: '4@s',
     paddingVertical: '7@ms',
     paddingHorizontal: '16@ms'
-  },
-  datePicker: {
-    flex: 1,
-    backgroundColor: 'transparent'
   },
   errorMessage: {
     fontFamily: 'Inter-Medium',

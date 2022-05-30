@@ -11,16 +11,13 @@ import { useForm } from "react-hook-form"
 import { yupResolver } from "@hookform/resolvers/yup/dist/yup"
 import IdForm from "./components/id-form"
 import AgentCheckbox from "./components/AgentCheckbox"
-import { CONTAINER_PADDING, FONT_REGULAR_12, ROW } from "../../styles/common-style"
+import { CONTAINER_PADDING} from "../../styles/common-style"
 import AppButton from "../../components/app-button/AppButton"
 import { navigate } from "../../navigators"
 import { ScreenNames } from "../../navigators/screen-names"
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view"
 import { RouteProp, useRoute } from "@react-navigation/native"
 import { AgentStackParamList } from "../../navigators/agent-stack"
-import Checkbox from "../../components/checkbox/checkbox"
-import { AppText } from "../../components/app-text/AppText";
-import CustomCheckbox from "../../components/checkbox/custom-checkbox"
 
 interface Props{}
 
@@ -28,7 +25,6 @@ const CheckInfo = React.memo( (props: Props) => {
   const route = useRoute<RouteProp<AgentStackParamList, ScreenNames.CHECK_INFO>>()
   const frontImage = route?.params?.frontImage ?? ''
   const backImage = route?.params?.backImage ?? ''
-  const [gender,setGender] = useState<'Nam'|'Nữ'>('Nam')
   const [checkboxState,setCheckboxState] = useState(false)
   const validationSchema = Yup.object().shape({
     fullName: Yup.string().required(i18n.t('errors.requireFullName')),
@@ -58,11 +54,7 @@ const CheckInfo = React.memo( (props: Props) => {
             <Image source={{uri: frontImage}} style={styles.image}/>
             <Image source={{uri: backImage}} style={styles.image}/>
           </View>
-          <View style={styles.wrapCheckbox}>
-            <AppText value={'Giới tính'} style={FONT_REGULAR_12} color={color.palette.deepGray}/>
-            <CustomCheckbox onPress={()=> setGender('Nam')} text={'Nam'} isChecked={gender === 'Nam'}/>
-            <CustomCheckbox onPress={()=> setGender('Nữ')} text={'Nữ'} isChecked={gender === 'Nữ'}/>
-          </View>
+
           <IdForm control={control} errors={errors} setValue={setValue} />
           <AgentCheckbox checkboxState={checkboxState} setCheckboxState={setCheckboxState} />
         </View>
@@ -87,14 +79,7 @@ const styles = ScaledSheet.create({
     justifyContent: "space-between",
     paddingHorizontal: '40@ms'
   },
-  wrapCheckbox:{
-    alignItems: "center",
-    justifyContent: "space-between",
-    flexDirection: 'row',
-    width: '70%',
-    marginTop: '26@s',
-    marginBottom: '10@s'
-  },
+
   image: {
     borderRadius: '8@s',
     width:'125@ms',
