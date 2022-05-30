@@ -63,10 +63,10 @@ const InputCustomer = React.memo((props: Props) => {
       'fullName',
       'dateOfBirth',
       'sex',
-      'citizenIdentification',
-      'dateRange',
-      'issuedBy',
-      'contactAddress',
+      'citizenIdentification', // cmnd
+      'dateRange', // ngày cấp
+      'issuedBy', // nơi cấp
+      'contactAddress', // địa chỉ cụ thể
       'phone'].forEach(el => {
         const key = el + 'Customer'
         setValue(key, getValues[el])

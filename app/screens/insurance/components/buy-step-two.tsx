@@ -1,16 +1,13 @@
-import React, { useState } from "react"
-import { Alert, View } from 'react-native';
-import { ScaledSheet } from "react-native-size-matters"
-import Benefit from "./benefit"
-import CalculateMoney from "./calculate-money"
-import InsuranceInfo from "./insurance-info"
-import CollapsibleInfoCustomer from "./collapsible-info-customer"
-import PaymentMethod from "./payment-method"
-import PinModal from "./pin-modal"
-import { useStores } from "../../../models";
-import FullScreenModal from "../../../components/app-modal/full-screen-modal";
-import { AppText } from "../../../components/app-text/AppText";
 import moment from "moment";
+import React, { useState } from "react";
+import { Alert, View } from 'react-native';
+import { ScaledSheet } from "react-native-size-matters";
+import FullScreenModal from "../../../components/app-modal/full-screen-modal";
+import { useStores } from "../../../models";
+import CalculateMoney from "./calculate-money";
+import CollapsibleInfoCustomer from "./collapsible-info-customer";
+import InsuranceInfo from "./insurance-info";
+import PaymentMethod from "./payment-method";
 
 
 interface Props {
@@ -37,16 +34,29 @@ const BuyStepTwo = React.memo(({ stepThree, getValues, insuranceType, productDet
       phone,
       email,
       sex,
+      citizenIdentification,
+      dateOfBirth,
+      contactAddress,
+      //
       fullNameCustomer,
       emailCustomer,
       sexCustomer,
-      phoneCustomer
+      phoneCustomer,
+      citizenIdentificationCustomer,
+      dateOfBirthCustomer,
+      contactAddressCustomer
     } = getValues
     const data = {
       agreement: true,
       productId: productDetail?.id,
-      staffInfo: { email, fullName, tel: phone, gender: sex },
-      customerInfo: { email: emailCustomer, fullName: fullNameCustomer, tel: phoneCustomer, gender: sexCustomer },
+      staffInfo: {
+        email, fullName, tel: phone, gender: sex,
+        idNumber: citizenIdentification, yearOfBirth: dateOfBirth, address:contactAddress
+      },
+      customerInfo: {
+        email: emailCustomer, fullName: fullNameCustomer, tel: phoneCustomer, gender: sexCustomer,
+        idNumber: citizenIdentificationCustomer, yearOfBirth: dateOfBirthCustomer, address: contactAddressCustomer
+      },
       type: 'insurances',
       subType: 'fina',
       metaData: {
@@ -76,6 +86,8 @@ const BuyStepTwo = React.memo(({ stepThree, getValues, insuranceType, productDet
 
       <CalculateMoney
         insurance={insurance}
+        getValues={getValues}
+        productDetail={productDetail}
         onPress={() => {
           openPayment()
         }}
@@ -86,7 +98,7 @@ const BuyStepTwo = React.memo(({ stepThree, getValues, insuranceType, productDet
         closeModal={() => {
           productStore.getTransactionInsurance(productDetail?.id).then((res) => {
             const checkTransaction = res?.data?.data?.find(item => item?.id === infoPayment?.id);
-            if (checkTransaction) {
+            if (checkTransaction && checkTransaction?.status === 'SUCCEEDED') {
               stepThree()
             }
 
