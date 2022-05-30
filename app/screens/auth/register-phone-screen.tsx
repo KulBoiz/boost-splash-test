@@ -12,13 +12,12 @@ import { StackScreenProps } from "@react-navigation/stack"
 import { AuthStackParamList } from "../../navigators/auth-stack"
 import { ScreenNames } from "../../navigators/screen-names"
 import { observer } from "mobx-react-lite"
-import { numberOnly } from "../../constants/regex"
-import CountrySelect from "./components/country-select"
 import { useStores } from "../../models"
 import ParsedText from 'react-native-parsed-text';
 import i18n from "i18n-js"
 import FormInput from "../../components/form-input/form-input"
 import RenderAuthStep from "./components/render-step-auth"
+import BackButton from "../../components/back-button/back-button"
 
 
 
@@ -67,7 +66,6 @@ const RegisterPhoneScreen: FC<StackScreenProps<AuthStackParamList, ScreenNames.R
         >
           {i18n.t('auth.enterPhone')}
         </ParsedText>
-       {/*<CountrySelect style={styles.location} changePrefix={setPrefix}/>*/}
         <FormInput
           {...{
             name: 'phone',

@@ -70,7 +70,7 @@ export default InsuranceScreen;
 const styles = ScaledSheet.create({
   container: { backgroundColor: color.palette.blue, flex: 1 },
   tab: { backgroundColor: 'white', borderTopLeftRadius: '8@s', borderTopRightRadius: '8@s' },
-  indicatorStyle: { backgroundColor: color.palette.blue, width: '65@ms', marginLeft: '65@ms' },
+  indicatorStyle: { backgroundColor: color.palette.blue},
   wrapRightIcon: {
     width: '18@s',
     height: '18@s',

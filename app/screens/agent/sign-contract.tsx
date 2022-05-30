@@ -14,11 +14,15 @@ import FastImage from "react-native-fast-image"
 import SuccessModal from "../../components/success-modal"
 import ConfirmModal from "../../components/app-modal/confirm-modal"
 import { StackActions, useNavigation } from "@react-navigation/native"
+import { useStores } from "../../models"
+import moment from "moment"
+import { color } from "../../theme";
 
 interface Props{}
 const content = 'Hồ sơ của bạn đang được xử lý, chúng tôi sẽ cập nhật trong vòng 24 giờ.\n\nChân thành cảm ơn!'
 
 const SignContract = React.memo((props: Props) => {
+  const {agentStore} = useStores()
   const navigation = useNavigation()
   const [signatureModal, setSignatureModal] = useState<boolean>(false)
   const [successModal, setSuccessModal] = useState<boolean>(false)
@@ -37,12 +41,24 @@ const SignContract = React.memo((props: Props) => {
       <ScrollView style={CONTAINER_PADDING}>
         <RenderHtml
           contentWidth={width}
-          source={CollaboratorContractInfoDesktop({fullName: ''})}
+          baseStyle={{backgroundColor: color.background}}
+          source={CollaboratorContractInfoDesktop({
+            fullName: agentStore.fullName,
+            idNumber: agentStore.citizenIdentification,
+            issuedOn: moment(agentStore.dateRange).format('DD/MM/YYYY'),
+            placeOfIssue: agentStore.issuedBy,
+            address: agentStore.address,
+            email: agentStore.email,
+            tel: agentStore.phone,
+            bankAccount: agentStore.bankNumber,
+            bankName: agentStore.bankName,
+          })}
         />
-        <View style={{width: '40%', position: 'absolute', bottom: 70, right: 50, alignItems: 'center'}}>
+        <View style={{width: '40%', position: 'absolute', bottom: 30, right: 50, alignItems: 'center'}}>
           {!signature && <AppButton title={'Ký bằng tay'} onPress={()=> setSignatureModal(true)}/> }
           {signature &&<FastImage source={{uri: `data:image/png;base64,${signature}`}} style={{width: 100, height: 100, top: 20}}/>}
         </View>
+        <View style={{height: 50}}/>
       </ScrollView>
 
       <View style={styles.btnContainer}>

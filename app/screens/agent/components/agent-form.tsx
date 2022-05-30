@@ -77,8 +77,6 @@ const AgentForm = observer((props: Props) => {
   }
 
   const handleSelectState = (state) => {
-    console.log('state____', state);
-
     locationStore.get('town_district', undefined, state?.value).then((res) => {
       setTownDistrict(res.data?.data?.map((val) => ({
         value: val.id,
@@ -117,14 +115,23 @@ const AgentForm = observer((props: Props) => {
             error: errors?.phone?.message
           }}
         />
+        <FormInput
+          {...{
+            name: 'bankNumber',
+            label: 'Số tài khoản ngân hàng',
+            placeholder: 'Nhập số tài khoản',
+            control,
+            error: errors?.bankNumber?.message
+          }}
+        />
         <FormItemPicker
           {...{
-            name: 'bank',
+            name: 'bankName',
             label: 'Tên ngân hàng',
             placeholder: 'Chọn ngân hàng',
             control,
             setValue,
-            error: errors?.bank?.message,
+            error: errors?.bankName?.message,
             data: listBank(),
             handleSelect: handleSelectBank
           }}
@@ -143,12 +150,12 @@ const AgentForm = observer((props: Props) => {
 
         <FormItemPicker
           {...{
-            name: 'state',
+            name: 'province',
             label: 'Tỉnh / TP trực thuộc',
             placeholder: 'Tỉnh / TP trực thuộc',
             control,
             setValue,
-            error: errors?.state?.message,
+            error: errors?.province?.message,
             data: stateCountry,
             handleSelect: handleSelectState
           }}
@@ -167,12 +174,12 @@ const AgentForm = observer((props: Props) => {
         />
         <FormItemPicker
           {...{
-            name: 'sub_district',
+            name: 'commune',
             label: 'Phường / xã',
             placeholder: 'Phường / xã',
             control,
             setValue,
-            error: errors?.sub_district?.message,
+            error: errors?.commune?.message,
             data: subDistrict,
           }}
         />

@@ -77,7 +77,7 @@ export default DatePicker;
 const styles = ScaledSheet.create({
   container: {
     marginVertical: spacing[3],
-    paddingTop: '4@vs'
+    paddingTop: isAndroid ? '5@vs' : '4@vs'
   },
   wrapper: {
     flexDirection: "row",

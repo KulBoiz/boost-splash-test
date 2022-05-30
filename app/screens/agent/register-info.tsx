@@ -16,23 +16,25 @@ import { ScreenNames } from "../../navigators/screen-names"
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view"
 import { AppText } from "../../components/app-text/AppText"
 import CustomCheckbox from "../../components/checkbox/custom-checkbox"
+import { useStores } from "../../models"
 
 interface Props{}
 
 const RegisterInfo = React.memo((props: Props) => {
-  const [gender,setGender] = useState<'Nam'|'Nữ'>('Nam')
+  const {agentStore} = useStores()
+  const [gender,setGender] = useState<'Nam'|'Nữ'|'Khác'>('Nam')
   const validationSchema = Yup.object().shape({
     email: Yup.string()
       .trim()
       .required(i18n.t('errors.requireEmail'))
       .email(i18n.t('errors.invalidEmail')),
-    // sex: Yup.string().required(i18n.t('errors.requireSex')),
     address: Yup.string().required(i18n.t('errors.requireAddress')),
     phone: Yup.string().required(i18n.t('errors.requirePhone')),
-    bank: Yup.string().required('Chọn địa ngân hàng'),
-    state: Yup.string().required('Chọn tỉnh / thành phố'),
+    bankName: Yup.string().required('Chọn địa ngân hàng'),
+    bankNumber: Yup.string().required('Nhập số tài khoản ngân hàng'),
+    province: Yup.string().required('Chọn tỉnh / thành phố'),
     district: Yup.string().required('Chọn quận / huyện'),
-    sub_district: Yup.string().required('Chọn phường xã'),
+    commune: Yup.string().required('Chọn phường xã'),
   })
   const {control, handleSubmit, formState: {errors}, setValue, watch} = useForm({
     delayError: 0,
@@ -41,7 +43,9 @@ const RegisterInfo = React.memo((props: Props) => {
     resolver: yupResolver(validationSchema),
     reValidateMode: "onChange" || "onTouched",
   })
-  const nextStep = () => {
+  const nextStep = (data) => {
+    agentStore.userInfo(gender, data.email, data.phone, data.bankNumber, data.bankName,
+      data.bankBranch, data.province, data.district, data.commune, data.address)
     navigate(ScreenNames.PHOTO_TUTORIAL)
   }
   return (
@@ -53,6 +57,7 @@ const RegisterInfo = React.memo((props: Props) => {
           <AppText value={'Giới tính'} style={FONT_REGULAR_12} color={color.palette.deepGray}/>
           <CustomCheckbox onPress={()=> setGender('Nam')} text={'Nam'} isChecked={gender === 'Nam'}/>
           <CustomCheckbox onPress={()=> setGender('Nữ')} text={'Nữ'} isChecked={gender === 'Nữ'}/>
+          <CustomCheckbox onPress={()=> setGender('Khác')} text={'Khác'} isChecked={gender === 'Khác'}/>
         </View>
         <AgentForm {...{control, errors, setValue, watch}} />
       </KeyboardAwareScrollView>
@@ -74,12 +79,11 @@ const styles = ScaledSheet.create({
     alignItems: "center",
     justifyContent: "space-between",
     flexDirection: 'row',
-    width: '70%',
+    width: '90%',
     marginTop: '26@s',
     marginBottom: '10@s'
   },
   wrapBtn:{
-    // flex:1,
     justifyContent: "flex-end",
     paddingBottom: '30@s',
     paddingTop: '20@s',

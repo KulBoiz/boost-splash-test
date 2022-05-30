@@ -14,6 +14,7 @@ import { AccountHomeActiveSvg, AccountHomeInactiveSvg, ChatHomeActiveSvg, ChatHo
 import i18n from "i18n-js"
 import { color } from "../theme"
 import ComingSoon from "../components/coming-soon"
+import { isAndroid } from "../constants/variable"
 
 
 export type AppStackParamList = {
@@ -141,7 +142,7 @@ const styles = ScaledSheet.create({
     backgroundColor: 'transparent',
     elevation: 30
   },
-  itemStyle: {backgroundColor: 'white', height: '55@ms', paddingVertical: '7@vs' },
+  itemStyle: {backgroundColor: 'white', height: isAndroid ? '60@ms' : '55@ms', paddingVertical: '7@vs' },
   xFillLine: {
     backgroundColor: color.background,
     position: 'absolute',

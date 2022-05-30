@@ -11,6 +11,7 @@ import { FONT_MEDIUM_14 } from "../../styles/common-style"
 import { ScaledSheet } from "react-native-size-matters"
 import { RouteProp, useRoute } from "@react-navigation/native"
 import { NavigatorParamList } from "../../navigators"
+import { ScreenNames } from "../../navigators/screen-names"
 
 interface Props{}
 
@@ -21,7 +22,7 @@ const renderScene = SceneMap({
 });
 
 const FinanceScreen = React.memo((props: Props) => {
-  const route = useRoute<RouteProp<NavigatorParamList>>()
+  const route = useRoute<RouteProp<NavigatorParamList, ScreenNames.FINANCE>>()
   const param = route?.params?.index ?? 0
   const [index, setIndex] = React.useState(param);
   const [routes] = React.useState([
@@ -57,6 +58,6 @@ export default FinanceScreen;
 const styles = ScaledSheet.create({
     container: {backgroundColor: color.palette.blue, flex: 1},
   tab:{ backgroundColor: 'white', borderTopLeftRadius: '8@s', borderTopRightRadius: '8@s' },
-  indicatorStyle:{ backgroundColor: color.palette.blue, width: '65@ms', marginLeft: '32.5@ms' }
+  indicatorStyle:{ backgroundColor: color.palette.blue}
 
 });
