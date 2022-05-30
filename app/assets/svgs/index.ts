@@ -61,3 +61,11 @@ export { default as ElementSvg } from "./setting/element.svg"
 export { default as StarSettingSvg } from "./setting/star.svg"
 export { default as TransactionSvg } from "./setting/transaction.svg"
 export { default as SettingSvg } from "./setting/setting.svg"
+
+// home
+export { default as AccountHomeActiveSvg } from "./account-home-active.svg"
+export { default as AccountHomeInactiveSvg } from "./account-home-inactive.svg"
+export { default as ChatHomeActiveSvg } from "./chat-home-active.svg"
+export { default as ChatHomeInactiveSvg } from "./chat-home-inactive.svg"
+export { default as FileHomeActiveSvg } from "./file-home-active.svg"
+export { default as FileHomeInactiveSvg } from "./file-home-inactive.svg"

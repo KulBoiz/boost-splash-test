@@ -29,13 +29,13 @@ const SettingScreen: FC<Props> = observer((props: Props) => {
       <AppHeader headerTx={"header.personalSetting"}/>
       <ScrollView>
         {SETTING_LIST.map((value, index)=> (
-          <SettingItem key={index.toString()} icon={value.icon} title={value.title} />
+          <SettingItem key={index.toString()} icon={value.icon} title={value.title} active={value.active}/>
         ))}
         <AppButton title={'Đăng xuất'} onPress={logout}/>
 
         <View style={{height: 100}}/>
       </ScrollView>
-      {/*<AppButton title={'Đăng kí cộng tác viên'} containerStyle={[MARGIN_BOTTOM_16, MARGIN_TOP_16]} onPress={registerAgent}/>*/}
+      {/* <AppButton title={'Đăng kí cộng tác viên'} containerStyle={[MARGIN_BOTTOM_16, MARGIN_TOP_16]} onPress={registerAgent}/> */}
     </View>
   )
 });
