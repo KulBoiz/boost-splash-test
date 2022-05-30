@@ -6,7 +6,6 @@ import RenderHtml from 'react-native-render-html';
 import { width } from "../../constants/variable"
 import { CollaboratorContractInfoDesktop } from "./constants"
 import { ScaledSheet } from "react-native-size-matters"
-import SignatureModal from "./components/signature-modal"
 import { navigate } from "../../navigators"
 import { ScreenNames } from "../../navigators/screen-names"
 import { CONTAINER_PADDING } from "../../styles/common-style"
@@ -17,7 +16,6 @@ interface Props{}
 
 const RegisterAgent = React.memo((props: Props) => {
   const {authStoreModel} = useStores()
-  const [signatureModal, setSignatureModal] = useState<boolean>(false)
 
   const fullName = authStoreModel?.user?.fullName || authStoreModel?.user?.firstName + authStoreModel?.user?.lastName || ''
 
@@ -34,7 +32,6 @@ const RegisterAgent = React.memo((props: Props) => {
       <View style={styles.btnContainer}>
         <AppButton title={'Tiếp tục'} onPress={()=> navigate(ScreenNames.REGISTER_INFO)}/>
       </View>
-      <SignatureModal visible={signatureModal} closeModal={()=> setSignatureModal(false)} onSubmit={()=>{}} />
     </View>
   )
 });
