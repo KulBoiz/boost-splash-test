@@ -53,7 +53,7 @@ const BuyStepOne = React.memo((props: Props) => {
       }
 
       <HomeInsurance productDetail={productDetail} />
-      <CalculateMoney {...{ onPress }} insurance={insurance} enable={enable}/>
+      <CalculateMoney {...{ onPress }} insurance={insurance} enable={enable} productDetail={productDetail} />
     </View>
   )
 });
