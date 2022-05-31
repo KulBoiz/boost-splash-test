@@ -25,7 +25,7 @@ const frameY = height * 0.45
 interface Props {}
 
 const CaptureId = React.memo((props: Props) => {
-  const {agentStore} = useStores()
+  const { agentStore } = useStores()
   const cameraRef = useRef<any>(null)
   const [imageType, setImageType] = React.useState<"front" | "back">("front")
   const [frontImage, setFrontImage] = React.useState("")
@@ -96,7 +96,7 @@ const CaptureId = React.memo((props: Props) => {
 
   const navigateToPhotoPicker = useCallback(() => {
     const onConfirm = (photoSelected: any) => {
-      console.log('select photo',photoSelected)
+      console.log("select photo", photoSelected)
       setPhoto(photoSelected)
     }
     navigate(ScreenNames.PHOTO_PICKER, {
@@ -118,9 +118,9 @@ const CaptureId = React.memo((props: Props) => {
   )
 
   const onContinue = useCallback(() => {
-    // agentStore.uploadFrontImage(frontImage)
+    agentStore.uploadFrontImage(frontImage)
     // agentStore.uploadBackImage(backImage)
-    navigate(ScreenNames.CHECK_INFO, {frontImage, backImage})
+    // navigate(ScreenNames.CHECK_INFO, {frontImage, backImage})
   }, [frontImage, backImage])
 
   return (
