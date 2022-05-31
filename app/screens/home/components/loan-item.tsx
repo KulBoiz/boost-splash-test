@@ -8,12 +8,13 @@ interface Props{
   icon: JSX.Element
   title: TxKeyPath
   onPress?(): void
+  styleCustom?: any
 }
 
 const LoanItem = React.memo((props: Props) => {
-  const {icon, title, onPress} = props
+  const {icon, title, onPress, styleCustom} = props
   return (
-    <View style={styles.container}>
+    <View style={[styles.container, styleCustom]}>
       {icon}
       <AppText tx={title} style={styles.title}/>
     </View>

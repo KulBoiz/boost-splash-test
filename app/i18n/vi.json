@@ -180,7 +180,7 @@
     "CREATE_YCTV": "Yêu cầu tư vấn {{counselCode}} được tạo thành công",
     "ASSIGNEE_YCTV": "{{assigneeFullName}} vừa được giao YCTV {{counselCode}}",
     "DISBURSED_NOTICE": "Khoản vay {{codeDeal}} được giải ngân thành công",
-    "CREATE_DEAL": "Hồ sơ vay {{counselCode}} được tạo thành công",
+    "CREATE_DEAL": "Hồ sơ vay {{codeDeal}} được tạo thành công",
     "VIEW_CONTACT_COLLABORATOR": "Hợp đồng cộng tác viên",
     "SEND_COLLABORATOR": "Gửi họp đồng cho CTV",
     "SEND_PROOF_INSURANCES": "Gửi chứng nhân bảo hiểm",
