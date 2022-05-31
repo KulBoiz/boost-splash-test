@@ -118,8 +118,10 @@ export const LoanStoreModel = types
     }),
 
     createRequestCounselling: flow(function* createRequestCounselling(email: string, fullName: string, tel: string, note?: string) {
+      const user: any = new LoanApi(self?.rootStore?.authStoreModel.userId)
+      
       const loanApi = new LoanApi(self.environment.api)
-      const result = yield loanApi.createRequestCounselling(email, fullName, tel, note)
+      const result = yield loanApi.createRequestCounselling(email, fullName, tel, note, user?.api)
       const data = result.data
 
       if (result.kind !== "ok") {
