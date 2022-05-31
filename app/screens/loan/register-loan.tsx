@@ -10,6 +10,7 @@ import {
   MARGIN_BOTTOM_24,
   MARGIN_BOTTOM_8,
   PARENT,
+  ROW,
 } from "../../styles/common-style"
 import { color } from "../../theme"
 import * as Yup from "yup"
@@ -101,7 +102,7 @@ const RegisterLoan = observer((props: Props) => {
             keyboardType: 'number-pad'
           }}
         />
-        <ProductTypePicker value={type} setValue={setType} />
+        {/* <ProductTypePicker value={type} setValue={setType} /> */}
         <FormInput
           {...{
             name: 'note',
@@ -115,7 +116,7 @@ const RegisterLoan = observer((props: Props) => {
         <View style={{ height: 50 }} />
 
       </KeyboardAwareScrollView>
-      <SuccessModal visible={modal} onPress={pressModal} title={'Gửi thông tin'} />
+        <SuccessModal visible={modal} onPress={pressModal} title={'Gửi thông tin'} />
     </View>
   )
 });
@@ -138,6 +139,6 @@ const styles = ScaledSheet.create({
   btn: {
     backgroundColor: color.palette.orange,
     alignSelf: "center",
-    marginTop: '40@s'
+    marginTop: '20@s'
   }
 });

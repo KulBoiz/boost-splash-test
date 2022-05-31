@@ -54,8 +54,6 @@ const NoticeScreen = observer((props: Props) => {
   // const [menuActive, setMenuActive] = useState(0)
   const [loadMore, setLoadMore] = useState<boolean>(false)
 
-  console.log(1, notificationModel.dataSources);
-
   useEffect(() => {
     const userId = authStoreModel?.userId
     const filters = {
@@ -96,9 +94,22 @@ const NoticeScreen = observer((props: Props) => {
     )
   }
   const renderItem = ({ item }) => {
-    const checkType = () => {
+    const checkUrl = () => {
       const key = KEY_NOTIFICATION[item?.code]
-      if (!key) return
+      console.log("key", key);
+      
+      if (!key) return false
+
+      if (key === 'YCTV') {
+        return true
+      }
+
+      return false
+    }
+
+    const nextDetail = () => {
+      const key = KEY_NOTIFICATION[item?.code]
+      if (!key) return ''
 
       if (key === 'YCTV') {
         navigate(ScreenNames.PROFILE_DETAIL)
@@ -116,12 +127,9 @@ const NoticeScreen = observer((props: Props) => {
         navigate(ScreenNames.HOME)
       }
     }
+
     return (
-      <Pressable onPress={() => {
-        checkType()
-      }}>
-        <NoticeItem item={item} />
-      </Pressable>
+      <NoticeItem item={item} nextDetail={nextDetail} checkUrl={checkUrl}/>
     )
   }
   return (
