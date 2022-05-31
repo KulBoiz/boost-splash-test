@@ -103,7 +103,8 @@ const AgentForm = observer((props: Props) => {
             label: 'Email',
             placeholderTx: 'placeholder.email',
             control,
-            error: errors?.email?.message
+            error: errors?.email?.message,
+            autoCapitalize: 'none'
           }}
         />
         <FormInput
