@@ -50,10 +50,10 @@ const Finance = React.memo((props: Props) => {
     <View style={styles.container}>
       <AppText value={'Sản phẩm vay'} style={styles.title} />
       <View style={styles.wrapIcon}>
-        <LoanItem icon={<HouseLoanSvg />} title={'home.finance.homeLoan'} />
-        <LoanItem icon={<CarLoanSvg />} title={'home.finance.carLoan'} />
-        <LoanItem icon={<ConsumerLoanSvg />} title={'home.finance.consumerLoan'} />
-        <LoanItem icon={<RepairLoanSvg />} title={'home.finance.repairLoad'} />
+        <LoanItem icon={<HouseLoanSvg />} title={'home.finance.homeLoan'} styleCustom={styles.iconCategory} />
+        <LoanItem icon={<CarLoanSvg />} title={'home.finance.carLoan'} styleCustom={styles.iconCategory}/>
+        <LoanItem icon={<ConsumerLoanSvg />} title={'home.finance.consumerLoan'} styleCustom={styles.iconCategory}/>
+        <LoanItem icon={<RepairLoanSvg />} title={'home.finance.repairLoad'} styleCustom={styles.iconCategory}/>
       </View>
       <View style={styles.wrapLoan}>
         <View style={styles.row}>
@@ -128,5 +128,7 @@ const styles = ScaledSheet.create({
     justifyContent: "space-between",
     marginBottom: '24@s'
   },
-
+  iconCategory: {
+    opacity: 0.5
+  }
 });

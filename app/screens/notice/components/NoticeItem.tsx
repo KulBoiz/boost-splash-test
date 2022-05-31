@@ -1,5 +1,5 @@
 import React, { useState } from "react"
-import { TouchableOpacity, View } from "react-native"
+import { Pressable, TouchableOpacity, View } from "react-native"
 import { ScaledSheet } from 'react-native-size-matters';
 import { AppText } from "../../../components/app-text/AppText"
 import { color } from "../../../theme"
@@ -12,6 +12,8 @@ import { translate } from "../../../i18n";
 
 interface Props {
   item: any
+  nextDetail: any
+  checkUrl: any
 }
 
 export const STATUS = {
@@ -19,12 +21,13 @@ export const STATUS = {
   UNREAD: 'UNREAD',
 }
 
-const NoticeItem = React.memo(({ item }: Props) => {
+const NoticeItem = React.memo(({ item, nextDetail, checkUrl }: Props) => {
   const [visible, setVisible] = useState<boolean>(false)
 
   const content = () => {
     const { code = '', data } = item
     const codeI18n: any = 'notice.' + code || ''
+
     return translate(codeI18n, data) || ''
   }
 
@@ -45,6 +48,9 @@ const NoticeItem = React.memo(({ item }: Props) => {
       <View style={styles.contentContainer}>
         <AppText value={content()} />
       </View>
+      {checkUrl() && <Pressable onPress={nextDetail} >
+        <AppText value={'Xem thêm'} style={styles.viewDetail}/>
+      </Pressable>}
       <NoticeModal visible={visible} close={() => setVisible(false)} item={item} />
 
     </View>
@@ -90,5 +96,9 @@ const styles = ScaledSheet.create({
     height: '8@s',
     borderRadius: '4@s',
     backgroundColor: color.palette.blue
+  },
+  viewDetail: {
+    color: color.palette.blue,
+    marginTop: '4@s'
   }
 });
