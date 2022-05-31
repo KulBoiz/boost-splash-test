@@ -76,7 +76,7 @@ export default RenderAuthStep;
 
 const styles = ScaledSheet.create({
     container: {
-      backgroundColor: color.palette.white,
+      backgroundColor: 'transparent',
       paddingVertical: '10@s',
       marginBottom: '50@s'
     },

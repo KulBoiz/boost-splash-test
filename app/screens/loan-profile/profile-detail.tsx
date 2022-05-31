@@ -54,7 +54,7 @@ export default ProfileDetail;
 
 const styles = ScaledSheet.create({
   tab:{ backgroundColor: 'white', borderTopLeftRadius: '8@s', borderTopRightRadius: '8@s', marginBottom: '16@s' },
-  indicatorStyle:{ backgroundColor: color.palette.blue, width: '65@ms', marginLeft: '32.5@ms' },
+  indicatorStyle:{ backgroundColor: color.palette.blue },
   container: {
     flex: 1,
     backgroundColor: color.palette.lightBlue,

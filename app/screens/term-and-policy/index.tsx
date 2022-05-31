@@ -55,6 +55,6 @@ export default TermAndPolicy;
 const styles = ScaledSheet.create({
   container: {backgroundColor: color.palette.blue, flex: 1},
   tab:{ backgroundColor: 'white', borderTopLeftRadius: '8@s', borderTopRightRadius: '8@s' },
-  indicatorStyle:{ backgroundColor: color.palette.blue, width: '90@ms', marginLeft: '10%' }
+  indicatorStyle:{ backgroundColor: color.palette.blue }
 
 });

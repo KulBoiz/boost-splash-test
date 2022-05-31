@@ -15,6 +15,7 @@ import { ScreenNames } from "../../navigators/screen-names"
 import { navigate } from "../../navigators"
 import PreviewPhotoId from "./components/preview-photo-id"
 import { RNHoleView } from "react-native-hole-view"
+import { useStores } from "../../models"
 
 const frameWidth = width * 0.8
 const frameHeight = width * 0.5
@@ -24,6 +25,7 @@ const frameY = height * 0.45
 interface Props {}
 
 const CaptureId = React.memo((props: Props) => {
+  const {agentStore} = useStores()
   const cameraRef = useRef<any>(null)
   const [imageType, setImageType] = React.useState<"front" | "back">("front")
   const [frontImage, setFrontImage] = React.useState("")
@@ -94,6 +96,7 @@ const CaptureId = React.memo((props: Props) => {
 
   const navigateToPhotoPicker = useCallback(() => {
     const onConfirm = (photoSelected: any) => {
+      console.log('select photo',photoSelected)
       setPhoto(photoSelected)
     }
     navigate(ScreenNames.PHOTO_PICKER, {
@@ -115,6 +118,8 @@ const CaptureId = React.memo((props: Props) => {
   )
 
   const onContinue = useCallback(() => {
+    // agentStore.uploadFrontImage(frontImage)
+    // agentStore.uploadBackImage(backImage)
     navigate(ScreenNames.CHECK_INFO, {frontImage, backImage})
   }, [frontImage, backImage])
 

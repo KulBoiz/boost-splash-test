@@ -18,10 +18,12 @@ import { ScreenNames } from "../../navigators/screen-names"
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view"
 import { RouteProp, useRoute } from "@react-navigation/native"
 import { AgentStackParamList } from "../../navigators/agent-stack"
+import { useStores } from "../../models"
 
 interface Props{}
 
 const CheckInfo = React.memo( (props: Props) => {
+  const {agentStore} = useStores()
   const route = useRoute<RouteProp<AgentStackParamList, ScreenNames.CHECK_INFO>>()
   const frontImage = route?.params?.frontImage ?? ''
   const backImage = route?.params?.backImage ?? ''
@@ -40,7 +42,8 @@ const CheckInfo = React.memo( (props: Props) => {
     resolver: yupResolver(validationSchema),
     reValidateMode: "onChange" || "onTouched",
   })
-  const submit = () => {
+  const submit = (data) => {
+    agentStore.userId(data.fullName, data.citizenIdentification, data.dateRange, data.issuedBy)
     navigate(ScreenNames.SIGN_CONTRACT)
   }
 
