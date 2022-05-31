@@ -63,10 +63,14 @@ export const LoanStoreModel = types
       self.histories = []
       self.templates = {}
       self.files = []
+      self.task = {}
 
       const loanApi = new LoanApi(self.environment.api)
       const commentApi = new CommentApi(self.environment.api)
       const documentApi = new DocumentTemplateApi(self.environment.api)
+
+      const resultDetail = yield loanApi.getRecordDetail(id)
+      self.task = resultDetail.data
 
       const result = yield loanApi.requestLoanDetail(id)
       const data = result.data
