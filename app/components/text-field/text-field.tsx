@@ -122,13 +122,6 @@ export function TextField(props: TextFieldProps) {
     setShowPassword(!showPassword)
   }
 
-  const renderRight = () => {
-    return(
-      <Pressable onPress={_handleShowPass}>
-        {showIcon && <FastImage source={showPassword ? images.close_eye : images.open_eye} style={EYE}/> }
-      </Pressable>
-    )
-  }
   return (
     <View style={containerStyles}>
       <View style={WRAP_INPUT}>
@@ -141,7 +134,7 @@ export function TextField(props: TextFieldProps) {
           multiline={multiline}
           style={inputStyles}
           ref={forwardedRef}
-          right={renderRight()}
+          right={showIcon && <TextInput.Icon name={showPassword ? images.close_eye : images.open_eye} onPress={_handleShowPass}/>}
           error={!!errorMessage}
           activeOutlineColor={color.palette.blue}
         />

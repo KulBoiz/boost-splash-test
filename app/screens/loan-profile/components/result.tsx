@@ -12,7 +12,6 @@ const Result = React.memo((props: Props) => {
   const { loanStore, dealDetailStoreModel } = useStores()
   const data = loanStore?.loanDetail?.dealDetails
 
-  console.log('data', data)
   const renderItem = ({ item }) => {
     return <ResultItem
       item={item}

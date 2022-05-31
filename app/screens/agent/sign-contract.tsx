@@ -1,5 +1,5 @@
 import React, { useState } from "react"
-import { ScrollView, View } from "react-native"
+import { Alert, ScrollView, View } from "react-native"
 import AppHeader from "../../components/app-header/AppHeader"
 import AppButton from "../../components/app-button/AppButton"
 import RenderHtml from 'react-native-render-html';
@@ -7,16 +7,16 @@ import { width } from "../../constants/variable"
 import { CollaboratorContractInfoDesktop } from "./constants"
 import { ScaledSheet } from "react-native-size-matters"
 import SignatureModal from "./components/signature-modal"
-import { navigate } from "../../navigators"
 import { ScreenNames } from "../../navigators/screen-names"
 import { CONTAINER_PADDING } from "../../styles/common-style"
 import FastImage from "react-native-fast-image"
-import SuccessModal from "../../components/success-modal"
-import ConfirmModal from "../../components/app-modal/confirm-modal"
 import { StackActions, useNavigation } from "@react-navigation/native"
 import { useStores } from "../../models"
 import moment from "moment"
 import { color } from "../../theme";
+import { Dialog, Paragraph } from "react-native-paper"
+import { AppText } from "../../components/app-text/AppText"
+import { fontFamily } from "../../constants/font-family"
 
 interface Props{}
 const content = 'Hồ sơ của bạn đang được xử lý, chúng tôi sẽ cập nhật trong vòng 24 giờ.\n\nChân thành cảm ơn!'
@@ -27,13 +27,21 @@ const SignContract = React.memo((props: Props) => {
   const [signatureModal, setSignatureModal] = useState<boolean>(false)
   const [successModal, setSuccessModal] = useState<boolean>(false)
   const [signature, setSignature] = useState<any>(null)
+
+  const uploadSignature = () => {
+    setSignatureModal(false)
+  }
+
   const closeModal =()=> {
     setSuccessModal(false)
     navigation.dispatch(StackActions.push(ScreenNames.APP))
   }
-  const onSubmit =()=> {
-    setSuccessModal(false)
-    navigation.dispatch(StackActions.push(ScreenNames.AUTH))
+  const sendData = async () => {
+    const result = await agentStore.registerAgent()
+    if (result.kind === 'ok'){
+      setSuccessModal(true)
+    }
+    else {Alert.alert('Something went wrong')}
   }
   return (
     <View style={styles.container}>
@@ -62,17 +70,17 @@ const SignContract = React.memo((props: Props) => {
       </ScrollView>
 
       <View style={styles.btnContainer}>
-        <AppButton title={'Tiếp tục'} onPress={()=> setSuccessModal(true)} disable={!signature}/>
+        <AppButton title={'Tiếp tục'} onPress={sendData} disable={!signature}/>
       </View>
-      <SignatureModal visible={signatureModal} closeModal={()=> setSignatureModal(false)}  setSignature={setSignature}/>
-      <ConfirmModal
-        closeModal={closeModal}
-        cancelTitle={'Trở về trang chủ'}
-        submitTitle={'Đăng nhập'}
-        content={content}
-        visible={successModal}
-        onPress={onSubmit}
-      />
+      <SignatureModal visible={signatureModal} closeModal={uploadSignature}  setSignature={setSignature}/>
+      <Dialog visible={successModal}>
+        <Dialog.Content>
+          <Paragraph>{content}</Paragraph>
+        </Dialog.Content>
+        <Dialog.Actions>
+          <AppText onPress={closeModal} style={styles.backHome}>Trở về trang chủ</AppText>
+        </Dialog.Actions>
+      </Dialog>
     </View>
   )
 });
@@ -80,7 +88,7 @@ const SignContract = React.memo((props: Props) => {
 export default SignContract;
 
 const styles = ScaledSheet.create({
-  container: {flex:1},
+  container: {flex:1, backgroundColor: color.background},
   btnContainer :{
     flexGrow: 1,
     justifyContent: "flex-end",
@@ -91,5 +99,10 @@ const styles = ScaledSheet.create({
     flex: 1,
     marginBottom: '50@s',
 
+  },
+  backHome: {
+    textTransform: "uppercase",
+    color: color.palette.blue,
+    fontFamily: fontFamily.semiBold
   }
 });

@@ -80,5 +80,6 @@ const styles = ScaledSheet.create({
   replyText: {
     color: color.palette.blue,
     fontSize: 12,
+    opacity: 0.5
   }
 });

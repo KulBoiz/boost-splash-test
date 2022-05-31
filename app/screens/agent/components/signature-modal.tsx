@@ -7,6 +7,7 @@ import { color } from "../../../theme"
 import { AppText } from "../../../components/app-text/AppText"
 import AppButton from "../../../components/app-button/AppButton"
 import { FONT_MEDIUM_12, FONT_SEMI_BOLD_12 } from "../../../styles/common-style"
+import { useStores } from "../../../models"
 
 interface Props{
   visible: boolean,
@@ -17,12 +18,14 @@ interface Props{
 const SignatureModal = React.memo((props: Props) => {
   const {visible, closeModal, setSignature} = props
   const signRef = useRef(null)
+  const {agentStore} = useStores()
 
   const resetSign = () =>  {
     // @ts-ignore
     signRef?.current?.resetImage();
   }
   const _onSaveEvent = (result) => {
+    agentStore.uploadBase64(result?.encoded)
     if (setSignature) {
       setSignature(result?.encoded)
     }
