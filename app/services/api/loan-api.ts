@@ -126,8 +126,21 @@ export class LoanApi {
   }
 
   async getRecordDetail(id: string): Promise<any> {
+    const filter = {
+      "include": [
+        {
+          "relation": "user"
+        },
+        {
+          "relation": "assignee"
+        },
+        {
+          "relation": "product"
+        },
+      ]
+    }
     try {
-      const response: ApiResponse<any> = await this.api.apisauce.get(`${API_ENDPOINT}/tasks/${id}`, {})
+      const response: ApiResponse<any> = await this.api.apisauce.get(`${API_ENDPOINT}/tasks/${id}`, {filter})
       if (!response.ok) {
         const problem = getGeneralApiProblem(response)
         if (problem) return problem
