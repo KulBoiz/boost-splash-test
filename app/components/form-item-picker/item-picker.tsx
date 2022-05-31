@@ -64,6 +64,7 @@ const ItemPicker = React.memo((props: Props) => {
         </Pressable>
       {!!errorMessage && <AppText value={errorMessage} style={styles.errorMessage}/> }
       <ItemPickerModal {...{
+        title,
         label,
         visible: modal,
         closeModal: ()=> setModal(false),

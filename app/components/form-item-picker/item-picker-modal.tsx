@@ -11,6 +11,7 @@ interface DataProps {
   value: string
 }
 interface Props{
+  title: string
   label: string
   visible: boolean
   closeModal(): void
@@ -19,11 +20,12 @@ interface Props{
 }
 
 const ItemPickerModal = React.memo((props: Props) => {
-  const {label, visible, closeModal, data = [{label: '', value: ''}], onPress} = props
+  const {title, label, visible, closeModal, data = [{label: '', value: ''}], onPress} = props
 
   const renderItem = useCallback(({ item }) => {
+    const check = title === item.label
     return(
-      <Pressable style={styles.item} onPress={()=> onPress(item)}>
+      <Pressable style={[styles.item, {borderWidth: check ? 1 : 0, borderColor: check ? color.palette.blue : color.palette.BABABA}]} onPress={()=> onPress(item)}>
         <AppText value={item.label}/>
       </Pressable>
     )},[]);
@@ -63,7 +65,9 @@ const styles = ScaledSheet.create({
     borderRadius: '8@s',
   },
   item: {
-    paddingVertical: '15@vs',
-    borderBottomWidth: 1,borderColor: color.palette.BABABA
+    paddingHorizontal: '10@ms',
+    paddingVertical: '12@vs',
+    borderBottomWidth: 1,
+    borderRadius: '8@s'
   }
 });

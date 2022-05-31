@@ -25,7 +25,20 @@ export class UploadApi {
         const problem = getGeneralApiProblem(response)
         if (problem) return problem
       }
-      console.log('response upload', response)
+      const data = response?.data
+      return { kind: "ok", data }
+    } catch (e) {
+      return { kind: "bad-data", e }
+    }
+  }
+
+  async uploadBase64(params: any): Promise<any> {
+    try {
+      const response: ApiResponse<any> = await this.api.apisauce.post(`${API_ENDPOINT}/file/upload-base64`, params)
+      if (!response.ok) {
+        const problem = getGeneralApiProblem(response)
+        if (problem) return problem
+      }
       const data = response?.data
       return { kind: "ok", data }
     } catch (e) {

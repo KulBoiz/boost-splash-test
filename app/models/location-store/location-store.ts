@@ -40,7 +40,6 @@ export const LocationStoreModel = types
       const api = new LocationApi(self.environment.api)
       const result = yield api.get(params)
       const data = result?.data
-      console.log('data', data);
 
 
       if (result.kind !== "ok") {

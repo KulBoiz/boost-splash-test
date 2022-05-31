@@ -19,7 +19,7 @@ interface Props {
 
 const AgentForm = observer((props: Props) => {
   // @ts-ignore
-  const { bankStore, locationStore, authStoreModel } = useStores()
+  const { bankStore, locationStore, authStoreModel, agentStore} = useStores()
   const { control, errors, setValue } = props
   const [bank, setBank] = useState([])
   const [stateCountry, setStateCountry] = useState([])
@@ -66,6 +66,7 @@ const AgentForm = observer((props: Props) => {
   }
 
   const handleSelectBank = (bank) => {
+    agentStore.bankInfo(bank?.label)
     setValue('bankBranch', '');
 
     bankStore.getBankBranch(bank?.value).then((res) => {
@@ -93,7 +94,6 @@ const AgentForm = observer((props: Props) => {
       })))
     })
   }
-
   return (
     <View style={styles.container}>
       <KeyboardAwareScrollView>
