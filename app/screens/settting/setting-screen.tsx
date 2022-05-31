@@ -24,35 +24,37 @@ const SettingScreen: FC<Props> = observer((props: Props) => {
   }
 
   const login = () => {
-    navigation.dispatch(StackActions.push(ScreenNames.AGENT, { screen: ScreenNames.CAPTURE_ID }))
+    navigation.dispatch(StackActions.push(ScreenNames.AUTH))
   }
 
   return (
     <View style={styles.container}>
       <AppHeader headerTx={"header.personalSetting"} />
-      {authStoreModel?.isLoggedIn ? (
-        <ScrollView>
-          <VerifyUser />
-          {SETTING_LIST.map((value, index) => (
-            <SettingItem
-              key={index.toString()}
-              active={value.active}
-              icon={value.icon}
-              title={value.title}
-              onPress={value.onPress}
-            />
-          ))}
-          <AppButton title={"Đăng xuất"} onPress={logout} />
+      {
+        authStoreModel?.isLoggedIn ? (
+          <ScrollView>
+            <VerifyUser />
+            {SETTING_LIST.map((value, index) => (
+              <SettingItem
+                key={index.toString()}
+                active={value.active}
+                icon={value.icon}
+                title={value.title}
+                onPress={value.onPress}
+              />
+            ))}
+            <AppButton title={"Đăng xuất"} onPress={logout} />
 
-          <View style={{ height: 100 }} />
-        </ScrollView>
-      ) : (
-        <SettingAuthScreen />
-      )}
-      <View style={styles.login}>
-        <AppText value={"Bạn cần phải đăng nhập để sử dụng tính năng này"} />
-        <AppText value={"Đăng nhập"} underline onPress={login} color={color.palette.blue} />
-      </View>
+            <View style={{ height: 100 }} />
+          </ScrollView>
+        ) : (
+          <SettingAuthScreen />
+        )
+        // <View style={styles.login}>
+        //   <AppText value={'Bạn cần phải đăng nhập để sử dụng tính năng này'}/>
+        //   <AppText value={'Đăng nhập'} underline onPress={login} color={color.palette.blue}/>
+        // </View>
+      }
     </View>
   )
 })
