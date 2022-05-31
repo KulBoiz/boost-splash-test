@@ -19,7 +19,7 @@ const UserAvatar:FC<Props> = observer(({ style }: Props) => {
   return (
     <View style={[styles.container, style]}>
       <View style={styles.wrapAvatar}>
-        <FastImage source={avatar ? {uri: avatar} : images.avatar} style={styles.avatar}/>
+        <FastImage source={avatar ? {uri: avatar} : images.fina_logo} style={styles.avatar}/>
       </View>
     </View>
   )
