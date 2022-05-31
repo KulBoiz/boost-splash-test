@@ -49,7 +49,7 @@ const KEY_NOTIFICATION = {
 
 const NoticeScreen = observer((props: Props) => {
   // @ts-ignore
-  const { notificationModel, authStoreModel } = useStores()
+  const { notificationModel, authStoreModel, loanStore } = useStores()
   const { dataSources } = notificationModel
   // const [menuActive, setMenuActive] = useState(0)
   const [loadMore, setLoadMore] = useState<boolean>(false)
@@ -97,12 +97,28 @@ const NoticeScreen = observer((props: Props) => {
   }
   const renderItem = ({ item }) => {
     const checkType = () => {
+      const key = KEY_NOTIFICATION[item?.code]
+      if (!key) return
 
-      //
+      if (key === 'YCTV') {
+        navigate(ScreenNames.PROFILE_DETAIL)
+        const documentId = item.url.split('documentId=')[1]
+        loanStore.getLoanDetail(documentId).then(() => {
+          navigate(ScreenNames.PROFILE_DETAIL)
+        })
+      }
+
+      if (key === "CTV") {
+        navigate(ScreenNames.SETTING)
+      }
+
+      if (key === "ACCOUNT") {
+        navigate(ScreenNames.HOME)
+      }
     }
     return (
       <Pressable onPress={() => {
-        // navigate(ScreenNames.PROFILE_DETAIL)
+        checkType()
       }}>
         <NoticeItem item={item} />
       </Pressable>
