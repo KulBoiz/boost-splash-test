@@ -668,9 +668,7 @@ nhau, mỗi Bên giữ 01 (một) bản.
 </em>
 </p>
 <p>
-<strong>
-<span>${fullName || ''}</span>
-</strong>
+
 </p>
 </td>
 </tr>

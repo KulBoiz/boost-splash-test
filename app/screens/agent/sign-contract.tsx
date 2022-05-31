@@ -80,7 +80,7 @@ const SignContract = React.memo((props: Props) => {
 export default SignContract;
 
 const styles = ScaledSheet.create({
-  container: {flex:1},
+  container: {flex:1, backgroundColor: color.background},
   btnContainer :{
     flexGrow: 1,
     justifyContent: "flex-end",
