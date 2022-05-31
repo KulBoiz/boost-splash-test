@@ -56,7 +56,12 @@ const RegisterLoan = observer((props: Props) => {
   })
 
   const sendInfo = async (data: any) => {
-    const send = await loanStore.createRequestCounselling(data.email, data.fullName, data.phone, data.note)
+    const send = await loanStore.createRequestCounselling(
+      data.email,
+      data.fullName,
+      data.phone,
+      data.note,
+    )
     if (send.kind === 'ok') {
       setModal(true)
     }
@@ -89,8 +94,8 @@ const RegisterLoan = observer((props: Props) => {
             control,
             error: errors?.email?.message,
             label: 'Địa chỉ Email',
-            placeholderTx: 'placeholder.email'
-
+            placeholderTx: 'placeholder.email',
+            autoCapitalize: 'none',
           }}
         /><FormInput
           {...{
