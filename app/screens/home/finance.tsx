@@ -3,10 +3,11 @@ import { View } from "react-native"
 import { AppText } from "../../components/app-text/AppText"
 import { ms, ScaledSheet } from "react-native-size-matters"
 import {
+  BankIconSvg,
   CalculatorSvg,
   CarLoanSvg,
   ConsumerLoanSvg,
-  HouseLoanSvg, NoteSvg,
+  HouseLoanSvg, MapSvg, NoteSvg,
   ProfileAddSvg,
   RepairLoanSvg,
 } from "../../assets/svgs"
@@ -34,6 +35,7 @@ const Finance = React.memo((props: Props) => {
   const ref = useRef()
   const [activeDot, setActiveDot] = useState(0)
   const [visible, setVisible] = useState(false)
+  const [link, setLink] = useState('')
   const data = loanStore?.products?.data?.slice(0, 10) || []
 
   const renderItem = useCallback(({ item }) => {
@@ -73,15 +75,26 @@ const Finance = React.memo((props: Props) => {
 
       </View>
       <AppText value={'Công cụ hỗ trợ'} style={styles.title} />
-      <LoanSupportTool icon={<CalculatorSvg />} title={'Công cụ tính toán khoản vay'} onPress={() => { setVisible(true) }} />
+      <LoanSupportTool icon={<CalculatorSvg />} title={'Công cụ tính toán khoản vay'} onPress={() => {
+        setLink(DOMAIN + '/cong-cu-tinh');
+        setVisible(true)
+      }} />
       <LoanSupportTool icon={<ProfileAddSvg />} title={'Giới thiệu khách vay'} onPress={() => navigate(ScreenNames.REQUEST_COUNSELLING)} />
       <LoanSupportTool icon={<NoteSvg />} title={'Quản lý hồ sơ vay'} hideBorder onPress={() => navigate(ScreenNames.FINANCE, { index: 2 })} />
+      <LoanSupportTool icon={<MapSvg />} title={'Kiểm tra quy hoạch'} onPress={() => {
+        setLink(DOMAIN + '/kiem-tra-quy-hoach');
+        setVisible(true)
+      }} />
+      <LoanSupportTool icon={<BankIconSvg />} title={'Công chứng online'} onPress={() => {
+        setLink(DOMAIN + '/cong-chung-truc-tuyen');
+        setVisible(true)
+      }} />
 
       <FullScreenModal
         visible={visible}
         closeModal={() => setVisible(false)}
         animationType={'slideVertical'}
-        url={DOMAIN + '/cong-cu-tinh'}
+        url={link}
       />
     </View>
   )

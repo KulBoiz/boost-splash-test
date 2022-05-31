@@ -15,7 +15,12 @@ export class UploadApi {
 
   async uploadFile(params): Promise<any> {
     try {
-      const response: ApiResponse<any> = await this.api.apisauce.post(`${API_ENDPOINT}/files`,params)
+      const response: ApiResponse<any> = await this.api.apisauce.post(`${API_ENDPOINT}/files`,
+        params,
+        {headers:{
+          'Content-Type': 'multipart/form-data'
+        }}
+        )
       if (!response.ok) {
         const problem = getGeneralApiProblem(response)
         if (problem) return problem

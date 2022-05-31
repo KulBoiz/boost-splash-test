@@ -10,7 +10,8 @@ import { useStores } from '../../models';
 import moment from 'moment';
 import RenderHtml from 'react-native-render-html';
 import { width } from "../../constants/variable";
-
+import { s, ScaledSheet } from "react-native-size-matters"
+import { CONTAINER_PADDING } from "../../styles/common-style"
 
 
 interface Props {
@@ -34,14 +35,14 @@ const BannerDetail = React.memo((props: Props) => {
 
   return (
     <View style={styles.container}>
-      <AppHeader headerText={'banner detail'} />
+      <AppHeader headerText={''}/>
       <ScrollView >
         <View>
-          <AppText value={data?.title || ''} />
+          <AppText value={data?.title || ''} style={styles.title}/>
 
-          <View>
+          <View style={styles.time}>
             <AppText value={`${moment(data?.updatedAt).format('YYYY-MM-DD HH:mm')}`} />
-            <AppText value={data?.author || ''} />
+            <AppText value={data?.author || ''} style={CONTAINER_PADDING}/>
           </View>
 
           <AppText value={data?.description} />
@@ -58,6 +59,16 @@ const BannerDetail = React.memo((props: Props) => {
 
 export default BannerDetail;
 
-const styles = StyleSheet.create({
-  container: { flex: 1 },
+const styles = ScaledSheet.create({
+  container: {
+    flex: 1,
+    paddingHorizontal: 8,
+  },
+  title: {
+    fontSize: '16@s',
+  },
+  time: {
+    marginVertical: '8@s',
+    flexDirection: 'row',
+  }
 });

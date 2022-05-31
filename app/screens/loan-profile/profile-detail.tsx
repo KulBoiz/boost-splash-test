@@ -37,7 +37,7 @@ const ProfileDetail = React.memo((props: Props) => {
   );
   return (
     <View style={styles.container}>
-      <AppHeader headerText={'chi tiết hồ sơ'} isBlue />
+      <AppHeader headerText={'Hồ sơ'} isBlue />
 
       <TabView
         navigationState={{ index, routes }}

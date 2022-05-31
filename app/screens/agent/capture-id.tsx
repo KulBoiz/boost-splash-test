@@ -118,8 +118,8 @@ const CaptureId = React.memo((props: Props) => {
   )
 
   const onContinue = useCallback(() => {
-    agentStore.uploadFrontImage(frontImage)
-    agentStore.uploadBackImage(backImage)
+    // agentStore.uploadFrontImage(frontImage)
+    // agentStore.uploadBackImage(backImage)
     navigate(ScreenNames.CHECK_INFO, {frontImage, backImage})
   }, [frontImage, backImage])
 

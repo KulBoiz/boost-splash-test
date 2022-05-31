@@ -27,12 +27,13 @@ import { PRODUCT_TYPE } from "./constants"
 import i18n from "i18n-js"
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view"
 
-interface Props{}
+interface Props { }
 
 const RegisterLoan = observer((props: Props) => {
   const [modal, setModal] = useState<boolean>(false)
   const [type, setType] = useState<string>(PRODUCT_TYPE.LOAN)
-  const {loanStore} = useStores()
+  // @ts-ignore
+  const { loanStore } = useStores()
   const validationSchema = Yup.object().shape({
     email: Yup.string()
       .trim()
@@ -45,7 +46,7 @@ const RegisterLoan = observer((props: Props) => {
       .trim()
       .required(i18n.t('errors.requirePhone'))
   })
-  const {control, handleSubmit, formState: {errors}} = useForm({
+  const { control, handleSubmit, formState: { errors } } = useForm({
     delayError: 0,
     defaultValues: undefined,
     mode: "all",
@@ -54,25 +55,25 @@ const RegisterLoan = observer((props: Props) => {
   })
 
   const sendInfo = async (data: any) => {
-    const send =  await loanStore.createRequestCounselling(data.email, data.fullName, data.phone,data.note)
-    if (send.kind === 'ok'){
+    const send = await loanStore.createRequestCounselling(data.email, data.fullName, data.phone, data.note)
+    if (send.kind === 'ok') {
       setModal(true)
     }
     else Alert.alert('Something went wrong')
   }
-const pressModal = () => {
-  setModal(false)
-  setTimeout(()=> navigate(ScreenNames.APP),300)
-}
+  const pressModal = () => {
+    setModal(false)
+    setTimeout(() => navigate(ScreenNames.APP), 300)
+  }
   return (
     <View style={PARENT}>
-      <AppHeader headerText={'Đăng ký gói vay'} isBlue/>
+      <AppHeader headerText={'Đăng ký gói vay'} isBlue />
       <KeyboardAwareScrollView style={CONTAINER_PADDING}>
         <View style={[styles.wrapName, MARGIN_BOTTOM_24]}>
-          <AppText value={'Thông tin gói vay'} style={[FONT_MEDIUM_12, styles.title, MARGIN_BOTTOM_8]}/>
-          <AppText value={loanStore?.productDetail?.product?.name} style={FONT_SEMI_BOLD_14}/>
+          <AppText value={'Thông tin gói vay'} style={[FONT_MEDIUM_12, styles.title, MARGIN_BOTTOM_8]} />
+          <AppText value={loanStore?.productDetail?.name} style={FONT_SEMI_BOLD_14} />
         </View>
-        <AppText value={'Thông tin khách hàng'} style={[FONT_MEDIUM_12, styles.title, MARGIN_BOTTOM_8]}/>
+        <AppText value={'Thông tin khách hàng'} style={[FONT_MEDIUM_12, styles.title, MARGIN_BOTTOM_8]} />
         <FormInput
           {...{
             name: 'fullName',
@@ -110,11 +111,11 @@ const pressModal = () => {
             multiline: true
           }}
         />
-        <AppButton title={'Gửi thông tin'} onPress={handleSubmit(sendInfo)} containerStyle={styles.btn}/>
-        <View style={{height: 50}}/>
+        <AppButton title={'Gửi thông tin'} onPress={handleSubmit(sendInfo)} containerStyle={styles.btn} />
+        <View style={{ height: 50 }} />
 
       </KeyboardAwareScrollView>
-      <SuccessModal visible={modal} onPress={pressModal} title={'Gửi thông tin'}/>
+      <SuccessModal visible={modal} onPress={pressModal} title={'Gửi thông tin'} />
     </View>
   )
 });

@@ -22,8 +22,9 @@ const BottomBankInfo = React.memo(({ id }: Props) => {
     navigate(ScreenNames.LOAN_DETAIL)
   }
   const handlePressRegister = () => {
-    loanStore.getProductDetail(id)
-    navigate(ScreenNames.REGISTER_LOAN)
+    loanStore.getProductDetail(id).then(() => {
+      navigate(ScreenNames.REGISTER_LOAN)
+    })
   }
 
   return (

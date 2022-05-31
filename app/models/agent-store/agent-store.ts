@@ -1,7 +1,7 @@
 import { flow, Instance, SnapshotOut, types } from "mobx-state-tree"
 import { withEnvironment } from "../extensions/with-environment"
 import { UploadApi } from "../../services/api/upload-api"
-const mime = require('mime');
+import mime from 'mime';
 
 /**
  * Model description here for TypeScript hints.
@@ -52,11 +52,14 @@ export const AgentStoreModel = types
       const uploadApi = new UploadApi(self.environment.api)
       const formData = new FormData();
         const file = {
-          uri: path,
+          uri: path.startsWith('ph://') ? `ph-upload${path.substring(2)}` : path,
           name: path.substring(path.lastIndexOf('/') + 1, path.length),
-          type: mime.getType(path),
+          filename: path.substring(path.lastIndexOf('/') + 1, path.length) + 'jpg',
+          type: mime.getType(path) ?? 'image/jpg' ,
         };
         formData.append('identification.frontPhoto', file);
+
+      console.log('formData', formData)
       const result = yield uploadApi.uploadFile(formData)
       if (result.kind !== "ok") {
         return result
@@ -71,8 +74,9 @@ export const AgentStoreModel = types
       const uploadApi = new UploadApi(self.environment.api)
       const formData = new FormData();
       const file = {
-        uri: path,
+        uri: path.startsWith('ph://') ? `ph-upload${path.substring(2)}` : path,
         name: path.substring(path.lastIndexOf('/') + 1, path.length),
+        filename: path.substring(path.lastIndexOf('/') + 1, path.length) + 'jpg',
         type: mime.getType(path),
       };
       formData.append('identification.backSidePhoto', file);

@@ -25,6 +25,7 @@ export const HomeScreen: FC<StackScreenProps<AppStackParamList, ScreenNames.HOME
       return () => BackHandler.removeEventListener('hardwareBackPress', () => true);
     });
     const [currentPage, setCurrentPage] = useState(1);
+    // @ts-ignore
     const { menuFilterStore, productStore } = useStores()
 
     const handleSelectPage = (value: number) => {
