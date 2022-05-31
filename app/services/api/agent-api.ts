@@ -15,7 +15,7 @@ export class AgentApi {
 
   async registerAgent(params: any, id:string): Promise<any> {
     try {
-      const response: ApiResponse<any> = await this.api.apisauce.post(`${API_ENDPOINT}https://crm-beta.fina.com.vn/api/v1/users/sign-collaborator-contract/${id}`, params)
+      const response: ApiResponse<any> = await this.api.apisauce.put(`${API_ENDPOINT}/users/sign-collaborator-contract/${id}`, params)
       if (!response.ok) {
         const problem = getGeneralApiProblem(response)
         if (problem) return problem
