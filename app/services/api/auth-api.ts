@@ -166,5 +166,4 @@ export class AuthApi {
       data: response.data.data,
     }
   }
-
 }

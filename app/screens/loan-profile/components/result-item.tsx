@@ -6,7 +6,7 @@ import { AppText } from "../../../components/app-text/AppText";
 import { HIT_SLOP } from '../../../styles/common-style';
 import { color } from "../../../theme";
 import ResultItemDetail from './result-item-detail';
-import { mappingStatus } from "../../loan/constants"
+// import { mappingStatus } from "../../loan/constants"
 import { DefaultAvatarSvg } from '../../../assets/svgs';
 import { observer } from 'mobx-react-lite';
 
@@ -16,11 +16,57 @@ interface Props {
   loanStore: any,
 }
 
+const STATUS_DEAL = {
+  'wait_processing': {
+    status: 'Đang chờ xử lý',
+    color: 'lime'
+  },
+  'processing': {
+    status: 'Đang xử lý',
+    color: 'green'
+  },
+  'received': {
+    status: 'Đã nhận',
+    color: 'green'
+  },
+  'appraisal_progress': {
+    status: 'Đang thẩm định',
+    color: 'blue'
+  },
+  'cancelled': {
+    status: 'Không tiếp nhận',
+    color: 'red'
+  },
+  'lend_approval': {
+    status: 'Phê duyệt hồ sơ',
+    color: 'green'
+  },
+  'disbursing': {
+    status: 'đang giải ngân',
+    color: 'green'
+  },
+  'tripartite_blockade': {
+    status: 'Đang phong toả',
+    color: 'green'
+  },
+  'disbursed': {
+    status: 'Đã giải ngân',
+    color: 'green'
+  },
+  'close-all-disbursement': {
+    status: 'Kết thúc giải ngân',
+    color: 'green'
+  },
+}
+
 const ResultItem = observer((props: Props) => {
   const [view, setView] = useState(false);
   const { item , dealDetailStoreModel, loanStore} = props
   const status = item?.status
   const { comments, transaction, dealDetailId } = dealDetailStoreModel;
+  const mappingStatus = () => {
+    return STATUS_DEAL[status]
+  }
 
   return (
     <View style={[styles.content, dealDetailId !== item?.id && { alignItems: 'center' }]}>
@@ -44,7 +90,7 @@ const ResultItem = observer((props: Props) => {
       <View style={styles.contentItem}>
         <View style={styles.item} >
           <AppText style={styles.itemLabel} value={'Trạng thái:'} />
-          <AppText color={mappingStatus(status, item)?.color} value={mappingStatus(status, item)?.status} />
+          <AppText color={mappingStatus()?.color} value={mappingStatus()?.status} />
         </View>
 
         {item.note &&
