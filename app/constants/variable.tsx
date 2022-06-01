@@ -1,3 +1,4 @@
+import moment from "moment"
 import { Dimensions, Platform } from "react-native"
 import { TxKeyPath } from "../i18n"
 
@@ -27,4 +28,14 @@ export function randomId() {
 
 export function numberWithCommas(x: number | string) {
   return x ? x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") : '';
+}
+
+export function formatDate(date: string | Date) {
+  if  (!date) return ''
+  return moment(date).format('DD/MM/YYYY');
+}
+
+export function formatDateTime(date: string | Date) {
+  if  (!date) return ''
+  return moment(date).format('DD/MM/YYYY HH:mm');
 }

@@ -8,6 +8,7 @@ import { AppText } from "../../components/app-text/AppText"
 import { fontFamily } from "../../constants/font-family"
 import { FONT_BOLD_12, MARGIN_BOTTOM_16 } from "../../styles/common-style"
 import { observer } from "mobx-react-lite"
+import { LoadingComponent } from "../../components/loading"
 
 interface Props { }
 const RecordsManagement = observer((props: Props) => {
@@ -17,14 +18,21 @@ const RecordsManagement = observer((props: Props) => {
   const total = loanStore?.total ?? 0
   const [select, setSelect] = useState<number>(0)
   const [loadMore, setLoadMore] = useState<boolean>(false)
+  const [loading, setLoading] = useState<boolean>(true)
 
   useEffect(() => {
-    loanStore.getRecords()
+    loanStore.getRecords().then(() => {
+      setLoading(false)
+    })
   }, [])
 
   const renderItem = useCallback(({ item }) => {
     return <ShortStatus item={item} />
   }, [])
+
+  if (loading) {
+    return <LoadingComponent />
+  }
 
   return (
     <View style={styles.container}>
@@ -36,15 +44,17 @@ const RecordsManagement = observer((props: Props) => {
         renderItem={renderItem}
         style={styles.flatList}
         onEndReached={() => {
-          loanStore.loadMoreRecords()
-          setLoadMore(false)
+          setLoadMore(true)
+          loanStore.loadMoreRecords().then(() => {
+            setLoadMore(false)
+          })
         }}
         onEndReachedThreshold={0.2}
-        onScrollBeginDrag={() => {
-          setLoadMore(false)
-        }}
+        // onScrollBeginDrag={() => {
+        //   setLoadMore(false)
+        // }}
       />
-      {loadMore && <ActivityIndicator style={MARGIN_BOTTOM_16} />}
+      {loadMore && <LoadingComponent/>}
     </View>
   )
 });

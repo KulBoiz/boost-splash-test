@@ -1,24 +1,24 @@
-import React, { useEffect, useState } from "react"
-import { View, StyleSheet, FlatList, Button, TouchableOpacity, Pressable } from "react-native"
-import AppHeader from "../../components/app-header/AppHeader"
-import { color } from "../../theme"
-import { CENTER_ELEMENTS, PARENT, ROW } from "../../styles/common-style"
-import { DoubleCheckSvg } from "../../assets/svgs"
-import { AppText } from "../../components/app-text/AppText"
-import { s, ScaledSheet } from 'react-native-size-matters';
-import NoticeItem, { STATUS } from "./components/NoticeItem"
-import { useStores } from "../../models"
 import { observer } from "mobx-react-lite"
-import { useNavigation } from "@react-navigation/native"
-import { ScreenNames } from "../../navigators/screen-names"
+import React, { useEffect, useState } from "react"
+import { FlatList, TouchableOpacity, View } from "react-native"
+import { s, ScaledSheet } from 'react-native-size-matters'
+import { DoubleCheckSvg } from "../../assets/svgs"
+import AppHeader from "../../components/app-header/AppHeader"
+import { AppText } from "../../components/app-text/AppText"
+import { LoadingComponent } from "../../components/loading"
+import { useStores } from "../../models"
 import { navigate } from "../../navigators"
+import { ScreenNames } from "../../navigators/screen-names"
+import { CENTER_ELEMENTS, PARENT, ROW } from "../../styles/common-style"
+import { color } from "../../theme"
+import NoticeItem, { STATUS } from "./components/NoticeItem"
+
 const MENU = [
-  'Tất cả',
-  // 'ưu đãi',
-  'Giao dịch',
-  // 'Cập nhập',
-  'Thông báo'
+  { value: '', label: 'Tất cả' },
+  { value: STATUS.UNREAD, label: 'Chưa xem' },
+  { value: STATUS.READ, label: 'Đã xem' },
 ]
+
 interface Props { }
 
 const KEY_NOTIFICATION = {
@@ -51,19 +51,28 @@ const NoticeScreen = observer((props: Props) => {
   // @ts-ignore
   const { notificationModel, authStoreModel, loanStore } = useStores()
   const { dataSources } = notificationModel
-  // const [menuActive, setMenuActive] = useState(0)
+  const [menuActive, setMenuActive] = useState('')
   const [loadMore, setLoadMore] = useState<boolean>(false)
+  const [loading, setLoading] = useState<boolean>(false)
 
   useEffect(() => {
+    fetchList();
+  }, [])
+
+  const fetchList = () => {
+    setLoading(true)
     const userId = authStoreModel?.userId
     const filters = {
       order: ['createdAt DESC'],
       where: {
-        userId: userId
+        userId: userId,
+        status: menuActive || undefined,
       }
     }
-    notificationModel.getListNotifications(filters, userId);
-  }, [])
+    notificationModel.getListNotifications(filters, userId).then(() => {
+      setLoading(false)
+    });
+  }
 
   const filterNotiUnRead = () => {
     if (dataSources && dataSources?.length > 0) {
@@ -87,17 +96,18 @@ const NoticeScreen = observer((props: Props) => {
           tx={"notice.readAll"}
           fontSize={s(10)}
           color={color.palette.blue}
-          onPress={() => { onReadAll() }}
+          onPress={() => {
+            setMenuActive(STATUS.UNREAD)
+            onReadAll()
+          }}
         />
-        <AppText value={`(${filterNotiUnRead()})`} color={color.palette.orange} />
+        <AppText value={`(${filterNotiUnRead()}) ${filterNotiUnRead() > 9 ? "+" : ''}`} color={color.palette.orange} />
       </View>
     )
   }
   const renderItem = ({ item }) => {
     const checkUrl = () => {
       const key = KEY_NOTIFICATION[item?.code]
-      console.log("key", key);
-      
       if (!key) return false
 
       if (key === 'YCTV') {
@@ -129,41 +139,47 @@ const NoticeScreen = observer((props: Props) => {
     }
 
     return (
-      <NoticeItem item={item} nextDetail={nextDetail} checkUrl={checkUrl}/>
+      <NoticeItem item={item} nextDetail={nextDetail} checkUrl={checkUrl} />
     )
   }
+
   return (
     <View style={PARENT}>
       <AppHeader width={{ width: s(90) }} style={styles.header} titleStyle={{ fontSize: s(14) }} headerTx={"header.notice"} renderRightIcon={_renderRight()} />
-      {/* 
+
       <View style={styles.header_filter}>
         {
           MENU.map((el, index) =>
-            <TouchableOpacity key={index} onPress={() => { setMenuActive(index) }}>
-              <View style={menuActive !== index ? styles.text : styles.active} key={index}>
+            <TouchableOpacity key={index} onPress={() => {
+              setMenuActive(el.value)
+              fetchList()
+            }}>
+              <View style={menuActive !== el.value ? styles.text : styles.active} key={index}>
                 <AppText
-                  style={menuActive !== index ? styles.text : styles.active}
-                  value={el}
+                  style={menuActive !== el.value ? styles.text : styles.active}
+                  value={el.label}
                 />
               </View>
             </TouchableOpacity>)
         }
-      </View> */}
-
-      <FlatList
-        style={{ paddingHorizontal: 20, paddingTop: 10 }}
-        keyExtractor={(e, i) => i.toString()}
-        data={dataSources}
-        renderItem={renderItem}
-        onEndReached={() => {
-          notificationModel.loadMoreNotifications()
-          setLoadMore(false)
-        }}
-        onEndReachedThreshold={0.2}
-        onScrollBeginDrag={() => {
-          setLoadMore(false)
-        }}
-      />
+      </View>
+      {
+        loading ? <LoadingComponent /> :
+          <FlatList
+            style={{ paddingHorizontal: 20, paddingTop: 10 }}
+            keyExtractor={(e, i) => i.toString()}
+            data={dataSources}
+            renderItem={renderItem}
+            onEndReached={() => {
+              notificationModel.loadMoreNotifications()
+              setLoadMore(false)
+            }}
+            onEndReachedThreshold={0.2}
+            onScrollBeginDrag={() => {
+              setLoadMore(false)
+            }}
+          />
+      }
     </View>
   )
 });

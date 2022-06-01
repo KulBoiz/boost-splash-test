@@ -14,7 +14,6 @@ const content = 'Theo quy định của NHNN. Chủ ví điện tử cần cung 
 const VerifyUser = React.memo((props: Props) => {
   const { authStoreModel } = useStores()
   const name = get(authStoreModel?.user, 'fullName')
-  console.log('authStoreModel?.user', authStoreModel?.user);
 
   const renderRole = () => {
     const { type, positionCodes } = authStoreModel?.user

@@ -56,9 +56,9 @@ const RegisterLoan = observer((props: Props) => {
   })
 
   const sendInfo = async (data: any) => {
-    const send = await loanStore.createRequestCounselling(
-      data.email,
+    const send = await loanStore.requestCounselling(
       data.fullName,
+      data.email,
       data.phone,
       data.note,
     )
