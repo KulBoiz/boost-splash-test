@@ -188,7 +188,8 @@
     "REQUEST_ACCESS_USER": "{{sender}} vừa yêu cầu quyền truy cập khách hàng {{customer}}",
     "APPROVE_ACCESS_USER": "{{sender}} vừa chấp nhận quyền truy cập với khách hàng {{customer}}",
     "REJECT_ACCESS_USER": "{{sender}} vừa từ chối quyền truy cập khách hàng {{customer}}",
-    "RESEND_REQUEST_ACCESS_USER": "{{sender}} đã gửi lại yêu cầu cấp quyền khách hàng {{customer}}"
+    "RESEND_REQUEST_ACCESS_USER": "{{sender}} đã gửi lại yêu cầu cấp quyền khách hàng {{customer}}",
+    "TASK_OVERDUE": "Yêu cầu tư vấn {{counselCode}} quá hạn chia sẻ với ngân hàng"
   },
   "loan": {
     "introduceLoanCustomer": "Giới thiệu khách hàng vay",
