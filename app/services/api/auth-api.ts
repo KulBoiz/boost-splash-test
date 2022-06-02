@@ -166,4 +166,17 @@ export class AuthApi {
       data: response.data.data,
     }
   }
+
+  async updateUserAvatar(params, id): Promise<any> {
+    const response: ApiResponse<any> = await this.api.apisauce.put(`${API_ENDPOINT}/users/${id}`, params)
+    if (!response.ok) {
+      const problem = getGeneralApiProblem(response)
+      if (problem) return problem
+    }
+
+    return {
+      kind: "ok",
+      data: response.data.data,
+    }
+  }
 }

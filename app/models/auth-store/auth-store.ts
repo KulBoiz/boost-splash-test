@@ -4,6 +4,8 @@ import { withEnvironment } from "../extensions/with-environment"
 import { AuthApi } from "../../services/api/auth-api"
 import { navigate } from "../../navigators"
 import AsyncStorage from "@react-native-async-storage/async-storage"
+import { UploadApi } from "../../services/api/upload-api"
+import { isAndroid } from "../../constants/variable"
 
 /**
  * Model description here for TypeScript hints.
@@ -234,6 +236,37 @@ export const AuthStoreModel = types
       self.isLoggedIn = false
       // authApi.setToken(null)
 
+    }),
+
+
+    uploadAvatar: flow(function* uploadAvatar(image: any) {
+      const authApi = new UploadApi(self.environment.api)
+      const formData = new FormData()
+      const file = {
+        uri:  isAndroid ? image.uri : image.uri.replace('file://', ''),
+        type: image.type,
+        name: image.uri.substring(image.uri.lastIndexOf("/") + 1, image.uri.length),
+        fileName: image.fileName
+      }
+      formData.append("avatar", file)
+
+      const result = yield authApi.uploadFile(formData)
+      const avatarUri  = result.data[0].url
+      if (result.kind === "ok") {
+       self.user = {...self.user, avatar: avatarUri ?? ''}
+        return result
+      }
+    }),
+
+    updateUserAvatar: flow(function* updateUserAvatar() {
+      const authApi = new AuthApi(self.environment.api)
+      const params = {
+        avatar : self.user?.avatar ?? ''
+      }
+      const result = yield authApi.updateUserAvatar(params, self.userId)
+      if (result.kind === "ok") {
+        return result.data
+      }
     }),
 
 
