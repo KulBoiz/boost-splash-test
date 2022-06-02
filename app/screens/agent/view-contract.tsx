@@ -8,7 +8,7 @@ import AppHeader from "../../components/app-header/AppHeader";
 import { fontFamily } from "../../constants/font-family";
 import { width } from "../../constants/variable";
 import { useStores } from "../../models";
-import { CONTAINER_PADDING } from "../../styles/common-style";
+import { CONTAINER_PADDING, MARGIN_BOTTOM_16 } from "../../styles/common-style";
 import { color } from "../../theme";
 import { CollaboratorContractInfoDesktop } from "./constants";
 
@@ -17,29 +17,40 @@ interface Props{ }
 const ViewContract = React.memo((props: Props) => {
   const {agentStore} = useStores()
   const [signature, setSignature] = useState<any>(null)
+  const [user, setUser] = useState<any>()
+
+  useEffect(() => {
+    agentStore.getDetailAgent().then((res) => {
+      console.log('res', res?.data);
+      
+      setSignature(res?.data?.signature?.url)
+      setUser(res?.data)
+
+    })  
+  }, [])
 
   return (
     <View style={styles.container}>
       <AppHeader headerText={'Kí hợp đồng '} isBlue/>
-      <ScrollView style={CONTAINER_PADDING}>
+      <ScrollView style={[CONTAINER_PADDING, MARGIN_BOTTOM_16]}>
         <RenderHtml
           contentWidth={width}
           baseStyle={{backgroundColor: color.background}}
           source={CollaboratorContractInfoDesktop({
-            fullName: agentStore.fullName,
-            idNumber: agentStore.citizenIdentification,
-            issuedOn: moment(agentStore.dateRange).format('DD/MM/YYYY'),
-            placeOfIssue: agentStore.issuedBy,
-            address: agentStore.address,
-            email: agentStore.email,
-            tel: agentStore.phone,
-            bankAccount: agentStore.bankNumber,
-            bankName: agentStore.bankName,
+            fullName: user?.fullName,
+            idNumber: user?.idNumber,
+            issuedOn: moment(user?.issuedOn).format('DD/MM/YYYY'),
+            placeOfIssue: user?.identification?.placeOfIssue,
+            address: user?.address + (user?.subDistrictName || '') + (user?.stateName || ''),
+            email: user?.emails?.[0]?.email,
+            tel: user?.tels?.[0]?.tel,
+            bankAccount: user?.bankNumber,
+            bankName: user?.banks?.[0]?.bankName,
           })}
         />
         
         <View style={{ width: '40%', position: 'absolute', bottom: 30, right: 50, alignItems: 'center' }}>
-          <FastImage source={{uri: `data:image/png;base64,${signature}`}} style={{width: 100, height: 100, top: 20}}/>
+          <FastImage source={{uri: signature}} style={{width: 100, height: 100, top: 20}}/>
         </View>
         <View style={{height: 50}}/>
       </ScrollView>

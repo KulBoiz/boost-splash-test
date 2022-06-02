@@ -176,7 +176,19 @@ export const AgentStoreModel = types
       }
     }),
 
+    getDetailAgent: flow(function* getDetailAgent() {
+      const agentApi = new AgentApi(self.environment.api)
+      const userId: any = new AgentApi(self?.rootStore?.authStoreModel.userId) ?? ''
 
+      const result = yield agentApi.getDetailAgent(userId?.api)
+      if (result.kind !== "ok") {
+        return result
+      }
+      return {
+        kind: "ok",
+        data: result,
+      }
+    }),
   })) // eslint-disable-line @typescript-eslint/no-unused-vars
 
 type AgentStoreType = Instance<typeof AgentStoreModel>

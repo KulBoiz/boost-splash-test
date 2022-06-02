@@ -56,17 +56,17 @@ const NoticeScreen = observer((props: Props) => {
   const [loading, setLoading] = useState<boolean>(false)
 
   useEffect(() => {
-    fetchList();
+    fetchList('');
   }, [])
 
-  const fetchList = () => {
+  const fetchList = (status) => {
     setLoading(true)
     const userId = authStoreModel?.userId
     const filters = {
       order: ['createdAt DESC'],
       where: {
         userId: userId,
-        status: menuActive || undefined,
+        status: status || undefined,
       }
     }
     notificationModel.getListNotifications(filters, userId).then(() => {
@@ -76,7 +76,8 @@ const NoticeScreen = observer((props: Props) => {
 
   const filterNotiUnRead = () => {
     if (dataSources && dataSources?.length > 0) {
-      return dataSources?.filter((el: any) => el?.status === STATUS.UNREAD).length
+      const count =  dataSources?.filter((el: any) => el?.status === STATUS.UNREAD).length
+      return count > 10 ? `10+` : count
     }
 
     return 0
@@ -101,7 +102,7 @@ const NoticeScreen = observer((props: Props) => {
             onReadAll()
           }}
         />
-        <AppText value={`(${filterNotiUnRead()}) ${filterNotiUnRead() > 9 ? "+" : ''}`} color={color.palette.orange} />
+        <AppText value={`(${filterNotiUnRead()})`} color={color.palette.orange} />
       </View>
     )
   }
@@ -152,7 +153,7 @@ const NoticeScreen = observer((props: Props) => {
           MENU.map((el, index) =>
             <TouchableOpacity key={index} onPress={() => {
               setMenuActive(el.value)
-              fetchList()
+              fetchList(el.value)
             }}>
               <View style={menuActive !== el.value ? styles.text : styles.active} key={index}>
                 <AppText
