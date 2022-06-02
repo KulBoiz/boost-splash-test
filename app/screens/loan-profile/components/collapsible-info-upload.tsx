@@ -8,7 +8,7 @@ import { AppText } from "../../../components/app-text/AppText"
 import { color } from "../../../theme"
 import { fontFamily } from "../../../constants/font-family"
 import { ALIGN_CENTER, FONT_REGULAR_14, ROW } from "../../../styles/common-style"
-import UploadImage from "../../../components/loan-upload/upload-image"
+import UploadImage from "../../../components/image-upload/upload-image"
 interface Props {
   data : any[]
 }

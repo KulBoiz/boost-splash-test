@@ -24,17 +24,16 @@ export const LoginScreen: FC<StackScreenProps<AuthStackParamList, ScreenNames.LO
   ({ navigation }) => {
     const validationSchema = Yup.object().shape({
       email: Yup.string().trim().required("Vui lòng nhập email hoặc số điện thoại"),
-      // .email("This is not a valid email"),
       password: Yup.string().required("Vui lòng nhập mật khẩu").trim(),
     })
     const {
       control,
       handleSubmit,
       formState: { errors },
-      resetField,
+      reset,
     } = useForm({
       delayError: 0,
-      defaultValues: undefined,
+      defaultValues: { email: '', password: ''},
       mode: "all",
       resolver: yupResolver(validationSchema),
       reValidateMode: "onChange",
@@ -58,9 +57,11 @@ export const LoginScreen: FC<StackScreenProps<AuthStackParamList, ScreenNames.LO
     const forgotPassword = () => {
       navigation.navigate(ScreenNames.FORGOT_PASSWORD)
     }
+
     useEffect(() => {
-      resetField("email")
-      resetField("password")
+      reset({
+        email: '', password: ''
+      })
     }, [isFocused])
 
     return (
@@ -82,8 +83,8 @@ export const LoginScreen: FC<StackScreenProps<AuthStackParamList, ScreenNames.LO
               name: "password",
               labelTx: "label.password",
               placeholderTx: "placeholder.login.password",
-              autoCapitalize: "none",
               error: errors?.password?.message,
+              autoCapitalize: "none",
               control,
               showIcon: true,
             }}

@@ -5,6 +5,8 @@ import { ScaledSheet } from "react-native-size-matters"
 import { color } from "../../theme"
 import { AppText } from "../app-text/AppText"
 import { CONTAINER_PADDING, FONT_SEMI_BOLD_14, MARGIN_BOTTOM_16, TEXT_CENTER } from "../../styles/common-style"
+import FastImage from "react-native-fast-image"
+import { images } from "../../assets/images"
 
 interface DataProps {
   label: string
@@ -22,13 +24,21 @@ interface Props{
 const ItemPickerModal = React.memo((props: Props) => {
   const {title, label, visible, closeModal, data = [{label: '', value: ''}], onPress} = props
 
-  const renderItem = useCallback(({ item }) => {
+  const renderItem = ({ item }) => {
     const check = title === item.label
     return(
-      <Pressable style={[styles.item, {borderWidth: check ? 1 : 0, borderColor: check ? color.palette.blue : color.palette.BABABA}]} onPress={()=> onPress(item)}>
+      <Pressable style={[styles.item,
+        {borderWidth: check ? 1 : 0, borderColor: check ? color.palette.blue : color.palette.BABABA},
+        check && {backgroundColor: 'rgba(6, 77, 214, 0.05)'}
+      ]}
+         onPress={()=> onPress(item)}
+      >
         <AppText value={item.label}/>
+        {check && <FastImage source={images.check} style={styles.iconCheck} tintColor={color.palette.blue}/> }
       </Pressable>
-    )},[]);
+    )
+  }
+
   return (
     <Modal
       isVisible={visible}
@@ -57,7 +67,10 @@ const styles = ScaledSheet.create({
     justifyContent: 'flex-end',
     margin: 0,
   },
-
+  iconCheck: {
+    width: '10@s',
+    height: '7@s'
+  },
   body: {
     paddingTop: '20@s',
     flex: 0.5,
@@ -65,6 +78,9 @@ const styles = ScaledSheet.create({
     borderRadius: '8@s',
   },
   item: {
+    flexDirection:"row",
+    justifyContent: "space-between",
+    alignItems: "center",
     paddingHorizontal: '10@ms',
     paddingVertical: '12@vs',
     borderBottomWidth: 1,
