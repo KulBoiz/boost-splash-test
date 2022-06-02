@@ -126,6 +126,7 @@ const CaptureId = React.memo((props: Props) => {
   return (
     <View style={styles.container}>
       {device != null && hasPermission ? (
+        // @ts-ignore
         <Camera
           style={styles.camera}
           ref={cameraRef}

@@ -44,7 +44,7 @@ const HomeBanner = observer((props: Props) => {
         data={news}
         renderItem={_renderItem}
         sliderWidth={width}
-        itemWidth={width}
+        itemWidth={width - 100}
         loop
         autoplay
         onSnapToItem={(index) => setActiveDot( index ) }
@@ -59,8 +59,8 @@ export default HomeBanner;
 const styles = ScaledSheet.create({
     container: {},
   image:{
-    width: '305@s',
-    height: '170@s',
+    width: '250@s',
+    height: '160@s',
     borderRadius: '8@s'
   },
 });
