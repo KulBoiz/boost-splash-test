@@ -1,5 +1,5 @@
-import React, { FC } from "react"
-import { View, ViewStyle } from "react-native"
+import React, { FC, useCallback, useState } from "react"
+import { Pressable, View, ViewStyle } from "react-native"
 import { observer } from "mobx-react-lite"
 import { ScaledSheet } from "react-native-size-matters";
 import FastImage from "react-native-fast-image"
@@ -7,6 +7,7 @@ import { images } from "../../assets/images"
 import { color } from "../../theme"
 import { useStores } from "../../models"
 import { get } from "lodash"
+import ImagePicker from "../image-upload/image-picker"
 
 interface Props{
   style?: ViewStyle | any
@@ -15,12 +16,17 @@ interface Props{
 const UserAvatar:FC<Props> = observer(({ style }: Props) => {
   const {authStoreModel} = useStores()
   const avatar = get(authStoreModel?.user,'avatar')
+  const [visible,setVisible] = useState(false)
+  const onSelectImage = useCallback((res) => {
+    console.log(res)
+  },[])
 
   return (
     <View style={[styles.container, style]}>
-      <View style={styles.wrapAvatar}>
+      <Pressable style={styles.wrapAvatar} onPress={()=> setVisible(true)}>
         <FastImage source={avatar ? {uri: avatar} : images.fina_logo} style={styles.avatar}/>
-      </View>
+      </Pressable>
+      <ImagePicker visible={visible} onCancel={()=> setVisible(false)} onSelectImage={onSelectImage}/>
     </View>
   )
 });

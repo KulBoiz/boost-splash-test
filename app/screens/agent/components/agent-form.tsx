@@ -121,6 +121,7 @@ const AgentForm = observer((props: Props) => {
             name: 'bankNumber',
             label: 'Số tài khoản ngân hàng',
             placeholder: 'Nhập số tài khoản',
+            keyboardType: 'number-pad',
             control,
             error: errors?.bankNumber?.message
           }}

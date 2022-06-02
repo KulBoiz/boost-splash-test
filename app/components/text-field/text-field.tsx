@@ -5,7 +5,6 @@ import { color, spacing } from "../../theme"
 import { translate, TxKeyPath } from "../../i18n"
 import { Text } from "../text/text"
 import { s, ms } from "react-native-size-matters"
-import FastImage, { ImageStyle } from "react-native-fast-image"
 import { images } from "../../assets/images"
 
 // the base styling for the container
@@ -15,11 +14,6 @@ const CONTAINER: ViewStyle = {
 const WRAP_INPUT: ViewStyle = {
   flexDirection: 'row',
   alignItems: "center",
-}
-
-const EYE : ImageStyle = {
-  width: s(18),
-  height: s(15)
 }
 
 // the base styling for the TextInput
@@ -44,42 +38,23 @@ const PRESETS: { [name: string]: ViewStyle } = {
 }
 
 export interface TextFieldProps extends TextInputProps {
-  /**
-   * The placeholder i18n key.
-   */
+
   placeholderTx?: TxKeyPath
 
-  /**
-   * The Placeholder text if no placeholderTx is provided.
-   */
   placeholder?: string
 
-  /**
-   * The label i18n key.
-   */
   labelTx?: TxKeyPath
+
   errorTx?: TxKeyPath
 
-  /**
-   * The label text if no labelTx is provided.
-   */
   label?: string
 
-  /**
-   * Optional container style overrides useful for margins & padding.
-   */
   style?: StyleProp<ViewStyle>
 
-  /**
-   * Optional style overrides for the input.
-   */
   inputStyle?: StyleProp<TextStyle>
 
   errorStyle?: StyleProp<TextStyle>
 
-  /**
-   * Various look & feels.
-   */
   preset?: keyof typeof PRESETS
 
   forwardedRef?: any
@@ -126,15 +101,19 @@ export function TextField(props: TextFieldProps) {
     <View style={containerStyles}>
       <View style={WRAP_INPUT}>
         <TextInput
-          label={actualLabel}
+          label={actualLabel ?? ''}
           mode={'outlined'}
-          placeholder={actualPlaceholder}
+          placeholder={actualPlaceholder ?? ''}
           secureTextEntry={showIcon ? showPassword : false}
           {...rest}
           multiline={multiline}
           style={inputStyles}
           ref={forwardedRef}
-          right={showIcon && <TextInput.Icon name={showPassword ? images.close_eye : images.open_eye} onPress={_handleShowPass}/>}
+          right={showIcon &&
+          <TextInput.Icon
+            name={showPassword ? images.close_eye : images.open_eye}
+            onPress={_handleShowPass}
+          />}
           error={!!errorMessage}
           activeOutlineColor={color.palette.blue}
         />
