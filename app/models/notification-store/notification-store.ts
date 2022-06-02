@@ -1,5 +1,5 @@
 import { flow, Instance, SnapshotOut, types } from "mobx-state-tree"
-import { NotificationApi } from "../../services/api/notification"
+import { NotificationApi } from "../../services/api/notification-api"
 import { withEnvironment } from "../extensions/with-environment"
 
 /**
@@ -11,7 +11,8 @@ export const NotificationStoreModel = types
   .props({
     dataSources: types.frozen([]),
     limit: types.optional(types.number, 20),
-    page: types.optional(types.number, 1)
+    page: types.optional(types.number, 1),
+    total: types.optional(types.number, 0),
   })
   .views(() => ({})) // eslint-disable-line @typescript-eslint/no-unused-vars
   .actions((self) => ({
@@ -20,6 +21,10 @@ export const NotificationStoreModel = types
     },
 
     getListNotifications: flow(function* getListNotifications(filters, userId) {
+      self.dataSources = []
+      self.total = 0
+      self.page = 1
+      
       const api = new NotificationApi(self.environment.api)
 
       const params = {
@@ -32,7 +37,9 @@ export const NotificationStoreModel = types
         }
       }
       const result = yield api.getNotificationPagination('notifications', params)
-      self.dataSources = result?.data
+      self.dataSources = result?.data?.data
+      self.total = result?.data?.total
+
       if (result.kind === "ok") {
         return {
           kind: "ok",
@@ -51,6 +58,10 @@ export const NotificationStoreModel = types
       const nextPage = self.page + 1
       self.page = nextPage
 
+      if (self.total <= self.dataSources.length) {
+        return { kind: "end"}
+      }
+
       const params = {
         userId: userId,
         page: nextPage,
@@ -61,7 +72,10 @@ export const NotificationStoreModel = types
         }
       }
       const result = yield api.getNotificationPagination('notifications', params)
-      self.dataSources = result?.data
+
+      self.dataSources = result?.data?.data
+      self.total = result?.data?.total
+
       if (result.kind === "ok") {
         return {
           kind: "ok",

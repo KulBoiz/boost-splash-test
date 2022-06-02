@@ -33,7 +33,7 @@ export class NotificationApi {
         if (problem) return problem
       }
 
-      const data = response?.data?.data || []
+      const data = response?.data || []
       return { kind: "ok", data }
     } catch (e) {
       return { kind: "bad-data", e }
