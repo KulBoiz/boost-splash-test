@@ -5,6 +5,13 @@ import { AuthApi } from "../../services/api/auth-api"
 import { navigate } from "../../navigators"
 import AsyncStorage from "@react-native-async-storage/async-storage"
 
+
+export const ROLE = {
+  CTV: 'Cộng tác viên',
+  KH: 'Khách hàng',
+  FINA: 'Nhân viên FINA'
+}
+
 /**
  * Model description here for TypeScript hints.
  */
@@ -22,6 +29,7 @@ export const AuthStoreModel = types
     expiresIn: types.maybeNull(types.string),
     type: types.maybeNull(types.string),
     isLoggedIn: types.optional(types.boolean, false),
+    role: types.frozen(''),
   })
   .views(self => ({})) // eslint-disable-line @typescript-eslint/no-unused-vars
   .actions(self => ({
@@ -45,6 +53,22 @@ export const AuthStoreModel = types
         self.type = loggedInInfo.type
         self.isLoggedIn = true
         // authApi.setToken(self.token)
+
+        const { type, positionCodes } = loggedInInfo?.user
+        const findPositionCodeCOLLABORATOR = positionCodes?.find(el => el === 'FINA_COLLABORATOR')
+        
+        if (type === 'customer') {
+          self.role = ROLE.KH
+        }
+        
+        if (findPositionCodeCOLLABORATOR && type === 'customer') {
+          self.role = ROLE.CTV
+        }
+    
+        if (findPositionCodeCOLLABORATOR && type === 'staff') {
+          self.role = ROLE.FINA
+        }
+    
         authApi.setUnauthorizedFunction(() => {
           return navigate(ScreenNames.LOGIN)
         })

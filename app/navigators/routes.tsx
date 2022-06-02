@@ -12,6 +12,7 @@ import RegisterInfo from "../screens/agent/register-info"
 import CheckInfo from "../screens/agent/check-info"
 import CaptureId from "../screens/agent/capture-id"
 import SignContract from "../screens/agent/sign-contract"
+import ViewContract from "../screens/agent/view-contract"
 
 export const AuthRoutes = [
 	{
@@ -60,5 +61,8 @@ export const AgentRoutes = [
 	},{
 		name: ScreenNames.SIGN_CONTRACT,
 		component: SignContract,
+	},{
+		name: ScreenNames.VIEW_CONTRACT,
+		component: ViewContract,
 	},
 ];

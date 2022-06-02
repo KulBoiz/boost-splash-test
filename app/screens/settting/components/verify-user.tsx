@@ -9,36 +9,23 @@ import { ScaledSheet } from "react-native-size-matters"
 import { fontFamily } from "../../../constants/font-family"
 import { FONT_REGULAR_12, TEXT_CENTER } from "../../../styles/common-style"
 
-interface Props { }
+interface Props {
+  renderRole: string;
+}
 const content = 'Theo quy định của NHNN. Chủ ví điện tử cần cung cấp hình ảnh chứng từ cá nhân để đảm bảo chính chủ, xác thực tài khoản, và tăng cường bảo mật'
-const VerifyUser = React.memo((props: Props) => {
+
+const VerifyUser = React.memo(({ renderRole }: Props) => {
   const { authStoreModel } = useStores()
   const name = get(authStoreModel?.user, 'fullName')
 
-  const renderRole = () => {
-    const { type, positionCodes } = authStoreModel?.user
-
-    const findPositionCodeCOLLABORATOR = positionCodes?.find(el => el === 'FINA_COLLABORATOR')
-    if (findPositionCodeCOLLABORATOR && type === 'customer') {
-      return 'Chờ duyệt lên CTV'
-    }
-
-    if (findPositionCodeCOLLABORATOR && type === 'staff') {
-      return 'Cộng tác viên'
-    }
-
-    if (type === 'customer') {
-      return 'Khách hàng'
-    }
-  }
   return (
     <View style={styles.container}>
       <UserAvatar style={styles.avatar} />
       <View style={styles.infoContainer}>
-        <AppText value={name ?? 'Emma Huynh'} style={styles.name} />
-        <View style={styles.verifyContainer}>
-          <AppText value={renderRole()} style={styles.verify} />
-        </View>
+        <AppText value={name ?? 'FINA'} style={styles.name} />
+        {renderRole && <View style={styles.verifyContainer}>
+          <AppText value={renderRole} style={styles.verify} />
+        </View>}
         <AppText value={content} style={[TEXT_CENTER, FONT_REGULAR_12]} />
       </View>
 
