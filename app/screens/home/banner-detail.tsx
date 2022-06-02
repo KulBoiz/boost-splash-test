@@ -12,6 +12,8 @@ import RenderHtml from 'react-native-render-html';
 import { width } from "../../constants/variable";
 import { s, ScaledSheet } from "react-native-size-matters"
 import { CONTAINER_PADDING } from "../../styles/common-style"
+import FastImage from 'react-native-fast-image';
+import { color } from '../../theme';
 
 
 interface Props {
@@ -38,12 +40,13 @@ const BannerDetail = React.memo((props: Props) => {
       <AppHeader headerText={''}/>
       <ScrollView >
         <View>
-          <AppText value={data?.title || ''} style={styles.title}/>
-
+          <AppText value={data?.title || ''} style={styles.title} />
           <View style={styles.time}>
-            <AppText value={`${moment(data?.updatedAt).format('YYYY-MM-DD HH:mm')}`} />
-            <AppText value={data?.author || ''} style={CONTAINER_PADDING}/>
+            <AppText value={`${moment(data?.updatedAt).format('YYYY-MM-DD HH:mm')} - `} />
+            <AppText value={data?.author || ''}/>
           </View>
+
+          {data?.image && <FastImage source={{ uri: data?.image }} style={styles.image} resizeMode={'stretch'}/>}
 
           <AppText value={data?.description} />
         </View>
@@ -63,12 +66,19 @@ const styles = ScaledSheet.create({
   container: {
     flex: 1,
     paddingHorizontal: 8,
+    backgroundColor: color.palette.white,
   },
   title: {
     fontSize: '16@s',
+    color: color.palette.blue,
   },
   time: {
     marginVertical: '8@s',
     flexDirection: 'row',
+  },
+  image: {
+    width: '100%',
+    height: width - s(32),
+    marginBottom: '8@s',
   }
 });

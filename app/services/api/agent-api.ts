@@ -26,4 +26,17 @@ export class AgentApi {
     }
   }
 
+  async getDetailAgent(id:string): Promise<any> {
+    try {
+      const response: ApiResponse<any> = await this.api.apisauce.get(`${API_ENDPOINT}/users/${id}`)
+      if (!response.ok) {
+        const problem = getGeneralApiProblem(response)
+        if (problem) return problem
+      }
+      return response
+    } catch (e) {
+      return e
+    }
+  }
+
 }

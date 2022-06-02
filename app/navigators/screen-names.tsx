@@ -35,4 +35,5 @@ export enum ScreenNames {
   BANNER_DETAIL = "BannerDetail",
   PHOTO_PICKER = "PhotoPicker",
   SIGN_CONTRACT = 'SignContract',
+  VIEW_CONTRACT = 'ViewContract',
 }
