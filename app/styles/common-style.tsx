@@ -19,6 +19,9 @@ export const ROW :ViewStyle = {
 export const CONTAINER_PADDING: ViewStyle = {
   paddingHorizontal: ms(16)
 }
+export const PADDING_VERTICAL: ViewStyle = {
+  paddingVertical: ms(24)
+}
 export const PADDING_BOTTOM_24: ViewStyle = {
   paddingBottom: ms(16)
 }

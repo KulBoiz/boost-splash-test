@@ -44,11 +44,12 @@ export const CollaboratorContractInfoDesktop = (props: Props) => {
       `
     <b>
       <div style="display: flex; textAlign: center; fontFamily: Arial; fontWeight: bold">
-        <div style="flexGrow: 1">
+        <div style="flexGrow: 1; marginBottom: 20px">
         <div>CÔNG TY CỔ PHẦN DỊCH VỤ TÀI</div>
         <div>CHÍNH BẤT ĐỘNG SẢN TULIP</div>
         </div>
-        <div>
+       
+        <div style="flexGrow: 1; marginBottom: 5px">
         <div>CỘNG HÒA XÃ HỘI CHỦ NGHĨA VIỆT NAM</div>
         <div>Độc lập - Tự do - Hạnh phúc</div>
         <div>~~~~~</div>
@@ -62,10 +63,10 @@ export const CollaboratorContractInfoDesktop = (props: Props) => {
       </span>
       <span style={{fontFamily: 'Arial', fontStyle: 'italic'}}></span>
       </p>
-      <h2 style="textAlign: center">
+      <h2 style="textAlign: center; marginTop: 20px">
       <b>HỢP ĐỒNG CỘNG TÁC VIÊN</b>
       </h2>
-      <p>
+      <p style="lineHeight: 20px">
         Hợp Đồng Cộng Tác Viên này (gọi tắt là “Hợp Đồng”) được lập và có hiệu lực từ ngày 
       ${day || moment().date()} tháng ${month || moment().month() + 1} năm ${year ||  moment().year()} (“Ngày Hiệu Lực”) giữa Các Bên dưới
         đây:
@@ -76,93 +77,91 @@ export const CollaboratorContractInfoDesktop = (props: Props) => {
           DỊCH VỤ TÀI CHÍNH BẤT ĐỘNG SẢN TULIP${' '}
         </b>
       </div>
-      <div style={{ marginTop: '0.2rem', marginBottom: '0.2rem' }}>
-        <span style={{ width: '7rem', display: 'inline-block' }}>Mã số thuế</span>: 0316008661
+      <div style="marginTop: 0.4rem">
+        <span style={{ width: '7rem', display: 'inline-block' }}>- Mã số thuế</span>: 0316008661
       </div>
-      <div style={{ marginTop: '0.2rem', marginBottom: '0.2rem' }}>
-        <span style={{ width: '7rem', display: 'inline-block' }}>Địa chỉ trụ sở</span>: L17-11, Tầng 17, Vincom Center Đồng Khởi, 72 Lê Thánh Tôn, P.Bến Nghé, Quận 1, TP. Hồ Chí Minh
+      <div style="marginTop: 0.4rem; lineHeight: 20px">
+        <span style={{ width: '7rem', display: 'inline-block' }}>- Địa chỉ trụ sở</span>: L17-11, Tầng 17, Vincom Center Đồng Khởi, 72 Lê Thánh Tôn, P.Bến Nghé, Quận 1, TP. Hồ Chí Minh
       </div>
-      <div style={{ marginTop: '0.2rem', marginBottom: '0.2rem' }}>
-        <span style={{ width: '7rem', display: 'inline-block' }}>Người đại diện</span>
+      <div style="marginTop: 0.4rem">
+        <span style={{ width: '7rem', display: 'inline-block' }}>- Người đại diện</span>
         <b style={{ width: '12rem', display: 'inline-block' }}>: PHẠM ANH KHÔI</b>
       </div>
-      <div>
-        <span style={{ width: '7rem', display: 'inline-block' }}>Chức vụ</span>: Tổng Giám đốc
+      <div style="marginTop: 0.4rem">
+        <span style={{ width: '7rem', display: 'inline-block' }}>- Chức vụ</span>: Tổng Giám đốc
       </div>
-      <div style={{ marginTop: '0.2rem', marginBottom: '0.2rem' }}>
-        <span style={{ width: '7rem', display: 'inline-block' }}>Email</span>
+      <div style="marginTop: 0.4rem">
+        <span style={{ width: '7rem', display: 'inline-block' }}>- Email</span>
         <span style={{ width: '12rem', display: 'inline-block' }}>: ceo@fina.com.vn</span>
       </div>
-      <div>
-         <span style={{ width: '7rem', display: 'inline-block' }}>Số điện thoại</span>: 0857498668
+      <div style="marginTop: 0.4rem">
+         <span style={{ width: '7rem', display: 'inline-block' }}>- Số điện thoại</span>: 0857498668
       </div>
-      <div style={{ marginTop: '0.2rem', marginBottom: '0.2rem' }}>
-        <span style={{ width: '7rem', display: 'inline-block' }}>Số Tài khoản</span>
+      <div style="marginTop: 0.4rem">
+        <span style={{ width: '7rem', display: 'inline-block' }}>- Số Tài khoản</span>
         <span style={{ width: '12rem', display: 'inline-block' }}>: 111002804377 </span>
       </div>
-      <div>
-       <span style={{ width: '7rem', display: 'inline-block' }}>Ngân hàng </span>
+      <div style="marginTop: 0.4rem;marginBottom: 0.4rem">
+       <span style={{ width: '7rem', display: 'inline-block' }}>- Ngân hàng </span>
         <span style={{ width: '12rem', display: 'inline-block' }}>: Vietinbank CN4 </span>
       </div>
-      <span style={{ marginTop: '0.2rem', marginBottom: '0.2rem' }}>(gọi tắt là “TULIP”)</span>
-      <div style={{ marginTop: '0.2rem', marginBottom: '0.5rem' }}>
-        <b>VÀ</b>
-      </div>
+      <span style="marginTop: 0.8rem; marginBottom: 0.4rem">(gọi tắt là “TULIP”)</span>
+    </br>
       <div>
         <b>
-          <span style={{ width: '7rem', display: 'inline-block' }}>CÁ NHÂN</span>:${' '}
+          <span style={{ width: '7rem', display: 'inline-block' }}>VÀ CÁ NHÂN</span>:${' '}
           ${fullName || '__________________________'}
         </b>
       </div>
-      <div style={{ marginTop: '0.2rem', marginBottom: '0.2rem' }}>
+      <div style="marginTop: 0.4rem">
 				<span
           style={{
             width: '12rem',
             display: 'inline-block',
           }}
         >
-					CMND/CCCD/Hộ chiếu số
+					- CMND/CCCD/Hộ chiếu số
 				</span>
         : ${idNumber || '__________________________'}
       </div>
-      <div style={{ marginTop: '0.2rem', marginBottom: '0.2rem' }}>
-        <span style={{ width: '7rem', display: 'inline-block' }}>Ngày cấp</span>:${' '}
+      <div style="marginTop: 0.4rem">
+        <span style={{ width: '7rem', display: 'inline-block' }}>- Ngày cấp</span>:${' '}
         <span style={{ width: '7rem', display: 'inline-block' }}>
 					${issuedOn || '_____________'}
 				</span>
       </div>
-      <div>
-          Nơi cấp: ${placeOfIssue || '_____________'}
+      <div style="marginTop: 0.4rem">
+          - Nơi cấp: ${placeOfIssue || '_____________'}
       </div>
-      <div style={{ marginTop: '0.2rem', marginBottom: '0.2rem' }}>
-        <span style={{ width: '7rem', display: 'inline-block' }}>Địa chỉ</span>:${' '}
+      <div style="marginTop: 0.4rem">
+        <span style={{ width: '7rem', display: 'inline-block' }}>- Địa chỉ</span>:${' '}
         ${address || '_____________'}
       </div>
-      <div style={{ marginTop: '0.2rem', marginBottom: '0.2rem' }}>
-        <span style={{ width: '7rem', display: 'inline-block' }}>Email</span>:${' '}
+      <div style="marginTop: 0.4rem">
+        <span style={{ width: '7rem', display: 'inline-block' }}>- Email</span>:${' '}
         <span style={{ width: '15rem', display: 'inline-block' }}>${email || '_____________'}</span>
       </div>
-      <div>
-      Số điện thoại: ${tel || '_____________'}
+      <div style="marginTop: 0.4rem">
+      - Số điện thoại: ${tel || '_____________'}
       </div>
-      <div>
-        <span style={{ width: '7rem', display: 'inline-block' }}>Số Tài khoản</span>:${' '}
+      <div style="marginTop: 0.4rem; marginBottom: 0.4rem">
+        <span style={{ width: '7rem', display: 'inline-block' }}>- Số Tài khoản</span>:${' '}
         <span style={{ width: '15rem', display: 'inline-block' }}>
 					${bankAccount || '_____________'}
 				</span>
       </div>
       <div>
-         Ngân hàng: ${bankName || '_____________'}
+         - Ngân hàng: ${bankName || '_____________'}
       </div>
-      <span>(gọi tắt là “Cộng Tác Viên”)</span>
-<p>
+      <span style="marginTop: 0.4rem">(Dùng cho việc nhận hoa hồng)</span>
+<p style="lineHeight: 20px">
         Cộng Tác Viên và TULIP trong Hợp Đồng này khi gọi riêng là “Bên” và gọi chung là “Các Bên”.
 </p>
 <div style={{textAlign: 'center', textDecoration: 'underline'}}>
 <b>XÉT RẰNG</b>
 </div>
-<div style={{display: 'flex', marginBottom: '5px'}}>
-<div>
+<div style="display: flex; marginBottom: 5px">
+<div style="lineHeight: 20px">
         A.  TULIP là đơn vị sở hữu hợp pháp và cung cấp nền tảng công nghệ (“Nền tảng”) nhằm kết nối, giới thiệu và trung
           gian cung ứng các sản phẩm dịch vụ của (các) bên đối tác (“Đối Tác”) đến với khách hàng cá nhân, tổ chức
           (“Khách Hàng”). Theo đó, TULIP mong muốn gia tăng số lượng Khách Hàng và phát triển Nền tảng hoạt động một
@@ -170,19 +169,19 @@ export const CollaboratorContractInfoDesktop = (props: Props) => {
 </div>
 </div>
 <div style={{display: 'flex', marginBottom: '5px'}}>
-<div>
+<div style="lineHeight: 20px">
         B.  Cộng Tác Viên có đủ khả năng và mối quan hệ để thực hiện các công việc nhằm làm đa dạng hóa hệ thống dữ liệu
           trên Nền tảng, thúc đẩy và kết nối Đối Tác của TULIP với Khách Hàng có nhu cầu, giúp Nền tảng phát huy được
           giá trị kinh doanh trong mối quan hệ với Đối Tác.
 </div>
 </div>
 <div style={{display: 'flex', marginBottom: '5px'}}>
-<div>
+<div style="lineHeight: 20px">
         C.  TULIP và Cộng Tác Viên cùng đồng ý hợp tác dựa trên thế mạnh, khả năng và nguyện vọng của Các Bên theo các
           điều khoản, điều kiện nêu tại Hợp Đồng này.
 </div>
 </div>
-<div style="marginBottom:5px">
+<div style="marginBottom:5px; lineHeight: 20px">
 <b>DO VẬY,</b> Các Bên đồng ý ký kết Hợp Đồng với các điều khoản như sau:
 </div>
 <div style="marginBottom: 5px; marginTop: 10px">
@@ -390,19 +389,19 @@ textAlign: center
 </div>
 <ol className="decimal_type" style={{paddingLeft: '0px'}}>
 <ol style={{paddingLeft: '0px', listStyle: 'none'}}>
-<li style={{display: 'flex'}}>
+<li style="display: flex; lineHeight: 20px">
 <span style={{display: 'inline-block', width: '25px'}}>1.1</span>
-<span style={{width: 'fit-content'}}>
+<span style="width: fit-content; lineHeight: 20px">
 Cho mục đích thực hiện Hợp Đồng này, TULIP sẽ thiết lập quy trình khai thác, vận hành, cung cấp cho Cộng Tác Viên các công cụ, thông tin về Sản Phẩm để Cộng Tác Viên thực hiện công việc theo Hợp Đồng.
 </span>
 </li>
-<li style={{display: 'flex'}}>
+<li style="display: flex; lineHeight: 20px">
 <span style={{display: 'inline-block', width: '25px'}}>1.2</span>
 <span style={{width: 'fit-content'}}>
 Cộng Tác Viên tiến hành đăng ký làm thành viên trên Nền tảng của TULIP.
 </span>
 </li>
-<li style={{display: 'flex'}}>
+<li style="display: flex; lineHeight: 20px">
 <span style={{display: 'inline-block', width: '25px'}}>1.3</span>
 <span style={{width: 'fit-content'}}>
 Cộng Tác Viên cam kết thực hiện Hợp Đồng này theo đúng nội dung đã thỏa thuận hoặc nội dung được điều chỉnh một cách hợp lý của TULIP tùy từng thời điểm nhằm đáp bảo việc thực hiện Dịch Vụ được hiệu quả như thiện chí ban đầu giữa Các Bên.
@@ -418,34 +417,34 @@ Cộng Tác Viên cam kết thực hiện Hợp Đồng này theo đúng nội d
 </strong>
 </div>
 <ol className="decimal_type" style={{paddingLeft: '0px'}}>
-<li style={{display: 'flex'}}>
+<li style="display: flex; lineHeight: 20px">
 <span style={{display: 'inline-block', width: '25px'}}>2.1</span>
 
 <span style="width: fit-content">
 Cộng Tác Viên được hưởng Thù lao như nêu tại Mục I. Khái quát nội dung dịch vụ của Hợp Đồng này.
 </span>
 </li>
-<li style="display: flex">
+<li style="display: flex; lineHeight: 20px">
 <span style={{display: 'inline-block', width: '25px'}}>2.2</span>
 
 <span style={{width: 'fit-content'}}>
 Trừ trường hợp có sự thỏa thuận khác giữa Các Bên, Thù lao là khoản tiền duy nhất mà TULIP phải thanh toán cho Cộng Tác Viên theo Hợp Đồng này.
 </span>
 </li>
-<li style={{display: 'flex'}}>
+<li style="display: flex; lineHeight: 20px">
 <span style={{display: 'inline-block', width: '25px'}}>2.3</span>
 <span style={{width: 'fit-content'}}>
 Phương thức thanh toán: Tiền mặt hoặc Chuyển khoản vào Tài khoản ngân hàng của Cộng Tác Viên theo thông tin tại phần đầu Hợp Đồng.
 </span>
 </li>
-<li style={{display: 'flex'}}>
+<li style="display: flex; lineHeight: 20px">
 <span style={{display: 'inline-block', width: '25px'}}>2.4</span>
 
 <span style={{width: 'fit-content'}}>
 Thời hạn thanh toán: Theo chính sách của TULIP tùy từng thời điểm.
 </span>
 </li>
-<li style={{display: 'flex'}}>
+<li style="display: flex; lineHeight: 20px">
 <span style={{display: 'inline-block', width: '25px'}}>2.5</span>
 <span style={{width: 'fit-content'}}>Đồng tiền thanh toán: Việt Nam Đồng.</span>
 </li>
@@ -460,7 +459,7 @@ Bên
 </strong>
 </div>
 <ol style={{paddingLeft: '0px'}}>
-<li style={{display: 'flex'}}>
+<li style="display: flex; lineHeight: 20px">
 <span style={{display: 'inline-block', width: '25px'}}>3.1</span>
 <span style={{width: 'fit-content'}}>
 Trách nhiệm của Cộng Tác Viên
@@ -496,7 +495,7 @@ Các quyền và nghĩa vụ khác theo quy định Hợp Đồng và quy địn
 </ol>
 </span>
 </li>
-<li style={{display: 'flex'}}>
+<li style="display: flex; lineHeight: 20px">
 <span style={{display: 'inline-block', width: '25px'}}>3.2</span>
 
 <span style={{width: 'fit-content'}}>
@@ -540,13 +539,13 @@ Yêu cầu Cộng Tác Viên tuân thủ đầy đủ nghĩa vụ bảo mật th
 </strong>
 </div>
 <ol className="decimal_type" style={{paddingLeft: '0px'}}>
-<li style={{display: 'flex'}}>
+<li style="display: flex; lineHeight: 20px">
 <span style={{display: 'inline-block', width: '25px'}}>4.1</span>
 <span style={{width: 'fit-content'}}>
 Hợp Đồng này có hiệu lực kể từ ngày ký và không xác định thời hạn.
 </span>
 </li>
-<li style={{display: 'flex'}}>
+<li style="display: flex; lineHeight: 20px">
 <span style={{display: 'inline-block', width: '25px'}}>4.2</span>
 <span style={{width: 'fit-content'}}>
 Hợp Đồng này sẽ chấm dứt khi xảy ra các trường hợp dưới đây:
@@ -580,7 +579,7 @@ hoặc việc khắc phục không đạt yêu cầu trong vòng 30 (ba mươi) 
 </strong>
 </div>
 <ol style={{paddingLeft: '0px'}}>
-<li style={{display: 'flex'}}>
+<li style="display: flex; lineHeight: 20px">
 <span style={{display: 'inline-block', width: '25px'}}>5.1</span>
 <span style={{width: 'fit-content'}}>
 Từ thời điểm Hợp Đồng có hiệu lực, Các Bên phải thực hiện quyền và nghĩa vụ đối với nhau
@@ -588,7 +587,7 @@ theo cam kết. Hợp Đồng chỉ có thể bị sửa đổi hoặc hủy b�
 đầy đủ chữ ký giữa Các Bên.
 </span>
 </li>
-<li style={{display: 'flex'}}>
+<li style="display: flex; lineHeight: 20px">
 <span style={{display: 'inline-block', width: '25px'}}>5.2</span>
 <span style={{width: 'fit-content'}}>
 Trong trường hợp có bất kỳ điều khoản nào trong Hợp Đồng này bị xem là vô hiệu, bất hợp
@@ -596,7 +595,7 @@ pháp hoặc không thể thực hiện được, thì những điều khoản k
 hiệu lực thi hành với Các Bên.
 </span>
 </li>
-<li style={{display: 'flex'}}>
+<li style="display: flex; lineHeight: 20px">
 <span style={{display: 'inline-block', width: '25px'}}>5.3</span>
 <span style={{width: 'fit-content'}}>
 Một Bên sẽ chịu trách nhiệm và miễn trừ cho Bên kia đối với mọi khiếu nại, thiệt hại,
@@ -605,13 +604,13 @@ dưới bất cứ hình thức nào mà Bên kia đã phải trả hoặc phả
 quan tới sự vi phạm của Bên đó theo Hợp Đồng này.
 </span>
 </li>
-<li style={{display: 'flex'}}>
+<li style="display: flex; lineHeight: 20px">
 <span style={{display: 'inline-block', width: '25px'}}>5.4</span>
 <span style={{width: 'fit-content'}}>
 Hợp Đồng này chịu sự điều chỉnh duy nhất của Pháp luật Việt Nam.
 </span>
 </li>
-<li style={{display: 'flex'}}>
+<li style="display: flex; lineHeight: 20px">
 <span style={{display: 'inline-block', width: '25px'}}>5.5</span>
 <span style={{width: 'fit-content'}}>
 Trường hợp có sự mâu thuẫn trong quá trình thực hiện Hợp Đồng, Các Bên cùng thỏa thuận
@@ -619,7 +618,7 @@ Trường hợp có sự mâu thuẫn trong quá trình thực hiện Hợp Đ�
 ngày xảy ra mâu thuẫn thì một Bên có thể khởi kiện tại Tòa Án.
 </span>
 </li>
-<li style={{display: 'flex'}}>
+<li style="display: flex; lineHeight: 20px">
 <span style={{display: 'inline-block', width: '25px'}}>5.6</span>
 <span style={{width: 'fit-content'}}>
 Bên vi phạm Hợp Đồng được miễn trừ trách nhiệm khi việc vi phạm Hợp Đồng này do một
@@ -631,7 +630,7 @@ về việc mình không thể thực hiện đúng Hợp Đồng và sẽ cố 
 tối thiểu ảnh hưởng của các nguyên nhân trên.{' '}
 </span>
 </li>
-<li style={{display: 'flex'}}>
+<li style="display: flex; lineHeight: 20px">
 <span style={{display: 'inline-block', width: '25px'}}>5.7</span>
 <span style={{width: 'fit-content'}}>
 Hợp Đồng này được lập thành 02 (hai) bản chính bằng Tiếng Việt có giá trị pháp lý ngang
@@ -672,6 +671,8 @@ nhau, mỗi Bên giữ 01 (một) bản.
 </p>
 </td>
 </tr>
+
+</br>
 </tbody>
 </table>
     `

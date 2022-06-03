@@ -5,10 +5,10 @@ import AppButton from "../../components/app-button/AppButton"
 import RenderHtml from 'react-native-render-html';
 import { width } from "../../constants/variable"
 import { CollaboratorContractInfoDesktop } from "./constants"
-import { ScaledSheet } from "react-native-size-matters"
+import { s, ScaledSheet } from "react-native-size-matters"
 import SignatureModal from "./components/signature-modal"
 import { ScreenNames } from "../../navigators/screen-names"
-import { CONTAINER_PADDING } from "../../styles/common-style"
+import { CONTAINER_PADDING, PADDING_VERTICAL } from "../../styles/common-style"
 import FastImage from "react-native-fast-image"
 import { StackActions, useNavigation } from "@react-navigation/native"
 import { useStores } from "../../models"
@@ -46,10 +46,10 @@ const SignContract = React.memo((props: Props) => {
   return (
     <View style={styles.container}>
       <AppHeader headerText={'Kí hợp đồng '} isBlue/>
-      <ScrollView style={CONTAINER_PADDING}>
+      <ScrollView style={[CONTAINER_PADDING, PADDING_VERTICAL]}>
         <RenderHtml
           contentWidth={width}
-          baseStyle={{backgroundColor: color.background}}
+          baseStyle={styles.htmlContainer}
           source={CollaboratorContractInfoDesktop({
             fullName: agentStore.fullName,
             idNumber: agentStore.citizenIdentification,
@@ -64,7 +64,7 @@ const SignContract = React.memo((props: Props) => {
         />
         <View style={{width: '40%', position: 'absolute', bottom: 30, right: 50, alignItems: 'center'}}>
           {!signature && <AppButton title={'Ký bằng tay'} onPress={()=> setSignatureModal(true)}/> }
-          {signature &&<FastImage source={{uri: `data:image/png;base64,${signature}`}} style={{width: 100, height: 100, top: 20}}/>}
+          {signature &&<FastImage source={{uri: `data:image/png;base64,${signature}`}} style={styles.signature}/>}
         </View>
         <View style={{height: 50}}/>
       </ScrollView>
@@ -88,12 +88,20 @@ const SignContract = React.memo((props: Props) => {
 export default SignContract;
 
 const styles = ScaledSheet.create({
-  container: {flex:1, backgroundColor: color.background},
+  container: {flex:1, backgroundColor: color.palette.lightBlue},
+  signature:{width:'105@s', height: '100@s', top: '-25@s', backgroundColor: color.background},
   btnContainer :{
     flexGrow: 1,
     justifyContent: "flex-end",
     paddingVertical: '24@s',
     paddingHorizontal: '16@ms'
+  },
+  htmlContainer :{
+    backgroundColor: color.background,
+    padding: s(16),
+    borderWidth: 1,
+    borderColor: color.palette.BABABA,
+    borderRadius: s(8)
   },
   sign: {
     flex: 1,
