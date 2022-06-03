@@ -26,7 +26,8 @@ const FilterButton = React.memo((props: ButtonProps) => {
     >
       {props.icon && <FastImage source={ typeof props.icon === 'number' ? props.icon : { uri: props.icon }} style={styles.icon}
         resizeMode={'contain'}
-        tintColor={props.isCurrent ? color.palette.white : color.palette.blue} />}
+        // tintColor={props.isCurrent ? color.palette.white : color.palette.blue}
+      />}
       <AppText value={props.title} style={styles.title} color={props.isCurrent ? color.text : color.palette.blue} />
     </Pressable>
   )
@@ -36,12 +37,11 @@ const MenuFilter = React.memo((props: Props) => {
   const onPress = (item) => {
     props.setCurrentSelected(item)
   }
-
   return (
     <View style={[styles.container, props.style]}>
       <ScrollView horizontal showsHorizontalScrollIndicator={false} >
         {props.filterData.map((val, id) => {
-          const isCurrent = props.currentSelected === val.value
+          const isCurrent = props?.currentSelected?.key === val.key
           return (
             <FilterButton key={id.toString()} icon={val.icon} title={val.title} onPress={() => onPress(val)} isCurrent={isCurrent} />
           )
@@ -76,7 +76,7 @@ const styles = ScaledSheet.create({
   },
   unselectContainer: {
     borderWidth: 1,
-    borderColor: color.palette.blue
+    borderColor: color.palette.blue,
   },
   title: {
     marginLeft: '8@s',

@@ -36,7 +36,7 @@ const RegisterInfo = React.memo((props: Props) => {
     district: Yup.string().required('Chọn quận / huyện'),
     commune: Yup.string().required('Chọn phường xã'),
   })
-  const {control, handleSubmit, formState: {errors}, setValue, watch} = useForm({
+  const {control, handleSubmit, formState: { errors }, setValue, watch} = useForm({
     delayError: 0,
     defaultValues: undefined,
     mode: "all",

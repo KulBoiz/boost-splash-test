@@ -15,7 +15,11 @@ const widthHeight = width - ms(32)
 interface Props { }
 
 const Insurance = observer((props: Props) => {
-  const [select, setSelect] = useState<any>()
+  const [select, setSelect] = useState<any>({
+    key: 'all',
+    icon: images.cube,
+    title: 'tất cả'
+  })
   // @ts-ignore
   const { menuFilterStore, productStore } = useStores();
   const { categories } = menuFilterStore;
@@ -60,7 +64,7 @@ const Insurance = observer((props: Props) => {
           title: 'tất cả'
         }].concat(categories)}
         style={styles.filter} />
-      
+
       {!loading ? <View style={styles.body}>
         {records.map((val, index) => {
           return <InsuranceItem key={index.toString()} item={val} />
