@@ -17,12 +17,13 @@ import { color } from "../../theme";
 import { Dialog, Paragraph } from "react-native-paper"
 import { AppText } from "../../components/app-text/AppText"
 import { fontFamily } from "../../constants/font-family"
+import { ROLE } from "../../models/auth-store";
 
 interface Props{}
 const content = 'Hồ sơ của bạn đang được xử lý, chúng tôi sẽ cập nhật trong vòng 24 giờ.\n\nChân thành cảm ơn!'
 
 const SignContract = React.memo((props: Props) => {
-  const {agentStore} = useStores()
+  const {agentStore, authStoreModel} = useStores()
   const navigation = useNavigation()
   const [signatureModal, setSignatureModal] = useState<boolean>(false)
   const [successModal, setSuccessModal] = useState<boolean>(false)
@@ -37,7 +38,9 @@ const SignContract = React.memo((props: Props) => {
     navigation.dispatch(StackActions.push(ScreenNames.APP))
   }
   const sendData = async () => {
-    const result = await agentStore.registerAgent()
+    const result = await agentStore.registerAgent().then(() => {
+      authStoreModel.setRole(ROLE.CTV)
+    })
     if (result.kind === 'ok'){
       setSuccessModal(true)
     }

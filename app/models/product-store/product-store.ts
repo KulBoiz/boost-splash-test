@@ -44,6 +44,7 @@ export const ProductStoreModel = types
 
     getDetail: flow(function* getDetail(id: string) {
       self.productDetail = {}
+      self.questionGroups = []
 
       const api = new ProductApi(self.environment.api)
       const apiQuestion = new QuestionGroupApi(self.environment.api)
@@ -51,8 +52,10 @@ export const ProductStoreModel = types
       const data = result?.data
       self.productDetail = data
 
-      const resultQuestionGroup = yield apiQuestion.getDetail(data?.questionGroupId)
-      self.questionGroups = resultQuestionGroup?.data
+      if (data?.questionGroupId) {
+        const resultQuestionGroup = yield apiQuestion.getDetail(data?.questionGroupId)
+        self.questionGroups = resultQuestionGroup?.data
+      }
 
       if (result.kind !== "ok") {
         return result

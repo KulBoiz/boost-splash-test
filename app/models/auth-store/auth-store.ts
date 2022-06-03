@@ -9,8 +9,11 @@ import AsyncStorage from "@react-native-async-storage/async-storage"
 export const ROLE = {
   CTV: 'Cộng tác viên',
   KH: 'Khách hàng',
-  FINA: 'Nhân viên FINA'
+  FINA: 'Nhân viên FINA',
+  BANK: 'Nhân viên ngân hàng'
 }
+
+const KEY_CTV = 'FINA_COLLABORATOR'
 
 /**
  * Model description here for TypeScript hints.
@@ -36,6 +39,9 @@ export const AuthStoreModel = types
     storeUser: (user: any) => {
       self.user = user
     },
+    setRole: (role: string) => {
+      self.role = role
+    },
     login: flow(function* login(email: string, password: string) {
       const authApi = new AuthApi(self.environment.api)
       const result = yield authApi.login(email, password)
@@ -55,18 +61,22 @@ export const AuthStoreModel = types
         // authApi.setToken(self.token)
 
         const { type, positionCodes } = loggedInInfo?.user
-        const findPositionCodeCOLLABORATOR = positionCodes?.find(el => el === 'FINA_COLLABORATOR')
+        const findPositionCodeCOLLABORATOR = positionCodes?.find(el => el === KEY_CTV)
         
         if (type === 'customer') {
           self.role = ROLE.KH
         }
         
-        if (findPositionCodeCOLLABORATOR && type === 'customer') {
+        if (findPositionCodeCOLLABORATOR && type === 'collaborator') {
           self.role = ROLE.CTV
         }
     
-        if (findPositionCodeCOLLABORATOR && type === 'staff') {
+        if (type === 'staff') {
           self.role = ROLE.FINA
+        }
+
+        if (type === 'teller') {
+          self.role = ROLE.BANK
         }
     
         authApi.setUnauthorizedFunction(() => {
