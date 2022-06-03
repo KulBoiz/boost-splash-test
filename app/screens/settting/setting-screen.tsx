@@ -6,7 +6,7 @@ import { useStores } from "../../models"
 import { StackActions, useNavigation } from "@react-navigation/native"
 import { ScreenNames } from "../../navigators/screen-names"
 import AppButton from "../../components/app-button/AppButton"
-import {  SETTING_LIST } from "./constants"
+import { SETTING_LIST } from "./constants"
 import SettingItem from "./components/setting-item"
 import { color } from "../../theme"
 import VerifyUser from "./components/verify-user"
@@ -19,10 +19,13 @@ interface Props { }
 const SettingScreen: FC<Props> = observer((props: Props) => {
   const navigation = useNavigation()
   const { authStoreModel } = useStores()
+
   const logout = async () => {
     await authStoreModel.logout()
     navigation.dispatch(StackActions.push(ScreenNames.AUTH))
   }
+
+  console.log(authStoreModel?.user);
 
   return (
     <View style={styles.container}>
@@ -33,7 +36,13 @@ const SettingScreen: FC<Props> = observer((props: Props) => {
             <VerifyUser renderRole={authStoreModel?.role} />
             {SETTING_LIST.map((value, index) => {
               // index = 1  menu cộng tác viên
-              if (index === 1 &&  authStoreModel?.role === ROLE.CTV) {
+              console.log('authStoreModel?.role ', authStoreModel?.role );
+              
+              if (index === 1 && authStoreModel?.role === ROLE.FINA) {
+                return <></>
+              }
+
+              if (index === 1 && authStoreModel?.role === ROLE.CTV) {
                 // todo
                 return <SettingItem
                   key={index.toString()}

@@ -41,7 +41,7 @@ const MenuFilter = React.memo((props: Props) => {
     <View style={[styles.container, props.style]}>
       <ScrollView horizontal showsHorizontalScrollIndicator={false} >
         {props.filterData.map((val, id) => {
-          const isCurrent = props.currentSelected === id
+          const isCurrent = props.currentSelected === val.value
           return (
             <FilterButton key={id.toString()} icon={val.icon} title={val.title} onPress={() => onPress(val)} isCurrent={isCurrent} />
           )
