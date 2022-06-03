@@ -23,7 +23,7 @@ const HomeBanner = observer((props: Props) => {
   }, [])
 
   const news = bannerStore.publicNews ?? []
-
+  
   const _renderItem = useCallback(({ item }) => {
     const onPress = () => {
       navigate(ScreenNames.BANNER_DETAIL, {url : item?.slug})

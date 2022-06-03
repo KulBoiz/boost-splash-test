@@ -4,7 +4,7 @@ import { StackScreenProps } from "@react-navigation/stack"
 import { observer } from "mobx-react-lite"
 import { ScreenNames } from "../../navigators/screen-names"
 import { AppStackParamList } from "../../navigators/app-stack"
-import {ScaledSheet} from 'react-native-size-matters'
+import { ScaledSheet } from 'react-native-size-matters'
 import HeaderCard from "./components/HeaderCard"
 import PaperHeader from "./components/PaperHeader"
 import { paper } from "./constants"
@@ -26,38 +26,29 @@ export const HomeScreen: FC<StackScreenProps<AppStackParamList, ScreenNames.HOME
     });
     const [currentPage, setCurrentPage] = useState(1);
     // @ts-ignore
-    const { menuFilterStore, productStore } = useStores()
 
     const handleSelectPage = (value: number) => {
       setCurrentPage(value);
-
-      if (value === 2) {
-        menuFilterStore.get();
-        productStore.get();
-      }
     };
 
     return (
       <View testID="WelcomeScreen" style={styles.full}>
-        <HeaderCard  />
+        <HeaderCard />
         <ScrollView
-          style={{paddingTop: 50}}
+          style={{ paddingTop: 20 }}
           nestedScrollEnabled
         >
           <HomeBanner />
           <View style={styles.wrapItem}>
-            <PaperHeader paperData={paper} handleSelectPage={handleSelectPage} currentPage={currentPage}/>
+            <PaperHeader paperData={paper} handleSelectPage={handleSelectPage} currentPage={currentPage} />
             <View style={styles.pagerView}>
-              {currentPage === 1 ?
-                <Finance />
-                : currentPage === 2 ?
-                <Insurance /> :
-                <ComingSoon />
-              }
+              {currentPage === 1 && <Finance />}
+              {currentPage === 2 && <Insurance />}
+              {currentPage === 3 && <ComingSoon />}
             </View>
           </View>
 
-          <View style={{height: 200}}/>
+          <View style={{ height: 200 }} />
         </ScrollView>
       </View>
     )

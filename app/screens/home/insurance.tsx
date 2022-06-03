@@ -3,6 +3,7 @@ import React, { useEffect, useState } from "react"
 import { View } from "react-native"
 import { ms, ScaledSheet } from "react-native-size-matters"
 import { images } from "../../assets/images"
+import { LoadingComponent } from "../../components/loading"
 import { width } from "../../constants/variable"
 import { useStores } from "../../models"
 import { color } from "../../theme"
@@ -19,17 +20,32 @@ const Insurance = observer((props: Props) => {
   const { menuFilterStore, productStore } = useStores();
   const { categories } = menuFilterStore;
   const { records } = productStore;
+  const [loading, setLoading] = useState<boolean>(true)
+
+  useEffect(() => {
+    setLoading(true)
+    menuFilterStore.get()
+    productStore.get().then(() => {
+      setLoading(false)
+    });
+  }, [])
 
   const filter = (value) => {
+    setLoading(true)
+
     if (value?.key === select?.key) {
       return;
     }
     setSelect(value);
 
     if (value?.key !== 'all') {
-      productStore.get({ categoryId: value?.key });
+      productStore.get({ categoryId: value?.key }).then(() => {
+        setLoading(false)
+      });
     } else {
-      productStore.get();
+      productStore.get().then(() => {
+        setLoading(false)
+      });
     }
   }
 
@@ -45,11 +61,11 @@ const Insurance = observer((props: Props) => {
         }].concat(categories)}
         style={styles.filter} />
       
-      {records?.length > 0 && <View style={styles.body}>
+      {!loading ? <View style={styles.body}>
         {records.map((val, index) => {
           return <InsuranceItem key={index.toString()} item={val} />
         })}
-      </View>}
+      </View> : <LoadingComponent />}
     </View>
   )
 });

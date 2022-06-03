@@ -48,7 +48,7 @@ const InsuranceItem = React.memo((props: Props) => {
 
   const price = () => {
     if (item?.packages && item?.packages?.length > 0) {
-      return Math.min(...item?.packages.map(el => el?.price))
+      return Math.min(...item?.packages.map(el => el?.price)).toLocaleString()
     }
 
     return '_'

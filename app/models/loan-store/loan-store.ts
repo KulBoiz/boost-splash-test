@@ -82,10 +82,12 @@ export const LoanStoreModel = types
       const resultHistory = yield loanApi.requestLoanHistory(id)
       self.histories = resultHistory?.data
 
-      const resultFiles = yield documentApi.loadTemplate(data?.documentTemplateId)
-      self.templates = resultFiles?.data?.data
-      const resultTemplates = yield documentApi.loadFileTemplate(data?.documentTemplateId, id)
-      self.files = resultTemplates?.data?.data
+      if (data?.documentTemplateId) {
+        const resultFiles = yield documentApi.loadTemplate(data?.documentTemplateId)
+        self.templates = resultFiles?.data?.data
+        const resultTemplates = yield documentApi.loadFileTemplate(data?.documentTemplateId, id)
+        self.files = resultTemplates?.data?.data
+      }
 
       if (result.kind !== "ok") {
         return result
@@ -119,7 +121,7 @@ export const LoanStoreModel = types
 
     createRequestCounselling: flow(function* createRequestCounselling(email: string, fullName: string, tel: string, note?: string) {
       const user: any = new LoanApi(self?.rootStore?.authStoreModel.userId)
-      
+
       const loanApi = new LoanApi(self.environment.api)
       const result = yield loanApi.createRequestCounselling(email, fullName, tel, note, user?.api)
       const data = result.data
@@ -165,13 +167,17 @@ export const LoanStoreModel = types
     }),
 
     loadMoreRecords: flow(function* loadMoreRecords() {
+      if (self.total < self.records.length) {
+        return { kind: "end"}
+      }
+      
       const loanApi = new LoanApi(self.environment.api)
       const nextPage = self.page + 1
       self.page = nextPage
 
       const param = {
         page: nextPage,
-        "filter": {...filter, skip: self.limit * (self.page -1)}
+        "filter": { ...filter, skip: self.limit * (self.page - 1) }
       }
 
       const result = yield loanApi.loadMoreRecords(param)
@@ -254,7 +260,7 @@ export const LoanStoreModel = types
 
     getProductDetail: flow(function* getProductDetail(id: string) {
       self.productDetail = {};
-      
+
       const loanApi = new LoanApi(self.environment.api)
       const result = yield loanApi.getProductDetail(id)
       if (result.kind !== "ok") {
