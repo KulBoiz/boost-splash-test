@@ -53,7 +53,9 @@ const DatePicker = React.memo((props: Props) => {
         </View>
         <CalenderSvg />
       </Pressable>
-      {!!errorMessage && <AppText value={errorMessage} style={styles.errorMessage}/> }
+      <View>
+        {!!errorMessage && <AppText value={errorMessage} style={styles.errorMessage}/> }
+      </View>
       {isAndroid ?
         <>
           {
@@ -77,7 +79,7 @@ export default DatePicker;
 const styles = ScaledSheet.create({
   container: {
     marginVertical: spacing[3],
-    paddingTop: isAndroid ? '5@vs' : '4@vs'
+    paddingTop: isAndroid ? '5.5@vs' : '4.5@vs'
   },
   wrapper: {
     flexDirection: "row",
@@ -85,14 +87,16 @@ const styles = ScaledSheet.create({
     alignItems: "center",
     borderWidth: 1,
     borderRadius: '4@s',
-    paddingVertical: '7@ms',
+    paddingVertical: '5.5@vs',
     paddingHorizontal: '16@ms'
   },
   errorMessage: {
     fontFamily: 'Inter-Medium',
     color: color.palette.angry,
     fontSize: '13@ms',
-    marginTop: '10@s'
+    marginTop: '10@s',
+    position: "absolute",
+    top: '-5@s'
   },
   label: {
     fontSize: '11@ms',
