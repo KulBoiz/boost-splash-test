@@ -26,7 +26,8 @@ const FilterButton = React.memo((props: ButtonProps) => {
     >
       {props.icon && <FastImage source={ typeof props.icon === 'number' ? props.icon : { uri: props.icon }} style={styles.icon}
         resizeMode={'contain'}
-        tintColor={props.isCurrent ? color.palette.white : color.palette.blue} />}
+        // tintColor={props.isCurrent ? color.palette.white : color.palette.blue}
+      />}
       <AppText value={props.title} style={styles.title} color={props.isCurrent ? color.text : color.palette.blue} />
     </Pressable>
   )
@@ -36,7 +37,7 @@ const MenuFilter = React.memo((props: Props) => {
   const onPress = (item) => {
     props.setCurrentSelected(item)
   }
-
+  console.log(props.filterData)
   return (
     <View style={[styles.container, props.style]}>
       <ScrollView horizontal showsHorizontalScrollIndicator={false} >
