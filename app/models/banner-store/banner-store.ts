@@ -1,6 +1,7 @@
 import { flow, Instance, SnapshotOut, types } from "mobx-state-tree"
 import { withEnvironment } from "../extensions/with-environment"
 import { BannerApi } from "../../services/api/banner-api"
+import { BaseApi } from "../../services/api/base-api"
 
 /**
  * Model description here for TypeScript hints.
@@ -15,8 +16,18 @@ export const BannerStoreModel = types
   .views((self) => ({})) // eslint-disable-line @typescript-eslint/no-unused-vars
   .actions((self) => ({
     getPublicBanners: flow(function* getPublicBanners() {
-      const loanApi = new BannerApi(self.environment.api)
-      const result = yield loanApi.getPublicBanners()
+      const api = new BaseApi(self.environment.api)
+      const path = 'banners/public'
+
+      const param ={
+        page: 1,
+        filter: {
+          limit: 20,
+          order: ['priority asc'],
+        }
+      }
+
+      const result = yield api.get(path, param )
       const data = result.data
       if (result.kind !== "ok") {
         return result
@@ -31,13 +42,15 @@ export const BannerStoreModel = types
     }),
 
     getPublicBannerDetail: flow(function* getPublicBannerDetail(id: string) {
-      const loanApi = new BannerApi(self.environment.api)
-      const result = yield loanApi.getPublicBannerDetail(id)
+      const api = new BaseApi(self.environment.api)
+      const path = `news/public/by-slug/${id}`
+      const result = yield api.get(path)
       const data = result.data
       
       if (result.kind !== "ok") {
         return result
       }
+
       if (data) {
         self.publicBanners = data
         return {
@@ -48,9 +61,17 @@ export const BannerStoreModel = types
     }),
 
     getPublicNews: flow(function* getPublicNews() {
-      const loanApi = new BannerApi(self.environment.api)
-      const result = yield loanApi.getPublicNews()
-      const data = result.data
+      const api = new BaseApi(self.environment.api)
+      const path = `news/public`
+      const params = {
+        page: 1,
+        filter: {
+          limit: 20,
+        }
+      }
+
+      const result = yield api.get(path, params)
+      const data = result?.data?.data
       if (result.kind !== "ok") {
         return result
       }

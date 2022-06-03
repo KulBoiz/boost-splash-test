@@ -35,7 +35,7 @@ export const HomeScreen: FC<StackScreenProps<AppStackParamList, ScreenNames.HOME
       <View testID="WelcomeScreen" style={styles.full}>
         <HeaderCard />
         <ScrollView
-          style={{ paddingTop: 50 }}
+          style={{ paddingTop: 20 }}
           nestedScrollEnabled
         >
           <HomeBanner />

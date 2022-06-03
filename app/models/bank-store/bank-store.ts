@@ -1,19 +1,12 @@
 import { flow, Instance, SnapshotOut, types } from "mobx-state-tree"
-import { BankApi } from "../../services/api/bank-api"
+import { BaseApi } from "../../services/api/base-api"
 import { withEnvironment } from "../extensions/with-environment"
 
 /**
  * Model description here for TypeScript hints.
  */
-const filter = {
-  where: {
-    orgId: '60e0533b8cf80a69dda333dc',
-    type: 'bank'
-  },
-  include: [
-    { relation: 'children' },
-  ]
-}
+
+const pathStore =  "/organizations"
 
 export const BankStoreModel = types
   .model("BankStore")
@@ -26,15 +19,23 @@ export const BankStoreModel = types
   })
   .views((self) => ({})) // eslint-disable-line @typescript-eslint/no-unused-vars
   .actions((self) => ({
-    getBankList: flow(function* getBankList() {
+    getBankList: flow(function* getBankList(search?: string) {
       self.banks = [];
 
-      const loanApi = new BankApi(self.environment.api)
+      const api = new BaseApi(self.environment.api)
       const param = {
         page: 1,
-        "filter": filter
+        filter: {
+          where: {
+            type: 'bank',
+            _q: search || undefined
+          },
+          include: [
+            { relation: 'children' },
+          ]
+        }
       }
-      const result = yield loanApi.getBankList(param)
+      const result = yield api.get(pathStore, param)
       if (result.kind !== "ok") {
         return result
       }
@@ -48,40 +49,14 @@ export const BankStoreModel = types
       }
     }),
 
-    loadMoreBankList: flow(function* loadMoreBankList() {
-      const loanApi = new BankApi(self.environment.api)
-      const nextPage = self.page + 1
-      self.page = nextPage
-
-      const param = {
-        page: nextPage,
-        "filter": filter
-      }
-
-      const result = yield loanApi.loadMoreBankList(param)
-      if (result.kind !== "ok") {
-        return result
-      }
-      const data = result?.data?.data
-      const oldData: any = [...self.banks]
-      if (data) {
-        const newData: any = oldData.concat(data)
-        self.page += 1
-        self.banks = newData
-        return {
-          kind: "ok",
-          data,
-        }
-      }
-    }),
-
-    getBankBranch: flow(function* getBankBranch(parentId: string) {
+    getBankBranch: flow(function* getBankBranch(parentId: string, search?: string) {
       self.bankBranches = []
       
-      const loanApi = new BankApi(self.environment.api)
+      const api = new BaseApi(self.environment.api)
       const param = {
         "filter": {
           where: {
+            _q: search || undefined,
             parentOrgId: parentId,
           },
           include: [
@@ -89,7 +64,7 @@ export const BankStoreModel = types
           ]
         }
       }
-      const result = yield loanApi.getBankBranch(param)
+      const result = yield api.get(pathStore, param)
       if (result.kind !== "ok") {
         return result
       }
