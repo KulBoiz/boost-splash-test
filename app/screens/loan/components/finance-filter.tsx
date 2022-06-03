@@ -37,12 +37,11 @@ const MenuFilter = React.memo((props: Props) => {
   const onPress = (item) => {
     props.setCurrentSelected(item)
   }
-  console.log(props.filterData)
   return (
     <View style={[styles.container, props.style]}>
       <ScrollView horizontal showsHorizontalScrollIndicator={false} >
         {props.filterData.map((val, id) => {
-          const isCurrent = props.currentSelected === val.value
+          const isCurrent = props?.currentSelected?.key === val.key
           return (
             <FilterButton key={id.toString()} icon={val.icon} title={val.title} onPress={() => onPress(val)} isCurrent={isCurrent} />
           )
@@ -77,7 +76,7 @@ const styles = ScaledSheet.create({
   },
   unselectContainer: {
     borderWidth: 1,
-    borderColor: color.palette.blue
+    borderColor: color.palette.blue,
   },
   title: {
     marginLeft: '8@s',
