@@ -29,7 +29,9 @@ const ERROR: TextStyle = {
   fontFamily: 'Inter-Medium',
   color: color.palette.angry,
   fontSize: ms(13),
-  marginTop: s(10)
+  marginTop: s(10),
+  position: "absolute",
+  top: s(-5)
 }
 
 // currently we have no presets, but that changes quickly when you build your app.
@@ -118,8 +120,9 @@ export function TextField(props: TextFieldProps) {
           activeOutlineColor={color.palette.blue}
         />
       </View>
-      {!!errorMessage &&  <Text tx={errorTx} text={errorMessage} style={errorMessage ? errorMessageStyles : null}/>}
-
+      <View>
+        {!!errorMessage &&  <Text tx={errorTx} text={errorMessage} style={errorMessage ? errorMessageStyles : null}/>}
+      </View>
     </View>
   )
 }

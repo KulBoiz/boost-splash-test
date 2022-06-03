@@ -7,6 +7,7 @@ import { AppText } from "../app-text/AppText"
 import { CONTAINER_PADDING, FONT_SEMI_BOLD_14, MARGIN_BOTTOM_16, TEXT_CENTER } from "../../styles/common-style"
 import FastImage from "react-native-fast-image"
 import { images } from "../../assets/images"
+import SearchBar from "../search-bar"
 
 interface DataProps {
   label: string
@@ -49,6 +50,7 @@ const ItemPickerModal = React.memo((props: Props) => {
     >
       <View style={styles.body}>
         <AppText value={label} style={[FONT_SEMI_BOLD_14, MARGIN_BOTTOM_16, TEXT_CENTER]}/>
+        <View style={CONTAINER_PADDING}><SearchBar /></View>
         <FlatList
           data={data}
           renderItem={renderItem}

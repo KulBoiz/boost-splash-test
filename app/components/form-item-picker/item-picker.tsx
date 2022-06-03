@@ -62,7 +62,9 @@ const ItemPicker = React.memo((props: Props) => {
         </View>
         <FastImage source={images.arrow_down} style={styles.icon} />
         </Pressable>
-      {!!errorMessage && <AppText value={errorMessage} style={styles.errorMessage}/> }
+      <View>
+        {!!errorMessage && <AppText value={errorMessage} style={styles.errorMessage}/> }
+      </View>
       <ItemPickerModal {...{
         title,
         label,
@@ -101,6 +103,8 @@ const styles = ScaledSheet.create({
     fontFamily: 'Inter-Medium',
     color: color.palette.angry,
     fontSize: '13@ms',
-    marginTop: '10@s'
+    marginTop: '10@s',
+    position: 'absolute',
+    top: '-5@s'
   }
 });
