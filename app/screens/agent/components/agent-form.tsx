@@ -75,8 +75,6 @@ const AgentForm = observer((props: Props) => {
 
   const handleSelectState = (state) => {
     locationStore.get('town_district', undefined, state?.value).then((res) => {
-      console.log(res);
-      
       setTownDistrict(formatData(res?.data?.data))
     })
   }
