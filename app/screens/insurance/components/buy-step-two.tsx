@@ -11,7 +11,7 @@ import PaymentMethod from "./payment-method";
 
 
 interface Props {
-  stepThree(): void
+  stepThree: any
   getValues: any
   // getValuesCustomer: any
   insuranceType: any
@@ -21,22 +21,29 @@ interface Props {
 
 const BuyStepTwo = React.memo(({ stepThree, getValues, insuranceType, productDetail }: Props) => {
   // @ts-ignore
-  const { paymentStore, productStore } = useStores()
+  const { paymentStore, productStore, authStoreModel } = useStores()
   const [modal, setModal] = useState(false)
   const [link, setLink] = useState('')
   const [infoPayment, setInfoPayment] = useState<any>({})
+  const [linkPayment, setLinkPayment] = useState('')
 
   const insurance = productDetail?.packages?.[insuranceType]
 
   const openPayment = () => {
+    const user = authStoreModel.user
+    if (linkPayment) {
+      setModal(true)
+      return
+    }
+
     const {
-      fullName,
-      phone,
-      email,
-      sex,
-      citizenIdentification,
-      dateOfBirth,
-      contactAddress,
+      // fullName,
+      // phone,
+      // email,
+      // sex,
+      // citizenIdentification,
+      // dateOfBirth,
+      // contactAddress,
       //
       fullNameCustomer,
       emailCustomer,
@@ -49,9 +56,15 @@ const BuyStepTwo = React.memo(({ stepThree, getValues, insuranceType, productDet
     const data = {
       agreement: true,
       productId: productDetail?.id,
+      // staffInfo: {
+      //   email, fullName, tel: phone, gender: sex,
+      //   idNumber: citizenIdentification, yearOfBirth: dateOfBirth, address: contactAddress
+      // },
       staffInfo: {
-        email, fullName, tel: phone, gender: sex,
-        idNumber: citizenIdentification, yearOfBirth: dateOfBirth, address:contactAddress
+        email: user?.emails?.[0]?.email,
+        fullName: user?.fullName,
+        tel: user?.tels?.[0]?.tel,
+        gender: user?.gender,
       },
       customerInfo: {
         email: emailCustomer, fullName: fullNameCustomer, tel: phoneCustomer, gender: sexCustomer,
@@ -68,6 +81,7 @@ const BuyStepTwo = React.memo(({ stepThree, getValues, insuranceType, productDet
 
     paymentStore.post(data).then((res) => {
       if (res?.data?.paymentInfo?.url) {
+        setLinkPayment(res?.data?.paymentInfo?.url)
         setModal(true)
         setLink(res?.data?.paymentInfo?.url)
         setInfoPayment(res?.data)
@@ -97,11 +111,9 @@ const BuyStepTwo = React.memo(({ stepThree, getValues, insuranceType, productDet
         visible={modal}
         closeModal={() => {
           productStore.getTransactionInsurance(productDetail?.id).then((res) => {
-            const checkTransaction = res?.data?.data?.find(item => item?.id === infoPayment?.id);
-            if (checkTransaction && checkTransaction?.status === 'SUCCEEDED') {
-              stepThree()
-            }
+            const transaction = res?.data?.data?.find(item => item?.id === infoPayment?.id);
 
+            stepThree(transaction)
             setModal(false)
           }).catch(() => {
             setModal(false)

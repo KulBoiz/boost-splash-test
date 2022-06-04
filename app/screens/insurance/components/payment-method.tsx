@@ -5,8 +5,8 @@ import { ALIGN_CENTER, FONT_MEDIUM_14, ROW, SPACE_BETWEEN } from "../../../style
 import { PaymeSvg } from "../../../assets/svgs"
 import { ScaledSheet } from "react-native-size-matters"
 import { color } from "../../../theme"
-import FastImage from "react-native-fast-image"
-import { images } from "../../../assets/images"
+// import FastImage from "react-native-fast-image"
+// import { images } from "../../../assets/images"
 
 interface Props{}
 
@@ -18,9 +18,9 @@ const PaymentMethod = React.memo((props: Props) => {
         <PaymeSvg />
         <View style={[ROW, ALIGN_CENTER]}>
           <AppText value={'Phương thức mặc định'} style={styles.text}/>
-          <View style={styles.wrapCheck}>
+          {/* <View style={styles.wrapCheck}>
           <FastImage source={images.check} style={styles.check}/>
-        </View>
+        </View> */}
         </View>
       </View>
     </View>

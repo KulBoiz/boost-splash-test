@@ -71,7 +71,7 @@ export class ProductApi {
             order: ['createdAt DESC'],
             where: {
               productId: productId,
-              _q: search
+              _q: search,
             },
             include: [
               { relation: "transactionDetails" },
