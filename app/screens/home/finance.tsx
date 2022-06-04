@@ -80,12 +80,14 @@ const Finance = React.memo((props: Props) => {
         setVisible(true)
       }} />
       <LoanSupportTool icon={<ProfileAddSvg />} title={'Giới thiệu khách vay'} onPress={() => navigate(ScreenNames.REQUEST_COUNSELLING)} />
-      <LoanSupportTool icon={<NoteSvg />} title={'Quản lý hồ sơ vay'} hideBorder onPress={() => navigate(ScreenNames.FINANCE, { index: 2 })} />
+      <LoanSupportTool icon={<NoteSvg />} title={'Quản lý hồ sơ vay'} onPress={() => navigate(ScreenNames.FINANCE, { index: 2 })} />
       <LoanSupportTool icon={<MapSvg />} title={'Kiểm tra quy hoạch'} onPress={() => {
         setLink(DOMAIN + '/kiem-tra-quy-hoach');
         setVisible(true)
       }} />
-      <LoanSupportTool icon={<BankIconSvg />} title={'Công chứng online'} onPress={() => {
+      <LoanSupportTool icon={<BankIconSvg />} title={'Công chứng online'}
+        hideBorder
+        onPress={() => {
         setLink(DOMAIN + '/cong-chung-truc-tuyen');
         setVisible(true)
       }} />
