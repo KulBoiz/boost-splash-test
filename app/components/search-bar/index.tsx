@@ -4,6 +4,7 @@ import { SearchNormalSvg } from "../../assets/svgs"
 import { color } from "../../theme"
 import { ScaledSheet } from "react-native-size-matters"
 import { debounce } from "lodash"
+import { isAndroid } from "../../constants/variable"
 
 interface Props{
   onPress?(): void
@@ -35,8 +36,9 @@ const styles = ScaledSheet.create({
       borderRadius: '16@s',
       flexDirection: 'row',
       backgroundColor: 'rgba(186, 186, 186, 0.1)',
-      paddingVertical: '8@ms',
+      paddingVertical: isAndroid ? 0 :  '8@ms',
       paddingHorizontal: '16@ms',
+      alignItems: "center",
       borderWidth: 1,
       borderColor: color.palette.BABABA
     },

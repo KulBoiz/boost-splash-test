@@ -38,14 +38,12 @@ const SignContract = React.memo((props: Props) => {
     navigation.dispatch(StackActions.push(ScreenNames.APP))
   }
   const sendData = async () => {
-    const result = await agentStore.registerAgent().then(() => {
+    await agentStore.registerAgent().then(() => {
       authStoreModel.setRole(ROLE.CTV)
-    })
-    if (result.kind === 'ok'){
       setSuccessModal(true)
-    }
-    else {Alert.alert('Something went wrong')}
+    }).catch(()=> (Alert.alert('Something went wrong')))
   }
+
   return (
     <View style={styles.container}>
       <AppHeader headerText={'Kí hợp đồng '} isBlue/>
@@ -65,7 +63,7 @@ const SignContract = React.memo((props: Props) => {
             bankName: agentStore.bankName,
           })}
         />
-        <View style={{width: '40%', position: 'absolute', bottom: 30, right: 50, alignItems: 'center'}}>
+        <View style={{width: '40%', position: 'absolute', bottom: s(60), right: s(45), alignItems: 'center'}}>
           {!signature && <AppButton title={'Ký bằng tay'} onPress={()=> setSignatureModal(true)}/> }
           {signature &&<FastImage source={{uri: `data:image/png;base64,${signature}`}} style={styles.signature}/>}
         </View>
@@ -92,7 +90,7 @@ export default SignContract;
 
 const styles = ScaledSheet.create({
   container: {flex:1, backgroundColor: color.palette.lightBlue},
-  signature:{width:'105@s', height: '100@s', top: '-25@s', backgroundColor: color.background},
+  signature:{width:'105@s', height: '100@s', top: '5@s', backgroundColor: color.background},
   btnContainer :{
     flexGrow: 1,
     justifyContent: "flex-end",

@@ -1,5 +1,5 @@
 import React, { FC, useState } from "react"
-import { BackHandler, ScrollView, View } from "react-native"
+import { BackHandler, ScrollView, StatusBar, View } from "react-native"
 import { StackScreenProps } from "@react-navigation/stack"
 import { observer } from "mobx-react-lite"
 import { ScreenNames } from "../../navigators/screen-names"
@@ -33,6 +33,7 @@ export const HomeScreen: FC<StackScreenProps<AppStackParamList, ScreenNames.HOME
 
     return (
       <View testID="WelcomeScreen" style={styles.full}>
+        <StatusBar backgroundColor={color.palette.blue} barStyle={'light-content'}/>
         <HeaderCard />
         <ScrollView
           style={{ paddingTop: 20 }}

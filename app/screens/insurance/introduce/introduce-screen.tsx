@@ -1,4 +1,4 @@
-import React, { useState } from "react"
+import React, { useRef, useState } from "react"
 import { View } from "react-native"
 import {ScaledSheet} from 'react-native-size-matters'
 import PaginationDot from "../../../components/pagination-dot/pagination-dot"
@@ -10,21 +10,26 @@ import IntroduceItem from "./components/IntroduceItem"
 import { ScreenNames } from "../../../navigators/screen-names"
 import { navigate } from "../../../navigators"
 import { useStores } from "../../../models"
+import { width } from "../../../constants/variable"
+import Carousel from 'react-native-snap-carousel';
+import { FONT_MEDIUM_14 } from "../../../styles/common-style"
 
 const SLIDER_DATA = [0,1,2]
 export const IntroduceScreen = React.memo(() => {
   const {insuranceStore} = useStores()
-    const [screen, setScreen] = useState<number>(1)
+  const ref = useRef()
+  const [screen, setScreen] = useState<number>(0)
 
-    const _renderScreen = () => {
-      switch (screen){
-        case 1: return  <IntroduceItem svg={<InsuranceFirstSvg />} label={'insurance.firstLabel'} content={'insurance.firstContent'} />
-        case 2: return  <IntroduceItem svg={<InsuranceSecondSvg />} label={'insurance.secondLabel'} content={'insurance.secondContent'} />
-        case 3: return  <IntroduceItem svg={<InsuranceThirdSvg />} label={'insurance.thirdLabel'} content={'insurance.thirdContent'} />
+    const _renderScreen = ({item, index}) => {
+      switch (index){
+        case 0: return  <IntroduceItem svg={<InsuranceFirstSvg />} label={'insurance.firstLabel'} content={'insurance.firstContent'} />
+        case 1: return  <IntroduceItem svg={<InsuranceSecondSvg />} label={'insurance.secondLabel'} content={'insurance.secondContent'} />
+        case 2: return  <IntroduceItem svg={<InsuranceThirdSvg />} label={'insurance.thirdLabel'} content={'insurance.thirdContent'} />
       }
     }
     const _nextScreen = () => {
-      setScreen((prevState) => prevState + 1)
+      // @ts-ignore
+      ref?.current?.snapToNext()
     }
 
     const _goToInsurance = ()=> {
@@ -35,11 +40,19 @@ export const IntroduceScreen = React.memo(() => {
     return (
       <View style={styles.container}>
             <View style={styles.wrapSkip}>
-              <AppText value={'Bỏ qua'} onPress={_goToInsurance}/>
+              <AppText value={'Bỏ qua'} onPress={_goToInsurance} style={FONT_MEDIUM_14} color={color.palette.blue}/>
             </View>
-            {_renderScreen()}
-            <PaginationDot length={SLIDER_DATA.length} activeDot={screen - 1} dotContainer={styles.dotContainer} dotShape={'oval'}/>
-            <AppButton title={'Tiếp tục'} onPress={screen < 3 ? _nextScreen : _goToInsurance} containerStyle={styles.button}/>
+            <Carousel
+              ref={ref}
+              key={(e, i)=> e?.id + i.toString()}
+              data={SLIDER_DATA}
+              renderItem={_renderScreen}
+              sliderWidth={width}
+              itemWidth={width}
+              onSnapToItem={(index) => setScreen( index ) }
+            />
+            <PaginationDot length={SLIDER_DATA.length} activeDot={screen} dotContainer={styles.dotContainer} dotShape={'oval'}/>
+            <AppButton title={'Tiếp tục'} onPress={screen < 2 ? _nextScreen : _goToInsurance} containerStyle={styles.button}/>
       </View>
     )
 })
@@ -52,8 +65,8 @@ const styles = ScaledSheet.create({
   wrapSkip:{
     alignItems: 'flex-end',
     justifyContent: 'flex-end',
-    height: '100@s',
-    paddingRight: '20@s',
+    height: '90@vs',
+    paddingRight: '36@ms',
   },
   button: {
     alignSelf: 'flex-end',
