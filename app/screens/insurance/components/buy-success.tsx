@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { View } from 'react-native';
 import { SuccessSvg } from "../../../assets/svgs"
 import { AppText } from "../../../components/app-text/AppText"
@@ -12,25 +12,62 @@ import { ScreenNames } from "../../../navigators/screen-names"
 import { navigate } from "../../../navigators"
 import { numberWithCommas } from '../../../constants/variable';
 import moment from 'moment';
+import { useStores } from '../../../models';
 
 interface Props {
   onPress(): void,
   productDetail,
   insuranceType,
-  getValues
+  getValues,
+  transaction
 }
 
-const BuySuccess = React.memo(({ onPress, productDetail, insuranceType, getValues }: Props) => {
+const STATUS = {
+  PENDING: 'PENDING',
+  SUCCEEDED: 'SUCCEEDED',
+  CANCELED: 'CANCELED'
+}
 
+export const MAPPING_STATUS = {
+  'PENDING': 'Chờ xử lý',
+  'SUCCEEDED': 'Thành công',
+  'CANCELED': 'Huỷ bỏ',
+}
+
+const defaultTime = 30
+
+const BuySuccess = React.memo(({ onPress, productDetail, insuranceType, getValues, transaction = {} }: Props) => {
+  const {productStore} = useStores()
   const insurance = productDetail?.packages?.[insuranceType]
+  const [time, setTime] = useState(defaultTime)
+  const [reload, setReload] = useState(true)
+  const [status, setStatus] = useState(transaction.status)
+
+  useEffect(() => {
+    if (time > 0 && transaction?.status === STATUS.PENDING) {
+      setTimeout(() => {
+        setTime(time - 1)
+      }, 1000);
+    }
+
+    if (time === 0 && reload) {
+      productStore.getTransactionInsurance(productDetail?.id).then((res) => {
+        const transaction = res?.data?.data?.find(item => item?.id === transaction?.id);
+        setStatus(transaction.status)
+        setReload(false)
+      }).catch(() => {
+        setReload(false)
+      })
+    }
+  }, [time])
 
   return (
     <View style={styles.container}>
       <View style={styles.body}>
         <View style={styles.success}>
-          <SuccessSvg />
+          {status === STATUS.SUCCEEDED && <SuccessSvg />}
           <AppText value={'Mua bảo hiểm'} style={[FONT_REGULAR_12, styles.buyText]} />
-          <AppText value={'Thành công'} style={styles.successText} />
+          <AppText value={`${MAPPING_STATUS[status]}${time > 0  && status === STATUS.PENDING  ? `(${time})` : ''}`} style={styles.successText} />
         </View>
         <View style={styles.itemContainer}>
           <ItemView title={'Dịch vụ:'} content={insurance?.name} style={MARGIN_TOP_16} />
@@ -41,6 +78,7 @@ const BuySuccess = React.memo(({ onPress, productDetail, insuranceType, getValue
         </View>
         <ItemView title={'Số tiền bảo hiểm'} content={`${numberWithCommas(insurance?.price)}đ`} style={MARGIN_TOP_16} />
       </View>
+
       <View style={styles.wrapButton}>
         <AppButton
           title={'Quay về'} onPress={() => navigate(ScreenNames.HOME)}

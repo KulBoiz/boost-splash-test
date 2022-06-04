@@ -10,6 +10,7 @@ import moment from "moment"
 import { useStores } from "../../../models"
 import { hidePhoneNumber } from "../../../constants/variable"
 import { observer } from "mobx-react-lite"
+import { MAPPING_STATUS } from "./buy-success"
 
 interface Props { }
 
@@ -37,14 +38,14 @@ const BuyRecords = observer((props: Props) => {
 
   const checkStatus = status => {
     switch (status) {
-      case 'Đã thanh toán': {
-        return { text: 'Đã thanh toán', color: 'blue' }
+      case MAPPING_STATUS.SUCCEEDED: {
+        return { text: 'Đã thanh toán', color: 'lime' }
       }
-      case 'Đang thẩm định': {
-        return { text: 'Đang thẩm định', color: 'orange' }
+      case MAPPING_STATUS.PENDING: {
+        return { text: 'Đang thẩm định', color: 'blue' }
       }
-      case 'Hoàn tất': {
-        return { text: 'Hoàn tất', color: 'green' }
+      case MAPPING_STATUS.CANCELED: {
+        return { text: 'Hoàn tất', color: 'red' }
       }
       default: return { text: '', color: 'lime' }
     }
@@ -54,7 +55,7 @@ const BuyRecords = observer((props: Props) => {
     return (
       <View style={styles.wrapItem}>
         <AppText value={`${fullName(item?.customer)} - ${item?.customer?.tels?.[0]?.tel ? hidePhoneNumber(item?.customer?.tels?.[0]?.tel) : ''}`} style={MARGIN_BOTTOM_16} />
-        <ItemView title={'Trạng thái:'} content={item?.status} contentStyle={[styles.content, { color: checkStatus(item?.status).color }]} style={MARGIN_BOTTOM_16} />
+        <ItemView title={'Trạng thái:'} content={MAPPING_STATUS[item?.status]} contentStyle={[styles.content, { color: checkStatus(MAPPING_STATUS[item?.status]).color }]} style={MARGIN_BOTTOM_16} />
         <ItemView title={'Số tiền:'} content={`${item?.totalAmount.toLocaleString()} vnđ`} contentStyle={[styles.content]} style={MARGIN_BOTTOM_16} />
         <ItemView title={'Dịch vụ:'} content={item?.product?.name} contentStyle={[styles.content]} style={MARGIN_BOTTOM_16} />
         <ItemView title={'Nhà bảo hiểm:'} content={item?.product?.source ? item?.product?.source : 'FINA'} contentStyle={[styles.content]} style={MARGIN_BOTTOM_16} />

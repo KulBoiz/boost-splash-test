@@ -8,7 +8,8 @@ interface Props{
   onPress(): void,
   productDetail,
   insuranceType,
-  getValues
+  getValues,
+  transaction
 }
 
 const BuyStepTwo = React.memo((props: Props) => {
