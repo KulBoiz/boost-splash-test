@@ -2,7 +2,7 @@ import { yupResolver } from "@hookform/resolvers/yup/dist/yup"
 import { StackActions, useNavigation } from "@react-navigation/native"
 import i18n from "i18n-js"
 import { observer } from "mobx-react-lite"
-import React, { useEffect, useRef, useState } from "react"
+import React, { useRef, useState } from "react"
 import { useForm } from "react-hook-form"
 import { ScrollView, View } from "react-native"
 import { ScaledSheet } from "react-native-size-matters"
@@ -15,7 +15,6 @@ import { color } from "../../theme"
 import BuyStepOne from "./components/buy-step-one"
 import BuyStepThree from "./components/buy-step-three"
 import BuyStepTwo from "./components/buy-step-two"
-import RenderStep from "./components/render-step"
 
 interface Props { }
 
@@ -69,6 +68,7 @@ const BuyInsurance = observer((props: Props) => {
   const [currentPosition, setCurrentPosition] = useState(0)
   const [insuranceType, setInsuranceType] = useState(0)
   // const [checkboxState, setCheckboxState] = useState<boolean>(true)
+  const [transaction, setTransaction] = useState()
 
   const stepTwo = () => {
     // @ts-ignore 
@@ -76,7 +76,9 @@ const BuyInsurance = observer((props: Props) => {
     setCurrentPosition(1)
   }
 
-  const stepThree = () => {
+  const stepThree = (transaction) => {
+    setTransaction(transaction);
+    
     setCurrentPosition(2)
   }
 
@@ -123,7 +125,7 @@ const BuyInsurance = observer((props: Props) => {
         getValues={getValues()}
       />
       case 2: return <BuyStepThree
-        {...{ onPress: buyRecords, productDetail, insuranceType}}
+        {...{ onPress: buyRecords, productDetail, insuranceType, transaction}}
         getValues={getValues()}
       />
     }
