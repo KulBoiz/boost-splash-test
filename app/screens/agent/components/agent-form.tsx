@@ -20,11 +20,12 @@ interface Props {
 const AgentForm = observer((props: Props) => {
   // @ts-ignore
   const { bankStore, locationStore, authStoreModel, agentStore} = useStores()
-  const { control, errors, setValue } = props
-  const [bank, setBank] = useState([])
+  const { control, errors, setValue, watch } = props
+  const [bankBranch, setBankBranch] = useState([])
   const [stateCountry, setStateCountry] = useState([])
   const [townDistrict, setTownDistrict] = useState([])
   const [subDistrict, setSubDistrict] = useState([])
+  const [code, setCode] = useState()
 
   const email = get(authStoreModel?.user,'emails[0].email')
   const phone = get(authStoreModel?.user,'tels[0].tel')
@@ -40,29 +41,27 @@ const AgentForm = observer((props: Props) => {
     }
     locationStore.get('country', 'VN').then((res) => {
       const idCountry = res?.data?.data?.[0]?.id
-
+      setCode(idCountry)
       locationStore.get('state', undefined, idCountry).then((state) => {
-        setStateCountry(state.data?.data?.map((val) => ({
-          value: val.id,
-          label: val.name
-        })))
+        setStateCountry(formatData(state.data?.data))
       })
     })
   }, [])
 
-  const listBank = () => {
-    const banks = bankStore?.banks ?? []
-    return banks?.map((val) => ({
+  const formatData = (array) => {
+    return array?.map((val) => ({
       value: val.id,
       label: val.name
     }))
   }
 
+  const listBank = () => {
+    const banks = bankStore?.banks ?? []
+    return formatData(banks)
+  }
+
   const listBankBranch = () => {
-    return bankStore?.bankBranches?.map((val) => ({
-      value: val.id,
-      label: val.name
-    }))
+    return formatData(bankStore?.bankBranches)
   }
 
   const handleSelectBank = (bank) => {
@@ -70,30 +69,50 @@ const AgentForm = observer((props: Props) => {
     setValue('bankBranch', '');
 
     bankStore.getBankBranch(bank?.value).then((res) => {
-      setBank(res?.data?.map((val) => ({
-        value: val.id,
-        label: val.name
-      })))
+      setBankBranch(formatData(res?.data))
     })
   }
 
   const handleSelectState = (state) => {
     locationStore.get('town_district', undefined, state?.value).then((res) => {
-      setTownDistrict(res.data?.data?.map((val) => ({
-        value: val.id,
-        label: val.name
-      })))
+      setTownDistrict(formatData(res?.data?.data))
     })
   }
 
   const handleSelectDistrict = (state) => {
     locationStore.get('sub_district', undefined, state?.value).then((res) => {
-      setSubDistrict(res.data?.data?.map((val) => ({
-        value: val.id,
-        label: val.name
-      })))
+      setSubDistrict(formatData(res.data?.data))
     })
   }
+
+  const onChangeSearchBank = (value) => {
+    bankStore.getBankList(value);
+  }
+
+  const onChangeSearchBankBranch = (value) => {
+    bankStore.getBankBranch(watch('bankName'), value).then((res) => {
+      setBankBranch(formatData(res?.data))
+    })
+  }
+
+  const onChangeSearchState = (value) => {
+    locationStore.get('state', undefined, code, value).then((res) => {
+      setStateCountry(formatData(res.data?.data))
+    })
+  }
+
+  const onChangeSearchDistrict = (value) => {
+    locationStore.get('town_district', undefined, watch('province'), value).then((res) => {
+      setTownDistrict(formatData(res.data?.data))
+    })
+  }
+
+  const onChangeSearchSubDistrict = (value) => {
+    locationStore.get('sub_district', undefined, watch('district'), value).then((res) => {
+      setSubDistrict(formatData(res.data?.data))
+    })
+  }
+
   return (
     <View style={styles.container}>
       <KeyboardAwareScrollView>
@@ -135,10 +154,11 @@ const AgentForm = observer((props: Props) => {
             setValue,
             error: errors?.bankName?.message,
             data: listBank(),
-            handleSelect: handleSelectBank
+            handleSelect: handleSelectBank,
+            onChangeSearchText: onChangeSearchBank
           }}
         />
-        {bank && bank.length > 0 && <FormItemPicker
+        {bankBranch && bankBranch.length > 0 && <FormItemPicker
           {...{
             data: listBankBranch(),
             name: 'bankBranch',
@@ -146,7 +166,8 @@ const AgentForm = observer((props: Props) => {
             placeholder: 'Chọn chi nhánh ngân hàng',
             control,
             setValue,
-            error: errors?.bankBranch?.message
+            error: errors?.bankBranch?.message,
+            onChangeSearchText: onChangeSearchBankBranch
           }}
         />}
 
@@ -159,7 +180,8 @@ const AgentForm = observer((props: Props) => {
             setValue,
             error: errors?.province?.message,
             data: stateCountry,
-            handleSelect: handleSelectState
+            handleSelect: handleSelectState,
+            onChangeSearchText: onChangeSearchState
           }}
         />
         <FormItemPicker
@@ -171,7 +193,8 @@ const AgentForm = observer((props: Props) => {
             setValue,
             error: errors?.district?.message,
             data: townDistrict,
-            handleSelect: handleSelectDistrict
+            handleSelect: handleSelectDistrict,
+            onChangeSearchText: onChangeSearchDistrict
           }}
         />
         <FormItemPicker
@@ -183,6 +206,7 @@ const AgentForm = observer((props: Props) => {
             setValue,
             error: errors?.commune?.message,
             data: subDistrict,
+            onChangeSearchText: onChangeSearchSubDistrict
           }}
         />
         <FormInput

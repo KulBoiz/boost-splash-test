@@ -6,7 +6,7 @@ import { withEnvironment } from "../extensions/with-environment"
  * Model description here for TypeScript hints.
  */
 
-const pathStore =  "/organizations"
+const pathStore =  "organizations"
 
 export const BankStoreModel = types
   .model("BankStore")
