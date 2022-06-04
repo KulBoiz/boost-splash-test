@@ -8,11 +8,12 @@ import { debounce } from "lodash"
 interface Props{
   onPress?(): void
   placeholder?: string
+  onChangeSearchText?: any
 }
 
-const SearchBar = React.memo(({ onChangeText, onPress, placeholder = 'Tìm kiếm' }: Props) => {
+const SearchBar = React.memo(({ onPress, placeholder = 'Tìm kiếm', onChangeSearchText }: Props) => {
   const _handleChangeText = (value) => {
-    console.log(value)
+    onChangeSearchText(value)
   };
 
   const _search = debounce(_handleChangeText, 500);

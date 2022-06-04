@@ -33,10 +33,11 @@ interface Props{
   name: FieldPath<FieldValues>
   value: string
   handleSelect?: any
+  onChangeSearchText?: any
 }
 
 const ItemPicker = React.memo((props: Props) => {
-  const { value, label, placeholder,errorMessage, setValue, data = [{value: '', label: ''}], name, handleSelect} = props
+  const { value, label, placeholder,errorMessage, setValue, data = [{value: '', label: ''}], name, handleSelect, onChangeSearchText} = props
   const [title, setTitle] = useState<string>('')
   const [modal, setModal] = useState<boolean>(false)
 
@@ -72,6 +73,7 @@ const ItemPicker = React.memo((props: Props) => {
         closeModal: ()=> setModal(false),
         data,
         onPress: handleSelectOption,
+        onChangeSearchText,
       }}/>
     </View>
   )

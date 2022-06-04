@@ -13,29 +13,30 @@ interface DataProps {
   label: string
   value: string
 }
-interface Props{
+interface Props {
   title: string
   label: string
   visible: boolean
   closeModal(): void
   data: Array<DataProps>
   onPress(item: any): void
+  onChangeSearchText: any
 }
 
 const ItemPickerModal = React.memo((props: Props) => {
-  const {title, label, visible, closeModal, data = [{label: '', value: ''}], onPress} = props
+  const { title, label, visible, closeModal, data = [{ label: '', value: '' }], onPress, onChangeSearchText } = props
 
   const renderItem = ({ item }) => {
     const check = title === item.label
-    return(
+    return (
       <Pressable style={[styles.item,
-        {borderWidth: check ? 1 : 0, borderColor: check ? color.palette.blue : color.palette.BABABA},
-        check && {backgroundColor: 'rgba(6, 77, 214, 0.05)'}
+      { borderWidth: check ? 1 : 0, borderColor: check ? color.palette.blue : color.palette.BABABA },
+      check && { backgroundColor: 'rgba(6, 77, 214, 0.05)' }
       ]}
-         onPress={()=> onPress(item)}
+        onPress={() => onPress(item)}
       >
-        <AppText value={item.label}/>
-        {check && <FastImage source={images.check} style={styles.iconCheck} tintColor={color.palette.blue}/> }
+        <AppText value={item.label} />
+        {check && <FastImage source={images.check} style={styles.iconCheck} tintColor={color.palette.blue} />}
       </Pressable>
     )
   }
@@ -49,8 +50,8 @@ const ItemPickerModal = React.memo((props: Props) => {
       onBackdropPress={closeModal}
     >
       <View style={styles.body}>
-        <AppText value={label} style={[FONT_SEMI_BOLD_14, MARGIN_BOTTOM_16, TEXT_CENTER]}/>
-        <View style={CONTAINER_PADDING}><SearchBar /></View>
+        <AppText value={label} style={[FONT_SEMI_BOLD_14, MARGIN_BOTTOM_16, TEXT_CENTER]} />
+        {onChangeSearchText && <View style={CONTAINER_PADDING}><SearchBar onChangeSearchText={onChangeSearchText} /></View>}
         <FlatList
           data={data}
           renderItem={renderItem}
@@ -76,11 +77,11 @@ const styles = ScaledSheet.create({
   body: {
     paddingTop: '20@s',
     flex: 0.5,
-    backgroundColor:color.background,
+    backgroundColor: color.background,
     borderRadius: '8@s',
   },
   item: {
-    flexDirection:"row",
+    flexDirection: "row",
     justifyContent: "space-between",
     alignItems: "center",
     paddingHorizontal: '10@ms',

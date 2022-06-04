@@ -19,7 +19,8 @@ export interface FormItemPickerProps extends UseControllerProps{
   style?: ViewStyle | any,
   defaultValue?: string,
   data: Array<DataProps>,
-  handleSelect?: any
+  handleSelect?: any,
+  onChangeSearchText?: any,
 }
 
 const FormItemPicker = React.memo((props: FormItemPickerProps) => {
@@ -34,7 +35,8 @@ const FormItemPicker = React.memo((props: FormItemPickerProps) => {
     rules,
     setValue,
     handleSelect,
-    data = [{value: '', label: ''}],
+    data = [{ value: '', label: '' }],
+    onChangeSearchText
   } = props
 
   return (
@@ -53,7 +55,8 @@ const FormItemPicker = React.memo((props: FormItemPickerProps) => {
             label,
             placeholder,
             data,
-            handleSelect
+            handleSelect,
+            onChangeSearchText
             }}
           />
         )}
