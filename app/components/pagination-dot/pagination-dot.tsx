@@ -34,7 +34,7 @@ const styles = ScaledSheet.create({
     marginTop: '-10@s'
   },
   dotStyle: {
-    width: '22@s',
+    width: '25@s',
     height: '8@s',
     borderRadius: '4@s',
     marginHorizontal: '-5@s',

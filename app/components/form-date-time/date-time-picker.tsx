@@ -79,7 +79,7 @@ export default DatePicker;
 const styles = ScaledSheet.create({
   container: {
     marginVertical: spacing[3],
-    paddingTop: isAndroid ? '5.5@vs' : '4.5@vs'
+    paddingTop: isAndroid ? '5.5@ms' : '6@ms'
   },
   wrapper: {
     flexDirection: "row",
@@ -87,7 +87,7 @@ const styles = ScaledSheet.create({
     alignItems: "center",
     borderWidth: 1,
     borderRadius: '4@s',
-    paddingVertical: '5.5@vs',
+    paddingVertical: isAndroid ? '6@ms' : '8.5@ms',
     paddingHorizontal: '16@ms'
   },
   errorMessage: {
