@@ -10,9 +10,10 @@ import { FieldValues } from "react-hook-form/dist/types/fields"
 import { color } from "../../../theme"
 import { ALIGN_CENTER, ROW, SPACE_BETWEEN } from "../../../styles/common-style"
 import Checkbox from '../../../components/checkbox/checkbox';
-import { truncate } from 'lodash';
 import FormDatePicker from '../../../components/form-date-time';
 import i18n from 'i18n-js';
+import FormItemPicker from "../../../components/form-item-picker"
+import { GENDER } from '../../../constants/gender';
 
 interface Props {
   control: Control,
@@ -99,15 +100,16 @@ const InputCustomer = React.memo((props: Props) => {
               error: errors?.dateOfBirth?.message
             }}
           />
-          <FormInput
+          <FormItemPicker
             {...{
               style: { flex: 1 },
+              data: GENDER,
               name: 'sex',
               labelTx: 'label.sex',
               placeholderTx: 'placeholder.sex',
               control,
+              setValue: (key, value) => setValueDatePicker(key, value),
               error: errors?.sex?.message,
-              onChangeText: (value) => onChangeText(value, 'sex')
             }}
           />
         </View>
@@ -187,7 +189,7 @@ const InputCustomer = React.memo((props: Props) => {
           setCheckboxState={(value) => {
             // const
             setCheckboxState(value)
-            if (value === false) {
+            if (!value) {
               resetCustomer()
             } else {
               setCustomer()
@@ -216,14 +218,16 @@ const InputCustomer = React.memo((props: Props) => {
               error: errors?.dateOfBirthCustomer?.message
             }}
           />
-          <FormInput
+          <FormItemPicker
             {...{
               style: { flex: 1 },
-              name: 'sexCustomer',
+              data: GENDER,
+              name: 'sex',
               labelTx: 'label.sex',
               placeholderTx: 'placeholder.sex',
               control,
-              error: errors?.sexCustomer?.message
+              setValue: (key, value) => setValueDatePicker(key, value),
+              error: errors?.sex?.message,
             }}
           />
         </View>

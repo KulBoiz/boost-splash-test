@@ -36,8 +36,6 @@ const SettingScreen: FC<Props> = observer((props: Props) => {
             <VerifyUser renderRole={authStoreModel?.role} />
             {SETTING_LIST.map((value, index) => {
               // index = 1  menu cộng tác viên
-              console.log('authStoreModel?.role ', authStoreModel?.role );
-              
               if (index === 1 && authStoreModel?.role === ROLE.FINA) {
                 return <></>
               }

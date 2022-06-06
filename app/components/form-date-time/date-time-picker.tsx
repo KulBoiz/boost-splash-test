@@ -87,7 +87,7 @@ const styles = ScaledSheet.create({
     alignItems: "center",
     borderWidth: 1,
     borderRadius: '4@s',
-    paddingVertical: isAndroid ? '6@ms' : '8.5@ms',
+    paddingVertical: isAndroid ? '6@ms' : '5.5@vs',
     paddingHorizontal: '16@ms'
   },
   errorMessage: {
