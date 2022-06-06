@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react"
-import { View, StyleSheet, Pressable } from "react-native"
+import { View, Pressable } from "react-native"
 import { AppText } from "../app-text/AppText"
 import FastImage from "react-native-fast-image"
 import { images } from "../../assets/images"
@@ -8,9 +8,7 @@ import { color, spacing } from "../../theme"
 import { fontFamily } from "../../constants/font-family"
 import {
   ALIGN_CENTER,
-  CONTAINER_PADDING,
-  FONT_MEDIUM_14,
-  FONT_REGULAR_12, FONT_REGULAR_14,
+  FONT_REGULAR_14,
   ROW,
   SPACE_BETWEEN,
 } from "../../styles/common-style"
@@ -90,7 +88,7 @@ const styles = ScaledSheet.create({
     borderWidth: 1.5,
     borderColor: color.palette.deepGray,
     borderRadius: '3@s',
-    paddingVertical: '5@vs'
+    paddingVertical: '5.5@vs'
   },
   label:{
     marginBottom: '4@s',

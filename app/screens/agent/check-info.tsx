@@ -31,7 +31,7 @@ const CheckInfo = React.memo( (props: Props) => {
   const validationSchema = Yup.object().shape({
     fullName: Yup.string().required(i18n.t('errors.requireFullName')),
     citizenIdentification: Yup.string().required(i18n.t('errors.requireCitizenIdentification')),
-    dateRange: Yup.string().required(i18n.t('errors.requireDateRange')),
+    dateRange: Yup.date().required(i18n.t('errors.requireDateRange')).max(new Date(), "Ngày cấp không phù hợp"),
     issuedBy: Yup.string().required(i18n.t('errors.requireIssuedBy')),
 
   })

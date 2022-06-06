@@ -16,6 +16,7 @@ import { navigate } from "../../navigators"
 import PreviewPhotoId from "./components/preview-photo-id"
 import { RNHoleView } from "react-native-hole-view"
 import { useStores } from "../../models"
+import { useIsFocused } from "@react-navigation/native"
 
 const frameWidth = width * 0.8
 const frameHeight = width * 0.5
@@ -26,20 +27,24 @@ interface Props {}
 
 const CaptureId = React.memo((props: Props) => {
   const { agentStore } = useStores()
+  const isFocused = useIsFocused()
   const cameraRef = useRef<any>(null)
   const [imageType, setImageType] = React.useState<"front" | "back">("front")
   const [frontImage, setFrontImage] = React.useState("")
   const [backImage, setBackImage] = React.useState("")
+  const [isActive, setIsActive] = React.useState(false)
   const [hasPermission, setHasPermission] = React.useState(false)
   const [flash, setFlash] = useState<"off" | "on">("off")
   const devices = useCameraDevices()
   const device = devices.back
+
   React.useEffect(() => {
     ;(async () => {
       const status = await Camera.requestCameraPermission()
       setHasPermission(status === "authorized")
     })()
-  }, [])
+    setIsActive(isFocused)
+  }, [isFocused])
 
   const onFlashPressed = useCallback(async () => {
     setFlash((f) => (f === "off" ? "on" : "off"))
@@ -131,7 +136,7 @@ const CaptureId = React.memo((props: Props) => {
           style={styles.camera}
           ref={cameraRef}
           device={device}
-          isActive={true}
+          isActive={isActive}
           photo={true}
           torch={flash}
           preset="hd-1280x720"

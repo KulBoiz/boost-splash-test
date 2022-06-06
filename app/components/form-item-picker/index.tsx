@@ -1,9 +1,11 @@
 import React from 'react';
-import { View, StyleSheet, ViewStyle } from "react-native"
+import { View, ViewStyle } from "react-native"
 import { Controller, UseControllerProps } from "react-hook-form"
 import { Control, UseFormSetValue } from "react-hook-form/dist/types/form"
 import { FieldValues } from "react-hook-form/dist/types/fields"
 import ItemPicker from "./item-picker"
+import { translate, TxKeyPath } from "../../i18n"
+import { ScaledSheet } from "react-native-size-matters"
 
 interface DataProps{
   value: string
@@ -12,7 +14,9 @@ interface DataProps{
 export interface FormItemPickerProps extends UseControllerProps{
   name: string,
   label?: string,
+  labelTx?: TxKeyPath,
   placeholder?: string,
+  placeholderTx?: TxKeyPath,
   control: Control,
   setValue: UseFormSetValue<FieldValues>,
   error: string,
@@ -27,7 +31,9 @@ const FormItemPicker = React.memo((props: FormItemPickerProps) => {
   const {
     name,
     label,
+    labelTx,
     placeholder,
+    placeholderTx,
     control,
     error,
     style,
@@ -38,7 +44,8 @@ const FormItemPicker = React.memo((props: FormItemPickerProps) => {
     data = [{ value: '', label: '' }],
     onChangeSearchText
   } = props
-
+  const actualPlaceholder = placeholderTx ? translate(placeholderTx) : placeholder
+  const actualLabel = labelTx ? translate(labelTx) : label
   return (
     <View style={[styles.container, style]}>
       <Controller
@@ -52,8 +59,8 @@ const FormItemPicker = React.memo((props: FormItemPickerProps) => {
             setValue,
             name,
             errorMessage:error,
-            label,
-            placeholder,
+            label: actualLabel,
+            placeholder: actualPlaceholder,
             data,
             handleSelect,
             onChangeSearchText
@@ -68,6 +75,8 @@ const FormItemPicker = React.memo((props: FormItemPickerProps) => {
 export default FormItemPicker;
 
 
-const styles = StyleSheet.create({
-  container: {},
+const styles = ScaledSheet.create({
+  container: {
+    marginTop: '5@vs'
+  },
 });

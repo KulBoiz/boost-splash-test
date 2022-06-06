@@ -19,13 +19,13 @@ const Stack = createNativeStackNavigator<AgentStackParamList>()
 
 export const AgentStack = () => {
   const { authStoreModel } = useStores()
-  
+
   return (
     <Stack.Navigator
       screenOptions={{
         headerShown: false,
       }}
-      initialRouteName={authStoreModel?.role === ROLE.CTV  ? ScreenNames.VIEW_CONTRACT :ScreenNames.BECOME_SCREEN}
+      initialRouteName={authStoreModel?.role === ROLE.CTV  ? ScreenNames.VIEW_CONTRACT : ScreenNames.BECOME_SCREEN}
     >
       {
         AgentRoutes.map(({name, component}) => (

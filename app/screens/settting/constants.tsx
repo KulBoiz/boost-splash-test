@@ -3,13 +3,16 @@ import {
   DocumentSvg,
   ElementSvg,
   MedalSvg,
-  ProfileSvg, SettingSvg,
+  ProfileSvg,
+  SettingSvg,
   ShieldSecuritySvg,
   SimCardSvg,
-  StarSettingSvg, TransactionSvg,
+  StarSettingSvg,
+  TransactionSvg,
 } from "../../assets/svgs"
 import { navigate } from "../../navigators"
 import { ScreenNames } from "../../navigators/screen-names"
+import { ROLE } from "../../models/auth-store"
 
 export const SETTING_LIST = [
   {
@@ -20,6 +23,7 @@ export const SETTING_LIST = [
   },{
     icon: <MedalSvg />,
     title: 'Đăng ký làm cộng tác viên',
+    // onPress: () => navigate(ScreenNames.AGENT, {screen : authStoreModel?.role === ROLE.CTV  ? ScreenNames.VIEW_CONTRACT : ScreenNames.BECOME_SCREEN}),
     onPress: () => navigate(ScreenNames.AGENT),
     active: true,
   },{
