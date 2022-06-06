@@ -69,7 +69,7 @@ export const AuthStoreModel = types
           self.role = ROLE.KH
         }
         
-        if (findPositionCodeCOLLABORATOR && type === 'collaborator') {
+        if (findPositionCodeCOLLABORATOR && (type === 'collaborator' || type === 'customer')) {
           self.role = ROLE.CTV
         }
     
