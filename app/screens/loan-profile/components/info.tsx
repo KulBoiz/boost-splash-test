@@ -58,6 +58,7 @@ const Info = observer((props: Props) => {
       </View>
 
       {loanDetail?.id && <Document loanDetail={loanDetail} files={files} templates={templates} />}
+      
       {
         loanDetail?.id && comments?.length > 0 && <View style={styles.content}>
           <AppText style={styles.title} value={"Ghi chú"} />

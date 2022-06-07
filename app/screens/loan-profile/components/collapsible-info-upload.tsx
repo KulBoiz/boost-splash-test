@@ -9,28 +9,31 @@ import { color } from "../../../theme"
 import { fontFamily } from "../../../constants/font-family"
 import { ALIGN_CENTER, FONT_REGULAR_14, ROW } from "../../../styles/common-style"
 import UploadImage from "../../../components/image-upload/upload-image"
+import { truncateString } from '../../../constants/variable';
 interface Props {
-  data : any[]
+  data: any
 }
 
 const CollapsibleInfoUpload = React.memo(({ data }: Props) => {
   const [activeSections, setActiveSections] = useState<number[]>([]);
-  const [mediaIds, setMediaIds] = useState<string[]>([])
+  const [mediaIds, setMediaIds]: any = useState<string[]>(data?.images)
+
+  console.log('mediaIds', mediaIds);
+  
   const _handleSections = (index: number[]) => {
     setActiveSections(index);
   };
   const renderHeader = (item, index: number) => {
-    console.log('item', item)
     const isOpen = activeSections?.includes(index)
     return (
       <View
         style={styles.headerBody}>
-          <AppText
-            value={item?.name}
-            style={styles.headerText}
-          />
+        <AppText
+          value={truncateString(data?.document?.name, 20)}
+          style={styles.headerText}
+        />
         <View style={[ROW, ALIGN_CENTER]}>
-          {!isOpen && <AppText value={'chưa cập nhật'} style={FONT_REGULAR_14}/>}
+          <AppText value={(mediaIds?.length === 0 || !mediaIds) ? 'Chưa cập nhật' : 'Đã cập nhập'} style={FONT_REGULAR_14} />
           <FastImage
             source={isOpen ? images.arrow_up : images.arrow_down}
             style={styles.icon}
@@ -45,17 +48,26 @@ const CollapsibleInfoUpload = React.memo(({ data }: Props) => {
   const renderContent = () => {
     return (
       <View style={styles.contentContainer}>
-          <UploadImage setMediaIds={setMediaIds} mediaIds={mediaIds} />
+        {mediaIds?.length > 0 && mediaIds?.map((el, index) => (<FastImage
+          key={index}
+          source={{ uri: el}}
+          style={styles.icon}
+        />))}
       </View>
-    );
+    )
+    // return (
+    //   <View style={styles.contentContainer}>
+    //     <UploadImage setMediaIds={setMediaIds} mediaIds={mediaIds} />
+    //   </View>
+    // );
   };
   return (
     <View style={styles.container}>
       <Accordion
-        containerStyle={[styles.collapsibleContainer,  {borderWidth: activeSections.length > 0 ? 1: 0}]}
-        sections={data}
+        containerStyle={[styles.collapsibleContainer, { borderWidth: activeSections.length > 0 ? 1 : 0 }]}
+        sections={[0]}
         activeSections={activeSections}
-        renderHeader={(content, index) => renderHeader(content,index)}
+        renderHeader={(content, index) => renderHeader(content, index)}
         renderContent={renderContent}
         onChange={(indexes) => _handleSections(indexes)}
         keyExtractor={(v, i) => i.toString()}
@@ -71,15 +83,15 @@ const styles = ScaledSheet.create({
   container: {
     marginVertical: '24@s',
   },
-  collapsibleContainer:{
+  collapsibleContainer: {
     backgroundColor: color.background,
     borderRadius: '8@s',
     borderColor: color.palette.blue
   },
-  headerText:{
+  headerText: {
     fontSize: '14@ms',
     fontFamily: fontFamily.regular,
-    color: color.palette.lightGray ,
+    color: color.palette.lightGray,
     fontWeight: '500'
   },
   headerBody: {
@@ -89,7 +101,7 @@ const styles = ScaledSheet.create({
     alignItems: 'center',
   },
   title: {
-    fontSize:'12@ms',
+    fontSize: '12@ms',
     color: color.palette.blue,
     marginBottom: '8@s'
   },
@@ -105,12 +117,12 @@ const styles = ScaledSheet.create({
   contentContainer: {
     marginTop: '-12@s',
     paddingHorizontal: '16@s',
-    paddingBottom: '16@s'
+    paddingBottom: '16@s',
   },
-  wrapContent:{
-    marginTop:'16@s'
+  wrapContent: {
+    marginTop: '16@s'
   },
-  wrapContentItem:{
+  wrapContentItem: {
     flexDirection: 'row',
     alignItems: "center"
   },

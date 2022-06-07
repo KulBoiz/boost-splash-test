@@ -1,3 +1,4 @@
+import { flatten } from 'lodash';
 import React, { useEffect, useState } from 'react';
 import { View } from 'react-native';
 import { ScaledSheet } from "react-native-size-matters";
@@ -21,33 +22,22 @@ const Document = React.memo((props: Props) => {
   useEffect(() => {
     if (templates.length > 4) setViewAllFile(false)
   }, [])
+
   const renderTemplate = () => {
-    const list = [...templates] || []
-    if (viewAllFile) {
-      return list
-    } else {
-      return list.slice(0, 4)
-    }
-  }
-
-  const checkFileUpload = (document: any) => {
-    if (!files) return "_"
-
-    const documentTemplateDetails = document?.documentTemplateDetails?.map(el => el?.documentId);
-
-    let count = 0
-    documentTemplateDetails.forEach(documentId => {
-      const file = files[documentId]
-      if (file) count = count + 1
+    return flatten(templates?.map(el => el?.documentTemplateDetails)).map(el => {
+      if (!files) {
+        return el
+      }
+      else {
+        if (files[el.documentId]) {
+          const images = files[el.documentId].map(el => el.file.url)
+          return {...el, images: images }
+        }
+        return el
+      }
     })
-
-    if (count === documentTemplateDetails.length) {
-      return <CheckedSvg />
-    }
-
-    return "_"
   }
-  console.log('templates', templates)
+
   return (
     <View style={styles.container}>
       <View style={styles.content}>
@@ -61,18 +51,19 @@ const Document = React.memo((props: Props) => {
       </View>
 
       {
-        templates?.length > 0 && <View style={styles.content}>
+        renderTemplate()?.length > 0 && <View style={styles.content}>
           <AppText style={styles.title} value={"Giấy tờ của khách"} />
+          {renderTemplate()?.map((el, index) => (<CollapsibleInfoUpload data={el} key={index}/>)) }
           <View style={styles.contentItem}>
-            <CollapsibleInfoUpload data={templates}/>
-            {/*{renderTemplate().map((el: any, index: number) =>*/}
-            {/*  <ItemView key={index.toString()} style={styles.item} title={el?.name} content={checkFileUpload(el)} />*/}
-            {/*)}*/}
-            {
-              templates?.length > 4 && <View style={styles.viewMore}>
+            {/* <CollapsibleInfoUpload data={renderTemplate()}/> */}
+            {/* {renderTemplate().map((el: any, index: number) => */}
+            {/*  <ItemView key={index.toString()} style={styles.item} title={el?.name} content={checkFileUpload(el)} /> */}
+            {/* )} */}
+            {/* {
+              renderTemplate()?.length > 4 && <View style={styles.viewMore}>
                 <AppText style={styles.viewMoreText} value={!viewAllFile ? 'Xem thêm' : "Ẩn"} onPress={() => { setViewAllFile(!viewAllFile) }} />
               </View>
-            }
+            } */}
           </View>
         </View>
       }

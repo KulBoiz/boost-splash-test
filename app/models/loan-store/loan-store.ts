@@ -49,7 +49,7 @@ export const LoanStoreModel = types
     loanDetail: types.frozen({}),
     histories: types.frozen([]),
     files: types.frozen([]),
-    templates: types.frozen({}),
+    templates: types.frozen([]),
     task: types.frozen({}),
   })
   .views((self) => ({})) // eslint-disable-line @typescript-eslint/no-unused-vars
@@ -61,7 +61,7 @@ export const LoanStoreModel = types
       self.loanDetail = {}
       self.comments = []
       self.histories = []
-      self.templates = {}
+      self.templates = []
       self.files = []
       self.task = {}
 
@@ -73,19 +73,21 @@ export const LoanStoreModel = types
       self.task = resultDetail.data
 
       const result = yield loanApi.requestLoanDetail(id)
-      const data = result.data
-      self.loanDetail = data
+      const deal = result.data
+      self.loanDetail = deal
 
-      const resultComment = yield commentApi.requestComment(id)
-      self.comments = resultComment?.data?.data
+      if (deal) {
+        const resultComment = yield commentApi.requestComment(deal?.id)
+        self.comments = resultComment?.data?.data
+      }
 
       const resultHistory = yield loanApi.requestLoanHistory(id)
       self.histories = resultHistory?.data
 
-      if (data?.documentTemplateId) {
-        const resultFiles = yield documentApi.loadTemplate(data?.documentTemplateId)
+      if (deal?.documentTemplateId) {
+        const resultFiles = yield documentApi.loadTemplate(deal?.documentTemplateId)
         self.templates = resultFiles?.data?.data
-        const resultTemplates = yield documentApi.loadFileTemplate(data?.documentTemplateId, id)
+        const resultTemplates = yield documentApi.loadFileTemplate(deal?.documentTemplateId, deal?.id)
         self.files = resultTemplates?.data?.data
       }
 
@@ -93,10 +95,10 @@ export const LoanStoreModel = types
         return result
       }
 
-      if (data) {
+      if (deal) {
         return {
           kind: "ok",
-          data,
+          deal,
         }
       }
     }),
