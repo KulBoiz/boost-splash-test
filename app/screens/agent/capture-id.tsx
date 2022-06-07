@@ -32,7 +32,6 @@ const CaptureId = React.memo((props: Props) => {
   const [imageType, setImageType] = React.useState<"front" | "back">("front")
   const [frontImage, setFrontImage] = React.useState("")
   const [backImage, setBackImage] = React.useState("")
-  const [isActive, setIsActive] = React.useState(false)
   const [hasPermission, setHasPermission] = React.useState(false)
   const [flash, setFlash] = useState<"off" | "on">("off")
   const devices = useCameraDevices()
@@ -43,8 +42,7 @@ const CaptureId = React.memo((props: Props) => {
       const status = await Camera.requestCameraPermission()
       setHasPermission(status === "authorized")
     })()
-    setIsActive(isFocused)
-  }, [isFocused])
+  }, [])
 
   const onFlashPressed = useCallback(async () => {
     setFlash((f) => (f === "off" ? "on" : "off"))
@@ -136,7 +134,7 @@ const CaptureId = React.memo((props: Props) => {
           style={styles.camera}
           ref={cameraRef}
           device={device}
-          isActive={isActive}
+          isActive={isFocused}
           photo={true}
           torch={flash}
           preset="hd-1280x720"

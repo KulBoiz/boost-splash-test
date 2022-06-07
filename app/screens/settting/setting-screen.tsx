@@ -25,8 +25,6 @@ const SettingScreen: FC<Props> = observer((props: Props) => {
     navigation.dispatch(StackActions.push(ScreenNames.AUTH))
   }
 
-  console.log(authStoreModel?.user);
-
   return (
     <View style={styles.container}>
       <AppHeader headerTx={"header.personalSetting"} />
@@ -48,7 +46,7 @@ const SettingScreen: FC<Props> = observer((props: Props) => {
                   icon={value.icon}
                   title={'Hợp đồng cộng tác viên'}
                   onPress={() => {
-                    navigate(ScreenNames.AGENT)
+                    navigate(ScreenNames.AGENT, {screen: ScreenNames.VIEW_CONTRACT})
                   }}
                 />
 

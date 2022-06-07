@@ -33,7 +33,7 @@ export const AuthStoreModel = types
     refreshToken: types.maybeNull(types.string),
     expiresIn: types.maybeNull(types.string),
     type: types.maybeNull(types.string),
-    isLoggedIn: types.optional(types.boolean, false),
+    isLoggedIn: types.frozen(false),
     role: types.frozen(''),
   })
   .views(self => ({})) // eslint-disable-line @typescript-eslint/no-unused-vars
@@ -60,19 +60,18 @@ export const AuthStoreModel = types
         self.expiresIn = loggedInInfo.expiresIn
         self.type = loggedInInfo.type
         self.isLoggedIn = true
-        // authApi.setToken(self.token)
 
         const { type, positionCodes } = loggedInInfo?.user
         const findPositionCodeCOLLABORATOR = positionCodes?.find(el => el === KEY_CTV)
-        
+
         if (type === 'customer') {
           self.role = ROLE.KH
         }
-        
+
         if (findPositionCodeCOLLABORATOR && (type === 'collaborator' || type === 'customer')) {
           self.role = ROLE.CTV
         }
-    
+
         if (type === 'staff') {
           self.role = ROLE.FINA
         }
@@ -80,7 +79,7 @@ export const AuthStoreModel = types
         if (type === 'teller') {
           self.role = ROLE.BANK
         }
-    
+
         authApi.setUnauthorizedFunction(() => {
           return navigate(ScreenNames.LOGIN)
         })
@@ -229,15 +228,12 @@ export const AuthStoreModel = types
       return new Date(self.expiresIn).getTime() > new Date().getTime()
     },
 
-    setToken: () => {
-      const authApi = new AuthApi(self.environment.api)
-      if (self.token) {
-        authApi.setUnauthorizedFunction(() => {
-          return navigate(ScreenNames.LOGIN)
-        })
-        // authApi.setToken(self.token)
-      }
-    },
+    // setToken: () => {
+    //   const authApi = new AuthApi(self.environment.api)
+    //   if (self.token) {
+    //     authApi.setToken(self.token)
+    //   }
+    // },
 
     setIsFirstTime: flow(function* isFirstTime() {
       self.isFirstTime = false
@@ -257,18 +253,12 @@ export const AuthStoreModel = types
         self.token = result.data.accessToken
         self.refreshToken = result.data.refreshToken
         AsyncStorage.setItem("accessToken", result.data.accessToken)
-
-        // self.expiresIn = result.data.expiresIn
-        // self.isLoggedIn = self.token !== null
+        self.isLoggedIn = true
         // authApi.setToken(result.data.accessToken)
         return;
       }
-
       self.token = null
       self.refreshToken = null
-      // self.expiresIn = null
-      self.isLoggedIn = false
-      // authApi.setToken(null)
 
     }),
 
@@ -312,6 +302,7 @@ export const AuthStoreModel = types
       self.expiresIn = null
       self.type = null
       self.isLoggedIn = false
+      AsyncStorage.setItem('accessToken', '')
     },
   })) // eslint-disable-line @typescript-eslint/no-unused-vars
   .actions(self => ({
