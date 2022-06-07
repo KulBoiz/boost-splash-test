@@ -52,7 +52,6 @@ const NoticeScreen = observer((props: Props) => {
   const { notificationModel, authStoreModel, loanStore } = useStores()
   const { dataSources } = notificationModel
   const [menuActive, setMenuActive] = useState('')
-  const [loadMore, setLoadMore] = useState<boolean>(false)
   const [loading, setLoading] = useState<boolean>(false)
 
   useEffect(() => {
@@ -172,13 +171,13 @@ const NoticeScreen = observer((props: Props) => {
             data={dataSources}
             renderItem={renderItem}
             onEndReached={() => {
-              notificationModel.loadMoreNotifications()
-              setLoadMore(false)
+              notificationModel.loadMoreNotifications({
+                where: {
+                  status: menuActive || undefined,
+                }
+              })
             }}
             onEndReachedThreshold={0.2}
-            onScrollBeginDrag={() => {
-              setLoadMore(false)
-            }}
           />
       }
     </View>

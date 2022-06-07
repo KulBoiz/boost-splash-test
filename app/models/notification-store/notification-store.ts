@@ -72,8 +72,8 @@ export const NotificationStoreModel = types
         }
       }
       const result = yield api.getNotificationPagination('notifications', params)
-
-      self.dataSources = result?.data?.data
+      const oldData: any = [...self.dataSources]
+      self.dataSources = oldData.concat(result?.data?.data)
       self.total = result?.data?.total
 
       if (result.kind === "ok") {

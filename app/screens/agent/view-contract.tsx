@@ -23,12 +23,9 @@ const ViewContract = React.memo((props: Props) => {
 
   useEffect(() => {
     agentStore.getDetailAgent().then((res) => {
-      console.log('res', res?.data);
-
       setSignature(res?.data?.signature?.url)
       setUser(res?.data)
-
-    })
+    })  
   }, [])
 
   return (
