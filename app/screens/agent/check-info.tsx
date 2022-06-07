@@ -1,7 +1,6 @@
 import React, { useState } from "react"
 import { View, Image } from 'react-native';
 import AppHeader from "../../components/app-header/AppHeader"
-import FastImage from "react-native-fast-image"
 import { ScaledSheet } from "react-native-size-matters"
 import { color } from "../../theme"
 import RenderStepAgent from "./components/render-step"
@@ -35,7 +34,7 @@ const CheckInfo = React.memo( (props: Props) => {
     issuedBy: Yup.string().required(i18n.t('errors.requireIssuedBy')),
 
   })
-  const {control, handleSubmit, formState: {errors}, setValue, getValues} = useForm({
+  const {control, handleSubmit, formState: {errors}, setValue} = useForm({
     delayError: 0,
     defaultValues: undefined,
     mode: "all",
