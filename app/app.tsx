@@ -52,7 +52,6 @@ function App() {
   async function onMessageReceived(message) {
     // Do something
     const data =  JSON.parse(JSON.stringify(message, null, 2))
-    console.log(data)
     const  noti = data.notification ?? {}
      notifee.displayNotification({
       id: data?.messageId ?? Math.random() * 6,
@@ -65,8 +64,7 @@ function App() {
     // Register the device with FCM
     await messaging().registerDeviceForRemoteMessages();
     // Get the token
-    const token = await messaging().getToken();
-    console.log(token)
+    await messaging().getToken();
   }
 
   messaging().onMessage(onMessageReceived);

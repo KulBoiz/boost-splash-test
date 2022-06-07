@@ -87,6 +87,6 @@ const styles = ScaledSheet.create({
     justifyContent: "flex-end",
     paddingBottom: '30@s',
     paddingTop: '20@s',
-    paddingHorizontal: '16@ms'
+    paddingHorizontal: '16@ms',
   }
 });

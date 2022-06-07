@@ -5,7 +5,6 @@ import mime from "mime"
 import * as FileSystem from "expo-file-system"
 import { AgentApi } from "../../services/api/agent-api"
 import { withRootStore } from "../extensions/with-root-store"
-import { LoanApi } from "../../services/api/loan-api"
 
 /**
  * Model description here for TypeScript hints.
@@ -159,10 +158,10 @@ export const AgentStoreModel = types
         identification: {
           frontPhoto: self.frontImage,
           backSidePhoto :self.backImage,
+          signature: self.signature,
+          issuedOn: self.dateRange,
+          placeOfIssue: self.issuedBy,
         },
-        issuedOn: self.dateRange,
-        placeOfIssue: self.issuedBy,
-        signature: self.signature,
         steps: "contract"
       }
 

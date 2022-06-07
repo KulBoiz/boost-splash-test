@@ -46,7 +46,7 @@ const SettingScreen: FC<Props> = observer((props: Props) => {
                   icon={value.icon}
                   title={'Hợp đồng cộng tác viên'}
                   onPress={() => {
-                    navigate(ScreenNames.AGENT)
+                    navigate(ScreenNames.AGENT, {screen: ScreenNames.VIEW_CONTRACT})
                   }}
                 />
 
