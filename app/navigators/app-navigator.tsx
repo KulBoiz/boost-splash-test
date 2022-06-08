@@ -20,6 +20,7 @@ import InsuranceDetail from "../screens/insurance/insurance-detail"
 import { IntroduceScreen } from "../screens/insurance/introduce/introduce-screen"
 import BannerDetail from "../screens/home/banner-detail"
 import { AgentStack } from "./agent-stack"
+import BankerListLoanScreen from "../screens/banker/banker-list-loan-screen"
 
 export type NavigatorParamList = {
   [ScreenNames.SPLASH]: undefined
@@ -43,6 +44,7 @@ export type NavigatorParamList = {
   [ScreenNames.PHOTO_PICKER]: {
     onConfirm?: (photo) => void
   }
+  [ScreenNames.BANKER_LIST_LOAN_SCREEN]: undefined
 }
 
 // Documentation: https://reactnavigation.org/docs/stack-navigator/
@@ -86,6 +88,7 @@ const RootStack = () => {
       <Stack.Screen name={ScreenNames.INTRODUCE_SCREEN} component={IntroduceScreen} />
       <Stack.Screen name={ScreenNames.BANNER_DETAIL} component={BannerDetail} />
       <Stack.Screen name={ScreenNames.PHOTO_PICKER} component={PhotoPickerScreen} />
+      <Stack.Screen name={ScreenNames.BANKER_LIST_LOAN_SCREEN} component={BankerListLoanScreen} />
     </Stack.Navigator>
   )
 }

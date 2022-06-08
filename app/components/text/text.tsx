@@ -3,13 +3,14 @@ import { Text as ReactNativeText } from "react-native"
 import { presets } from "./text.presets"
 import { TextProps } from "./text.props"
 import { translate } from "../../i18n"
+import { Factory, ITextProps } from "native-base"
 
 /**
  * For your text displaying needs.
  *
  * This component is a HOC over the built-in React Native one.
  */
-export function Text(props: TextProps) {
+export const Text = Factory<ITextProps | TextProps>((props: TextProps & ITextProps) => {
   // grab the props
   const { preset = "default", tx, txOptions, text, children, style: styleOverride, ...rest } = props
 
@@ -25,4 +26,4 @@ export function Text(props: TextProps) {
       {content}
     </ReactNativeText>
   )
-}
+})

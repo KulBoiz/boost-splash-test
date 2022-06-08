@@ -1,5 +1,5 @@
 export enum ScreenNames {
-  SPLASH = 'splash',
+  SPLASH = "splash",
   AGENT = "Agent",
   AUTH = "Auth",
   APP = "App",
@@ -34,6 +34,7 @@ export enum ScreenNames {
   CHECK_INFO = "CheckInfo",
   BANNER_DETAIL = "BannerDetail",
   PHOTO_PICKER = "PhotoPicker",
-  SIGN_CONTRACT = 'SignContract',
-  VIEW_CONTRACT = 'ViewContract',
+  SIGN_CONTRACT = "SignContract",
+  VIEW_CONTRACT = "ViewContract",
+  BANKER_LIST_LOAN_SCREEN = "BankerListLoanScreen",
 }

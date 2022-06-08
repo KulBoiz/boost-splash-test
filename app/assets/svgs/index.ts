@@ -66,6 +66,8 @@ export { default as SelectedPhotoSvg } from "./selected-photo.svg"
 export { default as CardIdFrontSvg } from "./card-id-front.svg"
 export { default as CardIdBackSvg } from "./card-id-back.svg"
 export { default as InfoSvg } from "./info.svg"
+export { default as HeaderBgSvg } from "./header-bg.svg"
+export { default as FilterSvg } from "./filter.svg"
 
 // home
 export { default as AccountHomeActiveSvg } from "./account-home-active.svg"
