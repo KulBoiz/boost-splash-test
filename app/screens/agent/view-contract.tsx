@@ -23,9 +23,9 @@ const ViewContract = React.memo((props: Props) => {
 
   useEffect(() => {
     agentStore.getDetailAgent().then((res) => {
-      setSignature(res?.data?.signature?.url)
+      setSignature(res?.data?.identification?.signature?.url)
       setUser(res?.data)
-    })  
+    })
   }, [])
 
   return (
@@ -49,7 +49,7 @@ const ViewContract = React.memo((props: Props) => {
         />
 
         <View style={{ width: '40%', position: 'absolute', bottom: 30, right: 50, alignItems: 'center' }}>
-          <FastImage source={{uri: signature}} style={{width: 100, height: 100, top: 20}}/>
+          <FastImage source={{uri: signature}} style={{width: 100, height: 100, top: -30}}/>
         </View>
         <View style={{height: 50}}/>
       </ScrollView>

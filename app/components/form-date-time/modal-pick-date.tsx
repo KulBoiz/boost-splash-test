@@ -30,6 +30,7 @@ const ModalDatePicker = React.memo((props: Props) => {
             display={'inline'}
             onChange={onChange}
             themeVariant="light"
+            maximumDate={new Date()}
           />
         </View>
 

@@ -10,7 +10,7 @@ import { SETTING_LIST } from "./constants"
 import SettingItem from "./components/setting-item"
 import { color } from "../../theme"
 import VerifyUser from "./components/verify-user"
-import SettingAuthScreen from "../../components/app-niew-no-auth"
+import SettingAuthScreen from "../../components/app-view-no-auth"
 import { navigate } from "../../navigators"
 import { ROLE } from "../../models/auth-store"
 

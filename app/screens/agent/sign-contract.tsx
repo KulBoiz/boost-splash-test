@@ -43,7 +43,7 @@ const SignContract = React.memo((props: Props) => {
       setSuccessModal(true)
     }).catch(()=> (Alert.alert('Something went wrong')))
   }
-
+  console.log('agentStore', agentStore.dateRange)
   return (
     <View style={styles.container}>
       <AppHeader headerText={'Kí hợp đồng '} isBlue/>

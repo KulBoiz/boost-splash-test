@@ -4,7 +4,7 @@ import { Pressable, View } from "react-native"
 import { ScaledSheet } from "react-native-size-matters"
 import { SceneMap, TabBar, TabView } from "react-native-tab-view"
 import AppHeader from "../../components/app-header/AppHeader"
-import SettingAuthScreen from "../../components/app-niew-no-auth"
+import SettingAuthScreen from "../../components/app-view-no-auth"
 import { AppText } from "../../components/app-text/AppText"
 import { width } from "../../constants/variable"
 import { useStores } from "../../models"
@@ -43,7 +43,7 @@ const InsuranceScreen = React.memo((props: Props) => {
       style={styles.tab}
     />
   );
-  
+
   const renderRightIcon = () => {
     return (
       <Pressable style={styles.wrapRightIcon} onPress={() => navigation.dispatch(StackActions.push(ScreenNames.INTRODUCE_SCREEN))}>

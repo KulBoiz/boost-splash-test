@@ -1,5 +1,5 @@
 import React, { useState } from "react"
-import { ScrollView, View } from "react-native"
+import { View } from "react-native"
 import AppHeader from "../../components/app-header/AppHeader"
 import RenderStepAgent from "./components/render-step"
 import AgentForm from "./components/agent-form"
@@ -17,6 +17,7 @@ import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view
 import { AppText } from "../../components/app-text/AppText"
 import CustomCheckbox from "../../components/checkbox/custom-checkbox"
 import { useStores } from "../../models"
+import { isIos } from "../../constants/variable"
 
 interface Props{}
 
@@ -37,29 +38,28 @@ const RegisterInfo = React.memo((props: Props) => {
     commune: Yup.string().required('Chọn phường xã'),
   })
   const {control, handleSubmit, formState: { errors }, setValue, watch} = useForm({
-    delayError: 0,
-    defaultValues: undefined,
     mode: "all",
     resolver: yupResolver(validationSchema),
-    reValidateMode: "onChange" || "onTouched",
+    reValidateMode: "onChange",
   })
   const nextStep = (data) => {
     agentStore.userInfo(gender, data.email, data.phone, data.bankNumber, data.bankName,
       data.bankBranch, data.province, data.district, data.commune, data.address)
     navigate(ScreenNames.PHOTO_TUTORIAL)
   }
+
   return (
     <View style={styles.container}>
       <AppHeader headerText={'Đăng ký thông tin'} isBlue/>
       <RenderStepAgent currentPosition={0} />
-      <KeyboardAwareScrollView style={[CONTAINER_PADDING, {flex:1}]}>
+      <KeyboardAwareScrollView style={[CONTAINER_PADDING, {flex:1}]} extraScrollHeight={isIos ? -50 : 0}>
         <View style={styles.wrapCheckbox}>
           <AppText value={'Giới tính'} style={FONT_REGULAR_12} color={color.palette.deepGray}/>
           <CustomCheckbox onPress={()=> setGender('Nam')} text={'Nam'} isChecked={gender === 'Nam'}/>
           <CustomCheckbox onPress={()=> setGender('Nữ')} text={'Nữ'} isChecked={gender === 'Nữ'}/>
           <CustomCheckbox onPress={()=> setGender('Khác')} text={'Khác'} isChecked={gender === 'Khác'}/>
         </View>
-        <AgentForm {...{control, errors, setValue, watch}} />
+        <AgentForm {...{control, errors: {...errors}, setValue, watch}} />
       </KeyboardAwareScrollView>
       <View style={styles.wrapBtn}>
         <AppButton tx={'common.continue'} onPress={handleSubmit(nextStep)}/>

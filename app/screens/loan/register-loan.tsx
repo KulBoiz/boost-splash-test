@@ -23,18 +23,15 @@ import AppButton from "../../components/app-button/AppButton"
 import { navigate } from "../../navigators"
 import { ScreenNames } from "../../navigators/screen-names"
 import SuccessModal from "../../components/success-modal"
-import ProductTypePicker from "./components/product-type-picker"
-import { PRODUCT_TYPE } from "./constants"
 import i18n from "i18n-js"
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view"
+import AppViewNoAuth from "../../components/app-view-no-auth"
 
 interface Props { }
 
 const RegisterLoan = observer((props: Props) => {
   const [modal, setModal] = useState<boolean>(false)
-  const [type, setType] = useState<string>(PRODUCT_TYPE.LOAN)
-  // @ts-ignore
-  const { loanStore } = useStores()
+  const { loanStore, authStoreModel } = useStores()
   const validationSchema = Yup.object().shape({
     email: Yup.string()
       .trim()
@@ -71,10 +68,15 @@ const RegisterLoan = observer((props: Props) => {
     setModal(false)
     setTimeout(() => navigate(ScreenNames.APP), 300)
   }
+
+
   return (
     <View style={PARENT}>
       <AppHeader headerText={'Đăng ký gói vay'} isBlue />
-      <KeyboardAwareScrollView style={CONTAINER_PADDING}>
+      {!authStoreModel.isLoggedIn ?
+        <AppViewNoAuth />
+        :
+        <KeyboardAwareScrollView style={CONTAINER_PADDING}>
         <View style={[styles.wrapName, MARGIN_BOTTOM_24]}>
           <AppText value={'Thông tin gói vay'} style={[FONT_MEDIUM_12, styles.title, MARGIN_BOTTOM_8]} />
           <AppText value={loanStore?.productDetail?.name} style={FONT_SEMI_BOLD_14} />
@@ -89,24 +91,24 @@ const RegisterLoan = observer((props: Props) => {
             placeholder: 'Nhập họ và tên'
           }}
         /><FormInput
-          {...{
-            name: 'email',
-            control,
-            error: errors?.email?.message,
-            label: 'Địa chỉ Email',
-            placeholderTx: 'placeholder.email',
-            autoCapitalize: 'none',
-          }}
-        /><FormInput
-          {...{
-            name: 'phone',
-            control,
-            error: errors?.phone?.message,
-            label: 'Số điện thoại',
-            placeholderTx: 'placeholder.phone',
-            keyboardType: 'number-pad'
-          }}
-        />
+        {...{
+          name: 'email',
+          control,
+          error: errors?.email?.message,
+          label: 'Địa chỉ Email',
+          placeholderTx: 'placeholder.email',
+          autoCapitalize: 'none',
+        }}
+      /><FormInput
+        {...{
+          name: 'phone',
+          control,
+          error: errors?.phone?.message,
+          label: 'Số điện thoại',
+          placeholderTx: 'placeholder.phone',
+          keyboardType: 'number-pad'
+        }}
+      />
         {/* <ProductTypePicker value={type} setValue={setType} /> */}
         <FormInput
           {...{
@@ -120,7 +122,7 @@ const RegisterLoan = observer((props: Props) => {
         <AppButton title={'Gửi thông tin'} onPress={handleSubmit(sendInfo)} containerStyle={styles.btn} />
         <View style={{ height: 50 }} />
 
-      </KeyboardAwareScrollView>
+      </KeyboardAwareScrollView>}
         <SuccessModal visible={modal} onPress={pressModal} title={'Gửi thông tin'} />
     </View>
   )

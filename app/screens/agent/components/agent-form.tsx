@@ -6,19 +6,17 @@ import { FieldValues } from "react-hook-form/dist/types/fields"
 import FormInput from "../../../components/form-input/form-input"
 import FormItemPicker from "../../../components/form-item-picker"
 import { useStores } from "../../../models"
-import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import { observer } from "mobx-react-lite";
 import { get } from "lodash"
 
 interface Props {
   control: Control
-  errors: FieldErrors<FieldValues>
+  errors: FieldErrors<any>
   setValue: UseFormSetValue<FieldValues>
   watch: UseFormWatch<FieldValues>
 }
 
 const AgentForm = observer((props: Props) => {
-  // @ts-ignore
   const { bankStore, locationStore, authStoreModel, agentStore} = useStores()
   const { control, errors, setValue, watch } = props
   const [bankBranch, setBankBranch] = useState([])
@@ -115,7 +113,6 @@ const AgentForm = observer((props: Props) => {
 
   return (
     <View style={styles.container}>
-      <KeyboardAwareScrollView>
         <FormInput
           {...{
             name: 'email',
@@ -218,7 +215,7 @@ const AgentForm = observer((props: Props) => {
             error: errors?.address?.message
           }}
         />
-      </KeyboardAwareScrollView>
+      <View style={{height: 20}}/>
     </View>
   )
 });
