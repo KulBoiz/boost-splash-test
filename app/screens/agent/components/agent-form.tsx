@@ -63,7 +63,7 @@ const AgentForm = observer((props: Props) => {
   }
 
   const handleSelectBank = (bank) => {
-    agentStore.bankInfo(bank?.label)
+    agentStore.bankInfo(bank?.label, bank?.value)
     setValue('bankBranch', '');
 
     bankStore.getBankBranch(bank?.value).then((res) => {
@@ -72,15 +72,21 @@ const AgentForm = observer((props: Props) => {
   }
 
   const handleSelectState = (state) => {
+    agentStore.province(state?.label, state?.value)
     locationStore.get('town_district', undefined, state?.value).then((res) => {
       setTownDistrict(formatData(res?.data?.data))
     })
   }
 
   const handleSelectDistrict = (state) => {
+    agentStore.district(state?.label, state?.value)
     locationStore.get('sub_district', undefined, state?.value).then((res) => {
       setSubDistrict(formatData(res.data?.data))
     })
+  }
+
+  const handleSelectCommune = (state) => {
+    agentStore.commune(state?.label, state?.value)
   }
 
   const onChangeSearchBank = (value) => {
@@ -203,7 +209,8 @@ const AgentForm = observer((props: Props) => {
             setValue,
             error: errors?.commune?.message,
             data: subDistrict,
-            onChangeSearchText: onChangeSearchSubDistrict
+            onChangeSearchText: onChangeSearchSubDistrict,
+            handleSelect: handleSelectCommune,
           }}
         />
         <FormInput

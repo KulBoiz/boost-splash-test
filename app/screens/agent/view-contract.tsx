@@ -8,7 +8,7 @@ import AppHeader from "../../components/app-header/AppHeader";
 import { fontFamily } from "../../constants/font-family";
 import { width } from "../../constants/variable";
 import { useStores } from "../../models";
-import { CONTAINER_PADDING, MARGIN_BOTTOM_16 } from "../../styles/common-style";
+import { CONTAINER_PADDING, MARGIN_BOTTOM_16, PADDING_VERTICAL } from "../../styles/common-style"
 import { color } from "../../theme";
 import { CollaboratorContractInfoDesktop } from "./constants";
 import { ScreenNames } from "../../navigators/screen-names"
@@ -26,12 +26,12 @@ const ViewContract = React.memo((props: Props) => {
       setSignature(res?.data?.identification?.signature?.url)
       setUser(res?.data)
     })
-  }, [])
+  }, [user])
 
   return (
     <View style={styles.container}>
       <AppHeader headerText={'Kí hợp đồng '} isBlue onLeftPress={()=> navigate(ScreenNames.SETTING)}/>
-      <ScrollView style={[CONTAINER_PADDING, MARGIN_BOTTOM_16]}>
+      <ScrollView style={[CONTAINER_PADDING, PADDING_VERTICAL]}>
         <RenderHtml
           contentWidth={width}
           baseStyle={styles.htmlContainer}
@@ -43,13 +43,13 @@ const ViewContract = React.memo((props: Props) => {
             address: user?.address + (user?.subDistrictName || '') + (user?.stateName || ''),
             email: user?.emails?.[0]?.email,
             tel: user?.tels?.[0]?.tel,
-            bankAccount: user?.bankNumber,
-            bankName: user?.banks?.[0]?.bankName,
+            bankAccount: user?.banks?.[0]?.bankAccount,
+            bankName: user?.banks?.[0]?.name,
           })}
         />
 
         <View style={{ width: '40%', position: 'absolute', bottom: 30, right: 50, alignItems: 'center' }}>
-          <FastImage source={{uri: signature}} style={{width: 100, height: 100, top: -30}}/>
+          <FastImage source={{uri: signature}} style={{width: 100, height: 100, top: s(-100 )}}/>
         </View>
         <View style={{height: 50}}/>
       </ScrollView>

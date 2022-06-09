@@ -20,11 +20,14 @@ export const AgentStoreModel = types
     bankNumber: types.optional(types.string, ""),
     bankName: types.optional(types.string, ""),
     address: types.optional(types.string, ""),
-    bankNameId: types.optional(types.string, ""),
+    bankId: types.optional(types.string, ""),
     bankBranchId: types.optional(types.string, ""),
     provinceId: types.optional(types.string, ""),
+    provinceName: types.optional(types.string, ""),
     districtId: types.optional(types.string, ""),
+    districtName: types.optional(types.string, ""),
     communeId: types.optional(types.string, ""),
+    communeName: types.optional(types.string, ""),
     sex: types.optional(types.string, ""),
     citizenIdentification: types.optional(types.string, ""),
     dateRange: types.optional(types.string, ""),
@@ -40,22 +43,14 @@ export const AgentStoreModel = types
       email: string,
       phone: string,
       bankNumber: string,
-      bankNameId: string,
       bankBranchId?: string,
-      provinceId: string,
-      districtId: string,
-      communeId: string,
       address: string,
     ) {
       self.sex = sex
       self.email = email
       self.phone = phone
       self.bankNumber = bankNumber
-      self.bankNameId = bankNameId
       self.bankBranchId = bankBranchId ?? ""
-      self.provinceId = provinceId
-      self.districtId = districtId
-      self.communeId = communeId
       self.address = address
     }),
 
@@ -71,10 +66,25 @@ export const AgentStoreModel = types
       self.issuedBy = issuedBy
     }),
 
-    bankInfo: flow(function* userId(bankName: string) {
+    bankInfo: (bankName: string, bankId: string) =>  {
       self.bankName = bankName
-    }),
+      self.bankId = bankId
+    },
 
+    province: (provinceName: string, provinceId: string) =>  {
+      self.provinceName = provinceName
+      self.provinceId = provinceId
+    },
+
+    district: (districtName: string, districtId: string) =>  {
+      self.districtName = districtName
+      self.districtId = districtId
+    },
+
+    commune: (communeName: string, communeId: string) =>  {
+      self.communeName = communeName
+      self.communeId = communeId
+    },
 
     uploadFrontImage: flow(function* uploadFrontImage(path: string) {
       const uploadApi = new UploadApi(self.environment.api)
@@ -141,6 +151,50 @@ export const AgentStoreModel = types
         return result
       }
       self.signature = data
+      return {
+        kind: "ok",
+        data: result,
+      }
+    }),
+
+    registerInformation: flow(function* registerInformation() {
+      const agentApi = new AgentApi(self.environment.api)
+      const userId: any = new AgentApi(self?.rootStore?.authStoreModel.userId) ?? ''
+
+      const params = {
+        address: self.address,
+        banks: [
+          {
+            bankAccount: self.bankNumber,
+            bankId: self.bankId,
+            name: self.bankName
+          }
+        ],
+        districtId: self.districtId,
+        districtName: self.districtName,
+        emails: [
+          {
+            email: self.email
+          }
+        ],
+        gender: self.sex,
+        hasVerifyOtp: false,
+        stateId: self.provinceId,
+        stateName: self.provinceName,
+        steps: "person-information",
+        subDistrictId: self.communeId,
+        subDistrictName: self.communeName,
+        tels: [
+          {
+            tel: self.phone
+          }
+        ]
+      }
+
+      const result = yield agentApi.registerInformation(params, userId?.api)
+      if (result.kind !== "ok") {
+        return result
+      }
       return {
         kind: "ok",
         data: result,
