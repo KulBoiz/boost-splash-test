@@ -13,6 +13,19 @@ export class AgentApi {
     this.api = api
   }
 
+  async registerInformation(params: any, id:string): Promise<any> {
+    try {
+      const response: ApiResponse<any> = await this.api.apisauce.put(`${API_ENDPOINT}/users/${id}`, params)
+      if (!response.ok) {
+        const problem = getGeneralApiProblem(response)
+        if (problem) return problem
+      }
+      return { kind: "ok", response }
+    } catch (e) {
+      return { kind: "bad-data", e }
+    }
+  }
+
   async registerAgent(params: any, id:string): Promise<any> {
     try {
       const response: ApiResponse<any> = await this.api.apisauce.put(`${API_ENDPOINT}/users/sign-collaborator-contract/${id}`, params)

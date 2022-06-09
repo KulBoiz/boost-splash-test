@@ -24,6 +24,7 @@ interface Props{}
 const RegisterInfo = React.memo((props: Props) => {
   const {agentStore} = useStores()
   const [gender,setGender] = useState<'Nam'|'Nữ'|'Khác'>('Nam')
+  const [genderValue,setGenderValue] = useState<'male'|'female'|'other'>('male')
   const validationSchema = Yup.object().shape({
     email: Yup.string()
       .trim()
@@ -43,11 +44,24 @@ const RegisterInfo = React.memo((props: Props) => {
     reValidateMode: "onChange",
   })
   const nextStep = (data) => {
-    agentStore.userInfo(gender, data.email, data.phone, data.bankNumber, data.bankName,
-      data.bankBranch, data.province, data.district, data.commune, data.address)
+    agentStore.userInfo(genderValue, data.email, data.phone, data.bankNumber, data.bankBranch, data.address)
+    agentStore.registerInformation()
     navigate(ScreenNames.PHOTO_TUTORIAL)
   }
-
+  const selectGender = (gender: 'Nam' | 'Nữ' | 'Khác') => {
+    if (gender === 'Nam'){
+      setGender(gender)
+      setGenderValue('male')
+    }
+    if (gender === 'Nữ'){
+      setGender(gender)
+      setGenderValue('female')
+    }
+    else {
+      setGender('Khác')
+      setGenderValue("other")
+    }
+  }
   return (
     <View style={styles.container}>
       <AppHeader headerText={'Đăng ký thông tin'} isBlue/>
@@ -55,9 +69,9 @@ const RegisterInfo = React.memo((props: Props) => {
       <KeyboardAwareScrollView style={[CONTAINER_PADDING, {flex:1}]} extraScrollHeight={isIos ? -50 : 0}>
         <View style={styles.wrapCheckbox}>
           <AppText value={'Giới tính'} style={FONT_REGULAR_12} color={color.palette.deepGray}/>
-          <CustomCheckbox onPress={()=> setGender('Nam')} text={'Nam'} isChecked={gender === 'Nam'}/>
-          <CustomCheckbox onPress={()=> setGender('Nữ')} text={'Nữ'} isChecked={gender === 'Nữ'}/>
-          <CustomCheckbox onPress={()=> setGender('Khác')} text={'Khác'} isChecked={gender === 'Khác'}/>
+          <CustomCheckbox onPress={()=> selectGender('Nam')} text={'Nam'} isChecked={gender === 'Nam'}/>
+          <CustomCheckbox onPress={()=> selectGender('Nữ')} text={'Nữ'} isChecked={gender === 'Nữ'}/>
+          <CustomCheckbox onPress={()=> selectGender('Khác')} text={'Khác'} isChecked={gender === 'Khác'}/>
         </View>
         <AgentForm {...{control, errors: {...errors}, setValue, watch}} />
       </KeyboardAwareScrollView>
