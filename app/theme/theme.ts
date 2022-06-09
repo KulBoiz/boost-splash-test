@@ -21,7 +21,7 @@ export const theme = extendTheme({
         normal: "Inter-Regular",
       },
       500: {
-        normal: "Inter-Regular",
+        normal: "Inter-Medium",
       },
       600: {
         normal: "Inter-SemiBold",
@@ -49,6 +49,6 @@ export const theme = extendTheme({
     button: "Inter",
   },
   config: {
-    initialColorMode: "dark",
+    initialColorMode: "light",
   },
 })

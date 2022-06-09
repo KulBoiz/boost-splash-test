@@ -5,8 +5,8 @@ import { color, typography } from "../../theme"
  * All text will start off looking like this.
  */
 const BASE: TextStyle = {
-  fontFamily: typography.primary,
-  color: color.text,
+  // fontFamily: typography.primary,
+  color: color.palette.black,
   fontSize: 15,
 }
 
