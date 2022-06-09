@@ -15,6 +15,7 @@ import { useStores } from "../../../models"
 import { navigate } from "../../../navigators"
 import { ScreenNames } from "../../../navigators/screen-names"
 import i18n from "i18n-js"
+import AppViewNoAuth from "../../../components/app-view-no-auth"
 
 interface Props{
   nextStep(): void
@@ -72,9 +73,12 @@ const IntroduceStepOne = observer(({ nextStep }: Props) => {
       else Alert.alert('Something went wrong')
     }
   }
+  if (!authStoreModel.isLoggedIn){
+    return <AppViewNoAuth />
+  }
+
   return (
     <Pressable style={styles.container} onPress={Keyboard.dismiss}>
-      {/*<FastImage source={images.banner} style={styles.banner}/>*/}
       <View style={styles.body}>
         <FormInput
           {...{

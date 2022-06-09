@@ -2,7 +2,7 @@ import React from 'react';
 import { View, TouchableOpacity, TextInput } from "react-native"
 import { SearchNormalSvg } from "../../assets/svgs"
 import { color } from "../../theme"
-import { ScaledSheet } from "react-native-size-matters"
+import { s, ScaledSheet } from "react-native-size-matters"
 import { debounce } from "lodash"
 import { isAndroid } from "../../constants/variable"
 
@@ -22,7 +22,7 @@ const SearchBar = React.memo(({ onPress, placeholder = 'Tìm kiếm', onChangeSe
   return (
     <View style={styles.container}>
       <TouchableOpacity onPress={onPress}>
-        <SearchNormalSvg />
+        <SearchNormalSvg width={s(18)} height={s(18)}/>
       </TouchableOpacity>
       <TextInput onChangeText={_search} style={styles.input} placeholder={placeholder} onSubmitEditing={onPress}/>
     </View>

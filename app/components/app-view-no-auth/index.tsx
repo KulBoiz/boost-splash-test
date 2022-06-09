@@ -18,7 +18,7 @@ const SettingAuthScreen: FC<Props> = observer((props: Props) => {
     navigation.dispatch(StackActions.push(ScreenNames.AUTH))
   }
 
-  if (!!authStoreModel?.user) {
+  if (authStoreModel?.isLoggedIn) {
     return <></>
   }
 
