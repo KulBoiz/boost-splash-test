@@ -1,9 +1,9 @@
 import React from 'react';
 import { View } from 'react-native';
 import { ms, ScaledSheet } from "react-native-size-matters"
-import { width } from "../../constants/variable"
-import { color } from "../../theme"
-import { AppText } from "../../components/app-text/AppText"
+import { width } from "../../../constants/variable"
+import { color } from "../../../theme"
+import { AppText } from "../../../components/app-text/AppText"
 
 const widthHeight = width - ms(32)
 

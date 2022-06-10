@@ -1,10 +1,10 @@
 import React from 'react';
 import { View, StyleSheet, Pressable } from "react-native"
-import { AppText } from "../../../components/app-text/AppText"
+import { AppText } from "../../../../components/app-text/AppText"
 import { s, ScaledSheet } from "react-native-size-matters"
-import { color } from "../../../theme"
+import { color } from "../../../../theme"
 import FastImage from "react-native-fast-image"
-import { images } from "../../../assets/images"
+import { images } from "../../../../assets/images"
 
 interface Props{
   icon: JSX.Element

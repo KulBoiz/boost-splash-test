@@ -2,24 +2,23 @@ import React, { FC, useState } from "react"
 import { BackHandler, ScrollView, StatusBar, View } from "react-native"
 import { StackScreenProps } from "@react-navigation/stack"
 import { observer } from "mobx-react-lite"
-import { ScreenNames } from "../../navigators/screen-names"
-import { AppStackParamList } from "../../navigators/app-stack"
+import { ScreenNames } from "../../../navigators/screen-names"
+import { AppStackParamList } from "../../../navigators/app-stack"
 import { ScaledSheet } from 'react-native-size-matters'
 import HeaderCard from "./components/HeaderCard"
 import PaperHeader from "./components/PaperHeader"
-import { paper } from "./constants"
+import { paper } from "./components/constants"
 import Finance from "./finance"
 import ComingSoon from "./coming-soon"
 import { useFocusEffect } from "@react-navigation/native"
 import HomeBanner from "./components/home-banner"
 import Insurance from "./insurance"
-import { color } from "../../theme"
-import { useStores } from "../../models"
-import BankItem from "../new-home/components/bank-item"
+import { color } from "../../../theme"
+import { useStores } from "../../../models"
 
 
 
-export const HomeScreen: FC<StackScreenProps<AppStackParamList, ScreenNames.HOME>> = observer(
+export const HomeScreen = observer(
   ({ navigation }) => {
     useFocusEffect(() => {
       BackHandler.addEventListener('hardwareBackPress', () => true);

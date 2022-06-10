@@ -1,5 +1,8 @@
 export const images = {
   home_finance: require('./home/home-finance.png'),
+  financeHeader: require('./home/finance.png'),
+  insuranceHeader: require('./home/insurance.png'),
+  investHeader: require('./home/invest.png'),
   avatar: require('./avatar.png'),
   arrowLeft: require('./arrowLeft.png'),
   arrow_down: require('./arrow_down.png'),

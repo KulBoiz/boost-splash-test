@@ -2,8 +2,10 @@
   "common": {
     "ok": "OK!",
     "cancel": "Cancel",
+    "sure": "Sure",
     "back": "Quay lại",
     "continue": "Tiếp tục",
+    "confirm": "Xác nhận",
     "start": "Bắt đầu",
     "sent": "Gửi",
     "sentCheck": "Gửi kiểm tra",
@@ -76,7 +78,8 @@
     "requestInsurance": "Tạo yêu cầu tư vấn mua bảo hiểm",
     "requestInvest": "Tạo yêu cầu tư vấn đầu tư",
     "notice": "Thông báo",
-    "personalSetting": "Thiết lập cá nhân"
+    "personalSetting": "Thiết lập cá nhân",
+    "bankerListLoan": "Danh sách YCTV"
   },
   "label": {
     "emailAndPhone": "Email hoặc số điện thoại",
@@ -240,6 +243,11 @@
     "unverified": "Chưa xác thực",
     "regulation": "Theo quy định của NHNN. chủ ví điện tử cần cung cấp hình ảnh chứng từ cá nhân để đảm bảo chính chủ, xác thực tài khoản, và tăng cường bảo mật",
     "verifyNow": "Xác thực ngay"
+  },
+  "banker": {
+    "searchPleacholder": "Tìm theo tên, số điện thoại",
+    "reject": "Từ chối",
+    "approve": "Tiếp nhận"
   },
   "errors": {
     "customerFullName": "Vui lòng nhập tên người mua",

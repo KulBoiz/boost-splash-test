@@ -1,14 +1,14 @@
 import React from 'react';
 import { Pressable, View, ViewStyle } from "react-native"
 import { s, ScaledSheet } from 'react-native-size-matters';
-import { DefaultAvatarSvg } from "../../../assets/svgs"
-import { AppText } from "../../../components/app-text/AppText"
-import { useStores } from "../../../models"
-import { navigate } from "../../../navigators"
-import { ScreenNames } from "../../../navigators/screen-names"
+import { DefaultAvatarSvg } from "../../../../assets/svgs"
+import { AppText } from "../../../../components/app-text/AppText"
+import { useStores } from "../../../../models"
+import { navigate } from "../../../../navigators"
+import { ScreenNames } from "../../../../navigators/screen-names"
 import { observer } from "mobx-react-lite"
 import FastImage from "react-native-fast-image"
-import { FONT_SEMI_BOLD_12 } from "../../../styles/common-style"
+import { FONT_SEMI_BOLD_12 } from "../../../../styles/common-style"
 
 interface Props{
   style?: ViewStyle | any

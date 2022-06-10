@@ -1,17 +1,17 @@
 import React from 'react';
 import { View, TouchableOpacity } from "react-native"
-import { BellSvg, SearchSvg } from "../../../assets/svgs"
+import { BellSvg, SearchSvg } from "../../../../assets/svgs"
 import FastImage from "react-native-fast-image"
-import { images } from "../../../assets/images"
+import { images } from "../../../../assets/images"
 import LoginCard from "./LoginCard"
 import { isIphoneX } from "react-native-iphone-x-helper"
 import { ScaledSheet} from "react-native-size-matters"
-import { color } from "../../../theme"
-import { ROW } from "../../../styles/common-style"
-import { navigate } from "../../../navigators"
-import { ScreenNames } from "../../../navigators/screen-names"
-import { AppText } from "../../../components/app-text/AppText"
-import { fontFamily } from "../../../constants/font-family"
+import { color } from "../../../../theme"
+import { ROW } from "../../../../styles/common-style"
+import { navigate } from "../../../../navigators"
+import { ScreenNames } from "../../../../navigators/screen-names"
+import { AppText } from "../../../../components/app-text/AppText"
+import { fontFamily } from "../../../../constants/font-family"
 import Wallet from "./Wallet"
 
 interface Props{}
@@ -24,9 +24,9 @@ const HeaderCard = React.memo((props: Props) => {
         <LoginCard style={styles.itemContainer}/>
         <AppText value={'FINA'} style={styles.fina}/>
         <View style={[ROW,styles.itemContainer, {justifyContent: "flex-end"}]}>
-          {/*<TouchableOpacity>*/}
+          {/* <TouchableOpacity> */}
           {/*  <SearchSvg /> */}
-          {/*</TouchableOpacity>*/}
+          {/* </TouchableOpacity> */}
           <TouchableOpacity onPress={()=> navigate(ScreenNames.NOTICE)}>
             <BellSvg />
           </TouchableOpacity>
@@ -34,9 +34,9 @@ const HeaderCard = React.memo((props: Props) => {
       </View>
 
     </View>
-      {/*<View style={styles.wallet}>*/}
-      {/*  <Wallet />*/}
-      {/*</View>*/}
+      {/* <View style={styles.wallet}> */}
+      {/*  <Wallet /> */}
+      {/* </View> */}
     </>
   )
 });

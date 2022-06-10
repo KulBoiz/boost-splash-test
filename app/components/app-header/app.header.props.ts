@@ -12,6 +12,8 @@ export interface AppHeaderProps {
    */
   headerText?: string
 
+  renderTitle?: JSX.Element
+
   /**
    * Icon that should appear on the left
    */
@@ -30,7 +32,6 @@ export interface AppHeaderProps {
    */
 
   renderRightIcon?: JSX.Element
-
 
   /**
    * What happens when you press the right icon

@@ -1,6 +1,6 @@
 import React, { useCallback, useRef, useState } from "react"
 import { View } from "react-native"
-import { AppText } from "../../components/app-text/AppText"
+import { AppText } from "../../../components/app-text/AppText"
 import { ms, ScaledSheet } from "react-native-size-matters"
 import {
   BankIconSvg,
@@ -10,18 +10,19 @@ import {
   HouseLoanSvg, MapSvg, NoteSvg,
   ProfileAddSvg,
   RepairLoanSvg,
-} from "../../assets/svgs"
-import { color } from "../../theme"
-import { width } from "../../constants/variable"
+} from "../../../assets/svgs"
+import { color } from "../../../theme"
+import { width } from "../../../constants/variable"
 import LoanItem from "./components/loan-item"
 import LoanSupportTool from "./components/loan-support-tool"
-import BankInfo from "../loan/components/bank-info"
-import { ScreenNames } from "../../navigators/screen-names"
-import { navigate } from "../../navigators"
-import { useStores } from "../../models"
+import BankInfo from "../../loan/components/bank-info"
+import { ScreenNames } from "../../../navigators/screen-names"
+import { navigate } from "../../../navigators"
+import { useStores } from "../../../models"
 import Carousel from 'react-native-snap-carousel';
-import PaginationDot from "../../components/pagination-dot/pagination-dot"
-import FullScreenModal from "../../components/app-modal/full-screen-modal"
+import PaginationDot from "../../../components/pagination-dot/pagination-dot"
+import FullScreenModal from "../../../components/app-modal/full-screen-modal"
+// @ts-ignore
 import { DOMAIN } from "@env"
 
 

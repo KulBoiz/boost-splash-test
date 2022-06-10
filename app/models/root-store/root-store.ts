@@ -13,6 +13,7 @@ import { BankStoreModel } from "../bank-store/bank-store"
 import { LocationStoreModel } from "../location-store/location-store"
 import { MediaStoreModel } from "../media-store/media-store"
 import { AgentStoreModel } from "../agent-store/agent-store"
+import { BankerStoreModel } from "../banker-store/banker-store"
 import { CommentStoreModel } from "../comment-store/comment-store"
 
 /**
@@ -34,6 +35,7 @@ export const RootStoreModel = types.model("RootStore").props({
   bankStore: types.optional(BankStoreModel, {} as any),
   locationStore: types.optional(LocationStoreModel, {} as any),
   agentStore: types.optional(AgentStoreModel, {} as any),
+  bankerStore: types.optional(BankerStoreModel, {} as any),
   commentStore: types.optional(CommentStoreModel, {} as any)
 })
 
@@ -42,20 +44,21 @@ export const RootStoreModel = types.model("RootStore").props({
  */
 // @ts-ignore
 export interface RootStore extends Instance<typeof RootStoreModel> {
-  characterStore: any,
-  authStoreModel: any,
-  notificationModel: any,
-  loanStore: any,
-  bannerStore:any,
-  dealDetailStoreModel: any,
-  insuranceStore: any,
-  menuFilterStore: any,
-  productStore: any,
-  paymentStore: any,
-  mediaStore: any,
-  bankStore: any,
-  locationStore: any,
+  characterStore: any
+  authStoreModel: any
+  notificationModel: any
+  loanStore: any
+  bannerStore: any
+  dealDetailStoreModel: any
+  insuranceStore: any
+  menuFilterStore: any
+  productStore: any
+  paymentStore: any
+  mediaStore: any
+  bankStore: any
+  locationStore: any
   agentStore: any
+  bankerStore: any
 }
 
 /**

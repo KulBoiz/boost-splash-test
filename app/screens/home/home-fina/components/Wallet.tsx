@@ -1,9 +1,9 @@
 import React from 'react';
 import { View } from "react-native"
 import { ScaledSheet } from 'react-native-size-matters';
-import { AppText } from "../../../components/app-text/AppText"
-import { presets } from "../../../constants/presets"
-import { color } from "../../../theme"
+import { AppText } from "../../../../components/app-text/AppText"
+import { presets } from "../../../../constants/presets"
+import { color } from "../../../../theme"
 
 interface Props{}
 

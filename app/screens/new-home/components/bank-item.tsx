@@ -38,6 +38,15 @@ const styles = ScaledSheet.create({
   container: {
     width: '220@ms',
     height:'125@ms',
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.2,
+    shadowRadius: 3,
+
+    elevation: 5,
   },
   header: {
     borderTopRightRadius: '4@s',

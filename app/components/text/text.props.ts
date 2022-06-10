@@ -1,6 +1,5 @@
 import { StyleProp, TextProps as TextProperties, TextStyle } from "react-native"
 import i18n from "i18n-js"
-import { TextPresets } from "./text.presets"
 import { TxKeyPath } from "../../i18n"
 
 export interface TextProps extends TextProperties {
@@ -24,14 +23,4 @@ export interface TextProps extends TextProperties {
    * The text to display if not using `tx` or nested components.
    */
   text?: string
-
-  /**
-   * An optional style override useful for padding & margin.
-   */
-  style?: StyleProp<TextStyle>
-
-  /**
-   * One of the different types of text presets.
-   */
-  preset?: TextPresets
 }
