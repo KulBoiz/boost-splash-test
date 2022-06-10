@@ -1,5 +1,5 @@
 import { flow, Instance, SnapshotOut, types } from "mobx-state-tree"
-import { CommentApi } from "../../services/api/comment-api"
+// import { CommentApi } from "../../services/api/comment-api"
 import { DocumentTemplateApi } from "../../services/api/document-template"
 
 import { LoanApi } from "../../services/api/loan-api"
@@ -45,7 +45,7 @@ export const LoanStoreModel = types
     productDetail: types.frozen({}),
     limit: types.optional(types.number, 20),
     page: types.optional(types.number, 1),
-    comments: types.frozen([]),
+    // comments: types.frozen([]),
     loanDetail: types.frozen({}),
     histories: types.frozen([]),
     files: types.frozen([]),
@@ -59,14 +59,14 @@ export const LoanStoreModel = types
     },
     getLoanDetail: flow(function* getLoanDetail(id: string) {
       self.loanDetail = {}
-      self.comments = []
+      // self.comments = []
       self.histories = []
       self.templates = []
       self.files = []
       self.task = {}
 
       const loanApi = new LoanApi(self.environment.api)
-      const commentApi = new CommentApi(self.environment.api)
+      // const commentApi = new CommentApi(self.environment.api)
       const documentApi = new DocumentTemplateApi(self.environment.api)
 
       const resultDetail = yield loanApi.getRecordDetail(id)
@@ -76,10 +76,10 @@ export const LoanStoreModel = types
       const deal = result.data
       self.loanDetail = deal
 
-      if (deal) {
-        const resultComment = yield commentApi.requestComment(deal?.id)
-        self.comments = resultComment?.data?.data
-      }
+      // if (deal) {
+      //   const resultComment = yield commentApi.requestComment(deal?.id)
+      //   self.comments = resultComment?.data?.data
+      // }
 
       const resultHistory = yield loanApi.requestLoanHistory(id)
       self.histories = resultHistory?.data
@@ -280,10 +280,10 @@ export const LoanStoreModel = types
 
     getTransaction: flow(function* getTransaction(dealId: string, dealDetailId: string) {
       const transactionApi = new TransactionApi(self.environment.api)
-      const commentApi = new CommentApi(self.environment.api)
+      // const commentApi = new CommentApi(self.environment.api)
 
-      const resultComment = yield commentApi.requestComment(dealDetailId)
-      self.comments = resultComment?.data?.data
+      // const resultComment = yield commentApi.requestComment(dealDetailId)
+      // self.comments = resultComment?.data?.data
 
       const result = yield transactionApi.getTransaction(dealId, dealDetailId)
 

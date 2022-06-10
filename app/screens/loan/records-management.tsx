@@ -36,7 +36,6 @@ const RecordsManagement = observer((props: Props) => {
 
   return (
     <View style={styles.container}>
-      {/* <MenuFilter currentSelected={select} setCurrentSelected={setSelect} filterData={PROFILE_MANAGEMENT_FILTER} /> */}
       <AppText style={styles.text}>Có Tất Cả <AppText value={total} color={color.palette.blue} style={FONT_BOLD_12} /> Hồ Sơ</AppText>
       <FlatList
         data={data}
@@ -50,9 +49,6 @@ const RecordsManagement = observer((props: Props) => {
           })
         }}
         onEndReachedThreshold={0.2}
-        // onScrollBeginDrag={() => {
-        //   setLoadMore(false)
-        // }}
       />
       {loadMore && <LoadingComponent/>}
     </View>

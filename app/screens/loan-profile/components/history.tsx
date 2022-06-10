@@ -4,6 +4,8 @@ import HistoryItem from "./history-item"
 import { ScaledSheet } from "react-native-size-matters"
 import { color } from "../../../theme"
 import { useStores } from "../../../models"
+import { sortBy } from "lodash"
+import moment from "moment"
 
 interface Props { }
 
@@ -19,7 +21,7 @@ const History = React.memo((props: Props) => {
 
   return (
     <View style={styles.container}>
-      <FlatList data={histories} renderItem={renderItem} style={styles.flatList} />
+      <FlatList data={sortBy(histories, function(o) { return moment(o.createdAt); }).reverse()} renderItem={renderItem} style={styles.flatList} />
     </View>
   )
 });

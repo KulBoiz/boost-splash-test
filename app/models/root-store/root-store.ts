@@ -14,6 +14,7 @@ import { LocationStoreModel } from "../location-store/location-store"
 import { MediaStoreModel } from "../media-store/media-store"
 import { AgentStoreModel } from "../agent-store/agent-store"
 import { BankerStoreModel } from "../banker-store/banker-store"
+import { CommentStoreModel } from "../comment-store/comment-store"
 
 /**
  * A RootStore model.
@@ -35,6 +36,7 @@ export const RootStoreModel = types.model("RootStore").props({
   locationStore: types.optional(LocationStoreModel, {} as any),
   agentStore: types.optional(AgentStoreModel, {} as any),
   bankerStore: types.optional(BankerStoreModel, {} as any),
+  commentStore: types.optional(CommentStoreModel, {} as any)
 })
 
 /**
