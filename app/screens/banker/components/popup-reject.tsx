@@ -1,5 +1,6 @@
 import { Box, HStack, Pressable } from "native-base"
 import React, { useState } from "react"
+import { Platform } from "react-native"
 import Modal from "react-native-modal"
 import { s, vs } from "react-native-size-matters"
 import { Text } from "../../../components"
@@ -14,7 +15,7 @@ interface Props {
 const PopupReject = React.memo(({ visible, onClose, onConfirm }: Props) => {
   const [value, setValue] = useState("")
   return (
-    <Modal isVisible={visible} onDismiss={() => setValue("")}>
+    <Modal isVisible={visible} onDismiss={() => setValue("")} avoidKeyboard={Platform.OS === "ios"}>
       <Box bg="white" borderRadius="8" p={s(24)}>
         <Text
           color="ebony"

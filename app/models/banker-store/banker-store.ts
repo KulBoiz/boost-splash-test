@@ -86,7 +86,7 @@ export const BankerStoreModel = types
         return result
       }
     }),
-    rejectSurvey: flow(function* rejectSurvey(idTask, data) {
+    updateSurveyTask: flow(function* updateSurveyTask(idTask, data) {
       const result = yield self.api.put(`tasks/update-bankId/${idTask}`, data)
       if (result.kind !== "ok") {
         return result

@@ -46,7 +46,7 @@ const BankerLoanDetailScreen: FC = observer((props: any) => {
   const hidePopupConfirm = useCallback(() => setConfirmVisible(false), [])
 
   const onConfirmReject = useCallback(
-    async (note) => {
+    (note) => {
       hidePopupReject()
       setTimeout(() => {
         setAlert({
@@ -66,12 +66,40 @@ const BankerLoanDetailScreen: FC = observer((props: any) => {
     [data, authStoreModel.userId],
   )
 
+  const onConfirmReceived = useCallback(
+    (data) => {
+      hidePopupConfirm()
+      setTimeout(() => {
+        setAlert({
+          visible: true,
+          data: {
+            bankNote: data.bankNote,
+            content: {
+              loanDemand: data.loanDemand,
+              borrowTime: data.borrowTime,
+              interestRate: data.interestRate,
+              preferentialTime: data.preferentialTime,
+              prepaidTermFee: data.prepaidTermFee,
+              propertyValuation: data.propertyValuation,
+            },
+            userId: authStoreModel.userId,
+            orgId: data?.orgId,
+            responseStatus: "received",
+            responseDate: new Date().toISOString(),
+          },
+          type: "confirm",
+          message: "Bạn có chắc muốn tiếp nhận\nhồ sơ này?",
+        })
+      }, 500)
+    },
+    [data, authStoreModel.userId],
+  )
+
   const onAlertConfirm = useCallback(async () => {
-    if (alert.type === "reject") {
-      setAlert({ visible: false })
-      navigation.goBack()
-      await bankerStore.rejectSurvey(data?.task._id, alert.data)
-    }
+    setAlert({ visible: false })
+    navigation.goBack()
+    await bankerStore.updateSurveyTask(data?.task._id, alert.data)
+    await bankerStore.getSurveyResults({}, { page: 1, limit: 20 }, true)
   }, [alert, navigation])
 
   const documents = [
@@ -241,7 +269,11 @@ const BankerLoanDetailScreen: FC = observer((props: any) => {
         </Box>
       </ScrollView>
       <PopupReject visible={rejectVisible} onClose={hidePopupReject} onConfirm={onConfirmReject} />
-      <PopupConfirm visible={confirmVisible} />
+      <PopupConfirm
+        visible={confirmVisible}
+        onClose={hidePopupConfirm}
+        onConfirm={onConfirmReceived}
+      />
       <PopupAlert
         visible={alert.visible}
         type={alert.type}
