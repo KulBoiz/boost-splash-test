@@ -121,7 +121,7 @@ const BankerInput = React.memo((props: Props) => {
       alignItems="center"
       {..._container}
     >
-      {fieldFocused ? (
+      {fieldFocused || inputValue ? (
         <Box position="absolute" top="-12" left="2" zIndex="1" h="6">
           {renderLabel()}
         </Box>
@@ -148,6 +148,8 @@ const BankerInput = React.memo((props: Props) => {
         {...rest}
         onFocus={_onInputFocus}
         onBlur={_onInputBlur}
+        value={inputValue}
+        onChangeText={_onChangeText}
       />
       {!!prefix && (
         <Text

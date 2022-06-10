@@ -27,6 +27,7 @@ const PopupReject = React.memo(({ visible }: Props) => {
           _label={{ fontSize: 10, lineHeight: 14, fontWeight: 400 }}
           _labelContainer={{ justifyContent: "flex-start", pt: "1" }}
           required
+          pt="3"
         />
         <HStack mt="6">
           <Pressable

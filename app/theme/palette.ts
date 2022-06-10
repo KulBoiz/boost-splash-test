@@ -25,4 +25,7 @@ export const palette = {
   grayChateau: "#A1A8AB",
   iron: "#D7DADC",
   ebony: "#0F172A",
+  catskillWhite: "#F1F5F9",
+  osloGray: "#899096",
+  burntSienna: "#EC6464",
 }

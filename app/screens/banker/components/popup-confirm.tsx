@@ -26,8 +26,22 @@ const PopupConfirm = React.memo(({ visible }: Props) => {
         <BankerInput _container={{ mt: "5" }} label="Lãi suất ưu đãi dự kiến" prefix="năm" />
         <BankerInput _container={{ mt: "5" }} label="Thời gian ưu đãi dự kiến" prefix="%" />
         <BankerInput _container={{ mt: "5" }} label="Phí trả trước hạn dự kiến" prefix="tháng" />
-        <BankerInput _container={{ mt: "5" }} label="Định giá tài sản sơ bộ dự kiến" />
-        <BankerInput _container={{ mt: "5" }} label="Ghi chú" />
+        <BankerInput
+          _container={{ mt: "5", height: vs(63) }}
+          multiline
+          _labelContainer={{ justifyContent: "flex-start", pt: "1" }}
+          label="Định giá tài sản sơ bộ dự kiến"
+          height={vs(63)}
+          pt="3"
+        />
+        <BankerInput
+          _container={{ mt: "5", height: vs(63) }}
+          multiline
+          _labelContainer={{ justifyContent: "flex-start", pt: "1" }}
+          label="Ghi chú"
+          height={vs(63)}
+          pt="3"
+        />
         <HStack mt="6">
           <Pressable
             flex="1"

@@ -1,19 +1,17 @@
 /* eslint-disable react-native/no-color-literals */
 import React, { FC, useCallback, useEffect } from "react"
-import { StyleSheet } from "react-native"
 import { observer } from "mobx-react-lite"
 import AppHeader from "../../components/app-header/AppHeader"
 import { useStores } from "../../models"
 import { useNavigation } from "@react-navigation/native"
 import { ScreenNames } from "../../navigators/screen-names"
-import { HeaderBgSvg, SearchNormalSvg, FilterSvg } from "../../assets/svgs"
-import { Box, HStack, Input, Pressable, ScrollView, SectionList } from "native-base"
+import { Box, HStack, Input, Pressable, ScrollView } from "native-base"
 import { s, vs } from "react-native-size-matters"
-import { translate } from "../../i18n"
 import { Text } from "../../components"
 import { FastImage } from "../../components/fast-image/fast-image"
 import PopupReject from "./components/popup-reject"
 import PopupConfirm from "./components/popup-confirm"
+import PopupAlert from "./components/popup-alert"
 
 interface Props {}
 
