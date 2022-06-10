@@ -16,6 +16,8 @@ import { color } from "../theme"
 import ComingSoon from "../components/coming-soon"
 import { isAndroid } from "../constants/variable"
 import { AppHomeScreen } from "../screens/home"
+import { useStores } from "../models"
+import { ROLE } from "../models/auth-store"
 
 
 export type AppStackParamList = {
@@ -28,6 +30,9 @@ export type AppStackParamList = {
 const Tab = createBottomTabNavigator<AppStackParamList>()
 
 export const AppStack = () => {
+  const { authStoreModel } = useStores()
+  const { role } = authStoreModel
+
   const getTabBarVisibility = (route: any) => {
     const routeName = getFocusedRouteNameFromRoute(route) || ""
     const allowRoute: string[] = ["", ScreenNames.HOME]
@@ -36,14 +41,14 @@ export const AppStack = () => {
   return (
     <Tab.Navigator
       initialRouteName={ScreenNames.HOME}
-      screenOptions={{ headerShown: false ,tabBarStyle: styles.navigator, tabBarItemStyle: styles.itemStyle}}
+      screenOptions={{ headerShown: false, tabBarStyle: styles.navigator, tabBarItemStyle: styles.itemStyle }}
       tabBar={(props) => (
-        <View style={[styles.navigatorContainer, !isIphoneX() && {height: vs(50)}]}>
+        <View style={[styles.navigatorContainer, !isIphoneX() && { height: vs(50) }]}>
           <BottomTabBar
             {...props}
           />
           {isIphoneX() && (
-            <View style={styles.xFillLine}/>
+            <View style={styles.xFillLine} />
           )}
         </View>
       )}
@@ -75,7 +80,7 @@ export const AppStack = () => {
         }}
         component={ComingSoon}
       />
-      <Tab.Screen
+      {role !== ROLE.BANK && <Tab.Screen
         name={ScreenNames.PLUS}
         options={(props) => {
           return {
@@ -89,21 +94,23 @@ export const AppStack = () => {
           }
         }}
         component={HomeScreen}
-      />
-      <Tab.Screen
-        name={ScreenNames.SCHEDULE}
-        options={(props) => {
-          return {
-            tabBarIcon: ({ focused }) => (
-              // eslint-disable-next-line react/jsx-no-undef
-              focused ? <FileHomeActiveSvg /> : <FileHomeInactiveSvg />
-            ),
-            title: i18n.t('bottom_bar.management'),
-            tabBarVisible: getTabBarVisibility(props.route),
-          }
-        }}
-        component={ComingSoon}
-      />
+      />}
+      {role !== ROLE.BANK &&
+        <Tab.Screen
+          name={ScreenNames.SCHEDULE}
+          options={(props) => {
+            return {
+              tabBarIcon: ({ focused }) => (
+                // eslint-disable-next-line react/jsx-no-undef
+                focused ? <FileHomeActiveSvg /> : <FileHomeInactiveSvg />
+              ),
+              title: i18n.t('bottom_bar.management'),
+              tabBarVisible: getTabBarVisibility(props.route),
+            }
+          }}
+          component={ComingSoon}
+        />
+      }
       <Tab.Screen
         name={ScreenNames.SETTING}
         options={(props) => {
@@ -143,7 +150,7 @@ const styles = ScaledSheet.create({
     backgroundColor: 'transparent',
     elevation: 30
   },
-  itemStyle: {backgroundColor: 'white', height: isAndroid ? '60@ms' : '55@ms', paddingVertical: '7@vs' },
+  itemStyle: { backgroundColor: 'white', height: isAndroid ? '60@ms' : '55@ms', paddingVertical: '7@vs' },
   xFillLine: {
     backgroundColor: color.background,
     position: 'absolute',

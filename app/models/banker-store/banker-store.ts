@@ -1,8 +1,8 @@
 import { flow, Instance, SnapshotOut, types } from "mobx-state-tree"
-import { BaseApi } from "../../services/api/base-api"
-import { withEnvironment } from "../extensions/with-environment"
-import { groupBy, map, orderBy } from "lodash"
 import moment from "moment"
+import { BaseApi } from "../../services/api/base-api"
+import { groupBy, map } from "../../utils/lodash-utils"
+import { withEnvironment } from "../extensions/with-environment"
 
 /**
  * Model description here for TypeScript hints.
@@ -27,7 +27,6 @@ export const BankerStoreModel = types
     pagingParams: PagingParamsModel,
     surveyResults: types.optional(types.frozen(), {}),
   })
-  .views((self) => ({}))
   .views((self) => ({
     get api() {
       return new BaseApi(self.environment.api)
