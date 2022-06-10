@@ -168,56 +168,39 @@ export const mappingStatus = (value, doc) => {
 		if (value === TASK_STATUSES.DONE) {
       status = 'Đóng yêu cầu tư vấn'
       color = 'red'
-		}
-
-		if (value === TASK_STATUSES.CONSULTED) {
-      status = 'Chờ khách hàng phản hồi'
-      color = 'green'
-		}
-
-		if (value === TASK_STATUSES.ASSIGNED
-			&& (doc?.statusAssign === TASK_STATUSES_ASSIGNED.NOT_PROCESSING || !doc?.statusAssign)) {
+    }
+  
+  	if (value === TASK_STATUSES.ASSIGNED) {
       status = 'Thu thập thông tin'
       color = 'green'
-		}
-
-		if (value === TASK_STATUSES.ASSIGNED
-			&& doc?.statusAssign === TASK_STATUSES_ASSIGNED.WAITING_FOR_BANK_APPROVAL) {
-      status = 'Chờ phản hồi của đối tác'
-      color = 'green'
-		}
-
-		if (value === TASK_STATUSES.ASSIGNED
-			&& doc?.statusAssign === TASK_STATUSES_ASSIGNED.BANK_APPROVAL) {
-      status = 'Đối tác đang xử lý'
-      color = 'green'
-		}
-
-		if (value === TASK_STATUSES.ASSIGNED
-			&& doc?.statusAssign === TASK_STATUSES_ASSIGNED.WAITING_FOR_BANK_PROCESS) {
-      status = 'Đối tác đang xử lý'
-      color = 'blue'
-		}
-
-		if (value === TASK_STATUSES.CONSULTED) {
-      status = 'Chờ khách hàng phản hồi'
-      color = 'blue'
-		}
-
-		if (doc?.statusAssign === TASK_STATUSES_ASSIGNED.WAITING_FOR_STAFF_FINA) {
-      status = 'Chờ phản hồi của nhân viên Fina'
-      color = 'blue'
-		}
-
-		if (doc?.statusAssign === TASK_STATUSES_ASSIGNED.CREATE_PROFILE) {
-			status = 'Tạo hồ sơ vay'
-      color = 'blue'
-		}
-
-		if (doc?.statusAssign === TASK_STATUSES_ASSIGNED.OVERDUE_FOR_BANK_RESPONSE && doc?.status === TASK_STATUSES.ASSIGNED) {
-			status = 'Quá hạn chia sẻ'
-      color = 'red'
-		}
+    }
+  
+    if (value === TASK_STATUSES.CONSULTED) {
+      if (doc?.statusAssign === TASK_STATUSES_ASSIGNED.NOT_PROCESSING) {
+        status = 'Đã gửi thư chào tín dụng'
+        color = 'green'
+      }
+  
+      if (doc?.statusAssign === TASK_STATUSES_ASSIGNED.WAITING_FOR_BANK_APPROVAL) {
+        status = 'Chờ đối tác phản hồi'
+        color = 'yellow'
+      }
+  
+      if (doc?.statusAssign === TASK_STATUSES_ASSIGNED.WAITING_FOR_BANK_PROCESS) {
+        status = 'Có đối tác phản hồi'
+        color = 'green'
+      }
+  
+      if (doc?.statusAssign === TASK_STATUSES_ASSIGNED.OVERDUE_FOR_BANK_RESPONSE) {
+        status = 'Quá thời hạn phản hồi'
+        color = 'red'
+      }
+  
+      if (doc?.statusAssign === TASK_STATUSES_ASSIGNED.CREATE_PROFILE) {
+        status = 'Tạo hồ sơ vay'
+        color = 'blue'
+      }
+    }
 
 		return {status, color};
 	};
