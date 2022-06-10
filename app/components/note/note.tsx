@@ -19,9 +19,16 @@ const Note = observer((props: Props) => {
   // @ts-ignore
   const { commentStore } = useStores()
   const { comments } = commentStore
-  const [visable, setVisible] = useState(false)
+  const [reply, setReply] = useState('')
 
-  const { control, handleSubmit, getValues, formState: { errors } } = useForm({
+  const { control, handleSubmit, getValues, setValue, formState: { errors } } = useForm({
+    delayError: 0,
+    defaultValues: undefined,
+    mode: "all",
+    reValidateMode: "onChange" || "onTouched",
+  })
+
+  const { control: controlReply, getValues: getValuesReply, setValue: setValueReply, formState: { errors: errorsReply } } = useForm({
     delayError: 0,
     defaultValues: undefined,
     mode: "all",
@@ -32,18 +39,33 @@ const Note = observer((props: Props) => {
     commentStore.get(id)
   }, [])
 
-  console.log('comments 1', comments);
-  
-
-  const sendNote = () => {
-    // TODO:
-    const { content } = getValues()
-
-    console.log('content', content);
-
-    if (content.trim()) {
-      // todo
+  const sendNote = (replyToId?: string) => {
+    const body: any = {
+      belongToId: id,
     }
+    let bodyContent = ''
+
+    if (replyToId) {
+      const { content } = getValuesReply()
+      body.replyToId = replyToId
+      body.content = content
+      bodyContent = content
+    } else {
+      const { content } = getValues()
+      body.content = content
+      bodyContent = content
+    }
+
+    if (!bodyContent && !bodyContent.trim()) {
+      return
+    }
+
+    commentStore.post(body).then(() => {
+      commentStore.get(id)
+      setValue('content', '')
+      setValueReply('content', '')
+      setReply('')
+    })
   }
 
   return (
@@ -59,36 +81,51 @@ const Note = observer((props: Props) => {
               <AppText style={styles.name} value={comment?.createdBy?.fullName} />
               <AppText style={styles.time} value={moment(comment?.createdAt).fromNow()} />
               <AppText style={styles.valueNote} value={comment?.content} />
+
+              {comment?.reply && comment?.reply?.map((subComment, index) => (
+                <View key={index} style={{ flexDirection: 'row' }}>
+                  <Image
+                    style={[styles.image, View && { marginTop: 0 }]}
+                    source={{ uri: subComment?.createdBy?.avatar }}
+                  />
+                  <View style={styles.noteContent}>
+                    <AppText style={styles.name} value={subComment?.createdBy?.fullName} />
+                    <AppText style={styles.time} value={moment(subComment?.createdAt).fromNow()} />
+                    <AppText style={styles.valueNote} value={subComment?.content} />
+                  </View>
+                </View>
+              ))}
+
               {
-                !visable &&
+                reply !== comment?.id &&
                 <Pressable onPress={() => {
-                  // TODO:
-                  setVisible(true)
+                  setReply(comment?.id)
                 }}>
                   <View style={styles.reply}>
                     <AppText style={styles.replyText} value={'Trả lời'} />
                   </View>
                 </Pressable>
               }
-              {visable &&
+
+              {reply === comment?.id &&
                 <View style={{ width: '100%' }}>
                   <FormInput
                     {...{
-                      name: 'note',
+                      name: 'content',
                       label: 'Trả lời',
                       placeholder: 'Ghi chú',
-                      control,
-                      error: errors?.email?.message,
+                      control: controlReply,
+                      error: errorsReply?.email?.message,
                       style: { flex: 1 }
                     }}
                   />
 
                   <View style={{ display: 'flex', flexDirection: 'row' }}>
-                    <Button onPress={() => { setVisible(false) }} style={{ width: s(50), backgroundColor: color.palette.white }}>
+                    <Button onPress={() => { setReply('') }} style={{ width: s(50), backgroundColor: color.palette.white }}>
                       <AppText value={'Huỷ'} />
                     </Button>
 
-                    <Button onPress={sendNote} style={{ width: s(80) }}>
+                    <Button onPress={() => { sendNote(comment.id) }} style={{ width: s(80) }}>
                       <AppText value={'Ghi chú'} style={{ color: color.palette.white }} />
                     </Button>
                   </View>
@@ -110,7 +147,7 @@ const Note = observer((props: Props) => {
           }}
         />
 
-        <Button onPress={sendNote} style={{ width: s(80) }}>
+        <Button onPress={() => { sendNote() }} style={{ width: s(80) }}>
           <AppText value={'Ghi chú'} style={{ color: color.palette.white }} />
         </Button>
       </View>
@@ -144,7 +181,8 @@ const styles = ScaledSheet.create({
     flexDirection: 'row',
     width: '90%',
     flexWrap: 'wrap',
-    marginLeft: '8@s'
+    marginLeft: '8@s',
+    marginBottom: '8@s',
   },
   name: {
     fontSize: 12,

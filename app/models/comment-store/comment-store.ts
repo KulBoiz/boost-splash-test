@@ -1,4 +1,4 @@
-import { Instance, SnapshotOut, types } from "mobx-state-tree"
+import { flow, Instance, SnapshotOut, types } from "mobx-state-tree"
 import { BaseApi } from "../../services/api/base-api"
 import { withEnvironment } from "../extensions/with-environment"
 
@@ -15,7 +15,7 @@ export const CommentStoreModel = types
   })
   .extend(withEnvironment)
   .actions((self) => ({
-    get: async (id) => {
+    get: flow(function* get(id) {
       self.comments = []
       const api = new BaseApi(self.environment.api)
       const param = {
@@ -27,22 +27,19 @@ export const CommentStoreModel = types
           }
         }
       }
-      const result = await api.get(path, param)
+      const result = yield api.get(path, param)
       
       self.comments = result?.data?.data
 
-      console.log('result?.data?.data', result?.data?.data);
-      
-
       return result
-    },
+    }),
 
-    post: async (body) => {
+    post: flow(function*  post(body) {
       const api = new BaseApi(self.environment.api)
-      const result = await api.post(path, body)
+      const result = yield api.post(path, body)
 
       return result
-    },
+    }),
   }))
 
 type CommentStoreType = Instance<typeof CommentStoreModel>
