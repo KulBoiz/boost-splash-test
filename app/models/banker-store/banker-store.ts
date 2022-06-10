@@ -1,17 +1,31 @@
 import { flow, Instance, SnapshotOut, types } from "mobx-state-tree"
+import moment from "moment"
 import { BaseApi } from "../../services/api/base-api"
+import { groupBy, map, union, unionBy } from "../../utils/lodash-utils"
 import { withEnvironment } from "../extensions/with-environment"
 
 /**
  * Model description here for TypeScript hints.
  */
 
-const pathStore = "survey-results"
+const PagingParamsModel = types.optional(
+  types.model({
+    page: 1,
+    limit: 20,
+  }),
+  {},
+)
+
+export type PagingParamsType = Instance<typeof PagingParamsModel>
 
 export const BankerStoreModel = types
   .model("BankerStore")
   .extend(withEnvironment)
   .props({
+    isRefreshing: false,
+    isLoadingMore: false,
+    pagingParams: PagingParamsModel,
+    surveyResultsTotal: 0,
     surveyResults: types.optional(types.frozen(), {}),
   })
   .views((self) => ({
@@ -20,10 +34,22 @@ export const BankerStoreModel = types
     },
   })) // eslint-disable-line @typescript-eslint/no-unused-vars
   .actions((self) => ({
-    getSurveyResults: flow(function* getSurveyResults(params?: any) {
-      const param = {
+    getSurveyResults: flow(function* getSurveyResults(
+      params?: any,
+      pagingParams?: PagingParamsType,
+      isRefresh = false,
+    ) {
+      if (isRefresh) {
+        self.isRefreshing = true
+      } else {
+        self.isLoadingMore = true
+      }
+      const _pagingParams: any = {
+        ...self.pagingParams,
+        ...pagingParams,
+      }
+      const result = yield self.api.get("survey-results/search-for-teller", {
         filter: {
-          limit: 20,
           order: ["sharedAt asc"],
           skip: 0,
           include: [
@@ -35,32 +61,52 @@ export const BankerStoreModel = types
             },
           ],
           where: {
-            _q: "",
+            _q: params?.search,
             status: "deal_processing_task",
           },
         },
-        page: 1,
-        ...params,
+        limit: pagingParams?.limit,
+        page: pagingParams?.page,
+      })
+      self.isRefreshing = false
+      self.isLoadingMore = false
+      if (result.kind === "ok") {
+        const data = result?.data?.data
+        self.pagingParams = _pagingParams
+        self.surveyResultsTotal = result?.data?.total
+        if (isRefresh) {
+          self.surveyResults = data
+        } else {
+          self.surveyResults = unionBy(self.surveyResults, data, "_id")
+        }
+      } else {
+        return result
       }
-      const result = yield self.api.get(`${pathStore}/search-for-teller`, param)
-
-      self.surveyResults = result?.data?.data
-
       if (result.kind !== "ok") {
         return result
       }
-      // const data = groupBy(
-      //   map(result?.data?.data, (item) => ({
-      //     ...item,
-      //     dateGroup: moment(item.sharedAt).format("MM/YYYY"),
-      //   })),
-      //   "dateGroup",
-      // )
-      // Object.keys(data).map((key) => ({
-      //   data: data[key],
-      //   title: data?.[key]?.[0]?.sub_category_name?.[0] || "",
-      //   description: data?.[key]?.[0]?.sub_category_description?.[0] || "",
-      // }))
+    }),
+    updateSurveyTask: flow(function* updateSurveyTask(idTask, data) {
+      const result = yield self.api.put(`tasks/update-bankId/${idTask}`, data)
+      if (result.kind !== "ok") {
+        return result
+      }
+    }),
+    getNotes: flow(function* getNotes(id) {
+      const param = {
+        filter: {
+          order: ["createdAt asc"],
+          where: {
+            belongToId: id,
+          },
+        },
+      }
+      const result = yield self.api.get("comments", param)
+      if (result.kind === "ok") {
+        return result?.data?.data
+      } else {
+        return []
+      }
     }),
   })) // eslint-disable-line @typescript-eslint/no-unused-vars
 

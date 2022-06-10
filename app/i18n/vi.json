@@ -245,7 +245,7 @@
     "verifyNow": "Xác thực ngay"
   },
   "banker": {
-    "searchPleacholder": "Tìm theo tên, số điện thoại",
+    "searchPlaceholder": "Tìm theo tên, số điện thoại",
     "reject": "Từ chối",
     "approve": "Tiếp nhận"
   },
