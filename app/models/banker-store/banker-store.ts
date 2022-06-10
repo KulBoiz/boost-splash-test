@@ -1,7 +1,7 @@
 import { flow, Instance, SnapshotOut, types } from "mobx-state-tree"
 import moment from "moment"
 import { BaseApi } from "../../services/api/base-api"
-import { groupBy, map } from "../../utils/lodash-utils"
+import { groupBy, map, union, unionBy } from "../../utils/lodash-utils"
 import { withEnvironment } from "../extensions/with-environment"
 
 /**
@@ -25,6 +25,7 @@ export const BankerStoreModel = types
     isRefreshing: false,
     isLoadingMore: false,
     pagingParams: PagingParamsModel,
+    surveyResultsTotal: 0,
     surveyResults: types.optional(types.frozen(), {}),
   })
   .views((self) => ({
@@ -36,7 +37,7 @@ export const BankerStoreModel = types
     getSurveyResults: flow(function* getSurveyResults(
       params?: any,
       pagingParams?: PagingParamsType,
-      isRefresh = true,
+      isRefresh = false,
     ) {
       if (isRefresh) {
         self.isRefreshing = true
@@ -47,7 +48,7 @@ export const BankerStoreModel = types
         ...self.pagingParams,
         ...pagingParams,
       }
-      const result = yield self.api.get("/survey-results/search-for-teller", {
+      const result = yield self.api.get("survey-results/search-for-teller", {
         filter: {
           order: ["sharedAt asc"],
           skip: 0,
@@ -71,23 +72,12 @@ export const BankerStoreModel = types
       self.isLoadingMore = false
       if (result.kind === "ok") {
         const data = result?.data?.data
-        const dataGroup = groupBy(
-          map(data, (item) => ({
-            ...item,
-            dateGroup: moment(item.sharedAt).format("MM/YYYY"),
-          })),
-          "dateGroup",
-        )
-        const surveyResults = Object.keys(dataGroup).map((key) => ({
-          data: dataGroup[key],
-          title: `YCTV mới (${key})`,
-        }))
-        __DEV__ && console.tron.log(surveyResults)
         self.pagingParams = _pagingParams
+        self.surveyResultsTotal = result?.data?.total
         if (isRefresh) {
-          self.surveyResults = surveyResults
+          self.surveyResults = data
         } else {
-          self.surveyResults = self.surveyResults.concat(surveyResults)
+          self.surveyResults = unionBy(self.surveyResults, data, "_id")
         }
       } else {
         return result

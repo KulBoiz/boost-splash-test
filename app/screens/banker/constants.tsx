@@ -1,65 +1,11 @@
-import React from "react"
-import {
-  DocumentSvg,
-  ElementSvg,
-  MedalSvg,
-  ProfileSvg,
-  SettingSvg,
-  ShieldSecuritySvg,
-  SimCardSvg,
-  StarSettingSvg,
-  TransactionSvg,
-} from "../../assets/svgs"
-import { navigate } from "../../navigators"
-import { ScreenNames } from "../../navigators/screen-names"
-import { ROLE } from "../../models/auth-store"
-
-export const SETTING_LIST = [
-  {
-    icon: <ProfileSvg />,
-    title: 'Thông tin cá nhân',
-    onPress: () => {},
-    active: false,
-  },{
-    icon: <MedalSvg />,
-    title: 'Đăng ký làm cộng tác viên',
-    // onPress: () => navigate(ScreenNames.AGENT, {screen : authStoreModel?.role === ROLE.CTV  ? ScreenNames.VIEW_CONTRACT : ScreenNames.BECOME_SCREEN}),
-    onPress: () => navigate(ScreenNames.AGENT),
-    active: true,
-  },{
-    icon: <ShieldSecuritySvg />,
-    title: 'Quản lí mật khẩu & mã PIN',
-    onPress: () => {},
-    active: false,
-  },{
-    icon: <DocumentSvg />,
-    title: 'Tài liệu của tôi',
-    onPress: () => {},
-    active: false,
-  },{
-    icon: <SimCardSvg />,
-    title: 'Thông tin nâng cao',
-    onPress: () => {},
-    active: false,
-  },{
-    icon: <ElementSvg />,
-    title: 'Cơ cấu tổ chức',
-    onPress: () => {},
-    active: false,
-  },{
-    icon: <StarSettingSvg />,
-    title: 'Đánh giá',
-    onPress: () => {},
-    active: false,
-  },{
-    icon: <TransactionSvg />,
-    title: 'Giao dịch',
-    onPress: () => {},
-    active: false,
-  },{
-    icon: <SettingSvg />,
-    title: 'Cài đặt',
-    onPress: () => {},
-    active: false,
-  },
-]
+export const GET_TASK_STATUS_ASSIGNED = {
+  not_processing: "Chưa xử lý", // chưa xủ lý
+  processing: "Đang xử lý", // đang xử lý
+  waiting_for_bank_approval: "Đã tiếp nhận", // chờ ngân hàng phản hồi,
+  waiting_for_bank_process: "Chờ tiếp nhận", // chờ ngân hàng xử lý,
+  bank_approval: "Đã phê duyệt", // ngân hàng phê duyệt,
+  bank_reject: "Đã từ chối",
+  waiting_for_staff_fina: "Chờ tiếp nhận",
+  create_profile: "Tạo hồ sơ vay",
+  overdue_for_bank_response: "Quá thời hạn phản hồi",
+}

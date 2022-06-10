@@ -51,6 +51,7 @@ export {
   minBy,
   slice,
   groupBy,
+  union,
 } from "lodash-es"
 
 export const omitFn = (paths: string[]) => (obj: any) => omit(obj, paths)
