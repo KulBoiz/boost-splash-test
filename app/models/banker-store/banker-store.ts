@@ -86,6 +86,28 @@ export const BankerStoreModel = types
         return result
       }
     }),
+    rejectSurvey: flow(function* rejectSurvey(idTask, data) {
+      const result = yield self.api.put(`tasks/update-bankId/${idTask}`, data)
+      if (result.kind !== "ok") {
+        return result
+      }
+    }),
+    getNotes: flow(function* getNotes(id) {
+      const param = {
+        filter: {
+          order: ["createdAt asc"],
+          where: {
+            belongToId: id,
+          },
+        },
+      }
+      const result = yield self.api.get("comments", param)
+      if (result.kind === "ok") {
+        return result?.data?.data
+      } else {
+        return []
+      }
+    }),
   })) // eslint-disable-line @typescript-eslint/no-unused-vars
 
 type BankerStoreType = Instance<typeof BankerStoreModel>

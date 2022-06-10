@@ -15,6 +15,7 @@ import { MediaStoreModel } from "../media-store/media-store"
 import { AgentStoreModel } from "../agent-store/agent-store"
 import { BankerStoreModel } from "../banker-store/banker-store"
 import { CommentStoreModel } from "../comment-store/comment-store"
+import { NoteStoreModel } from "../note-store/note-store"
 
 /**
  * A RootStore model.
@@ -36,7 +37,8 @@ export const RootStoreModel = types.model("RootStore").props({
   locationStore: types.optional(LocationStoreModel, {} as any),
   agentStore: types.optional(AgentStoreModel, {} as any),
   bankerStore: types.optional(BankerStoreModel, {} as any),
-  commentStore: types.optional(CommentStoreModel, {} as any)
+  commentStore: types.optional(CommentStoreModel, {} as any),
+  noteStore: types.optional(NoteStoreModel, {} as any)
 })
 
 /**
@@ -59,6 +61,8 @@ export interface RootStore extends Instance<typeof RootStoreModel> {
   locationStore: any
   agentStore: any
   bankerStore: any
+  commentStore: any
+  noteStore: any
 }
 
 /**

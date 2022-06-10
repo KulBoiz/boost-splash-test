@@ -15,7 +15,7 @@ import { color } from "../../theme"
 import { find, groupBy, map } from "../../utils/lodash-utils"
 import moment from "moment"
 import numeral from "numeral"
-import { GET_TASK_STATUS_ASSIGNED } from "./constants"
+import { getSurveyName, GET_TASK_STATUS_ASSIGNED } from "./constants"
 
 interface Props {}
 
@@ -78,8 +78,7 @@ const BankerListLoanScreen: FC<Props> = observer((props: Props) => {
     )
   }, [])
   const renderItem = useCallback(({ item, index }) => {
-    const name = find(item.surveyDetails, (i) => i.questionData?.code === "QUESTION_LPC_NAME")
-      ?.content
+    const name = getSurveyName(item.surveyDetails)
     const loanDetail =
       find(item.surveyDetails, (i) => i.questionData?.code === "QUESTION_LPC_LOAN_DEMAND") ||
       find(item.surveyDetails, (i) => i.questionData?.type === "OPEN_ENDED_NUMBER")
