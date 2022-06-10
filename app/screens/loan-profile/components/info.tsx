@@ -8,7 +8,7 @@ import { useStores } from '../../../models';
 import { color } from "../../../theme";
 import ItemView from '../../loan/components/item-view';
 import Document from './document';
-import Note from './note';
+import Note from '../../../components/note/note';
 
 interface Props {
 }
@@ -16,7 +16,7 @@ interface Props {
 const Info = observer((props: Props) => {
   // @ts-ignore
   const { loanStore } = useStores()
-  const { loanDetail, comments, files, templates, task } = loanStore
+  const { loanDetail, files, templates, task } = loanStore
   const { user } = task
 
   const checkGender = () => {
@@ -34,14 +34,14 @@ const Info = observer((props: Props) => {
   if (!loanDetail) return <></>
 
   const name = () => {
-    if (user?.fullName)  {
+    if (user?.fullName) {
       return user?.fullName
     } else {
       if (user?.firstName || user?.lastName) {
         return (user?.firstName || '') + " " + (user?.lastName || '')
       }
 
-      return  ''
+      return ''
     }
   }
 
@@ -58,17 +58,19 @@ const Info = observer((props: Props) => {
       </View>
 
       {loanDetail?.id && <Document loanDetail={loanDetail} files={files} templates={templates} />}
-      
+
       {
-        loanDetail?.id && comments?.length > 0 && <View style={styles.content}>
+        loanDetail?.id && <View style={styles.content}>
           <AppText style={styles.title} value={"Ghi chú"} />
 
           <View style={[styles.contentItem, styles.contentItemNote]} >
-            {comments?.map((comment, index) => (
+            {/* {comments?.map((comment, index) => (
               <Note
                 key={index.toString()}
                 comment={comment} />
-            ))}
+            ))} */}
+
+            <Note id={loanDetail?.id} />
           </View>
         </View>
       }
