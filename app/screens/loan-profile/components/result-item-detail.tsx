@@ -4,7 +4,7 @@ import { View } from 'react-native';
 import { ScaledSheet } from "react-native-size-matters";
 import { AppText } from '../../../components/app-text/AppText';
 import { color } from "../../../theme";
-import Note from './note';
+import Note from '../../../components/note/note';
 import { numberWithCommas } from "../../../constants/variable"
 
 interface Props {
@@ -53,14 +53,20 @@ const ResultItemDetail = React.memo((props: Props) => {
         </View>
       </View>
 
-      {comments?.length > 0 && <>
+      {/* {comments?.length > 0 && <>
         <AppText style={styles.labelNote} value={'Ghi chú của ngân hàng:'} />
         <View style={styles.note}>
-        {comments?.map((comment, index) => (
+          {comments?.map((comment, index) => (
           <Note key={index.toString()} comment={comment} />
         ))}
-      </View>
-      </>}
+          <Note id={''} />
+        </View>
+      </>} */}
+
+      <AppText style={styles.labelNote} value={'Ghi chú của ngân hàng:'} />
+        <View style={styles.note}>
+          <Note id={item?.id} />
+        </View>
 
     </View>
   )

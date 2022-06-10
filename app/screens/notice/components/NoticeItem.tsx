@@ -52,7 +52,6 @@ const NoticeItem = React.memo(({ item, nextDetail, checkUrl }: Props) => {
         <AppText value={'Xem thêm'} style={styles.viewDetail}/>
       </Pressable>}
       <NoticeModal visible={visible} close={() => setVisible(false)} item={item} />
-
     </View>
   )
 });
