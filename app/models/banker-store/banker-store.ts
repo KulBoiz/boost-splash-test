@@ -1,14 +1,12 @@
 import { flow, Instance, SnapshotOut, types } from "mobx-state-tree"
-import { BankerApi } from "../../services/api/banker-api"
+import { BaseApi } from "../../services/api/base-api"
 import { withEnvironment } from "../extensions/with-environment"
-import { groupBy, map, orderBy } from "lodash"
-import moment from "moment"
 
 /**
  * Model description here for TypeScript hints.
  */
 
-const pathStore = "organizations"
+const pathStore = "survey-results"
 
 export const BankerStoreModel = types
   .model("BankerStore")
@@ -16,10 +14,9 @@ export const BankerStoreModel = types
   .props({
     surveyResults: types.optional(types.frozen(), {}),
   })
-  .views((self) => ({}))
   .views((self) => ({
     get api() {
-      return new BankerApi(self.environment.api)
+      return new BaseApi(self.environment.api)
     },
   })) // eslint-disable-line @typescript-eslint/no-unused-vars
   .actions((self) => ({
@@ -45,23 +42,25 @@ export const BankerStoreModel = types
         page: 1,
         ...params,
       }
-      const result = yield self.api.getSurveyResults(param)
+      const result = yield self.api.get(`${pathStore}/search-for-teller`, param)
+
+      self.surveyResults = result?.data?.data
+
       if (result.kind !== "ok") {
         return result
       }
-      const data = groupBy(
-        map(result?.data?.data, (item) => ({
-          ...item,
-          dateGroup: moment(item.sharedAt).format("MM/YYYY"),
-        })),
-        "dateGroup",
-      )
+      // const data = groupBy(
+      //   map(result?.data?.data, (item) => ({
+      //     ...item,
+      //     dateGroup: moment(item.sharedAt).format("MM/YYYY"),
+      //   })),
+      //   "dateGroup",
+      // )
       // Object.keys(data).map((key) => ({
       //   data: data[key],
       //   title: data?.[key]?.[0]?.sub_category_name?.[0] || "",
       //   description: data?.[key]?.[0]?.sub_category_description?.[0] || "",
       // }))
-      console.tron.log(data)
     }),
   })) // eslint-disable-line @typescript-eslint/no-unused-vars
 
