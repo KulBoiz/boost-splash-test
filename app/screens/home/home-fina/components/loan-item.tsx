@@ -1,8 +1,8 @@
 import React from 'react';
 import { View } from 'react-native';
 import { ScaledSheet } from "react-native-size-matters"
-import { AppText } from "../../../components/app-text/AppText"
-import { TxKeyPath } from "../../../i18n"
+import { AppText } from "../../../../components/app-text/AppText"
+import { TxKeyPath } from "../../../../i18n"
 
 interface Props{
   icon: JSX.Element

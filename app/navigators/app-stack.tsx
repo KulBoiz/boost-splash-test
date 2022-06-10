@@ -1,7 +1,7 @@
 import { getFocusedRouteNameFromRoute } from "@react-navigation/native"
 import { ScreenNames } from "./screen-names"
 // import BottomTabBar from "../components/bottom-tab-bar/BottomTabBar"
-import { HomeScreen } from "../screens/home/home-screen"
+import { HomeScreen } from "../screens/home/home-fina/home-screen"
 import React from "react"
 import { createBottomTabNavigator, BottomTabBar } from "@react-navigation/bottom-tabs"
 import { FontAwesome as Icon } from '@expo/vector-icons';
@@ -15,6 +15,7 @@ import i18n from "i18n-js"
 import { color } from "../theme"
 import ComingSoon from "../components/coming-soon"
 import { isAndroid } from "../constants/variable"
+import { AppHomeScreen } from "../screens/home"
 
 
 export type AppStackParamList = {
@@ -58,7 +59,7 @@ export const AppStack = () => {
             tabBarVisible: getTabBarVisibility(props.route),
           }
         }}
-        component={HomeScreen}
+        component={AppHomeScreen}
       />
       <Tab.Screen
         name={ScreenNames.CHAT}

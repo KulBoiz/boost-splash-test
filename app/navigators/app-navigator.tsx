@@ -18,7 +18,7 @@ import InsuranceScreen from "../screens/insurance/insurance-screen"
 import InsurancePackage from "../screens/insurance/insurance-package"
 import InsuranceDetail from "../screens/insurance/insurance-detail"
 import { IntroduceScreen } from "../screens/insurance/introduce/introduce-screen"
-import BannerDetail from "../screens/home/banner-detail"
+import BannerDetail from "../screens/home/home-fina/banner-detail"
 import { AgentStack } from "./agent-stack"
 
 export type NavigatorParamList = {

@@ -1,12 +1,12 @@
 import React, { FC, memo } from 'react';
 import { ImageProps, TouchableOpacity, View } from "react-native"
 import { ScaledSheet } from 'react-native-size-matters';
-import { AppText } from "../../../components/app-text/AppText"
-import { color } from "../../../theme"
-import { CENTER_ELEMENTS } from "../../../styles/common-style"
-import { presets } from "../../../constants/presets"
+import { AppText } from "../../../../components/app-text/AppText"
+import { color } from "../../../../theme"
+import { CENTER_ELEMENTS } from "../../../../styles/common-style"
+import { presets } from "../../../../constants/presets"
 import FastImage from "react-native-fast-image"
-import { TxKeyPath } from "../../../i18n"
+import { TxKeyPath } from "../../../../i18n"
 
 interface PaperProps {
   key: number,

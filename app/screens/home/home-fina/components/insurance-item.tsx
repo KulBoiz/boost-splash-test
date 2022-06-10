@@ -3,13 +3,13 @@ import { Pressable, View } from "react-native";
 import FastImage from "react-native-fast-image";
 import { s, ScaledSheet } from "react-native-size-matters";
 import { SvgUri } from 'react-native-svg';
-import { images } from '../../../assets/images';
-import { AppText } from "../../../components/app-text/AppText";
-import { useStores } from "../../../models";
-import { navigate } from "../../../navigators";
-import { ScreenNames } from "../../../navigators/screen-names";
-import { FONT_MEDIUM_12, FONT_SEMI_BOLD_14 } from "../../../styles/common-style";
-import { color } from "../../../theme";
+import { images } from '../../../../assets/images';
+import { AppText } from "../../../../components/app-text/AppText";
+import { useStores } from "../../../../models";
+import { navigate } from "../../../../navigators";
+import { ScreenNames } from "../../../../navigators/screen-names";
+import { FONT_MEDIUM_12, FONT_SEMI_BOLD_14 } from "../../../../styles/common-style";
+import { color } from "../../../../theme";
 interface Props {
   item: any
 }
