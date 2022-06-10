@@ -17,7 +17,8 @@ export const TabBarAdvancedButton: React.FC<Props> = ({ bgColor, ...props }) => 
     <TabBg color={bgColor} style={styles.background} />
     <TouchableOpacity
       style={styles.button}
-      onPress={() => navigate(ScreenNames.BANKER_LIST_LOAN_SCREEN)}
+      // onPress={() => navigate(ScreenNames.BANKER_LIST_LOAN_SCREEN)}
+      onPress={() => navigate(ScreenNames.REQUEST_COUNSELLING)}
     >
       <PlusSvg width={s(15)} height={s(15)} />
     </TouchableOpacity>

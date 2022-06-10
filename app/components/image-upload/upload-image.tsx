@@ -12,22 +12,19 @@ import { randomId } from "../../constants/variable"
 
 interface Props {
   containerStyle?: any | ViewStyle;
-  setMediaIds: (e: string[]) => void;
-  mediaIds: string[];
 }
 
 interface ImagePickerObject extends ImagePickerResponse {
   id: string;
 }
 
-const UploadImage = React.memo(({ containerStyle, setMediaIds, mediaIds }: Props) => {
+const UploadImage = React.memo(({ containerStyle }: Props) => {
   const [selectedImages, setSelectedImages] = useState<ImagePickerObject[]>([]);
 
   const [isUpload, setIsUpload] = useState(false);
 
-  const _handleDelete = (id: string, imageId?: string) => {
+  const _handleDelete = (id: string) => {
     setSelectedImages((images) => images.filter((item) => item.id !== id));
-    setMediaIds(mediaIds.filter((item) => item !== imageId));
   };
 
 
@@ -51,13 +48,11 @@ const UploadImage = React.memo(({ containerStyle, setMediaIds, mediaIds }: Props
         <TouchableOpacity style={styles.wrapUpload} onPress={() => setIsUpload(true)}>
           <FastImage source={images.defaultUpload} style={styles.wrapUpload} />
         </TouchableOpacity>
-
         {selectedImages.map((image, index) => (
           <UploadImageViewer
             image={image}
             key={image.id}
-            onUploaded={(id) => setMediaIds([...mediaIds, id])}
-            onDelete={(imageId) => _handleDelete(image.id, imageId)}
+            onDelete={(imageId) => _handleDelete(image.id)}
           />
         ))}
       </View>
@@ -67,12 +62,11 @@ const UploadImage = React.memo(({ containerStyle, setMediaIds, mediaIds }: Props
 
 interface UploadImageViewerProps {
   containerStyle?: any;
-  onUploaded: (id: string) => void;
   image: ImagePickerResponse;
   onDelete: (id?: string) => void;
 }
 
-const UploadImageViewer = ({ containerStyle, onUploaded, image, onDelete }: UploadImageViewerProps) => {
+const UploadImageViewer = ({ containerStyle, image, onDelete }: UploadImageViewerProps) => {
   const [uploading, setUploading] = useState(false);
   const [errUploading, setErrUploading] = useState(false);
 
@@ -112,9 +106,9 @@ const UploadImageViewer = ({ containerStyle, onUploaded, image, onDelete }: Uplo
                 <AppText>Upload Error</AppText>
               </View>
             )}
-          <TouchableOpacity onPress={() => onDelete('')} style={styles.position}>
-            <FastImage source={images.icon_x} style={styles.icon} tintColor={color.lightBlack} />
-          </TouchableOpacity>
+          {/*<TouchableOpacity onPress={() => onDelete('')} style={styles.position}>*/}
+          {/*  <FastImage source={images.icon_x} style={styles.icon} tintColor={color.lightBlack} />*/}
+          {/*</TouchableOpacity>*/}
         </>
       )}
     </View>
@@ -135,10 +129,9 @@ const styles = ScaledSheet.create({
     justifyContent: "space-between"
   },
   wrapUpload: {
-    width: '150@ms',
-    height: '125@ms',
+    width: '145@ms',
+    height: '120@ms',
     borderWidth: 1,
-    borderRadius: '4@s',
     borderColor: color.palette.gray,
     alignItems: 'center',
     justifyContent: 'center',
@@ -164,9 +157,8 @@ const styles = ScaledSheet.create({
     top: '-10@vs',
   },
   image: {
-    width: '150@ms',
-    height: '125@ms',
-    borderRadius: '4@s',
+    width: '145@ms',
+    height: '120@ms',
     marginBottom: '20@vs',
   },
 });

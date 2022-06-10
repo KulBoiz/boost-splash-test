@@ -17,7 +17,7 @@ const OFF_COLOR = color.palette.offWhite
 const BORDER_ON_COLOR = ON_COLOR
 const BORDER_OFF_COLOR = "rgba(0, 0, 0, 0.1)"
 
-// animation
+// animations
 const DURATION = 250
 
 // the track always has these props

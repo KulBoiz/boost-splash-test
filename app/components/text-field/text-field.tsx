@@ -28,10 +28,10 @@ const INPUT: TextStyle = {
 const ERROR: TextStyle = {
   fontFamily: 'Inter-Medium',
   color: color.palette.angry,
-  fontSize: ms(13),
+  fontSize: ms(12),
   marginTop: s(10),
   position: "absolute",
-  top: s(-5)
+  top: s(-7)
 }
 
 // currently we have no presets, but that changes quickly when you build your app.

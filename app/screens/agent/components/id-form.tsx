@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from "react"
 import { View } from 'react-native';
 import { Control, UseFormSetValue } from "react-hook-form/dist/types/form"
 import { FieldErrors } from "react-hook-form/dist/types/errors"
@@ -6,6 +6,8 @@ import { FieldValues } from "react-hook-form/dist/types/fields"
 import FormInput from "../../../components/form-input/form-input"
 import { ScaledSheet } from "react-native-size-matters"
 import FormDatePicker from "../../../components/form-date-time"
+import { get } from "lodash"
+import { useStores } from "../../../models"
 
 interface Props{
   control: Control
@@ -14,7 +16,16 @@ interface Props{
 }
 
 const IdForm = React.memo((props: Props) => {
+  const {authStoreModel} = useStores()
   const {control, errors ,setValue} = props
+  const fullName = get(authStoreModel?.user,'fullName')
+
+  useEffect(() => {
+    if (fullName){
+      setValue('fullName', fullName)
+    }
+
+  }, [])
   return (
     <View style={styles.container}>
       <FormInput

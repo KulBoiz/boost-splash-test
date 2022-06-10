@@ -1,14 +1,14 @@
 export const GENDER = [
   {
     label: "Nam",
-    value: "Nam"
+    value: "male"
   },
   {
     label: "Nữ",
-    value: "Nữ"
+    value: "female"
   },
   {
     label: "Khác",
-    value: "Khác"
+    value: "other"
   },
 ]

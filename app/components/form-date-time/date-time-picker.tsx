@@ -65,6 +65,7 @@ const DatePicker = React.memo((props: Props) => {
             mode={'date'}
             display={'default'}
             onChange={onChange}
+            maximumDate={new Date()}
           />
           }
         </>
@@ -87,16 +88,16 @@ const styles = ScaledSheet.create({
     alignItems: "center",
     borderWidth: 1,
     borderRadius: '4@s',
-    paddingVertical: isAndroid ? '6@ms' : '5.5@vs',
+    paddingVertical: isAndroid ? '6@ms' : 7.5,
     paddingHorizontal: '16@ms'
   },
   errorMessage: {
     fontFamily: 'Inter-Medium',
     color: color.palette.angry,
-    fontSize: '13@ms',
+    fontSize: '12@ms',
     marginTop: '10@s',
     position: "absolute",
-    top: '-5@s'
+    top: '-7@s'
   },
   label: {
     fontSize: '11@ms',

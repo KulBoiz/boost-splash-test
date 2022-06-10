@@ -42,7 +42,7 @@ const CheckInfo = React.memo( (props: Props) => {
     reValidateMode: "onChange" || "onTouched",
   })
   const submit = (data) => {
-    agentStore.userId(data.fullName, data.citizenIdentification, data.dateRange, data.issuedBy)
+    agentStore.userId(data.fullName, data.citizenIdentification, data.dateRange.toString(), data.issuedBy)
     navigate(ScreenNames.SIGN_CONTRACT)
   }
 
@@ -57,7 +57,7 @@ const CheckInfo = React.memo( (props: Props) => {
             <Image source={{uri: backImage}} style={styles.image}/>
           </View>
 
-          <IdForm control={control} errors={errors} setValue={setValue} />
+          <IdForm {...{control, errors: {...errors}, setValue}} />
           <AgentCheckbox checkboxState={checkboxState} setCheckboxState={setCheckboxState} />
         </View>
       </KeyboardAwareScrollView>

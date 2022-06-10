@@ -36,11 +36,11 @@
 		</dict>
 	</dict>
 	<key>NSCameraUsageDescription</key>
-	<string>$(PRODUCT_NAME) needs access to your camera</string>
+	<string>Để chụp ảnh đại diện và hồ sơ, vui lòng cho phép FINA truy cập Máy ảnh.</string>
 	<key>NSLocationWhenInUseUsageDescription</key>
 	<string></string>
 	<key>NSPhotoLibraryUsageDescription</key>
-	<string>$(PRODUCT_NAME) needs access to your gallery</string>
+	<string>Để cập nhật ảnh đại diện và hồ sơ, vui lòng cho phép FINA truy cập Thư viện ảnh.</string>
 	<key>UIAppFonts</key>
 	<array/>
 	<key>UIBackgroundModes</key>

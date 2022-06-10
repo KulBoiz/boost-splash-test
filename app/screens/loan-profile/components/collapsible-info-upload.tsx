@@ -10,16 +10,15 @@ import { fontFamily } from "../../../constants/font-family"
 import { ALIGN_CENTER, FONT_REGULAR_14, ROW } from "../../../styles/common-style"
 import UploadImage from "../../../components/image-upload/upload-image"
 import { truncateString } from '../../../constants/variable';
+import { get } from "lodash"
 interface Props {
   data: any
 }
 
 const CollapsibleInfoUpload = React.memo(({ data }: Props) => {
   const [activeSections, setActiveSections] = useState<number[]>([]);
-  const [mediaIds, setMediaIds]: any = useState<string[]>(data?.images)
+  const imageUrls: string[] = get(data, 'images')
 
-  console.log('mediaIds', mediaIds);
-  
   const _handleSections = (index: number[]) => {
     setActiveSections(index);
   };
@@ -33,7 +32,7 @@ const CollapsibleInfoUpload = React.memo(({ data }: Props) => {
           style={styles.headerText}
         />
         <View style={[ROW, ALIGN_CENTER]}>
-          <AppText value={(mediaIds?.length === 0 || !mediaIds) ? 'Chưa cập nhật' : 'Đã cập nhập'} style={FONT_REGULAR_14} />
+          <AppText value={(imageUrls?.length === 0 || !imageUrls) ? 'Chưa cập nhật' : 'Đã cập nhập'} style={FONT_REGULAR_14} />
           <FastImage
             source={isOpen ? images.arrow_up : images.arrow_down}
             style={styles.icon}
@@ -48,11 +47,13 @@ const CollapsibleInfoUpload = React.memo(({ data }: Props) => {
   const renderContent = () => {
     return (
       <View style={styles.contentContainer}>
-        {mediaIds?.length > 0 && mediaIds?.map((el, index) => (<FastImage
-          key={index}
-          source={{ uri: el}}
-          style={styles.icon}
+        {imageUrls?.length > 0 && imageUrls?.map((el, index) => (
+          <FastImage
+            key={index.toString()}
+            source={{ uri: el}}
+            style={styles.image}
         />))}
+       <UploadImage  />
       </View>
     )
     // return (
@@ -81,7 +82,7 @@ export default CollapsibleInfoUpload;
 
 const styles = ScaledSheet.create({
   container: {
-    marginVertical: '24@s',
+    marginVertical: '8@s',
   },
   collapsibleContainer: {
     backgroundColor: color.background,
@@ -105,7 +106,10 @@ const styles = ScaledSheet.create({
     color: color.palette.blue,
     marginBottom: '8@s'
   },
-
+  image:{
+    width: '145@ms',
+    height: '120@ms',
+  },
   icon: {
     width: '16@s',
     height: '16@s',
@@ -118,6 +122,9 @@ const styles = ScaledSheet.create({
     marginTop: '-12@s',
     paddingHorizontal: '16@s',
     paddingBottom: '16@s',
+    flexDirection: "row",
+    justifyContent: "space-between",
+    flexWrap: "wrap"
   },
   wrapContent: {
     marginTop: '16@s'

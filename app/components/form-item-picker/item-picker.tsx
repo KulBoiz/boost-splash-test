@@ -88,7 +88,7 @@ const styles = ScaledSheet.create({
     borderWidth: 1.5,
     borderColor: color.palette.deepGray,
     borderRadius: '3@s',
-    paddingVertical: '5.5@vs'
+    paddingVertical: 7.5
   },
   label:{
     marginBottom: '4@s',
@@ -102,9 +102,9 @@ const styles = ScaledSheet.create({
   errorMessage: {
     fontFamily: 'Inter-Medium',
     color: color.palette.angry,
-    fontSize: '13@ms',
+    fontSize: '12@ms',
     marginTop: '10@s',
     position: 'absolute',
-    top: '-5@s'
+    top: '-7@s'
   }
 });

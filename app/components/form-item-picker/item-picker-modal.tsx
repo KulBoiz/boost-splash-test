@@ -4,7 +4,13 @@ import Modal from "react-native-modal"
 import { ScaledSheet } from "react-native-size-matters"
 import { color } from "../../theme"
 import { AppText } from "../app-text/AppText"
-import { CONTAINER_PADDING, FONT_SEMI_BOLD_14, MARGIN_BOTTOM_16, TEXT_CENTER } from "../../styles/common-style"
+import {
+  CONTAINER_PADDING,
+  FONT_SEMI_BOLD_14,
+  MARGIN_BOTTOM_16, MARGIN_BOTTOM_24,
+  MARGIN_TOP_16,
+  TEXT_CENTER,
+} from "../../styles/common-style"
 import FastImage from "react-native-fast-image"
 import { images } from "../../assets/images"
 import SearchBar from "../search-bar"
@@ -50,13 +56,13 @@ const ItemPickerModal = React.memo((props: Props) => {
       onBackdropPress={closeModal}
     >
       <View style={styles.body}>
-        <AppText value={label} style={[FONT_SEMI_BOLD_14, MARGIN_BOTTOM_16, TEXT_CENTER]} />
-        {onChangeSearchText && <View style={CONTAINER_PADDING}><SearchBar onChangeSearchText={onChangeSearchText} /></View>}
+        <AppText value={label} style={[FONT_SEMI_BOLD_14, MARGIN_BOTTOM_24, TEXT_CENTER]} />
+        {onChangeSearchText && <View style={[CONTAINER_PADDING, MARGIN_BOTTOM_16]}><SearchBar onChangeSearchText={onChangeSearchText} /></View>}
         <FlatList
           data={data}
           renderItem={renderItem}
           keyExtractor={(item, index) => index.toString()}
-          contentContainerStyle={CONTAINER_PADDING}
+          contentContainerStyle={[CONTAINER_PADDING]}
         />
       </View>
     </Modal>
@@ -76,7 +82,7 @@ const styles = ScaledSheet.create({
   },
   body: {
     paddingTop: '20@s',
-    flex: 0.5,
+    flex: 0.6,
     backgroundColor: color.background,
     borderRadius: '8@s',
   },

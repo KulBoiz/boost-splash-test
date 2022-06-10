@@ -13,7 +13,7 @@ import { RouteProp, useRoute } from "@react-navigation/native"
 import { NavigatorParamList } from "../../navigators"
 import { ScreenNames } from "../../navigators/screen-names"
 import { useStores } from "../../models";
-import SettingAuthScreen from "../../components/app-niew-no-auth";
+import SettingAuthScreen from "../../components/app-view-no-auth";
 
 interface Props { }
 

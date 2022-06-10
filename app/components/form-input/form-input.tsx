@@ -14,7 +14,7 @@ export interface FormInputProps extends TextFieldProps, UseControllerProps{
   placeholderTx?: TxKeyPath
   labelTx?: TxKeyPath
   txOptions?: i18n.TranslateOptions
-  control: Control<FieldValues, object>,
+  control: Control,
   error: string | undefined,
   style?: ViewStyle | any,
   defaultValue?: string,
@@ -33,7 +33,7 @@ const FormInput = React.memo((props: FormInputProps) => {
     error,
     style,
     rules,
-    defaultValue,
+    defaultValue = '',
     showIcon = false,
     multiline,
     ...rest
@@ -48,6 +48,7 @@ const FormInput = React.memo((props: FormInputProps) => {
         rules={rules}
         render={({ field: { onChange, onBlur, value, ref } }) => (
           <TextField
+            forwardedRef={ref}
             label={label}
             labelTx={labelTx}
             placeholder={placeholder}

@@ -244,7 +244,7 @@ textAlign: center;
 </li>
 <li>
 <span>
-2. Triển khai các hoạt động truyền thông, quảng bá giới thiệu Sản Phẩm, thương hiệu (qua nhiều hình thức đa dạng như: trực tuyến, trực tiếp) của TULIP và/hoặc bên Đối Tác của TULIP.{' '}
+2. Triển khai các hoạt động truyền thông, quảng bá giới thiệu Sản Phẩm, thương hiệu (qua nhiều hình thức đa dạng như: trực tuyến, trực tiếp) của TULIP và/hoặc bên Đối Tác của TULIP.
 </span>
 </li>
 <li>
@@ -627,7 +627,7 @@ kia; iii) Do thực hiện quyết định của cơ quan quản lý nhà nướ
 không thể biết được vào thời điểm giao kết Hợp Đồng. Để được miễn trừ trách nhiệm, Bên
 vi phạm phải ngay lập tức gửi thông báo bằng văn bản đến Bên kia từ ngày biết/phải biết
 về việc mình không thể thực hiện đúng Hợp Đồng và sẽ cố gắng ngăn chặn hoặc giảm đến mức
-tối thiểu ảnh hưởng của các nguyên nhân trên.{' '}
+tối thiểu ảnh hưởng của các nguyên nhân trên.
 </span>
 </li>
 <li style="display: flex; lineHeight: 20px">
@@ -652,8 +652,20 @@ nhau, mỗi Bên giữ 01 (một) bản.
 </p>
 <p>
 <em>
+<span>(Ký tên, đóng dấu)</span>
+</em>
+</p>
+<img
+src="https://storage.googleapis.com/image-fina/upload/fina/sign_ceo.png"
+style="width: 170px" alt=""
+/>
+<p>
+<strong>
+<span>PHẠM ANH KH&Ocirc;I</span>
+</strong>
 
 </p>
+
 </td>
 <td>
 <p>
