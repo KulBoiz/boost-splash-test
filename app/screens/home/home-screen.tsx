@@ -15,6 +15,7 @@ import HomeBanner from "./components/home-banner"
 import Insurance from "./insurance"
 import { color } from "../../theme"
 import { useStores } from "../../models"
+import BankItem from "../new-home/components/bank-item"
 
 
 

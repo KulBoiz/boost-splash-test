@@ -1,4 +1,5 @@
 export const images = {
+  home_finance: require('./home/home-finance.png'),
   avatar: require('./avatar.png'),
   arrowLeft: require('./arrowLeft.png'),
   arrow_down: require('./arrow_down.png'),

@@ -18,16 +18,17 @@ interface Props{ }
 
 const ViewContract = React.memo((props: Props) => {
   const {agentStore} = useStores()
-  const [signature, setSignature] = useState<any>(null)
+  const [signature, setSignature] = useState<any>('')
   const [user, setUser] = useState<any>()
 
   useEffect(() => {
     agentStore.getDetailAgent().then((res) => {
+      console.log(res.data)
       setSignature(res?.data?.identification?.signature?.url)
       setUser(res?.data)
     })
-  }, [user])
-
+  }, [])
+  console.log(signature)
   return (
     <View style={styles.container}>
       <AppHeader headerText={'Kí hợp đồng '} isBlue onLeftPress={()=> navigate(ScreenNames.SETTING)}/>
@@ -40,7 +41,7 @@ const ViewContract = React.memo((props: Props) => {
             idNumber: user?.idNumber,
             issuedOn: moment(user?.issuedOn).format('DD/MM/YYYY'),
             placeOfIssue: user?.identification?.placeOfIssue,
-            address: user?.address + (user?.subDistrictName || '') + (user?.stateName || ''),
+            address: user?.address ?? '' + (user?.subDistrictName || '') + (user?.stateName || ''),
             email: user?.emails?.[0]?.email,
             tel: user?.tels?.[0]?.tel,
             bankAccount: user?.banks?.[0]?.bankAccount,
@@ -49,7 +50,12 @@ const ViewContract = React.memo((props: Props) => {
         />
 
         <View style={{ width: '40%', position: 'absolute', bottom: 30, right: 50, alignItems: 'center' }}>
-          <FastImage source={{uri: signature}} style={{width: 100, height: 100, top: s(-100 )}}/>
+          <FastImage
+            source={{
+              uri: signature,
+              cache: 'web'
+          }}
+            style={{width: 100, height: 100, top: s(-100 )}}/>
         </View>
         <View style={{height: 50}}/>
       </ScrollView>
