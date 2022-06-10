@@ -81,15 +81,15 @@ const HistoryItem = React.memo((props: Props) => {
     },[])}>
       <View style={[ROW, SPACE_BETWEEN]}>
         <View style={ALIGN_CENTER}>
-        {item?.createBy?.avatar ? <FastImage source={{ uri: item?.createBy?.avatar }} style={styles.avatar} /> :
+        {item?.createdBy?.avatar ? <FastImage source={{ uri: item?.createdBy?.avatar }} style={styles.avatar} /> :
           <DefaultAvatarSvg width={s(48)} height={s(48)} style={styles.avatarContainer} />
         }
         {!isLastItem && <DashedLine axis='vertical' dashLength={10} dashThickness={1.5} dashGap={9} dashColor='blue' style={[styles.dashLine, {height: itemHeight}]} /> }
         </View>
         <View style={{ flex: 1, marginLeft: 16 }}>
-          <ItemView title={item?.createBy?.fullName} titleStyle={styles.title} content={renderContent()} />
+          <ItemView title={item?.createdBy?.fullName} titleStyle={styles.title} content={renderContent()} />
 
-          <AppText value={item?.createBy?.type === 'teller' ? 'Nhân viên tài chính' : 'chuyên viên tư vấn FINA'} style={styles.role} capitalize />
+          <AppText value={item?.createdBy?.type === 'teller' ? 'Nhân viên tài chính' : 'chuyên viên tư vấn FINA'} style={styles.role} capitalize />
 
           <AppText value={renderDetail()} capitalize />
 
