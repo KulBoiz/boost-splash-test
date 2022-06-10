@@ -19,7 +19,7 @@ const BankerListLoanScreen: FC<Props> = observer((props: Props) => {
   const { bankerStore } = useStores()
 
   useEffect(() => {
-    bankerStore.getSurveyResults()
+    bankerStore.getSurveyResults({}, { page: 1, limit: 20 })
   }, [])
 
   const showDetail = useCallback(

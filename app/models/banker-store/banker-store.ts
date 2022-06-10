@@ -1,5 +1,5 @@
 import { flow, Instance, SnapshotOut, types } from "mobx-state-tree"
-import { BankerApi } from "../../services/api/banker-api"
+import { BaseApi } from "../../services/api/base-api"
 import { withEnvironment } from "../extensions/with-environment"
 import { groupBy, map, orderBy } from "lodash"
 import moment from "moment"
@@ -8,25 +8,48 @@ import moment from "moment"
  * Model description here for TypeScript hints.
  */
 
-const pathStore = "organizations"
+const PagingParamsModel = types.optional(
+  types.model({
+    page: 1,
+    limit: 20,
+  }),
+  {},
+)
+
+export type PagingParamsType = Instance<typeof PagingParamsModel>
 
 export const BankerStoreModel = types
   .model("BankerStore")
   .extend(withEnvironment)
   .props({
+    isRefreshing: false,
+    isLoadingMore: false,
+    pagingParams: PagingParamsModel,
     surveyResults: types.optional(types.frozen(), {}),
   })
   .views((self) => ({}))
   .views((self) => ({
     get api() {
-      return new BankerApi(self.environment.api)
+      return new BaseApi(self.environment.api)
     },
   })) // eslint-disable-line @typescript-eslint/no-unused-vars
   .actions((self) => ({
-    getSurveyResults: flow(function* getSurveyResults(params?: any) {
-      const param = {
+    getSurveyResults: flow(function* getSurveyResults(
+      params?: any,
+      pagingParams?: PagingParamsType,
+      isRefresh = true,
+    ) {
+      if (isRefresh) {
+        self.isRefreshing = true
+      } else {
+        self.isLoadingMore = true
+      }
+      const _pagingParams: any = {
+        ...self.pagingParams,
+        ...pagingParams,
+      }
+      const result = yield self.api.get("/survey-results/search-for-teller", {
         filter: {
-          limit: 20,
           order: ["sharedAt asc"],
           skip: 0,
           include: [
@@ -38,30 +61,41 @@ export const BankerStoreModel = types
             },
           ],
           where: {
-            _q: "",
+            _q: params?.search,
             status: "deal_processing_task",
           },
         },
-        page: 1,
-        ...params,
+        limit: pagingParams?.limit,
+        page: pagingParams?.page,
+      })
+      self.isRefreshing = false
+      self.isLoadingMore = false
+      if (result.kind === "ok") {
+        const data = result?.data?.data
+        const dataGroup = groupBy(
+          map(data, (item) => ({
+            ...item,
+            dateGroup: moment(item.sharedAt).format("MM/YYYY"),
+          })),
+          "dateGroup",
+        )
+        const surveyResults = Object.keys(dataGroup).map((key) => ({
+          data: dataGroup[key],
+          title: `YCTV mới (${key})`,
+        }))
+        __DEV__ && console.tron.log(surveyResults)
+        self.pagingParams = _pagingParams
+        if (isRefresh) {
+          self.surveyResults = surveyResults
+        } else {
+          self.surveyResults = self.surveyResults.concat(surveyResults)
+        }
+      } else {
+        return result
       }
-      const result = yield self.api.getSurveyResults(param)
       if (result.kind !== "ok") {
         return result
       }
-      const data = groupBy(
-        map(result?.data?.data, (item) => ({
-          ...item,
-          dateGroup: moment(item.sharedAt).format("MM/YYYY"),
-        })),
-        "dateGroup",
-      )
-      // Object.keys(data).map((key) => ({
-      //   data: data[key],
-      //   title: data?.[key]?.[0]?.sub_category_name?.[0] || "",
-      //   description: data?.[key]?.[0]?.sub_category_description?.[0] || "",
-      // }))
-      console.tron.log(data)
     }),
   })) // eslint-disable-line @typescript-eslint/no-unused-vars
 
