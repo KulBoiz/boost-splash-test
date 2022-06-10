@@ -1,6 +1,6 @@
-import { TxKeyPath } from "../../i18n"
-import { images } from "../../assets/images"
-import { color } from "../../theme"
+import { TxKeyPath } from "../../../../i18n"
+import { images } from "../../../../assets/images"
+import { color } from "../../../../theme"
 
 export const carousel = [
   {

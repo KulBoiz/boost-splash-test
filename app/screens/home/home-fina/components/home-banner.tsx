@@ -1,14 +1,14 @@
 import React, { useCallback, useEffect, useRef, useState } from "react"
 import { Pressable, View } from "react-native"
 import { observer } from "mobx-react-lite"
-import { width } from "../../../constants/variable"
-import PaginationDot from "../../../components/pagination-dot/pagination-dot"
+import { width } from "../../../../constants/variable"
+import PaginationDot from "../../../../components/pagination-dot/pagination-dot"
 import FastImage from "react-native-fast-image"
 import Carousel from 'react-native-snap-carousel';
 import { ScaledSheet } from "react-native-size-matters"
-import { useStores } from "../../../models"
-import { ScreenNames } from "../../../navigators/screen-names"
-import { navigate } from "../../../navigators"
+import { useStores } from "../../../../models"
+import { ScreenNames } from "../../../../navigators/screen-names"
+import { navigate } from "../../../../navigators"
 
 interface Props{}
 
