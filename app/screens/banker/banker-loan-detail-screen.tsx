@@ -1,0 +1,230 @@
+/* eslint-disable react-native/no-color-literals */
+import React, { FC, useCallback, useEffect } from "react"
+import { StyleSheet } from "react-native"
+import { observer } from "mobx-react-lite"
+import AppHeader from "../../components/app-header/AppHeader"
+import { useStores } from "../../models"
+import { useNavigation } from "@react-navigation/native"
+import { ScreenNames } from "../../navigators/screen-names"
+import { HeaderBgSvg, SearchNormalSvg, FilterSvg } from "../../assets/svgs"
+import { Box, HStack, Input, Pressable, ScrollView, SectionList } from "native-base"
+import { s, vs } from "react-native-size-matters"
+import { translate } from "../../i18n"
+import { Text } from "../../components"
+import { FastImage } from "../../components/fast-image/fast-image"
+import PopupReject from "./components/popup-reject"
+import PopupConfirm from "./components/popup-confirm"
+
+interface Props {}
+
+const BankerLoanDetailScreen: FC<Props> = observer((props: Props) => {
+  const navigation = useNavigation()
+  const { bankerStore } = useStores()
+
+  useEffect(() => {
+    bankerStore.getSurveyResults()
+  }, [])
+
+  const customerInfoData = [
+    { label: "Họ tên:", value: "Nguyễn Văn A" },
+    { label: "Giới tính:", value: "Nam" },
+    { label: "Phương án:", value: "-" },
+    { label: "Yêu cầu:", value: "-" },
+    { label: "Thông tin bổ sung:", value: "-" },
+  ]
+
+  const otherInfoData = [
+    { label: "Sản phẩm vay:", value: "Vay mua xe" },
+    { label: "Khoảng vay đề nghị:", value: "1.200.000.000vnđ" },
+    { label: "Thu thập hàng tháng:", value: "12.000.000vnđ" },
+    { label: "Thời gian vay:", value: "5 năm" },
+    { label: "Lãi suất mong muốn:", value: "12% / năm" },
+    { label: "Chi phí hàng tháng:", value: "10.000.000vnđ" },
+    { label: "Được tạo bởi:", value: "Nguyễn văn a" },
+    { label: "Ngày tiếp nhận:", value: "02 / 06 / 2022  |  15:18" },
+  ]
+
+  const documents = [
+    "Xác nhận tình trạng hôn nhân",
+    "CMND Mới / Cũ (Nếu có) của Vợ / Chồng KH",
+    "Hộ khẩu (Sao y/ Chụp hình)",
+    "Sổ tạm trú",
+    "Giấy đăng ký kết hôn (Sao y)",
+    "Hộ chiếu",
+    "CMND/CCCD của 2 vợ chồng",
+  ]
+
+  const notes = [
+    { label: "Nhân viên ngân hàng", value: "Lương hằng tháng của KH là bao nhiêu?" },
+    { label: "Nhân viên FINA", value: "Khách hàng khai báo tổng thu nhập là 5 triệu" },
+    { label: "Admin ngân hàng", value: "Ok. Tiếp nhận hồ sơ" },
+  ]
+
+  const renderItem = useCallback((item, index) => {
+    return (
+      <HStack key={index} mt={index ? 3 : 0} justifyContent="space-between" alignItems="center">
+        <Text
+          color="lighterGray"
+          fontSize={14}
+          lineHeight={20}
+          fontWeight="400"
+          text={item.label}
+        />
+        <Text
+          color="black"
+          fontSize={14}
+          lineHeight={20}
+          fontWeight="500"
+          text={item.value}
+          textTransform="capitalize"
+        />
+      </HStack>
+    )
+  }, [])
+
+  return (
+    <Box flex="1" bg="lightBlue">
+      <AppHeader
+        renderTitle={
+          <Box
+            position="absolute"
+            bottom="4.0"
+            left="0"
+            right="0"
+            justifyContent="flex-end"
+            alignItems="center"
+            pointerEvents="none"
+          >
+            <Text
+              color="ebony"
+              fontSize={14}
+              lineHeight={20}
+              fontWeight="700"
+              text="Trần Minh Tuấn"
+            />
+            <Text
+              color="grayChateau"
+              fontSize={12}
+              lineHeight={17}
+              fontWeight="600"
+              text="YCTV - 12354"
+            />
+          </Box>
+        }
+      />
+      <ScrollView>
+        <Box mt="6" mx="4">
+          <Box bg="white" borderRadius="8" p="4">
+            <Text color="ebony" fontSize={14} lineHeight={20} fontWeight="600" text="Khách hàng" />
+            <Box height="1.0" my="3" bg="iron" opacity={0.5} />
+            {customerInfoData.map((item, index) => renderItem(item, index))}
+            {otherInfoData.map((item, index) => renderItem(item, index))}
+          </Box>
+          <Box bg="white" borderRadius="8" p="4" mt="4">
+            <Text
+              color="ebony"
+              fontSize={14}
+              lineHeight={20}
+              fontWeight="600"
+              text="Thông tin khoảng vay"
+            />
+            <Box height="1.0" my="3" bg="iron" opacity={0.5} />
+            {otherInfoData.map((item, index) => renderItem(item, index))}
+          </Box>
+          <Box bg="white" borderRadius="8" p="4" mt="4">
+            <Text
+              color="ebony"
+              fontSize={14}
+              lineHeight={20}
+              fontWeight="600"
+              text="Các hồ sơ cần chuẩn bị"
+            />
+            <Box height="1.0" my="3" bg="iron" opacity={0.5} />
+            {documents.map((item, index) => (
+              <HStack key={index} mt={index ? 3 : 0} alignItems="center">
+                <Box width="1" height="1" rounded="full" bg="black" mr="1" />
+                <Text
+                  color="black"
+                  fontSize={12}
+                  lineHeight={17}
+                  fontWeight="400"
+                  text={item}
+                  textTransform="capitalize"
+                />
+              </HStack>
+            ))}
+          </Box>
+          <Box bg="white" borderRadius="8" p="4" mt="4">
+            <Text
+              color="ebony"
+              fontSize={14}
+              lineHeight={20}
+              fontWeight="600"
+              text="Ghi chú chung"
+            />
+            <Box height="1.0" my="3" bg="iron" opacity={0.5} />
+            {notes.map((item, index) => (
+              <HStack key={index} mt={index ? 3 : 0} alignItems="center">
+                <FastImage
+                  source={{
+                    uri:
+                      "https://cdn.pixabay.com/photo/2016/08/08/09/17/avatar-1577909_960_720.png",
+                  }}
+                  w={s(32)}
+                  h={s(32)}
+                  rounded="full"
+                />
+                <Box flex={1} ml="3">
+                  <Text
+                    color="grayChateau"
+                    fontSize={12}
+                    lineHeight={17}
+                    fontWeight="600"
+                    text={item.label}
+                    textTransform="capitalize"
+                  />
+                  <Text
+                    color="ebony"
+                    fontSize={12}
+                    lineHeight={17}
+                    fontWeight="400"
+                    text={item.value}
+                    textTransform="capitalize"
+                    mt="0.5"
+                  />
+                </Box>
+              </HStack>
+            ))}
+          </Box>
+          <HStack mt="4" mb="6">
+            <Pressable
+              flex="1"
+              bg="white"
+              borderWidth="1"
+              h={vs(51)}
+              borderRadius="8"
+              borderColor="primary"
+              alignItems="center"
+              justifyContent="center"
+            >
+              <Text fontSize={16} fontWeight="600" color="primary" tx="banker.reject" />
+            </Pressable>
+            <Pressable
+              flex="1"
+              h={vs(51)}
+              borderRadius="8"
+              bg="primary"
+              alignItems="center"
+              justifyContent="center"
+              ml="4"
+            >
+              <Text fontSize={16} fontWeight="600" color="white" tx="banker.approve" />
+            </Pressable>
+          </HStack>
+        </Box>
+      </ScrollView>
+    </Box>
+  )
+})
+
+export default BankerLoanDetailScreen

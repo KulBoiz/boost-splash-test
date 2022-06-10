@@ -37,4 +37,5 @@ export enum ScreenNames {
   SIGN_CONTRACT = "SignContract",
   VIEW_CONTRACT = "ViewContract",
   BANKER_LIST_LOAN_SCREEN = "BankerListLoanScreen",
+  BANKER_LOAN_DETAIL_SCREEN = "BankerLoanDetailScreen",
 }

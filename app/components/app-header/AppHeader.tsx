@@ -21,6 +21,7 @@ const AppHeader = React.memo((props: AppHeaderProps) => {
     renderLeftIcon,
     headerText,
     headerTx,
+    renderTitle,
     style,
     titleStyle,
     isBlue = false,
@@ -54,12 +55,14 @@ const AppHeader = React.memo((props: AppHeaderProps) => {
         </Button>
       )}
 
-      <View style={styles.titleView}>
-        <Text
-          style={[styles.title, titleStyle, { color: isBlue ? color.text : color.palette.black }]}
-          text={header}
-        />
-      </View>
+      {renderTitle || (
+        <View style={styles.titleView}>
+          <Text
+            style={[styles.title, titleStyle, { color: isBlue ? color.text : color.palette.black }]}
+            text={header}
+          />
+        </View>
+      )}
 
       {renderRightIcon ? (
         <Button preset="link" onPress={onRightPress} style={width}>

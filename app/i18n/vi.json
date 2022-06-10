@@ -1,9 +1,11 @@
 {
   "common": {
     "ok": "OK!",
-    "cancel": "Cancel",
+    "cancel": "Hủy",
+    "sure": "Chắc chắn",
     "back": "Quay lại",
     "continue": "Tiếp tục",
+    "confirm": "Xác nhận",
     "start": "Bắt đầu",
     "sent": "Gửi",
     "sentCheck": "Gửi kiểm tra",
@@ -243,7 +245,9 @@
     "verifyNow": "Xác thực ngay"
   },
   "banker": {
-    "searchPleacholder": "Tìm theo tên, số điện thoại"
+    "searchPleacholder": "Tìm theo tên, số điện thoại",
+    "reject": "Từ chối",
+    "approve": "Tiếp nhận"
   },
   "errors": {
     "customerFullName": "Vui lòng nhập tên người mua",

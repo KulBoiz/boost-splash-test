@@ -22,6 +22,11 @@ const BankerListLoanScreen: FC<Props> = observer((props: Props) => {
     bankerStore.getSurveyResults()
   }, [])
 
+  const showDetail = useCallback(
+    (data) => navigation.navigate(ScreenNames.BANKER_LOAN_DETAIL_SCREEN, { data }),
+    [],
+  )
+
   const renderSectionHeader = useCallback(({ section: { title } }) => {
     return (
       <HStack
@@ -42,6 +47,7 @@ const BankerListLoanScreen: FC<Props> = observer((props: Props) => {
   const renderItem = useCallback(({ item, index }) => {
     return (
       <Pressable
+        onPress={() => showDetail(item)}
         height={vs(110)}
         borderRadius={8}
         bg="white"
@@ -157,6 +163,7 @@ const BankerListLoanScreen: FC<Props> = observer((props: Props) => {
         keyExtractor={(_, index) => index.toString()}
         renderItem={renderItem}
         renderSectionHeader={renderSectionHeader}
+        stickySectionHeadersEnabled
       />
     </Box>
   )
