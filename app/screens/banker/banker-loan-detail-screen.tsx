@@ -54,7 +54,7 @@ const BankerLoanDetailScreen: FC = observer((props: any) => {
           data: {
             bankNote: note,
             userId: authStoreModel.userId,
-            orgId: data?.orgId,
+            orgId: authStoreModel?.user?.orgId,
             responseStatus: "reject",
             responseDate: new Date().toISOString(),
           },
@@ -83,7 +83,7 @@ const BankerLoanDetailScreen: FC = observer((props: any) => {
               propertyValuation: data.propertyValuation,
             },
             userId: authStoreModel.userId,
-            orgId: data?.orgId,
+            orgId: authStoreModel?.user?.orgId,
             responseStatus: "received",
             responseDate: new Date().toISOString(),
           },
