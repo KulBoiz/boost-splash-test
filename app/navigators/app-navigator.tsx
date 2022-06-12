@@ -22,6 +22,8 @@ import BannerDetail from "../screens/home/home-fina/banner-detail"
 import { AgentStack } from "./agent-stack"
 import BankerListLoanScreen from "../screens/banker/banker-list-loan-screen"
 import BankerLoanDetailScreen from "../screens/banker/banker-loan-detail-screen"
+import BankerListRequestScreen from "../screens/banker/banker-list-request-screen"
+import BankerRequestDetailScreen from "../screens/banker/banker-request-detail-screen"
 
 export type NavigatorParamList = {
   [ScreenNames.SPLASH]: undefined
@@ -45,6 +47,8 @@ export type NavigatorParamList = {
   [ScreenNames.PHOTO_PICKER]: {
     onConfirm?: (photo) => void
   }
+  [ScreenNames.BANKER_LIST_REQUEST_SCREEN]: undefined
+  [ScreenNames.BANKER_REQUEST_DETAIL_SCREEN]: { data: any }
   [ScreenNames.BANKER_LIST_LOAN_SCREEN]: undefined
   [ScreenNames.BANKER_LOAN_DETAIL_SCREEN]: { data: any }
 }
@@ -90,6 +94,14 @@ const RootStack = () => {
       <Stack.Screen name={ScreenNames.INTRODUCE_SCREEN} component={IntroduceScreen} />
       <Stack.Screen name={ScreenNames.BANNER_DETAIL} component={BannerDetail} />
       <Stack.Screen name={ScreenNames.PHOTO_PICKER} component={PhotoPickerScreen} />
+      <Stack.Screen
+        name={ScreenNames.BANKER_LIST_REQUEST_SCREEN}
+        component={BankerListRequestScreen}
+      />
+      <Stack.Screen
+        name={ScreenNames.BANKER_REQUEST_DETAIL_SCREEN}
+        component={BankerRequestDetailScreen}
+      />
       <Stack.Screen name={ScreenNames.BANKER_LIST_LOAN_SCREEN} component={BankerListLoanScreen} />
       <Stack.Screen
         name={ScreenNames.BANKER_LOAN_DETAIL_SCREEN}

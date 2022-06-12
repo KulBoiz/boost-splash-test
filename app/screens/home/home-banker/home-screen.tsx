@@ -37,7 +37,7 @@ export const BankHomeScreen = observer(({ navigation }) => {
   // console.log(SurveyResultBase(surveyResults));
 
   const onRightPress = () => {
-    navigate(ScreenNames.BANKER_LIST_LOAN_SCREEN)
+    navigate(ScreenNames.BANKER_LIST_REQUEST_SCREEN)
   }
 
   const _renderItem = ({ item }) => {
