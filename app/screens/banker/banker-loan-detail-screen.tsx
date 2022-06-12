@@ -4,23 +4,23 @@ import { observer } from "mobx-react-lite"
 import AppHeader from "../../components/app-header/AppHeader"
 import { useStores } from "../../models"
 import { useNavigation } from "@react-navigation/native"
-import { Avatar, Box, Button, HStack, Pressable, ScrollView } from "native-base"
+import { Avatar, Box, Button, HStack, Pressable, ScrollView, useToast } from "native-base"
 import { s, vs } from "react-native-size-matters"
 import { Text } from "../../components"
 import PopupAlert from "./components/popup-alert"
 import numeral from "numeral"
 import moment from "moment"
-import { CallSvg, EditSvg, NotificationSvg, PictureSvg } from "../../assets/svgs"
+import { CallSvg, EditSvg, NotificationSvg } from "../../assets/svgs"
 import { Linking } from "react-native"
 import DocumentView from "./components/document-view"
 import BankerLoanSteps from "./components/banker-loan-steps"
 import { LOAN_STATUS_TYPES, LOAN_STEP_INDEX, TRANSACTION_STATUS_TYPES } from "./constants"
 import { flatten, map } from "../../utils/lodash-utils"
-import CollapsibleInfoUpload from "../loan-profile/components/collapsible-info-upload"
 
 const BankerLoanDetailScreen: FC = observer((props: any) => {
   const navigation = useNavigation()
   const { bankerStore, authStoreModel } = useStores()
+  const toast = useToast()
 
   const [notes, setNotes] = useState<any>([])
   const [alert, setAlert] = useState<any>({
@@ -37,18 +37,19 @@ const BankerLoanDetailScreen: FC = observer((props: any) => {
   const [transactionDetail, setTransactionDetail] = useState<any>({})
 
   const objectId = data?.dealDetails?.[0]?.dealId
+  const dealDetailId = data?.dealDetails?.[0]?.id
 
   const getNotes = useCallback(async () => {
-    const result = await bankerStore.getNotes(data?.dealDetails?.[0]?.id)
+    const result = await bankerStore.getNotes(dealDetailId)
     setNotes(result)
-  }, [data])
+  }, [data, dealDetailId])
 
   const getTransactionDeal = useCallback(async () => {
-    const result = await bankerStore.getTransactionDeal(objectId, data?.dealDetails?.[0]?.id)
+    const result = await bankerStore.getTransactionDeal(objectId, dealDetailId)
     if (result?.length) {
       setTransactionDetail(result[0])
     }
-  }, [data])
+  }, [data, dealDetailId])
 
   const getGuestDocument = useCallback(async () => {
     if (data.documentTemplateId) {
@@ -80,13 +81,11 @@ const BankerLoanDetailScreen: FC = observer((props: any) => {
   }, [bankerStore.documentTemplates, bankerStore.documentTemplateFiles])
 
   const onReject = useCallback(() => {
-    setTimeout(() => {
-      setAlert({
-        visible: true,
-        type: "reject",
-        message: "Bạn có chắc muốn từ chối\nhồ sơ này?",
-      })
-    }, 500)
+    setAlert({
+      visible: true,
+      type: "reject",
+      message: "Bạn có chắc muốn từ chối\nhồ sơ này?",
+    })
   }, [data, authStoreModel.userId])
 
   const onExpertise = useCallback(() => {
@@ -101,7 +100,13 @@ const BankerLoanDetailScreen: FC = observer((props: any) => {
   }, [data, authStoreModel.userId])
 
   const onAlertConfirm = useCallback(async () => {
+    const result = await bankerStore.updateDealStatus(dealDetailId, alert.status, objectId)
     setAlert({ visible: false })
+    if (result) {
+      toast.show({
+        description: result,
+      })
+    }
   }, [alert, navigation])
 
   const renderNotes = useCallback(() => {
@@ -198,11 +203,6 @@ const BankerLoanDetailScreen: FC = observer((props: any) => {
   }, [])
 
   const renderDocuments = useCallback(() => {
-    const noPhoto = () => (
-      <Box flex={1} height={152} alignItems="center" justifyContent="center" bg="#C4C4C4">
-        <PictureSvg />
-      </Box>
-    )
     return (
       <Box mt={vs(16)}>
         <Text
@@ -269,30 +269,44 @@ const BankerLoanDetailScreen: FC = observer((props: any) => {
   }, [transactionDetail])
 
   const renderFooterButton = useCallback(() => {
+    const buttonConfirm = (title, onPress) => (
+      <Button
+        onPress={onPress}
+        bg="primary"
+        flex={1}
+        ml="4"
+        _text={{ fontWeight: "600", fontSize: 16 }}
+      >
+        {title}
+      </Button>
+    )
+    const buttonReject = () => (
+      <Button
+        onPress={onReject}
+        bg="white"
+        borderWidth="1"
+        borderColor="orange"
+        flex={1}
+        _text={{ fontWeight: "600", fontSize: 16, color: "orange" }}
+      >
+        Từ chối
+      </Button>
+    )
     switch (data.status) {
       case LOAN_STATUS_TYPES.DISBURSING:
         return (
           <Box mt={vs(54)}>
             <HStack mt="4" mb="6">
-              <Button
-                onPress={onReject}
-                bg="white"
-                borderWidth="1"
-                borderColor="orange"
-                flex={1}
-                _text={{ fontWeight: "600", fontSize: 16, color: "orange" }}
-              >
-                Từ chối
-              </Button>
-              <Button
-                onPress={onExpertise}
-                bg="primary"
-                flex={1}
-                ml="4"
-                _text={{ fontWeight: "600", fontSize: 16 }}
-              >
-                Đã giải ngân
-              </Button>
+              {buttonReject()}
+              {buttonConfirm("Đã giải ngân", () => {
+                setAlert({
+                  visible: true,
+                  type: "confirm",
+                  message: "Hồ sơ đã hoàn tất giải ngân?",
+                  confirmText: "Hoàn tất",
+                  status: LOAN_STATUS_TYPES.DISBURSED,
+                })
+              })}
             </HStack>
           </Box>
         )
@@ -300,31 +314,7 @@ const BankerLoanDetailScreen: FC = observer((props: any) => {
         return null
 
       default:
-        return (
-          <Box mt={vs(54)}>
-            <HStack mt="4" mb="6">
-              <Button
-                onPress={onReject}
-                bg="white"
-                borderWidth="1"
-                borderColor="orange"
-                flex={1}
-                _text={{ fontWeight: "600", fontSize: 16, color: "orange" }}
-              >
-                Từ chối
-              </Button>
-              <Button
-                onPress={onExpertise}
-                bg="primary"
-                flex={1}
-                ml="4"
-                _text={{ fontWeight: "600", fontSize: 16 }}
-              >
-                Thẩm định
-              </Button>
-            </HStack>
-          </Box>
-        )
+        return null
     }
   }, [onReject, onExpertise])
 
@@ -467,6 +457,7 @@ const BankerLoanDetailScreen: FC = observer((props: any) => {
         rejectText={alert.rejectText}
         onClose={() => setAlert({ visible: false })}
         onConfirm={onAlertConfirm}
+        loading={bankerStore.isUpdating}
       />
     </Box>
   )

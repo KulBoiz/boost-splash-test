@@ -21,6 +21,7 @@ export const BankerStoreModel = types
   .model("BankerStore")
   .extend(withEnvironment)
   .props({
+    isUpdating: false,
     isRefreshingListRequest: false,
     isLoadingMoreListRequest: false,
     pagingParamsListRequest: PagingParamsModel,
@@ -238,14 +239,16 @@ export const BankerStoreModel = types
       }
     }),
     updateDealStatus: flow(function* updateDealStatus(dealDetailId, status, dealId) {
-      const result = yield self.api.put(`deal-details/update-status/$${dealDetailId}`, {
+      self.isUpdating = true
+      const result = yield self.api.put(`deal-details/update-status/${dealDetailId}`, {
         status,
         dealId,
       })
+      self.isUpdating = false
       if (result.kind === "ok") {
-        return result?.data?.data
+        return result?.data?.status
       } else {
-        return []
+        return null
       }
     }),
   })) // eslint-disable-line @typescript-eslint/no-unused-vars

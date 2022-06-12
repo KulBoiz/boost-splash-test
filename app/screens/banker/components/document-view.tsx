@@ -50,6 +50,8 @@ const DocumentView = React.memo(({ data, ...props }: Props) => {
           lineHeight="17"
           flex="1"
           text={data?.document?.name}
+          mr="3"
+          numberOfLines={1}
         />
         {!!collapsed && (
           <Text
