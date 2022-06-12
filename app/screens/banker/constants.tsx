@@ -21,6 +21,10 @@ export const LOAN_STATUS_TYPES = {
   DISBURSING: "disbursing",
   DISBURSED: "disbursed",
 }
+export const LOAN_STEP_INDEX = {
+  [LOAN_STATUS_TYPES.DISBURSING]: 5,
+  [LOAN_STATUS_TYPES.DISBURSED]: 7,
+}
 
 export const LOAN_STATUS_DATA = [
   { key: LOAN_STATUS_TYPES.ALL, text: "Tất cả" },

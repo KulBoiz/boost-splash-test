@@ -14,6 +14,7 @@ import { BellSvg, CallSvg, EditSvg, NotificationSvg, PictureSvg } from "../../as
 import { Linking } from "react-native"
 import DocumentView from "./components/document-view"
 import BankerLoanSteps from "./components/banker-loan-steps"
+import { LOAN_STATUS_TYPES, LOAN_STEP_INDEX } from "./constants"
 
 const BankerLoanDetailScreen: FC = observer((props: any) => {
   const navigation = useNavigation()
@@ -36,8 +37,13 @@ const BankerLoanDetailScreen: FC = observer((props: any) => {
     setNotes(result)
   }, [data])
 
+  const getTransactionDeal = useCallback(async () => {
+    const result = await bankerStore.getTransactionDeal(data?.dealDetails?.[0]?.id)
+  }, [data])
+
   useEffect(() => {
     getNotes()
+    getTransactionDeal()
   }, [])
 
   const onReject = useCallback(() => {
@@ -69,13 +75,7 @@ const BankerLoanDetailScreen: FC = observer((props: any) => {
     if (notes?.length)
       return (
         <Box bg="white" borderRadius="8" p="4" mt="4">
-          <Text
-            color="ebony"
-            fontSize={14}
-            lineHeight={20}
-            fontWeight="600"
-            text="Ghi chú của ngân hàng"
-          />
+          <Text color="ebony" size="semiBold14" text="Ghi chú của ngân hàng" />
           <Box height="1.0" my="3" bg="iron" opacity={0.5} />
           {notes.map((item, index) => (
             <HStack key={index} mt={index ? 3 : 0}>
@@ -117,7 +117,7 @@ const BankerLoanDetailScreen: FC = observer((props: any) => {
 
   const renderItem = useCallback((item, index: any, rightComponent?: any) => {
     return (
-      <HStack mt={index ? vs(15) : 0} key={index}>
+      <HStack mt={index ? vs(12) : 0} key={index}>
         <Text
           color="lighterGray"
           fontSize={14}
@@ -194,6 +194,7 @@ const BankerLoanDetailScreen: FC = observer((props: any) => {
           fontWeight="600"
           text="Quá trình giải ngân:"
         />
+        <Box height="1.0" my="3" bg="iron" opacity={0.5} />
         {renderItem(
           {
             label: "10.000.000vnđ",
@@ -212,31 +213,63 @@ const BankerLoanDetailScreen: FC = observer((props: any) => {
   }, [])
 
   const renderFooterButton = useCallback(() => {
-    return (
-      <Box mt={vs(54)}>
-        <HStack mt="4" mb="6">
-          <Button
-            onPress={onReject}
-            bg="white"
-            borderWidth="1"
-            borderColor="orange"
-            flex={1}
-            _text={{ fontWeight: "600", fontSize: 16, color: "orange" }}
-          >
-            Từ chối
-          </Button>
-          <Button
-            onPress={onExpertise}
-            bg="primary"
-            flex={1}
-            ml="4"
-            _text={{ fontWeight: "600", fontSize: 16 }}
-          >
-            Thẩm định
-          </Button>
-        </HStack>
-      </Box>
-    )
+    switch (data.status) {
+      case LOAN_STATUS_TYPES.DISBURSING:
+        return (
+          <Box mt={vs(54)}>
+            <HStack mt="4" mb="6">
+              <Button
+                onPress={onReject}
+                bg="white"
+                borderWidth="1"
+                borderColor="orange"
+                flex={1}
+                _text={{ fontWeight: "600", fontSize: 16, color: "orange" }}
+              >
+                Từ chối
+              </Button>
+              <Button
+                onPress={onExpertise}
+                bg="primary"
+                flex={1}
+                ml="4"
+                _text={{ fontWeight: "600", fontSize: 16 }}
+              >
+                Đã giải ngân
+              </Button>
+            </HStack>
+          </Box>
+        )
+      case LOAN_STATUS_TYPES.DISBURSED:
+        return null
+
+      default:
+        return (
+          <Box mt={vs(54)}>
+            <HStack mt="4" mb="6">
+              <Button
+                onPress={onReject}
+                bg="white"
+                borderWidth="1"
+                borderColor="orange"
+                flex={1}
+                _text={{ fontWeight: "600", fontSize: 16, color: "orange" }}
+              >
+                Từ chối
+              </Button>
+              <Button
+                onPress={onExpertise}
+                bg="primary"
+                flex={1}
+                ml="4"
+                _text={{ fontWeight: "600", fontSize: 16 }}
+              >
+                Thẩm định
+              </Button>
+            </HStack>
+          </Box>
+        )
+    }
   }, [onReject, onExpertise])
 
   return (
@@ -256,11 +289,11 @@ const BankerLoanDetailScreen: FC = observer((props: any) => {
         }
         renderRightIcon={<NotificationSvg />}
       />
-      <BankerLoanSteps activeIndex={0} mb="1" />
+      <BankerLoanSteps activeIndex={LOAN_STEP_INDEX[data.status]} mb="1" />
       <ScrollView>
         <Box mb="6" mx="4" mt="5">
           <Box bg="white" borderRadius="8" p="4">
-            <Text color="ebony" fontSize={14} lineHeight={20} fontWeight="600" text="Khách hàng" />
+            <Text color="ebony" size="semiBold14" text="Khách hàng" />
             <Box height="1.0" my="3" bg="iron" opacity={0.5} />
             {renderItem(
               { label: "Họ tên:", value: name },
@@ -274,13 +307,7 @@ const BankerLoanDetailScreen: FC = observer((props: any) => {
           </Box>
           <Box bg="white" borderRadius="8" p="4" mt={vs(8)}>
             <HStack alignItems="center" justifyContent="space-between">
-              <Text
-                color="ebony"
-                fontSize={14}
-                lineHeight={20}
-                fontWeight="600"
-                text="Hồ sơ cho vay"
-              />
+              <Text size="semiBold14" text="Hồ sơ cho vay" />
               <Pressable>
                 <EditSvg />
               </Pressable>
@@ -322,7 +349,7 @@ const BankerLoanDetailScreen: FC = observer((props: any) => {
           </Box>
           <Box bg="white" borderRadius="8" p="4" mt={vs(8)}>
             <HStack alignItems="center" justifyContent="space-between">
-              <Text color="ebony" fontSize={14} lineHeight={20} fontWeight="600" text="Kết quả" />
+              <Text color="ebony" size="semiBold14" text="Kết quả" />
               <Pressable>
                 <EditSvg />
               </Pressable>

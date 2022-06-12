@@ -81,6 +81,11 @@ export const theme = extendTheme({
           linHeight: 17,
           fontWeight: "600",
         },
+        semiBold14: {
+          fontSize: 14,
+          linHeight: 20,
+          fontWeight: "600",
+        },
         bold14: {
           fontSize: 14,
           linHeight: 20,

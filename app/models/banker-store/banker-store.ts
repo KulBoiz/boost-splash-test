@@ -180,6 +180,38 @@ export const BankerStoreModel = types
         return result
       }
     }),
+    getTransactionDeal: flow(function* getTransactionDeal(objectId, dealDetailId) {
+      const params = {
+        filter: {
+          where: {
+            objectId: objectId,
+            "metaData.dealDetailId": dealDetailId,
+            include: [
+              {
+                relation: "transactionDetails",
+              },
+            ],
+          },
+        },
+      }
+      const result = yield self.api.get("transactions", params)
+      if (result.kind === "ok") {
+        return result?.data?.data
+      } else {
+        return null
+      }
+    }),
+    updateDealStatus: flow(function* updateDealStatus(dealDetailId, status, dealId) {
+      const result = yield self.api.put(`deal-details/update-status/$${dealDetailId}`, {
+        status,
+        dealId,
+      })
+      if (result.kind === "ok") {
+        return result?.data?.data
+      } else {
+        return []
+      }
+    }),
   })) // eslint-disable-line @typescript-eslint/no-unused-vars
 
 type BankerStoreType = Instance<typeof BankerStoreModel>
