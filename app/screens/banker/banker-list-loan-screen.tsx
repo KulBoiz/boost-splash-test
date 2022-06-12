@@ -12,7 +12,7 @@ import { s, vs } from "react-native-size-matters"
 import { translate } from "../../i18n"
 import { Text } from "../../components"
 import { color } from "../../theme"
-import { groupBy, map } from "../../utils/lodash-utils"
+import { debounce, groupBy, map } from "../../utils/lodash-utils"
 import moment from "moment"
 import BankerLoanItem from "./components/banker-loan-item"
 import BankerLoanTab from "./components/banker-loan-tab"
@@ -32,7 +32,7 @@ const BankerListLoanScreen: FC<Props> = observer((props: Props) => {
     [],
   )
 
-  const getData = useMemo(() => {
+  const data = useMemo(() => {
     const dataGroup = groupBy(
       map(bankerStore.listLoan, (item) => ({
         ...item,
@@ -60,6 +60,16 @@ const BankerListLoanScreen: FC<Props> = observer((props: Props) => {
     }
   }, [bankerStore])
 
+  const onDebouncedSearch = React.useCallback(
+    debounce((value) => {
+      bankerStore.getListLoan({ search: value }, { page: 1, limit: 20 })
+    }, 500),
+    [],
+  )
+  const onChangeTab = useCallback((value) => {
+    bankerStore.getListLoan(value === "all" ? {} : { status: value }, { page: 1, limit: 20 })
+  }, [])
+
   const renderSectionHeader = useCallback(({ section: { title, data } }) => {
     return (
       <HStack alignItems="center" bg="lightBlue" px={s(16)} py={vs(6)}>
@@ -77,7 +87,7 @@ const BankerListLoanScreen: FC<Props> = observer((props: Props) => {
       return <Spinner color="primary" m="4" />
     }
     return <Box m="4" />
-  }, [bankerStore])
+  }, [bankerStore.isLoadingMoreListLoan])
 
   return (
     <Box flex="1" bg="lightBlue">
@@ -111,6 +121,7 @@ const BankerListLoanScreen: FC<Props> = observer((props: Props) => {
               selectionColor="primary"
               bg="white"
               _focus={{ bg: "white" }}
+              onChangeText={onDebouncedSearch}
             />
           </HStack>
           <Box height={vs(40)} px={s(16)}>
@@ -119,10 +130,10 @@ const BankerListLoanScreen: FC<Props> = observer((props: Props) => {
         </HStack>
       </Box>
       <Box mt={vs(24)} mb={vs(8)}>
-        <BankerLoanTab />
+        <BankerLoanTab onChangeTab={onChangeTab} />
       </Box>
       <SectionList
-        sections={getData}
+        sections={data}
         keyExtractor={(_, index) => index.toString()}
         renderItem={renderItem}
         renderSectionHeader={renderSectionHeader}

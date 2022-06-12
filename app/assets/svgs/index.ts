@@ -70,6 +70,13 @@ export { default as InfoSvg } from "./info.svg"
 export { default as HeaderBgSvg } from "./header-bg.svg"
 export { default as FilterSvg } from "./filter.svg"
 export { default as ArrowBankSvg } from "./arrow-bank.svg"
+export { default as CallSvg } from "./call.svg"
+export { default as EditSvg } from "./edit.svg"
+export { default as ChevronDownSvg } from "./chevron-down.svg"
+export { default as ChevronDownPrimarySvg } from "./chevron-down-primary.svg"
+export { default as StepSuccessSvg } from "./step-success.svg"
+export { default as PictureSvg } from "./picture.svg"
+export { default as NotificationSvg } from "./notification.svg"
 
 // home
 export { default as AccountHomeActiveSvg } from "./account-home-active.svg"

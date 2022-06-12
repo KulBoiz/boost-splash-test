@@ -12,7 +12,7 @@ import { s, vs } from "react-native-size-matters"
 import { translate } from "../../i18n"
 import { Text } from "../../components"
 import { color } from "../../theme"
-import { groupBy, map } from "../../utils/lodash-utils"
+import { debounce, groupBy, map } from "../../utils/lodash-utils"
 import moment from "moment"
 import BankerRequestItem from "./components/banker-request-item"
 
@@ -59,6 +59,13 @@ const BankerListRequestScreen: FC<Props> = observer((props: Props) => {
     }
   }, [bankerStore])
 
+  const onDebouncedSearch = React.useCallback(
+    debounce((value) => {
+      bankerStore.getListRequest({ search: value }, { page: 1, limit: 20 })
+    }, 500),
+    [],
+  )
+
   const renderSectionHeader = useCallback(({ section: { title, data } }) => {
     return (
       <HStack
@@ -85,7 +92,7 @@ const BankerListRequestScreen: FC<Props> = observer((props: Props) => {
       return <Spinner color="primary" m="4" />
     }
     return <Box m="4" />
-  }, [bankerStore])
+  }, [bankerStore.isLoadingMoreListRequest])
 
   return (
     <Box flex="1" bg="lightBlue">
@@ -119,6 +126,7 @@ const BankerListRequestScreen: FC<Props> = observer((props: Props) => {
               selectionColor="primary"
               bg="white"
               _focus={{ bg: "white" }}
+              onChangeText={onDebouncedSearch}
             />
           </HStack>
           <Box height={vs(40)} px={s(16)}>

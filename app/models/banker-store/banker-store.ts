@@ -78,7 +78,7 @@ export const BankerStoreModel = types
         const data = result?.data?.data
         self.pagingParamsListRequest = _pagingParams
         self.listRequestTotal = result?.data?.total
-        if (isRefresh) {
+        if (isRefresh || pagingParams?.page === 1) {
           self.listRequest = data
         } else {
           self.listRequest = unionBy(self.listRequest, data, "_id")
@@ -100,6 +100,7 @@ export const BankerStoreModel = types
           where: {
             belongToId: id,
           },
+          limit: 200,
         },
       }
       const result = yield self.api.get("comments", param)
@@ -127,10 +128,13 @@ export const BankerStoreModel = types
         filter: {
           skip: 0,
           where: {
-            status: {
-              nin: ["deleted"],
-            },
+            status: params?.status
+              ? { inq: [params?.status] }
+              : {
+                  nin: ["deleted"],
+                },
             searchingRule: "single",
+            _q: params?.search,
           },
           include: [
             {
@@ -167,7 +171,7 @@ export const BankerStoreModel = types
         const data = result?.data?.data
         self.pagingParamsListLoan = _pagingParams
         self.listLoanTotal = result?.data?.total
-        if (isRefresh) {
+        if (isRefresh || pagingParams?.page === 1) {
           self.listLoan = data
         } else {
           self.listLoan = unionBy(self.listLoan, data, "id")

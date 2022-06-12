@@ -14,17 +14,21 @@ export const GET_TASK_STATUS_ASSIGNED = {
 }
 
 export const LOAN_STATUS_TYPES = {
+  ALL: "all",
+  MOVED_TO_FINANCIAL_ORGANIZATION: "moved_to_financial_organization",
+  LEND_APPROVAL: "lend_approval",
+  TRIPARTITE_BLOCKADE: "tripartite_blockade",
   DISBURSING: "disbursing",
   DISBURSED: "disbursed",
 }
 
 export const LOAN_STATUS_DATA = [
-  { key: "all", text: "Tất cả" },
-  { key: "1", text: "Chờ xử lý" },
-  { key: "2", text: "Tiếp nhận" },
-  { key: "3", text: "Thẩm định" },
-  { key: "4", text: "Duyệt cho vay" },
-  { key: "5", text: "Phong tỏa 3 bên" },
+  { key: LOAN_STATUS_TYPES.ALL, text: "Tất cả" },
+  { key: LOAN_STATUS_TYPES.MOVED_TO_FINANCIAL_ORGANIZATION, text: "Chờ xử lý" },
+  { key: "1", text: "Tiếp nhận" },
+  { key: "2", text: "Thẩm định" },
+  { key: LOAN_STATUS_TYPES.LEND_APPROVAL, text: "Duyệt cho vay" },
+  { key: LOAN_STATUS_TYPES.TRIPARTITE_BLOCKADE, text: "Phong tỏa 3 bên" },
   { key: LOAN_STATUS_TYPES.DISBURSING, text: "Đang giải ngân" },
   { key: LOAN_STATUS_TYPES.DISBURSED, text: "Đã giải ngân" },
 ]

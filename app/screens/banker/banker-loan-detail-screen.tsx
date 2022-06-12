@@ -4,23 +4,22 @@ import { observer } from "mobx-react-lite"
 import AppHeader from "../../components/app-header/AppHeader"
 import { useStores } from "../../models"
 import { useNavigation } from "@react-navigation/native"
-import { ScreenNames } from "../../navigators/screen-names"
-import { Box, HStack, Input, Pressable, ScrollView } from "native-base"
+import { Avatar, Box, Button, HStack, Pressable, ScrollView } from "native-base"
 import { s, vs } from "react-native-size-matters"
 import { Text } from "../../components"
-import { FastImage } from "../../components/fast-image/fast-image"
-import PopupReject from "./components/popup-reject"
-import PopupConfirm from "./components/popup-confirm"
 import PopupAlert from "./components/popup-alert"
-import { getSurveyDetails, getSurveyName } from "./constants"
+import numeral from "numeral"
+import moment from "moment"
+import { BellSvg, CallSvg, EditSvg, NotificationSvg, PictureSvg } from "../../assets/svgs"
+import { Linking } from "react-native"
+import DocumentView from "./components/document-view"
+import BankerLoanSteps from "./components/banker-loan-steps"
 
 const BankerLoanDetailScreen: FC = observer((props: any) => {
   const navigation = useNavigation()
   const { bankerStore, authStoreModel } = useStores()
 
   const [notes, setNotes] = useState<any>([])
-  const [rejectVisible, setRejectVisible] = useState<boolean>(false)
-  const [confirmVisible, setConfirmVisible] = useState<boolean>(false)
   const [alert, setAlert] = useState<any>({
     visible: false,
     data: {},
@@ -29,10 +28,11 @@ const BankerLoanDetailScreen: FC = observer((props: any) => {
   })
 
   const data = props?.route?.params?.data
-  const name = getSurveyName(data?.surveyDetails)
+  const name =
+    data?.user?.fullName || `${data?.user?.firstName || ""} ${data?.user?.lastName || ""}`
 
   const getNotes = useCallback(async () => {
-    const result = await bankerStore.getNotes(data._id)
+    const result = await bankerStore.getNotes(data?.dealDetails?.[0]?.id)
     setNotes(result)
   }, [data])
 
@@ -40,101 +40,62 @@ const BankerLoanDetailScreen: FC = observer((props: any) => {
     getNotes()
   }, [])
 
-  const showPopupReject = useCallback(() => setRejectVisible(true), [])
-  const hidePopupReject = useCallback(() => setRejectVisible(false), [])
-  const showPopupConfirm = useCallback(() => setConfirmVisible(true), [])
-  const hidePopupConfirm = useCallback(() => setConfirmVisible(false), [])
+  const onReject = useCallback(() => {
+    setTimeout(() => {
+      setAlert({
+        visible: true,
+        type: "reject",
+        message: "Bạn có chắc muốn từ chối\nhồ sơ này?",
+      })
+    }, 500)
+  }, [data, authStoreModel.userId])
 
-  const onConfirmReject = useCallback(
-    (note) => {
-      hidePopupReject()
-      setTimeout(() => {
-        setAlert({
-          visible: true,
-          data: {
-            bankNote: note,
-            userId: authStoreModel.userId,
-            orgId: authStoreModel?.user?.orgId,
-            responseStatus: "reject",
-            responseDate: new Date().toISOString(),
-          },
-          type: "reject",
-          message: "Bạn có chắc muốn từ chối\nhồ sơ này?",
-        })
-      }, 500)
-    },
-    [data, authStoreModel.userId],
-  )
-
-  const onConfirmReceived = useCallback(
-    (data) => {
-      hidePopupConfirm()
-      setTimeout(() => {
-        setAlert({
-          visible: true,
-          data: {
-            bankNote: data.bankNote,
-            content: {
-              loanDemand: data.loanDemand,
-              borrowTime: data.borrowTime,
-              interestRate: data.interestRate,
-              preferentialTime: data.preferentialTime,
-              prepaidTermFee: data.prepaidTermFee,
-              propertyValuation: data.propertyValuation,
-            },
-            userId: authStoreModel.userId,
-            orgId: authStoreModel?.user?.orgId,
-            responseStatus: "received",
-            responseDate: new Date().toISOString(),
-          },
-          type: "confirm",
-          message: "Bạn có chắc muốn tiếp nhận\nhồ sơ này?",
-        })
-      }, 500)
-    },
-    [data, authStoreModel.userId],
-  )
+  const onExpertise = useCallback(() => {
+    setTimeout(() => {
+      setAlert({
+        visible: true,
+        type: "confirm",
+        message: "Bạn có chắc muốn thẩm định hồ sơ này?",
+        confirmText: "Thẩm định",
+      })
+    }, 500)
+  }, [data, authStoreModel.userId])
 
   const onAlertConfirm = useCallback(async () => {
     setAlert({ visible: false })
-    navigation.goBack()
-    await bankerStore.updateSurveyTask(data?.task._id, alert.data)
-    await bankerStore.getSurveyResults({}, { page: 1, limit: 20 }, true)
   }, [alert, navigation])
-
-  const documents = [
-    "Xác nhận tình trạng hôn nhân",
-    "CMND Mới / Cũ (Nếu có) của Vợ / Chồng KH",
-    "Hộ khẩu (Sao y/ Chụp hình)",
-    "Sổ tạm trú",
-    "Giấy đăng ký kết hôn (Sao y)",
-    "Hộ chiếu",
-    "CMND/CCCD của 2 vợ chồng",
-  ]
 
   const renderNotes = useCallback(() => {
     if (notes?.length)
       return (
         <Box bg="white" borderRadius="8" p="4" mt="4">
-          <Text color="ebony" fontSize={14} lineHeight={20} fontWeight="600" text="Ghi chú chung" />
+          <Text
+            color="ebony"
+            fontSize={14}
+            lineHeight={20}
+            fontWeight="600"
+            text="Ghi chú của ngân hàng"
+          />
           <Box height="1.0" my="3" bg="iron" opacity={0.5} />
           {notes.map((item, index) => (
-            <HStack key={index} mt={index ? 3 : 0} alignItems="center">
-              <FastImage
+            <HStack key={index} mt={index ? 3 : 0}>
+              <Avatar
                 source={{
-                  uri: "https://cdn.pixabay.com/photo/2016/08/08/09/17/avatar-1577909_960_720.png",
+                  uri: item?.createdBy?.avatar,
                 }}
                 w={s(32)}
                 h={s(32)}
-                rounded="full"
-              />
+                bg="gray"
+              >
+                {item?.createdBy?.fullName.charAt(0)}
+              </Avatar>
               <Box flex={1} ml="3">
                 <Text
                   color="grayChateau"
                   fontSize={12}
                   lineHeight={17}
                   fontWeight="600"
-                  text={item.label}
+                  text={item?.createdBy?.fullName}
                   textTransform="capitalize"
                 />
                 <Text
@@ -142,7 +103,7 @@ const BankerLoanDetailScreen: FC = observer((props: any) => {
                   fontSize={12}
                   lineHeight={17}
                   fontWeight="400"
-                  text={item.value}
+                  text={item.content}
                   textTransform="capitalize"
                   mt="0.5"
                 />
@@ -154,130 +115,267 @@ const BankerLoanDetailScreen: FC = observer((props: any) => {
     return null
   }, [notes])
 
-  const renderItem = useCallback((item, index) => {
+  const renderItem = useCallback((item, index: any, rightComponent?: any) => {
     return (
-      <HStack key={index} mt={index ? 3 : 0}>
+      <HStack mt={index ? vs(15) : 0} key={index}>
         <Text
           color="lighterGray"
           fontSize={14}
           lineHeight={20}
           fontWeight="400"
-          flex="1"
           text={item.label}
         />
+        {rightComponent || (
+          <Text color="ebony" size="medium12" text={item.value} flex="1" textAlign="right" />
+        )}
+      </HStack>
+    )
+  }, [])
+
+  const renderCall = useCallback((value, phone) => {
+    return (
+      <Pressable
+        onPress={() => Linking.openURL(`tel:${phone}`)}
+        flex="1"
+        flexDirection="row"
+        alignItems="center"
+        justifyContent="flex-end"
+      >
         <Text
           color="black"
           fontSize={14}
           lineHeight={20}
           fontWeight="500"
-          text={item.value}
-          flex="1"
+          text={value}
           textAlign="right"
+          mr={s(10)}
         />
-      </HStack>
+        <CallSvg />
+      </Pressable>
     )
   }, [])
+
+  const renderGuestDocument = useCallback(() => {
+    const noPhoto = () => (
+      <Box flex={1} height={152} alignItems="center" justifyContent="center" bg="#C4C4C4">
+        <PictureSvg />
+      </Box>
+    )
+    return (
+      <Box mt={vs(16)}>
+        <Text
+          color="ebony"
+          fontSize={14}
+          lineHeight={20}
+          fontWeight="600"
+          text="Giấy tờ của khách"
+        />
+        <DocumentView title="CMND / CCCD / Hộ chiếu" mt={s(8)}>
+          <HStack>
+            {noPhoto()}
+            <Box width={s(15)} />
+            {noPhoto()}
+          </HStack>
+        </DocumentView>
+        <DocumentView title="Đăng ký kết hôn" mt={s(12)} status="updated" />
+        <DocumentView title="Sao kê lương" mt={s(12)} />
+        <DocumentView title="Hợp đồng lao động" mt={s(12)} status="updated" />
+      </Box>
+    )
+  }, [])
+
+  const renderDisbursementProcess = useCallback(() => {
+    return (
+      <Box bg="white" borderRadius="8" p="4" mt={vs(8)}>
+        <Text
+          color="ebony"
+          fontSize={14}
+          lineHeight={20}
+          fontWeight="600"
+          text="Quá trình giải ngân:"
+        />
+        {renderItem(
+          {
+            label: "10.000.000vnđ",
+            value: "",
+          },
+          0,
+          <Text size="medium12" flex="1" textAlign="right" color="orange" text="Chưa đối soát" />,
+        )}
+        {renderItem(
+          { label: "10.000.000vnđ", value: "" },
+          1,
+          <Text size="medium12" flex="1" textAlign="right" color="green" text="Đã đối soát" />,
+        )}
+      </Box>
+    )
+  }, [])
+
+  const renderFooterButton = useCallback(() => {
+    return (
+      <Box mt={vs(54)}>
+        <HStack mt="4" mb="6">
+          <Button
+            onPress={onReject}
+            bg="white"
+            borderWidth="1"
+            borderColor="orange"
+            flex={1}
+            _text={{ fontWeight: "600", fontSize: 16, color: "orange" }}
+          >
+            Từ chối
+          </Button>
+          <Button
+            onPress={onExpertise}
+            bg="primary"
+            flex={1}
+            ml="4"
+            _text={{ fontWeight: "600", fontSize: 16 }}
+          >
+            Thẩm định
+          </Button>
+        </HStack>
+      </Box>
+    )
+  }, [onReject, onExpertise])
 
   return (
     <Box flex="1" bg="lightBlue">
       <AppHeader
         renderTitle={
           <Box
-            position="absolute"
-            bottom="4.0"
-            left="0"
-            right="0"
+            flex="1"
             justifyContent="flex-end"
             alignItems="center"
             pointerEvents="none"
+            mb="-3.5"
           >
-            <Text color="ebony" fontSize={14} lineHeight={20} fontWeight="700" text={name} />
-            <Text
-              color="grayChateau"
-              fontSize={12}
-              lineHeight={17}
-              fontWeight="600"
-              text={`HSV - ${data._iid}`}
-            />
+            <Text color="ebony" size="bold14" text={name} />
+            <Text size="semiBold12" color="grayChateau" text={`HSV - ${data._iid}`} />
           </Box>
         }
+        renderRightIcon={<NotificationSvg />}
       />
+      <BankerLoanSteps activeIndex={0} mb="1" />
       <ScrollView>
-        <Box mt="6" mx="4">
+        <Box mb="6" mx="4" mt="5">
           <Box bg="white" borderRadius="8" p="4">
-            <Text
-              color="ebony"
-              fontSize={14}
-              lineHeight={20}
-              fontWeight="600"
-              text="Thông tin khoản vay"
-            />
+            <Text color="ebony" fontSize={14} lineHeight={20} fontWeight="600" text="Khách hàng" />
             <Box height="1.0" my="3" bg="iron" opacity={0.5} />
-            {getSurveyDetails(data?.surveyDetails).map((item, index) => renderItem(item, index))}
+            {renderItem(
+              { label: "Họ tên:", value: name },
+              0,
+              renderCall(name, data.user?.tels?.[0]?.tel),
+            )}
+            {renderItem({ label: "Giới tính:", value: "-" }, 1)}
+            {renderItem({ label: "Phương án:", value: "-" }, 2)}
+            {renderItem({ label: "Yêu cầu:", value: "-" }, 3)}
+            {renderItem({ label: "Thông tin bổ sung:", value: "-" }, 4)}
           </Box>
-          <Box bg="white" borderRadius="8" p="4" mt="4">
-            <Text
-              color="ebony"
-              fontSize={14}
-              lineHeight={20}
-              fontWeight="600"
-              text="Các hồ sơ cần chuẩn bị"
-            />
+          <Box bg="white" borderRadius="8" p="4" mt={vs(8)}>
+            <HStack alignItems="center" justifyContent="space-between">
+              <Text
+                color="ebony"
+                fontSize={14}
+                lineHeight={20}
+                fontWeight="600"
+                text="Hồ sơ cho vay"
+              />
+              <Pressable>
+                <EditSvg />
+              </Pressable>
+            </HStack>
             <Box height="1.0" my="3" bg="iron" opacity={0.5} />
-            {documents.map((item, index) => (
-              <HStack key={index} mt={index ? 3 : 0} alignItems="center">
-                <Box width="1" height="1" rounded="full" bg="black" mr="1" />
-                <Text
-                  color="black"
-                  fontSize={12}
-                  lineHeight={17}
-                  fontWeight="400"
-                  text={item}
-                  textTransform="capitalize"
-                />
-              </HStack>
-            ))}
+            {renderItem({ label: "Sản phẩm:", value: data?.product?.name }, 0)}
+            {renderItem({ label: "Mã SP CĐT:", value: "-" }, 1)}
+            {renderItem(
+              { label: "Mã căn hộ:", value: data?.realEstateInfo?.apartmentCode || "-" },
+              2,
+            )}
+            {renderItem({ label: "Địa chỉ", value: "-" }, 3)}
+            {renderItem(
+              {
+                label: "Số tiền khách yêu cầu vay:",
+                value: `${numeral(data?.loanMoney).format("0,0")} ${data?.suffix || "vnđ"}`,
+              },
+              4,
+            )}
+            {renderItem(
+              {
+                label: "Thời gian vay:",
+                value: `${data.timeLoan || 0} (Năm)`,
+              },
+              5,
+            )}
+            {renderItem(
+              {
+                label: "Thời gian tạo:",
+                value: moment(data.createdAt).format("DD/MM/YYYY | hh:mm"),
+              },
+              6,
+            )}
+            {renderItem(
+              { label: "Nhân viên FINA:", value: data?.createdBy?.fullName },
+              7,
+              renderCall(data?.createdBy?.fullName, data.createdBy?.tels?.[0]?.tel),
+            )}
+          </Box>
+          <Box bg="white" borderRadius="8" p="4" mt={vs(8)}>
+            <HStack alignItems="center" justifyContent="space-between">
+              <Text color="ebony" fontSize={14} lineHeight={20} fontWeight="600" text="Kết quả" />
+              <Pressable>
+                <EditSvg />
+              </Pressable>
+            </HStack>
+            <Box height="1.0" my="3" bg="iron" opacity={0.5} />
+            {renderItem(
+              {
+                label: "Số tiền phê duyệt *:",
+                value: "-",
+              },
+              0,
+            )}
+            {renderItem(
+              {
+                label: "Thời gian vay:",
+                value: "-",
+              },
+              1,
+            )}
+            {renderItem(
+              {
+                label: "Ngày phê duyệt *:",
+                value: "-",
+              },
+              2,
+            )}
+            {renderItem(
+              {
+                label: "Mã hồ sơ phía ngân hàng *:",
+                value: "-",
+              },
+              3,
+            )}
+            {renderItem(
+              {
+                label: "Mã khách hàng phía ngân hàng *:",
+                value: "-",
+              },
+              4,
+            )}
           </Box>
           {renderNotes()}
-          <HStack mt="4" mb="6">
-            <Pressable
-              onPress={showPopupReject}
-              flex="1"
-              bg="white"
-              borderWidth="1"
-              h={vs(51)}
-              borderRadius="8"
-              borderColor="primary"
-              alignItems="center"
-              justifyContent="center"
-            >
-              <Text fontSize={16} fontWeight="600" color="primary" tx="banker.reject" />
-            </Pressable>
-            <Pressable
-              onPress={showPopupConfirm}
-              flex="1"
-              h={vs(51)}
-              borderRadius="8"
-              bg="primary"
-              alignItems="center"
-              justifyContent="center"
-              ml="4"
-            >
-              <Text fontSize={16} fontWeight="600" color="white" tx="banker.approve" />
-            </Pressable>
-          </HStack>
+          {renderDisbursementProcess()}
+          {renderGuestDocument()}
+          {renderFooterButton()}
         </Box>
       </ScrollView>
-      <PopupReject visible={rejectVisible} onClose={hidePopupReject} onConfirm={onConfirmReject} />
-      <PopupConfirm
-        visible={confirmVisible}
-        onClose={hidePopupConfirm}
-        onConfirm={onConfirmReceived}
-      />
       <PopupAlert
         visible={alert.visible}
         type={alert.type}
         message={alert.message}
+        confirmText={alert.confirmText}
+        rejectText={alert.rejectText}
         onClose={() => setAlert({ visible: false })}
         onConfirm={onAlertConfirm}
       />
