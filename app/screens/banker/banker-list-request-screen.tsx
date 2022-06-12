@@ -7,15 +7,14 @@ import { useStores } from "../../models"
 import { useNavigation } from "@react-navigation/native"
 import { ScreenNames } from "../../navigators/screen-names"
 import { HeaderBgSvg, SearchNormalSvg, FilterSvg } from "../../assets/svgs"
-import { Box, HStack, Input, Pressable, SectionList, Spinner } from "native-base"
+import { Box, HStack, Input, SectionList, Spinner } from "native-base"
 import { s, vs } from "react-native-size-matters"
 import { translate } from "../../i18n"
 import { Text } from "../../components"
 import { color } from "../../theme"
-import { find, groupBy, map } from "../../utils/lodash-utils"
+import { groupBy, map } from "../../utils/lodash-utils"
 import moment from "moment"
-import numeral from "numeral"
-import { getSurveyName, GET_TASK_STATUS_ASSIGNED } from "./constants"
+import BankerRequestItem from "./components/banker-request-item"
 
 interface Props {}
 
@@ -24,7 +23,7 @@ const BankerListRequestScreen: FC<Props> = observer((props: Props) => {
   const { bankerStore } = useStores()
 
   useEffect(() => {
-    bankerStore.getSurveyResults({}, { page: 1, limit: 20 })
+    bankerStore.getListRequest({}, { page: 1, limit: 20 })
   }, [])
 
   const showDetail = useCallback(
@@ -34,7 +33,7 @@ const BankerListRequestScreen: FC<Props> = observer((props: Props) => {
 
   const getData = useMemo(() => {
     const dataGroup = groupBy(
-      map(bankerStore.surveyResults, (item) => ({
+      map(bankerStore.listRequest, (item) => ({
         ...item,
         dateGroup: moment(item.sharedAt).format("MM/YYYY"),
       })),
@@ -45,16 +44,16 @@ const BankerListRequestScreen: FC<Props> = observer((props: Props) => {
       title: `YCTV mới (${key})`,
     }))
     return sections
-  }, [bankerStore.surveyResults])
+  }, [bankerStore.listRequest])
 
   const _onRefresh = useCallback(() => {
-    bankerStore.getSurveyResults({}, { page: 1, limit: 20 }, true)
+    bankerStore.getListRequest({}, { page: 1, limit: 20 }, true)
   }, [])
   const _onLoadMore = useCallback(() => {
-    if (bankerStore.surveyResults?.length < bankerStore.surveyResultsTotal) {
-      bankerStore.getSurveyResults(
+    if (bankerStore.listRequest?.length < bankerStore.listRequestTotal) {
+      bankerStore.getListRequest(
         {},
-        { page: bankerStore?.pagingParams?.page + 1, limit: 20 },
+        { page: bankerStore?.pagingParamsListRequest?.page + 1, limit: 20 },
         false,
       )
     }
@@ -78,74 +77,11 @@ const BankerListRequestScreen: FC<Props> = observer((props: Props) => {
     )
   }, [])
   const renderItem = useCallback(({ item, index }) => {
-    const name = getSurveyName(item.surveyDetails)
-    const loanDetail =
-      find(item.surveyDetails, (i) => i.questionData?.code === "QUESTION_LPC_LOAN_DEMAND") ||
-      find(item.surveyDetails, (i) => i.questionData?.type === "OPEN_ENDED_NUMBER")
-    const loanPlan = find(
-      item.surveyDetails,
-      (i) => i.questionData?.code === "QUESTION_LPC_LOAN_PLAN",
-    )
-    return (
-      <Pressable
-        onPress={() => showDetail(item)}
-        height={vs(110)}
-        borderRadius={8}
-        bg="white"
-        mx={s(16)}
-        mt={index ? vs(10) : 0}
-        flexDirection="row"
-        alignItems="center"
-      >
-        <Box alignItems="center" justifyContent="center" width={s(100)} px="4">
-          <Text fontSize={10} fontWeight="500" color="ebony" text={`HSV - ${item._iid}`} />
-          <Text
-            fontSize={10}
-            fontWeight="500"
-            mt="0.5"
-            color="grayChateau"
-            textAlign="center"
-            text={GET_TASK_STATUS_ASSIGNED[item.task?.statusAssign]}
-          />
-        </Box>
-        <Box height={vs(77)} borderLeftWidth={1} mr={s(21)} borderLeftColor="iron" />
-        <Box>
-          <Text
-            textTransform="uppercase"
-            fontSize={12}
-            fontWeight="700"
-            color="black"
-            lineHeight={17}
-            text={loanPlan?.selectedOptions?.[0]?.content}
-          />
-          {!!name && (
-            <Text mt="1" fontSize={12} fontWeight="400" color="ebony" lineHeight={17} text={name} />
-          )}
-          <Text
-            mt="1"
-            fontSize={12}
-            fontWeight="700"
-            color="primary"
-            lineHeight={17}
-            text={`${numeral(loanDetail?.content).format("0,0")}${
-              loanDetail?.questionData?.suffix
-            }`}
-          />
-          <Text
-            mt="1"
-            fontSize={10}
-            fontWeight="400"
-            color="grayChateau"
-            lineHeight={14}
-            text={moment(item.sharedAt).format("hh:mm - DD/MM/YYYY")}
-          />
-        </Box>
-      </Pressable>
-    )
+    return <BankerRequestItem item={item} index={index} onPress={() => showDetail(item)} />
   }, [])
 
   const ListFooterComponent = useCallback(() => {
-    if (bankerStore.isLoadingMore) {
+    if (bankerStore.isLoadingMoreListRequest) {
       return <Spinner color="primary" m="4" />
     }
     return <Box m="4" />
@@ -157,7 +93,7 @@ const BankerListRequestScreen: FC<Props> = observer((props: Props) => {
         <Box position="absolute" left="0" right="0" bottom="0">
           <HeaderBgSvg />
         </Box>
-        <AppHeader isBlue style={styles.header} headerTx={"header.bankerListLoan"} />
+        <AppHeader isBlue style={styles.header} headerTx={"header.bankerListRequest"} />
         <HStack alignItems="center">
           <HStack
             flex="1"
@@ -199,7 +135,7 @@ const BankerListRequestScreen: FC<Props> = observer((props: Props) => {
         stickySectionHeadersEnabled
         refreshControl={
           <RefreshControl
-            refreshing={bankerStore.isRefreshing}
+            refreshing={bankerStore.isRefreshingListRequest}
             onRefresh={_onRefresh}
             colors={[color.primary]}
             tintColor={color.primary}

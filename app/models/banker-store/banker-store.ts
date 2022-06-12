@@ -1,7 +1,6 @@
 import { flow, Instance, SnapshotOut, types } from "mobx-state-tree"
-import moment from "moment"
 import { BaseApi } from "../../services/api/base-api"
-import { groupBy, map, union, unionBy } from "../../utils/lodash-utils"
+import { unionBy } from "../../utils/lodash-utils"
 import { withEnvironment } from "../extensions/with-environment"
 
 /**
@@ -22,11 +21,16 @@ export const BankerStoreModel = types
   .model("BankerStore")
   .extend(withEnvironment)
   .props({
-    isRefreshing: false,
-    isLoadingMore: false,
-    pagingParams: PagingParamsModel,
-    surveyResultsTotal: 0,
-    surveyResults: types.optional(types.frozen(), {}),
+    isRefreshingListRequest: false,
+    isLoadingMoreListRequest: false,
+    pagingParamsListRequest: PagingParamsModel,
+    listRequestTotal: 0,
+    listRequest: types.optional(types.frozen(), []),
+    isRefreshingListLoan: false,
+    isLoadingMoreListLoan: false,
+    pagingParamsListLoan: PagingParamsModel,
+    listLoanTotal: 0,
+    listLoan: types.optional(types.frozen(), []),
   })
   .views((self) => ({
     get api() {
@@ -34,18 +38,18 @@ export const BankerStoreModel = types
     },
   })) // eslint-disable-line @typescript-eslint/no-unused-vars
   .actions((self) => ({
-    getSurveyResults: flow(function* getSurveyResults(
+    getListRequest: flow(function* getListRequest(
       params?: any,
       pagingParams?: PagingParamsType,
       isRefresh = false,
     ) {
       if (isRefresh) {
-        self.isRefreshing = true
+        self.isRefreshingListRequest = true
       } else {
-        self.isLoadingMore = true
+        self.isLoadingMoreListRequest = true
       }
       const _pagingParams: any = {
-        ...self.pagingParams,
+        ...self.pagingParamsListRequest,
         ...pagingParams,
       }
       const result = yield self.api.get("survey-results/search-for-teller", {
@@ -68,21 +72,18 @@ export const BankerStoreModel = types
         limit: pagingParams?.limit,
         page: pagingParams?.page,
       })
-      self.isRefreshing = false
-      self.isLoadingMore = false
+      self.isRefreshingListRequest = false
+      self.isLoadingMoreListRequest = false
       if (result.kind === "ok") {
         const data = result?.data?.data
-        self.pagingParams = _pagingParams
-        self.surveyResultsTotal = result?.data?.total
+        self.pagingParamsListRequest = _pagingParams
+        self.listRequestTotal = result?.data?.total
         if (isRefresh) {
-          self.surveyResults = data
+          self.listRequest = data
         } else {
-          self.surveyResults = unionBy(self.surveyResults, data, "_id")
+          self.listRequest = unionBy(self.listRequest, data, "_id")
         }
       } else {
-        return result
-      }
-      if (result.kind !== "ok") {
         return result
       }
     }),
@@ -106,6 +107,73 @@ export const BankerStoreModel = types
         return result?.data?.data
       } else {
         return []
+      }
+    }),
+    getListLoan: flow(function* getListLoan(
+      params?: any,
+      pagingParams?: PagingParamsType,
+      isRefresh = false,
+    ) {
+      if (isRefresh) {
+        self.isRefreshingListLoan = true
+      } else {
+        self.isLoadingMoreListLoan = true
+      }
+      const _pagingParams: any = {
+        ...self.pagingParamsListLoan,
+        ...pagingParams,
+      }
+      const result = yield self.api.get("deals/bank", {
+        filter: {
+          skip: 0,
+          where: {
+            status: {
+              nin: ["deleted"],
+            },
+            searchingRule: "single",
+          },
+          include: [
+            {
+              relation: "user",
+            },
+            {
+              relation: "category",
+            },
+            {
+              relation: "assignee",
+            },
+            {
+              relation: "product",
+            },
+            {
+              relation: "dealDetails",
+              scope: {
+                include: [
+                  {
+                    relation: "partnerStaff",
+                  },
+                ],
+              },
+            },
+          ],
+        },
+        limit: pagingParams?.limit,
+        page: pagingParams?.page,
+      })
+      self.isRefreshingListLoan = false
+      self.isLoadingMoreListLoan = false
+
+      if (result.kind === "ok") {
+        const data = result?.data?.data
+        self.pagingParamsListLoan = _pagingParams
+        self.listLoanTotal = result?.data?.total
+        if (isRefresh) {
+          self.listLoan = data
+        } else {
+          self.listLoan = unionBy(self.listLoan, data, "id")
+        }
+      } else {
+        return result
       }
     }),
   })) // eslint-disable-line @typescript-eslint/no-unused-vars

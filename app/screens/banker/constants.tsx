@@ -13,6 +13,22 @@ export const GET_TASK_STATUS_ASSIGNED = {
   overdue_for_bank_response: "Quá thời hạn phản hồi",
 }
 
+export const LOAN_STATUS_TYPES = {
+  DISBURSING: "disbursing",
+  DISBURSED: "disbursed",
+}
+
+export const LOAN_STATUS_DATA = [
+  { key: "all", text: "Tất cả" },
+  { key: "1", text: "Chờ xử lý" },
+  { key: "2", text: "Tiếp nhận" },
+  { key: "3", text: "Thẩm định" },
+  { key: "4", text: "Duyệt cho vay" },
+  { key: "5", text: "Phong tỏa 3 bên" },
+  { key: LOAN_STATUS_TYPES.DISBURSING, text: "Đang giải ngân" },
+  { key: LOAN_STATUS_TYPES.DISBURSED, text: "Đã giải ngân" },
+]
+
 export const QUESTION_TYPES = {
   // SINGLE_CHOICE: 'SC',
   // MULTIPLE_CHOICE_SINGLE_ANSWER: 'MCSA',

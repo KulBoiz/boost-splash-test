@@ -26,18 +26,18 @@ export const BankHomeScreen = observer(({ navigation }) => {
   })
 
   const { bankerStore } = useStores()
-  const { surveyResults } = bankerStore
+  const { listRequest } = bankerStore
   const ref = useRef()
   const [activeDot, setActiveDot] = useState(0)
 
   useEffect(() => {
-    bankerStore.getSurveyResults()
+    bankerStore.getListRequest({}, { page: 1, limit: 20 }, true)
   }, [])
 
-  // console.log(SurveyResultBase(surveyResults));
+  // console.log(SurveyResultBase(listRequest));
 
   const onRightPress = () => {
-    navigate(ScreenNames.BANKER_LIST_REQUEST_SCREEN)
+    navigate(ScreenNames.BANKER_LIST_LOAN_SCREEN)
   }
 
   const _renderItem = ({ item }) => {
@@ -99,7 +99,7 @@ export const BankHomeScreen = observer(({ navigation }) => {
       <View style={styles.container}>
         <View style={styles.total}>
           <AppText
-            value={`Có ${surveyResults?.length} bộ hồ sơ đang chờ giải quyết!`}
+            value={`Có ${listRequest?.length} bộ hồ sơ đang chờ giải quyết!`}
             style={styles.title}
           />
           <Pressable onPress={onRightPress} style={styles.button}>
@@ -124,7 +124,7 @@ export const BankHomeScreen = observer(({ navigation }) => {
         <Carousel
           ref={ref.current}
           key={(e, i) => e?.id + i.toString()}
-          data={surveyResults.slice(0, 5)}
+          data={listRequest?.slice(0, 5)}
           renderItem={_renderItem}
           sliderWidth={width}
           itemWidth={width}
