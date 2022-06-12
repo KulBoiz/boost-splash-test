@@ -203,7 +203,18 @@ export const mappingStatus = (value, doc) => {
     }
 
 		return {status, color};
-	};
+};
+  
+export const isTaskCreateProfile = (task) => {
+  const { status, statusAssign } = task
+  console.log(status, statusAssign);
+  
+  if (status === TASK_STATUSES.CONSULTED && statusAssign === TASK_STATUSES_ASSIGNED.CREATE_PROFILE) {
+    return true
+  }
+
+  return false
+}
 
 export const PRODUCT_TYPE = {
   LOAN: 'loan',
