@@ -180,11 +180,13 @@ export const BankerStoreModel = types
         return result
       }
     }),
-    getTransactionDeal: flow(function* getTransactionDeal(objectId, dealDetailId) {
+    getTransactionDeal: flow(function* getTransactionDeal(dealId, dealDetailId) {
       const params = {
+        dealId,
+        dealDetailId,
         filter: {
           where: {
-            objectId: objectId,
+            objectId: dealId,
             "metaData.dealDetailId": dealDetailId,
             include: [
               {

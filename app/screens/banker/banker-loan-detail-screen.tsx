@@ -38,7 +38,10 @@ const BankerLoanDetailScreen: FC = observer((props: any) => {
   }, [data])
 
   const getTransactionDeal = useCallback(async () => {
-    const result = await bankerStore.getTransactionDeal(data?.dealDetails?.[0]?.id)
+    const result = await bankerStore.getTransactionDeal(
+      "62a05f9afd57a54e9052c94a",
+      "62a05f9afd57a54e9052c95e",
+    )
   }, [data])
 
   useEffect(() => {
@@ -115,22 +118,31 @@ const BankerLoanDetailScreen: FC = observer((props: any) => {
     return null
   }, [notes])
 
-  const renderItem = useCallback((item, index: any, rightComponent?: any) => {
-    return (
-      <HStack mt={index ? vs(12) : 0} key={index}>
-        <Text
-          color="lighterGray"
-          fontSize={14}
-          lineHeight={20}
-          fontWeight="400"
-          text={item.label}
-        />
-        {rightComponent || (
-          <Text color="ebony" size="medium12" text={item.value} flex="1" textAlign="right" />
-        )}
-      </HStack>
-    )
-  }, [])
+  const renderItem = useCallback(
+    ({
+      item,
+      index,
+      rightComponent,
+      required,
+    }: {
+      item: any
+      index: any
+      rightComponent?: any
+      required?: boolean
+    }) => {
+      return (
+        <HStack mt={index ? vs(12) : 0} key={index}>
+          <Text color="lighterGray" size="medium12" text={item.label} />
+          <Text size="medium12" color="red.500" text={required ? " *" : " "} />
+          <Text color="lighterGray" size="medium12" text=":" />
+          {rightComponent || (
+            <Text color="ebony" size="medium12" text={item.value} flex="1" textAlign="right" />
+          )}
+        </HStack>
+      )
+    },
+    [],
+  )
 
   const renderCall = useCallback((value, phone) => {
     return (
@@ -195,19 +207,23 @@ const BankerLoanDetailScreen: FC = observer((props: any) => {
           text="Quá trình giải ngân:"
         />
         <Box height="1.0" my="3" bg="iron" opacity={0.5} />
-        {renderItem(
-          {
+        {renderItem({
+          item: {
             label: "10.000.000vnđ",
             value: "",
           },
-          0,
-          <Text size="medium12" flex="1" textAlign="right" color="orange" text="Chưa đối soát" />,
-        )}
-        {renderItem(
-          { label: "10.000.000vnđ", value: "" },
-          1,
-          <Text size="medium12" flex="1" textAlign="right" color="green" text="Đã đối soát" />,
-        )}
+          index: 0,
+          rightComponent: (
+            <Text size="medium12" flex="1" textAlign="right" color="orange" text="Chưa đối soát" />
+          ),
+        })}
+        {renderItem({
+          item: { label: "10.000.000vnđ", value: "" },
+          index: 1,
+          rightComponent: (
+            <Text size="medium12" flex="1" textAlign="right" color="green" text="Đã đối soát" />
+          ),
+        })}
       </Box>
     )
   }, [])
@@ -295,15 +311,15 @@ const BankerLoanDetailScreen: FC = observer((props: any) => {
           <Box bg="white" borderRadius="8" p="4">
             <Text color="ebony" size="semiBold14" text="Khách hàng" />
             <Box height="1.0" my="3" bg="iron" opacity={0.5} />
-            {renderItem(
-              { label: "Họ tên:", value: name },
-              0,
-              renderCall(name, data.user?.tels?.[0]?.tel),
-            )}
-            {renderItem({ label: "Giới tính:", value: "-" }, 1)}
-            {renderItem({ label: "Phương án:", value: "-" }, 2)}
-            {renderItem({ label: "Yêu cầu:", value: "-" }, 3)}
-            {renderItem({ label: "Thông tin bổ sung:", value: "-" }, 4)}
+            {renderItem({
+              item: { label: "Họ tên:", value: name },
+              index: 0,
+              rightComponent: renderCall(name, data.user?.tels?.[0]?.tel),
+            })}
+            {renderItem({ item: { label: "Giới tính", value: "-" }, index: 1 })}
+            {renderItem({ item: { label: "Phương án", value: "-" }, index: 2 })}
+            {renderItem({ item: { label: "Yêu cầu", value: "-" }, index: 3 })}
+            {renderItem({ item: { label: "Thông tin bổ sung", value: "-" }, index: 4 })}
           </Box>
           <Box bg="white" borderRadius="8" p="4" mt={vs(8)}>
             <HStack alignItems="center" justifyContent="space-between">
@@ -313,39 +329,39 @@ const BankerLoanDetailScreen: FC = observer((props: any) => {
               </Pressable>
             </HStack>
             <Box height="1.0" my="3" bg="iron" opacity={0.5} />
-            {renderItem({ label: "Sản phẩm:", value: data?.product?.name }, 0)}
-            {renderItem({ label: "Mã SP CĐT:", value: "-" }, 1)}
-            {renderItem(
-              { label: "Mã căn hộ:", value: data?.realEstateInfo?.apartmentCode || "-" },
-              2,
-            )}
-            {renderItem({ label: "Địa chỉ", value: "-" }, 3)}
-            {renderItem(
-              {
+            {renderItem({ item: { label: "Sản phẩm:", value: data?.product?.name }, index: 0 })}
+            {renderItem({ item: { label: "Mã SP CĐT:", value: "-" }, index: 1 })}
+            {renderItem({
+              item: { label: "Mã căn hộ", value: data?.realEstateInfo?.apartmentCode || "-" },
+              index: 2,
+            })}
+            {renderItem({ item: { label: "Địa chỉ", value: "-" }, index: 3 })}
+            {renderItem({
+              item: {
                 label: "Số tiền khách yêu cầu vay:",
                 value: `${numeral(data?.loanMoney).format("0,0")} ${data?.suffix || "vnđ"}`,
               },
-              4,
-            )}
-            {renderItem(
-              {
-                label: "Thời gian vay:",
+              index: 4,
+            })}
+            {renderItem({
+              item: {
+                label: "Thời gian vay",
                 value: `${data.timeLoan || 0} (Năm)`,
               },
-              5,
-            )}
-            {renderItem(
-              {
-                label: "Thời gian tạo:",
+              index: 5,
+            })}
+            {renderItem({
+              item: {
+                label: "Thời gian tạo",
                 value: moment(data.createdAt).format("DD/MM/YYYY | hh:mm"),
               },
-              6,
-            )}
-            {renderItem(
-              { label: "Nhân viên FINA:", value: data?.createdBy?.fullName },
-              7,
-              renderCall(data?.createdBy?.fullName, data.createdBy?.tels?.[0]?.tel),
-            )}
+              index: 6,
+            })}
+            {renderItem({
+              item: { label: "Nhân viên FINA", value: data?.createdBy?.fullName },
+              index: 7,
+              rightComponent: renderCall(data?.createdBy?.fullName, data.createdBy?.tels?.[0]?.tel),
+            })}
           </Box>
           <Box bg="white" borderRadius="8" p="4" mt={vs(8)}>
             <HStack alignItems="center" justifyContent="space-between">
@@ -355,41 +371,45 @@ const BankerLoanDetailScreen: FC = observer((props: any) => {
               </Pressable>
             </HStack>
             <Box height="1.0" my="3" bg="iron" opacity={0.5} />
-            {renderItem(
-              {
-                label: "Số tiền phê duyệt *:",
+            {renderItem({
+              item: {
+                label: "Số tiền phê duyệt",
                 value: "-",
               },
-              0,
-            )}
-            {renderItem(
-              {
-                label: "Thời gian vay:",
+              index: 0,
+              required: true,
+            })}
+            {renderItem({
+              item: {
+                label: "Thời gian vay",
                 value: "-",
               },
-              1,
-            )}
-            {renderItem(
-              {
-                label: "Ngày phê duyệt *:",
+              index: 1,
+            })}
+            {renderItem({
+              item: {
+                label: "Ngày phê duyệt",
                 value: "-",
               },
-              2,
-            )}
-            {renderItem(
-              {
-                label: "Mã hồ sơ phía ngân hàng *:",
+              index: 2,
+              required: true,
+            })}
+            {renderItem({
+              item: {
+                label: "Mã hồ sơ phía ngân hàng",
                 value: "-",
               },
-              3,
-            )}
-            {renderItem(
-              {
-                label: "Mã khách hàng phía ngân hàng *:",
+              index: 3,
+              required: true,
+            })}
+            {renderItem({
+              item: {
+                label: "Mã khách hàng phía ngân hàng",
                 value: "-",
               },
-              4,
-            )}
+              index: 4,
+              required: true,
+            })}
           </Box>
           {renderNotes()}
           {renderDisbursementProcess()}
