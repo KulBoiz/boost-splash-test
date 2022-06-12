@@ -1,4 +1,5 @@
 import { flow, Instance, SnapshotOut, types } from "mobx-state-tree"
+import { LOAN_STATUS_DATA, LOAN_STATUS_TYPES } from "../../screens/banker/constants"
 import { BaseApi } from "../../services/api/base-api"
 import { unionBy } from "../../utils/lodash-utils"
 import { withEnvironment } from "../extensions/with-environment"
@@ -34,12 +35,19 @@ export const BankerStoreModel = types
     listLoan: types.optional(types.frozen(), []),
     documentTemplates: types.optional(types.frozen(), []),
     documentTemplateFiles: types.optional(types.frozen(), []),
+    dealStatusFilter: LOAN_STATUS_TYPES.ALL,
   })
   .views((self) => ({
     get api() {
       return new BaseApi(self.environment.api)
     },
   })) // eslint-disable-line @typescript-eslint/no-unused-vars
+
+  .actions((self) => ({
+    setDealStatusFilter: (value) => {
+      self.dealStatusFilter = value
+    },
+  }))
   .actions((self) => ({
     getListRequest: flow(function* getListRequest(
       params?: any,
@@ -131,11 +139,12 @@ export const BankerStoreModel = types
         filter: {
           skip: 0,
           where: {
-            status: params?.status
-              ? { inq: [params?.status] }
-              : {
-                  nin: ["deleted"],
-                },
+            status:
+              self.dealStatusFilter !== LOAN_STATUS_TYPES.ALL
+                ? { inq: [self.dealStatusFilter] }
+                : {
+                    nin: ["deleted"],
+                  },
             searchingRule: "single",
             _q: params?.search,
           },

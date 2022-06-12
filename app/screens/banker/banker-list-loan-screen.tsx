@@ -66,8 +66,8 @@ const BankerListLoanScreen: FC<Props> = observer((props: Props) => {
     }, 500),
     [],
   )
-  const onChangeTab = useCallback((value) => {
-    bankerStore.getListLoan(value === "all" ? {} : { status: value }, { page: 1, limit: 20 })
+  const onChangeTab = useCallback(() => {
+    bankerStore.getListLoan({}, { page: 1, limit: 20 })
   }, [])
 
   const renderSectionHeader = useCallback(({ section: { title, data } }) => {

@@ -85,6 +85,7 @@ const BankerLoanDetailScreen: FC = observer((props: any) => {
       visible: true,
       type: "reject",
       message: "Bạn có chắc muốn từ chối\nhồ sơ này?",
+      status: LOAN_STATUS_TYPES.CANCELLED,
     })
   }, [data, authStoreModel.userId])
 
@@ -106,6 +107,8 @@ const BankerLoanDetailScreen: FC = observer((props: any) => {
       toast.show({
         description: result,
       })
+      bankerStore.getListLoan({}, { page: 1, limit: 20 })
+      navigation.goBack()
     }
   }, [alert, navigation])
 
@@ -269,12 +272,12 @@ const BankerLoanDetailScreen: FC = observer((props: any) => {
   }, [transactionDetail])
 
   const renderFooterButton = useCallback(() => {
-    const buttonConfirm = (title, onPress) => (
+    const buttonConfirm = (title, onPress, ml = "4") => (
       <Button
         onPress={onPress}
         bg="primary"
         flex={1}
-        ml="4"
+        ml={ml}
         _text={{ fontWeight: "600", fontSize: 16 }}
       >
         {title}
@@ -293,22 +296,104 @@ const BankerLoanDetailScreen: FC = observer((props: any) => {
       </Button>
     )
     switch (data.status) {
-      case LOAN_STATUS_TYPES.DISBURSING:
+      case LOAN_STATUS_TYPES.WAIT_PROCESSING:
         return (
-          <Box mt={vs(54)}>
+          <HStack mt="4" mb="6">
+            {buttonReject()}
+            {buttonConfirm("Đã giải ngân", () => {
+              setAlert({
+                visible: true,
+                type: "confirm",
+                message: "Bạn muốn thẩm định hồ sơ này?",
+                confirmText: "Tiếp nhận",
+                status: LOAN_STATUS_TYPES.RECEIVED,
+              })
+            })}
+          </HStack>
+        )
+      case LOAN_STATUS_TYPES.RECEIVED:
+        return (
+          <HStack mt="4" mb="6">
+            {buttonReject()}
+            {buttonConfirm("Đã giải ngân", () => {
+              setAlert({
+                visible: true,
+                type: "confirm",
+                message: "Bạn muốn thẩm định hồ sơ này?",
+                confirmText: "Thẩm định",
+                status: LOAN_STATUS_TYPES.APPRAISAL_PROGRESS,
+              })
+            })}
+          </HStack>
+        )
+      case LOAN_STATUS_TYPES.LEND_APPROVAL:
+        return (
+          <Box>
+            <Button
+              onPress={onReject}
+              bg="white"
+              borderWidth="1"
+              borderColor="orange"
+              flex={1}
+              _text={{ fontWeight: "600", fontSize: 16, color: "orange" }}
+            >
+              Từ chối hồ sơ
+            </Button>
             <HStack mt="4" mb="6">
-              {buttonReject()}
-              {buttonConfirm("Đã giải ngân", () => {
+              {buttonConfirm(
+                "Giải ngân",
+                () => {
+                  setAlert({
+                    visible: true,
+                    type: "confirm",
+                    message: "Bạn muốn giải ngân hồ sơ này?",
+                    confirmText: "Xác nhận",
+                    status: LOAN_STATUS_TYPES.DISBURSING,
+                  })
+                },
+                "0",
+              )}
+              {buttonConfirm("Phong toả 3 bên", () => {
                 setAlert({
                   visible: true,
                   type: "confirm",
-                  message: "Hồ sơ đã hoàn tất giải ngân?",
-                  confirmText: "Hoàn tất",
-                  status: LOAN_STATUS_TYPES.DISBURSED,
+                  message: "Bạn muốn đi đến bước “Phong toả\n3 bên?",
+                  confirmText: "Xác nhận",
+                  status: LOAN_STATUS_TYPES.TRIPARTITE_BLOCKADE,
                 })
               })}
             </HStack>
           </Box>
+        )
+      case LOAN_STATUS_TYPES.TRIPARTITE_BLOCKADE:
+        return (
+          <HStack mt="4" mb="6">
+            {buttonReject()}
+            {buttonConfirm("Giải ngân", () => {
+              setAlert({
+                visible: true,
+                type: "confirm",
+                message: "Bạn muốn giải ngân hồ sơ này?",
+                confirmText: "Xác nhận",
+                status: LOAN_STATUS_TYPES.DISBURSING,
+              })
+            })}
+          </HStack>
+        )
+      case LOAN_STATUS_TYPES.DISBURSING:
+        return (
+          <HStack mt="4" mb="6">
+            {buttonReject()}
+            {buttonConfirm("Đã giải ngân", () => {
+              setAlert({
+                visible: true,
+                type: "confirm",
+                message: "Hồ sơ đã hoàn tất giải ngân?",
+                confirmText: "Hoàn tất",
+                status: LOAN_STATUS_TYPES.DISBURSED,
+              })
+            })}
+          </HStack>
         )
       case LOAN_STATUS_TYPES.DISBURSED:
         return null
@@ -446,7 +531,7 @@ const BankerLoanDetailScreen: FC = observer((props: any) => {
           {renderNotes()}
           {renderTransactionDetails()}
           {renderDocuments()}
-          {renderFooterButton()}
+          <Box mt={vs(34)}>{renderFooterButton()}</Box>
         </Box>
       </ScrollView>
       <PopupAlert
