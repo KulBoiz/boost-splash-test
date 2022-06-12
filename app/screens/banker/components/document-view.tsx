@@ -1,23 +1,45 @@
-import { Box, Pressable, IBoxProps } from "native-base"
+import { get } from "lodash"
+import { Box, Pressable, IBoxProps, HStack } from "native-base"
 import React, { useState } from "react"
+import { useWindowDimensions } from "react-native"
 import Collapsible from "react-native-collapsible"
 import { s, vs } from "react-native-size-matters"
-import { ChevronDownPrimarySvg, ChevronDownSvg } from "../../../assets/svgs"
+import { ChevronDownPrimarySvg, ChevronDownSvg, PictureSvg } from "../../../assets/svgs"
 import { Text } from "../../../components"
+import { FastImage } from "../../../components/fast-image/fast-image"
+import { map } from "../../../utils/lodash-utils"
 
 type Props = IBoxProps & {
-  status?: "not-update" | "updated"
-  type?: "confirm" | "reject"
-  title: string
+  data: any
 }
 
-const DocumentView = React.memo(({ title, status = "not-update", ...props }: Props) => {
+const DocumentView = React.memo(({ data, ...props }: Props) => {
   const [collapsed, setCollapsed] = useState(true)
+  const imageUrls: string[] = get(data, "images")
+  const notUpdate = imageUrls?.length === 0 || !imageUrls
+  const { width } = useWindowDimensions()
+  const imageWidth = (width - s(64)) / 2
+
+  const noPhoto = () => (
+    <Box
+      height={152}
+      width={imageWidth}
+      ml={s(12)}
+      alignItems="center"
+      justifyContent="center"
+      bg="#C4C4C4"
+      mb={s(12)}
+    >
+      <PictureSvg />
+    </Box>
+  )
+
   return (
     <Box bg="white" borderRadius="8" {...props}>
       <Pressable
         flexDirection="row"
-        p={vs(12)}
+        py={vs(12)}
+        px={s(12)}
         alignItems="center"
         onPress={() => setCollapsed(!collapsed)}
       >
@@ -27,16 +49,16 @@ const DocumentView = React.memo(({ title, status = "not-update", ...props }: Pro
           fontSize="12"
           lineHeight="17"
           flex="1"
-          text={title}
+          text={data?.document?.name}
         />
         {!!collapsed && (
           <Text
             fontWeight="400"
-            color={status === "updated" ? "lightGray" : "orange"}
+            color={!notUpdate ? "lightGray" : "orange"}
             fontSize="12"
             lineHeight="17"
             mr={s(8)}
-            text={status === "updated" ? "đã cập nhật" : "chưa cập nhật"}
+            text={!notUpdate ? "đã cập nhật" : "chưa cập nhật"}
           />
         )}
         <Box style={!collapsed && { transform: [{ rotate: "180deg" }] }}>
@@ -44,8 +66,26 @@ const DocumentView = React.memo(({ title, status = "not-update", ...props }: Pro
         </Box>
       </Pressable>
       <Collapsible collapsed={collapsed}>
-        <Box px={vs(12)} pb={vs(12)}>
-          {props.children}
+        <Box pt={s(12)}>
+          {notUpdate ? (
+            <HStack flexWrap="wrap">
+              {noPhoto()}
+              {noPhoto()}
+            </HStack>
+          ) : (
+            <HStack flexWrap="wrap">
+              {map(imageUrls, (el, index) => (
+                <FastImage
+                  key={index.toString()}
+                  source={{ uri: el }}
+                  height={152}
+                  width={imageWidth}
+                  ml={s(12)}
+                  mb={s(12)}
+                />
+              ))}
+            </HStack>
+          )}
         </Box>
       </Collapsible>
     </Box>

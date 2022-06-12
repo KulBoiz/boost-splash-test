@@ -31,6 +31,8 @@ export const BankerStoreModel = types
     pagingParamsListLoan: PagingParamsModel,
     listLoanTotal: 0,
     listLoan: types.optional(types.frozen(), []),
+    documentTemplates: types.optional(types.frozen(), []),
+    documentTemplateFiles: types.optional(types.frozen(), []),
   })
   .views((self) => ({
     get api() {
@@ -199,6 +201,40 @@ export const BankerStoreModel = types
         return result?.data?.data
       } else {
         return null
+      }
+    }),
+    getDocumentTemplates: flow(function* getDocument(documentTemplateId) {
+      const params = {
+        filter: {
+          where: {
+            documentTemplateId: documentTemplateId,
+          },
+          limit: 20,
+        },
+        page: 1,
+      }
+      const result = yield self.api.get("document-template-details/templates", params)
+      if (result.kind === "ok") {
+        self.documentTemplates = result?.data?.data
+      }
+    }),
+    getDocumentTemplateFiles: flow(function* getDocumentTemplateFiles(
+      documentTemplateId,
+      objectId,
+    ) {
+      const params = {
+        filter: {
+          where: {
+            documentTemplateId: documentTemplateId,
+            objectId: objectId,
+            objectType: "deal_loan",
+          },
+          include: [{ relation: "file" }, { relation: "document" }],
+        },
+      }
+      const result = yield self.api.get("document-template-files", params)
+      if (result.kind === "ok") {
+        self.documentTemplateFiles = result?.data?.data
       }
     }),
     updateDealStatus: flow(function* updateDealStatus(dealDetailId, status, dealId) {

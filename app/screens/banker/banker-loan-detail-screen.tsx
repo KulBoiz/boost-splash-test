@@ -1,5 +1,5 @@
 /* eslint-disable react-native/no-color-literals */
-import React, { FC, useCallback, useEffect, useState } from "react"
+import React, { FC, useCallback, useEffect, useMemo, useState } from "react"
 import { observer } from "mobx-react-lite"
 import AppHeader from "../../components/app-header/AppHeader"
 import { useStores } from "../../models"
@@ -15,6 +15,8 @@ import { Linking } from "react-native"
 import DocumentView from "./components/document-view"
 import BankerLoanSteps from "./components/banker-loan-steps"
 import { LOAN_STATUS_TYPES, LOAN_STEP_INDEX, TRANSACTION_STATUS_TYPES } from "./constants"
+import { flatten, map } from "../../utils/lodash-utils"
+import CollapsibleInfoUpload from "../loan-profile/components/collapsible-info-upload"
 
 const BankerLoanDetailScreen: FC = observer((props: any) => {
   const navigation = useNavigation()
@@ -34,25 +36,48 @@ const BankerLoanDetailScreen: FC = observer((props: any) => {
 
   const [transactionDetail, setTransactionDetail] = useState<any>({})
 
+  const objectId = data?.dealDetails?.[0]?.dealId
+
   const getNotes = useCallback(async () => {
     const result = await bankerStore.getNotes(data?.dealDetails?.[0]?.id)
     setNotes(result)
   }, [data])
 
   const getTransactionDeal = useCallback(async () => {
-    const result = await bankerStore.getTransactionDeal(
-      data?.dealDetails?.[0]?.dealId,
-      data?.dealDetails?.[0]?.id,
-    )
+    const result = await bankerStore.getTransactionDeal(objectId, data?.dealDetails?.[0]?.id)
     if (result?.length) {
       setTransactionDetail(result[0])
     }
   }, [data])
 
+  const getGuestDocument = useCallback(async () => {
+    if (data.documentTemplateId) {
+      await bankerStore.getDocumentTemplates(data.documentTemplateId)
+      await bankerStore.getDocumentTemplateFiles(data.documentTemplateId, objectId)
+    }
+  }, [data, objectId])
+
   useEffect(() => {
+    getGuestDocument()
     getNotes()
     getTransactionDeal()
   }, [])
+
+  const documents = useMemo(() => {
+    const templates = bankerStore.documentTemplates
+    const files = bankerStore.documentTemplateFiles
+    return flatten(templates?.map((el) => el?.documentTemplateDetails)).map((el) => {
+      if (!files) {
+        return el
+      } else {
+        if (files[el.documentId]) {
+          const images = files[el.documentId].map((el) => el.file.url)
+          return { ...el, images: images }
+        }
+        return el
+      }
+    })
+  }, [bankerStore.documentTemplates, bankerStore.documentTemplateFiles])
 
   const onReject = useCallback(() => {
     setTimeout(() => {
@@ -172,7 +197,7 @@ const BankerLoanDetailScreen: FC = observer((props: any) => {
     )
   }, [])
 
-  const renderGuestDocument = useCallback(() => {
+  const renderDocuments = useCallback(() => {
     const noPhoto = () => (
       <Box flex={1} height={152} alignItems="center" justifyContent="center" bg="#C4C4C4">
         <PictureSvg />
@@ -187,19 +212,12 @@ const BankerLoanDetailScreen: FC = observer((props: any) => {
           fontWeight="600"
           text="Giấy tờ của khách"
         />
-        <DocumentView title="CMND / CCCD / Hộ chiếu" mt={s(8)}>
-          <HStack>
-            {noPhoto()}
-            <Box width={s(15)} />
-            {noPhoto()}
-          </HStack>
-        </DocumentView>
-        <DocumentView title="Đăng ký kết hôn" mt={s(12)} status="updated" />
-        <DocumentView title="Sao kê lương" mt={s(12)} />
-        <DocumentView title="Hợp đồng lao động" mt={s(12)} status="updated" />
+        {map(documents, (item, index) => (
+          <DocumentView data={item} key={index} mt={s(12)} />
+        ))}
       </Box>
     )
-  }, [])
+  }, [documents])
 
   const renderTransactionDetails = useCallback(() => {
     if (transactionDetail?.transactionDetails?.length) {
@@ -437,7 +455,7 @@ const BankerLoanDetailScreen: FC = observer((props: any) => {
           </Box>
           {renderNotes()}
           {renderTransactionDetails()}
-          {renderGuestDocument()}
+          {renderDocuments()}
           {renderFooterButton()}
         </Box>
       </ScrollView>
