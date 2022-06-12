@@ -182,8 +182,6 @@ export const BankerStoreModel = types
     }),
     getTransactionDeal: flow(function* getTransactionDeal(dealId, dealDetailId) {
       const params = {
-        dealId,
-        dealDetailId,
         filter: {
           where: {
             objectId: dealId,

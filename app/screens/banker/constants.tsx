@@ -21,6 +21,10 @@ export const LOAN_STATUS_TYPES = {
   DISBURSING: "disbursing",
   DISBURSED: "disbursed",
 }
+export const TRANSACTION_STATUS_TYPES = {
+  FOR_CONTROL: "for_control",
+  NOT_FOR_CONTROL: "not_for_control",
+}
 export const LOAN_STEP_INDEX = {
   [LOAN_STATUS_TYPES.DISBURSING]: 5,
   [LOAN_STATUS_TYPES.DISBURSED]: 7,

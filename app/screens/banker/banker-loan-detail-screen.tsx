@@ -10,11 +10,11 @@ import { Text } from "../../components"
 import PopupAlert from "./components/popup-alert"
 import numeral from "numeral"
 import moment from "moment"
-import { BellSvg, CallSvg, EditSvg, NotificationSvg, PictureSvg } from "../../assets/svgs"
+import { CallSvg, EditSvg, NotificationSvg, PictureSvg } from "../../assets/svgs"
 import { Linking } from "react-native"
 import DocumentView from "./components/document-view"
 import BankerLoanSteps from "./components/banker-loan-steps"
-import { LOAN_STATUS_TYPES, LOAN_STEP_INDEX } from "./constants"
+import { LOAN_STATUS_TYPES, LOAN_STEP_INDEX, TRANSACTION_STATUS_TYPES } from "./constants"
 
 const BankerLoanDetailScreen: FC = observer((props: any) => {
   const navigation = useNavigation()
@@ -32,6 +32,8 @@ const BankerLoanDetailScreen: FC = observer((props: any) => {
   const name =
     data?.user?.fullName || `${data?.user?.firstName || ""} ${data?.user?.lastName || ""}`
 
+  const [transactionDetail, setTransactionDetail] = useState<any>({})
+
   const getNotes = useCallback(async () => {
     const result = await bankerStore.getNotes(data?.dealDetails?.[0]?.id)
     setNotes(result)
@@ -39,9 +41,12 @@ const BankerLoanDetailScreen: FC = observer((props: any) => {
 
   const getTransactionDeal = useCallback(async () => {
     const result = await bankerStore.getTransactionDeal(
-      "62a05f9afd57a54e9052c94a",
-      "62a05f9afd57a54e9052c95e",
+      data?.dealDetails?.[0]?.dealId,
+      data?.dealDetails?.[0]?.id,
     )
+    if (result?.length) {
+      setTransactionDetail(result[0])
+    }
   }, [data])
 
   useEffect(() => {
@@ -196,37 +201,54 @@ const BankerLoanDetailScreen: FC = observer((props: any) => {
     )
   }, [])
 
-  const renderDisbursementProcess = useCallback(() => {
-    return (
-      <Box bg="white" borderRadius="8" p="4" mt={vs(8)}>
-        <Text
-          color="ebony"
-          fontSize={14}
-          lineHeight={20}
-          fontWeight="600"
-          text="Quá trình giải ngân:"
-        />
-        <Box height="1.0" my="3" bg="iron" opacity={0.5} />
-        {renderItem({
-          item: {
-            label: "10.000.000vnđ",
-            value: "",
-          },
-          index: 0,
-          rightComponent: (
-            <Text size="medium12" flex="1" textAlign="right" color="orange" text="Chưa đối soát" />
-          ),
-        })}
-        {renderItem({
-          item: { label: "10.000.000vnđ", value: "" },
-          index: 1,
-          rightComponent: (
-            <Text size="medium12" flex="1" textAlign="right" color="green" text="Đã đối soát" />
-          ),
-        })}
-      </Box>
-    )
-  }, [])
+  const renderTransactionDetails = useCallback(() => {
+    if (transactionDetail?.transactionDetails?.length) {
+      return (
+        <Box bg="white" borderRadius="8" p="4" mt={vs(8)}>
+          <Text
+            color="ebony"
+            fontSize={14}
+            lineHeight={20}
+            fontWeight="600"
+            text="Quá trình giải ngân:"
+          />
+          <Box height="1.0" my="3" bg="iron" opacity={0.5} />
+          {transactionDetail?.transactionDetails.map((item, index) =>
+            renderItem({
+              item: {
+                label: `${numeral(item.amount).format("0,0")} vnđ`,
+                value: "",
+              },
+              index: index,
+              rightComponent: (
+                <Text
+                  size="medium12"
+                  flex="1"
+                  textAlign="right"
+                  color={
+                    item.status === TRANSACTION_STATUS_TYPES.NOT_FOR_CONTROL ? "orange" : "green"
+                  }
+                  text={
+                    item.status === TRANSACTION_STATUS_TYPES.NOT_FOR_CONTROL
+                      ? "Chưa đối soát"
+                      : "Đã đối soát"
+                  }
+                />
+              ),
+            }),
+          )}
+          {renderItem({
+            item: { label: "10.000.000vnđ", value: "" },
+            index: 1,
+            rightComponent: (
+              <Text size="medium12" flex="1" textAlign="right" color="green" text="Đã đối soát" />
+            ),
+          })}
+        </Box>
+      )
+    }
+    return null
+  }, [transactionDetail])
 
   const renderFooterButton = useCallback(() => {
     switch (data.status) {
@@ -374,7 +396,7 @@ const BankerLoanDetailScreen: FC = observer((props: any) => {
             {renderItem({
               item: {
                 label: "Số tiền phê duyệt",
-                value: "-",
+                value: transactionDetail.totalAmount || "-",
               },
               index: 0,
               required: true,
@@ -389,7 +411,9 @@ const BankerLoanDetailScreen: FC = observer((props: any) => {
             {renderItem({
               item: {
                 label: "Ngày phê duyệt",
-                value: "-",
+                value: transactionDetail.createdAt
+                  ? moment(transactionDetail.createdAt).format("DD/MM/YYYY | hh:mm")
+                  : "-",
               },
               index: 2,
               required: true,
@@ -412,7 +436,7 @@ const BankerLoanDetailScreen: FC = observer((props: any) => {
             })}
           </Box>
           {renderNotes()}
-          {renderDisbursementProcess()}
+          {renderTransactionDetails()}
           {renderGuestDocument()}
           {renderFooterButton()}
         </Box>
