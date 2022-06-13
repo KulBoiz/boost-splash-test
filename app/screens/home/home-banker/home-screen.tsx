@@ -26,7 +26,7 @@ export const BankHomeScreen = observer(({ navigation }) => {
   })
 
   const { bankerStore } = useStores()
-  const { listRequest } = bankerStore
+  const { listRequest, listLoanTotal } = bankerStore
   const ref = useRef()
   const [activeDot, setActiveDot] = useState(0)
 
@@ -99,7 +99,7 @@ export const BankHomeScreen = observer(({ navigation }) => {
       <View style={styles.container}>
         <View style={styles.total}>
           <AppText
-            value={`Có ${listRequest?.length} bộ hồ sơ đang chờ giải quyết!`}
+            value={`Có ${listLoanTotal} bộ hồ sơ đang chờ giải quyết!`}
             style={styles.title}
           />
           <Pressable onPress={onRightPress} style={styles.button}>
