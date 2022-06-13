@@ -21,8 +21,6 @@ export const AppHomeScreen: FC<StackScreenProps<AppStackParamList, ScreenNames.H
     const { authStoreModel } = useStores()
     const { role } = authStoreModel
 
-    console.log("role", role);
-
     if (role === ROLE.CTV || role === ROLE.FINA || role === ROLE.KH) {
       return <HomeScreen navigation={navigation} />
       // return <NewHome />

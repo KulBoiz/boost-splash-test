@@ -1,32 +1,119 @@
 import { images } from "../../assets/images"
 import i18n from "i18n-js"
 
+
+export const getFeatureViewAnimation = (animatedValue, outputX: number) => {
+  const TRANSLATE_X_INPUT_RANGE = [0, 90];
+  const translateY = {
+    translateY: animatedValue.interpolate({
+      inputRange: [0, 90],
+      outputRange: [0, 10],
+      extrapolate: 'clamp',
+    }),
+  };
+  return {
+    transform: [
+      {
+        translateX: animatedValue.interpolate({
+          inputRange: TRANSLATE_X_INPUT_RANGE,
+          outputRange: [0, outputX],
+          extrapolate: 'clamp',
+        }),
+      },
+      translateY,
+    ],
+  };
+};
+
 export const HEADER  = [
   {
     image: images.financeHeader,
-    title: i18n.t('home.finance.finance')
+    title: i18n.t('home.finance.finance'),
+    onPress: ()=>  {
+      //
+    }
   },
   {
     image: images.insuranceHeader,
-    title: i18n.t('home.insurance.insurance')
+    title: i18n.t('home.insurance.insurance'),
+    onPress: ()=>  {
+      //
+    }
   },
   {
     image: images.investHeader,
-    title: i18n.t('home.invest.invest')
+    title: i18n.t('home.invest.invest'),
+    onPress: ()=>  {
+      //
+    }
   },
 ]
 
 export const LOAN_PRODUCT  = [
   {
-    image: images.financeHeader,
-    title: i18n.t('home.finance.finance')
+    image: images.home_house,
+    title: i18n.t('home.finance.finance'),
+    onPress: ()=>  {
+      //
+    }
   },
   {
-    image: images.insuranceHeader,
-    title: i18n.t('home.insurance.insurance')
+    image: images.home_car,
+    title: i18n.t('home.insurance.insurance'),
+    onPress: ()=>  {
+      //
+    }
   },
   {
-    image: images.investHeader,
-    title: i18n.t('home.invest.invest')
+    image: images.home_consumer,
+    title: i18n.t('home.invest.invest'),
+    onPress: ()=>  {
+      //
+    }
+  },
+  {
+    image: images.home_fix,
+    title: i18n.t('home.invest.invest'),
+    onPress: ()=>  {
+      //
+    }
+  },
+]
+
+export const SUPPORT_TOOL  = [
+  {
+    image: images.home_calculate,
+    title: i18n.t('home.calculate'),
+    onPress: ()=>  {
+      //
+    }
+  },
+  {
+    image: images.home_introduce,
+    title: i18n.t('home.introduce'),
+    onPress: ()=>  {
+      //
+    }
+  },
+  {
+    image: images.home_records,
+    title: i18n.t('home.recordManagement'),
+    onPress: ()=>  {
+      //
+    }
+  },
+  {
+    image: images.home_notarial,
+    title: i18n.t('home.notarialRecord'),
+    onPress: ()=>  {
+      //
+    }
+  },
+  {
+    image: images.home_map,
+    title: i18n.t('home.map'),
+    onPress: ()=>  {
+      //
+    }
   },
 ]

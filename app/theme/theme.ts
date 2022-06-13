@@ -51,4 +51,47 @@ export const theme = extendTheme({
   config: {
     initialColorMode: "light",
   },
+  components: {
+    Button: {
+      // Can simply pass default props to change default behaviour of components.
+      baseStyle: {
+        borderRadius: 8,
+        height: 51,
+        _text: { fontWeight: "600", fontSize: 16 },
+      },
+      defaultProps: {
+        colorScheme: "transparent",
+      },
+    },
+    Text: {
+      baseStyle: {
+        color: "black",
+      },
+      // defaultProps: {
+      //   size: "lg",
+      // },
+      sizes: {
+        medium12: {
+          fontSize: 12,
+          linHeight: 17,
+          fontWeight: "500",
+        },
+        semiBold12: {
+          fontSize: 12,
+          linHeight: 17,
+          fontWeight: "600",
+        },
+        semiBold14: {
+          fontSize: 14,
+          linHeight: 20,
+          fontWeight: "600",
+        },
+        bold14: {
+          fontSize: 14,
+          linHeight: 20,
+          fontWeight: "700",
+        },
+      },
+    },
+  },
 })

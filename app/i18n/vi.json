@@ -79,7 +79,8 @@
     "requestInvest": "Tạo yêu cầu tư vấn đầu tư",
     "notice": "Thông báo",
     "personalSetting": "Thiết lập cá nhân",
-    "bankerListLoan": "Danh sách YCTV"
+    "bankerListLoan": "Danh sách hồ sơ vay",
+    "bankerListRequest": "Danh sách YCTV"
   },
   "label": {
     "emailAndPhone": "Email hoặc số điện thoại",
@@ -141,6 +142,11 @@
       "interestPaymentSchedule": "Lịch trả lãi",
       "asset": "Tài sản"
     },
+    "calculate": "Tính khả năng vay",
+    "introduce": "Giới thiệu khách vay",
+    "recordManagement": "Quản lý hồ sơ vay",
+    "notarialRecord": "Công chứng hồ sơ",
+    "map": "Real map",
     "currentInvestmentTrends": "xu hướng đầu tư hiện nay"
   },
   "insurance": {
@@ -245,7 +251,7 @@
     "verifyNow": "Xác thực ngay"
   },
   "banker": {
-    "searchPleacholder": "Tìm theo tên, số điện thoại",
+    "searchPlaceholder": "Tìm theo tên, số điện thoại",
     "reject": "Từ chối",
     "approve": "Tiếp nhận"
   },

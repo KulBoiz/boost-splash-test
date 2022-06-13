@@ -1,8 +1,8 @@
 {
   "common": {
     "ok": "OK!",
-    "cancel": "Cancel",
-    "sure": "Sure",
+    "cancel": "Hủy",
+    "sure": "Chắc chắn",
     "back": "Quay lại",
     "continue": "Tiếp tục",
     "confirm": "Xác nhận",
@@ -10,17 +10,17 @@
     "sent": "Gửi",
     "sentCheck": "Gửi kiểm tra",
     "sentInformation": "Gửi thông tin",
-    "photoPermissionsMessage": "You must give Fina access to the photos from the settings menu",
-    "cameraPermissionsMessage": "You must give Fina access to the camera from the settings menu",
-    "pleaseAllowAccess": "Please Allow Access",
-    "goToSetting": "Go to setting Fina",
-    "donTAllow": "Don't allow",
-    "openSettings": "Open settings",
-    "youVeAllowedAccessToSelectPhotosYouCanAddMoreOrAllowAccessToAllPhotos": "You’ve allowed access to select photos. You can add more or allow access to all photos.",
-    "selectMorePhotosOrGoToSettingsToAllowAccessToAllPhotos": "Select more photos or go to Settings to allow access to all photos.",
-    "selectMorePhotos": "Select More Photos",
-    "allowAccessToAllPhotos": "Allow Access to All Photos",
-    "manage": "Manage"
+    "photoPermissionsMessage": "Bạn phải cấp cho Fina quyền truy cập vào ảnh từ menu cài đặt",
+    "cameraPermissionsMessage": "Bạn phải cấp cho Fina quyền truy cập vào máy ảnh từ menu cài đặt",
+    "pleaseAllowAccess": "Vui lòng cho phép truy cập",
+    "goToSetting": "Đi đến cài đặt Fina",
+    "donTAllow": "Không cho phép",
+    "openSettings": "Mở cài đặt",
+    "youVeAllowedAccessToSelectPhotosYouCanAddMoreOrAllowAccessToAllPhotos": "Bạn đã được phép truy cập để chọn ảnh. Bạn có thể thêm nhiều hơn hoặc cho phép truy cập vào tất cả các ảnh.",
+    "selectMorePhotosOrGoToSettingsToAllowAccessToAllPhotos": "Chọn thêm ảnh hoặc đi tới Cài đặt để cho phép truy cập vào tất cả ảnh.",
+    "selectMorePhotos": "Chọn thêm ảnh",
+    "allowAccessToAllPhotos": "Cho phép truy cập vào tất cả ảnh",
+    "manage": "Quản lý"
   },
   "guide": {
     "enterKeyword": "Nhập kí tự tìm kiếm và chọn từ danh sách hiện ra \n(vd: Q. 3 - Ho Chi Minh hoặc H. Dong Anh - Ha Noi)"
@@ -79,7 +79,8 @@
     "requestInvest": "Tạo yêu cầu tư vấn đầu tư",
     "notice": "Thông báo",
     "personalSetting": "Thiết lập cá nhân",
-    "bankerListLoan": "Danh sách YCTV"
+    "bankerListLoan": "Danh sách hồ sơ vay",
+    "bankerListRequest": "Danh sách YCTV"
   },
   "label": {
     "emailAndPhone": "Email hoặc số điện thoại",
@@ -141,6 +142,11 @@
       "interestPaymentSchedule": "Lịch trả lãi",
       "asset": "Tài sản"
     },
+    "calculate": "Tính khả năng vay",
+    "introduce": "Giới thiệu khách vay",
+    "recordManagement": "Quản lý hồ sơ vay",
+    "notarialRecord": "Công chứng hồ sơ",
+    "map": "Real map",
     "currentInvestmentTrends": "xu hướng đầu tư hiện nay"
   },
   "insurance": {
@@ -245,7 +251,7 @@
     "verifyNow": "Xác thực ngay"
   },
   "banker": {
-    "searchPleacholder": "Tìm theo tên, số điện thoại",
+    "searchPlaceholder": "Tìm theo tên, số điện thoại",
     "reject": "Từ chối",
     "approve": "Tiếp nhận"
   },

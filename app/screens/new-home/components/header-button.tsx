@@ -1,28 +1,62 @@
 import React from 'react';
-import { View, StyleSheet, Pressable } from "react-native"
+import { View, Animated, Pressable } from "react-native"
 import { AppText } from "../../../components/app-text/AppText"
-import { ScaledSheet } from "react-native-size-matters"
+import { ScaledSheet,s } from "react-native-size-matters"
 import { color } from "../../../theme"
 import { fontFamily } from "../../../constants/font-family"
-import FastImage from "react-native-fast-image"
+import { getFeatureViewAnimation } from "../constants"
 
 interface Props{
   title: string
   image: number
   isSelect: boolean
   handleSelect(e: any): void
+  animatedValue: any
 }
 const blurBlack = 'rgba(0,0,0,0.15)'
 
 const HeaderButton = React.memo((props: Props) => {
-  const {title, image, isSelect, handleSelect} = props
+  const {title, image, isSelect, handleSelect, animatedValue} = props
+
+  const depositViewAnimation = getFeatureViewAnimation(animatedValue, 72);
+
+  const featureIconAnimation = {
+    transform: [
+      {
+        scale: animatedValue.interpolate({
+          inputRange: [0, 70],
+          outputRange: [1, 0.8],
+          extrapolate: 'clamp',
+        }),
+      },
+    ],
+  };
+
+  const featureNameAnimation = {
+    transform: [
+      {
+        scale: animatedValue.interpolate({
+          inputRange: [0, 70],
+          outputRange: [1, 0],
+          extrapolate: 'clamp',
+        }),
+      },
+    ],
+    opacity: animatedValue.interpolate({
+      inputRange: [0, 70],
+      outputRange: [1, 0],
+      extrapolate: 'clamp',
+    }),
+  };
   return (
-    <View style={styles.container}>
-      <Pressable onPress={handleSelect} style={[styles.box, { backgroundColor: isSelect ? color.background : blurBlack }]}>
-        <FastImage source={image} style={styles.image} tintColor={isSelect ? color.palette.blue : color.palette.white}/>
-      </Pressable>
-      <AppText value={title} style={styles.text}/>
-    </View>
+    <Animated.View style={[styles.container,depositViewAnimation]}>
+      <Animated.View style={[styles.box, { backgroundColor: isSelect ? color.background : blurBlack },featureIconAnimation]}>
+        <Pressable onPress={handleSelect} >
+          <Animated.Image source={image} style={[styles.image, {tintColor: isSelect ? color.palette.blue : color.palette.white}, featureIconAnimation]}/>
+        </Pressable>
+      </Animated.View>
+      <Animated.Text style={[styles.text, featureNameAnimation]}>{title}</Animated.Text>
+    </Animated.View>
   )
 });
 
@@ -31,7 +65,7 @@ export default HeaderButton;
 const styles = ScaledSheet.create({
   container: {
     alignItems: "center",
-    width: '20%'
+    width: '30%'
   },
   box: {
     width: '56@s',

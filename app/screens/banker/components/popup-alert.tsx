@@ -12,10 +12,21 @@ interface Props {
   onConfirm?: () => void
   onClose?: () => void
   type?: "confirm" | "reject"
+  confirmText?: string
+  rejectText?: string
 }
 
 const PopupAlert = React.memo(
-  ({ visible, message, messageTx, onConfirm, onClose, type = "confirm" }: Props) => {
+  ({
+    visible,
+    message,
+    messageTx,
+    onConfirm,
+    onClose,
+    type = "confirm",
+    confirmText,
+    rejectText,
+  }: Props) => {
     return (
       <Modal isVisible={visible}>
         <Box bg="white" borderRadius="8" p={vs(24)}>
@@ -30,7 +41,11 @@ const PopupAlert = React.memo(
               alignItems="center"
               justifyContent="center"
             >
-              <Text fontSize={16} fontWeight="600" color="osloGray" tx="common.cancel" />
+              {rejectText ? (
+                <Text fontSize={16} fontWeight="600" color="osloGray" text={rejectText} />
+              ) : (
+                <Text fontSize={16} fontWeight="600" color="osloGray" tx="common.cancel" />
+              )}
             </Pressable>
             <Pressable
               onPress={onConfirm}
@@ -42,7 +57,11 @@ const PopupAlert = React.memo(
               justifyContent="center"
               ml="4"
             >
-              <Text fontSize={16} fontWeight="600" color="white" tx="common.sure" />
+              {confirmText ? (
+                <Text fontSize={16} fontWeight="600" color="white" text={confirmText} />
+              ) : (
+                <Text fontSize={16} fontWeight="600" color="white" tx="common.sure" />
+              )}
             </Pressable>
           </HStack>
         </Box>

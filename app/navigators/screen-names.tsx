@@ -36,6 +36,8 @@ export enum ScreenNames {
   PHOTO_PICKER = "PhotoPicker",
   SIGN_CONTRACT = "SignContract",
   VIEW_CONTRACT = "ViewContract",
+  BANKER_LIST_REQUEST_SCREEN = "BankerListRequestScreen",
+  BANKER_REQUEST_DETAIL_SCREEN = "BankerRequestDetailScreen",
   BANKER_LIST_LOAN_SCREEN = "BankerListLoanScreen",
   BANKER_LOAN_DETAIL_SCREEN = "BankerLoanDetailScreen",
 }
