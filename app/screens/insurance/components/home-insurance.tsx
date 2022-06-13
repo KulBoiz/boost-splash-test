@@ -13,8 +13,6 @@ const data = [0]
 const HomeInsurance = React.memo((props: Props) => {
   const { productDetail } = props 
   
-  console.log(productDetail);
-  
   return (
     <View style={styles.container}>
       <AppText value={'Nhà Bảo Hiểm'} style={styles.title}/>

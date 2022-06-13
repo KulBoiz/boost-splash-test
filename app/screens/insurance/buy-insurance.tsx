@@ -12,7 +12,10 @@ import ShareComponent from "../../components/share"
 import { useStores } from '../../models/root-store/root-store-context'
 import { ScreenNames } from "../../navigators/screen-names"
 import { color } from "../../theme"
-import BuyStepOne from "./components/buy-step-one"
+import BuyStepOnePackage from "./components/buy-step-one"
+import BuyStepOneForm from "./components/buy-step-one-form"
+import BuyStepOneQuestion from "./components/buy-step-one-question"
+// import BuyStepOne from "./components/buy-step-one"
 import BuyStepThree from "./components/buy-step-three"
 import BuyStepTwo from "./components/buy-step-two"
 
@@ -23,19 +26,19 @@ const BuyInsurance = observer((props: Props) => {
   const { productStore } = useStores()
   const { productDetail, questionGroups } = productStore
   const validationSchema = Yup.object().shape({
-    email: Yup.string()
-      .trim()
-      .required(i18n.t('errors.requireEmail'))
-      .email(i18n.t('errors.invalidEmail')),
-    fullName: Yup.string().required(i18n.t('errors.requireFullName')),
-    dateOfBirth: Yup.date().required(i18n.t('errors.requireDateOfBirth')).max(new Date(), "Ngày sinh không phù hợp"),
-    sex: Yup.string().required(i18n.t('errors.requireSex')),
-    citizenIdentification: Yup.string().required(i18n.t('errors.requireCitizenIdentification')),
-    dateRange: Yup.date().required(i18n.t('errors.requireDateRange')).max(new Date(), "Ngày cấp không phù hợp"),
-    issuedBy: Yup.string().required(i18n.t('errors.requireIssuedBy')),
-    contactAddress: Yup.string().required(i18n.t('errors.requireAddress')),
-    phone: Yup.string().required(i18n.t('errors.requirePhone')),
-    //
+    // email: Yup.string()
+    //   .trim()
+    //   .required(i18n.t('errors.requireEmail'))
+    //   .email(i18n.t('errors.invalidEmail')),
+    // fullName: Yup.string().required(i18n.t('errors.requireFullName')),
+    // dateOfBirth: Yup.date().required(i18n.t('errors.requireDateOfBirth')).max(new Date(), "Ngày sinh không phù hợp"),
+    // sex: Yup.string().required(i18n.t('errors.requireSex')),
+    // citizenIdentification: Yup.string().required(i18n.t('errors.requireCitizenIdentification')),
+    // dateRange: Yup.date().required(i18n.t('errors.requireDateRange')).max(new Date(), "Ngày cấp không phù hợp"),
+    // issuedBy: Yup.string().required(i18n.t('errors.requireIssuedBy')),
+    // contactAddress: Yup.string().required(i18n.t('errors.requireAddress')),
+    // phone: Yup.string().required(i18n.t('errors.requirePhone')),
+    // //
     emailCustomer: Yup.string()
       .trim()
       .required(i18n.t('errors.requireEmail'))
@@ -69,6 +72,18 @@ const BuyInsurance = observer((props: Props) => {
   const [insuranceType, setInsuranceType] = useState(0)
   // const [checkboxState, setCheckboxState] = useState<boolean>(true)
   const [transaction, setTransaction] = useState()
+
+  const stepOneQuestion = () => {
+    // @ts-ignore
+    ref.current.scrollTo({ x: 0, animated: true })
+    setCurrentPosition(0.1)
+  }
+
+  const stepOneForm = () => {
+    // @ts-ignore
+    ref.current.scrollTo({ x: 0, animated: true })
+    setCurrentPosition(0.2)
+  }
 
   const stepTwo = () => {
     // @ts-ignore
@@ -104,7 +119,31 @@ const BuyInsurance = observer((props: Props) => {
 
   const renderScreen = () => {
     switch (currentPosition) {
-      case 0: return <BuyStepOne  {...{
+      case 0: return <BuyStepOnePackage  {...{
+        control,
+        errors,
+        onPress: stepOneQuestion,
+        insuranceType,
+        setInsuranceType,
+        productDetail,
+        questionGroups,
+        setValue,
+      }}
+        getValues={getValues()}
+      />
+      case 0.1: return <BuyStepOneQuestion  {...{
+        control,
+        errors,
+        onPress: stepOneForm,
+        insuranceType,
+        setInsuranceType,
+        productDetail,
+        questionGroups,
+        setValue,
+      }}
+        getValues={getValues()}
+      />
+      case 0.2: return <BuyStepOneForm  {...{
         control,
         errors,
         onPress: handleSubmit(stepTwo),
@@ -116,6 +155,7 @@ const BuyInsurance = observer((props: Props) => {
       }}
         getValues={getValues()}
       />
+
       case 1: return <BuyStepTwo {...{
         stepThree,
         productDetail,
@@ -133,7 +173,6 @@ const BuyInsurance = observer((props: Props) => {
 
   return (
     <ScrollView style={styles.container} ref={ref}>
-      {/* {currentPosition < 2 && <RenderStep {...{ currentPosition }} />} */}
       {!!productDetail?.id && renderScreen()}
     </ScrollView>
   )
@@ -144,6 +183,6 @@ export default BuyInsurance;
 const styles = ScaledSheet.create({
   container: {
     flex: 1,
-    backgroundColor: color.palette.lightBlue,
+    backgroundColor: color.palette.white,
   },
 });
