@@ -37,7 +37,8 @@ export default InsuranceInfo;
 
 const styles = ScaledSheet.create({
   container: {
-    marginTop: '24@s',
+    // marginTop: '24@s',
+    paddingTop: '16@ms',
     flex: 1,
     backgroundColor: color.palette.lightBlue
   },

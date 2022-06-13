@@ -76,7 +76,7 @@ const InputCustomer = React.memo((props: Props) => {
 
   return (
     <>
-      <View style={styles.container}>
+      {/* <View style={styles.container}>
         <AppText value={'Thông tin người mua bảo hiểm'} style={styles.title} />
         <FormInput
           {...{
@@ -180,10 +180,10 @@ const InputCustomer = React.memo((props: Props) => {
             onChangeText: (value) => onChangeText(value, 'email')
           }}
         />
-      </View>
+      </View> */}
       <View style={styles.container}>
         <AppText value={'Thông tin người được bảo hiểm'} style={styles.title} />
-        <Checkbox
+        {/* <Checkbox
           textComponent={<AppText value={"Người mua là người được bảo hiểm"} style={{ marginLeft: s(8) }} />}
           checkboxState={checkboxState}
           setCheckboxState={(value) => {
@@ -195,7 +195,7 @@ const InputCustomer = React.memo((props: Props) => {
               setCustomer()
             }
           }}
-        />
+        /> */}
 
         <FormInput
           {...{
@@ -304,7 +304,7 @@ const styles = ScaledSheet.create({
   container: {
     paddingHorizontal: '16@ms',
     backgroundColor: color.background,
-    marginTop: '24@s',
+    // marginTop: '24@s',
     paddingVertical: '24@s'
   },
   title: {

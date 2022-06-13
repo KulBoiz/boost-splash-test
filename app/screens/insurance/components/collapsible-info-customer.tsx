@@ -10,68 +10,72 @@ import { fontFamily } from "../../../constants/font-family"
 import ItemView from "../../loan/components/item-view"
 import { MARGIN_TOP_16 } from "../../../styles/common-style"
 import moment from "moment"
+import { useStores } from '../../../models';
 interface Props {
   infoCustomer: any
   infoBuyInsurance: any
 }
 
-const CollapsibleInfoCustomer = React.memo(({infoCustomer, infoBuyInsurance}: Props) => {
-  const [activeSections, setActiveSections] = useState<number[]>([]);
-  const _handleSections = (index: number[]) => {
-    setActiveSections(index);
-  };
+const CollapsibleInfoCustomer = React.memo(({ infoCustomer, infoBuyInsurance }: Props) => {
+  const { authStoreModel } = useStores()
 
-  const renderHeader = (index: number, title: string) => {
-    const isOpen = activeSections[0] === index
-    return (
-      <>
-        <View
-          style={styles.headerBody}>
+  const accordionItem = (content) => {
+    const [activeSections, setActiveSections]: any = useState([]);
+    const _handleSections = (index) => {
+      setActiveSections(index);
+    };
+
+    const renderHeader = (index: number, title: string) => {
+      const isOpen = activeSections[0] === index
+      return (
+        <>
+          <View
+            style={styles.headerBody}>
             <AppText
               value={title}
               style={styles.headerText}
             />
-          <FastImage source={activeSections?.includes(index) ? images.arrow_up : images.arrow_down} style={styles.icon} />
-        </View>
-        {isOpen && <View style={styles.line}/>}
-      </>
-  );
-  };
+            <FastImage source={activeSections?.includes(index) ? images.arrow_up : images.arrow_down} style={styles.icon} />
+          </View>
+          {isOpen && <View style={styles.line} />}
+        </>
+      );
+    };
 
-  const renderContent = (info: any) => {
-    return (
-      <View style={styles.contentContainer}>
-        <ItemView title={'Họ và tên:'} content={info?.fullName} style={MARGIN_TOP_16}/>
-        <ItemView title={'Ngày sinh:'} content={`${moment(info?.dateOfBirth).format('DD/MM/YYYY')}`} style={MARGIN_TOP_16}/>
-        <ItemView title={'CMND/ CCCD:'} content={info?.citizenIdentification} style={MARGIN_TOP_16}/>
-        <ItemView title={'Email'} content={info?.email} style={MARGIN_TOP_16}/>
-      </View>
-    );
-  };
+    const renderContent = (info: any) => {
+      return (
+        <View style={styles.contentContainer}>
+          <ItemView title={'Họ và tên:'} content={info?.fullName} style={MARGIN_TOP_16} />
+          <ItemView title={'Ngày sinh:'} content={`${moment(info?.dateOfBirth).format('DD/MM/YYYY')}`} style={MARGIN_TOP_16} />
+          <ItemView title={'CMND/ CCCD:'} content={info?.citizenIdentification} style={MARGIN_TOP_16} />
+          <ItemView title={'Email'} content={info?.email} style={MARGIN_TOP_16} />
+        </View>
+      );
+    };
+
+    return <Accordion
+      containerStyle={[styles.collapsibleContainer, { borderWidth: activeSections.length > 0 ? 1 : 0 }]}
+      sections={[0]}
+      activeSections={activeSections}
+      renderHeader={(content, index) => renderHeader(index, 'Thông tin người hưởng bảo hiểm')}
+      renderContent={() => renderContent(content)}
+      onChange={(indexes) => {
+        _handleSections(indexes)
+      }}
+      keyExtractor={(v, i) => i.toString()}
+      underlayColor={'transparent'}
+    />
+  }
 
   return (
     <View style={styles.container}>
-      <Accordion
-        containerStyle={[styles.collapsibleContainer,  {borderWidth: activeSections.length > 0 ? 1: 0}]}
-        sections={[0]}
-        activeSections={activeSections}
-        renderHeader={(content, index) => renderHeader(index, 'Thông tin người mua bảo hiểm')}
-        renderContent={() =>renderContent(infoBuyInsurance)}
-        onChange={(indexes) => _handleSections(indexes)}
-        keyExtractor={(v, i) => i.toString()}
-        underlayColor={'transparent'}
-      />
-
-      <Accordion
-        containerStyle={[styles.collapsibleContainer,  {borderWidth: activeSections.length > 0 ? 1: 0}]}
-        sections={[0]}
-        activeSections={activeSections}
-        renderHeader={(content, index) => renderHeader(index, 'Thông tin người được bảo hiểm')}
-        renderContent={() =>renderContent(infoCustomer)}
-        onChange={(indexes) => _handleSections(indexes)}
-        keyExtractor={(v, i) => i.toString()}
-        underlayColor={'transparent'}
-      />
+      {accordionItem(authStoreModel?.user)}
+      {accordionItem({
+        fullName: infoCustomer?.fullNameCustomer,
+        dateOfBirth: infoCustomer?.dateOfBirthCustomer,
+        citizenIdentification: infoCustomer?.citizenIdentificationCustomer,
+        email: infoCustomer?.emailCustomer,
+      })}
     </View>
   );
 });
@@ -80,16 +84,16 @@ export default CollapsibleInfoCustomer;
 
 const styles = ScaledSheet.create({
   container: {
-    marginVertical: '24@s',
-    marginHorizontal:'16@ms'
+    backgroundColor: color.palette.lightBlue,
+    paddingHorizontal: '16@s',
   },
-  collapsibleContainer:{
+  collapsibleContainer: {
     backgroundColor: color.background,
     borderRadius: '8@s',
     borderColor: color.palette.blue,
-    marginBottom: '8@s'
+    marginTop: '16@s'
   },
-  headerText:{
+  headerText: {
     fontSize: '14@ms',
     fontFamily: fontFamily.medium,
     fontWeight: '500'
@@ -101,7 +105,7 @@ const styles = ScaledSheet.create({
     alignItems: 'center',
   },
   title: {
-    fontSize:'12@ms',
+    fontSize: '12@ms',
     color: color.palette.blue,
     marginBottom: '8@s'
   },
@@ -118,10 +122,10 @@ const styles = ScaledSheet.create({
     paddingHorizontal: '16@s',
     paddingBottom: '16@s'
   },
-  wrapContent:{
-    marginTop:'16@s'
+  wrapContent: {
+    marginTop: '16@s'
   },
-  wrapContentItem:{
+  wrapContentItem: {
     flexDirection: 'row',
     alignItems: "center"
   },
@@ -139,6 +143,6 @@ const styles = ScaledSheet.create({
   line: {
     height: 1,
     backgroundColor: color.palette.F0F0F0,
-    marginHorizontal:'16@ms'
+    marginHorizontal: '16@ms'
   }
 });
