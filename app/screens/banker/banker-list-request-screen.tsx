@@ -77,8 +77,8 @@ const BankerListRequestScreen: FC<Props> = observer((props: Props) => {
       >
         <Text fontWeight="600" fontSize="14" color="grayChateau" text={title} />
         <Text>
-          <Text color="grayChateau" fontWeight="500" fontSize="12" text="Hồ sơ còn lại: " />
-          <Text fontWeight="500" fontSize="12" color="primary" text={data?.length || 0} />
+          {/* <Text color="grayChateau" fontWeight="500" fontSize="12" text="Hồ sơ còn lại: " />
+          <Text fontWeight="500" fontSize="12" color="primary" text={data?.length || 0} /> */}
         </Text>
       </HStack>
     )

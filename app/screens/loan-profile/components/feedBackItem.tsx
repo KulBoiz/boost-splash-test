@@ -5,6 +5,7 @@ import { Image, TouchableOpacity, View } from 'react-native';
 import { s, ScaledSheet } from "react-native-size-matters";
 import { DefaultAvatarSvg } from '../../../assets/svgs';
 import { AppText } from "../../../components/app-text/AppText";
+import { truncateString } from '../../../constants/variable';
 import { HIT_SLOP } from '../../../styles/common-style';
 import { color } from "../../../theme";
 import FeedBackItemDetail from './feedBackItemDetail';
@@ -33,7 +34,7 @@ const TASK_RESPONSE_STATUS = {
 }
 
 const FeedBackItem = observer((props: Props) => {
-  const { item, itemActive, setItemActive, addId, idsCreateLoan } = props;
+  const { item, itemActive = [], setItemActive, addId, idsCreateLoan } = props;
 
   const mappingStatus = () => {
     if (!item?.responseStatus) return {
@@ -44,24 +45,32 @@ const FeedBackItem = observer((props: Props) => {
     return TASK_RESPONSE_STATUS[item?.responseStatus]
   }
 
+  const checkItemActive = () => {
+    return !!itemActive?.find(el => el === item?.id)
+  }
+
   return (
     <View
-      style={[styles.content, itemActive !== item?.id && { alignItems: 'center' }]}
+      style={[styles.content, !checkItemActive() && { alignItems: 'center' }]}
     >
       <TouchableOpacity
-        style={{ zIndex: 10 }}
+        style={{ zIndex: 1, height: s(64) }}
         onPress={() => {
           if (!item?.responseStatus) {
             alert('Phía ngân hàng chưa phản hồi' + mappingStatus()?.status)
           } else {
-            setItemActive(item?.id)
+            if (checkItemActive()) {
+              setItemActive(itemActive?.filter(el => el !== item?.id))
+            } else {
+              setItemActive(itemActive.concat([item?.id]))
+            }
           }
         }}
         hitSlop={HIT_SLOP}
       >
         {item?.partner?.avatar?.url ?
           <Image
-            style={[styles.image, itemActive === item?.id && { marginTop: 8 }]}
+            style={[styles.image, checkItemActive() && { marginTop: s(16) }]}
             source={{ uri: item?.partner?.avatar?.url }}
           /> :
           <DefaultAvatarSvg width={s(64)} height={s(64)} />
@@ -70,13 +79,16 @@ const FeedBackItem = observer((props: Props) => {
       <View style={styles.contentItem}>
         <View style={styles.item} >
           <AppText style={styles.itemLabel} value={'Ngân hàng:'} />
-          <AppText value={item?.partner?.name} />
+          <AppText value={truncateString(item?.partner?.name, 20)} />
         </View>
         <View style={styles.item} >
           <AppText style={styles.itemLabel} value={'Trạng thái:'} />
           <AppText color={mappingStatus()?.color} value={mappingStatus()?.status} />
         </View>
-
+        <View style={styles.item} >
+          <AppText style={styles.itemLabel} value={'Họ và tên:'} />
+          <AppText color={mappingStatus()?.color} value={item?.user?.fullName} />
+        </View>
 
         {item.note &&
           <View style={styles.item} >
@@ -88,7 +100,7 @@ const FeedBackItem = observer((props: Props) => {
           <AppText style={styles.itemLabel} value={'Cập nhập:'} />
           <AppText style={styles.itemValue} value={moment(item.updatedAt).format('DD/MM/YYYY')} />
         </View>
-        {itemActive === item?.id && <FeedBackItemDetail item={item} addId={addId} idsCreateLoan={idsCreateLoan}/>}
+        {checkItemActive() && <FeedBackItemDetail item={item} addId={addId} idsCreateLoan={idsCreateLoan}/>}
       </View>
     </View>
   )
@@ -123,7 +135,7 @@ const styles = ScaledSheet.create({
     marginLeft: '24@s'
   },
   itemLabel: {
-    width: '100@s',
+    width: '80@s',
     color: color.palette.BABABA,
   },
   itemValue: {

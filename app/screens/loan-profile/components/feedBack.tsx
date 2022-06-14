@@ -11,7 +11,7 @@ import FeedBackItem from "./feedBackItem"
 const FeedBack = React.memo((props) => {
   const { loanStore } = useStores()
   const data = loanStore?.feedback?.data
-  const [itemActive, setItemActive] = useState('')
+  const [itemActive, setItemActive] = useState([])
   const [idsCreateLoan, setIdsCreateLoan] = useState([])
 
   const addId = (ids) => {
@@ -48,7 +48,6 @@ const FeedBack = React.memo((props) => {
           <AppText value={'Tạo hồ sơ vay'} style={styles.textCreate} />
         </Pressable>
       }
-
       <FlatList
         keyExtractor={item => item.code}
         data={data}

@@ -12,6 +12,7 @@ import PopupReject from "./components/popup-reject"
 import PopupConfirm from "./components/popup-confirm"
 import PopupAlert from "./components/popup-alert"
 import { getSurveyDetails, getSurveyName } from "./constants"
+import { Alert } from "react-native"
 
 const BankerRequestDetailScreen: FC = observer((props: any) => {
   const navigation = useNavigation()
@@ -94,11 +95,15 @@ const BankerRequestDetailScreen: FC = observer((props: any) => {
     [data, authStoreModel.userId],
   )
 
-  const onAlertConfirm = useCallback(async () => {
-    setAlert({ visible: false })
-    navigation.goBack()
-    await bankerStore.updateSurveyTask(data?.task._id, alert.data)
-    await bankerStore.getSurveyResults({}, { page: 1, limit: 20 }, true)
+  const onAlertConfirm = useCallback(() => {
+    bankerStore.updateSurveyTask(data?.task._id, alert.data).then(() => {
+      Alert.alert('Đã phản hồi thành công')
+      bankerStore.getListRequest({}, { page: 1, limit: 20 }, true)
+      setAlert({ visible: false })
+      navigation.goBack()
+    }).catch(() => {
+      Alert.alert('Lỗi')
+    })
   }, [alert, navigation])
 
   const documents = [
