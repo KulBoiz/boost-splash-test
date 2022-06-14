@@ -1,7 +1,7 @@
 import { flow, Instance, SnapshotOut, types } from "mobx-state-tree"
 import { LOAN_STATUS_DATA, LOAN_STATUS_TYPES } from "../../screens/banker/constants"
 import { BaseApi } from "../../services/api/base-api"
-import { unionBy } from "../../utils/lodash-utils"
+import { omitFn, unionBy } from "../../utils/lodash-utils"
 import { withEnvironment } from "../extensions/with-environment"
 
 /**
@@ -141,8 +141,8 @@ export const BankerStoreModel = types
               self.dealStatusFilter !== LOAN_STATUS_TYPES.ALL
                 ? { inq: [self.dealStatusFilter] }
                 : {
-                  nin: ["deleted"],
-                },
+                    nin: ["deleted"],
+                  },
             searchingRule: "single",
             _q: params?.search,
           },
@@ -259,9 +259,10 @@ export const BankerStoreModel = types
       }
     }),
   })) // eslint-disable-line @typescript-eslint/no-unused-vars
+  .postProcessSnapshot(omitFn(["dealStatusFilter"]))
 
 type BankerStoreType = Instance<typeof BankerStoreModel>
-export interface BankerStore extends BankerStoreType { }
+export interface BankerStore extends BankerStoreType {}
 type BankerStoreSnapshotType = SnapshotOut<typeof BankerStoreModel>
-export interface BankerStoreSnapshot extends BankerStoreSnapshotType { }
+export interface BankerStoreSnapshot extends BankerStoreSnapshotType {}
 export const createBankerStoreDefaultModel = () => types.optional(BankerStoreModel, {})

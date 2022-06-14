@@ -79,6 +79,7 @@ export { default as StepSuccessSvg } from "./step-success.svg"
 export { default as PictureSvg } from "./picture.svg"
 export { default as NotificationSvg } from "./notification.svg"
 export { default as InDevelopingSvg } from "./in_developing.svg"
+export { default as FilterInsuranceSvg } from "./filter-insurance.svg"
 
 // home
 export { default as AccountHomeActiveSvg } from "./account-home-active.svg"

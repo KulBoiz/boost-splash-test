@@ -14,7 +14,13 @@ import { Text } from "../../../components"
 import { SurveyResultBase } from "./constants"
 import { ScreenNames } from "../../../navigators/screen-names"
 import { navigate } from "../../../navigators"
-import { ALIGN_CENTER, FONT_MEDIUM_12, MARGIN_TOP_16, ROW, SPACE_BETWEEN } from "../../../styles/common-style"
+import {
+  ALIGN_CENTER,
+  FONT_MEDIUM_12,
+  MARGIN_TOP_16,
+  ROW,
+  SPACE_BETWEEN,
+} from "../../../styles/common-style"
 
 const { width, height } = Dimensions.get("window")
 
@@ -25,7 +31,7 @@ export const BankHomeScreen = observer(({ navigation }) => {
   })
 
   const { bankerStore } = useStores()
-  const { listRequest,listLoanTotal, listRequestTotal } = bankerStore
+  const { listRequest, listLoanTotal, listRequestTotal } = bankerStore
   const ref = useRef()
 
   useEffect(() => {
@@ -100,29 +106,38 @@ export const BankHomeScreen = observer(({ navigation }) => {
       <View style={styles.container}>
         <View style={styles.total}>
           <AppText style={styles.title}>
-            Có <AppText value={`${listLoanTotal} hồ sơ vay `} style={[styles.title, {color: color.palette.blue}]}/>
-            và <AppText value={`${listRequestTotal} YCTV`} style={[styles.title, {color: color.palette.orange}]}/>
+            Có{" "}
+            <AppText
+              value={`${listLoanTotal} hồ sơ vay `}
+              style={[styles.title, { color: color.palette.blue }]}
+            />
+            và{" "}
+            <AppText
+              value={`${listRequestTotal} YCTV`}
+              style={[styles.title, { color: color.palette.orange }]}
+            />
           </AppText>
-          <AppText
-            value={`đang chờ giải quyết!`}
-            style={styles.title}
-          />
+          <AppText value={`đang chờ giải quyết!`} style={styles.title} />
           <View style={[ROW, ALIGN_CENTER, SPACE_BETWEEN, MARGIN_TOP_16]}>
             <Pressable onPress={onLeftPress} style={styles.button}>
-              <AppText
-                value={"Hồ sơ vay"}
-                style={styles.text}
-              />
+              <AppText value={"Hồ sơ vay"} style={styles.text} />
               <ArrowBankSvg />
             </Pressable>
-            <Pressable onPress={onRightPress} style={[styles.button, {backgroundColor: color.palette.orange}]}>
-              <AppText
-                value={"Yêu cầu tư vấn"}
-                style={styles.text}
-              />
+            <Pressable
+              onPress={onRightPress}
+              style={[styles.button, { backgroundColor: color.palette.orange }]}
+            >
+              <AppText value={"Yêu cầu tư vấn"} style={styles.text} />
               <ArrowBankSvg />
             </Pressable>
           </View>
+          <Pressable
+            onPress={() => navigate(ScreenNames.MANAGE_INSURANCE_LIST)}
+            style={[styles.button, { backgroundColor: color.palette.orange, marginTop: 12 }]}
+          >
+            <AppText value={"Bảo Hiểm"} style={styles.text} />
+            <ArrowBankSvg />
+          </Pressable>
         </View>
       </View>
 
@@ -136,17 +151,17 @@ export const BankHomeScreen = observer(({ navigation }) => {
               fontFamily: fontFamily.medium,
             }}
           />
-          {/*<AppText*/}
-          {/*  value={`Xem thêm`}*/}
-          {/*  style={{*/}
-          {/*    marginBottom: s(10),*/}
-          {/*    marginTop: s(15),*/}
-          {/*    fontFamily: fontFamily.medium,*/}
-          {/*    fontSize: s(11),*/}
-          {/*    color: color.palette.blue*/}
-          {/*  }}*/}
-          {/*  onPress={()=> navigate(ScreenNames.BANKER_LIST_REQUEST_SCREEN)}*/}
-          {/*/>*/}
+          {/* <AppText */}
+          {/*  value={`Xem thêm`} */}
+          {/*  style={{ */}
+          {/*    marginBottom: s(10), */}
+          {/*    marginTop: s(15), */}
+          {/*    fontFamily: fontFamily.medium, */}
+          {/*    fontSize: s(11), */}
+          {/*    color: color.palette.blue */}
+          {/*  }} */}
+          {/*  onPress={()=> navigate(ScreenNames.BANKER_LIST_REQUEST_SCREEN)} */}
+          {/* /> */}
         </View>
 
         <Carousel
@@ -157,7 +172,7 @@ export const BankHomeScreen = observer(({ navigation }) => {
           sliderWidth={width}
           itemWidth={width - ms(50)}
           inactiveSlideScale={1}
-          activeSlideAlignment={'start'}
+          activeSlideAlignment={"start"}
         />
       </View>
     </View>
@@ -198,11 +213,11 @@ const styles = ScaledSheet.create({
     fontSize: "14@s",
     lineHeight: "22@s",
   },
-  text:{
+  text: {
     fontFamily: fontFamily.semiBold,
-    fontSize: '12@ms',
+    fontSize: "12@ms",
     color: color.text,
-    marginTop: '1@s',
-    marginRight: '8@ms'
-  }
+    marginTop: "1@s",
+    marginRight: "8@ms",
+  },
 })
