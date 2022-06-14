@@ -22,6 +22,7 @@ const BankerRequestItem = React.memo(({ item, index, onPress }: Props) => {
     item.surveyDetails,
     (i) => i.questionData?.code === "QUESTION_LPC_LOAN_PLAN",
   )
+  console.log('bank item', item)
   return (
     <Pressable
       onPress={() => onPress?.(item)}

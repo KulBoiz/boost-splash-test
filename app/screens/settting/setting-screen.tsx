@@ -24,7 +24,6 @@ const SettingScreen: FC<Props> = observer((props: Props) => {
     await authStoreModel.logout()
     navigation.dispatch(StackActions.push(ScreenNames.AUTH))
   }
-  console.log(authStoreModel.user)
   return (
     <View style={styles.container}>
       <AppHeader headerTx={"header.personalSetting"} />
@@ -66,10 +65,6 @@ const SettingScreen: FC<Props> = observer((props: Props) => {
         ) : (
           <SettingAuthScreen />
         )
-        // <View style={styles.login}>
-        //   <AppText value={'Bạn cần phải đăng nhập để sử dụng tính năng này'}/>
-        //   <AppText value={'Đăng nhập'} underline onPress={login} color={color.palette.blue}/>
-        // </View>
       }
     </View>
   )
