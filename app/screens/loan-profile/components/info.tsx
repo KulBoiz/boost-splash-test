@@ -64,12 +64,6 @@ const Info = observer((props: Props) => {
           <AppText style={styles.title} value={"Ghi chú"} />
 
           <View style={[styles.contentItem, styles.contentItemNote]} >
-            {/* {comments?.map((comment, index) => (
-              <Note
-                key={index.toString()}
-                comment={comment} />
-            ))} */}
-
             <Note id={loanDetail?.id} />
           </View>
         </View>

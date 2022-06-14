@@ -65,7 +65,7 @@ export const BankerStoreModel = types
       }
       const result = yield self.api.get("survey-results/search-for-teller", {
         filter: {
-          order: ["sharedAt asc"],
+          order: ["sharedAt desc"],
           skip: 0,
           include: [
             {
@@ -100,9 +100,7 @@ export const BankerStoreModel = types
     }),
     updateSurveyTask: flow(function* updateSurveyTask(idTask, data) {
       const result = yield self.api.put(`tasks/update-bankId/${idTask}`, data)
-      if (result.kind !== "ok") {
-        return result
-      }
+      return result
     }),
     getNotes: flow(function* getNotes(id) {
       const param = {
@@ -143,8 +141,8 @@ export const BankerStoreModel = types
               self.dealStatusFilter !== LOAN_STATUS_TYPES.ALL
                 ? { inq: [self.dealStatusFilter] }
                 : {
-                    nin: ["deleted"],
-                  },
+                  nin: ["deleted"],
+                },
             searchingRule: "single",
             _q: params?.search,
           },
@@ -263,7 +261,7 @@ export const BankerStoreModel = types
   })) // eslint-disable-line @typescript-eslint/no-unused-vars
 
 type BankerStoreType = Instance<typeof BankerStoreModel>
-export interface BankerStore extends BankerStoreType {}
+export interface BankerStore extends BankerStoreType { }
 type BankerStoreSnapshotType = SnapshotOut<typeof BankerStoreModel>
-export interface BankerStoreSnapshot extends BankerStoreSnapshotType {}
+export interface BankerStoreSnapshot extends BankerStoreSnapshotType { }
 export const createBankerStoreDefaultModel = () => types.optional(BankerStoreModel, {})

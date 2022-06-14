@@ -44,10 +44,14 @@ const SignContract = React.memo((props: Props) => {
   const sendData = async () => {
     setSuccessModal(true)
     setIsSuccess(false)
+
     await agentStore.registerAgent().then(() => {
       authStoreModel.setRole(ROLE.CTV)
       setIsSuccess(true)
-    }).catch(() => (Alert.alert('Something went wrong')))
+    }).catch(() => {
+      setIsSuccess(false)
+      Alert.alert('Something went wrong')
+    })
   }
 
   return (
