@@ -22,7 +22,7 @@ const Header = React.memo((props: Props) => {
 
   const animatedWidth = animatedValue.interpolate({
     inputRange: [0,90],
-    outputRange: [width, width- s(48)],
+    outputRange: [width, width - s(90)],
     extrapolate: 'clamp'
   })
 
@@ -80,7 +80,9 @@ const styles = ScaledSheet.create({
     marginBottom: 0
   },
   wrapButton: {
+    alignSelf: "center",
     flex:1,
+    zIndex: 2,
     paddingHorizontal: '24@ms',
     alignItems:"flex-end",
     flexDirection: "row",
