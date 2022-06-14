@@ -2,9 +2,11 @@ import moment from 'moment';
 import React from 'react';
 import { View } from 'react-native';
 import BouncyCheckbox from 'react-native-bouncy-checkbox';
-import { ScaledSheet } from "react-native-size-matters";
+import { s, ScaledSheet } from "react-native-size-matters";
 import { AppText } from '../../../components/app-text/AppText';
 import { numberWithCommas } from "../../../constants/variable";
+import { useStores } from '../../../models';
+import { ROLE } from '../../../models/auth-store';
 import { color } from "../../../theme";
 
 interface Props {
@@ -15,6 +17,7 @@ interface Props {
 
 const FeedBackItemDetail = React.memo((props: Props) => {
   const { item, addId, idsCreateLoan = [] } = props
+  const { authStoreModel } = useStores()
 
   return (
     <View style={styles.itemDetail}>
@@ -23,11 +26,11 @@ const FeedBackItemDetail = React.memo((props: Props) => {
         <View style={styles.content}>
           <View style={styles.item}>
             <AppText style={styles.label} value={'Số tiền phê duyệt:'} />
-            <AppText style={styles.value} value={`${numberWithCommas(item?.content?.loanDemand)} vnđ`} />
+            <AppText style={styles.value} value={`${numberWithCommas(item?.content?.loanDemand)} VNĐ`} />
           </View>
           <View style={styles.item}>
             <AppText style={styles.label} value={'Thời hạn vay:'} />
-            <AppText style={styles.value} value={item?.content?.borrowTime ? `${item?.content?.borrowTime} Năm` : ''} />
+            <AppText style={styles.value} value={item?.content?.borrowTime ? `${item?.content?.borrowTime} Năm` : '_'} />
           </View>
           <View style={styles.item}>
             <AppText style={styles.label} value={'Ngày phê duyệt:'} />
@@ -35,7 +38,7 @@ const FeedBackItemDetail = React.memo((props: Props) => {
           </View>
           <View style={styles.item}>
             <AppText style={styles.label} value={'Lãi xuất:'} />
-            <AppText style={styles.value} value={item?.content?.interestRate ? `${item?.content?.interestRate}%` : '0%'} />
+            <AppText style={styles.value} value={item?.content?.interestRate ? `${item?.content?.interestRate}%` : '_'} />
           </View>
           <View style={styles.item}>
             <AppText style={styles.label} value={'Thời gian ưu đãi:'} />
@@ -43,17 +46,17 @@ const FeedBackItemDetail = React.memo((props: Props) => {
           </View>
           <View style={styles.item}>
             <AppText style={styles.label} value={'Phí kỳ hạn trả trước:'} />
-            <AppText style={styles.value} value={item?.content?.prepaidTermFee ? `${item?.content?.prepaidTermFee}%` : '0%'} />
+            <AppText style={styles.value} value={item?.content?.prepaidTermFee ? `${numberWithCommas(item?.content?.prepaidTermFee)} VNĐ` : '_'} />
           </View>
         </View>
       }
 
       <AppText style={styles.labelNote} value={'Ghi chú của ngân hàng:'} />
-      <View style={styles.note}>
+      <View style={[styles.note, {minHeight: s(50)}]}>
         <AppText style={styles.value} value={item?.bankNote} />
       </View>
 
-      {item?.responseStatus === 'received' &&
+      {item?.responseStatus === 'received' && authStoreModel?.role === ROLE.FINA &&
         <View style={{ width: '100%', marginTop: 10 }}>
           <BouncyCheckbox
             size={20}
@@ -61,7 +64,7 @@ const FeedBackItemDetail = React.memo((props: Props) => {
             fillColor={color.palette.blue}
             unfillColor="#FFFFFF"
             textComponent={<AppText value={'Chọn ngân hàng'} style={{ marginLeft: 10 }} />}
-            iconStyle={{ borderColor: "blue", borderRadius: 4 }}
+            iconStyle={{ borderColor: "blue", borderRadius: 4, zIndex: 2 }}
             onPress={(isChecked: boolean) => {
               if (isChecked) {
                 addId(idsCreateLoan.concat([item]))
