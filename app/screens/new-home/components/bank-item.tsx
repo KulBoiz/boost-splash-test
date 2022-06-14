@@ -48,7 +48,7 @@ export default BankItem;
 const styles = ScaledSheet.create({
   container: {
     width: '220@ms',
-    height:'125@ms',
+    height:'100@ms',
     shadowColor: "#000",
     shadowOffset: {
       width: 0,

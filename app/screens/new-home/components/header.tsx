@@ -21,14 +21,14 @@ const Header = React.memo((props: Props) => {
   const MAX_HEIGHT = isIphoneX() ? s(240) : s(220)
 
   const animatedWidth = animatedValue.interpolate({
-    inputRange: [0,90],
+    inputRange: [0,80],
     outputRange: [width, width - s(90)],
     extrapolate: 'clamp'
   })
 
   const animatedHeaderHeight = {
       height: animatedValue.interpolate({
-        inputRange: [0, 90],
+        inputRange: [0, 80],
         outputRange: [MAX_HEIGHT, MIN_HEIGHT],
         extrapolate: "clamp",
       }),
@@ -36,7 +36,7 @@ const Header = React.memo((props: Props) => {
 
   const animatedHeaderPadding = {
     paddingBottom: animatedValue.interpolate({
-      inputRange: [0, 90],
+      inputRange: [0, 70],
       outputRange: [s(32), 0],
       extrapolate: 'clamp'
     })

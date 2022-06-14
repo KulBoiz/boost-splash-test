@@ -10,7 +10,7 @@ import HomeInsurance from "./home-insurance"
 
 interface Props{}
 
-// const SCROLL_SNAPPING_THRESHOLD = 20;
+const SCROLL_SNAPPING_THRESHOLD = 20;
 
 const NewHome = React.memo((props: Props) => {
   const animatedValue = useRef(new Animated.Value(0)).current;
