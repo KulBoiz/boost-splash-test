@@ -57,13 +57,11 @@ export default HomeAvatar;
 const styles = ScaledSheet.create({
   container: {
     zIndex: 1,
-    width: '100%',
     top: isIphoneX() ? '55@s' : '35@s',
     paddingHorizontal: '24@ms',
     flexDirection: "row",
     justifyContent: "space-between",
     alignItems: "center",
-    position: "absolute"
   },
   avatar:{
     width: '36@s',

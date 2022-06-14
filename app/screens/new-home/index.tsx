@@ -1,16 +1,18 @@
 import React, { useRef, useState } from "react"
-import { View, ScrollView, Animated } from "react-native"
+import { View, ScrollView, Animated, StatusBar } from "react-native"
 import Header from "./components/header"
-import { ScaledSheet } from "react-native-size-matters"
+import { s, ScaledSheet } from "react-native-size-matters"
 import { color } from "../../theme"
 import HomeFinance from "./home-finance"
 import BottomView from "../../components/bottom-view"
 import ComingSoon from "../home/home-fina/coming-soon"
 import HomeInsurance from "./home-insurance"
+import { isAndroid } from "../../constants/variable"
+import { isIphoneX } from "react-native-iphone-x-helper"
 
 interface Props{}
 
-// const SCROLL_SNAPPING_THRESHOLD = 20;
+const SCROLL_SNAPPING_THRESHOLD = 16;
 
 const NewHome = React.memo((props: Props) => {
   const animatedValue = useRef(new Animated.Value(0)).current;
@@ -22,10 +24,10 @@ const NewHome = React.memo((props: Props) => {
 
   return (
     <View style={styles.container}>
+      <StatusBar backgroundColor={'#429BFB'} barStyle={'light-content'}/>
       <Header {...{index, setIndex, animatedValue}}/>
       <ScrollView
-        style={{flex:1}}
-        showsVerticalScrollIndicator={false}
+        contentContainerStyle={styles.scrollView}
         ref={scrollViewRef}
         onScroll={e => {
           const offsetY = e.nativeEvent.contentOffset.y;
@@ -35,12 +37,14 @@ const NewHome = React.memo((props: Props) => {
           animatedValue.setValue(offsetY);
         }}
         // onScrollEndDrag={e => {
-        //   const offsetY = e.nativeEvent.contentOffset.y;
-        //   if (offsetY > SCROLL_SNAPPING_THRESHOLD) {
-        //     scrollViewRef.current?.scrollTo({
-        //       y: scrollDirection.current === 'down' ? 100 : 0,
-        //       animated: true,
-        //     });
+        //   if (isAndroid){
+        //     const offsetY = e.nativeEvent.contentOffset.y;
+        //     if (offsetY > SCROLL_SNAPPING_THRESHOLD) {
+        //       scrollViewRef.current?.scrollTo({
+        //         y: scrollDirection.current === 'down' ? 100 : 0,
+        //         animated: true,
+        //       });
+        //     }
         //   }
         // }}
         scrollEventThrottle={16}>
@@ -61,4 +65,7 @@ const styles = ScaledSheet.create({
     flex:1,
     backgroundColor: color.background
   },
+  scrollView:{
+    paddingTop: isIphoneX() ? '240@s' : '225@s',
+  }
 });

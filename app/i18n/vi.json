@@ -27,6 +27,7 @@
   },
   "bottom_bar": {
     "home": "Trang chủ",
+    "create": "Tạo HSV",
     "chat": "Trò chuyện",
     "management": "Quản lí HS",
     "setting": "Cá nhân"
