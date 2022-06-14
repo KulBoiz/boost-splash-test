@@ -15,7 +15,7 @@ export const GET_TASK_STATUS_ASSIGNED = {
 
 export const LOAN_STATUS_TYPES = {
   ALL: "all",
-  WAIT_PROCESSING: "wait_processing", // Chờ xử lý
+  WAIT_PROCESSING: "moved_to_financial_organization", // Chờ xử lý
   RECEIVED: "received", // tiếp nhận
   APPRAISAL_PROGRESS: "appraisal_progress", // thẩm định
   LEND_APPROVAL: "lend_approval",

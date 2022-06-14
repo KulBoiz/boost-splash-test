@@ -23,6 +23,9 @@ export const DealDetailStoreModel = types
     },
     
     getTransaction: flow(function* getTransaction(dealId: string, dealDetailId: string) {
+      self.transaction = []
+      self.comments = []
+      
       const transactionApi = new TransactionApi(self.environment.api)
       const commentApi = new CommentApi(self.environment.api)
       
@@ -34,6 +37,7 @@ export const DealDetailStoreModel = types
       if (result.kind !== "ok") {
         return result
       }
+
       const data = result?.data?.data
       if (data) {
         self.transaction = data

@@ -16,6 +16,7 @@ import { debounce, groupBy, map } from "../../utils/lodash-utils"
 import moment from "moment"
 import BankerLoanItem from "./components/banker-loan-item"
 import BankerLoanTab from "./components/banker-loan-tab"
+import { LOAN_STATUS_TYPES } from "./constants"
 
 interface Props {}
 
@@ -25,6 +26,7 @@ const BankerListLoanScreen: FC<Props> = observer((props: Props) => {
 
   useEffect(() => {
     bankerStore.getListLoan({}, { page: 1, limit: 20 })
+    return () => bankerStore.setDealStatusFilter(LOAN_STATUS_TYPES.ALL)
   }, [])
 
   const showDetail = useCallback(

@@ -25,6 +25,8 @@ const KEY_NOTIFICATION = {
   // YCTV
   CREATE_YCTV: 'YCTV', // tạo yctv
   ASSIGNEE_YCTV: 'YCTV', // gán yctv
+  CLOSE_TASK: 'YCTV',
+  SHARE_PARTNER: 'YCTV',
   // HỒ SƠ VAY
   CREATE_DEAL: 'DEAL', // tạo hồ sơ vay
   SHARE_DEAL_WITH_BANK: 'DEAL', // HỒ SƠ VAY SHARE CHO NGÂN HÀNG

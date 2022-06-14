@@ -47,7 +47,7 @@ interface Props {
 
 const HistoryItem = React.memo((props: Props) => {
   const { item, isLastItem } = props
-  const [itemHeight,setItemHeight] = useState<number>(0)
+  const [itemHeight, setItemHeight] = useState<number>(0)
 
   const renderContent = () => {
     return (
@@ -76,15 +76,15 @@ const HistoryItem = React.memo((props: Props) => {
   }
   return (
     <View style={styles.container} onLayout={useCallback((event) => {
-      const {height} = event.nativeEvent.layout;
+      const { height } = event.nativeEvent.layout;
       setItemHeight(height)
-    },[])}>
+    }, [])}>
       <View style={[ROW, SPACE_BETWEEN]}>
         <View style={ALIGN_CENTER}>
-        {item?.createdBy?.avatar ? <FastImage source={{ uri: item?.createdBy?.avatar }} style={styles.avatar} /> :
-          <DefaultAvatarSvg width={s(48)} height={s(48)} style={styles.avatarContainer} />
-        }
-        {!isLastItem && <DashedLine axis='vertical' dashLength={10} dashThickness={1.5} dashGap={9} dashColor='blue' style={[styles.dashLine, {height: itemHeight}]} /> }
+          {item?.createdBy?.avatar ? <FastImage source={{ uri: item?.createdBy?.avatar }} style={styles.avatar} /> :
+            <DefaultAvatarSvg width={s(48)} height={s(48)} style={styles.avatarContainer} />
+          }
+          {!isLastItem && <DashedLine axis='vertical' dashLength={10} dashThickness={1.5} dashGap={9} dashColor='blue' style={[styles.dashLine, { height: itemHeight }]} />}
         </View>
         <View style={{ flex: 1, marginLeft: 16 }}>
           <ItemView title={item?.createdBy?.fullName} titleStyle={styles.title} content={renderContent()} />
@@ -94,9 +94,9 @@ const HistoryItem = React.memo((props: Props) => {
           <AppText value={renderDetail()} capitalize />
 
           <View style={[ROW, styles.timeContainer]}>
-            <AppText value={moment(item?.updatedAt).format("DD/MM/YYYY")} />
+            <AppText value={item?.createdAt ? moment(item?.createdAt).format("DD/MM/YYYY") : '_'} />
             <View style={styles.separate} />
-            <AppText value={moment(item?.updatedAt).format("HH:mm")} />
+            <AppText value={item?.createdAt ? moment(item?.createdAt).format("HH:mm") : '_'} />
           </View>
         </View>
       </View>

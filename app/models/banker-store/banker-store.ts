@@ -79,8 +79,8 @@ export const BankerStoreModel = types
             _q: params?.search,
             status: "deal_processing_task",
           },
+          limit: pagingParams?.limit,
         },
-        limit: pagingParams?.limit,
         page: pagingParams?.page,
       })
       self.isRefreshingListRequest = false
@@ -172,8 +172,8 @@ export const BankerStoreModel = types
               },
             },
           ],
+          limit: pagingParams?.limit,
         },
-        limit: pagingParams?.limit,
         page: pagingParams?.page,
       })
       self.isRefreshingListLoan = false

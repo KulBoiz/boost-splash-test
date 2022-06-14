@@ -40,8 +40,10 @@ const BankerLoanDetailScreen: FC = observer((props: any) => {
   const dealDetailId = data?.dealDetails?.[0]?.id
 
   const getNotes = useCallback(async () => {
-    const result = await bankerStore.getNotes(dealDetailId)
-    setNotes(result)
+    if (dealDetailId) {
+      const result = await bankerStore.getNotes(dealDetailId)
+      setNotes(result)
+    }
   }, [data, dealDetailId])
 
   const getTransactionDeal = useCallback(async () => {
@@ -72,7 +74,7 @@ const BankerLoanDetailScreen: FC = observer((props: any) => {
         return el
       } else {
         if (files[el.documentId]) {
-          const images = files[el.documentId].map((el) => el.file.url)
+          const images = files[el?.documentId].map((el) => el?.file?.url)
           return { ...el, images: images }
         }
         return el
@@ -118,39 +120,43 @@ const BankerLoanDetailScreen: FC = observer((props: any) => {
         <Box bg="white" borderRadius="8" p="4" mt="4">
           <Text color="ebony" size="semiBold14" text="Ghi chú của ngân hàng" />
           <Box height="1.0" my="3" bg="iron" opacity={0.5} />
-          {notes.map((item, index) => (
-            <HStack key={index} mt={index ? 3 : 0}>
-              <Avatar
-                source={{
-                  uri: item?.createdBy?.avatar,
-                }}
-                w={s(32)}
-                h={s(32)}
-                bg="gray"
-              >
-                {item?.createdBy?.fullName.charAt(0)}
-              </Avatar>
-              <Box flex={1} ml="3">
-                <Text
-                  color="grayChateau"
-                  fontSize={12}
-                  lineHeight={17}
-                  fontWeight="600"
-                  text={item?.createdBy?.fullName}
-                  textTransform="capitalize"
-                />
-                <Text
-                  color="ebony"
-                  fontSize={12}
-                  lineHeight={17}
-                  fontWeight="400"
-                  text={item.content}
-                  textTransform="capitalize"
-                  mt="0.5"
-                />
-              </Box>
-            </HStack>
-          ))}
+          {notes.map((item, index) => {
+            const user = item?.createdBy || {}
+            const name = user.fullName || user.firstName + " " + user.lastName
+            return (
+              <HStack key={index} mt={index ? 3 : 0}>
+                <Avatar
+                  source={{
+                    uri: item?.createdBy?.avatar,
+                  }}
+                  w={s(32)}
+                  h={s(32)}
+                  bg="gray"
+                >
+                  {name?.charAt(0)}
+                </Avatar>
+                <Box flex={1} ml="3">
+                  <Text
+                    color="grayChateau"
+                    fontSize={12}
+                    lineHeight={17}
+                    fontWeight="600"
+                    text={name}
+                    textTransform="capitalize"
+                  />
+                  <Text
+                    color="ebony"
+                    fontSize={12}
+                    lineHeight={17}
+                    fontWeight="400"
+                    text={item.content}
+                    textTransform="capitalize"
+                    mt="0.5"
+                  />
+                </Box>
+              </HStack>
+            )
+          })}
         </Box>
       )
     return null
@@ -300,7 +306,7 @@ const BankerLoanDetailScreen: FC = observer((props: any) => {
         return (
           <HStack mt="4" mb="6">
             {buttonReject()}
-            {buttonConfirm("Đã giải ngân", () => {
+            {buttonConfirm("Tiếp nhận", () => {
               setAlert({
                 visible: true,
                 type: "confirm",
