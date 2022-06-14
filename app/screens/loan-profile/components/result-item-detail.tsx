@@ -24,7 +24,7 @@ const ResultItemDetail = React.memo((props: Props) => {
   const getTransactionForControlNew = () => {
     const transactionDetails = transaction?.[0]?.transactionDetails?.filter(el => el?.status === 'for_control')
 
-    return transactionDetails?.[0]?.amount || 0
+    return transactionDetails?.[transactionDetails?.length -1]?.amount || 0
   }
 
   return (

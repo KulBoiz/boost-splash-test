@@ -15,13 +15,16 @@ const History = React.memo((props: Props) => {
   const { histories = [] } = loanStore
 
   const renderItem = useCallback(({ item, index }) => {
-    const isLastItem = index + 1  === histories?.length
+    const isLastItem = index + 1 === histories?.length
     return <HistoryItem item={item} isLastItem={isLastItem} />
   }, [histories?.length])
 
   return (
     <View style={styles.container}>
-      <FlatList data={sortBy(histories, function(o) { return moment(o.createdAt); }).reverse()} renderItem={renderItem} style={styles.flatList} />
+      {
+        histories?.length > 0 &&
+        <FlatList data={sortBy(histories, function (o) { return moment(o.createdAt); }).reverse()} renderItem={renderItem} style={styles.flatList} />
+      }
     </View>
   )
 });
