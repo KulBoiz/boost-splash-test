@@ -21,16 +21,13 @@ export const AppHomeScreen: FC<StackScreenProps<AppStackParamList, ScreenNames.H
     const { authStoreModel } = useStores()
     const { role } = authStoreModel
 
-    if (role === ROLE.CTV || role === ROLE.FINA || role === ROLE.KH) {
-      return <HomeScreen navigation={navigation} />
-      // return <NewHome />
+    if (role === ROLE.BANK) {
+      return <BankHomeScreen navigation={navigation}/>
     }
 
     return (
-      <BankHomeScreen navigation={navigation}/>
+      // <HomeScreen navigation={navigation}/>
+       <NewHome />
     )
   },
 )
-// const styles = ScaledSheet.create({
-
-// })

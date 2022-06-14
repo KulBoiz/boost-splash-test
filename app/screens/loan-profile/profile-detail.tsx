@@ -1,5 +1,5 @@
-import React from 'react';
-import {  View } from "react-native";
+import React, { useEffect } from 'react';
+import { View } from "react-native";
 import { ScaledSheet } from "react-native-size-matters";
 import AppHeader from "../../components/app-header/AppHeader";
 import { FONT_MEDIUM_14 } from "../../styles/common-style"
@@ -9,28 +9,43 @@ import Result from './components/result';
 import { SceneMap, TabBar, TabView } from "react-native-tab-view"
 import { width } from "../../constants/variable"
 import History from "./components/history"
+import { useStores } from '../../models';
+import FeedBack from './components/feedBack';
+import { isTaskCreateProfile } from '../loan/constants';
+import { observer } from 'mobx-react-lite';
 
 interface Props { }
 
-const renderScene = SceneMap({
-  first: Info,
-  second: History,
-  third : Result,
-});
-const ProfileDetail = React.memo((props: Props) => {
+const ProfileDetail = observer((props: Props) => {
+  const { loanStore } = useStores()
+  const { task } = loanStore
 
   const [index, setIndex] = React.useState(0);
-  const [routes] = React.useState([
+  const [routes, setRouter] = React.useState([
     { key: 'first', title: 'Thông tin' },
     { key: 'second', title: 'Lịch sử xử lý' },
-    { key: 'third', title: 'Kết quả' },
+    { key: 'third', title: isTaskCreateProfile(task) ? 'Kết quả' : 'Phản hồi' },
   ]);
+
+  useEffect(() => {
+    setRouter([
+      { key: 'first', title: 'Thông tin' },
+      { key: 'second', title: 'Lịch sử xử lý' },
+      { key: 'third', title: isTaskCreateProfile(task) ? 'Kết quả' : 'Phản hồi' },
+    ])
+  }, [task])
+
+  const renderScene = SceneMap({
+    first: Info,
+    second: History,
+    third: isTaskCreateProfile(task) ? Result : FeedBack,
+  });
 
   const renderTabBar = props => (
     <TabBar
       {...props}
       inactiveColor={color.palette.lighterGray}
-      labelStyle={[{color: color.palette.blue, textTransform: 'none'}, FONT_MEDIUM_14]}
+      labelStyle={[{ color: color.palette.blue, textTransform: 'none' }, FONT_MEDIUM_14]}
       indicatorStyle={styles.indicatorStyle}
       style={styles.tab}
     />
@@ -38,14 +53,13 @@ const ProfileDetail = React.memo((props: Props) => {
   return (
     <View style={styles.container}>
       <AppHeader headerText={'Hồ sơ'} isBlue />
-
-      <TabView
+      {task && <TabView
         navigationState={{ index, routes }}
         renderScene={renderScene}
         onIndexChange={setIndex}
-        initialLayout={{ width: width}}
+        initialLayout={{ width: width }}
         renderTabBar={renderTabBar}
-      />
+      />}
     </View>
   )
 });
@@ -53,8 +67,8 @@ const ProfileDetail = React.memo((props: Props) => {
 export default ProfileDetail;
 
 const styles = ScaledSheet.create({
-  tab:{ backgroundColor: 'white', borderTopLeftRadius: '8@s', borderTopRightRadius: '8@s', marginBottom: '16@s' },
-  indicatorStyle:{ backgroundColor: color.palette.blue },
+  tab: { backgroundColor: 'white', borderTopLeftRadius: '8@s', borderTopRightRadius: '8@s', marginBottom: '16@s' },
+  indicatorStyle: { backgroundColor: color.palette.blue },
   container: {
     flex: 1,
     backgroundColor: color.palette.lightBlue,

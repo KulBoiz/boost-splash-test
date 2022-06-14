@@ -34,7 +34,7 @@ export const AuthStoreModel = types
     expiresIn: types.maybeNull(types.string),
     type: types.maybeNull(types.string),
     isLoggedIn: types.frozen(false),
-    role: types.frozen(''),
+    role: types.maybeNull(types.string),
   })
   .views(self => ({})) // eslint-disable-line @typescript-eslint/no-unused-vars
   .actions(self => ({
@@ -302,6 +302,7 @@ export const AuthStoreModel = types
       self.expiresIn = null
       self.type = null
       self.isLoggedIn = false
+      self.role = null
       AsyncStorage.setItem('accessToken', '')
     },
   })) // eslint-disable-line @typescript-eslint/no-unused-vars

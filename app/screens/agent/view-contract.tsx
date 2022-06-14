@@ -1,6 +1,6 @@
 import moment from "moment";
 import React, { useEffect, useState } from "react";
-import { ScrollView, View } from "react-native";
+import { ScrollView, View, Image } from "react-native";
 import FastImage from "react-native-fast-image";
 import RenderHtml from 'react-native-render-html';
 import { s, ScaledSheet } from "react-native-size-matters"
@@ -28,7 +28,7 @@ const ViewContract = React.memo((props: Props) => {
       setUser(res?.data)
     })
   }, [])
-  console.log(signature)
+
   return (
     <View style={styles.container}>
       <AppHeader headerText={'Kí hợp đồng '} isBlue onLeftPress={()=> navigate(ScreenNames.SETTING)}/>
@@ -50,12 +50,7 @@ const ViewContract = React.memo((props: Props) => {
         />
 
         <View style={{ width: '40%', position: 'absolute', bottom: 30, right: 50, alignItems: 'center' }}>
-          <FastImage
-            source={{
-              uri: signature,
-              cache: 'web'
-          }}
-            style={{width: 100, height: 100, top: s(-100 )}}/>
+          <Image source={{ uri: signature ?? '', cache: 'reload' }}style={{width: 100, height: 100, top: s(-100 )}}/>
         </View>
         <View style={{height: 50}}/>
       </ScrollView>

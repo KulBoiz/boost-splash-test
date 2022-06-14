@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, StyleSheet } from 'react-native';
+import { View } from 'react-native';
 import UserAvatar from "../../../components/user-avatar/user-avatar"
 import { AppText } from "../../../components/app-text/AppText"
 import { useStores } from "../../../models"
@@ -24,7 +24,7 @@ const VerifyUser = React.memo(({ renderRole }: Props) => {
       <View style={styles.infoContainer}>
         <AppText value={name ?? 'FINA'} style={styles.name} />
         {renderRole && <View style={styles.verifyContainer}>
-          <AppText value={renderRole} style={styles.verify} />
+          <AppText value={renderRole ?? ''} style={styles.verify} />
         </View>}
         <AppText value={content} style={[TEXT_CENTER, FONT_REGULAR_12]} />
       </View>

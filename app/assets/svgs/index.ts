@@ -77,6 +77,7 @@ export { default as ChevronDownPrimarySvg } from "./chevron-down-primary.svg"
 export { default as StepSuccessSvg } from "./step-success.svg"
 export { default as PictureSvg } from "./picture.svg"
 export { default as NotificationSvg } from "./notification.svg"
+export { default as InDevelopingSvg } from "./in_developing.svg"
 
 // home
 export { default as AccountHomeActiveSvg } from "./account-home-active.svg"

@@ -1,18 +1,17 @@
 import { observer } from "mobx-react-lite"
 import React, { useEffect, useState } from "react"
 import { View } from "react-native"
-import { ms, ScaledSheet } from "react-native-size-matters"
-import { images } from "../../../assets/images"
-import { LoadingComponent } from "../../../components/loading"
-import { width } from "../../../constants/variable"
-import { useStores } from "../../../models"
-import { color } from "../../../theme"
-import MenuFilter from "../../loan/components/finance-filter"
+import { ScaledSheet } from "react-native-size-matters"
+import { images } from "../../assets/images"
+import { LoadingComponent } from "../../components/loading"
+import { useStores } from "../../models"
+import { color } from "../../theme"
+import MenuFilter from "../loan/components/finance-filter"
 import InsuranceItem from "./components/insurance-item"
 
 interface Props { }
 
-const Insurance = observer((props: Props) => {
+const HomeInsurance = observer((props: Props) => {
   const [select, setSelect] = useState<any>({
     key: 'all',
     icon: images.cube,
@@ -72,7 +71,7 @@ const Insurance = observer((props: Props) => {
   )
 });
 
-export default Insurance;
+export default HomeInsurance;
 
 const styles = ScaledSheet.create({
   container: {
@@ -83,11 +82,9 @@ const styles = ScaledSheet.create({
     borderRadius: '8@s',
     backgroundColor: color.background,
     paddingTop: '30@s'
-
   },
   body: {
-    padding: '16@ms',
-
+    padding: '24@ms',
   }
 
 });

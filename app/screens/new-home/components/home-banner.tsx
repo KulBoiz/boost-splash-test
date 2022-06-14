@@ -5,7 +5,7 @@ import { width } from "../../../constants/variable"
 import PaginationDot from "../../../components/pagination-dot/pagination-dot"
 import FastImage from "react-native-fast-image"
 import Carousel from 'react-native-snap-carousel';
-import { ScaledSheet } from "react-native-size-matters"
+import { ms, ScaledSheet } from "react-native-size-matters"
 import { useStores } from "../../../models"
 import { ScreenNames } from "../../../navigators/screen-names"
 import { navigate } from "../../../navigators"
@@ -44,9 +44,9 @@ const HomeBanner = observer((props: Props) => {
         data={news}
         renderItem={_renderItem}
         sliderWidth={width}
-        itemWidth={width - 100}
-        loop
-        autoplay
+        itemWidth={width - ms(105)}
+        inactiveSlideScale={1}
+        activeSlideAlignment={'start'}
         onSnapToItem={(index) => setActiveDot( index ) }
       />
       <PaginationDot length={news?.length} activeDot={activeDot} dotShape={'oval'} />
@@ -57,10 +57,12 @@ const HomeBanner = observer((props: Props) => {
 export default HomeBanner;
 
 const styles = ScaledSheet.create({
-    container: {},
+  container: {
+    paddingHorizontal: '24@ms'
+  },
   image:{
-    width: '250@s',
-    height: '160@s',
+    width: '240@s',
+    height: '140@s',
     borderRadius: '8@s'
   },
 });

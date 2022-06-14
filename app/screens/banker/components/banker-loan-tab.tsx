@@ -1,22 +1,23 @@
-import moment from "moment"
-import numeral from "numeral"
-import { Box, HStack, Pressable, ScrollView } from "native-base"
-import React, { useCallback, useState } from "react"
+import { observer } from "mobx-react-lite"
+import { HStack, Pressable, ScrollView } from "native-base"
+import React, { useCallback } from "react"
 import { s, vs } from "react-native-size-matters"
 import { Text } from "../../../components"
-import { find } from "../../../utils/lodash-utils"
+import { useStores } from "../../../models"
 import { LOAN_STATUS_DATA } from "../constants"
 
 interface Props {
   onChangeTab?: (key) => void
 }
 
-const BankerLoanTab = React.memo(({ onChangeTab }: Props) => {
-  const [tabSelected, setTabSelected] = useState(LOAN_STATUS_DATA[0].key)
+const BankerLoanTab = observer(({ onChangeTab }: Props) => {
+  const {
+    bankerStore: { dealStatusFilter, setDealStatusFilter },
+  } = useStores()
 
   const onSelectTab = useCallback(
     (key) => () => {
-      setTabSelected(key)
+      setDealStatusFilter(key)
       onChangeTab?.(key)
     },
     [onChangeTab],
@@ -30,7 +31,7 @@ const BankerLoanTab = React.memo(({ onChangeTab }: Props) => {
         contentContainerStyle={{ paddingLeft: s(16) }}
       >
         {LOAN_STATUS_DATA.map((status, index) => {
-          const selected = tabSelected === status.key
+          const selected = dealStatusFilter === status.key
           return (
             <Pressable
               onPress={onSelectTab(status.key)}

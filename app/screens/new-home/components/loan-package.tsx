@@ -1,12 +1,11 @@
-import React, { useCallback, useRef, useState } from "react"
+import React, { useCallback, useRef } from "react"
 import { View } from 'react-native';
 import { AppText } from "../../../components/app-text/AppText"
 import { color } from "../../../theme"
 import { navigate } from "../../../navigators"
 import { ScreenNames } from "../../../navigators/screen-names"
 import { width } from "../../../constants/variable"
-import PaginationDot from "../../../components/pagination-dot/pagination-dot"
-import { ScaledSheet } from "react-native-size-matters"
+import { ms, ScaledSheet } from "react-native-size-matters"
 import { useStores } from "../../../models"
 import Carousel from 'react-native-snap-carousel';
 import { fontFamily } from "../../../constants/font-family"
@@ -17,13 +16,12 @@ interface Props{}
 const LoanPackage = React.memo((props: Props) => {
   const { loanStore } = useStores()
   const ref = useRef()
-  const [activeDot, setActiveDot] = useState(0)
   const data = loanStore?.products?.data?.slice(0, 10) || []
 
 
   const renderItem = useCallback(({ item }) => {
     return (
-      <View>
+      <View style={{paddingVertical: 3}}>
         <BankItem item={item} />
       </View>
     )
@@ -42,11 +40,10 @@ const LoanPackage = React.memo((props: Props) => {
         data={data}
         renderItem={renderItem}
         sliderWidth={width}
-        itemWidth={width}
-        loop
-        onSnapToItem={(index) => setActiveDot(index)}
+        itemWidth={width-ms(130)}
+        inactiveSlideScale={1}
+        activeSlideAlignment={'start'}
       />
-      <PaginationDot length={data.length} activeDot={activeDot} dotShape={'circle'} />
     </View>
   )
 });

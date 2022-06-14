@@ -1,4 +1,5 @@
 import { flow, Instance, SnapshotOut, types } from "mobx-state-tree"
+import { BaseApi } from "../../services/api/base-api"
 // import { CommentApi } from "../../services/api/comment-api"
 import { DocumentTemplateApi } from "../../services/api/document-template"
 
@@ -32,6 +33,8 @@ const filter = {
   ]
 }
 
+const path  = 'tasks'
+
 export const LoanStoreModel = types
   .model("LoanStore")
   .extend(withEnvironment)
@@ -51,6 +54,7 @@ export const LoanStoreModel = types
     files: types.frozen([]),
     templates: types.frozen([]),
     task: types.frozen({}),
+    feedback: types.frozen({}),
   })
   .views((self) => ({})) // eslint-disable-line @typescript-eslint/no-unused-vars
   .actions((self) => ({
@@ -64,13 +68,26 @@ export const LoanStoreModel = types
       self.templates = []
       self.files = []
       self.task = {}
+      self.feedback = {}
 
+      const api = new BaseApi(self.environment.api)
       const loanApi = new LoanApi(self.environment.api)
       // const commentApi = new CommentApi(self.environment.api)
       const documentApi = new DocumentTemplateApi(self.environment.api)
 
       const resultDetail = yield loanApi.getRecordDetail(id)
       self.task = resultDetail.data
+
+      const resultFeedBack = yield api.get(`${path}/bank-feedbacks/${id}`, {
+        filter: {
+          limit: 20,
+          skip: 0,
+          where: {
+            statusResponse: 'all'
+          }
+        }
+      })
+      self.feedback = resultFeedBack.data
 
       const result = yield loanApi.requestLoanDetail(id)
       const deal = result.data
@@ -172,7 +189,7 @@ export const LoanStoreModel = types
       if (self.total < self.records.length) {
         return { kind: "end"}
       }
-      
+
       const loanApi = new LoanApi(self.environment.api)
       const nextPage = self.page + 1
       self.page = nextPage
@@ -213,6 +230,7 @@ export const LoanStoreModel = types
           data,
         }
       }
+      self.recordDetail = {}
     }),
 
     getProducts: flow(function* getProducts() {
@@ -291,6 +309,25 @@ export const LoanStoreModel = types
         return result
       }
       const data = result.data
+      if (data) {
+        self.productDetail = data
+        return {
+          kind: "ok",
+          data,
+        }
+      }
+    }),
+
+    createLoan: flow(function* createLoan(body) {
+      const api = new BaseApi(self.environment.api)
+
+      const result = yield api.post(`deals/create-deal-for-client`, body)
+      const data = result.data
+
+      if (result.kind !== "ok") {
+        return result
+      }
+
       if (data) {
         self.productDetail = data
         return {

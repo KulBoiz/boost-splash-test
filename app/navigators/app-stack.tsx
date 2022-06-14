@@ -16,6 +16,7 @@ import { isAndroid } from "../constants/variable"
 import { AppHomeScreen } from "../screens/home"
 import { useStores } from "../models"
 import { ROLE } from "../models/auth-store"
+import InDeveloping from "../components/in-developing"
 
 
 export type AppStackParamList = {
@@ -76,7 +77,7 @@ export const AppStack = () => {
             tabBarVisible: getTabBarVisibility(props.route),
           }
         }}
-        component={ComingSoon}
+        component={InDeveloping}
       />
       {role !== ROLE.BANK && <Tab.Screen
         name={ScreenNames.PLUS}
@@ -106,7 +107,7 @@ export const AppStack = () => {
               tabBarVisible: getTabBarVisibility(props.route),
             }
           }}
-          component={ComingSoon}
+          component={InDeveloping}
         />
       }
       <Tab.Screen

@@ -1,5 +1,5 @@
 import React from 'react';
-import { Pressable, View } from "react-native"
+import { Pressable } from "react-native"
 import { TxKeyPath } from "../../../i18n"
 import i18n, { translate } from "i18n-js"
 import FastImage from "react-native-fast-image"

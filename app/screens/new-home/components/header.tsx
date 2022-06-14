@@ -1,7 +1,6 @@
 import React  from "react"
-import { View, Animated } from "react-native"
+import {Animated } from "react-native"
 import { images } from "../../../assets/images"
-import FastImage from "react-native-fast-image"
 import { s, ScaledSheet } from "react-native-size-matters"
 import HeaderButton from "./header-button"
 import { HEADER } from "../constants"
@@ -27,25 +26,30 @@ const Header = React.memo((props: Props) => {
     extrapolate: 'clamp'
   })
 
-  const animatedHeaderHeight = animatedValue.interpolate({
-    inputRange: [0,90],
-    outputRange: [MAX_HEIGHT, MIN_HEIGHT],
-    extrapolate: 'clamp'
-  })
-  const animatedHeaderPadding = animatedValue.interpolate({
-    inputRange: [0,90],
-    outputRange: [30, 0],
-    extrapolate: 'clamp'
-  })
+  const animatedHeaderHeight = {
+      height: animatedValue.interpolate({
+        inputRange: [0, 90],
+        outputRange: [MAX_HEIGHT, MIN_HEIGHT],
+        extrapolate: "clamp",
+      }),
+  }
+
+  const animatedHeaderPadding = {
+    paddingBottom: animatedValue.interpolate({
+      inputRange: [0, 90],
+      outputRange: [s(32), 0],
+      extrapolate: 'clamp'
+    })
+  }
 
   const handleSelect = (i) => {
     setIndex(i)
   }
 
   return (
-    <Animated.View  style={[styles.container,{height : animatedHeaderHeight,paddingBottom: animatedHeaderPadding}]}>
-      <FastImage source={images.home_finance} style={styles.image}/>
-      <HomeAvatar />
+    <Animated.View  style={[styles.container,animatedHeaderHeight, animatedHeaderPadding]}>
+      <Animated.Image source={images.home_finance} style={[styles.image, animatedHeaderHeight]}/>
+      <HomeAvatar {...{animatedValue}}/>
       <Animated.View style={[styles.wrapButton,{width: animatedWidth}]}>
         {HEADER.map((e,i)=> {
           const isSelect = i === index
@@ -73,6 +77,7 @@ const styles = ScaledSheet.create({
     backgroundColor: color.background,
     borderBottomLeftRadius: '24@s',
     borderBottomRightRadius: '24@s',
+    marginBottom: 0
   },
   wrapButton: {
     flex:1,

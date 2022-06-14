@@ -1,7 +1,7 @@
-import { Box, HStack, Pressable } from "native-base"
+import { Box, Spinner, HStack, Pressable } from "native-base"
 import React from "react"
 import Modal from "react-native-modal"
-import { s, vs } from "react-native-size-matters"
+import { vs } from "react-native-size-matters"
 import { Text } from "../../../components"
 import { TxKeyPath } from "../../../i18n"
 
@@ -14,6 +14,7 @@ interface Props {
   type?: "confirm" | "reject"
   confirmText?: string
   rejectText?: string
+  loading?: boolean
 }
 
 const PopupAlert = React.memo(
@@ -26,6 +27,7 @@ const PopupAlert = React.memo(
     type = "confirm",
     confirmText,
     rejectText,
+    loading,
   }: Props) => {
     return (
       <Modal isVisible={visible}>
@@ -40,6 +42,7 @@ const PopupAlert = React.memo(
               borderRadius="5"
               alignItems="center"
               justifyContent="center"
+              disabled={loading}
             >
               {rejectText ? (
                 <Text fontSize={16} fontWeight="600" color="osloGray" text={rejectText} />
@@ -56,8 +59,11 @@ const PopupAlert = React.memo(
               alignItems="center"
               justifyContent="center"
               ml="4"
+              disabled={loading}
             >
-              {confirmText ? (
+              {loading ? (
+                <Spinner color="white" />
+              ) : confirmText ? (
                 <Text fontSize={16} fontWeight="600" color="white" text={confirmText} />
               ) : (
                 <Text fontSize={16} fontWeight="600" color="white" tx="common.sure" />

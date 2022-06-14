@@ -25,9 +25,11 @@ const content = 'Hồ sơ của bạn đang được xử lý, chúng tôi sẽ 
 const SignContract = React.memo((props: Props) => {
   const {agentStore, authStoreModel} = useStores()
   const navigation = useNavigation()
+  const [loading, setLoading] = useState<boolean>(false)
   const [signatureModal, setSignatureModal] = useState<boolean>(false)
   const [successModal, setSuccessModal] = useState<boolean>(false)
   const [signature, setSignature] = useState<any>(null)
+
 
   const uploadSignature = () => {
     setSignatureModal(false)
@@ -43,7 +45,6 @@ const SignContract = React.memo((props: Props) => {
       setSuccessModal(true)
     }).catch(()=> (Alert.alert('Something went wrong')))
   }
-  console.log('agentStore', agentStore.dateRange)
   return (
     <View style={styles.container}>
       <AppHeader headerText={'Kí hợp đồng '} isBlue/>
@@ -71,9 +72,9 @@ const SignContract = React.memo((props: Props) => {
       </ScrollView>
 
       <View style={styles.btnContainer}>
-        <AppButton title={'Tiếp tục'} onPress={sendData} disable={!signature}/>
+        <AppButton title={'Tiếp tục'} onPress={sendData} disable={!signature || loading} loading={loading}/>
       </View>
-      <SignatureModal visible={signatureModal} closeModal={uploadSignature}  setSignature={setSignature}/>
+      <SignatureModal visible={signatureModal} closeModal={uploadSignature} setSignature={setSignature} setLoading={setLoading}/>
       <Dialog visible={successModal}>
         <Dialog.Content>
           <Paragraph>{content}</Paragraph>

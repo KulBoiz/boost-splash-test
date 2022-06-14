@@ -1,10 +1,13 @@
 import React from 'react';
-import { View } from 'react-native';
+import { Pressable, View } from "react-native"
 import FastImage from "react-native-fast-image"
 import { ScaledSheet } from "react-native-size-matters"
 import { AppText } from "../../../components/app-text/AppText"
 import { color } from "../../../theme"
 import { ALIGN_CENTER, ROW } from "../../../styles/common-style"
+import { navigate } from "../../../navigators"
+import { ScreenNames } from "../../../navigators/screen-names"
+import { useStores } from "../../../models"
 
 interface Props{
   item: any
@@ -12,23 +15,31 @@ interface Props{
 
 const BankItem = React.memo((props: Props) => {
   const {item} = props
+  const { loanStore } = useStores()
   const imageUrl = item?.org?.image?.url
   const backgroundColor = item?.org?.backgroundColor
 
+  const handlePress = () => {
+    loanStore.getProductDetail(item?.id)
+    navigate(ScreenNames.LOAN_DETAIL)
+  }
+
   return (
-    <View style={styles.container}>
+    <Pressable style={styles.container} onPress={handlePress}>
       <View style={[styles.header, {backgroundColor: backgroundColor ?? '#005992'}]}>
         <FastImage source={{uri:  imageUrl}} style={styles.bankIcon}/>
       </View>
       <View style={styles.body}>
-        <AppText value={'LÃI XUẤT'} style={styles.text}/>
         <View style={[ROW, ALIGN_CENTER]}>
           <AppText value={'9,02%'} style={styles.percent}/>
-          <AppText value={' /năm'} style={styles.text}/>
+          <AppText value={' /năm'} style={styles.text} color={color.palette.deepGray}/>
         </View>
-        <AppText value={'12 THÁNG ƯU ĐÃI'} style={styles.text} color={color.palette.deepGray}/>
+        <View>
+          <AppText value={'Lãi suất'} style={styles.text} color={color.palette.gray}/>
+          <AppText value={'12 tháng ưu đãi'} style={styles.text} color={color.palette.gray}/>
+        </View>
       </View>
-    </View>
+    </Pressable>
   )
 });
 
@@ -52,14 +63,17 @@ const styles = ScaledSheet.create({
     borderTopRightRadius: '4@s',
     borderTopLeftRadius: '4@s',
     height:'30@s',
+    paddingHorizontal: '4@s',
     alignItems: 'flex-start',
     justifyContent:'center'
   },
   body: {
+    flexDirection: 'row',
+    alignItems: "center",
     backgroundColor: color.background,
-    justifyContent: "center",
+    justifyContent: "space-between",
     flex: 1,
-    paddingHorizontal: '20@ms',
+    paddingHorizontal: '12@ms',
     borderBottomRightRadius: '4@s',
     borderBottomLeftRadius: '4@s',
   },
@@ -67,6 +81,7 @@ const styles = ScaledSheet.create({
     width: '50@s',
     height:'25@s'
   },
+
   text: {
     fontSize: '11@ms',
   },

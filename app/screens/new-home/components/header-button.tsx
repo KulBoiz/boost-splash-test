@@ -1,7 +1,6 @@
 import React from 'react';
-import { View, Animated, Pressable } from "react-native"
-import { AppText } from "../../../components/app-text/AppText"
-import { ScaledSheet,s } from "react-native-size-matters"
+import { Animated, Pressable } from "react-native"
+import { s, ScaledSheet } from "react-native-size-matters"
 import { color } from "../../../theme"
 import { fontFamily } from "../../../constants/font-family"
 import { getFeatureViewAnimation } from "../constants"
@@ -18,7 +17,7 @@ const blurBlack = 'rgba(0,0,0,0.15)'
 const HeaderButton = React.memo((props: Props) => {
   const {title, image, isSelect, handleSelect, animatedValue} = props
 
-  const depositViewAnimation = getFeatureViewAnimation(animatedValue, 72);
+  const depositViewAnimation = getFeatureViewAnimation(animatedValue, s(62));
 
   const featureIconAnimation = {
     transform: [

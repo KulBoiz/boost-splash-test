@@ -1,5 +1,7 @@
 import { images } from "../../assets/images"
 import i18n from "i18n-js"
+import { navigate } from "../../navigators"
+import { ScreenNames } from "../../navigators/screen-names"
 
 
 export const getFeatureViewAnimation = (animatedValue, outputX: number) => {
@@ -29,21 +31,21 @@ export const HEADER  = [
   {
     image: images.financeHeader,
     title: i18n.t('home.finance.finance'),
-    onPress: ()=>  {
+    onPress: () =>  {
       //
     }
   },
   {
     image: images.insuranceHeader,
     title: i18n.t('home.insurance.insurance'),
-    onPress: ()=>  {
+    onPress: () =>  {
       //
     }
   },
   {
     image: images.investHeader,
     title: i18n.t('home.invest.invest'),
-    onPress: ()=>  {
+    onPress: () =>  {
       //
     }
   },
@@ -53,67 +55,30 @@ export const LOAN_PRODUCT  = [
   {
     image: images.home_house,
     title: i18n.t('home.finance.finance'),
-    onPress: ()=>  {
+    onPress: () =>  {
       //
     }
   },
   {
     image: images.home_car,
     title: i18n.t('home.insurance.insurance'),
-    onPress: ()=>  {
+    onPress: () =>  {
       //
     }
   },
   {
     image: images.home_consumer,
     title: i18n.t('home.invest.invest'),
-    onPress: ()=>  {
+    onPress: () =>  {
       //
     }
   },
   {
     image: images.home_fix,
     title: i18n.t('home.invest.invest'),
-    onPress: ()=>  {
+    onPress: () =>  {
       //
     }
   },
 ]
 
-export const SUPPORT_TOOL  = [
-  {
-    image: images.home_calculate,
-    title: i18n.t('home.calculate'),
-    onPress: ()=>  {
-      //
-    }
-  },
-  {
-    image: images.home_introduce,
-    title: i18n.t('home.introduce'),
-    onPress: ()=>  {
-      //
-    }
-  },
-  {
-    image: images.home_records,
-    title: i18n.t('home.recordManagement'),
-    onPress: ()=>  {
-      //
-    }
-  },
-  {
-    image: images.home_notarial,
-    title: i18n.t('home.notarialRecord'),
-    onPress: ()=>  {
-      //
-    }
-  },
-  {
-    image: images.home_map,
-    title: i18n.t('home.map'),
-    onPress: ()=>  {
-      //
-    }
-  },
-]
