@@ -56,7 +56,7 @@ const FeedBackItemDetail = React.memo((props: Props) => {
         <AppText style={styles.value} value={item?.bankNote} />
       </View>
 
-      {item?.responseStatus === 'received' && (authStoreModel?.role === ROLE.KH || authStoreModel?.role === ROLE.FINA) &&
+      {item?.responseStatus === 'received' && authStoreModel?.role === ROLE.FINA &&
         <View style={{ width: '100%', marginTop: 10 }}>
           <BouncyCheckbox
             size={20}
