@@ -1,16 +1,14 @@
 import { getFocusedRouteNameFromRoute } from "@react-navigation/native"
 import { ScreenNames } from "./screen-names"
-// import BottomTabBar from "../components/bottom-tab-bar/BottomTabBar"
 import { HomeScreen } from "../screens/home/home-fina/home-screen"
 import React from "react"
 import { createBottomTabNavigator, BottomTabBar } from "@react-navigation/bottom-tabs"
-import { FontAwesome as Icon } from '@expo/vector-icons';
 import { TabBarAdvancedButton } from "../components/bottom-tab-bar/TabBarAdvancedButton"
 import { View } from "react-native"
 import { isIphoneX } from 'react-native-iphone-x-helper';
 import { vs, ScaledSheet } from 'react-native-size-matters'
 import SettingScreen from "../screens/settting/setting-screen"
-import { AccountHomeActiveSvg, AccountHomeInactiveSvg, ChatHomeActiveSvg, ChatHomeInactiveSvg, FileHomeActiveSvg, FileHomeInactiveSvg, HomeActiveSVG, HomeInactiveSVG, SettingActiveSVG, SettingInactiveSVG } from "../assets/svgs"
+import { AccountHomeActiveSvg, AccountHomeInactiveSvg, ChatHomeActiveSvg, ChatHomeInactiveSvg, FileHomeActiveSvg, FileHomeInactiveSvg, HomeActiveSVG, HomeInactiveSVG } from "../assets/svgs"
 import i18n from "i18n-js"
 import { color } from "../theme"
 import ComingSoon from "../components/coming-soon"
@@ -18,6 +16,7 @@ import { isAndroid } from "../constants/variable"
 import { AppHomeScreen } from "../screens/home"
 import { useStores } from "../models"
 import { ROLE } from "../models/auth-store"
+import InDeveloping from "../components/in-developing"
 
 
 export type AppStackParamList = {
@@ -78,7 +77,7 @@ export const AppStack = () => {
             tabBarVisible: getTabBarVisibility(props.route),
           }
         }}
-        component={ComingSoon}
+        component={InDeveloping}
       />
       {role !== ROLE.BANK && <Tab.Screen
         name={ScreenNames.PLUS}
@@ -108,7 +107,7 @@ export const AppStack = () => {
               tabBarVisible: getTabBarVisibility(props.route),
             }
           }}
-          component={ComingSoon}
+          component={InDeveloping}
         />
       }
       <Tab.Screen

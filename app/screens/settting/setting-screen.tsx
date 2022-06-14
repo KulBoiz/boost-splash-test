@@ -24,7 +24,7 @@ const SettingScreen: FC<Props> = observer((props: Props) => {
     await authStoreModel.logout()
     navigation.dispatch(StackActions.push(ScreenNames.AUTH))
   }
-
+  console.log(authStoreModel.user)
   return (
     <View style={styles.container}>
       <AppHeader headerTx={"header.personalSetting"} />

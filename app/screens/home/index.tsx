@@ -9,6 +9,7 @@ import { AppStackParamList } from "../../navigators/app-stack"
 import { ScreenNames } from "../../navigators/screen-names"
 import { BankHomeScreen } from "./home-banker/home-screen"
 import { HomeScreen } from "./home-fina/home-screen"
+import NewHome from "../new-home"
 
 export const AppHomeScreen: FC<StackScreenProps<AppStackParamList, ScreenNames.HOME>> = observer(
   ({ navigation }) => {
@@ -25,7 +26,8 @@ export const AppHomeScreen: FC<StackScreenProps<AppStackParamList, ScreenNames.H
     }
 
     return (
-      <HomeScreen navigation={navigation}/>
+      // <HomeScreen navigation={navigation}/>
+       <NewHome />
     )
   },
 )

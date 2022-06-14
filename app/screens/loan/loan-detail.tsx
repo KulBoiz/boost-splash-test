@@ -29,6 +29,7 @@ const LoanDetail : React.FC<Props> = observer(() => {
       {loading ?
         <ActivityIndicator style={styles.loading} />
         :
+        item ?
         <ScrollView style={styles.body}>
           <LoanDetailItem item={item} />
           <ProductInfo item={item} />
@@ -37,6 +38,7 @@ const LoanDetail : React.FC<Props> = observer(() => {
                      containerStyle={styles.btn} />
           <View style={{ height: 100 }} />
         </ScrollView>
+        : <></>
       }
     </View>
   )

@@ -13,10 +13,11 @@ interface Props{
   visible: boolean,
   closeModal(): void
   setSignature?(e?: any): void
+  setLoading(e: boolean): void
 }
 
 const SignatureModal = React.memo((props: Props) => {
-  const {visible, closeModal, setSignature} = props
+  const {visible, closeModal, setSignature, setLoading} = props
   const signRef = useRef(null)
   const {agentStore} = useStores()
 
@@ -25,7 +26,10 @@ const SignatureModal = React.memo((props: Props) => {
     signRef?.current?.resetImage();
   }
   const _onSaveEvent = (result) => {
-    agentStore.uploadBase64(result?.encoded)
+    setLoading(true)
+    agentStore.uploadBase64(result?.encoded).then(() => {
+      setLoading(false)
+    }).catch(() => setLoading(false))
     if (setSignature) {
       setSignature(result?.encoded)
     }

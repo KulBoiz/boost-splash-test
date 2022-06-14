@@ -24,7 +24,6 @@ const styles = ScaledSheet.create({
     borderRadius: '8@s',
     alignItems: "center",
     justifyContent: "center",
-    width: widthHeight,
     height: widthHeight,
     backgroundColor: color.background
   },

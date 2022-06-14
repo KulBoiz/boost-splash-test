@@ -20,12 +20,13 @@ import { fontFamily } from "../../constants/font-family"
 import { ROLE } from "../../models/auth-store";
 import { LoadingComponent } from "../../components/loading";
 
-interface Props { }
+interface Props{}
 const content = 'Hồ sơ của bạn đang được xử lý, chúng tôi sẽ cập nhật trong vòng 24 giờ.\n\nChân thành cảm ơn!'
 
 const SignContract = React.memo((props: Props) => {
   const { agentStore, authStoreModel } = useStores()
   const navigation = useNavigation()
+  const [loading, setLoading] = useState<boolean>(false)
   const [signatureModal, setSignatureModal] = useState<boolean>(false)
   const [successModal, setSuccessModal] = useState<boolean>(false)
   const [isSuccess, setIsSuccess] = useState<boolean>(false)
@@ -46,7 +47,6 @@ const SignContract = React.memo((props: Props) => {
     await agentStore.registerAgent().then(() => {
       authStoreModel.setRole(ROLE.CTV)
       setIsSuccess(true)
-      // setSuccessModal(true)
     }).catch(() => (Alert.alert('Something went wrong')))
   }
 
@@ -77,9 +77,9 @@ const SignContract = React.memo((props: Props) => {
       </ScrollView>
 
       <View style={styles.btnContainer}>
-        <AppButton title={'Tiếp tục'} onPress={sendData} disable={!signature} />
+        <AppButton title={'Tiếp tục'} onPress={sendData} disable={!signature || loading} loading={loading}/>
       </View>
-      <SignatureModal visible={signatureModal} closeModal={uploadSignature} setSignature={setSignature} />
+      <SignatureModal visible={signatureModal} closeModal={uploadSignature} setSignature={setSignature} setLoading={setLoading}/>
       <Dialog visible={successModal}>
         <Dialog.Content>
           {!isSuccess ? <ActivityIndicator size="large"/> : <Paragraph>{content}</Paragraph>}

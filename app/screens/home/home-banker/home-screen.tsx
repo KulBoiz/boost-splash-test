@@ -2,7 +2,7 @@ import { useFocusEffect } from "@react-navigation/native"
 import { observer } from "mobx-react-lite"
 import React, { useEffect, useRef, useState } from "react"
 import { BackHandler, Pressable, StatusBar, View, Dimensions } from "react-native"
-import { s, ScaledSheet } from "react-native-size-matters"
+import { ms, s, ScaledSheet } from "react-native-size-matters"
 import { ArrowBankSvg } from "../../../assets/svgs"
 import { AppText } from "../../../components/app-text/AppText"
 import { fontFamily } from "../../../constants/font-family"
@@ -10,12 +10,11 @@ import { useStores } from "../../../models"
 import { color } from "../../../theme"
 import HeaderCard from "./components/HeaderCard"
 import Carousel from "react-native-snap-carousel"
-import PaginationDot from "../../../components/pagination-dot/pagination-dot"
-// import { Button } from "../../../button/button"
 import { Text } from "../../../components"
 import { SurveyResultBase } from "./constants"
 import { ScreenNames } from "../../../navigators/screen-names"
 import { navigate } from "../../../navigators"
+import { ALIGN_CENTER, FONT_MEDIUM_12, MARGIN_TOP_16, ROW, SPACE_BETWEEN } from "../../../styles/common-style"
 
 const { width, height } = Dimensions.get("window")
 
@@ -26,9 +25,8 @@ export const BankHomeScreen = observer(({ navigation }) => {
   })
 
   const { bankerStore } = useStores()
-  const { listRequest, listLoanTotal } = bankerStore
+  const { listRequest,listLoanTotal, listRequestTotal } = bankerStore
   const ref = useRef()
-  const [activeDot, setActiveDot] = useState(0)
 
   useEffect(() => {
     bankerStore.getListRequest({}, { page: 1, limit: 20 }, true)
@@ -37,6 +35,9 @@ export const BankHomeScreen = observer(({ navigation }) => {
   // console.log(SurveyResultBase(listRequest));
 
   const onRightPress = () => {
+    navigate(ScreenNames.BANKER_LIST_REQUEST_SCREEN)
+  }
+  const onLeftPress = () => {
     navigate(ScreenNames.BANKER_LIST_LOAN_SCREEN)
   }
 
@@ -53,7 +54,7 @@ export const BankHomeScreen = observer(({ navigation }) => {
           borderColor: color.palette.blue,
           borderWidth: 1,
           height: 120,
-          width: "80%",
+          width: "90%",
           justifyContent: "center",
           paddingHorizontal: 10,
         }}
@@ -98,39 +99,65 @@ export const BankHomeScreen = observer(({ navigation }) => {
       <HeaderCard />
       <View style={styles.container}>
         <View style={styles.total}>
+          <AppText style={styles.title}>
+            Có <AppText value={`${listLoanTotal} hồ sơ vay `} style={[styles.title, {color: color.palette.blue}]}/>
+            và <AppText value={`${listRequestTotal} YCTV`} style={[styles.title, {color: color.palette.orange}]}/>
+          </AppText>
           <AppText
-            value={`Có ${listLoanTotal} bộ hồ sơ đang chờ giải quyết!`}
+            value={`đang chờ giải quyết!`}
             style={styles.title}
           />
-          <Pressable onPress={onRightPress} style={styles.button}>
-            <AppText
-              value={"Quản lý hồ sơ vay"}
-              style={{ color: color.palette.blue, fontSize: s(14), fontFamily: fontFamily.medium }}
-            />
-            <ArrowBankSvg />
-          </Pressable>
+          <View style={[ROW, ALIGN_CENTER, SPACE_BETWEEN, MARGIN_TOP_16]}>
+            <Pressable onPress={onLeftPress} style={styles.button}>
+              <AppText
+                value={"Hồ sơ vay"}
+                style={styles.text}
+              />
+              <ArrowBankSvg />
+            </Pressable>
+            <Pressable onPress={onRightPress} style={[styles.button, {backgroundColor: color.palette.orange}]}>
+              <AppText
+                value={"Yêu cầu tư vấn"}
+                style={styles.text}
+              />
+              <ArrowBankSvg />
+            </Pressable>
+          </View>
         </View>
       </View>
 
       <View style={styles.container}>
-        <AppText
-          value={`Hồ sơ mới`}
-          style={{
-            marginBottom: s(10),
-            marginTop: s(15),
-            fontFamily: fontFamily.medium,
-          }}
-        />
+        <View style={[ROW, SPACE_BETWEEN]}>
+          <AppText
+            value={`Hồ sơ mới`}
+            style={{
+              marginBottom: s(10),
+              marginTop: s(15),
+              fontFamily: fontFamily.medium,
+            }}
+          />
+          {/*<AppText*/}
+          {/*  value={`Xem thêm`}*/}
+          {/*  style={{*/}
+          {/*    marginBottom: s(10),*/}
+          {/*    marginTop: s(15),*/}
+          {/*    fontFamily: fontFamily.medium,*/}
+          {/*    fontSize: s(11),*/}
+          {/*    color: color.palette.blue*/}
+          {/*  }}*/}
+          {/*  onPress={()=> navigate(ScreenNames.BANKER_LIST_REQUEST_SCREEN)}*/}
+          {/*/>*/}
+        </View>
+
         <Carousel
           ref={ref.current}
           key={(e, i) => e?.id + i.toString()}
           data={listRequest?.slice(0, 5)}
           renderItem={_renderItem}
           sliderWidth={width}
-          itemWidth={width}
-          // loop
-          // auto
-          onSnapToItem={(index) => setActiveDot(index)}
+          itemWidth={width - ms(50)}
+          inactiveSlideScale={1}
+          activeSlideAlignment={'start'}
         />
       </View>
     </View>
@@ -139,33 +166,43 @@ export const BankHomeScreen = observer(({ navigation }) => {
 const styles = ScaledSheet.create({
   container: {
     marginTop: "10@s",
-    paddingHorizontal: "20@s",
+    paddingHorizontal: "24@ms",
     backgroundColor: color.palette.white,
   },
   total: {
-    backgroundColor: color.palette.blue,
-    paddingHorizontal: "24@s",
+    backgroundColor: color.palette.white,
+    paddingHorizontal: "24@ms",
     paddingVertical: "32@s",
-    flexDirection: "column",
     width: "100%",
-    alignContent: "center",
-    justifyContent: "center",
     borderRadius: "8@s",
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.23,
+    shadowRadius: 2.62,
+
+    elevation: 4,
   },
   button: {
-    backgroundColor: color.palette.white,
-    width: "80%",
+    backgroundColor: color.palette.blue,
+    width: "48%",
     padding: "13@s",
     borderRadius: "8@s",
     flexDirection: "row",
-    alignContent: "center",
-    justifyContent: "space-between",
-    alignSelf: "center",
+    justifyContent: "center",
   },
   title: {
-    color: color.palette.white,
-    marginBottom: "16@s",
+    color: color.palette.black,
     fontSize: "14@s",
     lineHeight: "22@s",
   },
+  text:{
+    fontFamily: fontFamily.semiBold,
+    fontSize: '12@ms',
+    color: color.text,
+    marginTop: '1@s',
+    marginRight: '8@ms'
+  }
 })

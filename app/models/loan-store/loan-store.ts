@@ -189,7 +189,7 @@ export const LoanStoreModel = types
       if (self.total < self.records.length) {
         return { kind: "end"}
       }
-      
+
       const loanApi = new LoanApi(self.environment.api)
       const nextPage = self.page + 1
       self.page = nextPage
@@ -230,6 +230,7 @@ export const LoanStoreModel = types
           data,
         }
       }
+      self.recordDetail = {}
     }),
 
     getProducts: flow(function* getProducts() {
