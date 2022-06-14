@@ -8,7 +8,17 @@ import { View } from "react-native"
 import { isIphoneX } from 'react-native-iphone-x-helper';
 import { vs, ScaledSheet } from 'react-native-size-matters'
 import SettingScreen from "../screens/settting/setting-screen"
-import { AccountHomeActiveSvg, AccountHomeInactiveSvg, ChatHomeActiveSvg, ChatHomeInactiveSvg, FileHomeActiveSvg, FileHomeInactiveSvg, HomeActiveSVG, HomeInactiveSVG } from "../assets/svgs"
+import {
+  AccountHomeActiveSvg,
+  AccountHomeInactiveSvg,
+  ChatHomeActiveSvg,
+  ChatHomeInactiveSvg,
+  FileHomeActiveSvg,
+  FileHomeInactiveSvg,
+  HomeActiveSVG,
+  HomeInactiveSVG, PlusBottomSvg,
+  PlusSvg,
+} from "../assets/svgs"
 import i18n from "i18n-js"
 import { color } from "../theme"
 import ComingSoon from "../components/coming-soon"
@@ -17,6 +27,7 @@ import { AppHomeScreen } from "../screens/home"
 import { useStores } from "../models"
 import { ROLE } from "../models/auth-store"
 import InDeveloping from "../components/in-developing"
+import RequestCounselling from "../screens/loan/request-counselling"
 
 
 export type AppStackParamList = {
@@ -79,21 +90,37 @@ export const AppStack = () => {
         }}
         component={InDeveloping}
       />
-      {role !== ROLE.BANK && <Tab.Screen
-        name={ScreenNames.PLUS}
-        options={(props) => {
+      {role !== ROLE.BANK &&
+      //   <Tab.Screen
+      //   name={ScreenNames.PLUS}
+      //   options={(props) => {
+      //     return {
+      //       tabBarButton: (props) => (
+      //         <TabBarAdvancedButton
+      //           bgColor={'#FFFFFF'}
+      //           {...props}
+      //         />
+      //       ),
+      //       tabBarVisible: getTabBarVisibility(props.route),
+      //     }
+      //   }}
+      //   component={HomeScreen}
+      // />
+        <Tab.Screen
+          name={ScreenNames.PLUS}
+          options={(props) => {
           return {
-            tabBarButton: (props) => (
-              <TabBarAdvancedButton
-                bgColor={'#FFFFFF'}
-                {...props}
-              />
-            ),
-            tabBarVisible: getTabBarVisibility(props.route),
-          }
+          tabBarIcon: ({ focused }) => (
+          // eslint-disable-next-line react/jsx-no-undef
+          <PlusBottomSvg/>
+          ),
+          title: i18n.t('bottom_bar.create'),
+          tabBarVisible: getTabBarVisibility(props.route),
+        }
         }}
-        component={HomeScreen}
-      />}
+        component={RequestCounselling}
+        />
+      }
       {role !== ROLE.BANK &&
         <Tab.Screen
           name={ScreenNames.SCHEDULE}
