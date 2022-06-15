@@ -83,7 +83,8 @@
     "bankerListLoan": "Danh sách hồ sơ vay",
     "bankerListRequest": "Danh sách YCTV",
     "manageInsuranceList": "Quản lý danh sách bảo hiểm",
-    "filter": "Bộ lọc"
+    "filter": "Bộ lọc",
+    "requestClaim": "Yêu cầu bồi thường bảo hiểm"
   },
   "label": {
     "emailAndPhone": "Email hoặc số điện thoại",

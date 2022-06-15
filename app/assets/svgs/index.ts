@@ -84,6 +84,7 @@ export { default as QuestionLightSvg } from "./question-light.svg"
 export { default as ClosePopupSvg } from "./close-popup.svg"
 export { default as CheckBoxSvg } from "./checkbox.svg"
 export { default as CheckBoxEmptySvg } from "./checkbox-empty.svg"
+export { default as RequestSuccessSvg } from "./request-success.svg"
 
 // home
 export { default as AccountHomeActiveSvg } from "./account-home-active.svg"

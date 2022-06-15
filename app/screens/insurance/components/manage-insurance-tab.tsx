@@ -3,25 +3,16 @@ import { Box, HStack, Pressable, ScrollView } from "native-base"
 import React, { useCallback, useState } from "react"
 import { s, vs } from "react-native-size-matters"
 import { Text } from "../../../components"
-import { useStores } from "../../../models"
+import { INSURANCE_TABS } from "../constants"
 
 interface Props {
+  tabSelect?: string
   onChangeTab?: (key) => void
 }
 
-const ManageInsuranceTab = observer(({ onChangeTab }: Props) => {
-  const {} = useStores()
-
-  const data = [
-    { key: "1", text: "Danh sách bảo hiểm" },
-    { key: "line" },
-    { key: "2", text: "Yêu cầu bồi thường" },
-  ]
-  const [tabSelect, setTabSelect] = useState(data[0].key)
-
+const ManageInsuranceTab = observer(({ onChangeTab, tabSelect }: Props) => {
   const onSelectTab = useCallback(
     (key) => () => {
-      setTabSelect(key)
       onChangeTab?.(key)
     },
     [onChangeTab],
@@ -29,7 +20,7 @@ const ManageInsuranceTab = observer(({ onChangeTab }: Props) => {
 
   return (
     <HStack>
-      {data.map((status, index) => {
+      {INSURANCE_TABS.map((status, index) => {
         if (status.key === "line") {
           return <Box height={17} borderLeftWidth={1} borderLeftColor="#DCDDDF" mt="4" />
         }
@@ -48,6 +39,14 @@ const ManageInsuranceTab = observer(({ onChangeTab }: Props) => {
             borderBottomColor={selected ? "primary" : "#DCDDDF"}
           >
             <Text text={status.text} size="medium12" color={selected ? "primary" : "ebony"} />
+            <Box
+              position="absolute"
+              right="0"
+              height={17}
+              borderLeftWidth={1}
+              borderLeftColor="#DCDDDF"
+              mt="4"
+            />
           </Pressable>
         )
       })}

@@ -1,10 +1,7 @@
-import moment from "moment"
-import numeral from "numeral"
 import { Box, Pressable } from "native-base"
 import React, { useState } from "react"
 import { s, vs } from "react-native-size-matters"
 import { Text } from "../../../components"
-import { find } from "../../../utils/lodash-utils"
 import { FastImage } from "../../../components/fast-image/fast-image"
 
 interface Props {
@@ -21,7 +18,7 @@ const ManageInsuranceItem = React.memo(({ item, index, onPress }: Props) => {
       borderRadius={8}
       bg="white"
       mx={s(16)}
-      mt={index ? vs(10) : 0}
+      mb={vs(10)}
       flexDirection="row"
       alignItems="center"
       shadow={3}

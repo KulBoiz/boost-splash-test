@@ -1,5 +1,5 @@
 /* eslint-disable react-native/no-color-literals */
-import React, { FC, useCallback, useEffect, useMemo } from "react"
+import React, { FC, useCallback, useEffect, useMemo, useState } from "react"
 import { RefreshControl, StyleSheet } from "react-native"
 import { observer } from "mobx-react-lite"
 import AppHeader from "../../components/app-header/AppHeader"
@@ -21,7 +21,8 @@ import { color } from "../../theme"
 import { debounce, groupBy, map } from "../../utils/lodash-utils"
 import moment from "moment"
 import ManageInsuranceItem from "./components/manage-insurance-item"
-import ManageBankerLoanTab from "./components/manage-insurance-tab"
+import ManageInsuranceTab from "./components/manage-insurance-tab"
+import { INSURANCE_TABS } from "./constants"
 
 interface Props {}
 
@@ -29,31 +30,39 @@ const ManageInsuranceListScreen: FC<Props> = observer((props: Props) => {
   const navigation = useNavigation()
   const { bankerStore } = useStores()
 
+  const [tabSelect, setTabSelect] = useState(INSURANCE_TABS[0].key)
+
   const showDetail = useCallback((data) => {
     // navigation.navigate(ScreenNames.BANKER_LOAN_DETAIL_SCREEN, { data })
   }, [])
   const showFilter = useCallback((data) => {
-    navigation.navigate(ScreenNames.MANAGE_INSURANCE_FILTER)
+    navigation.navigate(ScreenNames.INSURANCE_REQUEST_CLAIM_SUCCESS_SCREEN)
   }, [])
 
   const data = useMemo(() => {
-    const sections = [
-      { data: Array(3).fill(""), title: `Bảo hiểm sức khoẻ` },
-      { data: Array(3).fill(""), title: `Bảo hiểm du lịch` },
-    ]
+    const sections =
+      tabSelect === INSURANCE_TABS[0].key
+        ? [
+            { data: Array(3).fill(""), title: `Bảo hiểm sức khoẻ` },
+            { data: Array(3).fill(""), title: `Bảo hiểm du lịch` },
+          ]
+        : [
+            { data: [{ status: "1" }], title: `Bảo hiểm sức khoẻ` },
+            { data: Array(3).fill(""), title: `Bảo hiểm du lịch` },
+          ]
     return sections
-  }, [bankerStore.listLoan])
+  }, [tabSelect])
 
   const _onRefresh = useCallback(() => {
     bankerStore.getListLoan({}, { page: 1, limit: 20 }, true)
   }, [])
   const _onLoadMore = useCallback(() => {
     if (bankerStore.listLoan?.length < bankerStore.listLoanTotal) {
-      bankerStore.getListLoan(
-        {},
-        { page: bankerStore?.pagingParamsListLoan?.page + 1, limit: 20 },
-        false,
-      )
+      // bankerStore.getListLoan(
+      //   {},
+      //   { page: bankerStore?.pagingParamsListLoan?.page + 1, limit: 20 },
+      //   false,
+      // )
     }
   }, [bankerStore])
 
@@ -63,8 +72,9 @@ const ManageInsuranceListScreen: FC<Props> = observer((props: Props) => {
     }, 500),
     [],
   )
-  const onChangeTab = useCallback(() => {
-    bankerStore.getListLoan({}, { page: 1, limit: 20 })
+  const onChangeTab = useCallback((key) => {
+    setTabSelect(key)
+    // bankerStore.getListLoan({}, { page: 1, limit: 20 })
   }, [])
 
   const renderSectionHeader = useCallback(({ section: { title, data } }) => {
@@ -161,7 +171,7 @@ const ManageInsuranceListScreen: FC<Props> = observer((props: Props) => {
         headerTx={"header.manageInsuranceList"}
         renderRightIcon={renderRightIcon()}
       />
-      <ManageBankerLoanTab onChangeTab={onChangeTab} />
+      <ManageInsuranceTab onChangeTab={onChangeTab} tabSelect={tabSelect} />
       <Box flex={1} bg="white">
         <HStack alignItems="center" mt="4" mb="4">
           <HStack

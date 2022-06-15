@@ -41,3 +41,12 @@ export const INSURANCE_STATUS = [
   { value: "2_", title: "Hết hiệu lực" },
   { value: "3_", title: "Đã hủy" },
 ]
+export const INDEMNIFY_STATUS = [
+  { value: "_1", title: "Hoàn thành" },
+  { value: "2_", title: "Thất bại" },
+  { value: "3_", title: "Đang xử lý" },
+]
+export const INSURANCE_TABS = [
+  { key: "1", text: "Danh sách bảo hiểm" },
+  { key: "2", text: "Yêu cầu bồi thường" },
+]
