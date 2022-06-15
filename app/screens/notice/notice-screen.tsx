@@ -121,6 +121,8 @@ const NoticeScreen = observer((props: Props) => {
 
     const nextDetail = () => {
       const key = KEY_NOTIFICATION[item?.code]
+      notificationModel.readNotifications(item)
+      
       if (!key) return ''
 
       if (key === 'YCTV') {
