@@ -196,12 +196,12 @@ export const BankerStoreModel = types
           where: {
             objectId: dealId,
             "metaData.dealDetailId": dealDetailId,
-            include: [
-              {
-                relation: "transactionDetails",
-              },
-            ],
           },
+          include: [
+            {
+              relation: "transactionDetails",
+            },
+          ],
         },
       }
       const result = yield self.api.get("transactions", params)
