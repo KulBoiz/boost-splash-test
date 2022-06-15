@@ -13,6 +13,22 @@ export const GET_TASK_STATUS_ASSIGNED = {
   overdue_for_bank_response: "Quá thời hạn phản hồi",
 }
 
+export const GET_STATUS_BANK_FEED_BACK = {
+  waiting_to_receive : 'Chờ xử lý',
+  received : 'Tiếp nhận',
+  reject : 'Từ chối',
+  enough_people_to_accept : 'Đã đủ người tiếp nhận',
+  // responded: "Đã phản hồi",
+}
+
+export const STATUS_BANK_FEED_BACK = {
+  waiting_to_receive : 'waiting_to_receive',
+  received : 'received',
+  reject : 'reject',
+  enough_people_to_accept : 'enough_people_to_accept',
+  // responded: "Đã phản hồi",
+}
+
 export const LOAN_STATUS_TYPES = {
   ALL: "all",
   WAIT_PROCESSING: "moved_to_financial_organization", // Chờ xử lý
