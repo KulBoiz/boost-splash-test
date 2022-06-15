@@ -43,10 +43,16 @@ export const LOAN_STATUS_TYPES = {
 export const TRANSACTION_STATUS_TYPES = {
   FOR_CONTROL: "for_control",
   NOT_FOR_CONTROL: "not_for_control",
+  CANCELLED:  "cancelled"
 }
 export const LOAN_STEP_INDEX = {
-  [LOAN_STATUS_TYPES.DISBURSING]: 5,
-  [LOAN_STATUS_TYPES.DISBURSED]: 7,
+  [LOAN_STATUS_TYPES.WAIT_PROCESSING]: 0, // Chờ xử lý
+  [LOAN_STATUS_TYPES.RECEIVED]: 1, // Tiếp nhận
+  [LOAN_STATUS_TYPES.APPRAISAL_PROGRESS]: 2, // Thẩm định
+  [LOAN_STATUS_TYPES.LEND_APPROVAL]: 3, // duyệt cho vay
+  [LOAN_STATUS_TYPES.TRIPARTITE_BLOCKADE]: 4, // phong toả 3 bên
+  [LOAN_STATUS_TYPES.DISBURSING]: 5, // Đang giải ngân
+  [LOAN_STATUS_TYPES.DISBURSED]: 6, // Đã giải ngân
 }
 
 export const LOAN_STATUS_DATA = [
