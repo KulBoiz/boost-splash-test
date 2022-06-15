@@ -100,7 +100,7 @@ const styles = ScaledSheet.create({
     height: '16@s'
   },
   errorMessage: {
-    fontFamily: 'Inter-Medium',
+    fontFamily: fontFamily.medium,
     color: color.palette.angry,
     fontSize: '12@ms',
     marginTop: '10@s',

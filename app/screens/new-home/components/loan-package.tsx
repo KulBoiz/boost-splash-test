@@ -60,13 +60,14 @@ const styles = ScaledSheet.create({
     justifyContent: "space-between",
   },
   viewMore: {
-    fontSize: '14@ms',
-    color: color.palette.blue,
-    fontFamily: fontFamily.medium
+    fontSize: '12@ms',
+    color: '#177DDC',
+    fontFamily: fontFamily.bold
   },
   label: {
     fontSize: '16@ms',
     fontFamily: fontFamily.semiBold,
-    marginBottom: '12@s'
+    marginBottom: '12@s',
+    color: 'rgba(0, 0, 0, 0.85)'
   },
 });

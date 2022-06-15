@@ -1,12 +1,13 @@
 import { TextStyle } from "react-native"
 import { color } from "../theme"
 import {s, ms} from 'react-native-size-matters'
+import { fontFamily } from "./font-family"
 
 /**
  * All text will start off looking like this.
  */
 const BASE: TextStyle = {
-  fontFamily: 'Inter-Medium',
+  fontFamily: fontFamily.medium,
   color: color.text,
 }
 
@@ -24,13 +25,13 @@ export const presets = {
   /**
    * A bold version of the default text.
    */
-  bold: { fontFamily: 'Inter-Bold' } as TextStyle,
+  bold: { fontFamily: 'SF-Pro-Display-Bold' } as TextStyle,
 
   /**
    * Large headers.
    */
   header: { ...BASE, fontSize: ms(44), color: color.lightBlack, fontFamily: 'Mulish-Bold' } as TextStyle,
-  secondary: { ...BASE, fontSize: ms(18), color: color.lightBlack, lineHeight: s(25), fontFamily: 'Inter-Regular' } as TextStyle,
+  secondary: { ...BASE, fontSize: ms(18), color: color.lightBlack, lineHeight: s(25), fontFamily: 'SF-Pro-Display-Regular' } as TextStyle,
   boldContent: {...BASE, fontWeight: '700', fontSize: ms(18)} as TextStyle,
   /**
    * Field labels that appear on forms above the inputs.

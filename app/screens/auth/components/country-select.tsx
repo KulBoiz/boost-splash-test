@@ -6,6 +6,7 @@ import { ArrowDownSvg } from "../../../assets/svgs"
 import { ms, s, ScaledSheet } from "react-native-size-matters"
 import { color } from "../../../theme"
 import i18n from 'i18n-js';
+import { fontFamily } from "../../../constants/font-family"
 
 interface Props{
   style?: ViewStyle | any
@@ -63,7 +64,7 @@ CountrySelect.displayName = 'CountrySelect'
 const styles = ScaledSheet.create({
   label: {
     fontSize: '12@ms',
-    fontFamily: 'Inter-SemiBold',
+    fontFamily: fontFamily.semiBold,
     marginBottom: s(13)
   },
     container: {

@@ -90,7 +90,6 @@ export default HeaderButton;
 const styles = ScaledSheet.create({
   container: {
     alignItems: "center",
-    zIndex: 999999
   },
   box: {
     width: '56@s',
@@ -111,9 +110,9 @@ const styles = ScaledSheet.create({
     height: '28@s'
   },
   text: {
-    fontSize: '16@ms',
+    fontSize: '14@ms',
     color: color.palette.white,
-    fontFamily: fontFamily.semiBold,
+    fontFamily: fontFamily.bold,
     marginTop: '8@s'
   }
 });

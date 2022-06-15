@@ -8,6 +8,7 @@ import FastImage, { ImageStyle } from "react-native-fast-image"
 import { images } from "../../assets/images"
 import { ROW } from "../../styles/common-style"
 import { capitalizeFirstString, isAndroid } from "../../constants/variable"
+import { fontFamily } from "../../constants/font-family"
 
 // the base styling for the container
 const CONTAINER: ViewStyle = {
@@ -46,7 +47,7 @@ const EYE : ImageStyle = {
 
 // the base styling for the TextInput
 const INPUT: TextStyle = {
-  fontFamily:'Inter-Medium',
+  fontFamily:fontFamily.medium,
   color: color.palette.black,
   // minHeight: s(40),
   maxWidth: ms(270),
@@ -54,17 +55,17 @@ const INPUT: TextStyle = {
 }
 const LABEL: TextStyle = {
   marginTop: isAndroid ? s(3): 0,
-  fontFamily: 'Inter-Medium',
+  fontFamily: fontFamily.medium,
   fontSize: ms(11),
   marginBottom: isAndroid ? s(-5) : s(4),
 }
 const OPTIONAL: TextStyle = {
-  fontFamily: 'Inter-Medium',
+  fontFamily: fontFamily.medium,
   color: color.palette.deepGray,
   fontSize: ms(12),
 }
 const ERROR: TextStyle = {
-  fontFamily: 'Inter-Medium',
+  fontFamily: fontFamily.medium,
   color: color.palette.angry,
   fontSize: ms(13),
   marginTop: s(10)
