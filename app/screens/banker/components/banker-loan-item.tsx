@@ -14,7 +14,8 @@ interface Props {
 }
 
 const BankerLoanItem = React.memo(({ item, index, onPress }: Props) => {
-  const status = find(LOAN_STATUS_DATA, { key: item.status })
+  const status = find(LOAN_STATUS_DATA, { key: item?.dealDetails?.[0]?.status })
+
   return (
     <Pressable
       onPress={() => onPress?.(item)}
