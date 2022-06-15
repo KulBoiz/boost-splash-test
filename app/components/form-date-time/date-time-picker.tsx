@@ -92,7 +92,7 @@ const styles = ScaledSheet.create({
     paddingHorizontal: '16@ms'
   },
   errorMessage: {
-    fontFamily: 'Inter-Medium',
+    fontFamily: fontFamily.medium,
     color: color.palette.angry,
     fontSize: '12@ms',
     marginTop: '10@s',

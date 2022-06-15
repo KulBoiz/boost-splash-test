@@ -7,12 +7,12 @@ export const initFonts = async () => {
   // ⬇
   await Font.loadAsync({
     // Montserrat: require("./Montserrat-Regular.ttf"),
-    "Inter-Bold": require('./Inter-Bold.otf'),
-    "Inter-Light": require('./Inter-Light.otf'),
-    "Inter-Regular": require('./Inter-Regular.otf'),
-    "Inter-SemiBold": require('./Inter-SemiBold.otf'),
-    "Inter-Thin": require('./Inter-Thin.otf'),
-    "Inter-Medium": require('./Inter-Medium.otf'),
+    "SF-Pro-Display-Bold": require('./SF-Pro-Display-Bold.otf'),
+    "SF-Pro-Display-Light": require('./SF-Pro-Display-Light.otf'),
+    "SF-Pro-Display-Medium": require('./SF-Pro-Display-Medium.otf'),
+    "SF-Pro-Display-Regular": require('./SF-Pro-Display-Regular.otf'),
+    "SF-Pro-Display-Thin": require('./SF-Pro-Display-Thin.otf'),
+    "SF-Pro-Display-SemiBold": require('./SF-Pro-Display-Semibold.otf'),
     "Mulish-Bold": require('./Mulish-Bold.otf'),
   })
 }

@@ -50,8 +50,8 @@ export default BankItem;
 
 const styles = ScaledSheet.create({
   container: {
+    backgroundColor: color.background,
     width: '220@ms',
-    height:'100@ms',
     shadowColor: "#000",
     shadowOffset: {
       width: 0,
@@ -59,7 +59,6 @@ const styles = ScaledSheet.create({
     },
     shadowOpacity: 0.2,
     shadowRadius: 3,
-
     elevation: 5,
   },
   header: {
@@ -75,8 +74,7 @@ const styles = ScaledSheet.create({
     alignItems: "center",
     backgroundColor: color.background,
     justifyContent: "space-between",
-    flex: 1,
-    paddingHorizontal: '12@ms',
+    padding: '12@ms',
     borderBottomRightRadius: '4@s',
     borderBottomLeftRadius: '4@s',
   },

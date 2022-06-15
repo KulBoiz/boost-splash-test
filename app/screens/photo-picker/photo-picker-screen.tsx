@@ -22,6 +22,7 @@ import FastImage from "react-native-fast-image"
 import { width } from "../../constants/variable"
 import { SelectedPhotoSvg } from "../../assets/svgs"
 import AppButton from "../../components/app-button/AppButton"
+import { fontFamily } from "../../constants/font-family"
 
 export const PhotoPickerScreen: FC<
   StackScreenProps<NavigatorParamList, ScreenNames.PHOTO_PICKER>
@@ -141,7 +142,7 @@ export const PhotoPickerScreen: FC<
             tx="common.youVeAllowedAccessToSelectPhotosYouCanAddMoreOrAllowAccessToAllPhotos"
           />
           <AppText
-            fontFamily="Inter-SemiBold"
+            fontFamily={fontFamily.semiBold}
             onPress={changeLimitedPhoto}
             color={color.primary}
             tx="common.manage"

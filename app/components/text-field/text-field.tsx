@@ -6,6 +6,7 @@ import { translate, TxKeyPath } from "../../i18n"
 import { Text } from "../text/text"
 import { s, ms } from "react-native-size-matters"
 import { images } from "../../assets/images"
+import { fontFamily } from "../../constants/font-family"
 
 // the base styling for the container
 const CONTAINER: ViewStyle = {
@@ -19,14 +20,14 @@ const WRAP_INPUT: ViewStyle = {
 // the base styling for the TextInput
 const INPUT: TextStyle = {
   flex: 1,
-  fontFamily:'Inter-Medium',
+  fontFamily:fontFamily.medium,
   color: color.palette.black,
   fontSize: ms(14),
   backgroundColor: color.background
 }
 
 const ERROR: TextStyle = {
-  fontFamily: 'Inter-Medium',
+  fontFamily: fontFamily.medium,
   color: color.palette.angry,
   fontSize: ms(12),
   marginTop: s(10),

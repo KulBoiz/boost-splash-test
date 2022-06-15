@@ -6,6 +6,7 @@ import { color } from "../../../theme"
 import { CardIdBackSvg, CardIdFrontSvg } from "../../../assets/svgs"
 import { AppText } from "../../../components/app-text/AppText"
 import AppButton from "../../../components/app-button/AppButton"
+import { fontFamily } from "../../../constants/font-family"
 
 interface Props {
   type: "front" | "back"
@@ -44,7 +45,7 @@ const PreviewPhotoId = React.memo((props: Props) => {
           <View style={styles.reTakeButton}>
             <AppText
               value="Chụp lại"
-              fontFamily="Inter-Bold"
+              fontFamily={fontFamily.bold}
               color={color.palette.BABABA}
               fontSize={s(10)}
             />
@@ -53,7 +54,7 @@ const PreviewPhotoId = React.memo((props: Props) => {
       </View>
       <AppText
         value={type === "front" ? "Mặt trước" : "Mặt sau"}
-        fontFamily="Inter-SemiBold"
+        fontFamily={fontFamily.semiBold}
         color={color.text}
         fontSize={s(12)}
         style={styles.previewText}
@@ -68,7 +69,7 @@ const PreviewPhotoId = React.memo((props: Props) => {
             value={`Bạn muốn chụp lại ${
               type === "front" ? "mặt trước" : "mặt sau"
             } CMND / CCCD / Hộ chiếu?`}
-            fontFamily="Inter-Medium"
+            fontFamily={fontFamily.medium}
             color={color.palette.lightBlack}
             fontSize={s(16)}
           />
@@ -80,7 +81,7 @@ const PreviewPhotoId = React.memo((props: Props) => {
             >
               <AppText
                 value="Huỷ"
-                fontFamily="Inter-SemiBold"
+                fontFamily={fontFamily.semiBold}
                 color={color.palette.blue}
                 fontSize={s(14)}
               />
@@ -88,7 +89,7 @@ const PreviewPhotoId = React.memo((props: Props) => {
             <TouchableOpacity style={styles.btnConfirm} activeOpacity={0.7} onPress={onReTake}>
               <AppText
                 value="Chụp lại"
-                fontFamily="Inter-SemiBold"
+                fontFamily={fontFamily.semiBold}
                 color={color.palette.white}
                 fontSize={s(14)}
               />

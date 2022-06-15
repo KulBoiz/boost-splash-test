@@ -18,6 +18,7 @@ import i18n from "i18n-js"
 import FormInput from "../../components/form-input/form-input"
 import RenderAuthStep from "./components/render-step-auth"
 import BackButton from "../../components/back-button/back-button"
+import { fontFamily } from "../../constants/font-family"
 
 
 
@@ -96,7 +97,7 @@ const styles = ScaledSheet.create({
     paddingHorizontal: "16@ms",
   },
   bold: {
-    fontFamily: 'Inter-Bold'
+    fontFamily: fontFamily.bold
   },
   header:{
     marginBottom: '20@s',

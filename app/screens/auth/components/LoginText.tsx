@@ -7,6 +7,7 @@ import { color } from "../../../theme"
 import { TxKeyPath } from "../../../i18n"
 import { ScreenNames } from "../../../navigators/screen-names"
 import { navigate } from "../../../navigators"
+import { fontFamily } from "../../../constants/font-family"
 
 
 interface Props{
@@ -38,7 +39,7 @@ LoginText.displayName = 'LoginText'
 
 const styles = ScaledSheet.create({
   container: {flexDirection: "row", alignItems: "center"},
-  firstText: {fontSize: '14@ms', fontFamily: 'Inter-Medium', marginRight: '7@ms'},
+  firstText: {fontSize: '14@ms', fontFamily: fontFamily.medium, marginRight: '7@ms'},
   secondText: {fontSize: '14@ms', color:color.palette.blue, fontWeight: '500', marginRight: '10@ms'},
   wrapText: {
     alignItems: 'center',

@@ -33,7 +33,8 @@ const styles = ScaledSheet.create({
     fontSize: '16@ms',
     fontFamily: fontFamily.semiBold,
     marginLeft: '24@ms',
-    marginBottom: '12@s'
+    marginBottom: '12@s',
+    color: 'rgba(0, 0, 0, 0.85)'
   },
   itemContainer: {
     flexDirection: "row",
