@@ -5,7 +5,8 @@ import React, { useState } from "react"
 import { s, vs } from "react-native-size-matters"
 import { Text } from "../../../components"
 import { find } from "../../../utils/lodash-utils"
-import { getSurveyName, GET_TASK_STATUS_ASSIGNED } from "../constants"
+import { getSurveyName, GET_STATUS_BANK_FEED_BACK, GET_TASK_STATUS_ASSIGNED } from "../constants"
+import { useStores } from "../../../models"
 
 interface Props {
   item: any
@@ -14,6 +15,7 @@ interface Props {
 }
 
 const BankerRequestItem = React.memo(({ item, index, onPress }: Props) => {
+  const { authStoreModel } = useStores()
   const name = getSurveyName(item.surveyDetails)
   const loanDetail =
     find(item.surveyDetails, (i) => i.questionData?.code === "QUESTION_LPC_LOAN_DEMAND") ||
@@ -22,6 +24,13 @@ const BankerRequestItem = React.memo(({ item, index, onPress }: Props) => {
     item.surveyDetails,
     (i) => i.questionData?.code === "QUESTION_LPC_LOAN_PLAN",
   )
+
+  const status = () => {
+    const feedBack = item?.bankFeedbacks?.find(el => el?.userId === authStoreModel?.user?.id)
+    const status = GET_STATUS_BANK_FEED_BACK[feedBack?.responseStatus]
+    return status || 'Chờ xử lý'
+  }
+
   return (
     <Pressable
       onPress={() => onPress?.(item)}
@@ -41,7 +50,7 @@ const BankerRequestItem = React.memo(({ item, index, onPress }: Props) => {
           mt="0.5"
           color="grayChateau"
           textAlign="center"
-          text={GET_TASK_STATUS_ASSIGNED[item.task?.statusAssign]}
+          text={status()}
         />
       </Box>
       <Box height={vs(77)} borderLeftWidth={1} mr={s(21)} borderLeftColor="iron" />
