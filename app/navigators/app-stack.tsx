@@ -1,22 +1,30 @@
 import { getFocusedRouteNameFromRoute } from "@react-navigation/native"
 import { ScreenNames } from "./screen-names"
-import { HomeScreen } from "../screens/home/home-fina/home-screen"
 import React from "react"
-import { createBottomTabNavigator, BottomTabBar } from "@react-navigation/bottom-tabs"
-import { TabBarAdvancedButton } from "../components/bottom-tab-bar/TabBarAdvancedButton"
+import { BottomTabBar, createBottomTabNavigator } from "@react-navigation/bottom-tabs"
 import { View } from "react-native"
-import { isIphoneX } from 'react-native-iphone-x-helper';
-import { vs, ScaledSheet } from 'react-native-size-matters'
+import { isIphoneX } from "react-native-iphone-x-helper"
+import { ScaledSheet, vs } from "react-native-size-matters"
 import SettingScreen from "../screens/settting/setting-screen"
-import { AccountHomeActiveSvg, AccountHomeInactiveSvg, ChatHomeActiveSvg, ChatHomeInactiveSvg, FileHomeActiveSvg, FileHomeInactiveSvg, HomeActiveSVG, HomeInactiveSVG } from "../assets/svgs"
+import {
+  AccountHomeActiveSvg,
+  AccountHomeInactiveSvg,
+  ChatHomeActiveSvg,
+  ChatHomeInactiveSvg,
+  FileHomeActiveSvg,
+  FileHomeInactiveSvg,
+  HomeActiveSVG,
+  HomeInactiveSVG,
+  PlusBottomSvg,
+} from "../assets/svgs"
 import i18n from "i18n-js"
 import { color } from "../theme"
-import ComingSoon from "../components/coming-soon"
 import { isAndroid } from "../constants/variable"
 import { AppHomeScreen } from "../screens/home"
 import { useStores } from "../models"
 import { ROLE } from "../models/auth-store"
 import InDeveloping from "../components/in-developing"
+import RequestCounselling from "../screens/loan/request-counselling"
 
 
 export type AppStackParamList = {
@@ -34,7 +42,7 @@ export const AppStack = () => {
 
   const getTabBarVisibility = (route: any) => {
     const routeName = getFocusedRouteNameFromRoute(route) || ""
-    const allowRoute: string[] = ["", ScreenNames.HOME]
+    const allowRoute: string[] = ["", ScreenNames.HOME, ScreenNames.CHAT, ScreenNames.SCHEDULE, ScreenNames.SETTING]
     return allowRoute.includes(routeName)
   }
   return (
@@ -79,21 +87,34 @@ export const AppStack = () => {
         }}
         component={InDeveloping}
       />
-      {role !== ROLE.BANK && <Tab.Screen
-        name={ScreenNames.PLUS}
-        options={(props) => {
-          return {
-            tabBarButton: (props) => (
-              <TabBarAdvancedButton
-                bgColor={'#FFFFFF'}
-                {...props}
-              />
-            ),
-            tabBarVisible: getTabBarVisibility(props.route),
+      {role !== ROLE.BANK &&
+      //   <Tab.Screen
+      //   name={ScreenNames.PLUS}
+      //   options={(props) => {
+      //     return {
+      //       tabBarButton: (props) => (
+      //         <TabBarAdvancedButton
+      //           bgColor={'#FFFFFF'}
+      //           {...props}
+      //         />
+      //       ),
+      //       tabBarVisible: getTabBarVisibility(props.route),
+      //     }
+      //   }}
+      //   component={HomeScreen}
+      // />
+        <Tab.Screen
+          name={ScreenNames.PLUS}
+          options={(props) => {
+            return {
+            tabBarIcon: () => <PlusBottomSvg/>,
+            title: i18n.t('bottom_bar.create'),
+            tabBarStyle: { display: 'none' },
           }
         }}
-        component={HomeScreen}
-      />}
+        component={RequestCounselling}
+        />
+      }
       {role !== ROLE.BANK &&
         <Tab.Screen
           name={ScreenNames.SCHEDULE}

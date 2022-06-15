@@ -20,15 +20,17 @@ const Header = React.memo((props: Props) => {
   const MIN_HEIGHT = isIphoneX() ? s(120) : s(100)
   const MAX_HEIGHT = isIphoneX() ? s(240) : s(220)
 
-  const animatedWidth = animatedValue.interpolate({
-    inputRange: [0,90],
-    outputRange: [width, width - s(90)],
-    extrapolate: 'clamp'
-  })
+  const animatedWidth = {
+    width: animatedValue.interpolate({
+      inputRange: [0, 80],
+      outputRange: [width, width - s(90)],
+      extrapolate: 'clamp'
+    })
+  }
 
   const animatedHeaderHeight = {
       height: animatedValue.interpolate({
-        inputRange: [0, 90],
+        inputRange: [0, 80],
         outputRange: [MAX_HEIGHT, MIN_HEIGHT],
         extrapolate: "clamp",
       }),
@@ -36,8 +38,15 @@ const Header = React.memo((props: Props) => {
 
   const animatedHeaderPadding = {
     paddingBottom: animatedValue.interpolate({
-      inputRange: [0, 90],
+      inputRange: [0, 70],
       outputRange: [s(32), 0],
+      extrapolate: 'clamp'
+    })
+  }
+  const animatedZIndex = {
+    zIndex: animatedValue.interpolate({
+      inputRange: [0, 70],
+      outputRange: [0, 1],
       extrapolate: 'clamp'
     })
   }
@@ -47,10 +56,10 @@ const Header = React.memo((props: Props) => {
   }
 
   return (
-    <Animated.View  style={[styles.container,animatedHeaderHeight, animatedHeaderPadding]}>
+    <Animated.View  style={[styles.container, animatedHeaderHeight, animatedHeaderPadding]}>
       <Animated.Image source={images.home_finance} style={[styles.image, animatedHeaderHeight]}/>
       <HomeAvatar {...{animatedValue}}/>
-      <Animated.View style={[styles.wrapButton,{width: animatedWidth}]}>
+      <Animated.View style={[styles.wrapButton, animatedWidth, animatedZIndex]}>
         {HEADER.map((e,i)=> {
           const isSelect = i === index
           return (
@@ -74,6 +83,11 @@ export default Header;
 
 const styles = ScaledSheet.create({
   container: {
+    zIndex:1,
+    position: 'absolute',
+    top: 0,
+    left: 0,
+    right: 0,
     backgroundColor: color.background,
     borderBottomLeftRadius: '24@s',
     borderBottomRightRadius: '24@s',
@@ -82,7 +96,6 @@ const styles = ScaledSheet.create({
   wrapButton: {
     alignSelf: "center",
     flex:1,
-    zIndex: 2,
     paddingHorizontal: '24@ms',
     alignItems:"flex-end",
     flexDirection: "row",

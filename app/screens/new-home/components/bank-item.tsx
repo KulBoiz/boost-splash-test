@@ -8,6 +8,7 @@ import { ALIGN_CENTER, ROW } from "../../../styles/common-style"
 import { navigate } from "../../../navigators"
 import { ScreenNames } from "../../../navigators/screen-names"
 import { useStores } from "../../../models"
+import { get } from "lodash"
 
 interface Props{
   item: any
@@ -18,6 +19,8 @@ const BankItem = React.memo((props: Props) => {
   const { loanStore } = useStores()
   const imageUrl = item?.org?.image?.url
   const backgroundColor = item?.org?.backgroundColor
+  const preferentialRate = get(item, 'info.preferentialRate')
+  const preferentialTime = get(item, 'info.preferentialTime')
 
   const handlePress = () => {
     loanStore.getProductDetail(item?.id)
@@ -31,12 +34,12 @@ const BankItem = React.memo((props: Props) => {
       </View>
       <View style={styles.body}>
         <View style={[ROW, ALIGN_CENTER]}>
-          <AppText value={'9,02%'} style={styles.percent}/>
+          <AppText value={`${preferentialRate ?? '0'}%`} style={styles.percent}/>
           <AppText value={' /năm'} style={styles.text} color={color.palette.deepGray}/>
         </View>
         <View>
           <AppText value={'Lãi suất'} style={styles.text} color={color.palette.gray}/>
-          <AppText value={'12 tháng ưu đãi'} style={styles.text} color={color.palette.gray}/>
+          <AppText value={`${preferentialTime ?? '0'} tháng ưu đãi`} style={styles.text} color={color.palette.gray}/>
         </View>
       </View>
     </Pressable>
@@ -48,7 +51,7 @@ export default BankItem;
 const styles = ScaledSheet.create({
   container: {
     width: '220@ms',
-    height:'125@ms',
+    height:'100@ms',
     shadowColor: "#000",
     shadowOffset: {
       width: 0,

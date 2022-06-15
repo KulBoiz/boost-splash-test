@@ -12,15 +12,17 @@ import { navigate } from "../../../navigators"
 import { ScreenNames } from "../../../navigators/screen-names"
 import { BellSvg } from "../../../assets/svgs"
 import { TouchableOpacity } from "react-native-gesture-handler"
+import { get } from "lodash"
+import { observer } from "mobx-react-lite"
 
 interface Props{
   animatedValue: any
 }
 
-const HomeAvatar = React.memo(({ animatedValue }: Props) => {
+const HomeAvatar = observer(({ animatedValue }: Props) => {
   const {authStoreModel} = useStores()
   const isLogin = authStoreModel?.isLoggedIn
-  const avatar = authStoreModel?.user?.avatar
+  const avatar = get(authStoreModel?.user,'avatar')
 
   const onPress = () => {
     if (!isLogin){
@@ -57,13 +59,11 @@ export default HomeAvatar;
 const styles = ScaledSheet.create({
   container: {
     zIndex: 1,
-    width: '100%',
     top: isIphoneX() ? '55@s' : '35@s',
     paddingHorizontal: '24@ms',
     flexDirection: "row",
     justifyContent: "space-between",
     alignItems: "center",
-    position: "absolute"
   },
   avatar:{
     width: '36@s',

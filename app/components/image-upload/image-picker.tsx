@@ -87,13 +87,13 @@ const ImagePickerModal: React.FC<ImagePickerProps> = React.memo(({ visible = fal
   return (
     <Modal animationType="fade" visible={visible} transparent={true}>
       <View style={styles.container}>
-        <Pressable onPress={_selectCamera} style={styles.btn}>
+        <Pressable onPress={_selectCamera} style={[styles.btn, styles.takePicture]}>
           <AppText color={color.palette.blue} style={FONT_MEDIUM_14}>Chụp ảnh</AppText>
         </Pressable>
-        <Pressable onPress={_selectFile} style={[styles.btn, { marginBottom: 8 }]}>
+        <Pressable onPress={_selectFile} style={[styles.btn, styles.gallery]}>
           <AppText color={color.palette.blue} style={FONT_MEDIUM_14}>Thư viện ảnh</AppText>
         </Pressable>
-        <Pressable onPress={() => onCancel()} style={styles.btn}>
+        <Pressable onPress={() => onCancel()} style={styles.btnCancel}>
           <AppText style={FONT_MEDIUM_14}>Huỷ</AppText>
         </Pressable>
       </View>
@@ -112,14 +112,32 @@ const styles = ScaledSheet.create({
     paddingVertical: '24@s',
     height: '100%',
     width: '100%',
+    borderRadius: '8@s'
+  },
+  takePicture: {
+    borderTopRightRadius: '8@s',
+    borderTopLeftRadius: '8@s',
+    borderBottomWidth:0.5,
+    borderBottomColor: color.palette.BABABA
+  },
+  gallery: {
+    borderBottomRightRadius: '8@s',
+    borderBottomLeftRadius: '8@s',
+    marginBottom:'8@s'
   },
   btn: {
+    backgroundColor: color.text,
+    paddingVertical: '15@s',
+    width: '100%',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  btnCancel: {
     backgroundColor: color.text,
     borderRadius: '8@s',
     paddingVertical: '15@s',
     width: '100%',
     justifyContent: 'center',
     alignItems: 'center',
-    marginBottom: 2,
   },
 });
