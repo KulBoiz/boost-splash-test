@@ -11,8 +11,9 @@ import { Text } from "../../components"
 import { width } from "../../constants/variable"
 import { isEmpty } from "validate.js"
 import PopupAlert from "../../components/popup-alert/popup-alert"
-import { find } from "../../utils/lodash-utils"
+import { filter, find } from "../../utils/lodash-utils"
 import { CheckBoxEmptySvg, CheckBoxSvg } from "../../assets/svgs"
+import { union } from "lodash"
 
 interface Props {}
 
@@ -20,7 +21,7 @@ const ManageInsuranceFilerScreen: FC<Props> = observer((props: Props) => {
   const navigation = useNavigation()
   const { insuranceStore } = useStores()
 
-  const [filter, setFilter] = useState<any>({
+  const [filterParams, setFilterParams] = useState<any>({
     categories: [],
     status: "",
   })
@@ -33,12 +34,12 @@ const ManageInsuranceFilerScreen: FC<Props> = observer((props: Props) => {
 
   const onChangeFilter = useCallback(
     (newProperties) => {
-      setFilter({ ...filter, ...newProperties })
+      setFilterParams({ ...filterParams, ...newProperties })
     },
-    [filter],
+    [filterParams],
   )
   const onClear = useCallback(() => {
-    setFilter({})
+    setFilterParams({})
   }, [])
   const onFilter = useCallback(() => {
     setAlert({
@@ -54,7 +55,7 @@ const ManageInsuranceFilerScreen: FC<Props> = observer((props: Props) => {
     navigation.goBack()
   }, [alert, navigation])
 
-  const clearDisabled = isEmpty(filter.categories) && isEmpty(filter.status)
+  const clearDisabled = isEmpty(filterParams.categories) && isEmpty(filterParams.status)
 
   return (
     <Box flex="1" bg="lightBlue">
@@ -64,10 +65,16 @@ const ManageInsuranceFilerScreen: FC<Props> = observer((props: Props) => {
           <Text size="semiBold14" color="ebony" text="Danh mục" />
           <Row flexWrap="wrap">
             {INSURANCE_CATEGORIES.map((item) => {
-              const selected = find(filter.categories, (c) => c === item.value)
+              const selected = find(filterParams.categories, (c) => c === item.value)
               return (
                 <Pressable
-                  onPress={() => onChangeFilter({ categories: [...filter.categories, item.value] })}
+                  onPress={() =>
+                    onChangeFilter({
+                      categories: selected
+                        ? filter(filterParams.categories || [], (c) => c !== item.value)
+                        : union(filterParams.categories || [], [item.value]),
+                    })
+                  }
                   key={item.value}
                   flexDirection="row"
                   alignItems="center"
