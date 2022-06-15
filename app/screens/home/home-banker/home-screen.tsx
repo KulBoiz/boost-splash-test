@@ -30,6 +30,7 @@ export const BankHomeScreen = observer(({ navigation }) => {
 
   useEffect(() => {
     bankerStore.getListRequest({}, { page: 1, limit: 20 }, true)
+    bankerStore.getListLoan({}, { page: 1, limit: 20 })
   }, [])
 
   // console.log(SurveyResultBase(listRequest));
