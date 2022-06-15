@@ -15,6 +15,7 @@ import { SurveyResultBase } from "./constants"
 import { ScreenNames } from "../../../navigators/screen-names"
 import { navigate } from "../../../navigators"
 import { ALIGN_CENTER, FONT_MEDIUM_12, MARGIN_TOP_16, ROW, SPACE_BETWEEN } from "../../../styles/common-style"
+import { truncateString } from "../../../constants/variable"
 
 const { width, height } = Dimensions.get("window")
 
@@ -77,7 +78,7 @@ export const BankHomeScreen = observer(({ navigation }) => {
                   fontSize={10}
                   lineHeight={20}
                   fontWeight="400"
-                  text={`${el?.label}: ${el?.suffix ? el?.suffix : ""}`}
+                  text={`${el?.label}`}
                 />
 
                 <Text
@@ -85,7 +86,7 @@ export const BankHomeScreen = observer(({ navigation }) => {
                   fontSize={10}
                   lineHeight={20}
                   fontWeight="400"
-                  text={`${el.value} `}
+                  text={`${truncateString(el.value, 30)} ${el?.suffix ? ` ${el?.suffix}` : ""} `}
                 />
               </View>
             )
@@ -137,17 +138,17 @@ export const BankHomeScreen = observer(({ navigation }) => {
               fontFamily: fontFamily.medium,
             }}
           />
-          {/*<AppText*/}
-          {/*  value={`Xem thêm`}*/}
-          {/*  style={{*/}
-          {/*    marginBottom: s(10),*/}
-          {/*    marginTop: s(15),*/}
-          {/*    fontFamily: fontFamily.medium,*/}
-          {/*    fontSize: s(11),*/}
-          {/*    color: color.palette.blue*/}
-          {/*  }}*/}
-          {/*  onPress={()=> navigate(ScreenNames.BANKER_LIST_REQUEST_SCREEN)}*/}
-          {/*/>*/}
+          {/* <AppText */}
+          {/*  value={`Xem thêm`} */}
+          {/*  style={{ */}
+          {/*    marginBottom: s(10), */}
+          {/*    marginTop: s(15), */}
+          {/*    fontFamily: fontFamily.medium, */}
+          {/*    fontSize: s(11), */}
+          {/*    color: color.palette.blue */}
+          {/*  }} */}
+          {/*  onPress={()=> navigate(ScreenNames.BANKER_LIST_REQUEST_SCREEN)} */}
+          {/* /> */}
         </View>
 
         <Carousel
