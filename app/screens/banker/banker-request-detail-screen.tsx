@@ -1,18 +1,20 @@
 /* eslint-disable react-native/no-color-literals */
-import React, { FC, useCallback, useEffect, useState } from "react"
-import { observer } from "mobx-react-lite"
-import AppHeader from "../../components/app-header/AppHeader"
-import { useStores } from "../../models"
 import { useNavigation } from "@react-navigation/native"
-import { Box, HStack, Input, Pressable, ScrollView } from "native-base"
-import { s, vs } from "react-native-size-matters"
+import { observer } from "mobx-react-lite"
+import { Box, HStack, Pressable, ScrollView } from "native-base"
+import React, { FC, useCallback, useEffect, useState } from "react"
+import { Alert, View } from "react-native"
+import { s, ScaledSheet, vs } from "react-native-size-matters"
 import { Text } from "../../components"
-import { FastImage } from "../../components/fast-image/fast-image"
-import PopupReject from "./components/popup-reject"
-import PopupConfirm from "./components/popup-confirm"
+import AppHeader from "../../components/app-header/AppHeader"
+// import { FastImage } from "../../components/fast-image/fast-image"
+import Note from "../../components/note/note"
+import { useStores } from "../../models"
+import { color } from "../../theme"
 import PopupAlert from "./components/popup-alert"
-import { getSurveyDetails, getSurveyName } from "./constants"
-import { Alert } from "react-native"
+import PopupConfirm from "./components/popup-confirm"
+import PopupReject from "./components/popup-reject"
+import { getSurveyDetails, getSurveyName, GET_STATUS_BANK_FEED_BACK, STATUS_BANK_FEED_BACK } from "./constants"
 
 const BankerRequestDetailScreen: FC = observer((props: any) => {
   const navigation = useNavigation()
@@ -96,7 +98,7 @@ const BankerRequestDetailScreen: FC = observer((props: any) => {
   )
 
   const onAlertConfirm = useCallback(() => {
-    bankerStore.updateSurveyTask(data?.task._id, alert.data).then(() => {
+    bankerStore.updateSurveyTask(data?.taskId, alert.data).then(() => {
       Alert.alert('Đã phản hồi thành công')
       bankerStore.getListRequest({}, { page: 1, limit: 20 }, true)
       setAlert({ visible: false })
@@ -116,47 +118,47 @@ const BankerRequestDetailScreen: FC = observer((props: any) => {
     "CMND/CCCD của 2 vợ chồng",
   ]
 
-  const renderNotes = useCallback(() => {
-    if (notes?.length)
-      return (
-        <Box bg="white" borderRadius="8" p="4" mt="4">
-          <Text color="ebony" fontSize={14} lineHeight={20} fontWeight="600" text="Ghi chú chung" />
-          <Box height="1.0" my="3" bg="iron" opacity={0.5} />
-          {notes.map((item, index) => (
-            <HStack key={index} mt={index ? 3 : 0} alignItems="center">
-              <FastImage
-                source={{
-                  uri: "https://cdn.pixabay.com/photo/2016/08/08/09/17/avatar-1577909_960_720.png",
-                }}
-                w={s(32)}
-                h={s(32)}
-                rounded="full"
-              />
-              <Box flex={1} ml="3">
-                <Text
-                  color="grayChateau"
-                  fontSize={12}
-                  lineHeight={17}
-                  fontWeight="600"
-                  text={item.label}
-                  textTransform="capitalize"
-                />
-                <Text
-                  color="ebony"
-                  fontSize={12}
-                  lineHeight={17}
-                  fontWeight="400"
-                  text={item.value}
-                  textTransform="capitalize"
-                  mt="0.5"
-                />
-              </Box>
-            </HStack>
-          ))}
-        </Box>
-      )
-    return null
-  }, [notes])
+  // const renderNotes = useCallback(() => {
+  //   if (notes?.length)
+  //     return (
+  //       <Box bg="white" borderRadius="8" p="4" mt="4">
+  //         <Text color="ebony" fontSize={14} lineHeight={20} fontWeight="600" text="Ghi chú chung" />
+  //         <Box height="1.0" my="3" bg="iron" opacity={0.5} />
+  //         {notes.map((item, index) => (
+  //           <HStack key={index} mt={index ? 3 : 0} alignItems="center">
+  //             <FastImage
+  //               source={{
+  //                 uri: "https://cdn.pixabay.com/photo/2016/08/08/09/17/avatar-1577909_960_720.png",
+  //               }}
+  //               w={s(32)}
+  //               h={s(32)}
+  //               rounded="full"
+  //             />
+  //             <Box flex={1} ml="3">
+  //               <Text
+  //                 color="grayChateau"
+  //                 fontSize={12}
+  //                 lineHeight={17}
+  //                 fontWeight="600"
+  //                 text={item.label}
+  //                 textTransform="capitalize"
+  //               />
+  //               <Text
+  //                 color="ebony"
+  //                 fontSize={12}
+  //                 lineHeight={17}
+  //                 fontWeight="400"
+  //                 text={item.value}
+  //                 textTransform="capitalize"
+  //                 mt="0.5"
+  //               />
+  //             </Box>
+  //           </HStack>
+  //         ))}
+  //       </Box>
+  //     )
+  //   return null
+  // }, [notes])
 
   const renderItem = useCallback((item, index) => {
     return (
@@ -181,6 +183,18 @@ const BankerRequestDetailScreen: FC = observer((props: any) => {
       </HStack>
     )
   }, [])
+
+  const renderAction = () => {
+    const feedBack = data?.bankFeedbacks?.find(el => el?.userId === authStoreModel?.user?.id)
+
+    if (feedBack?.responseStatus === STATUS_BANK_FEED_BACK.waiting_to_receive || !feedBack?.responseStatus) {
+      return true
+    }
+
+    return false
+  }
+
+  // console.log(data?.taskId);
 
   return (
     <Box flex="1" bg="lightBlue">
@@ -242,42 +256,53 @@ const BankerRequestDetailScreen: FC = observer((props: any) => {
               </HStack>
             ))}
           </Box>
-          {renderNotes()}
-          <HStack mt="4" mb="6">
-            <Pressable
-              onPress={showPopupReject}
-              flex="1"
-              bg="white"
-              borderWidth="1"
-              h={vs(51)}
-              borderRadius="8"
-              borderColor="primary"
-              alignItems="center"
-              justifyContent="center"
-            >
-              <Text fontSize={16} fontWeight="600" color="primary" tx="banker.reject" />
-            </Pressable>
-            <Pressable
-              onPress={showPopupConfirm}
-              flex="1"
-              h={vs(51)}
-              borderRadius="8"
-              bg="primary"
-              alignItems="center"
-              justifyContent="center"
-              ml="4"
-            >
-              <Text fontSize={16} fontWeight="600" color="white" tx="banker.approve" />
-            </Pressable>
-          </HStack>
+          <View style={[styles.contentItem, styles.contentItemNote]} >
+            <Note id={data?.taskId} />
+          </View>
+          {/* {renderNotes()} */}
+          {renderAction() &&
+            <HStack mt="4" mb="6">
+              <Pressable
+                onPress={showPopupReject}
+                flex="1"
+                bg="white"
+                borderWidth="1"
+                h={vs(51)}
+                borderRadius="8"
+                borderColor="primary"
+                alignItems="center"
+                justifyContent="center"
+              >
+                <Text fontSize={16} fontWeight="600" color="primary" tx="banker.reject" />
+              </Pressable>
+              <Pressable
+                onPress={showPopupConfirm}
+                flex="1"
+                h={vs(51)}
+                borderRadius="8"
+                bg="primary"
+                alignItems="center"
+                justifyContent="center"
+                ml="4"
+              >
+                <Text fontSize={16} fontWeight="600" color="white" tx="banker.approve" />
+              </Pressable>
+            </HStack>
+          }
         </Box>
       </ScrollView>
-      <PopupReject visible={rejectVisible} onClose={hidePopupReject} onConfirm={onConfirmReject} />
-      <PopupConfirm
-        visible={confirmVisible}
-        onClose={hidePopupConfirm}
-        onConfirm={onConfirmReceived}
-      />
+
+      {
+        renderAction() && <>
+          <PopupReject visible={rejectVisible} onClose={hidePopupReject} onConfirm={onConfirmReject} />
+          <PopupConfirm
+            visible={confirmVisible}
+            onClose={hidePopupConfirm}
+            onConfirm={onConfirmReceived}
+          />
+        </>
+      }
+
       <PopupAlert
         visible={alert.visible}
         type={alert.type}
@@ -290,3 +315,14 @@ const BankerRequestDetailScreen: FC = observer((props: any) => {
 })
 
 export default BankerRequestDetailScreen
+
+const styles = ScaledSheet.create({
+  contentItem: {
+    borderRadius: '8@s',
+    marginTop: '16@s',
+    backgroundColor: color.palette.white,
+  },
+  contentItemNote: {
+    padding: '8@s',
+  },
+});

@@ -21,6 +21,7 @@ import {
   ROW,
   SPACE_BETWEEN,
 } from "../../../styles/common-style"
+import { truncateString } from "../../../constants/variable"
 
 const { width, height } = Dimensions.get("window")
 
@@ -82,7 +83,7 @@ export const BankHomeScreen = observer(({ navigation }) => {
                   fontSize={10}
                   lineHeight={20}
                   fontWeight="400"
-                  text={`${el?.label}: ${el?.suffix ? el?.suffix : ""}`}
+                  text={`${el?.label}`}
                 />
 
                 <Text
@@ -90,7 +91,7 @@ export const BankHomeScreen = observer(({ navigation }) => {
                   fontSize={10}
                   lineHeight={20}
                   fontWeight="400"
-                  text={`${el.value} `}
+                  text={`${truncateString(el.value, 30)} ${el?.suffix ? ` ${el?.suffix}` : ""} `}
                 />
               </View>
             )

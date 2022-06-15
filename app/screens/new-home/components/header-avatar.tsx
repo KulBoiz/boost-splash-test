@@ -12,15 +12,17 @@ import { navigate } from "../../../navigators"
 import { ScreenNames } from "../../../navigators/screen-names"
 import { BellSvg } from "../../../assets/svgs"
 import { TouchableOpacity } from "react-native-gesture-handler"
+import { get } from "lodash"
+import { observer } from "mobx-react-lite"
 
 interface Props{
   animatedValue: any
 }
 
-const HomeAvatar = React.memo(({ animatedValue }: Props) => {
+const HomeAvatar = observer(({ animatedValue }: Props) => {
   const {authStoreModel} = useStores()
   const isLogin = authStoreModel?.isLoggedIn
-  const avatar = authStoreModel?.user?.avatar
+  const avatar = get(authStoreModel?.user,'avatar')
 
   const onPress = () => {
     if (!isLogin){

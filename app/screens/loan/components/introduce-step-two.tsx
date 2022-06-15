@@ -1,11 +1,11 @@
 import React from 'react';
-import { View } from 'react-native';
+import { View, Pressable } from 'react-native';
 import AppButton from "../../../components/app-button/AppButton"
 import { AppText } from "../../../components/app-text/AppText"
 import {
   CONTAINER_PADDING,
   FONT_BOLD_14,
-  FONT_BOLD_24,
+  FONT_BOLD_24, HIT_SLOP,
   MARGIN_BOTTOM_16,
 } from "../../../styles/common-style"
 import { color } from "../../../theme"
@@ -30,7 +30,9 @@ const IntroduceStepTwo = React.memo(({ preStep }: Props) => {
           <AppText value={'Cảm ơn quý khách!'} style={[FONT_BOLD_24, styles.textThanks]}/>
         </View>
       <AppButton title={'Tạo thêm yêu cầu tư vấn'} onPress={preStep} containerStyle={MARGIN_BOTTOM_16}/>
-      <AppText value={'Theo dõi hồ sơ'} underline style={FONT_BOLD_14} color={color.palette.blue} onPress={goToFinance}/>
+      <Pressable hitSlop={HIT_SLOP} style={styles.pressHeight}>
+        <AppText value={'Theo dõi hồ sơ'} underline style={FONT_BOLD_14} color={color.palette.blue} onPress={goToFinance}/>
+      </Pressable>
     </View>
   )
 });
@@ -41,13 +43,16 @@ const styles = ScaledSheet.create({
     container: {
       backgroundColor: color.palette.lightBlue,
       flex: 1,
-      paddingBottom: 30,
+      paddingBottom: '40@s',
       alignItems: "center",
-
     },
   text: {
       color: color.palette.blue,
-      marginTop: '40@s'
+      marginTop: '30@s'
+  },
+  pressHeight: {
+    paddingTop: '4@s',
+    height: '30@s'
   },
   textThanks: {
     color: color.palette.blue,

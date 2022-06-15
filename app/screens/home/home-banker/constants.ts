@@ -1,4 +1,5 @@
 import moment from "moment";
+import { numberWithCommas } from "../../../constants/variable";
 
 export const QUESTION_TYPES = {
 	// SINGLE_CHOICE: 'SC',
@@ -50,7 +51,7 @@ export const SurveyResultBase = (surveyDetails: any) => {
 			case QUESTION_TYPES.OPEN_ENDED_NUMBER:
 				return {
 					label: questionData?.content?.blocks?.[0]?.text,
-					value: el?.content,
+					value: numberWithCommas(el?.content),
 					suffix: questionData?.suffix
 				}
 			case QUESTION_TYPES.TEXT_SELECTION:

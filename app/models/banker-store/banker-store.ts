@@ -1,5 +1,5 @@
 import { flow, Instance, SnapshotOut, types } from "mobx-state-tree"
-import { LOAN_STATUS_DATA, LOAN_STATUS_TYPES } from "../../screens/banker/constants"
+import { LOAN_STATUS_TYPES } from "../../screens/banker/constants"
 import { BaseApi } from "../../services/api/base-api"
 import { omitFn, unionBy } from "../../utils/lodash-utils"
 import { withEnvironment } from "../extensions/with-environment"

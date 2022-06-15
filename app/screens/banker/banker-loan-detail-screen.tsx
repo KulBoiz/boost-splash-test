@@ -16,6 +16,7 @@ import DocumentView from "./components/document-view"
 import BankerLoanSteps from "./components/banker-loan-steps"
 import { LOAN_STATUS_TYPES, LOAN_STEP_INDEX, TRANSACTION_STATUS_TYPES } from "./constants"
 import { flatten, map } from "../../utils/lodash-utils"
+import Note from "../../components/note/note"
 
 const BankerLoanDetailScreen: FC = observer((props: any) => {
   const navigation = useNavigation()
@@ -120,7 +121,10 @@ const BankerLoanDetailScreen: FC = observer((props: any) => {
         <Box bg="white" borderRadius="8" p="4" mt="4">
           <Text color="ebony" size="semiBold14" text="Ghi chú của ngân hàng" />
           <Box height="1.0" my="3" bg="iron" opacity={0.5} />
-          {notes.map((item, index) => {
+
+          <Note id={dealDetailId} />
+          {/* <Note id={dealDetailId} /> */}
+          {/* {notes.map((item, index) => {
             const user = item?.createdBy || {}
             const name = user.fullName || user.firstName + " " + user.lastName
             return (
@@ -156,7 +160,7 @@ const BankerLoanDetailScreen: FC = observer((props: any) => {
                 </Box>
               </HStack>
             )
-          })}
+          })} */}
         </Box>
       )
     return null

@@ -26,7 +26,6 @@ const BankItem = React.memo((props: Props) => {
     loanStore.getProductDetail(item?.id)
     navigate(ScreenNames.LOAN_DETAIL)
   }
-  console.log(item)
 
   return (
     <Pressable style={styles.container} onPress={handlePress}>
