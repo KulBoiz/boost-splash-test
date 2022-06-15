@@ -30,6 +30,7 @@ import Collapsible from "react-native-collapsible"
 
 import { Text as ReactNativeText } from "react-native"
 import { ScreenNames } from "../../navigators/screen-names"
+import PopupHospitalList from "./components/popup-hospital-list"
 
 interface Props {}
 
@@ -38,6 +39,10 @@ const ManageInsuranceDetailScreen: FC<Props> = observer((props: Props) => {
   const {} = useStores()
 
   const [collapsed, setCollapsed] = useState(true)
+  const [popupHospitalListVisible, setPopupHospitalListVisible] = useState(false)
+
+  const showPopupHospital = useCallback(() => setPopupHospitalListVisible(true), [])
+  const hidePopupHospital = useCallback(() => setPopupHospitalListVisible(false), [])
 
   const onRequest = useCallback(() => {
     navigation.navigate(ScreenNames.INSURANCE_REQUEST_CLAIM_SUCCESS_SCREEN)
@@ -66,6 +71,8 @@ const ManageInsuranceDetailScreen: FC<Props> = observer((props: Props) => {
             <FileDocSvg />
             <Text mx="1" fontSize="12" fontWeight="500" flex="1" text="Xem / tải hợp đồng" />
             <Text
+              onPress={showPopupHospital}
+              suppressHighlighting
               fontSize="10"
               fontWeight="500"
               color="primary"
@@ -231,6 +238,7 @@ const ManageInsuranceDetailScreen: FC<Props> = observer((props: Props) => {
           </Button>
         </Box>
       </ScrollView>
+      <PopupHospitalList visible={popupHospitalListVisible} onClose={hidePopupHospital} />
     </Box>
   )
 })
