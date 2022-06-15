@@ -85,6 +85,8 @@ export { default as ClosePopupSvg } from "./close-popup.svg"
 export { default as CheckBoxSvg } from "./checkbox.svg"
 export { default as CheckBoxEmptySvg } from "./checkbox-empty.svg"
 export { default as RequestSuccessSvg } from "./request-success.svg"
+export { default as FileDocSvg } from "./file-doc.svg"
+export { default as BenefitInsuranceSvg } from "./benefit-insurance.svg"
 
 // home
 export { default as AccountHomeActiveSvg } from "./account-home-active.svg"
