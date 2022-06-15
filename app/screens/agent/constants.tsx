@@ -650,21 +650,7 @@ nhau, mỗi Bên giữ 01 (một) bản.
 <span>ĐẠI DIỆN TULIP</span>
 </strong>
 </p>
-<p>
-<em>
-<span>(Ký tên, đóng dấu)</span>
-</em>
-</p>
-<img
-src="https://storage.googleapis.com/image-fina/upload/fina/sign_ceo.png"
-style="width: 170px" alt=""
-/>
-<p>
-<strong>
-<span>PHẠM ANH KH&Ocirc;I</span>
-</strong>
 
-</p>
 
 </td>
 <td>
@@ -678,7 +664,15 @@ style="width: 170px" alt=""
 <span>(Ký, ghi rõ họ tên)</span>
 </em>
 </p>
-<p>
+</br>
+</br>
+</br>
+</br>
+
+<p style="marginLeft: 10px">
+<strong>
+<span>${fullName || ''}</span>
+</strong>
 
 </p>
 </td>

@@ -1,12 +1,10 @@
 import { getFocusedRouteNameFromRoute } from "@react-navigation/native"
 import { ScreenNames } from "./screen-names"
-import { HomeScreen } from "../screens/home/home-fina/home-screen"
 import React from "react"
-import { createBottomTabNavigator, BottomTabBar } from "@react-navigation/bottom-tabs"
-import { TabBarAdvancedButton } from "../components/bottom-tab-bar/TabBarAdvancedButton"
+import { BottomTabBar, createBottomTabNavigator } from "@react-navigation/bottom-tabs"
 import { View } from "react-native"
-import { isIphoneX } from 'react-native-iphone-x-helper';
-import { vs, ScaledSheet } from 'react-native-size-matters'
+import { isIphoneX } from "react-native-iphone-x-helper"
+import { ScaledSheet, vs } from "react-native-size-matters"
 import SettingScreen from "../screens/settting/setting-screen"
 import {
   AccountHomeActiveSvg,
@@ -16,12 +14,11 @@ import {
   FileHomeActiveSvg,
   FileHomeInactiveSvg,
   HomeActiveSVG,
-  HomeInactiveSVG, PlusBottomSvg,
-  PlusSvg,
+  HomeInactiveSVG,
+  PlusBottomSvg,
 } from "../assets/svgs"
 import i18n from "i18n-js"
 import { color } from "../theme"
-import ComingSoon from "../components/coming-soon"
 import { isAndroid } from "../constants/variable"
 import { AppHomeScreen } from "../screens/home"
 import { useStores } from "../models"
@@ -45,7 +42,7 @@ export const AppStack = () => {
 
   const getTabBarVisibility = (route: any) => {
     const routeName = getFocusedRouteNameFromRoute(route) || ""
-    const allowRoute: string[] = ["", ScreenNames.HOME]
+    const allowRoute: string[] = ["", ScreenNames.HOME, ScreenNames.CHAT, ScreenNames.SCHEDULE, ScreenNames.SETTING]
     return allowRoute.includes(routeName)
   }
   return (
@@ -109,14 +106,11 @@ export const AppStack = () => {
         <Tab.Screen
           name={ScreenNames.PLUS}
           options={(props) => {
-          return {
-          tabBarIcon: ({ focused }) => (
-          // eslint-disable-next-line react/jsx-no-undef
-          <PlusBottomSvg/>
-          ),
-          title: i18n.t('bottom_bar.create'),
-          tabBarVisible: getTabBarVisibility(props.route),
-        }
+            return {
+            tabBarIcon: () => <PlusBottomSvg/>,
+            title: i18n.t('bottom_bar.create'),
+            tabBarStyle: { display: 'none' },
+          }
         }}
         component={RequestCounselling}
         />

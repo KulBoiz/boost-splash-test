@@ -48,7 +48,7 @@ const PopupConfirm = React.memo(({ visible, onClose, onConfirm }: Props) => {
             <BankerInput
               _container={{ mt: "5" }}
               label="Số năm cho vay"
-              prefix="vnđ"
+              prefix="năm"
               required
               keyboardType="number-pad"
               value={data.borrowTime}
@@ -57,7 +57,7 @@ const PopupConfirm = React.memo(({ visible, onClose, onConfirm }: Props) => {
             <BankerInput
               _container={{ mt: "5" }}
               label="Lãi suất ưu đãi dự kiến"
-              prefix="năm"
+              prefix="%"
               keyboardType="number-pad"
               value={data.interestRate}
               onChangeText={(value) => setData({ ...data, interestRate: value })}
@@ -65,7 +65,7 @@ const PopupConfirm = React.memo(({ visible, onClose, onConfirm }: Props) => {
             <BankerInput
               _container={{ mt: "5" }}
               label="Thời gian ưu đãi dự kiến"
-              prefix="%"
+              prefix="tháng"
               keyboardType="number-pad"
               value={data.preferentialTime}
               onChangeText={(value) => setData({ ...data, preferentialTime: value })}
@@ -73,7 +73,7 @@ const PopupConfirm = React.memo(({ visible, onClose, onConfirm }: Props) => {
             <BankerInput
               _container={{ mt: "5" }}
               label="Phí trả trước hạn dự kiến"
-              prefix="tháng"
+              prefix="vnđ"
               keyboardType="number-pad"
               value={data.prepaidTermFee}
               onChangeText={(value) => setData({ ...data, prepaidTermFee: value })}

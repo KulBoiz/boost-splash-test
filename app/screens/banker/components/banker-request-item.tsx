@@ -1,7 +1,7 @@
 import moment from "moment"
 import numeral from "numeral"
 import { Box, Pressable } from "native-base"
-import React, { useState } from "react"
+import React from "react"
 import { s, vs } from "react-native-size-matters"
 import { Text } from "../../../components"
 import { find } from "../../../utils/lodash-utils"
@@ -22,6 +22,7 @@ const BankerRequestItem = React.memo(({ item, index, onPress }: Props) => {
     item.surveyDetails,
     (i) => i.questionData?.code === "QUESTION_LPC_LOAN_PLAN",
   )
+  console.log('bank item', item)
   return (
     <Pressable
       onPress={() => onPress?.(item)}
