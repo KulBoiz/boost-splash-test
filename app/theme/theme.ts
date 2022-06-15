@@ -9,13 +9,13 @@ export const theme = extendTheme({
   fontConfig: {
     Inter: {
       100: {
-        normal: "Inter-Light",
+        normal: "Inter-Thin",
       },
       200: {
         normal: "Inter-Thin",
       },
       300: {
-        normal: "Inter-Thin",
+        normal: "Inter-Light",
       },
       400: {
         normal: "Inter-Regular",

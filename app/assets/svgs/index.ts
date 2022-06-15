@@ -80,6 +80,7 @@ export { default as PictureSvg } from "./picture.svg"
 export { default as NotificationSvg } from "./notification.svg"
 export { default as InDevelopingSvg } from "./in_developing.svg"
 export { default as FilterInsuranceSvg } from "./filter-insurance.svg"
+export { default as QuestionLightSvg } from "./question-light.svg"
 
 // home
 export { default as AccountHomeActiveSvg } from "./account-home-active.svg"
