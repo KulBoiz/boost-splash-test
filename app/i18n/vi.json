@@ -82,7 +82,8 @@
     "personalSetting": "Thiết lập cá nhân",
     "bankerListLoan": "Danh sách hồ sơ vay",
     "bankerListRequest": "Danh sách YCTV",
-    "manageInsuranceList": "Quản lý danh sách bảo hiểm"
+    "manageInsuranceList": "Quản lý danh sách bảo hiểm",
+    "filter": "Bộ lọc"
   },
   "label": {
     "emailAndPhone": "Email hoặc số điện thoại",

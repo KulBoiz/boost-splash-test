@@ -32,6 +32,9 @@ const ManageInsuranceListScreen: FC<Props> = observer((props: Props) => {
   const showDetail = useCallback((data) => {
     // navigation.navigate(ScreenNames.BANKER_LOAN_DETAIL_SCREEN, { data })
   }, [])
+  const showFilter = useCallback((data) => {
+    navigation.navigate(ScreenNames.MANAGE_INSURANCE_FILTER)
+  }, [])
 
   const data = useMemo(() => {
     const sections = [
@@ -186,7 +189,8 @@ const ManageInsuranceListScreen: FC<Props> = observer((props: Props) => {
               onChangeText={onDebouncedSearch}
             />
           </HStack>
-          <Box
+          <Pressable
+            onPress={showFilter}
             height={s(40)}
             width={s(40)}
             alignItems="center"
@@ -197,7 +201,7 @@ const ManageInsuranceListScreen: FC<Props> = observer((props: Props) => {
             borderRadius={8}
           >
             <FilterInsuranceSvg />
-          </Box>
+          </Pressable>
         </HStack>
         <SectionList
           sections={data}

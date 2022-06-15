@@ -42,4 +42,5 @@ export enum ScreenNames {
   BANKER_LOAN_DETAIL_SCREEN = "BankerLoanDetailScreen",
   IN_DEVELOPING = "InDeveloping",
   MANAGE_INSURANCE_LIST = "ManageInsuranceList",
+  MANAGE_INSURANCE_FILTER = "ManageInsuranceFilter",
 }

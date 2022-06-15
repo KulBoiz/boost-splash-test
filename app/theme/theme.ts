@@ -1,4 +1,5 @@
 import { extendTheme } from "native-base"
+import { s } from "react-native-size-matters"
 import { palette } from "./palette"
 
 export const theme = extendTheme({
@@ -53,14 +54,11 @@ export const theme = extendTheme({
   },
   components: {
     Button: {
-      // Can simply pass default props to change default behaviour of components.
-      baseStyle: {
+      defaultProps: {
+        bg: "primary",
         borderRadius: 8,
         height: 51,
         _text: { fontWeight: "600", fontSize: 16 },
-      },
-      defaultProps: {
-        colorScheme: "transparent",
       },
     },
     Text: {
@@ -75,6 +73,11 @@ export const theme = extendTheme({
           fontSize: 12,
           linHeight: 17,
           fontWeight: "500",
+        },
+        regular12: {
+          fontSize: 12,
+          linHeight: 17,
+          fontWeight: "400",
         },
         semiBold12: {
           fontSize: 12,
@@ -91,6 +94,28 @@ export const theme = extendTheme({
           linHeight: 20,
           fontWeight: "700",
         },
+      },
+    },
+    Checkbox: {
+      defaultProps: {
+        borderWidth: 1,
+        borderColor: "#0F172A",
+        bg: "white",
+        borderRadius: 4,
+        _checked: { borderColor: "primary", bg: "primary" },
+        _text: { ml: "1", fontSize: 12, fontWeight: "400", color: "#0F172A" },
+      },
+    },
+    Radio: {
+      defaultProps: {
+        borderWidth: 1,
+        borderColor: "#0F172A",
+        width: s(16),
+        height: s(16),
+        bg: "white",
+        borderRadius: "full",
+        _checked: { borderColor: "primary" },
+        _text: { ml: "1", fontSize: 12, fontWeight: "400", color: "#0F172A" },
       },
     },
   },

@@ -81,6 +81,9 @@ export { default as NotificationSvg } from "./notification.svg"
 export { default as InDevelopingSvg } from "./in_developing.svg"
 export { default as FilterInsuranceSvg } from "./filter-insurance.svg"
 export { default as QuestionLightSvg } from "./question-light.svg"
+export { default as ClosePopupSvg } from "./close-popup.svg"
+export { default as CheckBoxSvg } from "./checkbox.svg"
+export { default as CheckBoxEmptySvg } from "./checkbox-empty.svg"
 
 // home
 export { default as AccountHomeActiveSvg } from "./account-home-active.svg"

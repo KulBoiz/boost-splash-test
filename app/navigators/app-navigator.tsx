@@ -26,6 +26,7 @@ import BankerListRequestScreen from "../screens/banker/banker-list-request-scree
 import BankerRequestDetailScreen from "../screens/banker/banker-request-detail-screen"
 import InDeveloping from "../components/in-developing"
 import ManageInsuranceListScreen from "../screens/insurance/manage-insurance-list-screen"
+import ManageInsuranceFilerScreen from "../screens/insurance/manage-insurance-filter-screen"
 
 export type NavigatorParamList = {
   [ScreenNames.SPLASH]: undefined
@@ -55,6 +56,7 @@ export type NavigatorParamList = {
   [ScreenNames.BANKER_LOAN_DETAIL_SCREEN]: { data: any }
   [ScreenNames.IN_DEVELOPING]: undefined
   [ScreenNames.MANAGE_INSURANCE_LIST]: undefined
+  [ScreenNames.MANAGE_INSURANCE_FILTER]: undefined
 }
 
 // Documentation: https://reactnavigation.org/docs/stack-navigator/
@@ -115,6 +117,10 @@ const RootStack = () => {
       <Stack.Screen
         name={ScreenNames.MANAGE_INSURANCE_LIST}
         component={ManageInsuranceListScreen}
+      />
+      <Stack.Screen
+        name={ScreenNames.MANAGE_INSURANCE_FILTER}
+        component={ManageInsuranceFilerScreen}
       />
     </Stack.Navigator>
   )
