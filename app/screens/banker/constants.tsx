@@ -57,13 +57,12 @@ export const LOAN_STEP_INDEX = {
 
 export const LOAN_STATUS_DATA = [
   { key: LOAN_STATUS_TYPES.ALL, text: "Tất cả" },
-  { key: LOAN_STATUS_TYPES.WAIT_PROCESSING, text: "Chờ xử lý" },
-  { key: LOAN_STATUS_TYPES.RECEIVED, text: "Tiếp nhận" },
-  { key: LOAN_STATUS_TYPES.APPRAISAL_PROGRESS, text: "Thẩm định" },
+  { key: LOAN_STATUS_TYPES.WAIT_PROCESSING, text: "Hồ sơ chờ duyệt" },
   { key: LOAN_STATUS_TYPES.LEND_APPROVAL, text: "Duyệt cho vay" },
   { key: LOAN_STATUS_TYPES.TRIPARTITE_BLOCKADE, text: "Phong tỏa 3 bên" },
   { key: LOAN_STATUS_TYPES.DISBURSING, text: "Đang giải ngân" },
   { key: LOAN_STATUS_TYPES.DISBURSED, text: "Đã giải ngân" },
+  { key: LOAN_STATUS_TYPES.CANCELLED, text: "Huỷ bỏ" },
 ]
 
 export const QUESTION_TYPES = {
