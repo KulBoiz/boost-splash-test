@@ -7,7 +7,6 @@ import { useNavigation } from "@react-navigation/native"
 import { Avatar, Box, Button, HStack, Pressable, ScrollView, useToast } from "native-base"
 import { s, vs } from "react-native-size-matters"
 import { Text } from "../../components"
-import PopupAlert from "./components/popup-alert"
 import numeral from "numeral"
 import moment from "moment"
 import { CallSvg, EditSvg, NotificationSvg } from "../../assets/svgs"
@@ -17,6 +16,7 @@ import BankerLoanSteps from "./components/banker-loan-steps"
 import { LOAN_STATUS_TYPES, LOAN_STEP_INDEX, TRANSACTION_STATUS_TYPES } from "./constants"
 import { flatten, map } from "../../utils/lodash-utils"
 import Note from "../../components/note/note"
+import PopupAlert from "../../components/popup-alert/popup-alert"
 
 const BankerLoanDetailScreen: FC = observer((props: any) => {
   const navigation = useNavigation()
