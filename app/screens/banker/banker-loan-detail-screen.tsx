@@ -7,7 +7,6 @@ import { useNavigation } from "@react-navigation/native"
 import { Avatar, Box, Button, HStack, Pressable, ScrollView, useToast } from "native-base"
 import { s, vs } from "react-native-size-matters"
 import { Text } from "../../components"
-import PopupAlert from "./components/popup-alert"
 import numeral from "numeral"
 import moment from "moment"
 import { CallSvg, EditSvg, NotificationSvg } from "../../assets/svgs"
@@ -17,6 +16,7 @@ import BankerLoanSteps from "./components/banker-loan-steps"
 import { LOAN_STATUS_TYPES, LOAN_STEP_INDEX, TRANSACTION_STATUS_TYPES } from "./constants"
 import { flatten, map } from "../../utils/lodash-utils"
 import Note from "../../components/note/note"
+import PopupAlert from "../../components/popup-alert/popup-alert"
 
 const BankerLoanDetailScreen: FC = observer((props: any) => {
   const navigation = useNavigation()
@@ -257,12 +257,18 @@ const BankerLoanDetailScreen: FC = observer((props: any) => {
                   flex="1"
                   textAlign="right"
                   color={
-                    item.status === TRANSACTION_STATUS_TYPES.FOR_CONTROL ?
-                      "green" : (item.status === TRANSACTION_STATUS_TYPES.CANCELLED ? "red" : "orange")
+                    item.status === TRANSACTION_STATUS_TYPES.FOR_CONTROL
+                      ? "green"
+                      : item.status === TRANSACTION_STATUS_TYPES.CANCELLED
+                      ? "red"
+                      : "orange"
                   }
                   text={
                     item.status === TRANSACTION_STATUS_TYPES.FOR_CONTROL
-                      ? "Đã đối soát" : (item.status === TRANSACTION_STATUS_TYPES.CANCELLED ? "Huỷ" : "Chưa đối soát")
+                      ? "Đã đối soát"
+                      : item.status === TRANSACTION_STATUS_TYPES.CANCELLED
+                      ? "Huỷ"
+                      : "Chưa đối soát"
                   }
                 />
               ),
@@ -445,7 +451,7 @@ const BankerLoanDetailScreen: FC = observer((props: any) => {
             <Text color="ebony" size="semiBold14" text="Khách hàng" />
             <Box height="1.0" my="3" bg="iron" opacity={0.5} />
             {renderItem({
-              item: { label: "Họ tên:", value: name },
+              item: { label: "Họ tên", value: name },
               index: 0,
               rightComponent: renderCall(name, data.user?.tels?.[0]?.tel),
             })}
@@ -462,8 +468,8 @@ const BankerLoanDetailScreen: FC = observer((props: any) => {
               </Pressable> */}
             </HStack>
             <Box height="1.0" my="3" bg="iron" opacity={0.5} />
-            {renderItem({ item: { label: "Sản phẩm:", value: data?.product?.name }, index: 0 })}
-            {renderItem({ item: { label: "Mã SP CĐT:", value: "-" }, index: 1 })}
+            {renderItem({ item: { label: "Sản phẩm", value: data?.product?.name }, index: 0 })}
+            {renderItem({ item: { label: "Mã SP CĐT", value: "-" }, index: 1 })}
             {renderItem({
               item: { label: "Mã căn hộ", value: data?.realEstateInfo?.apartmentCode || "-" },
               index: 2,
@@ -471,7 +477,7 @@ const BankerLoanDetailScreen: FC = observer((props: any) => {
             {renderItem({ item: { label: "Địa chỉ", value: "-" }, index: 3 })}
             {renderItem({
               item: {
-                label: "Số tiền khách yêu cầu vay:",
+                label: "Số tiền khách yêu cầu vay",
                 value: `${numeral(data?.loanMoney).format("0,0")} ${data?.suffix || "vnđ"}`,
               },
               index: 4,

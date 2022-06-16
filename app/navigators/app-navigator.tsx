@@ -25,6 +25,10 @@ import BankerLoanDetailScreen from "../screens/banker/banker-loan-detail-screen"
 import BankerListRequestScreen from "../screens/banker/banker-list-request-screen"
 import BankerRequestDetailScreen from "../screens/banker/banker-request-detail-screen"
 import InDeveloping from "../components/in-developing"
+import ManageInsuranceListScreen from "../screens/insurance/manage-insurance-list-screen"
+import ManageInsuranceFilerScreen from "../screens/insurance/manage-insurance-filter-screen"
+import InsuranceRequestClaimSuccessScreen from "../screens/insurance/insurance-request-claim-success-screen"
+import ManageInsuranceDetailScreen from "../screens/insurance/manage-insurance-detail-screen"
 
 export type NavigatorParamList = {
   [ScreenNames.SPLASH]: undefined
@@ -53,6 +57,10 @@ export type NavigatorParamList = {
   [ScreenNames.BANKER_LIST_LOAN_SCREEN]: undefined
   [ScreenNames.BANKER_LOAN_DETAIL_SCREEN]: { data: any }
   [ScreenNames.IN_DEVELOPING]: undefined
+  [ScreenNames.MANAGE_INSURANCE_LIST]: undefined
+  [ScreenNames.MANAGE_INSURANCE_FILTER]: undefined
+  [ScreenNames.INSURANCE_REQUEST_CLAIM_SUCCESS_SCREEN]: undefined
+  [ScreenNames.MANAGE_INSURANCE_DETAIL_SCREEN]: { data: any }
 }
 
 // Documentation: https://reactnavigation.org/docs/stack-navigator/
@@ -109,6 +117,22 @@ const RootStack = () => {
       <Stack.Screen
         name={ScreenNames.BANKER_LOAN_DETAIL_SCREEN}
         component={BankerLoanDetailScreen}
+      />
+      <Stack.Screen
+        name={ScreenNames.MANAGE_INSURANCE_LIST}
+        component={ManageInsuranceListScreen}
+      />
+      <Stack.Screen
+        name={ScreenNames.MANAGE_INSURANCE_FILTER}
+        component={ManageInsuranceFilerScreen}
+      />
+      <Stack.Screen
+        name={ScreenNames.INSURANCE_REQUEST_CLAIM_SUCCESS_SCREEN}
+        component={InsuranceRequestClaimSuccessScreen}
+      />
+      <Stack.Screen
+        name={ScreenNames.MANAGE_INSURANCE_DETAIL_SCREEN}
+        component={ManageInsuranceDetailScreen}
       />
     </Stack.Navigator>
   )

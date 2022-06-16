@@ -2,8 +2,9 @@ import { Box, Spinner, HStack, Pressable } from "native-base"
 import React from "react"
 import Modal from "react-native-modal"
 import { vs } from "react-native-size-matters"
-import { Text } from "../../../components"
-import { TxKeyPath } from "../../../i18n"
+import { ClosePopupSvg } from "../../assets/svgs"
+import { TxKeyPath } from "../../i18n"
+import { Text } from "../text/text"
 
 interface Props {
   visible: boolean
@@ -32,6 +33,9 @@ const PopupAlert = React.memo(
     return (
       <Modal isVisible={visible}>
         <Box bg="white" borderRadius="8" p={vs(24)}>
+          <Pressable onPress={onClose} position="absolute" top="-16" right="-16" zIndex={1}>
+            <ClosePopupSvg />
+          </Pressable>
           <Text color="ebony" fontSize="16" fontWeight="500" text={message} tx={messageTx} />
           <HStack mt={vs(24)}>
             <Pressable

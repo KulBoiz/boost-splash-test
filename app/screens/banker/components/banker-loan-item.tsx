@@ -5,7 +5,7 @@ import React from "react"
 import { s, vs } from "react-native-size-matters"
 import { Text } from "../../../components"
 import { find } from "../../../utils/lodash-utils"
-import { LOAN_STATUS_DATA } from "../constants"
+import { LOAN_STATUS, LOAN_STATUS_DATA } from "../constants"
 
 interface Props {
   item: any
@@ -14,7 +14,7 @@ interface Props {
 }
 
 const BankerLoanItem = React.memo(({ item, index, onPress }: Props) => {
-  const status = find(LOAN_STATUS_DATA, { key: item?.dealDetails?.[0]?.status })
+  const status = find(LOAN_STATUS, { key: item?.dealDetails?.[0]?.status })
 
   return (
     <Pressable
