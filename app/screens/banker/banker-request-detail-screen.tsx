@@ -9,12 +9,17 @@ import { Text } from "../../components"
 import AppHeader from "../../components/app-header/AppHeader"
 // import { FastImage } from "../../components/fast-image/fast-image"
 import Note from "../../components/note/note"
+import PopupAlert from "../../components/popup-alert/popup-alert"
 import { useStores } from "../../models"
 import { color } from "../../theme"
-import PopupAlert from "./components/popup-alert"
 import PopupConfirm from "./components/popup-confirm"
 import PopupReject from "./components/popup-reject"
-import { getSurveyDetails, getSurveyName, GET_STATUS_BANK_FEED_BACK, STATUS_BANK_FEED_BACK } from "./constants"
+import {
+  getSurveyDetails,
+  getSurveyName,
+  GET_STATUS_BANK_FEED_BACK,
+  STATUS_BANK_FEED_BACK,
+} from "./constants"
 
 const BankerRequestDetailScreen: FC = observer((props: any) => {
   const navigation = useNavigation()
@@ -98,14 +103,17 @@ const BankerRequestDetailScreen: FC = observer((props: any) => {
   )
 
   const onAlertConfirm = useCallback(() => {
-    bankerStore.updateSurveyTask(data?.taskId, alert.data).then(() => {
-      Alert.alert('Đã phản hồi thành công')
-      bankerStore.getListRequest({}, { page: 1, limit: 20 }, true)
-      setAlert({ visible: false })
-      navigation.goBack()
-    }).catch(() => {
-      Alert.alert('Lỗi')
-    })
+    bankerStore
+      .updateSurveyTask(data?.taskId, alert.data)
+      .then(() => {
+        Alert.alert("Đã phản hồi thành công")
+        bankerStore.getListRequest({}, { page: 1, limit: 20 }, true)
+        setAlert({ visible: false })
+        navigation.goBack()
+      })
+      .catch(() => {
+        Alert.alert("Lỗi")
+      })
   }, [alert, navigation])
 
   const documents = [
@@ -185,9 +193,12 @@ const BankerRequestDetailScreen: FC = observer((props: any) => {
   }, [])
 
   const renderAction = () => {
-    const feedBack = data?.bankFeedbacks?.find(el => el?.userId === authStoreModel?.user?.id)
+    const feedBack = data?.bankFeedbacks?.find((el) => el?.userId === authStoreModel?.user?.id)
 
-    if (feedBack?.responseStatus === STATUS_BANK_FEED_BACK.waiting_to_receive || !feedBack?.responseStatus) {
+    if (
+      feedBack?.responseStatus === STATUS_BANK_FEED_BACK.waiting_to_receive ||
+      !feedBack?.responseStatus
+    ) {
       return true
     }
 
@@ -256,11 +267,11 @@ const BankerRequestDetailScreen: FC = observer((props: any) => {
               </HStack>
             ))}
           </Box>
-          <View style={[styles.contentItem, styles.contentItemNote]} >
+          <View style={[styles.contentItem, styles.contentItemNote]}>
             <Note id={data?.taskId} />
           </View>
           {/* {renderNotes()} */}
-          {renderAction() &&
+          {renderAction() && (
             <HStack mt="4" mb="6">
               <Pressable
                 onPress={showPopupReject}
@@ -288,20 +299,24 @@ const BankerRequestDetailScreen: FC = observer((props: any) => {
                 <Text fontSize={16} fontWeight="600" color="white" tx="banker.approve" />
               </Pressable>
             </HStack>
-          }
+          )}
         </Box>
       </ScrollView>
 
-      {
-        renderAction() && <>
-          <PopupReject visible={rejectVisible} onClose={hidePopupReject} onConfirm={onConfirmReject} />
+      {renderAction() && (
+        <>
+          <PopupReject
+            visible={rejectVisible}
+            onClose={hidePopupReject}
+            onConfirm={onConfirmReject}
+          />
           <PopupConfirm
             visible={confirmVisible}
             onClose={hidePopupConfirm}
             onConfirm={onConfirmReceived}
           />
         </>
-      }
+      )}
 
       <PopupAlert
         visible={alert.visible}
@@ -318,11 +333,11 @@ export default BankerRequestDetailScreen
 
 const styles = ScaledSheet.create({
   contentItem: {
-    borderRadius: '8@s',
-    marginTop: '16@s',
+    borderRadius: "8@s",
+    marginTop: "16@s",
     backgroundColor: color.palette.white,
   },
   contentItemNote: {
-    padding: '8@s',
+    padding: "8@s",
   },
-});
+})

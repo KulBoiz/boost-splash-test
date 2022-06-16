@@ -7,7 +7,6 @@ import { useNavigation } from "@react-navigation/native"
 import { Avatar, Box, Button, HStack, Pressable, ScrollView, useToast } from "native-base"
 import { s, vs } from "react-native-size-matters"
 import { Text } from "../../components"
-import PopupAlert from "./components/popup-alert"
 import numeral from "numeral"
 import moment from "moment"
 import { CallSvg, EditSvg, NotificationSvg } from "../../assets/svgs"
@@ -17,6 +16,9 @@ import BankerLoanSteps from "./components/banker-loan-steps"
 import { GENDER, LOAN_STATUS_TYPES, LOAN_STEP_INDEX, TRANSACTION_STATUS_TYPES } from "./constants"
 import { flatten, map } from "../../utils/lodash-utils"
 import Note from "../../components/note/note"
+import PopupAlert from "../../components/popup-alert/popup-alert"
+import PopupEditLoanDocument from "./components/popup-edit-loan-document"
+import PopupEditLoanResult from "./components/popup-edit-loan-result"
 
 const BankerLoanDetailScreen: FC = observer((props: any) => {
   const navigation = useNavigation()
@@ -30,6 +32,9 @@ const BankerLoanDetailScreen: FC = observer((props: any) => {
     type: "reject",
     message: "",
   })
+
+  const [editDocumentLoanVisible, setEditDocumentLoanVisible] = useState(false)
+  const [editLoanResultVisible, setEditLoanResultVisible] = useState(false)
 
   const data = props?.route?.params?.data
   const name =
@@ -223,12 +228,18 @@ const BankerLoanDetailScreen: FC = observer((props: any) => {
                   flex="1"
                   textAlign="right"
                   color={
-                    item.status === TRANSACTION_STATUS_TYPES.FOR_CONTROL ?
-                      "green" : (item.status === TRANSACTION_STATUS_TYPES.CANCELLED ? "red" : "orange")
+                    item.status === TRANSACTION_STATUS_TYPES.FOR_CONTROL
+                      ? "green"
+                      : item.status === TRANSACTION_STATUS_TYPES.CANCELLED
+                      ? "red"
+                      : "orange"
                   }
                   text={
                     item.status === TRANSACTION_STATUS_TYPES.FOR_CONTROL
-                      ? "Đã đối soát" : (item.status === TRANSACTION_STATUS_TYPES.CANCELLED ? "Huỷ" : "Chưa đối soát")
+                      ? "Đã đối soát"
+                      : item.status === TRANSACTION_STATUS_TYPES.CANCELLED
+                      ? "Huỷ"
+                      : "Chưa đối soát"
                   }
                 />
               ),
@@ -423,9 +434,9 @@ const BankerLoanDetailScreen: FC = observer((props: any) => {
           <Box bg="white" borderRadius="8" p="4" mt={vs(8)}>
             <HStack alignItems="center" justifyContent="space-between">
               <Text size="semiBold14" text="Hồ sơ cho vay" />
-              {/* <Pressable>
+              <Pressable onPress={() => setEditDocumentLoanVisible(true)}>
                 <EditSvg />
-              </Pressable> */}
+              </Pressable>
             </HStack>
             <Box height="1.0" my="3" bg="iron" opacity={0.5} />
             {renderItem({ item: { label: "Sản phẩm", value: data?.product?.name }, index: 0 })}
@@ -465,9 +476,9 @@ const BankerLoanDetailScreen: FC = observer((props: any) => {
           <Box bg="white" borderRadius="8" p="4" mt={vs(8)}>
             <HStack alignItems="center" justifyContent="space-between">
               <Text color="ebony" size="semiBold14" text="Kết quả" />
-              {/* <Pressable>
+              <Pressable onPress={() => setEditLoanResultVisible(true)}>
                 <EditSvg />
-              </Pressable> */}
+              </Pressable>
             </HStack>
             <Box height="1.0" my="3" bg="iron" opacity={0.5} />
             {renderItem({
@@ -527,6 +538,14 @@ const BankerLoanDetailScreen: FC = observer((props: any) => {
         onClose={() => setAlert({ visible: false })}
         onConfirm={onAlertConfirm}
         loading={bankerStore.isUpdating}
+      />
+      <PopupEditLoanDocument
+        visible={editDocumentLoanVisible}
+        onClose={() => setEditDocumentLoanVisible(false)}
+      />
+      <PopupEditLoanResult
+        visible={editLoanResultVisible}
+        onClose={() => setEditLoanResultVisible(false)}
       />
     </Box>
   )
