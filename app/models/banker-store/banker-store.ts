@@ -66,7 +66,6 @@ export const BankerStoreModel = types
       const result = yield self.api.get("survey-results/search-for-teller", {
         filter: {
           order: ["sharedAt desc"],
-          skip: 0,
           include: [
             {
               relation: "task",
@@ -80,6 +79,7 @@ export const BankerStoreModel = types
             status: "deal_processing_task",
           },
           limit: pagingParams?.limit,
+          skip: (pagingParams?.page - 1) * pagingParams?.limit,
         },
         page: pagingParams?.page,
       })
@@ -135,7 +135,6 @@ export const BankerStoreModel = types
       }
       const result = yield self.api.get("deals/bank", {
         filter: {
-          skip: 0,
           where: {
             status:
               self.dealStatusFilter !== LOAN_STATUS_TYPES.ALL
@@ -171,6 +170,7 @@ export const BankerStoreModel = types
             },
           ],
           limit: pagingParams?.limit,
+          skip: (pagingParams?.page - 1) * pagingParams?.limit,
         },
         page: pagingParams?.page,
       })
