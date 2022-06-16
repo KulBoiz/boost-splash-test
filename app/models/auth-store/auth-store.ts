@@ -26,7 +26,7 @@ export const AuthStoreModel = types
   .props({
     isFirstTime: types.optional(types.boolean, true),
     user: types.frozen({}),
-    userId: types.maybeNull(types.string),
+    userId: types.frozen(''),
     autoRefreshTokenTimeout: types.optional(types.number, 0),
     token: types.maybeNull(types.string),
     refreshing: types.optional(types.boolean, false),
@@ -130,8 +130,7 @@ export const AuthStoreModel = types
 
     verifyOtp: flow(function* verifyOtp(otp: string) {
       const authApi = new AuthApi(self.environment.api)
-      const userId = self?.user?.id;
-      const result = yield authApi.verifyOtp(userId, otp)
+      const result = yield authApi.verifyOtp(self.userId, otp)
       if (result.kind !== "ok") {
         return result
       }
@@ -163,7 +162,7 @@ export const AuthStoreModel = types
 
     register: flow(function* register(fullName: string, password: string, confirmPassword: string) {
       const authApi = new AuthApi(self.environment.api)
-      const userId = self?.user?.id
+      const userId = self?.userId
       const result = yield authApi.register(userId, fullName, password, confirmPassword)
       if (result.kind !== "ok") {
         return result
@@ -295,7 +294,7 @@ export const AuthStoreModel = types
 
 
     logout: () => {
-      self.userId = null
+      self.userId = ''
       self.user = {}
       self.token = null
       self.refreshToken = null

@@ -33,12 +33,13 @@ const BankItem = React.memo((props: Props) => {
         <FastImage source={{uri:  imageUrl}} style={styles.bankIcon}/>
       </View>
       <View style={styles.body}>
-        <View style={[ROW, ALIGN_CENTER]}>
+        <AppText value={'Lãi suất'} style={styles.text} color={color.palette.gray}/>
+
+        <View style={[ROW, ALIGN_CENTER, styles.percentContainer]}>
           <AppText value={`${preferentialRate ?? '0'}%`} style={styles.percent}/>
           <AppText value={' /năm'} style={styles.text} color={color.palette.deepGray}/>
         </View>
         <View>
-          <AppText value={'Lãi suất'} style={styles.text} color={color.palette.gray}/>
           <AppText value={`${preferentialTime ?? '0'} tháng ưu đãi`} style={styles.text} color={color.palette.gray}/>
         </View>
       </View>
@@ -51,7 +52,7 @@ export default BankItem;
 const styles = ScaledSheet.create({
   container: {
     backgroundColor: color.background,
-    width: '220@ms',
+    width: '150@ms',
     shadowColor: "#000",
     shadowOffset: {
       width: 0,
@@ -70,11 +71,10 @@ const styles = ScaledSheet.create({
     justifyContent:'center'
   },
   body: {
-    flexDirection: 'row',
-    alignItems: "center",
     backgroundColor: color.background,
     justifyContent: "space-between",
-    padding: '12@ms',
+    paddingVertical: '12@ms',
+    paddingHorizontal: '24@ms',
     borderBottomRightRadius: '4@s',
     borderBottomLeftRadius: '4@s',
   },
@@ -82,9 +82,11 @@ const styles = ScaledSheet.create({
     width: '50@s',
     height:'25@s'
   },
-
+  percentContainer: {
+    marginVertical: '4@s'
+  },
   text: {
-    fontSize: '11@ms',
+    fontSize: '13@ms',
   },
   percent: {
     fontSize: '21@ms'

@@ -40,7 +40,7 @@ const LoanPackage = React.memo((props: Props) => {
         data={data}
         renderItem={renderItem}
         sliderWidth={width}
-        itemWidth={width-ms(130)}
+        itemWidth={width-ms(200)}
         inactiveSlideScale={1}
         activeSlideAlignment={'start'}
       />

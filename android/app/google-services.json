@@ -9,7 +9,7 @@
       "client_info": {
         "mobilesdk_app_id": "1:863183439399:android:55b39585b58fde5c357002",
         "android_client_info": {
-          "package_name": "com.fina.mobile"
+          "package_name": "com.fina.tulip"
         }
       },
       "oauth_client": [
@@ -17,7 +17,7 @@
           "client_id": "863183439399-at0r4q3ajcnoj9tlm9ardc5qvlggrorm.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
-            "package_name": "com.fina.mobile",
+            "package_name": "com.fina.tulip",
             "certificate_hash": "149d5e39eb1d010aaae8843f4571a3a92f58f041"
           }
         },
