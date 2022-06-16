@@ -43,10 +43,10 @@ export const theme = extendTheme({
     },
   },
   fonts: {
-    heading: "SF-Pro-Display",
-    body: "SF-Pro-Display",
-    mono: "SF-Pro-Display",
-    button: "SF-Pro-Display",
+    heading: "SFProDisplay",
+    body: "SFProDisplay",
+    mono: "SFProDisplay",
+    button: "SFProDisplay",
   },
   config: {
     initialColorMode: "light",
