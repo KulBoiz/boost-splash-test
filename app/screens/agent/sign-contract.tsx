@@ -73,7 +73,7 @@ const SignContract = React.memo((props: Props) => {
             bankName: agentStore.bankName,
           })}
         />
-        <View style={{ width: '40%', position: 'absolute', bottom: s(150), right: s(45), alignItems: 'center' }}>
+        <View style={{ width: '40%', position: 'absolute', bottom: s(120), right: s(45), alignItems: 'center' }}>
           {!signature && <AppButton title={'Ký bằng tay'} onPress={() => setSignatureModal(true)} />}
           {signature && <FastImage source={{ uri: `data:image/png;base64,${signature}` }} style={styles.signature} />}
         </View>

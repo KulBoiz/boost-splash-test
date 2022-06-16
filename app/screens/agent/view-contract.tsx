@@ -23,7 +23,6 @@ const ViewContract = React.memo((props: Props) => {
 
   useEffect(() => {
     agentStore.getDetailAgent().then((res) => {
-      console.log(res.data)
       setSignature(res?.data?.identification?.signature?.url)
       setUser(res?.data)
     })
@@ -49,8 +48,8 @@ const ViewContract = React.memo((props: Props) => {
           })}
         />
 
-        <View style={{ width: '40%', position: 'absolute', bottom: 30, right: 50, alignItems: 'center' }}>
-          <Image source={{ uri: signature ?? '', cache: 'reload' }}style={{width: 100, height: 100, top: s(-100 )}}/>
+        <View style={{ width: '40%', position: 'absolute', bottom: s(130), right: 50, alignItems: 'center'}}>
+          <Image source={{ uri: signature ?? '', cache: 'reload' }} style={{width: s(105), height: s(100), backgroundColor: color.background }}/>
         </View>
         <View style={{height: 50}}/>
       </ScrollView>
