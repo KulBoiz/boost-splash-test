@@ -19,16 +19,17 @@ export type AppTextProps = {
 } & TextProps
 
 export type FontFamily =
-  | "Inter-Bold"
-  | "Inter-Medium"
-  | "Inter-Regular"
-  | "Inter-SemiBold"
-  | "Inter-Thin"
+  | "SF-Pro-Display-Bold"
+  | "SF-Pro-Display-Medium"
+  | "SF-Pro-Display-Regular"
+  | "SF-Pro-Display-SemiBold"
+  | "SF-Pro-Display-Thin"
+  | "SF-Pro-Display-Light"
 
 const defaultProps: Partial<AppTextProps> = {
   fontSize: ms(13),
   color: color.palette.black,
-  fontFamily: "Inter-Regular",
+  fontFamily: "SF-Pro-Display-Regular",
 }
 
 // eslint-disable-next-line react/display-name

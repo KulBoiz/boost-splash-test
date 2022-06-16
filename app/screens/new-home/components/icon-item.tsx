@@ -45,7 +45,9 @@ const styles = ScaledSheet.create({
   text: {
     width: '90%',
     fontSize: '12@ms',
-    fontFamily: fontFamily.medium,
-    textAlign: "center"
+    lineHeight: '20@ms',
+    fontFamily: fontFamily.regular,
+    textAlign: "center",
+    color: 'rgba(0, 0, 0, 0.65)'
   }
 });

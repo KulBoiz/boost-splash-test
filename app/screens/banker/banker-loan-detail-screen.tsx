@@ -48,7 +48,7 @@ const BankerLoanDetailScreen: FC = observer((props: any) => {
   }, [data, dealDetailId])
 
   const getTransactionDeal = useCallback(async () => {
-    const result = await bankerStore.getTransactionDeal(objectId, dealDetailId)
+    const result = await bankerStore.getTransactionDeal(data?.id, dealDetailId)
     if (result?.length) {
       setTransactionDetail(result[0])
     }
@@ -247,7 +247,7 @@ const BankerLoanDetailScreen: FC = observer((props: any) => {
           {transactionDetail?.transactionDetails.map((item, index) =>
             renderItem({
               item: {
-                label: `${numeral(item.amount).format("0,0")} vnđ`,
+                label: `${numeral(item.amount).format("0,0")} VNĐ`,
                 value: "",
               },
               index: index,
@@ -257,24 +257,17 @@ const BankerLoanDetailScreen: FC = observer((props: any) => {
                   flex="1"
                   textAlign="right"
                   color={
-                    item.status === TRANSACTION_STATUS_TYPES.NOT_FOR_CONTROL ? "orange" : "green"
+                    item.status === TRANSACTION_STATUS_TYPES.FOR_CONTROL ?
+                      "green" : (item.status === TRANSACTION_STATUS_TYPES.CANCELLED ? "red" : "orange")
                   }
                   text={
-                    item.status === TRANSACTION_STATUS_TYPES.NOT_FOR_CONTROL
-                      ? "Chưa đối soát"
-                      : "Đã đối soát"
+                    item.status === TRANSACTION_STATUS_TYPES.FOR_CONTROL
+                      ? "Đã đối soát" : (item.status === TRANSACTION_STATUS_TYPES.CANCELLED ? "Huỷ" : "Chưa đối soát")
                   }
                 />
               ),
             }),
           )}
-          {renderItem({
-            item: { label: "10.000.000vnđ", value: "" },
-            index: 1,
-            rightComponent: (
-              <Text size="medium12" flex="1" textAlign="right" color="green" text="Đã đối soát" />
-            ),
-          })}
         </Box>
       )
     }
@@ -305,7 +298,7 @@ const BankerLoanDetailScreen: FC = observer((props: any) => {
         Từ chối
       </Button>
     )
-    switch (data.status) {
+    switch (data?.dealDetails?.[0]?.status) {
       case LOAN_STATUS_TYPES.WAIT_PROCESSING:
         return (
           <HStack mt="4" mb="6">
@@ -332,6 +325,21 @@ const BankerLoanDetailScreen: FC = observer((props: any) => {
                 message: "Bạn muốn thẩm định hồ sơ này?",
                 confirmText: "Thẩm định",
                 status: LOAN_STATUS_TYPES.APPRAISAL_PROGRESS,
+              })
+            })}
+          </HStack>
+        )
+      case LOAN_STATUS_TYPES.APPRAISAL_PROGRESS:
+        return (
+          <HStack mt="4" mb="6">
+            {buttonReject()}
+            {buttonConfirm("Đã giải ngân", () => {
+              setAlert({
+                visible: true,
+                type: "confirm",
+                message: "Bạn muốn thẩm định hồ sơ này?",
+                confirmText: "Thẩm định",
+                status: LOAN_STATUS_TYPES.LEND_APPROVAL,
               })
             })}
           </HStack>
@@ -430,7 +438,7 @@ const BankerLoanDetailScreen: FC = observer((props: any) => {
         }
         renderRightIcon={<NotificationSvg />}
       />
-      <BankerLoanSteps activeIndex={LOAN_STEP_INDEX[data.status]} mb="1" />
+      <BankerLoanSteps activeIndex={LOAN_STEP_INDEX[data?.dealDetails?.[0]?.status]} mb="1" />
       <ScrollView>
         <Box mb="6" mx="4" mt="5">
           <Box bg="white" borderRadius="8" p="4">
@@ -449,9 +457,9 @@ const BankerLoanDetailScreen: FC = observer((props: any) => {
           <Box bg="white" borderRadius="8" p="4" mt={vs(8)}>
             <HStack alignItems="center" justifyContent="space-between">
               <Text size="semiBold14" text="Hồ sơ cho vay" />
-              <Pressable>
+              {/* <Pressable>
                 <EditSvg />
-              </Pressable>
+              </Pressable> */}
             </HStack>
             <Box height="1.0" my="3" bg="iron" opacity={0.5} />
             {renderItem({ item: { label: "Sản phẩm:", value: data?.product?.name }, index: 0 })}
@@ -491,9 +499,9 @@ const BankerLoanDetailScreen: FC = observer((props: any) => {
           <Box bg="white" borderRadius="8" p="4" mt={vs(8)}>
             <HStack alignItems="center" justifyContent="space-between">
               <Text color="ebony" size="semiBold14" text="Kết quả" />
-              <Pressable>
+              {/* <Pressable>
                 <EditSvg />
-              </Pressable>
+              </Pressable> */}
             </HStack>
             <Box height="1.0" my="3" bg="iron" opacity={0.5} />
             {renderItem({

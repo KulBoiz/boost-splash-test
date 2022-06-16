@@ -114,7 +114,7 @@ const styles = ScaledSheet.create({
     borderColor: color.palette.BABABA
   },
   errorMessage: {
-    fontFamily: 'Inter-Medium',
+    fontFamily: fontFamily.medium,
     color: color.palette.angry,
     fontSize: '13@ms',
     marginTop: '10@s'

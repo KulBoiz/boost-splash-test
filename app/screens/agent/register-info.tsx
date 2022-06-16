@@ -17,7 +17,7 @@ import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view
 import { AppText } from "../../components/app-text/AppText"
 import CustomCheckbox from "../../components/checkbox/custom-checkbox"
 import { useStores } from "../../models"
-import { isIos } from "../../constants/variable"
+import { isAndroid, isIos } from "../../constants/variable"
 
 interface Props{}
 
@@ -66,7 +66,7 @@ const RegisterInfo = React.memo((props: Props) => {
     <View style={styles.container}>
       <AppHeader headerText={'Đăng ký thông tin'} isBlue/>
       <RenderStepAgent currentPosition={0} />
-      <KeyboardAwareScrollView style={[CONTAINER_PADDING, {flex:1}]} extraScrollHeight={isIos ? -50 : 0}>
+      <KeyboardAwareScrollView style={[CONTAINER_PADDING, {flex:1}]} enableOnAndroid extraScrollHeight={isIos ? -50 : 10}>
         <View style={styles.wrapCheckbox}>
           <AppText value={'Giới tính'} style={FONT_REGULAR_12} color={color.palette.deepGray}/>
           <CustomCheckbox onPress={()=> selectGender('Nam')} text={'Nam'} isChecked={gender === 'Nam'}/>

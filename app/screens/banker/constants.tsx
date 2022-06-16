@@ -43,21 +43,26 @@ export const LOAN_STATUS_TYPES = {
 export const TRANSACTION_STATUS_TYPES = {
   FOR_CONTROL: "for_control",
   NOT_FOR_CONTROL: "not_for_control",
+  CANCELLED:  "cancelled"
 }
 export const LOAN_STEP_INDEX = {
-  [LOAN_STATUS_TYPES.DISBURSING]: 5,
-  [LOAN_STATUS_TYPES.DISBURSED]: 7,
+  [LOAN_STATUS_TYPES.WAIT_PROCESSING]: 0, // Chờ xử lý
+  [LOAN_STATUS_TYPES.RECEIVED]: 1, // Tiếp nhận
+  [LOAN_STATUS_TYPES.APPRAISAL_PROGRESS]: 2, // Thẩm định
+  [LOAN_STATUS_TYPES.LEND_APPROVAL]: 3, // duyệt cho vay
+  [LOAN_STATUS_TYPES.TRIPARTITE_BLOCKADE]: 4, // phong toả 3 bên
+  [LOAN_STATUS_TYPES.DISBURSING]: 5, // Đang giải ngân
+  [LOAN_STATUS_TYPES.DISBURSED]: 6, // Đã giải ngân
 }
 
 export const LOAN_STATUS_DATA = [
   { key: LOAN_STATUS_TYPES.ALL, text: "Tất cả" },
-  { key: LOAN_STATUS_TYPES.WAIT_PROCESSING, text: "Chờ xử lý" },
-  { key: LOAN_STATUS_TYPES.RECEIVED, text: "Tiếp nhận" },
-  { key: LOAN_STATUS_TYPES.APPRAISAL_PROGRESS, text: "Thẩm định" },
+  { key: LOAN_STATUS_TYPES.WAIT_PROCESSING, text: "Hồ sơ chờ duyệt" },
   { key: LOAN_STATUS_TYPES.LEND_APPROVAL, text: "Duyệt cho vay" },
   { key: LOAN_STATUS_TYPES.TRIPARTITE_BLOCKADE, text: "Phong tỏa 3 bên" },
   { key: LOAN_STATUS_TYPES.DISBURSING, text: "Đang giải ngân" },
   { key: LOAN_STATUS_TYPES.DISBURSED, text: "Đã giải ngân" },
+  { key: LOAN_STATUS_TYPES.CANCELLED, text: "Huỷ bỏ" },
 ]
 
 export const QUESTION_TYPES = {

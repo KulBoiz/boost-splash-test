@@ -17,6 +17,7 @@ import { yupResolver } from "@hookform/resolvers/yup/dist/yup"
 import * as Yup from "yup"
 import i18n from "i18n-js"
 import ParsedText from "react-native-parsed-text"
+import { fontFamily } from "../../constants/font-family"
 
 
 const ForgotPasswordScreen :FC<StackScreenProps<AuthStackParamList, ScreenNames.FORGOT_PASSWORD>> = observer(
@@ -91,7 +92,7 @@ const styles = ScaledSheet.create({
     marginBottom: '50@s'
   },
   bold: {
-    fontFamily: 'Inter-Bold'
+    fontFamily: fontFamily.bold
   },
   header:{
     fontSize: '44@ms',

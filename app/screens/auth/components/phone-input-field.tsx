@@ -5,6 +5,7 @@ import { translate, TxKeyPath } from "../../../i18n"
 import { s, ms } from "react-native-size-matters"
 import { Text } from "../../../components"
 import { AppText } from "../../../components/app-text/AppText"
+import { fontFamily } from "../../../constants/font-family"
 
 // the base styling for the container
 const CONTAINER: ViewStyle = {
@@ -21,20 +22,20 @@ const WRAP_INPUT: ViewStyle = {
 
 const INPUT: TextStyle = {
   flex: 1,
-  fontFamily: 'Inter-Medium',
+  fontFamily: fontFamily.medium,
   color: color.palette.black,
   minHeight: s(40),
   fontSize: ms(14),
 }
 const LABEL: TextStyle = {
-  fontFamily: 'Inter-SemiBold',
+  fontFamily: fontFamily.semiBold,
   fontWeight: '500',
   color: color.palette.black,
   fontSize: ms(12),
   marginBottom: s(13)
 }
 const ERROR: TextStyle = {
-  fontFamily: 'Inter-Medium',
+  fontFamily: fontFamily.medium,
   color: color.palette.angry,
   fontSize: ms(13),
   marginTop: s(10)
@@ -46,7 +47,7 @@ const WRAP_PREFIX: ViewStyle = {
   marginRight: ms(10)
 }
 const PREFIX: TextStyle = {
-  fontFamily: 'Inter-Medium',
+  fontFamily: fontFamily.medium,
   color: color.palette.black,
   fontSize: ms(14),
 }

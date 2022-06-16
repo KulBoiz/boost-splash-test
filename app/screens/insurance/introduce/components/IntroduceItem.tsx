@@ -4,6 +4,7 @@ import { ScaledSheet } from "react-native-size-matters";
 import { TxKeyPath } from "../../../../i18n"
 import { AppText } from "../../../../components/app-text/AppText"
 import { color } from "../../../../theme"
+import { fontFamily } from "../../../../constants/font-family"
 
 interface Props{
   svg: JSX.Element
@@ -35,13 +36,13 @@ const styles = ScaledSheet.create({
     },
   label: {
     fontSize: '32@ms',
-    fontFamily: 'Inter-Bold',
+    fontFamily: fontFamily.bold,
     textAlign: 'center',
     marginTop: '50@s'
 
   },
   content: {
-    fontFamily: 'Inter-Regular',
+    fontFamily: fontFamily.regular,
     fontSize: '18@ms',
     textAlign: 'center',
     marginTop: '22@s'

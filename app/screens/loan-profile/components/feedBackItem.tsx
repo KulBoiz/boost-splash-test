@@ -87,7 +87,7 @@ const FeedBackItem = observer((props: Props) => {
         </View>
         <View style={styles.item} >
           <AppText style={styles.itemLabel} value={'Họ và tên:'} />
-          <AppText color={mappingStatus()?.color} value={item?.user?.fullName} />
+          <AppText color={mappingStatus()?.color} value={item?.user?.fullName ? item?.user?.fullName : (item?.user?.firstName + item?.user?.lastName)} />
         </View>
 
         {item.note &&

@@ -8,46 +8,46 @@ export const theme = extendTheme({
     ...palette,
   },
   fontConfig: {
-    Inter: {
+    SFProDisplay: {
       100: {
-        normal: "Inter-Thin",
+        normal: "SF-Pro-Display-Light",
       },
       200: {
-        normal: "Inter-Thin",
+        normal: "SF-Pro-Display-Thin",
       },
       300: {
-        normal: "Inter-Light",
+        normal: "SF-Pro-Display-Thin",
       },
       400: {
-        normal: "Inter-Regular",
+        normal: "SF-Pro-Display-Regular",
       },
       500: {
-        normal: "Inter-Medium",
+        normal: "SF-Pro-Display-Medium",
       },
       600: {
-        normal: "Inter-SemiBold",
+        normal: "SF-Pro-Display-SemiBold",
       },
       700: {
-        normal: "Inter-Bold",
+        normal: "SF-Pro-Display-Bold",
       },
       800: {
-        normal: "Inter-Bold",
+        normal: "SF-Pro-Display-Bold",
       },
       900: {
-        normal: "Inter-Bold",
+        normal: "SF-Pro-Display-Bold",
       },
     },
-    Montserrat: {
+    Mulish: {
       700: {
         normal: "Mulish-Bold",
       },
     },
   },
   fonts: {
-    heading: "Inter",
-    body: "Inter",
-    mono: "Inter",
-    button: "Inter",
+    heading: "SF-Pro-Display",
+    body: "SF-Pro-Display",
+    mono: "SF-Pro-Display",
+    button: "SF-Pro-Display",
   },
   config: {
     initialColorMode: "light",

@@ -1,10 +1,10 @@
 export const fontFamily = {
-    regular: 'Inter-Regular',
-    medium: 'Inter-Medium',
-    thin: 'Inter-Thin',
-    bold: 'Inter-Bold',
-    semiBold: 'Inter-SemiBold',
-    light: 'Inter-Light',
+    regular: 'SF-Pro-Display-Regular',
+    medium: 'SF-Pro-Display-Medium',
+    thin: 'SF-Pro-Display-Thin',
+    bold: 'SF-Pro-Display-Bold',
+    semiBold: 'SF-Pro-Display-SemiBold',
+    light: 'SF-Pro-Display-Light',
     mulish: {
         bold: 'Mulish-Bold'
     }
