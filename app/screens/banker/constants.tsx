@@ -76,6 +76,11 @@ export const LOAN_STATUS_DATA = [
   { key: LOAN_STATUS_TYPES.CANCELLED, text: "Huỷ bỏ" },
 ]
 
+export const GENDER = {
+  male: 'Nam',
+  female: 'Nữ'
+}
+
 export const QUESTION_TYPES = {
   // SINGLE_CHOICE: 'SC',
   // MULTIPLE_CHOICE_SINGLE_ANSWER: 'MCSA',
