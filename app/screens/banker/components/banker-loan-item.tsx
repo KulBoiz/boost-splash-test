@@ -35,7 +35,7 @@ const BankerLoanItem = React.memo(({ item, index, onPress }: Props) => {
           mt="0.5"
           color="grayChateau"
           textAlign="center"
-          text={status?.text}
+          text={status?.text ? status?.text : 'Chưa chia sẻ'}
         />
       </Box>
       <Box height={vs(77)} borderLeftWidth={1} mr={s(21)} borderLeftColor="iron" />
