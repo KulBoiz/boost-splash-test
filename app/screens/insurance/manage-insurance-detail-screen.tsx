@@ -98,28 +98,28 @@ const ManageInsuranceDetailScreen: FC<Props> = observer((props: Props) => {
             })}
             {renderItem({
               item: {
-                label: "Nhà bảo hiểm:",
+                label: "Nhà bảo hiểm",
                 value: "BSH Care",
               },
               index: 1,
             })}
             {renderItem({
               item: {
-                label: "Thời hạn hợp đồng:",
+                label: "Thời hạn hợp đồng",
                 value: "25/04/2022 - 25/04/2023",
               },
               index: 2,
             })}
             {renderItem({
               item: {
-                label: "Tổng số người tham gia:",
+                label: "Tổng số người tham gia",
                 value: "1 người",
               },
               index: 3,
             })}
             {renderItem({
               item: {
-                label: "Số tiền bảo hiểm:",
+                label: "Số tiền bảo hiểm",
                 value: "200.000vnđ",
               },
               index: 4,
@@ -157,7 +157,7 @@ const ManageInsuranceDetailScreen: FC<Props> = observer((props: Props) => {
             })}
             {renderItem({
               item: {
-                label: "Email:",
+                label: "Email",
                 value: "nguyendnt@gmail.com",
               },
               index: 3,
