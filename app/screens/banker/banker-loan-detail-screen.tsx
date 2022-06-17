@@ -35,7 +35,7 @@ const BankerLoanDetailScreen: FC = observer((props: any) => {
 
   const [editDocumentLoanVisible, setEditDocumentLoanVisible] = useState(false)
   const [editLoanResultVisible, setEditLoanResultVisible] = useState(false)
-
+  
   const data = props?.route?.params?.data
   const name =
     data?.user?.fullName || `${data?.user?.firstName || ""} ${data?.user?.lastName || ""}`
@@ -43,7 +43,8 @@ const BankerLoanDetailScreen: FC = observer((props: any) => {
   const [transactionDetail, setTransactionDetail] = useState<any>({})
 
   const objectId = data?.dealDetails?.[0]?.dealId
-  const dealDetailId = data?.dealDetails?.[0]?.id
+  const dealDetail = data?.dealDetails?.[0]
+  const dealDetailId = dealDetail?.id
    
   const renderGender = () => {
     return GENDER[data?.user?.gender] || 'Khác'
@@ -114,6 +115,7 @@ const BankerLoanDetailScreen: FC = observer((props: any) => {
 
   const onAlertConfirm = useCallback(async () => {
     const result = await bankerStore.updateDealStatus(dealDetailId, alert.status, objectId)
+
     setAlert({ visible: false })
     if (result) {
       toast.show({
@@ -284,7 +286,7 @@ const BankerLoanDetailScreen: FC = observer((props: any) => {
               setAlert({
                 visible: true,
                 type: "confirm",
-                message: "Bạn muốn thẩm định hồ sơ này?",
+                message: "Bạn muốn tiếp nhận hồ sơ này?",
                 confirmText: "Tiếp nhận",
                 status: LOAN_STATUS_TYPES.RECEIVED,
               })
@@ -295,7 +297,7 @@ const BankerLoanDetailScreen: FC = observer((props: any) => {
         return (
           <HStack mt="4" mb="6">
             {buttonReject()}
-            {buttonConfirm("Đã giải ngân", () => {
+            {buttonConfirm("Thẩm định", () => {
               setAlert({
                 visible: true,
                 type: "confirm",
@@ -310,12 +312,12 @@ const BankerLoanDetailScreen: FC = observer((props: any) => {
         return (
           <HStack mt="4" mb="6">
             {buttonReject()}
-            {buttonConfirm("Đã giải ngân", () => {
+            {buttonConfirm("Duyệt cho vay", () => {
               setAlert({
                 visible: true,
                 type: "confirm",
-                message: "Bạn muốn thẩm định hồ sơ này?",
-                confirmText: "Thẩm định",
+                message: "Bạn muốn duyệt cho vay hồ sơ này?",
+                confirmText: "Duyệt cho vay",
                 status: LOAN_STATUS_TYPES.LEND_APPROVAL,
               })
             })}
@@ -434,9 +436,9 @@ const BankerLoanDetailScreen: FC = observer((props: any) => {
           <Box bg="white" borderRadius="8" p="4" mt={vs(8)}>
             <HStack alignItems="center" justifyContent="space-between">
               <Text size="semiBold14" text="Hồ sơ cho vay" />
-              <Pressable onPress={() => setEditDocumentLoanVisible(true)}>
+              {/* <Pressable onPress={() => setEditDocumentLoanVisible(true)}>
                 <EditSvg />
-              </Pressable>
+              </Pressable> */}
             </HStack>
             <Box height="1.0" my="3" bg="iron" opacity={0.5} />
             {renderItem({ item: { label: "Sản phẩm", value: data?.product?.name }, index: 0 })}
@@ -484,7 +486,7 @@ const BankerLoanDetailScreen: FC = observer((props: any) => {
             {renderItem({
               item: {
                 label: "Số tiền phê duyệt",
-                value: transactionDetail.totalAmount || "-",
+                value: dealDetail?.info?.approvalAmount ? `${numeral(dealDetail?.info?.approvalAmount).format("0,0")} VNĐ`: "-",
               },
               index: 0,
               required: true,
@@ -492,15 +494,15 @@ const BankerLoanDetailScreen: FC = observer((props: any) => {
             {renderItem({
               item: {
                 label: "Thời gian vay",
-                value: "-",
+                value: dealDetail?.info?.borrowTime ? `${dealDetail?.info?.borrowTime} Năm` : '_',
               },
               index: 1,
             })}
             {renderItem({
               item: {
                 label: "Ngày phê duyệt",
-                value: transactionDetail.createdAt
-                  ? moment(transactionDetail.createdAt).format("DD/MM/YYYY | hh:mm")
+                value: dealDetail?.info?.approvalDate
+                  ? moment(dealDetail?.info?.approvalDate).format("DD/MM/YYYY | hh:mm")
                   : "-",
               },
               index: 2,
@@ -509,7 +511,7 @@ const BankerLoanDetailScreen: FC = observer((props: any) => {
             {renderItem({
               item: {
                 label: "Mã hồ sơ phía ngân hàng",
-                value: "-",
+                value: dealDetail?.info?.codeBankProfile,
               },
               index: 3,
               required: true,
@@ -517,15 +519,16 @@ const BankerLoanDetailScreen: FC = observer((props: any) => {
             {renderItem({
               item: {
                 label: "Mã khách hàng phía ngân hàng",
-                value: "-",
+                value: dealDetail?.info?.codeBankCustomer,
               },
               index: 4,
               required: true,
             })}
           </Box>
-          {renderNotes()}
+          {/* {renderNotes()} */}
           {renderTransactionDetails()}
           {renderDocuments()}
+          {renderNotes()}
           <Box mt={vs(34)}>{renderFooterButton()}</Box>
         </Box>
       </ScrollView>
@@ -542,10 +545,25 @@ const BankerLoanDetailScreen: FC = observer((props: any) => {
       <PopupEditLoanDocument
         visible={editDocumentLoanVisible}
         onClose={() => setEditDocumentLoanVisible(false)}
+        onConfirm={() => {
+          //
+        }}
       />
       <PopupEditLoanResult
         visible={editLoanResultVisible}
         onClose={() => setEditLoanResultVisible(false)}
+        data={dealDetail?.info}
+        onConfirm={(value) => {
+          bankerStore.updateInfoOfDealDetail(dealDetailId, {
+            info: value,
+            dealId: data?.id,
+            partnerStaffId: dealDetail?.partnerStaffId,
+            partnerCodeName: dealDetail?.partnerCodeName,
+            executePartnerId: dealDetail.executePartnerId,
+          }).then(() => {
+            setEditLoanResultVisible(false)
+          })
+        }}
       />
     </Box>
   )

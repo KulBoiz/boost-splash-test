@@ -5,7 +5,7 @@ import React from "react"
 import { s, vs } from "react-native-size-matters"
 import { Text } from "../../../components"
 import { find } from "../../../utils/lodash-utils"
-import { LOAN_STATUS, LOAN_STATUS_DATA } from "../constants"
+import { DEAL_STATUS, LOAN_STATUS, LOAN_STATUS_DATA } from "../constants"
 
 interface Props {
   item: any
@@ -15,6 +15,7 @@ interface Props {
 
 const BankerLoanItem = React.memo(({ item, index, onPress }: Props) => {
   const status = find(LOAN_STATUS, { key: item?.dealDetails?.[0]?.status })
+  const dealStatus = find(DEAL_STATUS, { key: item?.status })
 
   return (
     <Pressable
@@ -35,7 +36,7 @@ const BankerLoanItem = React.memo(({ item, index, onPress }: Props) => {
           mt="0.5"
           color="grayChateau"
           textAlign="center"
-          text={status?.text ? status?.text : 'Chưa chia sẻ'}
+          text={dealStatus?.text ? dealStatus?.text : 'Chưa chia sẻ'}
         />
       </Box>
       <Box height={vs(77)} borderLeftWidth={1} mr={s(21)} borderLeftColor="iron" />
@@ -47,6 +48,13 @@ const BankerLoanItem = React.memo(({ item, index, onPress }: Props) => {
           color="black"
           lineHeight={17}
           text={item?.product?.name}
+        />
+          <Text
+          fontSize={12}
+          fontWeight="500"
+          color="black"
+          lineHeight={17}
+          text={`${status.text}`}
         />
         <Text
           mt="1"

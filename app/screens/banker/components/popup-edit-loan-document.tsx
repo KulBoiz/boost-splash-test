@@ -44,8 +44,8 @@ const PopupEditLoanDocument = React.memo(({ visible, onClose, onConfirm }: Props
 
   const inputProps: any = {
     control,
-    inputStyle: { height: 40 },
-    style: { marginTop: 4 },
+    // inputStyle: { height: 40 },
+    // style: { marginTop: 4 },
   }
 
   return (

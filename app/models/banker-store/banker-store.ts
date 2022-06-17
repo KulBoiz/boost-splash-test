@@ -102,6 +102,10 @@ export const BankerStoreModel = types
       const result = yield self.api.put(`tasks/update-bankId/${idTask}`, data)
       return result
     }),
+    updateInfoOfDealDetail: flow(function* updateInfoOfDealDetail(dealDetailId, data) {
+      const result = yield self.api.put(`deal-details/${dealDetailId}`, data)
+      return result
+    }),
     getNotes: flow(function* getNotes(id) {
       const param = {
         filter: {

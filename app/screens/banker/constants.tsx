@@ -31,7 +31,7 @@ export const STATUS_BANK_FEED_BACK = {
 
 export const LOAN_STATUS_TYPES = {
   ALL: "all",
-  WAIT_PROCESSING: "moved_to_financial_organization", // Chờ xử lý
+  WAIT_PROCESSING: "wait_processing", // Chờ xử lý
   RECEIVED: "received", // tiếp nhận
   APPRAISAL_PROGRESS: "appraisal_progress", // thẩm định
   LEND_APPROVAL: "lend_approval",
@@ -40,11 +40,23 @@ export const LOAN_STATUS_TYPES = {
   DISBURSED: "disbursed",
   CANCELLED: "cancelled",
 }
+
+export const DEAL_STATUS = [
+  { key: "moved_to_financial_organization", text: "Chờ xử lý" },
+  { key: LOAN_STATUS_TYPES.RECEIVED, text: "Tiếp nhận" },
+  { key: LOAN_STATUS_TYPES.APPRAISAL_PROGRESS, text: "Thẩm định" },
+  { key: LOAN_STATUS_TYPES.LEND_APPROVAL, text: "Duyệt cho vay" },
+  { key: LOAN_STATUS_TYPES.TRIPARTITE_BLOCKADE, text: "Phong tỏa 3 bên" },
+  { key: LOAN_STATUS_TYPES.DISBURSING, text: "Đang giải ngân" },
+  { key: LOAN_STATUS_TYPES.DISBURSED, text: "Đã giải ngân" },
+  { key: LOAN_STATUS_TYPES.CANCELLED, text: "Huỷ bỏ" },
+]
 export const TRANSACTION_STATUS_TYPES = {
   FOR_CONTROL: "for_control",
   NOT_FOR_CONTROL: "not_for_control",
   CANCELLED: "cancelled",
 }
+
 export const LOAN_STEP_INDEX = {
   [LOAN_STATUS_TYPES.WAIT_PROCESSING]: 0, // Chờ xử lý
   [LOAN_STATUS_TYPES.RECEIVED]: 1, // Tiếp nhận
