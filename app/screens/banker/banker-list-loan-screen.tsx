@@ -60,7 +60,7 @@ const BankerListLoanScreen: FC<Props> = observer((props: Props) => {
         false,
       )
     }
-  }, [bankerStore])
+  }, [bankerStore.listLoan, bankerStore.listLoanTotal, bankerStore?.pagingParamsListLoan?.page])
 
   const onDebouncedSearch = React.useCallback(
     debounce((value) => {

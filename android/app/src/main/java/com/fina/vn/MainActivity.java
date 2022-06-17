@@ -1,4 +1,4 @@
-package com.fina.mobile;
+package com.fina.tulip;
 
 import com.facebook.react.ReactActivity;
 
