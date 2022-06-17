@@ -1,7 +1,7 @@
 import { Box, HStack, Pressable } from "native-base"
 import React, { useState } from "react"
-import { Platform } from "react-native"
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view"
+import { createNumberMask, useMaskedInputProps } from "react-native-mask-input"
 import Modal from "react-native-modal"
 import { s, vs } from "react-native-size-matters"
 import { Text } from "../../../components"
@@ -24,6 +24,23 @@ const PopupConfirm = React.memo(({ visible, onClose, onConfirm }: Props) => {
     bankNote: "",
   })
   const buttonDisabled = !data?.loanDemand || !data?.borrowTime
+
+  const currencyMask = createNumberMask({
+    delimiter: ",",
+    precision: 0,
+  })
+
+  const loanDemandMaskedInputProps = useMaskedInputProps({
+    value: data.loanDemand,
+    onChangeText: (value) => setData({ ...data, loanDemand: value }),
+    mask: currencyMask,
+  })
+  const prepaidTermFeedMaskedInputProps = useMaskedInputProps({
+    value: data.prepaidTermFee,
+    onChangeText: (value) => setData({ ...data, prepaidTermFee: value }),
+    mask: currencyMask,
+  })
+
   return (
     <Modal isVisible={visible} onDismiss={() => setData({})}>
       <Box>
@@ -42,8 +59,7 @@ const PopupConfirm = React.memo(({ visible, onClose, onConfirm }: Props) => {
               prefix="vnđ"
               required
               keyboardType="number-pad"
-              value={data.loanDemand}
-              onChangeText={(value) => setData({ ...data, loanDemand: value })}
+              {...loanDemandMaskedInputProps}
             />
             <BankerInput
               _container={{ mt: "5" }}
@@ -75,8 +91,7 @@ const PopupConfirm = React.memo(({ visible, onClose, onConfirm }: Props) => {
               label="Phí trả trước hạn dự kiến"
               prefix="vnđ"
               keyboardType="number-pad"
-              value={data.prepaidTermFee}
-              onChangeText={(value) => setData({ ...data, prepaidTermFee: value })}
+              {...prepaidTermFeedMaskedInputProps}
             />
             <BankerInput
               _container={{ mt: "5", height: vs(63) }}
