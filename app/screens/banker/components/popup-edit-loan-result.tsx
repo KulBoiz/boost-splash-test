@@ -10,6 +10,7 @@ import { useForm } from "react-hook-form"
 import { yupResolver } from "@hookform/resolvers/yup"
 import * as Yup from "yup"
 import FormDatePicker from "../../../components/form-date-time"
+import { createNumberMask, useMaskedInputProps } from "react-native-mask-input"
 
 interface Props {
   visible: boolean
@@ -38,6 +39,7 @@ const PopupEditLoanResult = React.memo(({ visible, onClose, onConfirm, data: dat
     formState: { errors, isValid },
     reset,
     setValue,
+    getValues,
   } = useForm({
     delayError: 0,
     resolver: yupResolver(validationSchema),
@@ -45,11 +47,11 @@ const PopupEditLoanResult = React.memo(({ visible, onClose, onConfirm, data: dat
   })
 
   useEffect(() => {
-    setValue('approvalAmount', dataBank?.approvalAmount?.toString() || '')
-    setValue('borrowTime', dataBank?.borrowTime?.toString() ||  '')
-    setValue('approvalDate', dataBank?.approvalDate)
-    setValue('codeBankProfile', dataBank?.codeBankProfile)
-    setValue('codeBankCustomer', dataBank?.codeBankCustomer)
+    setValue("approvalAmount", dataBank?.approvalAmount?.toString() || "")
+    setValue("borrowTime", dataBank?.borrowTime?.toString() || "")
+    setValue("approvalDate", dataBank?.approvalDate)
+    setValue("codeBankProfile", dataBank?.codeBankProfile)
+    setValue("codeBankCustomer", dataBank?.codeBankCustomer)
   }, [])
 
   const inputProps = {
@@ -57,6 +59,17 @@ const PopupEditLoanResult = React.memo(({ visible, onClose, onConfirm, data: dat
     inputStyle: { height: 40 },
     style: { marginTop: 4 },
   }
+
+  const currencyMask = createNumberMask({
+    delimiter: ",",
+    precision: 0,
+  })
+
+  const currencyInputProps = useMaskedInputProps({
+    value: getValues("approvalAmount"),
+    onChangeText: (value) => setValue("approvalAmount", value),
+    mask: currencyMask,
+  })
 
   return (
     <Modal isVisible={visible} onBackdropPress={onClose} onDismiss={() => setData({})}>
@@ -77,6 +90,7 @@ const PopupEditLoanResult = React.memo(({ visible, onClose, onConfirm, data: dat
                 label: "Số tiền phê duyệt",
                 error: errors?.approvalAmount?.message,
                 ...inputProps,
+                ...currencyInputProps,
               }}
             />
             <FormInput
@@ -98,12 +112,12 @@ const PopupEditLoanResult = React.memo(({ visible, onClose, onConfirm, data: dat
             <FormDatePicker
               {...{
                 // style: { flex: 1, marginRight: 5 },
-                name: 'approvalDate',
+                name: "approvalDate",
                 label: "Ngày phê duyệt",
-                placeholder: 'DD/MM/YYYY',
+                placeholder: "DD/MM/YYYY",
                 setValue: setValue,
                 ...inputProps,
-                error: errors?.approvalDate?.message
+                error: errors?.approvalDate?.message,
               }}
             />
             <FormInput
