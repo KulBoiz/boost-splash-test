@@ -54,7 +54,7 @@ const BankerLoanItem = React.memo(({ item, index, onPress }: Props) => {
           fontWeight="500"
           color="black"
           lineHeight={17}
-          text={`${status.text}`}
+          text={`${status?.text ? status?.text : 'Chưa chia sẻ'}`}
         />
         <Text
           mt="1"
