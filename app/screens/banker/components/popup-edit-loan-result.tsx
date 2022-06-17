@@ -1,5 +1,5 @@
 import { Box, HStack, Pressable } from "native-base"
-import React, { useState } from "react"
+import React, { useEffect, useState } from "react"
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view"
 import Modal from "react-native-modal"
 import { s, vs } from "react-native-size-matters"
@@ -9,38 +9,48 @@ import FormInput from "../../../components/form-input/form-input"
 import { useForm } from "react-hook-form"
 import { yupResolver } from "@hookform/resolvers/yup"
 import * as Yup from "yup"
+import FormDatePicker from "../../../components/form-date-time"
 
 interface Props {
   visible: boolean
   onClose: () => void
   onConfirm?: (data) => void
+  data: any
 }
 
-const PopupEditLoanResult = React.memo(({ visible, onClose, onConfirm }: Props) => {
+const PopupEditLoanResult = React.memo(({ visible, onClose, onConfirm, data: dataBank }: Props) => {
   const [data, setData] = useState<any>({
-    loanDemand: "",
+    approvalAmount: "",
     borrowTime: "",
-    interestRate: "",
-    preferentialTime: "",
-    prepaidTermFee: "",
-    propertyValuation: "",
-    bankNote: "",
+    approvalDate: "",
+    codeBankProfile: "",
+    codeBankCustomer: "",
   })
 
   const validationSchema = Yup.object().shape({
-    email: Yup.string().trim().required("Vui lòng nhập email hoặc số điện thoại"),
-    password: Yup.string().required("Vui lòng nhập mật khẩu").trim(),
+    // approvalAmount: Yup.string().trim().required("Vui lòng nhập"),
+    // borrowTime: Yup.string().required("Vui lòng nhập").trim(),
   })
+
   const {
     control,
     handleSubmit,
     formState: { errors, isValid },
     reset,
+    setValue,
   } = useForm({
     delayError: 0,
     resolver: yupResolver(validationSchema),
     reValidateMode: "onChange",
   })
+
+  useEffect(() => {
+    setValue('approvalAmount', dataBank?.approvalAmount?.toString() || '')
+    setValue('borrowTime', dataBank?.borrowTime?.toString() ||  '')
+    setValue('approvalDate', dataBank?.approvalDate)
+    setValue('codeBankProfile', dataBank?.codeBankProfile)
+    setValue('codeBankCustomer', dataBank?.codeBankCustomer)
+  }, [])
 
   const inputProps = {
     control,
@@ -63,41 +73,52 @@ const PopupEditLoanResult = React.memo(({ visible, onClose, onConfirm }: Props) 
             />
             <FormInput
               {...{
-                name: "amount",
+                name: "approvalAmount",
                 label: "Số tiền phê duyệt",
-                error: errors?.product?.message,
+                error: errors?.approvalAmount?.message,
                 ...inputProps,
               }}
             />
             <FormInput
               {...{
-                name: "time",
+                name: "borrowTime",
                 label: "Thời gian vay",
-                error: errors?.product?.message,
+                error: errors?.borrowTime?.message,
                 ...inputProps,
               }}
             />
-            <FormInput
+            {/* <FormInput
               {...{
                 name: "date",
                 label: "Ngày phê duyệt",
                 error: errors?.product?.message,
                 ...inputProps,
               }}
+            /> */}
+            <FormDatePicker
+              {...{
+                // style: { flex: 1, marginRight: 5 },
+                name: 'approvalDate',
+                label: "Ngày phê duyệt",
+                placeholder: 'DD/MM/YYYY',
+                setValue: setValue,
+                ...inputProps,
+                error: errors?.approvalDate?.message
+              }}
             />
             <FormInput
               {...{
-                name: "bank",
+                name: "codeBankProfile",
                 label: "Mã hồ sơ phía ngân hàng",
-                error: errors?.product?.message,
+                error: errors?.codeBankProfile?.message,
                 ...inputProps,
               }}
             />
             <FormInput
               {...{
-                name: "customer",
+                name: "codeBankCustomer",
                 label: "Mã khách hàng phía ngân hàng",
-                error: errors?.product?.message,
+                error: errors?.codeBankCustomer?.message,
                 ...inputProps,
               }}
             />
@@ -116,15 +137,15 @@ const PopupEditLoanResult = React.memo(({ visible, onClose, onConfirm }: Props) 
                 <Text fontSize={16} fontWeight="600" color="primary" tx="common.cancel" />
               </Pressable>
               <Pressable
+                // @ts-ignore
                 onPress={handleSubmit(onConfirm)}
                 flex="1"
                 h={vs(39)}
                 borderRadius="5"
-                bg={isValid ? "primary" : "grayChateau"}
+                bg={"primary"}
                 alignItems="center"
                 justifyContent="center"
                 ml="4"
-                disabled={!isValid}
               >
                 <Text fontSize={16} fontWeight="600" color="white" tx="common.confirm" />
               </Pressable>

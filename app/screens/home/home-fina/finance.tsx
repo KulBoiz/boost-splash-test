@@ -49,13 +49,13 @@ const Finance = React.memo((props: Props) => {
 
   return (
     <View style={styles.container}>
-      <AppText value={'Sản phẩm vay'} style={styles.title} />
+      {/* <AppText value={'Sản phẩm vay'} style={styles.title} />
       <View style={styles.wrapIcon}>
         <LoanItem icon={<HouseLoanSvg />} title={'home.finance.homeLoan'} styleCustom={styles.iconCategory} />
         <LoanItem icon={<CarLoanSvg />} title={'home.finance.carLoan'} styleCustom={styles.iconCategory}/>
         <LoanItem icon={<ConsumerLoanSvg />} title={'home.finance.consumerLoan'} styleCustom={styles.iconCategory}/>
         <LoanItem icon={<RepairLoanSvg />} title={'home.finance.repairLoad'} styleCustom={styles.iconCategory}/>
-      </View>
+      </View> */}
       <View style={styles.wrapLoan}>
         <View style={styles.row}>
           <AppText value={'Gói vay nổi bật'} style={styles.title} />

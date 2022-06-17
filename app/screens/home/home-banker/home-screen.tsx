@@ -133,13 +133,13 @@ export const BankHomeScreen = observer(({ navigation }) => {
               <ArrowBankSvg />
             </Pressable>
           </View>
-          <Pressable
+          {/* <Pressable
             onPress={() => navigate(ScreenNames.MANAGE_INSURANCE_LIST)}
             style={[styles.button, { backgroundColor: color.palette.orange, marginTop: 12 }]}
           >
             <AppText value={"Bảo Hiểm"} style={styles.text} />
             <ArrowBankSvg />
-          </Pressable>
+          </Pressable> */}
         </View>
       </View>
 
