@@ -9,6 +9,7 @@ import FormInput from "../../../components/form-input/form-input"
 import { useForm } from "react-hook-form"
 import { yupResolver } from "@hookform/resolvers/yup"
 import * as Yup from "yup"
+import { createNumberMask, useMaskedInputProps } from "react-native-mask-input"
 
 interface Props {
   visible: boolean
@@ -26,7 +27,6 @@ const PopupEditLoanDocument = React.memo(({ visible, onClose, onConfirm }: Props
     propertyValuation: "",
     bankNote: "",
   })
-  const buttonDisabled = !data?.loanDemand || !data?.borrowTime
 
   const validationSchema = Yup.object().shape({
     product: Yup.string().trim().required("Vui lòng nhập sản phẩm"),
@@ -36,6 +36,8 @@ const PopupEditLoanDocument = React.memo(({ visible, onClose, onConfirm }: Props
     handleSubmit,
     formState: { errors, isValid },
     reset,
+    getValues,
+    setValue,
   } = useForm({
     delayError: 0,
     resolver: yupResolver(validationSchema),
@@ -47,6 +49,17 @@ const PopupEditLoanDocument = React.memo(({ visible, onClose, onConfirm }: Props
     // inputStyle: { height: 40 },
     // style: { marginTop: 4 },
   }
+
+  const currencyMask = createNumberMask({
+    delimiter: ",",
+    precision: 0,
+  })
+
+  const currencyInputProps = useMaskedInputProps({
+    value: getValues("approvalAmount"),
+    onChangeText: (value) => setValue("approvalAmount", value),
+    mask: currencyMask,
+  })
 
   return (
     <Modal isVisible={visible} onBackdropPress={onClose} onDismiss={() => setData({})}>
@@ -101,6 +114,7 @@ const PopupEditLoanDocument = React.memo(({ visible, onClose, onConfirm }: Props
                 ...inputProps,
                 keyboardType: "number-pad",
                 returnKeyType: "done",
+                ...currencyInputProps,
               }}
             />
             <FormInput

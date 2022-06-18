@@ -50,14 +50,22 @@ const BankerListRequestScreen: FC<Props> = observer((props: Props) => {
     bankerStore.getListRequest({}, { page: 1, limit: 20 }, true)
   }, [])
   const _onLoadMore = useCallback(() => {
-    if (bankerStore.listRequest?.length < bankerStore.listRequestTotal) {
+    if (
+      bankerStore.listRequest?.length < bankerStore.listRequestTotal &&
+      !bankerStore.isLoadingMoreListRequest
+    ) {
       bankerStore.getListRequest(
         {},
         { page: bankerStore?.pagingParamsListRequest?.page + 1, limit: 20 },
         false,
       )
     }
-  }, [bankerStore])
+  }, [
+    bankerStore.listRequest,
+    bankerStore?.pagingParamsListRequest?.page,
+    bankerStore.listRequestTotal,
+    bankerStore.isLoadingMoreListRequest,
+  ])
 
   const onDebouncedSearch = React.useCallback(
     debounce((value) => {
