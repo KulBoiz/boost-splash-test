@@ -103,6 +103,7 @@ export const AuthStoreModel = types
       const loggedInInfo = result.data
       if (loggedInInfo && loggedInInfo.user) {
         self.user = loggedInInfo.user
+        self.userId = loggedInInfo.user.id
         return {
           kind: "ok",
           data: result.data,
@@ -149,8 +150,7 @@ export const AuthStoreModel = types
 
     verifyPasswordOtp: flow(function* verifyPasswordOtp(otp: string) {
       const authApi = new AuthApi(self.environment.api)
-      const userId = self?.userId ?? ''
-      const result = yield authApi.verifyPasswordOtp(userId, otp)
+      const result = yield authApi.verifyPasswordOtp(self.userId, otp)
       if (result.kind !== "ok") {
         return result
       }
@@ -162,8 +162,7 @@ export const AuthStoreModel = types
 
     register: flow(function* register(fullName: string, password: string, confirmPassword: string) {
       const authApi = new AuthApi(self.environment.api)
-      const userId = self?.userId
-      const result = yield authApi.register(userId, fullName, password, confirmPassword)
+      const result = yield authApi.register(self.userId, fullName, password, confirmPassword)
       if (result.kind !== "ok") {
         return result
       }
@@ -202,8 +201,7 @@ export const AuthStoreModel = types
 
     changePassword: flow(function* changePassword(password: string, confirmPassword: string) {
       const authApi = new AuthApi(self.environment.api)
-      const id = self?.userId
-      const result = yield authApi.changePassword(id, password, confirmPassword)
+      const result = yield authApi.changePassword(self?.userId, password, confirmPassword)
       if (result.kind !== "ok") {
         return result
       }

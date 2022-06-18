@@ -56,8 +56,8 @@ const PopupEditLoanResult = React.memo(({ visible, onClose, onConfirm, data: dat
 
   const inputProps = {
     control,
-    inputStyle: { height: 40 },
-    style: { marginTop: 4 },
+    // inputStyle: { height: 40 },
+    // style: { marginTop: 4 },
   }
 
   const currencyMask = createNumberMask({
