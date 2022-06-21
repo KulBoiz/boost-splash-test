@@ -23,7 +23,7 @@ const BankInfo = React.memo((props: BankInfoProps) => {
   return (
     <View style={[styles.container, hasBorder && [styles.border, {borderColor: backgroundColor ?? color.lightBlack}]]}>
       <View style={[styles.header, {backgroundColor: backgroundColor ?? '#005992'}]}>
-        <FastImage source={{uri:  imageUrl}} style={styles.bankIcon}/>
+        <FastImage source={{uri:  imageUrl}} style={styles.bankIcon} resizeMode={'contain'}/>
       </View>
 
       <View style={[styles.body, !hasBorder && {backgroundColor: color.palette.lightBlue}]}>
@@ -64,7 +64,7 @@ const styles = ScaledSheet.create({
     borderWidth: 1
   },
   bankIcon: {
-    width: '50@s',
+    width: '80@s',
     height:'25@s'
   },
   row: {

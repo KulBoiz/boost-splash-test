@@ -33,6 +33,15 @@ const filter = {
   ]
 }
 
+const filterProduct = {
+  limit: 20,
+  where: {status: 'approved'},
+  include: [
+    {relation: 'product'},
+    {relation: "org"}
+  ],
+}
+
 const path  = 'tasks'
 
 export const LoanStoreModel = types
@@ -235,12 +244,17 @@ export const LoanStoreModel = types
 
     getProducts: flow(function* getProducts() {
       const loanApi = new LoanApi(self.environment.api)
-      const result = yield loanApi.getProducts()
+      const param = {
+        page: 1,
+        filter: {...filterProduct}
+      }
+      const result = yield loanApi.getProducts(param)
       if (result.kind !== "ok") {
         return result
       }
-      const data = result.data
+      const data = result.data.data ?? []
       if (data) {
+        self.total = result.data.total
         self.products = data
         self.page = 1
         return {
@@ -251,24 +265,29 @@ export const LoanStoreModel = types
     }),
 
     loadMoreProducts: flow(function* loadMoreProducts() {
+      if (self.total < self.products.length) {
+        return { kind: "end"}
+      }
       const loanApi = new LoanApi(self.environment.api)
-      const nextPage = self.page + 1
-      self.page = nextPage
+      self.page = self.page + 1
 
       const param = {
         page: self.page,
-        limit: 20,
-        skip: self.limit * (self.page - 1)
+        filter: {...filterProduct, skip: self.limit * (self.page - 1)
+        }
       }
 
       const result = yield loanApi.loadMoreProducts(param)
       if (result.kind !== "ok") {
         return result
       }
-      const data = result?.data?.data
-      const oldData: any = [...self.records]
-      if (data) {
+
+      const data = result?.data?.data ?? []
+      console.log('DATA', data)
+      const oldData: any = [...self.products]
+      if (result) {
         const newData: any = oldData.concat(data)
+        console.log('newData', newData)
         self.page += 1
         self.products = newData
         return {
@@ -298,11 +317,6 @@ export const LoanStoreModel = types
 
     getTransaction: flow(function* getTransaction(dealId: string, dealDetailId: string) {
       const transactionApi = new TransactionApi(self.environment.api)
-      // const commentApi = new CommentApi(self.environment.api)
-
-      // const resultComment = yield commentApi.requestComment(dealDetailId)
-      // self.comments = resultComment?.data?.data
-
       const result = yield transactionApi.getTransaction(dealId, dealDetailId)
 
       if (result.kind !== "ok") {

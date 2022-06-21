@@ -82,7 +82,7 @@ const styles = ScaledSheet.create({
   container: {
     backgroundColor: color.background,
     flexDirection: "row",
-    height: isIphoneX() ? "80@vs" : "60@vs",
+    height: isIphoneX() ? "80@vs" : "70@vs",
     paddingLeft: "10@s",
     paddingRight: "16@s",
     alignItems: "flex-end",

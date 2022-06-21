@@ -88,7 +88,7 @@ export class LoanApi {
       }
 
       const response: ApiResponse<any> = await this.api.apisauce.post(`${API_ENDPOINT}/tasks/public/insurance`, body)
-      
+
       if (!response.ok) {
         const problem = getGeneralApiProblem(response)
         if (problem) return problem
@@ -156,11 +156,9 @@ export class LoanApi {
     }
   }
 
-  async getProducts(): Promise<any> {
+  async getProducts(param): Promise<any> {
     try {
-      const response: ApiResponse<any> = await this.api.apisauce.get(`${API_ENDPOINT}/product-details/public`, {
-        filter: {where: {status: 'approved'}, include: [{relation: 'product'}, {relation: "org"}]}, skip: 20
-      })
+      const response: ApiResponse<any> = await this.api.apisauce.get(`${API_ENDPOINT}/product-details/public`, param)
       if (!response.ok) {
         const problem = getGeneralApiProblem(response)
         if (problem) return problem
@@ -174,10 +172,7 @@ export class LoanApi {
 
   async loadMoreProducts(param): Promise<any> {
     try {
-      const response: ApiResponse<any> = await this.api.apisauce.get(`${API_ENDPOINT}/product-details/public`,
-        {...param, filter: {where: {status: 'approved'}, include: [{relation: 'product'}, {relation: "org"}]}
-        }
-      )
+      const response: ApiResponse<any> = await this.api.apisauce.get(`${API_ENDPOINT}/product-details/public`, param)
       if (!response.ok) {
         const problem = getGeneralApiProblem(response)
         if (problem) return problem

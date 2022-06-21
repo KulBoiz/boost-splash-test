@@ -1,7 +1,6 @@
 import React, { useCallback, useRef } from "react"
 import { View } from 'react-native';
 import { AppText } from "../../../components/app-text/AppText"
-import { color } from "../../../theme"
 import { navigate } from "../../../navigators"
 import { ScreenNames } from "../../../navigators/screen-names"
 import { width } from "../../../constants/variable"
@@ -16,7 +15,7 @@ interface Props{}
 const LoanPackage = React.memo((props: Props) => {
   const { loanStore } = useStores()
   const ref = useRef()
-  const data = loanStore?.products?.data?.slice(0, 10) || []
+  const data = loanStore?.products?.slice(0, 10) || []
 
 
   const renderItem = useCallback(({ item }) => {
