@@ -9,8 +9,9 @@ import { color } from "../../../theme"
 import { fontFamily } from "../../../constants/font-family"
 import { ALIGN_CENTER, FONT_REGULAR_14, ROW } from "../../../styles/common-style"
 import UploadImage from "../../../components/image-upload/upload-image"
-import { truncateString } from "../../../constants/variable"
+import { truncateString, width } from "../../../constants/variable"
 import { get } from "lodash"
+import ImageViewer from "../../../components/image-viewer/image-viewer"
 interface Props {
   data: any
 }
@@ -46,17 +47,10 @@ const CollapsibleInfoUpload = React.memo(({ data }: Props) => {
     return (
       <View style={styles.contentContainer}>
         {imageUrls?.length > 0 &&
-          imageUrls?.map((el, index) => (
-            <FastImage key={index.toString()} source={{ uri: el }} style={styles.image} />
-          ))}
+          imageUrls?.map((el, index) => <ImageViewer key={index.toString()} imageUri={el} />)}
         <UploadImage />
       </View>
     )
-    // return (
-    //   <View style={styles.contentContainer}>
-    //     <UploadImage setMediaIds={setMediaIds} mediaIds={mediaIds} />
-    //   </View>
-    // );
   }
   return (
     <View style={styles.container}>
@@ -106,7 +100,7 @@ const styles = ScaledSheet.create({
     marginBottom: "8@s",
   },
   image: {
-    width: "145@ms",
+    width: (width - 72) / 2,
     height: "120@ms",
   },
   icon: {
@@ -119,8 +113,7 @@ const styles = ScaledSheet.create({
     lineHeight: "19@s",
   },
   contentContainer: {
-    marginTop: "-12@s",
-    paddingHorizontal: "16@s",
+    paddingLeft: "16@s",
     paddingBottom: "16@s",
     flexDirection: "row",
     justifyContent: "space-between",

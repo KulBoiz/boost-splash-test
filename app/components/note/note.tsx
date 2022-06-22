@@ -26,7 +26,7 @@ const Note = observer((props: Props) => {
     handleSubmit,
     getValues,
     setValue,
-    formState: { errors },
+    formState: { errors, isValid },
   } = useForm({
     delayError: 0,
     defaultValues: undefined,
@@ -164,8 +164,9 @@ const Note = observer((props: Props) => {
             label: "Trả lời",
             placeholder: "Ghi chú",
             control,
-            error: errors?.email?.message,
+            error: errors?.content?.message,
             style: { flex: 1 },
+            returnKeyType: "done",
           }}
         />
 

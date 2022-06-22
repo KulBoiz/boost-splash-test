@@ -1,53 +1,43 @@
 import React, { useState } from "react"
-import { View, ActivityIndicator } from "react-native"
 import { s, ScaledSheet } from "react-native-size-matters"
-import type { ImagePickerResponse } from "react-native-image-picker"
 import { color } from "../../theme"
-import { AppText } from "../app-text/AppText"
 import { FastImage } from "../fast-image/fast-image"
 import { Box, Button, Modal, Pressable, Row } from "native-base"
 import { Text } from "../text/text"
 import AppHeader from "../app-header/AppHeader"
+import { width } from "../../constants/variable"
 
 interface ImageViewerProps {
-  image: ImagePickerResponse
-  onDelete: (id?: string) => void
-  onUpload: (id?: string) => void
+  imageUri?: string
+  onDelete?: () => void
+  onUpload?: () => void
   title?: string
 }
 
-const ImageViewer = ({ title, image, onDelete, onUpload }: ImageViewerProps) => {
-  const [uploading, setUploading] = useState(false)
-  const [errUploading, setErrUploading] = useState(false)
+const ImageViewer = ({ title, imageUri, onDelete, onUpload }: ImageViewerProps) => {
   const [showImageDetail, setShowImageDetail] = useState(false)
   const [showConfirmDelete, setShowConfirmDelete] = useState(false)
-  const uri = image?.assets?.[0]?.uri
   const lightBlack05 = "rgba(21, 25, 64, 0.5)"
 
   const deleteImage = () => {
     setShowConfirmDelete(false)
+    setShowImageDetail(false)
+    onDelete?.()
   }
   const uploadImage = () => {}
 
   return (
     <Pressable onPress={() => setShowImageDetail(true)} mr={s(8)}>
-      {uploading ? (
-        <View style={[styles.image, styles.wrapUpload]}>
-          <ActivityIndicator />
-        </View>
-      ) : (
-        <>
-          <FastImage source={{ uri }} style={styles.image} />
-          {errUploading && (
-            <View style={[styles.image, styles.error]}>
-              <AppText>Upload Error</AppText>
-            </View>
-          )}
-        </>
-      )}
+      <FastImage source={{ uri: imageUri }} style={styles.image} fallback bg="gray" />
       <Modal isOpen={showImageDetail} onClose={setShowImageDetail} size="full">
         <Box position="absolute" top="0" left="0" right="0" bottom="0" bg="white">
-          <FastImage source={{ uri }} position="absolute" width="full" height="full" />
+          <FastImage
+            source={{ uri: imageUri }}
+            position="absolute"
+            width="full"
+            height="full"
+            bg="gray"
+          />
           <AppHeader
             onLeftPress={() => setShowImageDetail(false)}
             isBlue
@@ -103,7 +93,7 @@ export default ImageViewer
 
 const styles = ScaledSheet.create({
   wrapUpload: {
-    width: "145@ms",
+    width: (width - s(74)) / 2,
     height: "120@ms",
     borderWidth: 0.1,
     borderColor: color.palette.gray,
@@ -119,8 +109,8 @@ const styles = ScaledSheet.create({
     justifyContent: "center",
   },
   image: {
-    width: "145@ms",
+    width: (width - s(74)) / 2,
     height: "120@ms",
-    marginBottom: "8@vs",
+    marginBottom: "8@s",
   },
 })
