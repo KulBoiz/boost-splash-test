@@ -74,6 +74,11 @@ export const theme = extendTheme({
           linHeight: 17,
           fontWeight: "500",
         },
+        medium16: {
+          fontSize: 16,
+          linHeight: 22,
+          fontWeight: "500",
+        },
         regular12: {
           fontSize: 12,
           linHeight: 17,
