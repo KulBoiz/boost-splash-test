@@ -11,6 +11,7 @@ import { ScaledSheet } from "react-native-size-matters"
 import { goBack } from "../../navigators"
 import { fontFamily } from "../../constants/font-family"
 import { isIphoneX } from "react-native-iphone-x-helper"
+import { HIT_SLOP } from "../../styles/common-style"
 
 const AppHeader = React.memo((props: AppHeaderProps) => {
   const {
@@ -42,11 +43,11 @@ const AppHeader = React.memo((props: AppHeaderProps) => {
         barStyle={isBlue ? "light-content" : "dark-content"}
       />
       {renderLeftIcon ? (
-        <Button preset="link" onPress={onLeftPress} style={width}>
+        <Button preset="link" onPress={onLeftPress} style={width} hitSlop={HIT_SLOP}>
           {renderLeftIcon}
         </Button>
       ) : (
-        <Button preset="link" onPress={onLeftPress ?? goBack} style={[styles.defaultView, width]}>
+        <Button preset="link" onPress={onLeftPress ?? goBack} style={[styles.defaultView, width]} hitSlop={HIT_SLOP}>
           <FastImage
             source={images.arrowLeft}
             style={styles.backIcon}
@@ -65,7 +66,7 @@ const AppHeader = React.memo((props: AppHeaderProps) => {
       )}
 
       {renderRightIcon ? (
-        <Button preset="link" onPress={onRightPress} style={width}>
+        <Button preset="link" onPress={onRightPress} style={width} hitSlop={HIT_SLOP}>
           {renderRightIcon}
         </Button>
       ) : (

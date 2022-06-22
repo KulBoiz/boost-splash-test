@@ -5,7 +5,7 @@ import React from "react"
 import { s, vs } from "react-native-size-matters"
 import { Text } from "../../../components"
 import { find } from "../../../utils/lodash-utils"
-import { DEAL_STATUS, LOAN_STATUS, LOAN_STATUS_DATA } from "../constants"
+import { DEAL_STATUS, LOAN_STATUS } from "../constants"
 
 interface Props {
   item: any

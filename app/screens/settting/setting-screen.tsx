@@ -13,6 +13,7 @@ import VerifyUser from "./components/verify-user"
 import SettingAuthScreen from "../../components/app-view-no-auth"
 import { navigate } from "../../navigators"
 import { ROLE } from "../../models/auth-store"
+import { ScaledSheet } from "react-native-size-matters"
 
 interface Props { }
 
@@ -34,7 +35,7 @@ const SettingScreen: FC<Props> = observer((props: Props) => {
             {SETTING_LIST.map((value, index) => {
               // index = 1  menu cộng tác viên
               if (index === 1 && (authStoreModel?.role === ROLE.FINA || authStoreModel?.role === ROLE.BANK)) {
-                return <></>
+                return <View key={index.toString()}/>
               }
 
               if (index === 1 && authStoreModel?.role === ROLE.CTV) {
@@ -58,8 +59,9 @@ const SettingScreen: FC<Props> = observer((props: Props) => {
                 onPress={value.onPress}
               />
             })}
-            <AppButton title={"Đăng xuất"} onPress={logout} />
-
+            <View style={styles.logoutBtn}>
+              <AppButton title={"Đăng xuất"} onPress={logout} />
+            </View>
             <View style={{ height: 100 }} />
           </ScrollView>
         ) : (
@@ -72,11 +74,14 @@ const SettingScreen: FC<Props> = observer((props: Props) => {
 
 export default SettingScreen
 
-const styles = StyleSheet.create({
+const styles = ScaledSheet.create({
   container: { backgroundColor: color.palette.lightBlue, flex: 1 },
   login: {
     alignItems: "center",
     flex: 1,
     justifyContent: "center",
   },
+  logoutBtn: {
+    padding: '16@ms'
+  }
 })

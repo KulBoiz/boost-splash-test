@@ -16,6 +16,7 @@ import { UseFormSetValue } from "react-hook-form/dist/types/form"
 import { FieldValues } from "react-hook-form/dist/types/fields"
 import { FieldPath } from "react-hook-form/dist/types"
 import ItemPickerModal from "./item-picker-modal"
+import { isAndroid, truncateString } from "../../constants/variable"
 
 interface DataProps{
   value: string
@@ -57,7 +58,7 @@ const ItemPicker = React.memo((props: Props) => {
       <Pressable style={[ROW, ALIGN_CENTER, SPACE_BETWEEN, styles.border, !!errorMessage && {borderColor: color.palette.angry}]} onPress={()=> setModal(true)}>
         <View>
           <AppText style={styles.label} value={label}/>
-          <AppText style={FONT_REGULAR_14} value={title || placeholder} color={title ? color.palette.black : color.palette.gray}/>
+          <AppText style={FONT_REGULAR_14} value={truncateString(title, 40) || placeholder} color={title ? color.palette.black : color.palette.gray}/>
         </View>
         <FastImage source={images.arrow_down} style={styles.icon} />
         </Pressable>
@@ -88,7 +89,7 @@ const styles = ScaledSheet.create({
     borderWidth: 1.5,
     borderColor: color.palette.deepGray,
     borderRadius: '3@s',
-    paddingVertical: 7.5
+    paddingVertical: isAndroid ? '3@s' : '6@s'
   },
   label:{
     marginBottom: '4@s',

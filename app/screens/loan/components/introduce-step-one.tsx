@@ -16,6 +16,7 @@ import { navigate } from "../../../navigators"
 import { ScreenNames } from "../../../navigators/screen-names"
 import i18n from "i18n-js"
 import AppViewNoAuth from "../../../components/app-view-no-auth"
+import TermCheckbox from "../../auth/components/TermCheckbox"
 
 interface Props{
   nextStep(): void
@@ -45,17 +46,6 @@ const IntroduceStepOne = observer(({ nextStep }: Props) => {
     reValidateMode: "onChange",
   })
   const [checkboxState, setCheckboxState] = useState<boolean>(false)
-  const _renderText = ()=> {
-    return (
-      <View style={styles.textContainer}>
-        <AppText value={'Tôi đã đọc và đồng ý với các '} style={presets.note}/>
-        <AppText value={'Điều khoản sử dụng '} onPress={()=> navigate(ScreenNames.TERM_AND_POLICY, {id: 0})} fontSize={s(12)} color={color.palette.blue} style={presets.bold}/>
-        <AppText value={'và '} style={presets.note}/>
-        <AppText value={'Chính sách bảo mật '} onPress={()=> navigate(ScreenNames.TERM_AND_POLICY, {id: 1})} fontSize={s(12)} color={color.palette.blue} style={presets.bold}/>
-        <AppText value={'của FINA'} style={presets.note}/>
-      </View>
-    )
-  }
 
   const sendRequest = async (data) => {
     if (authStoreModel.token){
@@ -122,7 +112,7 @@ const IntroduceStepOne = observer(({ nextStep }: Props) => {
           }}
         />
         <AppText tx={"guide.enterKeyword"} style={presets.note}/>
-        <Checkbox style={styles.checkbox} checkboxState={checkboxState}  setCheckboxState={setCheckboxState} textComponent={_renderText()}/>
+        <TermCheckbox checkboxState={checkboxState} setCheckboxState={setCheckboxState} />
         <View style={styles.wrapBtn}>
           <AppButton tx={"common.sentInformation"} disable={!checkboxState} onPress={handleSubmit(sendRequest)}/>
         </View>
@@ -151,11 +141,7 @@ const styles = ScaledSheet.create({
     flex: 1,
     paddingHorizontal: '16@s'
   },
-  textContainer: {
-    flexDirection: 'row',
-    flexWrap: 'wrap',
-    marginLeft: '5@s'
-  },
+
   checkbox: {
     marginTop: '16@s'
   },

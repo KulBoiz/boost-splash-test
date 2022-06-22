@@ -4,7 +4,7 @@ import { observer } from "mobx-react-lite"
 import AppHeader from "../../components/app-header/AppHeader"
 import { useStores } from "../../models"
 import { useNavigation } from "@react-navigation/native"
-import { Avatar, Box, Button, HStack, Pressable, ScrollView, useToast } from "native-base"
+import { Box, Button, HStack, Pressable, ScrollView, useToast } from "native-base"
 import { s, vs } from "react-native-size-matters"
 import { Text } from "../../components"
 import numeral from "numeral"
@@ -21,9 +21,13 @@ import PopupEditLoanDocument from "./components/popup-edit-loan-document"
 import PopupEditLoanResult from "./components/popup-edit-loan-result"
 
 const BankerLoanDetailScreen: FC = observer((props: any) => {
+  // const data = props?.route?.params?.data
+  const index = props?.route?.params?.index
+
   const navigation = useNavigation()
   const { bankerStore, authStoreModel } = useStores()
   const toast = useToast()
+  const data = bankerStore.listLoan[index]
 
   const [notes, setNotes] = useState<any>([])
   const [alert, setAlert] = useState<any>({
@@ -35,17 +39,15 @@ const BankerLoanDetailScreen: FC = observer((props: any) => {
 
   const [editDocumentLoanVisible, setEditDocumentLoanVisible] = useState(false)
   const [editLoanResultVisible, setEditLoanResultVisible] = useState(false)
-  
-  const data = props?.route?.params?.data
+
   const name =
     data?.user?.fullName || `${data?.user?.firstName || ""} ${data?.user?.lastName || ""}`
 
   const [transactionDetail, setTransactionDetail] = useState<any>({})
-
   const objectId = data?.dealDetails?.[0]?.dealId
   const dealDetail = data?.dealDetails?.[0]
   const dealDetailId = dealDetail?.id
-   
+
   const renderGender = () => {
     return GENDER[data?.user?.gender] || 'Khác'
   }
@@ -399,7 +401,6 @@ const BankerLoanDetailScreen: FC = observer((props: any) => {
         return null
     }
   }, [onReject, onExpertise])
-
   return (
     <Box flex="1" bg="lightBlue">
       <AppHeader
