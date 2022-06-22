@@ -1,17 +1,17 @@
-import { observer } from 'mobx-react-lite';
-import React from 'react';
-import { ScrollView, View } from 'react-native';
-import { ScaledSheet } from "react-native-size-matters";
-import { AppText } from "../../../components/app-text/AppText";
-import { truncateString } from '../../../constants/variable';
-import { useStores } from '../../../models';
-import { color } from "../../../theme";
-import ItemView from '../../loan/components/item-view';
-import Document from './document';
-import Note from '../../../components/note/note';
+import { observer } from "mobx-react-lite"
+import React from "react"
+import { ScrollView, View } from "react-native"
+import { ScaledSheet } from "react-native-size-matters"
+import { AppText } from "../../../components/app-text/AppText"
+import { truncateString } from "../../../constants/variable"
+import { useStores } from "../../../models"
+import { color } from "../../../theme"
+import ItemView from "../../loan/components/item-view"
+import Document from "./document"
+import Note from "../../../components/note/note"
+import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view"
 
-interface Props {
-}
+interface Props {}
 
 const Info = observer((props: Props) => {
   // @ts-ignore
@@ -21,14 +21,14 @@ const Info = observer((props: Props) => {
 
   const checkGender = () => {
     if (!user?.gender) {
-      return 'Khác'
+      return "Khác"
     }
 
-    if (user.gender === 'male') {
-      return 'Nam'
+    if (user.gender === "male") {
+      return "Nam"
     }
 
-    return 'Nữ'
+    return "Nữ"
   }
 
   if (!loanDetail) return <></>
@@ -38,64 +38,79 @@ const Info = observer((props: Props) => {
       return user?.fullName
     } else {
       if (user?.firstName || user?.lastName) {
-        return (user?.firstName || '') + " " + (user?.lastName || '')
+        return (user?.firstName || "") + " " + (user?.lastName || "")
       }
 
-      return ''
+      return ""
     }
   }
 
   return (
-    <ScrollView style={styles.container}>
+    <KeyboardAwareScrollView style={styles.container}>
       <View style={styles.content}>
         <AppText style={styles.title} value={"Khách hàng"} />
         <View style={styles.contentItem}>
-          <ItemView style={styles.item} title={"loan.infoLoan.profile.fullName"} content={truncateString(name(), 20)} />
-          <ItemView style={styles.item} title={"loan.infoLoan.profile.sex"} content={checkGender()} />
-          <ItemView style={styles.item} title={"loan.infoLoan.profile.phone"} content={user?.tels?.[0]?.tel} />
-          <ItemView style={styles.item} title={"loan.infoLoan.profile.email"} content={user?.emails?.[0]?.email} />
+          <ItemView
+            style={styles.item}
+            title={"loan.infoLoan.profile.fullName"}
+            content={truncateString(name(), 20)}
+          />
+          <ItemView
+            style={styles.item}
+            title={"loan.infoLoan.profile.sex"}
+            content={checkGender()}
+          />
+          <ItemView
+            style={styles.item}
+            title={"loan.infoLoan.profile.phone"}
+            content={user?.tels?.[0]?.tel}
+          />
+          <ItemView
+            style={styles.item}
+            title={"loan.infoLoan.profile.email"}
+            content={user?.emails?.[0]?.email}
+          />
         </View>
       </View>
 
       {loanDetail?.id && <Document loanDetail={loanDetail} files={files} templates={templates} />}
 
-      {
-        loanDetail?.id && <View style={styles.content}>
+      {loanDetail?.id && (
+        <View style={styles.content}>
           <AppText style={styles.title} value={"Ghi chú"} />
 
-          <View style={[styles.contentItem, styles.contentItemNote]} >
+          <View style={[styles.contentItem, styles.contentItemNote]}>
             <Note id={loanDetail?.id} />
           </View>
         </View>
-      }
-
-    </ScrollView>
+      )}
+    </KeyboardAwareScrollView>
   )
-});
+})
 
-export default Info;
+export default Info
 
 const styles = ScaledSheet.create({
   container: {
-    paddingLeft: '16@s',
-    paddingRight: '16@s',
-    paddingBottom: '16@s',
+    paddingLeft: "16@s",
+    paddingRight: "16@s",
+    paddingBottom: "16@s",
   },
   content: {
-    marginBottom: '16@s'
+    marginBottom: "16@s",
   },
   title: {
-    marginBottom: '8@s'
+    marginBottom: "8@s",
   },
   contentItem: {
-    borderRadius: '8@s',
-    padding: '8@s',
+    borderRadius: "8@s",
+    padding: "8@s",
     backgroundColor: color.palette.white,
   },
   contentItemNote: {
-    padding: '16@s',
+    padding: "16@s",
   },
   item: {
-    padding: '8@s',
-  }
-});
+    padding: "8@s",
+  },
+})
