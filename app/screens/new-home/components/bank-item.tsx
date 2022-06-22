@@ -14,7 +14,7 @@ interface Props{
   item: any
 }
 
-const BankItem = React.memo((props: Props) => {
+const BankItem = React.memo((props: Props) => {``
   const {item} = props
   const { loanStore } = useStores()
   const imageUrl = item?.org?.image?.url
@@ -30,7 +30,7 @@ const BankItem = React.memo((props: Props) => {
   return (
     <Pressable style={styles.container} onPress={handlePress}>
       <View style={[styles.header, {backgroundColor: backgroundColor ?? '#005992'}]}>
-        <FastImage source={{uri:  imageUrl}} style={styles.bankIcon}/>
+        <FastImage source={{uri:  imageUrl}} style={styles.bankIcon} resizeMode={'contain'}/>
       </View>
       <View style={styles.body}>
         <AppText value={'Lãi suất'} style={styles.text} color={color.palette.gray}/>
@@ -66,7 +66,6 @@ const styles = ScaledSheet.create({
     borderTopRightRadius: '4@s',
     borderTopLeftRadius: '4@s',
     height:'30@s',
-    paddingHorizontal: '4@s',
     alignItems: 'flex-start',
     justifyContent:'center'
   },
@@ -79,8 +78,9 @@ const styles = ScaledSheet.create({
     borderBottomLeftRadius: '4@s',
   },
   bankIcon: {
-    width: '50@s',
-    height:'25@s'
+    width: '70@s',
+    height:'20@s',
+    marginLeft: '4@s'
   },
   percentContainer: {
     marginVertical: '4@s'

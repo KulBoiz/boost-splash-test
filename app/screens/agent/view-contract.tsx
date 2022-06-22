@@ -1,14 +1,13 @@
 import moment from "moment";
 import React, { useEffect, useState } from "react";
 import { ScrollView, View, Image } from "react-native";
-import FastImage from "react-native-fast-image";
 import RenderHtml from 'react-native-render-html';
 import { s, ScaledSheet } from "react-native-size-matters"
 import AppHeader from "../../components/app-header/AppHeader";
 import { fontFamily } from "../../constants/font-family";
-import { width } from "../../constants/variable";
+import { isAndroid, width } from "../../constants/variable"
 import { useStores } from "../../models";
-import { CONTAINER_PADDING, MARGIN_BOTTOM_16, PADDING_VERTICAL } from "../../styles/common-style"
+import { CONTAINER_PADDING, PADDING_VERTICAL } from "../../styles/common-style"
 import { color } from "../../theme";
 import { CollaboratorContractInfoDesktop } from "./constants";
 import { ScreenNames } from "../../navigators/screen-names"
@@ -48,7 +47,7 @@ const ViewContract = React.memo((props: Props) => {
           })}
         />
 
-        <View style={{ width: '40%', position: 'absolute', bottom: s(130), right: 50, alignItems: 'center'}}>
+        <View style={styles.signatureContainer}>
           <Image source={{ uri: signature ?? '', cache: 'reload' }} style={{width: s(105), height: s(100), backgroundColor: color.background }}/>
         </View>
         <View style={{height: 50}}/>
@@ -84,5 +83,12 @@ const styles = ScaledSheet.create({
     textTransform: "uppercase",
     color: color.palette.blue,
     fontFamily: fontFamily.semiBold
+  },
+  signatureContainer: {
+    width: '40%',
+    position: 'absolute',
+    bottom: isAndroid ? '160@s' : '140@s',
+    right: s(25),
+    alignItems: 'center'
   }
 });

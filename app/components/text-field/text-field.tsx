@@ -23,7 +23,8 @@ const INPUT: TextStyle = {
   fontFamily:fontFamily.medium,
   color: color.palette.black,
   fontSize: ms(14),
-  backgroundColor: color.background
+  backgroundColor: color.background,
+  height: s(46)
 }
 
 const ERROR: TextStyle = {

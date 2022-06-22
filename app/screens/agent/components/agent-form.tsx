@@ -46,10 +46,10 @@ const AgentForm = observer((props: Props) => {
     })
   }, [])
 
-  const formatData = (array) => {
+  const formatData = (array : any[] = []) => {
     return array?.map((val) => ({
-      value: val.id,
-      label: val.name
+      value: val?.id ?? '',
+      label: val?.name?.replace(/\t/g, '') ?? ''
     }))
   }
 

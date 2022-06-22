@@ -39,3 +39,7 @@ export function formatDateTime(date: string | Date) {
   if  (!date) return ''
   return moment(date).format('DD/MM/YYYY HH:mm');
 }
+
+export function verticalScale(num: number){
+  return height * num
+}

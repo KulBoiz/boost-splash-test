@@ -30,7 +30,7 @@ const BankerListLoanScreen: FC<Props> = observer((props: Props) => {
   }, [])
 
   const showDetail = useCallback(
-    (data) => navigation.navigate(ScreenNames.BANKER_LOAN_DETAIL_SCREEN, { data }),
+    (data, index) => navigation.navigate(ScreenNames.BANKER_LOAN_DETAIL_SCREEN, { data, index }),
     [],
   )
 
@@ -89,7 +89,7 @@ const BankerListLoanScreen: FC<Props> = observer((props: Props) => {
     )
   }, [])
   const renderItem = useCallback(({ item, index }) => {
-    return <BankerLoanItem item={item} index={index} onPress={() => showDetail(item)} />
+    return <BankerLoanItem item={item} index={index} onPress={() => showDetail(item, index)} />
   }, [])
 
   const ListFooterComponent = useCallback(() => {

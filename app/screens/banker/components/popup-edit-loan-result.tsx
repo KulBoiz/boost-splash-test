@@ -90,7 +90,8 @@ const PopupEditLoanResult = React.memo(({ visible, onClose, onConfirm, data: dat
                 label: "Số tiền phê duyệt",
                 error: errors?.approvalAmount?.message,
                 ...inputProps,
-                ...currencyInputProps,
+                keyboardType: 'number-pad'
+                // ...currencyInputProps,
               }}
             />
             <FormInput

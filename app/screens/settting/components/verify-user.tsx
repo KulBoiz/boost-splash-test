@@ -8,13 +8,14 @@ import { color } from "../../../theme"
 import { ScaledSheet } from "react-native-size-matters"
 import { fontFamily } from "../../../constants/font-family"
 import { FONT_REGULAR_12, TEXT_CENTER } from "../../../styles/common-style"
+import { observer } from "mobx-react-lite"
 
 interface Props {
   renderRole: string;
 }
 const content = 'Theo quy định của NHNN. Chủ ví điện tử cần cung cấp hình ảnh chứng từ cá nhân để đảm bảo chính chủ, xác thực tài khoản, và tăng cường bảo mật'
 
-const VerifyUser = React.memo(({ renderRole }: Props) => {
+const VerifyUser = observer(({ renderRole }: Props) => {
   const { authStoreModel } = useStores()
   const name = get(authStoreModel?.user, 'fullName')
 

@@ -23,6 +23,7 @@ const HomeBanner = observer((props: Props) => {
   }, [])
 
   const news = bannerStore.publicNews ?? []
+  const sliceNews = news.slice(0,5)
 
   const _renderItem = useCallback(({ item }) => {
     const onPress = () => {
@@ -41,7 +42,7 @@ const HomeBanner = observer((props: Props) => {
       <Carousel
         ref={ref.current}
         key={(e, i)=> e?.id + i.toString()}
-        data={news}
+        data={sliceNews}
         renderItem={_renderItem}
         sliderWidth={width}
         itemWidth={width - ms(105)}
@@ -49,7 +50,7 @@ const HomeBanner = observer((props: Props) => {
         activeSlideAlignment={'start'}
         onSnapToItem={(index) => setActiveDot( index ) }
       />
-      <PaginationDot length={news?.length} activeDot={activeDot} dotShape={'oval'} />
+      <PaginationDot length={sliceNews?.length} activeDot={activeDot} dotShape={'oval'} />
     </View>
   )
 });

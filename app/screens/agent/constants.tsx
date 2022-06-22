@@ -643,7 +643,7 @@ nhau, mỗi Bên giữ 01 (một) bản.
 </p>
 <table style={{width: '100%'}}>
 <tbody>
-<tr style={{display: 'flex', margin: 'auto', textAlign: 'center'}}>
+<tr style="display: flex; margin: auto; textAlign: center">
 <td style={{flexGrow: 0.6}}>
 <p>
 <strong>

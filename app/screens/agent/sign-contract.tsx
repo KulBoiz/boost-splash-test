@@ -3,7 +3,7 @@ import { ActivityIndicator, Alert, ScrollView, View } from "react-native"
 import AppHeader from "../../components/app-header/AppHeader"
 import AppButton from "../../components/app-button/AppButton"
 import RenderHtml from 'react-native-render-html';
-import { width } from "../../constants/variable"
+import { isAndroid, width } from "../../constants/variable"
 import { CollaboratorContractInfoDesktop } from "./constants"
 import { s, ScaledSheet } from "react-native-size-matters"
 import SignatureModal from "./components/signature-modal"
@@ -73,7 +73,7 @@ const SignContract = React.memo((props: Props) => {
             bankName: agentStore.bankName,
           })}
         />
-        <View style={{ width: '40%', position: 'absolute', bottom: s(120), right: s(45), alignItems: 'center' }}>
+        <View style={styles.signatureContainer}>
           {!signature && <AppButton title={'Ký bằng tay'} onPress={() => setSignatureModal(true)} />}
           {signature && <FastImage source={{ uri: `data:image/png;base64,${signature}` }} style={styles.signature} />}
         </View>
@@ -125,5 +125,12 @@ const styles = ScaledSheet.create({
     fontFamily: fontFamily.semiBold,
     right: '10@s',
     bottom: '10@s'
+  },
+  signatureContainer: {
+    width: '40%',
+    position: 'absolute',
+    bottom: isAndroid ? '160@s' : '140@s',
+    right: s(25),
+    alignItems: 'center'
   }
 });

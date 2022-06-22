@@ -72,7 +72,7 @@ export const BankHomeScreen = observer(({ navigation }) => {
           ?.map((el, index) => {
             return (
               <View
-                key={index}
+                key={index.toString()}
                 style={{
                   flexDirection: "row",
                   justifyContent: "space-between",

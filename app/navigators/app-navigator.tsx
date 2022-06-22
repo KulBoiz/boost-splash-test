@@ -55,7 +55,7 @@ export type NavigatorParamList = {
   [ScreenNames.BANKER_LIST_REQUEST_SCREEN]: undefined
   [ScreenNames.BANKER_REQUEST_DETAIL_SCREEN]: { data: any }
   [ScreenNames.BANKER_LIST_LOAN_SCREEN]: undefined
-  [ScreenNames.BANKER_LOAN_DETAIL_SCREEN]: { data: any }
+  [ScreenNames.BANKER_LOAN_DETAIL_SCREEN]: { data: any, index: number }
   [ScreenNames.IN_DEVELOPING]: undefined
   [ScreenNames.MANAGE_INSURANCE_LIST]: undefined
   [ScreenNames.MANAGE_INSURANCE_FILTER]: undefined

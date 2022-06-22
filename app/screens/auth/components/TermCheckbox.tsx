@@ -47,8 +47,9 @@ TermCheckbox.displayName = 'TermCheckbox'
 const styles = ScaledSheet.create({
     container: {marginTop: '20@s'},
   textContainer: {
-      flexDirection: 'row',
+    flexDirection: 'row',
     flexWrap: 'wrap',
-    marginLeft: '5@s'
+    marginLeft: '5@s',
+    alignItems: "center"
   }
 });

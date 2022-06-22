@@ -104,6 +104,12 @@ export const BankerStoreModel = types
     }),
     updateInfoOfDealDetail: flow(function* updateInfoOfDealDetail(dealDetailId, data) {
       const result = yield self.api.put(`deal-details/${dealDetailId}`, data)
+      if (result.kind === 'ok'){
+        const newData = [...self.listLoan]
+        const id = newData.findIndex(e => e.id === data.dealId)
+        newData[id].dealDetails[0].info = data.info
+        self.listLoan = newData
+      }
       return result
     }),
     getNotes: flow(function* getNotes(id) {
