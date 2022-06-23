@@ -88,6 +88,8 @@ export { default as RequestSuccessSvg } from "./request-success.svg"
 export { default as FileDocSvg } from "./file-doc.svg"
 export { default as BenefitInsuranceSvg } from "./benefit-insurance.svg"
 export { default as CloseSvg } from "./close.svg"
+export { default as ImageDocumentSvg } from "./image-document.svg"
+export { default as ImageDocumentBadgeSvg } from "./image-document-badge.svg"
 
 // home
 export { default as AccountHomeActiveSvg } from "./account-home-active.svg"

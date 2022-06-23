@@ -13,44 +13,42 @@ import { withRootStore } from "../extensions/with-root-store"
  */
 
 const filter = {
-  "limit": 20,
-  "where": {
+  limit: 20,
+  where: {
     type: {
-      inq: ["INTRODUCE_BUYER", "WANT_TO_BUY", "counselling"]
+      inq: ["INTRODUCE_BUYER", "WANT_TO_BUY", "counselling"],
     },
-    belongOrgType: 'sub_org'
+    belongOrgType: "sub_org",
   },
-  "include": [
+  include: [
     {
-      "relation": "user"
+      relation: "user",
     },
     {
-      "relation": "assignee"
+      relation: "assignee",
     },
     {
-      "relation": "product"
+      relation: "product",
     },
-  ]
+  ],
 }
 
 const filterProduct = {
   limit: 20,
-  where: {status: 'approved'},
-  include: [
-    {relation: 'product'},
-    {relation: "org"}
-  ],
+  where: { status: "approved" },
+  include: [{ relation: "product" }, { relation: "org" }],
 }
 
-const path  = 'tasks'
+const path = "tasks"
 
 export const LoanStoreModel = types
   .model("LoanStore")
   .extend(withEnvironment)
   .extend(withRootStore)
   .props({
-    id: types.optional(types.string, ''),
+    id: types.optional(types.string, ""),
     records: types.frozen([]),
+    totalRecord: types.optional(types.number, 0),
     total: types.optional(types.number, 0),
     recordDetail: types.frozen({}),
     products: types.frozen([]),
@@ -92,9 +90,9 @@ export const LoanStoreModel = types
           limit: 20,
           skip: 0,
           where: {
-            statusResponse: 'all'
-          }
-        }
+            statusResponse: "all",
+          },
+        },
       })
       self.feedback = resultFeedBack.data
 
@@ -113,7 +111,10 @@ export const LoanStoreModel = types
       if (deal?.documentTemplateId) {
         const resultFiles = yield documentApi.loadTemplate(deal?.documentTemplateId)
         self.templates = resultFiles?.data?.data
-        const resultTemplates = yield documentApi.loadFileTemplate(deal?.documentTemplateId, deal?.id)
+        const resultTemplates = yield documentApi.loadFileTemplate(
+          deal?.documentTemplateId,
+          deal?.id,
+        )
         self.files = resultTemplates?.data?.data
       }
 
@@ -129,7 +130,51 @@ export const LoanStoreModel = types
       }
     }),
 
-    requestCounselling: flow(function* requestCounselling(customerName: string, email: string, phone: string) {
+    uploadDocumentTemplateFile: flow(function* uploadDocumentTemplateFile(
+      documentTemplateId,
+      body,
+    ) {
+      const documentApi = new DocumentTemplateApi(self.environment.api)
+      const result = yield documentApi.uploadDocumentTemplateFile(documentTemplateId, body)
+      const data = result.data
+
+      if (result.kind !== "ok") {
+        return result
+      }
+
+      if (data) {
+        return {
+          kind: "ok",
+          data,
+        }
+      }
+    }),
+    updateLoanDetailFile: flow(function* updateLoanDetailFile(
+      fileId: string,
+      documentId: string,
+      dealId: string,
+    ) {
+      const documentApi = new DocumentTemplateApi(self.environment.api)
+      const result = yield documentApi.updateFileTemplate(fileId, documentId, dealId)
+      const data = result.data
+
+      if (result.kind !== "ok") {
+        return result
+      }
+
+      if (data) {
+        return {
+          kind: "ok",
+          data,
+        }
+      }
+    }),
+
+    requestCounselling: flow(function* requestCounselling(
+      customerName: string,
+      email: string,
+      phone: string,
+    ) {
       const loanApi = new LoanApi(self.environment.api)
       const userId = new LoanApi(self?.rootStore?.authStoreModel.userId)
       const result = yield loanApi.requestCounselling(userId.api, customerName, email, phone)
@@ -147,7 +192,12 @@ export const LoanStoreModel = types
       }
     }),
 
-    createRequestCounselling: flow(function* createRequestCounselling(email: string, fullName: string, tel: string, note?: string) {
+    createRequestCounselling: flow(function* createRequestCounselling(
+      email: string,
+      fullName: string,
+      tel: string,
+      note?: string,
+    ) {
       const user: any = new LoanApi(self?.rootStore?.authStoreModel.userId)
 
       const loanApi = new LoanApi(self.environment.api)
@@ -168,11 +218,11 @@ export const LoanStoreModel = types
 
     getRecords: flow(function* getRecords() {
       self.records = []
-      self.total = 0
+      self.totalRecord = 0
 
       const param = {
         page: 1,
-        "filter": filter
+        filter: filter,
       }
 
       const loanApi = new LoanApi(self.environment.api)
@@ -182,9 +232,10 @@ export const LoanStoreModel = types
       }
       const data = result?.data?.data
       const total = result?.data?.total
+
       if (data) {
         self.records = data
-        self.total = total
+        self.totalRecord = total
         self.page = 1
         return {
           kind: "ok",
@@ -195,7 +246,7 @@ export const LoanStoreModel = types
 
     loadMoreRecords: flow(function* loadMoreRecords() {
       if (self.total < self.records.length) {
-        return { kind: "end"}
+        return { kind: "end" }
       }
 
       const loanApi = new LoanApi(self.environment.api)
@@ -204,7 +255,7 @@ export const LoanStoreModel = types
 
       const param = {
         page: nextPage,
-        "filter": { ...filter, skip: self.limit * (self.page - 1) }
+        filter: { ...filter, skip: self.limit * (self.page - 1) },
       }
 
       const result = yield loanApi.loadMoreRecords(param)
@@ -245,7 +296,7 @@ export const LoanStoreModel = types
       const loanApi = new LoanApi(self.environment.api)
       const param = {
         page: 1,
-        filter: {...filterProduct}
+        filter: { ...filterProduct },
       }
       const result = yield loanApi.getProducts(param)
       if (result.kind !== "ok") {
@@ -253,6 +304,7 @@ export const LoanStoreModel = types
       }
       const data = result.data.data ?? []
       if (data) {
+        self.total = result.data.total
         self.products = data
         self.page = 1
         return {
@@ -264,15 +316,14 @@ export const LoanStoreModel = types
 
     loadMoreProducts: flow(function* loadMoreProducts() {
       if (self.total < self.products.length) {
-        return { kind: "end"}
+        return { kind: "end" }
       }
       const loanApi = new LoanApi(self.environment.api)
       self.page = self.page + 1
 
       const param = {
         page: self.page,
-        filter: {...filterProduct, skip: self.limit * (self.page - 1)
-        }
+        filter: { ...filterProduct, skip: self.limit * (self.page - 1) },
       }
 
       const result = yield loanApi.loadMoreProducts(param)
@@ -281,9 +332,11 @@ export const LoanStoreModel = types
       }
 
       const data = result?.data?.data ?? []
+      console.log("DATA", data)
       const oldData: any = [...self.products]
       if (result) {
         const newData: any = oldData.concat(data)
+        console.log("newData", newData)
         self.page += 1
         self.products = newData
         return {
@@ -294,7 +347,7 @@ export const LoanStoreModel = types
     }),
 
     getProductDetail: flow(function* getProductDetail(id: string) {
-      self.productDetail = {};
+      self.productDetail = {}
 
       const loanApi = new LoanApi(self.environment.api)
       const result = yield loanApi.getProductDetail(id)
@@ -346,7 +399,6 @@ export const LoanStoreModel = types
         }
       }
     }),
-
   })) // eslint-disable-line @typescript-eslint/no-unused-vars
   .actions((self) => ({
     getAllData: () => {
@@ -356,7 +408,7 @@ export const LoanStoreModel = types
   }))
 
 type LoanStoreType = Instance<typeof LoanStoreModel>
-export interface LoanStore extends LoanStoreType { }
+export interface LoanStore extends LoanStoreType {}
 type LoanStoreSnapshotType = SnapshotOut<typeof LoanStoreModel>
-export interface LoanStoreSnapshot extends LoanStoreSnapshotType { }
+export interface LoanStoreSnapshot extends LoanStoreSnapshotType {}
 export const createLoanStoreDefaultModel = () => types.optional(LoanStoreModel, {})

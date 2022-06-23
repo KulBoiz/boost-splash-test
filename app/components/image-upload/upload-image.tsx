@@ -1,164 +1,84 @@
-import React, { useEffect, useState } from 'react';
-import { View, TouchableOpacity, ViewStyle, ActivityIndicator } from 'react-native';
-import FastImage from 'react-native-fast-image';
-import { images } from '../../assets/images';
-import { ScaledSheet, ms } from 'react-native-size-matters';
-import type { ImagePickerResponse } from 'react-native-image-picker';
-import { useFileUpload } from '../../hooks/useFileUpload';
-import { color } from "../../theme"
+import React, { useState } from "react"
+import { images } from "../../assets/images"
 import ImagePicker from "./image-picker"
-import { AppText } from "../app-text/AppText"
-import { randomId } from "../../constants/variable"
+import { Box, Pressable, Spinner } from "native-base"
+import { FastImage } from "../fast-image/fast-image"
+import { observer } from "mobx-react-lite"
+import { useStores } from "../../models"
 
 interface Props {
-  containerStyle?: any | ViewStyle;
+  onUploadFile?: (file) => void
+  documentId?: string
+  size: number
 }
 
-interface ImagePickerObject extends ImagePickerResponse {
-  id: string;
-}
+const UploadImage = observer(({ onUploadFile, documentId, size = 100 }: Props) => {
+  const { loanStore } = useStores()
 
-const UploadImage = React.memo(({ containerStyle }: Props) => {
-  const [selectedImages, setSelectedImages] = useState<ImagePickerObject[]>([]);
+  const [showUploadPicker, setShowUploadPicker] = useState(false)
+  const [isUploading, setIsUploading] = useState(false)
 
-  const [isUpload, setIsUpload] = useState(false);
+  const _handleDelete = (id: string) => {}
 
-  const _handleDelete = (id: string) => {
-    setSelectedImages((images) => images.filter((item) => item.id !== id));
-  };
+  const onSelectImage = async (res) => {
+    const image: any = res.assets[0]
 
-
-  return (
-    <View style={[styles.container, containerStyle]}>
-      <ImagePicker
-        visible={isUpload}
-        onCancel={() => {
-          setIsUpload(false);
-        }}
-        onSelectImage={(res: any) =>
-          !res.didCancel && setSelectedImages((images) => [...images, { ...res, id: randomId() }])
-        }
-      />
-      <AppText
-        style={{ textTransform: 'uppercase' }}
-        value={'Tải lên'}
-        fontSize={ms(11)}
-      />
-      <View style={styles.wrapImage}>
-        <TouchableOpacity style={styles.wrapUpload} onPress={() => setIsUpload(true)}>
-          <FastImage source={images.defaultUpload} style={styles.wrapUpload} />
-        </TouchableOpacity>
-        {selectedImages.map((image, index) => (
-          <UploadImageViewer
-            image={image}
-            key={image.id}
-            onDelete={(imageId) => _handleDelete(image.id)}
-          />
-        ))}
-      </View>
-    </View>
-  );
-});
-
-interface UploadImageViewerProps {
-  containerStyle?: any;
-  image: ImagePickerResponse;
-  onDelete: (id?: string) => void;
-}
-
-const UploadImageViewer = ({ containerStyle, image, onDelete }: UploadImageViewerProps) => {
-  const [uploading, setUploading] = useState(false);
-  const [errUploading, setErrUploading] = useState(false);
-
-  const [upload] = useFileUpload();
-  useEffect(() => {
     if (image) {
-      const imgInfo = {
-        uri: image?.assets?.[0]?.uri!,
-        type: image?.assets?.[0]?.type!,
-        name: image?.assets?.[0]?.fileName!,
-      };
-      // setUploading(true);
-      // upload(imgInfo)
-      //   .then((res) => {
-      //     onUploaded(res.data.id);
-      //     setUploading(false);
-      //   })
-      //   .catch((err) => {
-      //     setUploading(false);
-      //     setErrUploading(true);
-      //     console.log(JSON.parse(JSON.stringify(err)));
-      //   });
+      const imgInfo: any = {
+        uri: image?.uri,
+        type: image?.type,
+        name: image?.fileName,
+      }
+      setIsUploading(true)
+      const objectId = loanStore?.loanDetail?.id
+      const formData = new FormData()
+      formData.append("file", imgInfo)
+
+      formData.append("objectId", objectId)
+      formData.append("objectType", "deal_loan")
+      formData.append("objectSubType", "")
+      const response = await loanStore.uploadDocumentTemplateFile(
+        loanStore?.loanDetail?.documentTemplateId,
+        formData,
+      )
+      setIsUploading(false)
+      __DEV__ && console.log(response)
+      if (response.kind === "ok") {
+        const file = response.data[0]
+        await loanStore.updateLoanDetailFile(file.templateDocumentFileId, documentId, objectId)
+        onUploadFile?.(file)
+      }
     }
-  }, [image]);
+  }
 
   return (
-    <View style={containerStyle}>
-      {uploading ? (
-        <View style={[styles.image, styles.wrapUpload]}>
-          <ActivityIndicator />
-        </View>
-      ) : (
-        <>
-          <FastImage source={{ uri: image?.assets?.[0]?.uri }} style={styles.image} />
-          {errUploading && (
-              <View style={[styles.image, styles.error]}>
-                <AppText>Upload Error</AppText>
-              </View>
-            )}
-          {/*<TouchableOpacity onPress={() => onDelete('')} style={styles.position}>*/}
-          {/*  <FastImage source={images.icon_x} style={styles.icon} tintColor={color.lightBlack} />*/}
-          {/*</TouchableOpacity>*/}
-        </>
-      )}
-    </View>
-  );
-};
+    <Box width={size} h={size}>
+      <Pressable disabled={isUploading} onPress={() => setShowUploadPicker(true)}>
+        <FastImage source={images.defaultUpload} width="full" height="full" />
+        {!!isUploading && (
+          <Box
+            position="absolute"
+            width="full"
+            height="full"
+            alignItems="center"
+            justifyContent="center"
+          >
+            <Spinner color="white" />
+          </Box>
+        )}
+      </Pressable>
+      <ImagePicker
+        visible={showUploadPicker}
+        onCancel={() => {
+          setShowUploadPicker(false)
+        }}
+        onSelectImage={onSelectImage}
+        // onSelectImage={(res: any) =>
+        //   !res.didCancel && setSelectedImages((images) => [...images, { ...res, id: randomId() }])
+        // }
+      />
+    </Box>
+  )
+})
 
-export default UploadImage;
-
-const styles = ScaledSheet.create({
-  flex1: {
-    flex: 1,
-  },
-  container: {},
-  wrapImage: {
-    marginTop: '12@vs',
-    flexDirection: 'row',
-    flexWrap: 'wrap',
-    justifyContent: "space-between"
-  },
-  wrapUpload: {
-    width: '145@ms',
-    height: '120@ms',
-    borderWidth: 1,
-    borderColor: color.palette.gray,
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  error: {
-    backgroundColor: 'rgba(255, 255, 255, 0.75)',
-    position: 'absolute',
-    top: 0,
-    left: 0,
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  icon: {
-    width: '24@s',
-    height: '24@s',
-    marginBottom: '4@vs',
-    borderRadius: '12@s',
-    backgroundColor: color.text,
-  },
-  position: {
-    position: 'absolute',
-    right: 0,
-    top: '-10@vs',
-  },
-  image: {
-    width: '145@ms',
-    height: '120@ms',
-    marginBottom: '20@vs',
-  },
-});
+export default UploadImage
