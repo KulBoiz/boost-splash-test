@@ -100,6 +100,7 @@ const PopupEditLoanResult = React.memo(({ visible, onClose, onConfirm, data: dat
                 label: "Thời gian vay",
                 error: errors?.borrowTime?.message,
                 ...inputProps,
+                keyboardType: 'number-pad'
               }}
             />
             {/* <FormInput

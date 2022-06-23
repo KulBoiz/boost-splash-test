@@ -50,7 +50,7 @@ const IdForm = React.memo((props: Props) => {
       <FormDatePicker
         label={'Ngày cấp'}
         name={'dateRange'}
-        placeholder={'Ngày cấp'}
+        placeholder={'Ngày cấp giấy tờ'}
         setValue={setValue}
         control={control}
         error={errors?.dateRange?.message}

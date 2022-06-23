@@ -1,4 +1,4 @@
-import React, { useRef } from "react"
+import React, { useCallback, useRef } from "react"
 import { View } from "react-native"
 import Modal from "react-native-modal"
 import { ScaledSheet } from "react-native-size-matters"
@@ -14,10 +14,11 @@ interface Props{
   closeModal(): void
   setSignature?(e?: any): void
   setLoading(e: boolean): void
+  setCheckSign(e: boolean): void
 }
 
 const SignatureModal = React.memo((props: Props) => {
-  const {visible, closeModal, setSignature, setLoading} = props
+  const {visible, closeModal, setSignature, setLoading, setCheckSign} = props
   const signRef = useRef(null)
   const {agentStore} = useStores()
 
@@ -34,6 +35,9 @@ const SignatureModal = React.memo((props: Props) => {
       setSignature(result?.encoded)
     }
   }
+  const _onDragEvent = useCallback(() => {
+    setCheckSign(true)
+  },[])
 
   const onSubmit =()=> {
     // @ts-ignore
@@ -62,6 +66,7 @@ const SignatureModal = React.memo((props: Props) => {
           minStrokeWidth={5}
           maxStrokeWidth={5}
           onSaveEvent={_onSaveEvent}
+          onDragEvent={_onDragEvent}
         />
         <View style={styles.btnContainer}>
           <AppButton title={'Hủy'} onPress={closeModal} titleStyle={styles.cancelText} style={[styles.btn, styles.cancelBtn]}/>

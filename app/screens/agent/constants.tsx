@@ -683,7 +683,7 @@ style="width: 170px" alt=""
 </br>
 </br>
 
-<p style="marginLeft: 10px">
+<p style="marginTop: 16px">
 <strong>
 <span>${fullName || ''}</span>
 </strong>

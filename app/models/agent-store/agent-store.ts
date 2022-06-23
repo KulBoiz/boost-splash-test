@@ -5,6 +5,7 @@ import mime from "mime"
 import * as FileSystem from "expo-file-system"
 import { AgentApi } from "../../services/api/agent-api"
 import { withRootStore } from "../extensions/with-root-store"
+import moment from "moment"
 
 /**
  * Model description here for TypeScript hints.
@@ -143,7 +144,7 @@ export const AgentStoreModel = types
     uploadBase64: flow(function* uploadBase64(image: string) {
       const agentApi = new UploadApi(self.environment.api)
       const params = {
-        image: `data:image/png;base64,${image}`, name: `signature-${image?.slice(0,20)}`
+        image: `data:image/png;base64,${image}`, name: `signature-${moment(new Date()).format('x').toString()}`
       }
       const result = yield agentApi.uploadBase64(params)
       const data = result.data
