@@ -1,79 +1,72 @@
-import React, { useEffect, useState } from "react"
-import { View, TouchableOpacity, ViewStyle, ActivityIndicator } from "react-native"
+import React, { useState } from "react"
 import { images } from "../../assets/images"
-import { ScaledSheet, ms, s } from "react-native-size-matters"
-import type { ImagePickerResponse } from "react-native-image-picker"
-import { useFileUpload } from "../../hooks/useFileUpload"
-import { color } from "../../theme"
 import ImagePicker from "./image-picker"
-import { AppText } from "../app-text/AppText"
-import { randomId, width } from "../../constants/variable"
-import { Text } from "../text/text"
-import { Box, Spinner, ZStack } from "native-base"
+import { Box, Pressable, Spinner } from "native-base"
 import { FastImage } from "../fast-image/fast-image"
-import ImageViewer from "../image-viewer/image-viewer"
+import { observer } from "mobx-react-lite"
+import { useStores } from "../../models"
 
 interface Props {
-  containerStyle?: any | ViewStyle
+  onUploadFile?: (file) => void
+  documentId?: string
+  size: number
 }
 
-const UploadImage = React.memo(({ containerStyle }: Props) => {
-  const [selectedImages, setSelectedImages] = useState<any>([])
+const UploadImage = observer(({ onUploadFile, documentId, size = 100 }: Props) => {
+  const { loanStore } = useStores()
 
   const [showUploadPicker, setShowUploadPicker] = useState(false)
   const [isUploading, setIsUploading] = useState(false)
 
-  const [upload] = useFileUpload()
-
-  const _handleDelete = (id: string) => {
-    setSelectedImages((images) => images.filter((item) => item.id !== id))
-  }
+  const _handleDelete = (id: string) => {}
 
   const onSelectImage = async (res) => {
     const image: any = res.assets[0]
 
     if (image) {
-      const imgInfo = {
+      const imgInfo: any = {
         uri: image?.uri,
         type: image?.type,
         name: image?.fileName,
       }
-
       setIsUploading(true)
-      const response = await upload(imgInfo)
+      const objectId = loanStore?.loanDetail?.id
+      const formData = new FormData()
+      formData.append("file", imgInfo)
+
+      formData.append("objectId", objectId)
+      formData.append("objectType", "deal_loan")
+      formData.append("objectSubType", "")
+      const response = await loanStore.uploadDocumentTemplateFile(
+        loanStore?.loanDetail?.documentTemplateId,
+        formData,
+      )
       setIsUploading(false)
       __DEV__ && console.log(response)
-      if (response.status === 200) {
-        setSelectedImages((images) => [...images, response.data[0]])
+      if (response.kind === "ok") {
+        const file = response.data[0]
+        await loanStore.updateLoanDetailFile(file.templateDocumentFileId, documentId, objectId)
+        onUploadFile?.(file)
       }
     }
   }
 
   return (
-    <Box style={[styles.container, containerStyle]}>
-      <View style={styles.wrapImage}>
-        {selectedImages.map((image, index) => (
-          <ImageViewer key={index} imageUri={image?.url} onDelete={() => _handleDelete(image.id)} />
-        ))}
-        <TouchableOpacity
-          disabled={isUploading}
-          style={styles.wrapUpload}
-          onPress={() => setShowUploadPicker(true)}
-        >
-          <FastImage source={images.defaultUpload} style={styles.wrapUpload} />
-          {!!isUploading && (
-            <Box
-              position="absolute"
-              width="full"
-              height="full"
-              alignItems="center"
-              justifyContent="center"
-            >
-              <Spinner color="white" />
-            </Box>
-          )}
-        </TouchableOpacity>
-      </View>
+    <Box width={size} h={size}>
+      <Pressable disabled={isUploading} onPress={() => setShowUploadPicker(true)}>
+        <FastImage source={images.defaultUpload} width="full" height="full" />
+        {!!isUploading && (
+          <Box
+            position="absolute"
+            width="full"
+            height="full"
+            alignItems="center"
+            justifyContent="center"
+          >
+            <Spinner color="white" />
+          </Box>
+        )}
+      </Pressable>
       <ImagePicker
         visible={showUploadPicker}
         onCancel={() => {
@@ -89,24 +82,3 @@ const UploadImage = React.memo(({ containerStyle }: Props) => {
 })
 
 export default UploadImage
-
-const styles = ScaledSheet.create({
-  container: {},
-  wrapImage: {
-    flexDirection: "row",
-    flexWrap: "wrap",
-  },
-  wrapUpload: {
-    width: "145@ms",
-    height: "120@ms",
-    borderWidth: 0.1,
-    borderColor: color.palette.gray,
-    alignItems: "center",
-    justifyContent: "center",
-  },
-  image: {
-    width: (width - s(74)) / 2,
-    height: "120@ms",
-    marginBottom: "8@s",
-  },
-})

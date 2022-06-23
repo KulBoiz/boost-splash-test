@@ -1,20 +1,19 @@
 import React, { useState } from "react"
-import { s, ScaledSheet } from "react-native-size-matters"
-import { color } from "../../theme"
+import { s } from "react-native-size-matters"
 import { FastImage } from "../fast-image/fast-image"
 import { Box, Button, Modal, Pressable, Row } from "native-base"
 import { Text } from "../text/text"
 import AppHeader from "../app-header/AppHeader"
-import { width } from "../../constants/variable"
 
 interface ImageViewerProps {
+  size: number
   imageUri?: string
   onDelete?: () => void
   onUpload?: () => void
   title?: string
 }
 
-const ImageViewer = ({ title, imageUri, onDelete, onUpload }: ImageViewerProps) => {
+const ImageViewer = ({ title, imageUri, onDelete, onUpload, size = 100 }: ImageViewerProps) => {
   const [showImageDetail, setShowImageDetail] = useState(false)
   const [showConfirmDelete, setShowConfirmDelete] = useState(false)
   const lightBlack05 = "rgba(21, 25, 64, 0.5)"
@@ -27,8 +26,8 @@ const ImageViewer = ({ title, imageUri, onDelete, onUpload }: ImageViewerProps) 
   const uploadImage = () => {}
 
   return (
-    <Pressable onPress={() => setShowImageDetail(true)} mr={s(8)}>
-      <FastImage source={{ uri: imageUri }} style={styles.image} fallback bg="gray" />
+    <Pressable onPress={() => setShowImageDetail(true)} mr={s(8)} mb={s(8)}>
+      <FastImage source={{ uri: imageUri }} width={size} height={size} fallback bg="gray" />
       <Modal isOpen={showImageDetail} onClose={setShowImageDetail} size="full">
         <Box position="absolute" top="0" left="0" right="0" bottom="0" bg="white">
           <FastImage
@@ -90,27 +89,3 @@ const ImageViewer = ({ title, imageUri, onDelete, onUpload }: ImageViewerProps) 
 }
 
 export default ImageViewer
-
-const styles = ScaledSheet.create({
-  wrapUpload: {
-    width: (width - s(74)) / 2,
-    height: "120@ms",
-    borderWidth: 0.1,
-    borderColor: color.palette.gray,
-    alignItems: "center",
-    justifyContent: "center",
-  },
-  error: {
-    backgroundColor: "rgba(255, 255, 255, 0.75)",
-    position: "absolute",
-    top: 0,
-    left: 0,
-    alignItems: "center",
-    justifyContent: "center",
-  },
-  image: {
-    width: (width - s(74)) / 2,
-    height: "120@ms",
-    marginBottom: "8@s",
-  },
-})

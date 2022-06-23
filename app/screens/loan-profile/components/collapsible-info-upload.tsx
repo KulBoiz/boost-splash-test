@@ -1,24 +1,37 @@
-import React, { useState } from "react"
+import React, { useEffect, useMemo, useState } from "react"
 import { View } from "react-native"
 import Accordion from "react-native-collapsible/Accordion"
 import FastImage from "react-native-fast-image"
 import { images } from "../../../assets/images"
-import { ScaledSheet } from "react-native-size-matters"
+import { s, ScaledSheet } from "react-native-size-matters"
 import { AppText } from "../../../components/app-text/AppText"
 import { color } from "../../../theme"
 import { fontFamily } from "../../../constants/font-family"
 import { ALIGN_CENTER, FONT_REGULAR_14, ROW } from "../../../styles/common-style"
 import UploadImage from "../../../components/image-upload/upload-image"
 import { truncateString, width } from "../../../constants/variable"
-import { get } from "lodash"
 import ImageViewer from "../../../components/image-viewer/image-viewer"
+import { Box, Row } from "native-base"
+import { ImageDocumentSvg, ImageDocumentBadgeSvg } from "../../../assets/svgs"
+import { Text } from "../../../components"
 interface Props {
   data: any
+  onUploadFile?: (fileId, documentId) => void
 }
 
-const CollapsibleInfoUpload = React.memo(({ data }: Props) => {
+const CollapsibleInfoUpload = React.memo(({ data, onUploadFile }: Props) => {
   const [activeSections, setActiveSections] = useState<number[]>([])
-  const imageUrls: string[] = get(data, "images")
+  const [imageUrls, setImageUrls] = useState<any>([])
+
+  const title = useMemo(() => truncateString(data?.document?.name, 20), [data?.document?.name])
+
+  useEffect(() => {
+    setImageUrls(data.images)
+  }, [data.images])
+
+  const _onUploadFile = (file: any) => {
+    setImageUrls([file.url, ...imageUrls])
+  }
 
   const _handleSections = (index: number[]) => {
     setActiveSections(index)
@@ -26,30 +39,53 @@ const CollapsibleInfoUpload = React.memo(({ data }: Props) => {
   const renderHeader = (item, index: number) => {
     const isOpen = activeSections?.includes(index)
     return (
-      <View style={styles.headerBody}>
-        <AppText value={truncateString(data?.document?.name, 20)} style={styles.headerText} />
+      <Box style={styles.headerBody}>
+        <AppText value={title} style={styles.headerText} />
         <View style={[ROW, ALIGN_CENTER]}>
-          <AppText
-            value={imageUrls?.length === 0 || !imageUrls ? "Chưa cập nhật" : "Đã cập nhập"}
-            style={FONT_REGULAR_14}
-          />
+          {imageUrls?.length ? (
+            <Row alignItems="center">
+              <Text
+                size="regular14"
+                fontWeight="500"
+                color="lightGray"
+                mr="1"
+                text={imageUrls?.length}
+              />
+              {isOpen ? (
+                <ImageDocumentSvg width={18} height={18} />
+              ) : (
+                <ImageDocumentBadgeSvg width={18} height={18} />
+              )}
+            </Row>
+          ) : (
+            <AppText value={"Chưa cập nhật"} style={FONT_REGULAR_14} />
+          )}
+
           <FastImage
             source={isOpen ? images.arrow_up : images.arrow_down}
             style={styles.icon}
             tintColor={isOpen ? color.palette.blue : color.palette.lightGray}
           />
         </View>
-      </View>
+      </Box>
     )
   }
 
   const renderContent = () => {
+    const imageSize = (width - s(80)) / 3
     return (
-      <View style={styles.contentContainer}>
-        {imageUrls?.length > 0 &&
-          imageUrls?.map((el, index) => <ImageViewer key={index.toString()} imageUri={el} />)}
-        <UploadImage />
-      </View>
+      <Row flexWrap="wrap" pb={s(16)} ml={s(16)}>
+        {imageUrls?.length > 0
+          ? imageUrls.map((item, index) => (
+              <ImageViewer key={index} title={title} size={imageSize} imageUri={item as any} />
+            ))
+          : null}
+        <UploadImage
+          size={imageSize}
+          onUploadFile={_onUploadFile}
+          documentId={data?.document?.id}
+        />
+      </Row>
     )
   }
   return (

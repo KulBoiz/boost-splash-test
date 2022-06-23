@@ -1,5 +1,5 @@
 import { observer } from "mobx-react-lite"
-import React from "react"
+import React, { useEffect, useRef } from "react"
 import { ScrollView, View } from "react-native"
 import { ScaledSheet } from "react-native-size-matters"
 import { AppText } from "../../../components/app-text/AppText"
@@ -9,7 +9,8 @@ import { color } from "../../../theme"
 import ItemView from "../../loan/components/item-view"
 import Document from "./document"
 import Note from "../../../components/note/note"
-import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view"
+import { Box } from "native-base"
+import { useKeyboard } from "../../../hooks/useKeyboard"
 
 interface Props {}
 
@@ -18,6 +19,15 @@ const Info = observer((props: Props) => {
   const { loanStore } = useStores()
   const { loanDetail, files, templates, task } = loanStore
   const { user } = task
+
+  const scrollViewRef = useRef<any>(null)
+  const [keyboardHeight] = useKeyboard()
+
+  useEffect(() => {
+    if (keyboardHeight) {
+      scrollViewRef?.current?.scrollToEnd({})
+    }
+  }, [keyboardHeight])
 
   const checkGender = () => {
     if (!user?.gender) {
@@ -46,45 +56,47 @@ const Info = observer((props: Props) => {
   }
 
   return (
-    <KeyboardAwareScrollView style={styles.container}>
-      <View style={styles.content}>
-        <AppText style={styles.title} value={"Khách hàng"} />
-        <View style={styles.contentItem}>
-          <ItemView
-            style={styles.item}
-            title={"loan.infoLoan.profile.fullName"}
-            content={truncateString(name(), 20)}
-          />
-          <ItemView
-            style={styles.item}
-            title={"loan.infoLoan.profile.sex"}
-            content={checkGender()}
-          />
-          <ItemView
-            style={styles.item}
-            title={"loan.infoLoan.profile.phone"}
-            content={user?.tels?.[0]?.tel}
-          />
-          <ItemView
-            style={styles.item}
-            title={"loan.infoLoan.profile.email"}
-            content={user?.emails?.[0]?.email}
-          />
-        </View>
-      </View>
-
-      {loanDetail?.id && <Document loanDetail={loanDetail} files={files} templates={templates} />}
-
-      {loanDetail?.id && (
+    <Box flex="1" paddingBottom={keyboardHeight}>
+      <ScrollView ref={scrollViewRef} contentContainerStyle={styles.container}>
         <View style={styles.content}>
-          <AppText style={styles.title} value={"Ghi chú"} />
-
-          <View style={[styles.contentItem, styles.contentItemNote]}>
-            <Note id={loanDetail?.id} />
+          <AppText style={styles.title} value={"Khách hàng"} />
+          <View style={styles.contentItem}>
+            <ItemView
+              style={styles.item}
+              title={"loan.infoLoan.profile.fullName"}
+              content={truncateString(name(), 20)}
+            />
+            <ItemView
+              style={styles.item}
+              title={"loan.infoLoan.profile.sex"}
+              content={checkGender()}
+            />
+            <ItemView
+              style={styles.item}
+              title={"loan.infoLoan.profile.phone"}
+              content={user?.tels?.[0]?.tel}
+            />
+            <ItemView
+              style={styles.item}
+              title={"loan.infoLoan.profile.email"}
+              content={user?.emails?.[0]?.email}
+            />
           </View>
         </View>
-      )}
-    </KeyboardAwareScrollView>
+
+        {loanDetail?.id && <Document loanDetail={loanDetail} files={files} templates={templates} />}
+
+        {loanDetail?.id && (
+          <View style={styles.content}>
+            <AppText style={styles.title} value={"Ghi chú"} />
+
+            <View style={[styles.contentItem, styles.contentItemNote]}>
+              <Note id={loanDetail?.id} />
+            </View>
+          </View>
+        )}
+      </ScrollView>
+    </Box>
   )
 })
 

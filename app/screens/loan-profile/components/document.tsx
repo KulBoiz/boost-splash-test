@@ -1,18 +1,18 @@
-import { flatten } from 'lodash';
-import React, { useEffect, useState } from 'react';
-import { View } from 'react-native';
-import { ScaledSheet } from "react-native-size-matters";
-import { CheckedSvg } from '../../../assets/svgs';
-import { AppText } from "../../../components/app-text/AppText";
+import { flatten } from "lodash"
+import React, { useEffect, useState } from "react"
+import { View } from "react-native"
+import { ScaledSheet } from "react-native-size-matters"
+import { CheckedSvg } from "../../../assets/svgs"
+import { AppText } from "../../../components/app-text/AppText"
 import { numberWithCommas, truncateString } from "../../../constants/variable"
-import { color } from "../../../theme";
-import ItemView from '../../loan/components/item-view';
+import { color } from "../../../theme"
+import ItemView from "../../loan/components/item-view"
 import CollapsibleInfoUpload from "./collapsible-info-upload"
 
 interface Props {
-  loanDetail?: any,
-  files?: any[],
-  templates?: any[],
+  loanDetail?: any
+  files?: any[]
+  templates?: any[]
 }
 
 const Document = React.memo((props: Props) => {
@@ -24,14 +24,13 @@ const Document = React.memo((props: Props) => {
   }, [])
 
   const renderTemplate = () => {
-    return flatten(templates?.map(el => el?.documentTemplateDetails)).map(el => {
+    return flatten(templates?.map((el) => el?.documentTemplateDetails)).map((el) => {
       if (!files) {
         return el
-      }
-      else {
+      } else {
         if (files[el.documentId]) {
-          const images = files[el.documentId].map(el => el.file.url)
-          return {...el, images: images }
+          const images = files[el.documentId].map((el) => el.file.url)
+          return { ...el, images: images }
         }
         return el
       }
@@ -43,17 +42,35 @@ const Document = React.memo((props: Props) => {
       <View style={styles.content}>
         <AppText style={styles.title} value={"Thông tin khoản vay"} />
         <View style={styles.contentItem}>
-          <ItemView style={styles.item} title={"loan.infoLoan.info.loanDemand"} content={truncateString(loanDetail?.product?.name, 20)} />
-          <ItemView style={styles.item} title={"loan.infoLoan.info.collateral"} content={loanDetail?.realEstateInfo?.apartmentCode} />
-          <ItemView style={styles.item} title={"loan.infoLoan.info.money"} content={loanDetail?.loanMoney ? `${numberWithCommas(loanDetail?.loanMoney)} VNĐ` : ''} />
-          <ItemView style={styles.item} title={"loan.infoLoan.info.time"} content={loanDetail?.timeLoan ? `${loanDetail?.timeLoan} Năm` : ''} />
+          <ItemView
+            style={styles.item}
+            title={"loan.infoLoan.info.loanDemand"}
+            content={truncateString(loanDetail?.product?.name, 20)}
+          />
+          <ItemView
+            style={styles.item}
+            title={"loan.infoLoan.info.collateral"}
+            content={loanDetail?.realEstateInfo?.apartmentCode}
+          />
+          <ItemView
+            style={styles.item}
+            title={"loan.infoLoan.info.money"}
+            content={loanDetail?.loanMoney ? `${numberWithCommas(loanDetail?.loanMoney)} VNĐ` : ""}
+          />
+          <ItemView
+            style={styles.item}
+            title={"loan.infoLoan.info.time"}
+            content={loanDetail?.timeLoan ? `${loanDetail?.timeLoan} Năm` : ""}
+          />
         </View>
       </View>
 
-      {
-        renderTemplate()?.length > 0 && <View style={styles.content}>
+      {renderTemplate()?.length > 0 && (
+        <View style={styles.content}>
           <AppText style={styles.title} value={"Giấy tờ của khách"} />
-          {renderTemplate()?.map((el, index) => (<CollapsibleInfoUpload data={el} key={index}/>)) }
+          {renderTemplate()?.map((el, index) => (
+            <CollapsibleInfoUpload data={el} key={index} />
+          ))}
           <View style={styles.contentItem}>
             {/* <CollapsibleInfoUpload data={renderTemplate()}/> */}
             {/* {renderTemplate().map((el: any, index: number) => */}
@@ -66,39 +83,37 @@ const Document = React.memo((props: Props) => {
             } */}
           </View>
         </View>
-      }
-
+      )}
     </View>
   )
-});
+})
 
-export default Document;
+export default Document
 
 const styles = ScaledSheet.create({
-  container: {
-  },
+  container: {},
   content: {
-    marginBottom: '16@s'
+    marginBottom: "16@s",
   },
   title: {
-    marginBottom: '8@s'
+    marginBottom: "8@s",
   },
   contentItem: {
-    borderRadius: '8@s',
+    borderRadius: "8@s",
     // padding: '8@s',
     backgroundColor: color.palette.white,
   },
   item: {
-    padding: '8@s',
+    padding: "8@s",
   },
   viewMore: {
     borderTopWidth: 1,
     borderTopColor: color.palette.EEEEEE,
-    margin: '8@s',
+    margin: "8@s",
   },
   viewMoreText: {
-    paddingTop: '16@s',
+    paddingTop: "16@s",
     color: color.palette.blue,
-    textAlign: 'center'
-  }
-});
+    textAlign: "center",
+  },
+})

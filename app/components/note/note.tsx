@@ -12,10 +12,11 @@ import FormInput from "../form-input/form-input"
 
 interface Props {
   id?: any
+  onFocus?: () => void
 }
 
 const Note = observer((props: Props) => {
-  const { id } = props
+  const { id, onFocus } = props
   // @ts-ignore
   const { commentStore } = useStores()
   const { comments } = commentStore
@@ -129,6 +130,7 @@ const Note = observer((props: Props) => {
                     control: controlReply,
                     error: errorsReply?.email?.message,
                     style: { flex: 1 },
+                    onFocus,
                   }}
                 />
 
