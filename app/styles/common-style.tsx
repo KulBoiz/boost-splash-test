@@ -26,10 +26,10 @@ export const PADDING_BOTTOM_24: ViewStyle = {
   paddingBottom: ms(16),
 }
 export const HIT_SLOP = {
-  top: 10,
-  bottom: 10,
-  left: 10,
-  right: 10,
+  top: 20,
+  bottom: 20,
+  left: 20,
+  right: 20,
 }
 
 export const PARENT: ViewStyle = {

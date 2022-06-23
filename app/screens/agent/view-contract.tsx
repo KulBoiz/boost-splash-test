@@ -1,6 +1,6 @@
 import moment from "moment";
 import React, { useEffect, useState } from "react";
-import { ScrollView, View, Image } from "react-native";
+import { ScrollView, View } from "react-native";
 import RenderHtml from 'react-native-render-html';
 import { s, ScaledSheet } from "react-native-size-matters"
 import AppHeader from "../../components/app-header/AppHeader";
@@ -12,9 +12,9 @@ import { color } from "../../theme";
 import { CollaboratorContractInfoDesktop } from "./constants";
 import { ScreenNames } from "../../navigators/screen-names"
 import { navigate } from "../../navigators"
+import { FastImage } from "../../components/fast-image/fast-image"
 
 interface Props{ }
-
 const ViewContract = React.memo((props: Props) => {
   const {agentStore} = useStores()
   const [signature, setSignature] = useState<any>('')
@@ -35,7 +35,7 @@ const ViewContract = React.memo((props: Props) => {
           contentWidth={width}
           baseStyle={styles.htmlContainer}
           source={CollaboratorContractInfoDesktop({
-            fullName: user?.fullName,
+            fullName: user?.fullName?.toUpperCase(),
             idNumber: user?.idNumber,
             issuedOn: moment(user?.issuedOn).format('DD/MM/YYYY'),
             placeOfIssue: user?.identification?.placeOfIssue,
@@ -48,7 +48,7 @@ const ViewContract = React.memo((props: Props) => {
         />
 
         <View style={styles.signatureContainer}>
-          <Image source={{ uri: signature ?? '', cache: 'reload' }} style={{width: s(105), height: s(100), backgroundColor: color.background }}/>
+          <FastImage source={{ uri: signature}} style={styles.signature}/>
         </View>
         <View style={{height: 50}}/>
       </ScrollView>
@@ -60,7 +60,7 @@ export default ViewContract;
 
 const styles = ScaledSheet.create({
   container: {flex:1, backgroundColor: color.palette.lightBlue},
-  signature:{width:'105@s', height: '100@s', top: '5@s', backgroundColor: color.background},
+  signature:{width:'105@s', height: '80@s', top: '0@s', backgroundColor: color.background},
   htmlContainer :{
     backgroundColor: color.background,
     padding: s(16),
@@ -87,7 +87,7 @@ const styles = ScaledSheet.create({
   signatureContainer: {
     width: '40%',
     position: 'absolute',
-    bottom: isAndroid ? '160@s' : '140@s',
+    bottom: isAndroid ? '140@s' : '120@s',
     right: s(25),
     alignItems: 'center'
   }

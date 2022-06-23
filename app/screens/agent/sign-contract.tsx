@@ -18,7 +18,6 @@ import { Dialog, Paragraph } from "react-native-paper"
 import { AppText } from "../../components/app-text/AppText"
 import { fontFamily } from "../../constants/font-family"
 import { ROLE } from "../../models/auth-store";
-import { LoadingComponent } from "../../components/loading";
 
 interface Props{}
 const content = 'Hồ sơ của bạn đang được xử lý, chúng tôi sẽ cập nhật trong vòng 24 giờ.\n\nChân thành cảm ơn!'
@@ -30,6 +29,7 @@ const SignContract = React.memo((props: Props) => {
   const [signatureModal, setSignatureModal] = useState<boolean>(false)
   const [successModal, setSuccessModal] = useState<boolean>(false)
   const [isSuccess, setIsSuccess] = useState<boolean>(false)
+  const [checkSign, setCheckSign] = useState<boolean>(false)
   const [signature, setSignature] = useState<any>(null)
 
   const uploadSignature = () => {
@@ -53,7 +53,6 @@ const SignContract = React.memo((props: Props) => {
       Alert.alert('Something went wrong')
     })
   }
-
   return (
     <View style={styles.container}>
       <AppHeader headerText={'Kí hợp đồng '} isBlue />
@@ -62,7 +61,7 @@ const SignContract = React.memo((props: Props) => {
           contentWidth={width}
           baseStyle={styles.htmlContainer}
           source={CollaboratorContractInfoDesktop({
-            fullName: agentStore.fullName,
+            fullName: agentStore.fullName?.toUpperCase(),
             idNumber: agentStore.citizenIdentification,
             issuedOn: moment(agentStore.dateRange).format('DD/MM/YYYY'),
             placeOfIssue: agentStore.issuedBy,
@@ -74,16 +73,16 @@ const SignContract = React.memo((props: Props) => {
           })}
         />
         <View style={styles.signatureContainer}>
-          {!signature && <AppButton title={'Ký bằng tay'} onPress={() => setSignatureModal(true)} />}
-          {signature && <FastImage source={{ uri: `data:image/png;base64,${signature}` }} style={styles.signature} />}
+          {(!signature || !checkSign) && <AppButton title={'Ký bằng tay'} onPress={() => setSignatureModal(true)} />}
+          {(signature && checkSign) && <FastImage source={{ uri: `data:image/png;base64,${signature}` }} style={styles.signature} />}
         </View>
         <View style={{ height: 50 }} />
       </ScrollView>
 
       <View style={styles.btnContainer}>
-        <AppButton title={'Tiếp tục'} onPress={sendData} disable={!signature || loading} loading={loading}/>
+        <AppButton title={'Tiếp tục'} onPress={sendData} disable={!signature || loading || !checkSign} loading={loading}/>
       </View>
-      <SignatureModal visible={signatureModal} closeModal={uploadSignature} setSignature={setSignature} setLoading={setLoading}/>
+      <SignatureModal {...{visible:signatureModal, closeModal:uploadSignature, setSignature, setLoading, setCheckSign}}/>
       <Dialog visible={successModal}>
         <Dialog.Content>
           {!isSuccess ? <ActivityIndicator size="large"/> : <Paragraph>{content}</Paragraph>}
@@ -100,13 +99,14 @@ export default SignContract;
 
 const styles = ScaledSheet.create({
   container: { flex: 1, backgroundColor: color.palette.lightBlue },
-  signature: { width: '105@s', height: '100@s', top: '0@s', backgroundColor: color.background },
+  signature: { width: '105@s', height: '80@s', top: '20@s', backgroundColor: color.background },
   btnContainer: {
     flexGrow: 1,
     justifyContent: "flex-end",
     paddingVertical: '24@s',
     paddingHorizontal: '16@ms'
   },
+
   htmlContainer: {
     backgroundColor: color.background,
     padding: s(16),

@@ -1,5 +1,5 @@
 import React, { FC } from "react"
-import { View, StyleSheet, ScrollView } from "react-native"
+import { View, ScrollView } from "react-native"
 import { observer } from "mobx-react-lite"
 import AppHeader from "../../components/app-header/AppHeader"
 import { useStores } from "../../models"

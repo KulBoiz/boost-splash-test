@@ -182,7 +182,6 @@ export const LoanStoreModel = types
       }
       const data = result?.data?.data
       const total = result?.data?.total
-
       if (data) {
         self.records = data
         self.total = total
@@ -254,7 +253,6 @@ export const LoanStoreModel = types
       }
       const data = result.data.data ?? []
       if (data) {
-        self.total = result.data.total
         self.products = data
         self.page = 1
         return {
@@ -283,11 +281,9 @@ export const LoanStoreModel = types
       }
 
       const data = result?.data?.data ?? []
-      console.log('DATA', data)
       const oldData: any = [...self.products]
       if (result) {
         const newData: any = oldData.concat(data)
-        console.log('newData', newData)
         self.page += 1
         self.products = newData
         return {
