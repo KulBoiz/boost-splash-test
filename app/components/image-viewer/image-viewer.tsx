@@ -4,6 +4,8 @@ import { FastImage } from "../fast-image/fast-image"
 import { Box, Button, Modal, Pressable, Row } from "native-base"
 import { Text } from "../text/text"
 import AppHeader from "../app-header/AppHeader"
+import ZoomableImage from "./zoomable-image"
+import { height, width } from "../../constants/variable"
 
 interface ImageViewerProps {
   size: number
@@ -37,14 +39,23 @@ const ImageViewer = ({ title, imageUri, onDelete, onUpload, size = 100 }: ImageV
             height="full"
             bg="gray"
           />
-          <AppHeader
-            onLeftPress={() => setShowImageDetail(false)}
-            isBlue
-            style={{ backgroundColor: lightBlack05 }}
-            headerText={title}
-          />
+          {/* <ZoomableImage
+            uri={{ uri: imageUri }}
+            width={width}
+            height={200}
+            cropWidth={width}
+            cropHeight={height}
+          /> */}
+          <Box position="absolute" top="0" left="0" right="0">
+            <AppHeader
+              onLeftPress={() => setShowImageDetail(false)}
+              isBlue
+              style={{ backgroundColor: lightBlack05 }}
+              headerText={title}
+            />
+          </Box>
           <Box flex="1" justifyContent="flex-end"></Box>
-          <Row p="4" pb="6" bg={lightBlack05}>
+          <Row position="absolute" bottom="0" left="0" right="0" p="4" pb="6" bg={lightBlack05}>
             <Button
               flex="1"
               mr="4"
