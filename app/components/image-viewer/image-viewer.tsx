@@ -32,25 +32,25 @@ const ImageViewer = ({ title, imageUri, onDelete, onUpload, size = 100 }: ImageV
       <FastImage source={{ uri: imageUri }} width={size} height={size} fallback bg="gray" />
       <Modal isOpen={showImageDetail} onClose={setShowImageDetail} size="full">
         <Box position="absolute" top="0" left="0" right="0" bottom="0" bg="white">
-          <FastImage
+          {/* <FastImage
             source={{ uri: imageUri }}
             position="absolute"
             width="full"
             height="full"
             bg="gray"
-          />
-          {/* <ZoomableImage
+          /> */}
+          <ZoomableImage
             uri={{ uri: imageUri }}
             width={width}
-            height={200}
+            height={250}
             cropWidth={width}
             cropHeight={height}
-          /> */}
+          />
           <Box position="absolute" top="0" left="0" right="0">
             <AppHeader
               onLeftPress={() => setShowImageDetail(false)}
               isBlue
-              style={{ backgroundColor: lightBlack05 }}
+              style={{ backgroundColor: lightBlack05, borderBottomWidth: 0 }}
               headerText={title}
             />
           </Box>

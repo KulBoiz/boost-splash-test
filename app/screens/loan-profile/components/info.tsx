@@ -1,6 +1,6 @@
 import { observer } from "mobx-react-lite"
 import React, { useEffect, useRef } from "react"
-import { ScrollView, View } from "react-native"
+import { Platform, ScrollView, View } from "react-native"
 import { ScaledSheet } from "react-native-size-matters"
 import { AppText } from "../../../components/app-text/AppText"
 import { truncateString } from "../../../constants/variable"
@@ -24,8 +24,8 @@ const Info = observer((props: Props) => {
   const [keyboardHeight] = useKeyboard()
 
   useEffect(() => {
-    if (keyboardHeight) {
-      scrollViewRef?.current?.scrollToEnd({})
+    if (keyboardHeight && Platform.OS === "ios") {
+      scrollViewRef?.current?.scrollToEnd({ animated: true })
     }
   }, [keyboardHeight])
 
@@ -56,7 +56,7 @@ const Info = observer((props: Props) => {
   }
 
   return (
-    <Box flex="1" paddingBottom={keyboardHeight}>
+    <Box flex="1" paddingBottom={keyboardHeight ? (Platform.OS === "ios" ? keyboardHeight : 0) : 0}>
       <ScrollView ref={scrollViewRef} contentContainerStyle={styles.container}>
         <View style={styles.content}>
           <AppText style={styles.title} value={"Khách hàng"} />
