@@ -653,12 +653,14 @@ nhau, mỗi Bên giữ 01 (một) bản.
 <p>
 <em>
 <span>(Ký tên, đóng dấu)</span>
+</br>
 </em>
 </p>
 <img
 src="https://storage.googleapis.com/image-fina/upload/fina/sign_ceo.png"
 style="width: 170px" alt=""
 />
+
 <p>
 <strong>
 <span>PHẠM ANH KH&Ocirc;I</span>
@@ -676,6 +678,8 @@ style="width: 170px" alt=""
 <p>
 <em>
 <span>(Ký, ghi rõ họ tên)</span>
+</br>
+
 </em>
 </p>
 </br>
