@@ -10,10 +10,10 @@ import { Text } from "../../components"
 import numeral from "numeral"
 import moment from "moment"
 import { CallSvg, EditSvg, NotificationSvg } from "../../assets/svgs"
-import { Linking } from "react-native"
+import { Linking, View } from "react-native"
 import DocumentView from "./components/document-view"
 import BankerLoanSteps from "./components/banker-loan-steps"
-import { GENDER, LOAN_STATUS_TYPES, LOAN_STEP_INDEX, TRANSACTION_STATUS_TYPES } from "./constants"
+import { GENDER, LOAN_STATUS, LOAN_STATUS_TYPES, LOAN_STEP_INDEX, TRANSACTION_STATUS_TYPES } from "./constants"
 import { flatten, map } from "../../utils/lodash-utils"
 import Note from "../../components/note/note"
 import PopupAlert from "../../components/popup-alert/popup-alert"
@@ -328,7 +328,7 @@ const BankerLoanDetailScreen: FC = observer((props: any) => {
       case LOAN_STATUS_TYPES.LEND_APPROVAL:
         return (
           <Box>
-            <Button
+            {/* <Button
               onPress={onReject}
               bg="white"
               borderWidth="1"
@@ -337,8 +337,8 @@ const BankerLoanDetailScreen: FC = observer((props: any) => {
               _text={{ fontWeight: "600", fontSize: 16, color: "orange" }}
             >
               Từ chối hồ sơ
-            </Button>
-            <HStack mt="4" mb="6">
+            </Button> */}
+            <HStack mt="0" mb="6">
               {buttonConfirm(
                 "Giải ngân",
                 () => {
@@ -418,7 +418,16 @@ const BankerLoanDetailScreen: FC = observer((props: any) => {
         }
         renderRightIcon={<NotificationSvg />}
       />
-      <BankerLoanSteps activeIndex={LOAN_STEP_INDEX[data?.dealDetails?.[0]?.status]} mb="1" />
+      {data?.dealDetails?.[0]?.status !== LOAN_STATUS_TYPES.CANCELLED ?
+        <BankerLoanSteps activeIndex={LOAN_STEP_INDEX[data?.dealDetails?.[0]?.status]} mb="1" /> : 
+        <View style={{ alignItems: 'center', marginTop: s(20) }}>
+          <Text
+          color="lightGray"
+          size="semiBold14"
+          text={data?.status === LOAN_STATUS_TYPES.CANCELLED ? "FINA đã huỷ bỏ hồ sơ" : "Ngân hàng từ chối hồ sơ"}
+        />
+        </View>
+      }
       <ScrollView>
         <Box mb="6" mx="4" mt="5">
           <Box bg="white" borderRadius="8" p="4">
