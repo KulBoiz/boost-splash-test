@@ -11,10 +11,11 @@ import { ScreenNames } from "../../../../navigators/screen-names";
 import { ROW } from "../../../../styles/common-style";
 import { color } from "../../../../theme";
 import FastImage from "react-native-fast-image"
+import { observer } from "mobx-react-lite"
 
 interface Props { }
 
-const HeaderCard = React.memo((props: Props) => {
+const HeaderCard = observer((props: Props) => {
   const { authStoreModel } = useStores()
   const { user } = authStoreModel
   const avatar = authStoreModel?.user?.avatar

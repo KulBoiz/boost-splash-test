@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react"
 import { View, StyleSheet } from 'react-native';
-import { Control, UseFormSetValue, UseFormWatch } from "react-hook-form/dist/types/form"
+import { Control, UseFormClearErrors, UseFormSetValue, UseFormWatch } from "react-hook-form/dist/types/form"
 import { FieldErrors } from "react-hook-form/dist/types/errors"
 import { FieldValues } from "react-hook-form/dist/types/fields"
 import FormInput from "../../../components/form-input/form-input"
@@ -14,11 +14,19 @@ interface Props {
   errors: FieldErrors<any>
   setValue: UseFormSetValue<FieldValues>
   watch: UseFormWatch<FieldValues>
+  clearErrors: UseFormClearErrors<FieldValues>;
+}
+
+const formatData = (array) => {
+  return array?.map((val) => ({
+    value: val?.id ?? '',
+    label: val?.name?.replace(/\t/g, '') ?? ''
+  }))
 }
 
 const AgentForm = observer((props: Props) => {
   const { bankStore, locationStore, authStoreModel, agentStore} = useStores()
-  const { control, errors, setValue, watch } = props
+  const { control, errors, setValue, watch, clearErrors} = props
   const [bankBranch, setBankBranch] = useState([])
   const [stateCountry, setStateCountry] = useState([])
   const [townDistrict, setTownDistrict] = useState([])
@@ -46,13 +54,6 @@ const AgentForm = observer((props: Props) => {
     })
   }, [])
 
-  const formatData = (array : any[] = []) => {
-    return array?.map((val) => ({
-      value: val?.id ?? '',
-      label: val?.name?.replace(/\t/g, '') ?? ''
-    }))
-  }
-
   const listBank = () => {
     const banks = bankStore?.banks ?? []
     return formatData(banks)
@@ -63,15 +64,21 @@ const AgentForm = observer((props: Props) => {
   }
 
   const handleSelectBank = (bank) => {
+    clearErrors('bankName')
     agentStore.bankInfo(bank?.label, bank?.value)
     setValue('bankBranch', '');
-
     bankStore.getBankBranch(bank?.value).then((res) => {
       setBankBranch(formatData(res?.data))
     })
   }
 
+
   const handleSelectState = (state) => {
+    clearErrors('province')
+    setValue('district', '')
+    setValue('commune', '')
+    setTownDistrict([])
+    setSubDistrict([])
     agentStore.province(state?.label, state?.value)
     locationStore.get('town_district', undefined, state?.value).then((res) => {
       setTownDistrict(formatData(res?.data?.data))
@@ -79,6 +86,9 @@ const AgentForm = observer((props: Props) => {
   }
 
   const handleSelectDistrict = (state) => {
+    clearErrors('district')
+    setValue('commune', '')
+    setSubDistrict([])
     agentStore.district(state?.label, state?.value)
     locationStore.get('sub_district', undefined, state?.value).then((res) => {
       setSubDistrict(formatData(res.data?.data))
@@ -86,6 +96,7 @@ const AgentForm = observer((props: Props) => {
   }
 
   const handleSelectCommune = (state) => {
+    clearErrors('commune')
     agentStore.commune(state?.label, state?.value)
   }
 

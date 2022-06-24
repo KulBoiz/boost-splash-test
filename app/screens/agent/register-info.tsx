@@ -38,7 +38,7 @@ const RegisterInfo = React.memo((props: Props) => {
     district: Yup.string().required('Chọn quận / huyện'),
     commune: Yup.string().required('Chọn phường xã'),
   })
-  const {control, handleSubmit, formState: { errors }, setValue, watch} = useForm({
+  const {control, handleSubmit, formState: { errors }, setValue, watch, clearErrors} = useForm({
     mode: "all",
     resolver: yupResolver(validationSchema),
     reValidateMode: "onChange",
@@ -62,6 +62,7 @@ const RegisterInfo = React.memo((props: Props) => {
       setGenderValue("other")
     }
   }
+
   return (
     <View style={styles.container}>
       <AppHeader headerText={'Đăng ký thông tin'} isBlue/>
@@ -73,7 +74,7 @@ const RegisterInfo = React.memo((props: Props) => {
           <CustomCheckbox onPress={()=> selectGender('Nữ')} text={'Nữ'} isChecked={gender === 'Nữ'}/>
           <CustomCheckbox onPress={()=> selectGender('Khác')} text={'Khác'} isChecked={gender === 'Khác'}/>
         </View>
-        <AgentForm {...{control, errors: {...errors}, setValue, watch}} />
+        <AgentForm {...{control, errors: {...errors}, setValue, watch, clearErrors}} />
       </KeyboardAwareScrollView>
       <View style={styles.wrapBtn}>
         <AppButton tx={'common.continue'} onPress={handleSubmit(nextStep)}/>
