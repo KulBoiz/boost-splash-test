@@ -1,24 +1,26 @@
 import React, { useState } from "react"
 import ImagePicker from "./image-picker"
-import { Box, Pressable, Progress, Skeleton, Spinner } from "native-base"
+import { Box, Pressable, Progress, IBoxProps } from "native-base"
 import { observer } from "mobx-react-lite"
 import { useStores } from "../../models"
-import { s, vs } from "react-native-size-matters"
+import { s } from "react-native-size-matters"
 import { Text } from "../text/text"
 import { useInterval } from "../../hooks/useInterval"
+import DocumentItem from "../../screens/loan-profile/components/document-item"
+import { filter, map, unionBy } from "../../utils/lodash-utils"
 
-interface Props {
-  onUploadFile?: (file) => void
+type Props = IBoxProps & {
+  onUploadSuccess?: (file) => void
   documentId?: string
-  size: number
 }
 
-const UploadImage = observer(({ onUploadFile, documentId, size = 100 }: Props) => {
+const UploadDocument = observer(({ onUploadSuccess, documentId, ...rest }: Props) => {
   const { loanStore } = useStores()
 
   const [showUploadPicker, setShowUploadPicker] = useState(false)
   const [isUploading, setIsUploading] = useState(false)
   const [progress, setProgress] = useState(1)
+  const [filesUploadError, setFilesUploadError] = useState<any>([])
 
   useInterval(() => {
     if (isUploading) {
@@ -30,14 +32,16 @@ const UploadImage = observer(({ onUploadFile, documentId, size = 100 }: Props) =
     }
   }, 50)
 
-  const onSelectImage = async (res) => {
-    const image: any = res.assets[0]
+  const onDeleteFile = (file) => {
+    setFilesUploadError(filter(filesUploadError, (f) => f.uri !== file.uri))
+  }
 
-    if (image) {
+  const onUpload = async (fileUpload) => {
+    if (fileUpload) {
       const imgInfo: any = {
-        uri: image?.uri,
-        type: image?.type,
-        name: image?.fileName,
+        uri: fileUpload?.uri,
+        type: fileUpload?.type,
+        name: fileUpload?.fileName,
       }
       setIsUploading(true)
       const objectId = loanStore?.loanDetail?.id
@@ -56,7 +60,22 @@ const UploadImage = observer(({ onUploadFile, documentId, size = 100 }: Props) =
       if (response.kind === "ok") {
         const file = response.data[0]
         await loanStore.updateLoanDetailFile(file.templateDocumentFileId, documentId, objectId)
-        onUploadFile?.(file)
+        onUploadSuccess?.(file)
+      } else {
+        setFilesUploadError(
+          unionBy(
+            filesUploadError,
+            [
+              {
+                ...fileUpload,
+                url: fileUpload.uri,
+                name: fileUpload.fileName,
+                size: fileUpload.fileSize,
+              },
+            ],
+            "uri",
+          ),
+        )
       }
     }
   }
@@ -64,7 +83,7 @@ const UploadImage = observer(({ onUploadFile, documentId, size = 100 }: Props) =
   const renderButtonUpload = () => {
     if (isUploading) {
       return (
-        <Box p="1" borderRadius="4" mx={s(16)} bg="#EBE9FE">
+        <Box p="1" borderRadius="4" mx={s(16)} bg="#EBE9FE" mb={s(8)}>
           <Box
             borderWidth="1"
             height={52}
@@ -128,6 +147,7 @@ const UploadImage = observer(({ onUploadFile, documentId, size = 100 }: Props) =
         p="2"
         flexDirection="row"
         alignItems="center"
+        mb={s(8)}
       >
         <Box
           borderWidth={1}
@@ -158,20 +178,27 @@ const UploadImage = observer(({ onUploadFile, documentId, size = 100 }: Props) =
   }
 
   return (
-    <Box>
+    <Box {...rest}>
       {renderButtonUpload()}
+      {map(filesUploadError, (file, index) => (
+        <DocumentItem
+          key={index}
+          file={file}
+          mx={s(16)}
+          uploadError
+          onReUpload={() => onUpload(file)}
+          onDelete={() => onDeleteFile(file)}
+        />
+      ))}
       <ImagePicker
         visible={showUploadPicker}
         onCancel={() => {
           setShowUploadPicker(false)
         }}
-        onSelectImage={onSelectImage}
-        // onSelectImage={(res: any) =>
-        //   !res.didCancel && setSelectedImages((images) => [...images, { ...res, id: randomId() }])
-        // }
+        onSelectImage={(res: any) => onUpload(res.assets[0])}
       />
     </Box>
   )
 })
 
-export default UploadImage
+export default UploadDocument

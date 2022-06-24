@@ -7,11 +7,10 @@ import { s, ScaledSheet } from "react-native-size-matters"
 import { color } from "../../../theme"
 import { fontFamily } from "../../../constants/font-family"
 import { ALIGN_CENTER, FONT_REGULAR_14, ROW } from "../../../styles/common-style"
-import UploadImage from "../../../components/image-upload/upload-image"
+import UploadDocument from "../../../components/upload-document/upload-document"
 import { truncateString, width } from "../../../constants/variable"
-import ImageViewer from "../../../components/image-viewer/image-viewer"
-import { Box, HStack, Pressable, Row } from "native-base"
-import { ImageDocumentSvg, ImageDocumentBadgeSvg, DeleteDocumentSvg } from "../../../assets/svgs"
+import { Box, Row } from "native-base"
+import { ImageDocumentSvg, ImageDocumentBadgeSvg } from "../../../assets/svgs"
 import { Text } from "../../../components"
 import DocumentItem from "./document-item"
 interface Props {
@@ -73,21 +72,9 @@ const CollapsibleInfoUpload = React.memo(({ data, onUploadFile }: Props) => {
   }
 
   const renderContent = () => {
-    const imageSize = (width - s(80)) / 3
     return (
       <Box>
-        <UploadImage
-          size={imageSize}
-          onUploadFile={_onUploadFile}
-          documentId={data?.document?.id}
-        />
-        {/* <Row flexWrap="wrap" pb={s(16)} ml={s(16)} mt={s(8)}>
-          {files?.length > 0
-            ? files.map((item, index) => (
-                <ImageViewer key={index} title={title} size={imageSize} imageUri={item.url} />
-              ))
-            : null}
-        </Row> */}
+        <UploadDocument onUploadSuccess={_onUploadFile} documentId={data?.document?.id} />
         <Box pb={s(16)} mx={s(16)}>
           {files?.length > 0
             ? files.map((item, index) => {
