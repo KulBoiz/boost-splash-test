@@ -5,7 +5,7 @@ import RenderHtml from 'react-native-render-html';
 import { s, ScaledSheet } from "react-native-size-matters"
 import AppHeader from "../../components/app-header/AppHeader";
 import { fontFamily } from "../../constants/font-family";
-import { isAndroid, width } from "../../constants/variable"
+import { isAndroid, verticalScale, width } from "../../constants/variable"
 import { useStores } from "../../models";
 import { CONTAINER_PADDING, PADDING_VERTICAL } from "../../styles/common-style"
 import { color } from "../../theme";
@@ -60,7 +60,7 @@ export default ViewContract;
 
 const styles = ScaledSheet.create({
   container: {flex:1, backgroundColor: color.palette.lightBlue},
-  signature:{width:'105@s', height: '80@s', top: '0@s', backgroundColor: color.background},
+  signature:{width: 105, height: 100, top: -20, backgroundColor: color.background},
   htmlContainer :{
     backgroundColor: color.background,
     padding: s(16),

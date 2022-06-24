@@ -3,7 +3,7 @@ import { ActivityIndicator, Alert, ScrollView, View } from "react-native"
 import AppHeader from "../../components/app-header/AppHeader"
 import AppButton from "../../components/app-button/AppButton"
 import RenderHtml from 'react-native-render-html';
-import { isAndroid, width } from "../../constants/variable"
+import { isAndroid, verticalScale, width } from "../../constants/variable"
 import { CollaboratorContractInfoDesktop } from "./constants"
 import { s, ScaledSheet } from "react-native-size-matters"
 import SignatureModal from "./components/signature-modal"
@@ -73,7 +73,11 @@ const SignContract = React.memo((props: Props) => {
           })}
         />
         <View style={styles.signatureContainer}>
-          {(!signature || !checkSign) && <AppButton title={'Ký bằng tay'} onPress={() => setSignatureModal(true)} />}
+          {(!signature || !checkSign) &&
+            <View style={styles.btnSign}>
+              <AppButton title={'Ký bằng tay'} onPress={() => setSignatureModal(true)}/>
+            </View>
+          }
           {(signature && checkSign) && <FastImage source={{ uri: `data:image/png;base64,${signature}` }} style={styles.signature} />}
         </View>
         <View style={{ height: 50 }} />
@@ -99,7 +103,11 @@ export default SignContract;
 
 const styles = ScaledSheet.create({
   container: { flex: 1, backgroundColor: color.palette.lightBlue },
-  signature: { width: '105@s', height: '80@s', top: '20@s', backgroundColor: color.background },
+  btnSign: {
+    marginBottom: 10,
+    width: '100%'
+  },
+  signature: { width: 105, height: 100, top: 0, backgroundColor: color.background },
   btnContainer: {
     flexGrow: 1,
     justifyContent: "flex-end",

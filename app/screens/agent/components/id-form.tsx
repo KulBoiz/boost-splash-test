@@ -17,15 +17,16 @@ interface Props{
 
 const IdForm = React.memo((props: Props) => {
   const {authStoreModel} = useStores()
-  const {control, errors ,setValue} = props
+  const {control, errors, setValue} = props
   const fullName = get(authStoreModel?.user,'fullName')
 
   useEffect(() => {
     if (fullName){
       setValue('fullName', fullName)
     }
-
   }, [])
+
+
   return (
     <View style={styles.container}>
       <FormInput

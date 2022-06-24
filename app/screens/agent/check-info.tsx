@@ -1,4 +1,4 @@
-import React, { useState } from "react"
+import React, { useEffect, useState } from "react"
 import { View, Image } from 'react-native';
 import AppHeader from "../../components/app-header/AppHeader"
 import { ScaledSheet } from "react-native-size-matters"
@@ -34,7 +34,7 @@ const CheckInfo = React.memo( (props: Props) => {
     issuedBy: Yup.string().required(i18n.t('errors.requireIssuedBy')),
 
   })
-  const {control, handleSubmit, formState: {errors}, setValue} = useForm({
+  const {control, handleSubmit, formState: {errors}, setValue, clearErrors, watch} = useForm({
     delayError: 0,
     defaultValues: undefined,
     mode: "all",
@@ -45,6 +45,10 @@ const CheckInfo = React.memo( (props: Props) => {
     agentStore.userId(data.fullName, data.citizenIdentification, data.dateRange.toString(), data.issuedBy)
     navigate(ScreenNames.SIGN_CONTRACT)
   }
+
+  useEffect(() => {
+    clearErrors('dateRange')
+  }, [watch('dateRange')])
 
   return (
     <View style={styles.container}>

@@ -1,10 +1,10 @@
-import { flatten } from "lodash"
-import React, { useEffect, useState } from "react"
+import React, { useEffect, useMemo, useState } from "react"
 import { View } from "react-native"
 import { ScaledSheet } from "react-native-size-matters"
 import { AppText } from "../../../components/app-text/AppText"
 import { numberWithCommas, truncateString } from "../../../constants/variable"
 import { color } from "../../../theme"
+import { getDocumentFiles } from "../../../utils/file"
 import ItemView from "../../loan/components/item-view"
 import CollapsibleInfoUpload from "./collapsible-info-upload"
 
@@ -22,18 +22,9 @@ const Document = React.memo((props: Props) => {
     if (templates.length > 4) setViewAllFile(false)
   }, [])
 
-  const renderTemplate = () => {
-    return flatten(templates?.map((el) => el?.documentTemplateDetails)).map((el) => {
-      if (!files) {
-        return el
-      } else {
-        if (files[el.documentId]) {
-          return { ...el, files: files[el.documentId].map((el) => el.file) }
-        }
-        return el
-      }
-    })
-  }
+  const documents = useMemo(() => {
+    return getDocumentFiles(templates, files)
+  }, [files, templates])
 
   return (
     <View style={styles.container}>
@@ -63,10 +54,10 @@ const Document = React.memo((props: Props) => {
         </View>
       </View>
 
-      {renderTemplate()?.length > 0 && (
+      {documents?.length > 0 && (
         <View style={styles.content}>
           <AppText style={styles.title} value={"Giấy tờ của khách"} />
-          {renderTemplate()?.map((el, index) => (
+          {documents?.map((el, index) => (
             <CollapsibleInfoUpload data={el} key={index} />
           ))}
           <View style={styles.contentItem}>
