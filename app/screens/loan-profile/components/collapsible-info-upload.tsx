@@ -18,10 +18,9 @@ import { useStores } from "../../../models"
 import { filter } from "../../../utils/lodash-utils"
 interface Props {
   data: any
-  onUploadFile?: (fileId, documentId) => void
 }
 
-const CollapsibleInfoUpload = observer(({ data, onUploadFile }: Props) => {
+const CollapsibleInfoUpload = observer(({ data }: Props) => {
   const { loanStore } = useStores()
 
   const [activeSections, setActiveSections] = useState<number[]>([])
@@ -30,17 +29,17 @@ const CollapsibleInfoUpload = observer(({ data, onUploadFile }: Props) => {
   const title = useMemo(() => truncateString(data?.document?.name, 20), [data?.document?.name])
 
   useEffect(() => {
-    setFiles(data.files)
+    setFiles(data?.files || [])
   }, [data.files])
 
   const _onUploadFile = (file: any) => {
-    setFiles([file, ...files])
+    setFiles([file, ...(files || [])])
   }
 
   const onDeleteDocument = async (file) => {
     setFiles(filter(files, (f) => f.id !== file.id))
     await loanStore.updateLoanDocument(
-      file.templateDocumentFileId,
+      file.templateDocumentFileId || data.documentId,
       "unSelected",
       loanStore?.loanDetail?.id,
     )

@@ -1,6 +1,6 @@
 import React, { useState } from "react"
 import ImagePicker from "./image-picker"
-import { Box, Pressable, Progress, IBoxProps } from "native-base"
+import { Box, Pressable, Progress, IBoxProps, Row } from "native-base"
 import { observer } from "mobx-react-lite"
 import { useStores } from "../../models"
 import { s } from "react-native-size-matters"
@@ -149,12 +149,11 @@ const UploadDocument = observer(({ onUploadSuccess, documentId, ...rest }: Props
         alignItems="center"
         mb={s(8)}
       >
-        <Box
+        <Row
           borderWidth={1}
           borderColor="#D0D5DD"
           shadow={1}
           h="36px"
-          flexDirection="row"
           alignItems="center"
           borderRadius={4}
           px="4"
@@ -162,14 +161,22 @@ const UploadDocument = observer(({ onUploadSuccess, documentId, ...rest }: Props
           w={135}
         >
           <Box width="15px" height="15px" bg="#667085" borderRadius="3" opacity={0.2} />
-          <Text ml="3" color="#667085" fontSize={12} fontWeight="500" text="Cập nhật ảnh" />
-        </Box>
+          <Text
+            ml="3"
+            color="#667085"
+            fontSize={12}
+            lineHeight="17"
+            fontWeight="500"
+            text="Cập nhật ảnh"
+          />
+        </Row>
 
         <Text
           ml="3"
           flex="1"
           color="#667085"
           fontSize={12}
+          lineHeight="17"
           fontWeight="400"
           text="Giúp duyệt nhanh hơn"
         />
