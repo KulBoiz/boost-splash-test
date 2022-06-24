@@ -149,7 +149,7 @@ export const LoanStoreModel = types
         }
       }
     }),
-    updateLoanDetailFile: flow(function* updateLoanDetailFile(
+    updateLoanDocument: flow(function* updateLoanDocument(
       fileId: string,
       documentId: string,
       dealId: string,

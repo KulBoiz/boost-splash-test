@@ -14,11 +14,12 @@ import { Linking } from "react-native"
 import DocumentView from "./components/document-view"
 import BankerLoanSteps from "./components/banker-loan-steps"
 import { GENDER, LOAN_STATUS_TYPES, LOAN_STEP_INDEX, TRANSACTION_STATUS_TYPES } from "./constants"
-import { flatten, map } from "../../utils/lodash-utils"
+import { map } from "../../utils/lodash-utils"
 import Note from "../../components/note/note"
 import PopupAlert from "../../components/popup-alert/popup-alert"
 import PopupEditLoanDocument from "./components/popup-edit-loan-document"
 import PopupEditLoanResult from "./components/popup-edit-loan-result"
+import { getDocumentFiles } from "../../utils/file"
 
 const BankerLoanDetailScreen: FC = observer((props: any) => {
   // const data = props?.route?.params?.data
@@ -49,7 +50,7 @@ const BankerLoanDetailScreen: FC = observer((props: any) => {
   const dealDetailId = dealDetail?.id
 
   const renderGender = () => {
-    return GENDER[data?.user?.gender] || 'Khác'
+    return GENDER[data?.user?.gender] || "Khác"
   }
 
   const getNotes = useCallback(async () => {
@@ -82,17 +83,7 @@ const BankerLoanDetailScreen: FC = observer((props: any) => {
   const documents = useMemo(() => {
     const templates = bankerStore.documentTemplates
     const files = bankerStore.documentTemplateFiles
-    return flatten(templates?.map((el) => el?.documentTemplateDetails)).map((el) => {
-      if (!files) {
-        return el
-      } else {
-        if (files[el.documentId]) {
-          const images = files[el?.documentId].map((el) => el?.file?.url)
-          return { ...el, images: images }
-        }
-        return el
-      }
-    })
+    return getDocumentFiles(templates, files)
   }, [bankerStore.documentTemplates, bankerStore.documentTemplateFiles])
 
   const onReject = useCallback(() => {
@@ -429,7 +420,7 @@ const BankerLoanDetailScreen: FC = observer((props: any) => {
               index: 0,
               rightComponent: renderCall(name, data.user?.tels?.[0]?.tel),
             })}
-            {renderItem({ item: { label: "Giới tính", value: renderGender()}, index: 1 })}
+            {renderItem({ item: { label: "Giới tính", value: renderGender() }, index: 1 })}
             {/* {renderItem({ item: { label: "Phương án", value: "-" }, index: 2 })} */}
             {renderItem({ item: { label: "Yêu cầu", value: "-" }, index: 3 })}
             {renderItem({ item: { label: "Thông tin bổ sung", value: "-" }, index: 4 })}
@@ -443,12 +434,18 @@ const BankerLoanDetailScreen: FC = observer((props: any) => {
             </HStack>
             <Box height="1.0" my="3" bg="iron" opacity={0.5} />
             {renderItem({ item: { label: "Sản phẩm", value: data?.product?.name }, index: 0 })}
-            {renderItem({ item: { label: "Mã SP CĐT", value: data?.apartmentCodeInvestor || "-" }, index: 1 })}
+            {renderItem({
+              item: { label: "Mã SP CĐT", value: data?.apartmentCodeInvestor || "-" },
+              index: 1,
+            })}
             {renderItem({
               item: { label: "Mã căn hộ", value: data?.realEstateInfo?.apartmentCode || "-" },
               index: 2,
             })}
-            {renderItem({ item: { label: "Địa chỉ", value: data?.realEstateInfo?.address || "_"}, index: 3 })}
+            {renderItem({
+              item: { label: "Địa chỉ", value: data?.realEstateInfo?.address || "_" },
+              index: 3,
+            })}
             {renderItem({
               item: {
                 label: "Số tiền khách yêu cầu vay",
@@ -487,7 +484,9 @@ const BankerLoanDetailScreen: FC = observer((props: any) => {
             {renderItem({
               item: {
                 label: "Số tiền phê duyệt",
-                value: dealDetail?.info?.approvalAmount ? `${numeral(dealDetail?.info?.approvalAmount).format("0,0")} VNĐ`: "-",
+                value: dealDetail?.info?.approvalAmount
+                  ? `${numeral(dealDetail?.info?.approvalAmount).format("0,0")} VNĐ`
+                  : "-",
               },
               index: 0,
               required: true,
@@ -495,7 +494,7 @@ const BankerLoanDetailScreen: FC = observer((props: any) => {
             {renderItem({
               item: {
                 label: "Thời gian vay",
-                value: dealDetail?.info?.borrowTime ? `${dealDetail?.info?.borrowTime} Năm` : '_',
+                value: dealDetail?.info?.borrowTime ? `${dealDetail?.info?.borrowTime} Năm` : "_",
               },
               index: 1,
             })}
@@ -555,15 +554,17 @@ const BankerLoanDetailScreen: FC = observer((props: any) => {
         onClose={() => setEditLoanResultVisible(false)}
         data={dealDetail?.info}
         onConfirm={(value) => {
-          bankerStore.updateInfoOfDealDetail(dealDetailId, {
-            info: value,
-            dealId: data?.id,
-            partnerStaffId: dealDetail?.partnerStaffId,
-            partnerCodeName: dealDetail?.partnerCodeName,
-            executePartnerId: dealDetail.executePartnerId,
-          }).then(() => {
-            setEditLoanResultVisible(false)
-          })
+          bankerStore
+            .updateInfoOfDealDetail(dealDetailId, {
+              info: value,
+              dealId: data?.id,
+              partnerStaffId: dealDetail?.partnerStaffId,
+              partnerCodeName: dealDetail?.partnerCodeName,
+              executePartnerId: dealDetail.executePartnerId,
+            })
+            .then(() => {
+              setEditLoanResultVisible(false)
+            })
         }}
       />
     </Box>

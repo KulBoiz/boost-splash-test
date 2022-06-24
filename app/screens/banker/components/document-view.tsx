@@ -1,13 +1,19 @@
 import { get } from "lodash"
-import { Box, Pressable, IBoxProps, HStack } from "native-base"
+import { Box, Pressable, IBoxProps, HStack, Row } from "native-base"
 import React, { useState } from "react"
 import { useWindowDimensions } from "react-native"
 import Collapsible from "react-native-collapsible"
 import { s, vs } from "react-native-size-matters"
-import { ChevronDownPrimarySvg, ChevronDownSvg, PictureSvg } from "../../../assets/svgs"
+import {
+  ChevronDownPrimarySvg,
+  ChevronDownSvg,
+  ImageDocumentSvg,
+  PictureSvg,
+} from "../../../assets/svgs"
 import { Text } from "../../../components"
 import { FastImage } from "../../../components/fast-image/fast-image"
 import { map } from "../../../utils/lodash-utils"
+import DocumentItem from "../../loan-profile/components/document-item"
 
 type Props = IBoxProps & {
   data: any
@@ -15,24 +21,9 @@ type Props = IBoxProps & {
 
 const DocumentView = React.memo(({ data, ...props }: Props) => {
   const [collapsed, setCollapsed] = useState(true)
-  const imageUrls: string[] = get(data, "images")
-  const notUpdate = imageUrls?.length === 0 || !imageUrls
+  const files = data?.files || []
+  const notUpdate = files?.length === 0 || !files
   const { width } = useWindowDimensions()
-  const imageWidth = (width - s(64)) / 2
-
-  const noPhoto = () => (
-    <Box
-      height={152}
-      width={imageWidth}
-      ml={s(12)}
-      alignItems="center"
-      justifyContent="center"
-      bg="#C4C4C4"
-      mb={s(12)}
-    >
-      <PictureSvg />
-    </Box>
-  )
 
   return (
     <Box bg="white" borderRadius="8" {...props}>
@@ -42,6 +33,7 @@ const DocumentView = React.memo(({ data, ...props }: Props) => {
         px={s(12)}
         alignItems="center"
         onPress={() => setCollapsed(!collapsed)}
+        disabled={notUpdate}
       >
         <Text
           fontWeight="400"
@@ -53,41 +45,32 @@ const DocumentView = React.memo(({ data, ...props }: Props) => {
           mr="3"
           numberOfLines={1}
         />
-        {!!collapsed && (
+        {!notUpdate ? (
+          <Row alignItems="center" mr="1">
+            <Text size="regular14" fontWeight="500" color="lightGray" mr="1" text={files?.length} />
+            <ImageDocumentSvg width={18} height={18} />
+          </Row>
+        ) : (
           <Text
             fontWeight="400"
-            color={!notUpdate ? "lightGray" : "orange"}
+            color={"orange"}
             fontSize="12"
             lineHeight="17"
             mr={s(8)}
-            text={!notUpdate ? "đã cập nhật" : "chưa cập nhật"}
+            text={"chưa cập nhật"}
           />
         )}
-        <Box style={!collapsed && { transform: [{ rotate: "180deg" }] }}>
-          {collapsed ? <ChevronDownSvg /> : <ChevronDownPrimarySvg />}
-        </Box>
+        {notUpdate ? null : (
+          <Box style={!collapsed && { transform: [{ rotate: "180deg" }] }}>
+            {collapsed ? <ChevronDownSvg /> : <ChevronDownPrimarySvg />}
+          </Box>
+        )}
       </Pressable>
       <Collapsible collapsed={collapsed}>
-        <Box pt={s(12)}>
-          {notUpdate ? (
-            <HStack flexWrap="wrap">
-              {noPhoto()}
-              {noPhoto()}
-            </HStack>
-          ) : (
-            <HStack flexWrap="wrap">
-              {map(imageUrls, (el, index) => (
-                <FastImage
-                  key={index.toString()}
-                  source={{ uri: el }}
-                  height={152}
-                  width={imageWidth}
-                  ml={s(12)}
-                  mb={s(12)}
-                />
-              ))}
-            </HStack>
-          )}
+        <Box mx={s(16)} mb={s(16)}>
+          {map(files, (file, index) => (
+            <DocumentItem key={index} file={file} viewOnly />
+          ))}
         </Box>
       </Collapsible>
     </Box>

@@ -13,12 +13,17 @@ import { Box, Row } from "native-base"
 import { ImageDocumentSvg, ImageDocumentBadgeSvg } from "../../../assets/svgs"
 import { Text } from "../../../components"
 import DocumentItem from "./document-item"
+import { observer } from "mobx-react-lite"
+import { useStores } from "../../../models"
+import { filter } from "../../../utils/lodash-utils"
 interface Props {
   data: any
   onUploadFile?: (fileId, documentId) => void
 }
 
-const CollapsibleInfoUpload = React.memo(({ data, onUploadFile }: Props) => {
+const CollapsibleInfoUpload = observer(({ data, onUploadFile }: Props) => {
+  const { loanStore } = useStores()
+
   const [activeSections, setActiveSections] = useState<number[]>([])
   const [files, setFiles] = useState<any>([])
 
@@ -29,7 +34,16 @@ const CollapsibleInfoUpload = React.memo(({ data, onUploadFile }: Props) => {
   }, [data.files])
 
   const _onUploadFile = (file: any) => {
-    setFiles([file.url, ...files])
+    setFiles([file, ...files])
+  }
+
+  const onDeleteDocument = async (file) => {
+    setFiles(filter(files, (f) => f.id !== file.id))
+    await loanStore.updateLoanDocument(
+      file.templateDocumentFileId,
+      "unSelected",
+      loanStore?.loanDetail?.id,
+    )
   }
 
   const _handleSections = (index: number[]) => {
@@ -78,7 +92,7 @@ const CollapsibleInfoUpload = React.memo(({ data, onUploadFile }: Props) => {
         <Box pb={s(16)} mx={s(16)}>
           {files?.length > 0
             ? files.map((item, index) => {
-                return <DocumentItem key={index} file={item} />
+                return <DocumentItem key={index} file={item} onDelete={onDeleteDocument} />
               })
             : null}
         </Box>

@@ -59,7 +59,7 @@ const UploadDocument = observer(({ onUploadSuccess, documentId, ...rest }: Props
       __DEV__ && console.log(response)
       if (response.kind === "ok") {
         const file = response.data[0]
-        await loanStore.updateLoanDetailFile(file.templateDocumentFileId, documentId, objectId)
+        await loanStore.updateLoanDocument(file.templateDocumentFileId, documentId, objectId)
         onUploadSuccess?.(file)
       } else {
         setFilesUploadError(

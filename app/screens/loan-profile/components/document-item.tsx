@@ -3,7 +3,7 @@ import { s } from "react-native-size-matters"
 import { Box, Pressable, Row, IPressableProps, Modal, Button } from "native-base"
 import { DeleteDocumentSvg, DocumentReloadSvg } from "../../../assets/svgs"
 import { Text } from "../../../components"
-import { formatSize, openFile } from "../../../utils/file"
+import { formatSize, openFile, replaceAll } from "../../../utils/file"
 import { observer } from "mobx-react-lite"
 import { useStores } from "../../../models"
 import * as FileSystem from "expo-file-system"
@@ -11,23 +11,25 @@ import { Platform } from "react-native"
 import { find } from "../../../utils/lodash-utils"
 import { animations } from "../../../assets/animations"
 import AnimatedLottieView from "lottie-react-native"
+import { isEmpty } from "validate.js"
 
 type Props = IPressableProps & {
   file: any
-  onDelete?: () => void
+  onDelete?: (file) => void
   onReUpload?: () => void
   uploadError?: boolean
+  viewOnly?: boolean
 }
 
 const DocumentItem = observer(
-  ({ file = {}, onDelete, onReUpload, uploadError, ...rest }: Props) => {
+  ({ file = {}, onDelete, onReUpload, uploadError, viewOnly, ...rest }: Props) => {
     const { appStore } = useStores()
 
     const [downloading, setDownloading] = React.useState<boolean>(false)
     const [showConfirmDelete, setShowConfirmDelete] = useState(false)
     const deleteImage = () => {
       setShowConfirmDelete(false)
-      onDelete?.()
+      onDelete?.(file)
     }
 
     const viewFile = async () => {
@@ -38,7 +40,7 @@ const DocumentItem = observer(
         }
         openFile(uri)
       } else {
-        const localPath = FileSystem.cacheDirectory + "/" + file.name
+        const localPath = FileSystem.cacheDirectory + "/" + replaceAll(file.name, "/", "")
         const fileExists = find(appStore.filesDownloaded, (f) => f === localPath)
         if (fileExists) {
           openFile(fileExists)
@@ -50,11 +52,16 @@ const DocumentItem = observer(
               setDownloading(false)
               openFile(uri)
             })
-            .catch(() => {
+            .catch((error) => {
+              __DEV__ && console.log(error)
               setDownloading(false)
             })
         }
       }
+    }
+
+    if (isEmpty(file)) {
+      return null
     }
 
     return (
@@ -96,7 +103,7 @@ const DocumentItem = observer(
               loop
             />
           </Box>
-        ) : (
+        ) : viewOnly ? null : (
           <Row>
             {onReUpload ? (
               <Pressable onPress={onReUpload} mr="2">
