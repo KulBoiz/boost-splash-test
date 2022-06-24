@@ -2,7 +2,6 @@ import { flatten } from "lodash"
 import React, { useEffect, useState } from "react"
 import { View } from "react-native"
 import { ScaledSheet } from "react-native-size-matters"
-import { CheckedSvg } from "../../../assets/svgs"
 import { AppText } from "../../../components/app-text/AppText"
 import { numberWithCommas, truncateString } from "../../../constants/variable"
 import { color } from "../../../theme"
@@ -29,8 +28,7 @@ const Document = React.memo((props: Props) => {
         return el
       } else {
         if (files[el.documentId]) {
-          const images = files[el.documentId].map((el) => el.file.url)
-          return { ...el, images: images }
+          return { ...el, files: files[el.documentId].map((el) => el.file) }
         }
         return el
       }

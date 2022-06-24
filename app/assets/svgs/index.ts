@@ -90,6 +90,8 @@ export { default as BenefitInsuranceSvg } from "./benefit-insurance.svg"
 export { default as CloseSvg } from "./close.svg"
 export { default as ImageDocumentSvg } from "./image-document.svg"
 export { default as ImageDocumentBadgeSvg } from "./image-document-badge.svg"
+export { default as DeleteDocumentSvg } from "./delete-document.svg"
+export { default as DocumentReloadSvg } from "./document-reload.svg"
 
 // home
 export { default as AccountHomeActiveSvg } from "./account-home-active.svg"

@@ -1,10 +1,11 @@
 import React, { useState } from "react"
-import { images } from "../../assets/images"
 import ImagePicker from "./image-picker"
-import { Box, Pressable, Spinner } from "native-base"
-import { FastImage } from "../fast-image/fast-image"
+import { Box, Pressable, Progress, Skeleton, Spinner } from "native-base"
 import { observer } from "mobx-react-lite"
 import { useStores } from "../../models"
+import { s, vs } from "react-native-size-matters"
+import { Text } from "../text/text"
+import { useInterval } from "../../hooks/useInterval"
 
 interface Props {
   onUploadFile?: (file) => void
@@ -17,8 +18,17 @@ const UploadImage = observer(({ onUploadFile, documentId, size = 100 }: Props) =
 
   const [showUploadPicker, setShowUploadPicker] = useState(false)
   const [isUploading, setIsUploading] = useState(false)
+  const [progress, setProgress] = useState(1)
 
-  const _handleDelete = (id: string) => {}
+  useInterval(() => {
+    if (isUploading) {
+      if (progress >= 100) {
+        setProgress(2)
+      } else {
+        setProgress(progress + 2)
+      }
+    }
+  }, 50)
 
   const onSelectImage = async (res) => {
     const image: any = res.assets[0]
@@ -51,22 +61,105 @@ const UploadImage = observer(({ onUploadFile, documentId, size = 100 }: Props) =
     }
   }
 
-  return (
-    <Box width={size} h={size}>
-      <Pressable disabled={isUploading} onPress={() => setShowUploadPicker(true)}>
-        <FastImage source={images.defaultUpload} width="full" height="full" />
-        {!!isUploading && (
+  const renderButtonUpload = () => {
+    if (isUploading) {
+      return (
+        <Box p="1" borderRadius="4" mx={s(16)} bg="#EBE9FE">
           <Box
-            position="absolute"
-            width="full"
-            height="full"
+            borderWidth="1"
+            height={52}
+            borderColor="#7A5AF8"
+            borderRadius="4"
+            borderStyle="dotted"
+            p="2"
+            flexDirection="row"
             alignItems="center"
-            justifyContent="center"
+            bg="white"
           >
-            <Spinner color="white" />
+            <Box
+              borderWidth={1}
+              borderColor="primary"
+              h="36px"
+              flexDirection="row"
+              alignItems="center"
+              borderRadius={4}
+              px="4"
+              bg="primary"
+              w={135}
+            >
+              <Box w={135} h="36px" ml="-1px" position="absolute">
+                <Progress
+                  _filledTrack={{
+                    bg: "primary",
+                    borderRadius: 4,
+                  }}
+                  bg="#EBE9FE"
+                  height="36px"
+                  borderRadius="4"
+                  value={progress}
+                />
+              </Box>
+              <Box width="15px" height="15px" bg="white" borderRadius="3" opacity={0.2} />
+              <Text ml="3" color="white" fontSize={12} fontWeight="500" text="Đang tải ảnh" />
+            </Box>
+
+            <Text
+              ml="3"
+              flex="1"
+              color="#667085"
+              fontSize={12}
+              fontWeight="400"
+              text="Vui lòng chờ..."
+            />
           </Box>
-        )}
+        </Box>
+      )
+    }
+    return (
+      <Pressable
+        disabled={isUploading}
+        onPress={() => setShowUploadPicker(true)}
+        borderWidth="1"
+        height={52}
+        mx={s(16)}
+        borderColor="#D0D5DD"
+        borderRadius="4"
+        borderStyle="dotted"
+        p="2"
+        flexDirection="row"
+        alignItems="center"
+      >
+        <Box
+          borderWidth={1}
+          borderColor="#D0D5DD"
+          shadow={1}
+          h="36px"
+          flexDirection="row"
+          alignItems="center"
+          borderRadius={4}
+          px="4"
+          bg="white"
+          w={135}
+        >
+          <Box width="15px" height="15px" bg="#667085" borderRadius="3" opacity={0.2} />
+          <Text ml="3" color="#667085" fontSize={12} fontWeight="500" text="Cập nhật ảnh" />
+        </Box>
+
+        <Text
+          ml="3"
+          flex="1"
+          color="#667085"
+          fontSize={12}
+          fontWeight="400"
+          text="Giúp duyệt nhanh hơn"
+        />
       </Pressable>
+    )
+  }
+
+  return (
+    <Box>
+      {renderButtonUpload()}
       <ImagePicker
         visible={showUploadPicker}
         onCancel={() => {

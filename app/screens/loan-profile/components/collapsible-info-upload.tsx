@@ -4,16 +4,16 @@ import Accordion from "react-native-collapsible/Accordion"
 import FastImage from "react-native-fast-image"
 import { images } from "../../../assets/images"
 import { s, ScaledSheet } from "react-native-size-matters"
-import { AppText } from "../../../components/app-text/AppText"
 import { color } from "../../../theme"
 import { fontFamily } from "../../../constants/font-family"
 import { ALIGN_CENTER, FONT_REGULAR_14, ROW } from "../../../styles/common-style"
 import UploadImage from "../../../components/image-upload/upload-image"
 import { truncateString, width } from "../../../constants/variable"
 import ImageViewer from "../../../components/image-viewer/image-viewer"
-import { Box, Row } from "native-base"
-import { ImageDocumentSvg, ImageDocumentBadgeSvg } from "../../../assets/svgs"
+import { Box, HStack, Pressable, Row } from "native-base"
+import { ImageDocumentSvg, ImageDocumentBadgeSvg, DeleteDocumentSvg } from "../../../assets/svgs"
 import { Text } from "../../../components"
+import DocumentItem from "./document-item"
 interface Props {
   data: any
   onUploadFile?: (fileId, documentId) => void
@@ -21,16 +21,16 @@ interface Props {
 
 const CollapsibleInfoUpload = React.memo(({ data, onUploadFile }: Props) => {
   const [activeSections, setActiveSections] = useState<number[]>([])
-  const [imageUrls, setImageUrls] = useState<any>([])
+  const [files, setFiles] = useState<any>([])
 
   const title = useMemo(() => truncateString(data?.document?.name, 20), [data?.document?.name])
 
   useEffect(() => {
-    setImageUrls(data.images)
-  }, [data.images])
+    setFiles(data.files)
+  }, [data.files])
 
   const _onUploadFile = (file: any) => {
-    setImageUrls([file.url, ...imageUrls])
+    setFiles([file.url, ...files])
   }
 
   const _handleSections = (index: number[]) => {
@@ -40,16 +40,16 @@ const CollapsibleInfoUpload = React.memo(({ data, onUploadFile }: Props) => {
     const isOpen = activeSections?.includes(index)
     return (
       <Box style={styles.headerBody}>
-        <AppText value={title} style={styles.headerText} />
+        <Text text={title} color={isOpen ? "primary" : "grayChateau"} size="regular12" />
         <View style={[ROW, ALIGN_CENTER]}>
-          {imageUrls?.length ? (
+          {files?.length ? (
             <Row alignItems="center">
               <Text
                 size="regular14"
                 fontWeight="500"
                 color="lightGray"
                 mr="1"
-                text={imageUrls?.length}
+                text={files?.length}
               />
               {isOpen ? (
                 <ImageDocumentSvg width={18} height={18} />
@@ -58,7 +58,8 @@ const CollapsibleInfoUpload = React.memo(({ data, onUploadFile }: Props) => {
               )}
             </Row>
           ) : (
-            <AppText value={"Chưa cập nhật"} style={FONT_REGULAR_14} />
+            // <Text text="đã cập nhật" color="grayChateau" size="regular12" />
+            <Text text="chưa cập nhật" color="orange" size="regular12" />
           )}
 
           <FastImage
@@ -74,18 +75,27 @@ const CollapsibleInfoUpload = React.memo(({ data, onUploadFile }: Props) => {
   const renderContent = () => {
     const imageSize = (width - s(80)) / 3
     return (
-      <Row flexWrap="wrap" pb={s(16)} ml={s(16)}>
-        {imageUrls?.length > 0
-          ? imageUrls.map((item, index) => (
-              <ImageViewer key={index} title={title} size={imageSize} imageUri={item as any} />
-            ))
-          : null}
+      <Box>
         <UploadImage
           size={imageSize}
           onUploadFile={_onUploadFile}
           documentId={data?.document?.id}
         />
-      </Row>
+        {/* <Row flexWrap="wrap" pb={s(16)} ml={s(16)} mt={s(8)}>
+          {files?.length > 0
+            ? files.map((item, index) => (
+                <ImageViewer key={index} title={title} size={imageSize} imageUri={item.url} />
+              ))
+            : null}
+        </Row> */}
+        <Box pb={s(16)} mx={s(16)}>
+          {files?.length > 0
+            ? files.map((item, index) => {
+                return <DocumentItem key={index} file={item} />
+              })
+            : null}
+        </Box>
+      </Box>
     )
   }
   return (
