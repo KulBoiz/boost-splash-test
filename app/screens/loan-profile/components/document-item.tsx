@@ -3,7 +3,14 @@ import { s } from "react-native-size-matters"
 import { Box, Pressable, Row, IPressableProps, Modal, Button } from "native-base"
 import { DeleteDocumentSvg, DocumentReloadSvg } from "../../../assets/svgs"
 import { Text } from "../../../components"
-import { formatSize } from "../../../utils/file"
+import { formatSize, openFile } from "../../../utils/file"
+import { observer } from "mobx-react-lite"
+import { useStores } from "../../../models"
+import * as FileSystem from "expo-file-system"
+import { Platform } from "react-native"
+import { find } from "../../../utils/lodash-utils"
+import { animations } from "../../../assets/animations"
+import AnimatedLottieView from "lottie-react-native"
 
 type Props = IPressableProps & {
   file: any
@@ -12,15 +19,46 @@ type Props = IPressableProps & {
   uploadError?: boolean
 }
 
-const DocumentItem = React.memo(
+const DocumentItem = observer(
   ({ file = {}, onDelete, onReUpload, uploadError, ...rest }: Props) => {
+    const { appStore } = useStores()
+
+    const [downloading, setDownloading] = React.useState<boolean>(false)
     const [showConfirmDelete, setShowConfirmDelete] = useState(false)
     const deleteImage = () => {
       setShowConfirmDelete(false)
       onDelete?.()
     }
+
+    const viewFile = async () => {
+      if (file.uri) {
+        let uri = file.uri
+        if (Platform.OS === "android") {
+          uri = uri.replace("file://", "")
+        }
+        openFile(uri)
+      } else {
+        const localPath = FileSystem.cacheDirectory + "/" + file.name
+        const fileExists = find(appStore.filesDownloaded, (f) => f === localPath)
+        if (fileExists) {
+          openFile(fileExists)
+        } else {
+          setDownloading(true)
+          FileSystem.downloadAsync(file.url, localPath)
+            .then(({ uri }) => {
+              appStore.addFileDownloaded(localPath)
+              setDownloading(false)
+              openFile(uri)
+            })
+            .catch(() => {
+              setDownloading(false)
+            })
+        }
+      }
+    }
+
     return (
-      <Pressable flexDirection="row" mt={s(8)} {...rest}>
+      <Pressable disabled={downloading} flexDirection="row" mt={s(8)} {...rest} onPress={viewFile}>
         <Box flex={1} mr="3">
           <Text
             fontSize={14}
@@ -49,16 +87,28 @@ const DocumentItem = React.memo(
             />
           )}
         </Box>
-        <Row>
-          {onReUpload ? (
-            <Pressable onPress={onReUpload} mr="2">
-              <DocumentReloadSvg />
+        {downloading ? (
+          <Box size={25}>
+            <AnimatedLottieView
+              source={animations.downloading}
+              style={{ width: 25, height: 25 }}
+              autoPlay
+              loop
+            />
+          </Box>
+        ) : (
+          <Row>
+            {onReUpload ? (
+              <Pressable onPress={onReUpload} mr="2">
+                <DocumentReloadSvg />
+              </Pressable>
+            ) : null}
+            <Pressable onPress={() => setShowConfirmDelete(true)} pt="1px">
+              <DeleteDocumentSvg />
             </Pressable>
-          ) : null}
-          <Pressable onPress={() => setShowConfirmDelete(true)} pt="1px">
-            <DeleteDocumentSvg />
-          </Pressable>
-        </Row>
+          </Row>
+        )}
+
         <Modal isOpen={showConfirmDelete} onClose={setShowConfirmDelete}>
           <Modal.Content>
             <Modal.Body>

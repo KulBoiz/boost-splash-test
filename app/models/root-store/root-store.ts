@@ -1,5 +1,6 @@
 import { Instance, SnapshotOut, types } from "mobx-state-tree"
 import { CharacterStoreModel } from "../character-store/character-store"
+import { AppStoreModel } from "../app-store"
 import { AuthStoreModel } from "../auth-store"
 import { NotificationStoreModel } from "../notification-store/notification-store"
 import { LoanStoreModel } from "../loan-store/loan-store"
@@ -23,6 +24,7 @@ import { NoteStoreModel } from "../note-store/note-store"
 // prettier-ignore
 export const RootStoreModel = types.model("RootStore").props({
   characterStore: types.optional(CharacterStoreModel, {} as any),
+  appStore: types.optional(AppStoreModel, {} as any),
   authStoreModel: types.optional(AuthStoreModel, {} as any),
   notificationModel: types.optional(NotificationStoreModel, {} as any),
   loanStore: types.optional(LoanStoreModel, {} as any),
@@ -38,7 +40,7 @@ export const RootStoreModel = types.model("RootStore").props({
   agentStore: types.optional(AgentStoreModel, {} as any),
   bankerStore: types.optional(BankerStoreModel, {} as any),
   commentStore: types.optional(CommentStoreModel, {} as any),
-  noteStore: types.optional(NoteStoreModel, {} as any)
+  noteStore: types.optional(NoteStoreModel, {} as any),
 })
 
 /**
@@ -47,6 +49,7 @@ export const RootStoreModel = types.model("RootStore").props({
 // @ts-ignore
 export interface RootStore extends Instance<typeof RootStoreModel> {
   characterStore: any
+  appStore: any
   authStoreModel: any
   notificationModel: any
   loanStore: any
