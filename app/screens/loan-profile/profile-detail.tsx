@@ -36,9 +36,9 @@ const ProfileDetail = observer((props: Props) => {
   }, [task])
 
   const renderScene = SceneMap({
-    first: index === 0 ? Info : () => <></>,
+    first: Info,
     second: History,
-    third: isTaskCreateProfile(task) && index === 2 ? Result : FeedBack,
+    third: isTaskCreateProfile(task) ? Result : FeedBack,
   })
 
   const renderTabBar = (props) => (

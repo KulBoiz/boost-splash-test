@@ -11,6 +11,7 @@ import { Button } from "../button/button"
 import FormInput from "../form-input/form-input"
 import RenderHtml from "react-native-render-html"
 import { Box } from "native-base"
+import { width } from "../../constants/variable"
 
 interface Props {
   id?: any
@@ -96,7 +97,7 @@ const Note = observer((props: Props) => {
             {/* <AppText style={styles.valueNote} value={comment?.content?.toString()} /> */}
             <Box my="1">
               <RenderHtml
-                // contentWidth={200}
+                contentWidth={width}
                 source={{
                   html: `<div style="color: #151940; font-size: 12px;">${comment?.content}</div>`,
                 }}
