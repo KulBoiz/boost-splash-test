@@ -2,7 +2,7 @@ import React from "react"
 import { Linking, Platform, Pressable, View } from "react-native"
 import { AppText } from "../../../components/app-text/AppText"
 import { s, ScaledSheet } from "react-native-size-matters"
-import { ClockSvg, PhoneSvg, RightArrowSvg } from "../../../assets/svgs"
+import { ClockSvg, PhoneSvg } from "../../../assets/svgs"
 import { color } from "../../../theme"
 import moment from "moment"
 import { hidePhoneNumber } from "../../../constants/variable"
@@ -13,10 +13,10 @@ import { useStores } from "../../../models"
 import { observer } from "mobx-react-lite"
 
 const fullName = (user) => {
-  if (!user) return ''
+  if (!user) return ""
   if (user?.fullName) return user.fullName
   if (user?.firstName || user?.lastName) return user?.firstName + " " + user?.lastName
-  return '***'
+  return "***"
 }
 
 interface Props {
@@ -34,27 +34,30 @@ const ShortStatus = observer(({ item }: Props) => {
   const tel = item?.user?.tels?.[0]?.tel
   const assignee = item?.assignee
 
-  const formatPhone = tel ? hidePhoneNumber(tel) : ''
+  const formatPhone = tel ? hidePhoneNumber(tel) : ""
 
   const _handleCall = (item) => {
-    let phoneNumber = '';
+    let phoneNumber = ""
     if (assignee?.phone?.length === 0) {
-      return;
+      return
     }
-    if (Platform.OS === 'android') {
-      phoneNumber = `tel:+${assignee?.phone}`;
+    if (Platform.OS === "android") {
+      phoneNumber = `tel:+${assignee?.phone}`
     } else {
-      phoneNumber = `telprompt:+${assignee?.phone}`;
+      phoneNumber = `telprompt:+${assignee?.phone}`
     }
-    Linking.openURL(phoneNumber);
-  };
+    Linking.openURL(phoneNumber)
+  }
 
   return (
-    <Pressable style={styles.container} onPress={() => {
-      loanStore.setTaskDetail(item)
-      loanStore.getLoanDetail(item?.id)
-      navigate(ScreenNames.PROFILE_DETAIL)
-    }}>
+    <Pressable
+      style={styles.container}
+      onPress={() => {
+        loanStore.setTaskDetail(item)
+        loanStore.getLoanDetail(item?.id)
+        navigate(ScreenNames.PROFILE_DETAIL)
+      }}
+    >
       <View style={[styles.row, styles.itemContainer]}>
         <AppText tx={"loan.customerName"} capitalize style={styles.title} />
         <AppText value={`${name} - ${formatPhone}`} />
@@ -62,87 +65,86 @@ const ShortStatus = observer(({ item }: Props) => {
       <View style={[styles.row, styles.itemContainer]}>
         <AppText tx={"loan.status"} capitalize style={styles.title} />
         <View style={styles.wrapSpace}>
-          <AppText value={mappingStatus(status, item)?.status}
-            color={mappingStatus(status, item)?.color} />
-          <View style={styles.boxArrow}>
-            <RightArrowSvg width={s(6)} height={s(12)} />
-          </View>
+          <AppText
+            value={mappingStatus(status, item)?.status}
+            color={mappingStatus(status, item)?.color}
+          />
         </View>
       </View>
       <View style={[styles.row, styles.itemContainer]}>
         <AppText tx={"loan.financialSpecialist"} capitalize style={styles.title} />
 
-        {!!fullName(assignee) && <View style={styles.wrapSpace}>
-          <Pressable style={styles.row} onPress={_handleCall}>
-            <AppText value={fullName(assignee)} style={styles.text} />
-            <PhoneSvg />
-          </Pressable>
-          <View style={styles.row}>
-            <ClockSvg />
-            <AppText value={moment(item?.createdAt).fromNow()} style={styles.time} />
+        {!!fullName(assignee) && (
+          <View style={styles.wrapSpace}>
+            <Pressable style={styles.row} onPress={_handleCall}>
+              <AppText value={fullName(assignee)} style={styles.text} />
+              <PhoneSvg />
+            </Pressable>
+            <View style={styles.row}>
+              <ClockSvg />
+              <AppText value={moment(item?.createdAt).fromNow()} style={styles.time} />
+            </View>
           </View>
-        </View>}
-
+        )}
       </View>
     </Pressable>
   )
-});
+})
 
-export default ShortStatus;
-ShortStatus.displayName = 'ShortStatus'
+export default ShortStatus
+ShortStatus.displayName = "ShortStatus"
 
 const styles = ScaledSheet.create({
   container: {
-    paddingVertical: '16@s',
+    paddingVertical: "16@s",
     borderBottomWidth: 1,
-    borderBottomColor: color.palette.whiteDarker
+    borderBottomColor: color.palette.whiteDarker,
   },
   itemContainer: {
-    marginBottom: '12@s'
+    marginBottom: "12@s",
   },
   row: {
-    flexDirection: 'row',
-    alignItems: "center"
+    flexDirection: "row",
+    alignItems: "center",
   },
   title: {
-    color: '#AAADB7',
-    fontSize: '12@ms',
-    width: '115@ms'
+    color: "#AAADB7",
+    fontSize: "12@ms",
+    width: "115@ms",
   },
   boxArrow: {
-    marginBottom: '8@s',
+    marginBottom: "8@s",
     backgroundColor: color.palette.white,
-    width: '16@s',
-    height: '16@s',
-    borderRadius: '4@s',
+    width: "16@s",
+    height: "16@s",
+    borderRadius: "4@s",
     alignItems: "center",
     justifyContent: "center",
-    paddingLeft: '2@ms',
+    paddingLeft: "2@ms",
     shadowColor: color.palette.blue,
     shadowOffset: {
       width: 0,
       height: 12,
     },
     shadowOpacity: 0.8,
-    shadowRadius: 16.00,
+    shadowRadius: 16.0,
 
     elevation: 12,
   },
   wrapSpace: {
     flex: 1,
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: "center"
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
   },
   text: {
-    fontSize: '12@ms',
+    fontSize: "12@ms",
     color: color.palette.black,
-    marginRight: '10@ms'
+    marginRight: "10@ms",
   },
   time: {
-    fontSize: '12@ms',
-    color: '#AEAEB2',
-    marginLeft: '6@ms'
-  }
-});
-
+    fontSize: "12@ms",
+    color: "#AEAEB2",
+    marginLeft: "6@ms",
+  },
+})

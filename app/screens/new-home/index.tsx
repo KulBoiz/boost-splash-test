@@ -11,31 +11,29 @@ import { isAndroid } from "../../constants/variable"
 import { isIphoneX } from "react-native-iphone-x-helper"
 import { observer } from "mobx-react-lite"
 
-interface Props{}
+interface Props {}
 
-const SCROLL_SNAPPING_THRESHOLD = 16;
+const SCROLL_SNAPPING_THRESHOLD = 16
 
 const NewHome = observer((props: Props) => {
-  const animatedValue = useRef(new Animated.Value(0)).current;
-  const scrollViewRef = useRef<ScrollView>(null);
-  const lastOffsetY = useRef(0);
-  const scrollDirection = useRef('');
+  const animatedValue = useRef(new Animated.Value(0)).current
+  const scrollViewRef = useRef<ScrollView>(null)
+  const lastOffsetY = useRef(0)
+  const scrollDirection = useRef("")
   const [index, setIndex] = useState(0)
-
 
   return (
     <View style={styles.container}>
-      <StatusBar backgroundColor={'#429BFB'} barStyle={'light-content'}/>
-      <Header {...{index, setIndex, animatedValue}}/>
+      <StatusBar backgroundColor={"#429BFB"} barStyle={"light-content"} />
+      <Header {...{ index, setIndex, animatedValue }} />
       <ScrollView
         contentContainerStyle={styles.scrollView}
         ref={scrollViewRef}
-        onScroll={e => {
-          const offsetY = e.nativeEvent.contentOffset.y;
-          scrollDirection.current =
-            offsetY - lastOffsetY.current > 0 ? 'down' : 'up';
-          lastOffsetY.current = offsetY;
-          animatedValue.setValue(offsetY);
+        onScroll={(e) => {
+          const offsetY = e.nativeEvent.contentOffset.y
+          scrollDirection.current = offsetY - lastOffsetY.current > 0 ? "down" : "up"
+          lastOffsetY.current = offsetY
+          animatedValue.setValue(offsetY)
         }}
         // onScrollEndDrag={e => {
         //   if (isAndroid){
@@ -48,25 +46,25 @@ const NewHome = observer((props: Props) => {
         //     }
         //   }
         // }}
-        scrollEventThrottle={16}>
+        scrollEventThrottle={16}
+      >
         {index === 0 && <HomeFinance />}
         {index === 1 && <HomeInsurance />}
         {index === 2 && <ComingSoon />}
-        <BottomView height={100}/>
+        <BottomView height={100} />
       </ScrollView>
-
     </View>
   )
-});
+})
 
-export default NewHome;
+export default NewHome
 
 const styles = ScaledSheet.create({
   container: {
-    flex:1,
-    backgroundColor: color.background
+    flex: 1,
+    backgroundColor: color.background,
   },
-  scrollView:{
-    paddingTop: isIphoneX() ? '240@s' : '225@s',
-  }
-});
+  scrollView: {
+    paddingTop: isIphoneX() ? "240@s" : "225@s",
+  },
+})

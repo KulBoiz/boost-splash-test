@@ -39,7 +39,7 @@ const CollapsibleInfoUpload = observer(({ data }: Props) => {
   const onDeleteDocument = async (file) => {
     setFiles(filter(files, (f) => f.id !== file.id))
     await loanStore.updateLoanDocument(
-      file.templateDocumentFileId || data.documentId,
+      file.templateDocumentFileId || data.id,
       "unSelected",
       loanStore?.loanDetail?.id,
     )

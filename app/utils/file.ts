@@ -37,7 +37,13 @@ export const getDocumentFiles = (templates, files) => {
       return el
     } else {
       if (files[el.documentId]) {
-        return { ...el, files: filter(files[el?.documentId], (d) => d?.file).map((el) => el?.file) }
+        return {
+          ...el,
+          files: filter(files[el?.documentId], (d) => d?.file).map((d) => ({
+            ...d?.file,
+            templateDocumentFileId: d?.id,
+          })),
+        }
       }
       return el
     }
