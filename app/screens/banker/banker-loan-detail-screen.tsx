@@ -27,6 +27,7 @@ import PopupEditLoanDocument from "./components/popup-edit-loan-document"
 import PopupEditLoanResult from "./components/popup-edit-loan-result"
 import { getDocumentFiles } from "../../utils/file"
 import PopupCreateTransaction from "./components/popup-create-transaction"
+import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view"
 
 const BankerLoanDetailScreen: FC = observer((props: any) => {
   // const data = props?.route?.params?.data
@@ -216,58 +217,63 @@ const BankerLoanDetailScreen: FC = observer((props: any) => {
           fontWeight="600"
           text="Quá trình giải ngân:"
         />
-        {transactionDetail?.transactionDetails?.length > 0 && <>
-          <Box height="1.0" my="3" bg="iron" opacity={0.5} />
-          {transactionDetail?.transactionDetails?.map((item, index) =>
-            renderItem({
-              item: {
-                label: `${numeral(item.amount).format("0,0")} VNĐ`,
-                value: "",
-              },
-              index: index,
-              rightComponent: (
-                <Text
-                  size="medium12"
-                  flex="1"
-                  textAlign="right"
-                  color={
-                    item.status === TRANSACTION_STATUS_TYPES.FOR_CONTROL
-                      ? "green"
-                      : item.status === TRANSACTION_STATUS_TYPES.CANCELLED
+        {transactionDetail?.transactionDetails?.length > 0 && (
+          <>
+            <Box height="1.0" my="3" bg="iron" opacity={0.5} />
+            {transactionDetail?.transactionDetails?.map((item, index) =>
+              renderItem({
+                item: {
+                  label: `${numeral(item.amount).format("0,0")} VNĐ`,
+                  value: "",
+                },
+                index: index,
+                rightComponent: (
+                  <Text
+                    size="medium12"
+                    flex="1"
+                    textAlign="right"
+                    color={
+                      item.status === TRANSACTION_STATUS_TYPES.FOR_CONTROL
+                        ? "green"
+                        : item.status === TRANSACTION_STATUS_TYPES.CANCELLED
                         ? "red"
                         : "orange"
-                  }
-                  text={
-                    item.status === TRANSACTION_STATUS_TYPES.FOR_CONTROL
-                      ? "Đã đối soát"
-                      : item.status === TRANSACTION_STATUS_TYPES.CANCELLED
+                    }
+                    text={
+                      item.status === TRANSACTION_STATUS_TYPES.FOR_CONTROL
+                        ? "Đã đối soát"
+                        : item.status === TRANSACTION_STATUS_TYPES.CANCELLED
                         ? "Huỷ"
                         : "Chưa đối soát"
-                  }
-                />
-              ),
-            }),
-          )}</>}
+                    }
+                  />
+                ),
+              }),
+            )}
+          </>
+        )}
 
-        {data?.dealDetails?.[0]?.status === LOAN_STATUS_TYPES.DISBURSING && <>
-          <Box height="1.0" my="3" bg="iron" opacity={0.5} />
+        {data?.dealDetails?.[0]?.status === LOAN_STATUS_TYPES.DISBURSING && (
+          <>
+            <Box height="1.0" my="3" bg="iron" opacity={0.5} />
 
-          <Pressable
-            onPress={() => {
-              if (!dealDetail?.info?.approvalAmount || dealDetail?.info?.approvalAmount === 0) {
-                Alert.alert('Chưa phê duyệt số tiền cần giải ngân');
-              } else {
-                setCreateTransactionVisible(true)
-              }
-            }}
-            style={{
-              flex: 1,
-              alignItems: "center",
-            }}
-          >
-            <PlusBottomSvg />
-          </Pressable>
-        </>}
+            <Pressable
+              onPress={() => {
+                if (!dealDetail?.info?.approvalAmount || dealDetail?.info?.approvalAmount === 0) {
+                  Alert.alert("Chưa phê duyệt số tiền cần giải ngân")
+                } else {
+                  setCreateTransactionVisible(true)
+                }
+              }}
+              style={{
+                flex: 1,
+                alignItems: "center",
+              }}
+            >
+              <PlusBottomSvg />
+            </Pressable>
+          </>
+        )}
       </Box>
     )
   }, [transactionDetail])
@@ -450,7 +456,7 @@ const BankerLoanDetailScreen: FC = observer((props: any) => {
           />
         </View>
       )}
-      <ScrollView>
+      <KeyboardAwareScrollView enableOnAndroid extraScrollHeight={50}>
         <Box mb="6" mx="4" mt="5">
           <Box bg="white" borderRadius="8" p="4">
             <Text color="ebony" size="semiBold14" text="Khách hàng" />
@@ -566,15 +572,16 @@ const BankerLoanDetailScreen: FC = observer((props: any) => {
             })}
           </Box>
           {/* {renderNotes()} */}
-          {data?.dealDetails?.[0]?.status === LOAN_STATUS_TYPES.DISBURSING && renderTransactionDetails()}
+          {data?.dealDetails?.[0]?.status === LOAN_STATUS_TYPES.DISBURSING &&
+            renderTransactionDetails()}
           {renderDocuments()}
           {renderNotes()}
-          {
-            (data?.dealDetails?.[0]?.status !== LOAN_STATUS_TYPES.CANCELLED && data?.status !== LOAN_STATUS_TYPES.CANCELLED)
-            && <Box mt={vs(34)}>{renderFooterButton()}</Box>
-          }
+          {data?.dealDetails?.[0]?.status !== LOAN_STATUS_TYPES.CANCELLED &&
+            data?.status !== LOAN_STATUS_TYPES.CANCELLED && (
+              <Box mt={vs(34)}>{renderFooterButton()}</Box>
+            )}
         </Box>
-      </ScrollView>
+      </KeyboardAwareScrollView>
       <PopupAlert
         visible={alert.visible}
         type={alert.type}
@@ -611,14 +618,14 @@ const BankerLoanDetailScreen: FC = observer((props: any) => {
         }}
       />
 
-      {createTransactionVisible &&
+      {createTransactionVisible && (
         <PopupCreateTransaction
           visible={createTransactionVisible}
           onClose={() => setCreateTransactionVisible(false)}
           data={dealDetail?.info}
           onConfirm={(value) => {
-            bankerStore.createTransaction(
-              {
+            bankerStore
+              .createTransaction({
                 historiesDisbursement: [value],
                 dealId: objectId,
                 dealDetailId: dealDetailId,
@@ -630,18 +637,19 @@ const BankerLoanDetailScreen: FC = observer((props: any) => {
                 productCategory: data?.category?.productCategory,
                 executePartnerId: dealDetail.executePartnerId,
                 partnerStaffId: dealDetail?.partnerStaffId,
-                consultantStaffId: data?.sourceId
-              }
-            ).then((res) => {
-              if (res?.error) {
-                Alert.alert(res?.error?.message || 'Error');
-              } else {
-                getTransactionDeal()
-                setCreateTransactionVisible(false)
-              }
-            })
-          }} />
-      }
+                consultantStaffId: data?.sourceId,
+              })
+              .then((res) => {
+                if (res?.error) {
+                  Alert.alert(res?.error?.message || "Error")
+                } else {
+                  getTransactionDeal()
+                  setCreateTransactionVisible(false)
+                }
+              })
+          }}
+        />
+      )}
     </Box>
   )
 })
