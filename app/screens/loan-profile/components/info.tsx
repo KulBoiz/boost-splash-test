@@ -10,7 +10,7 @@ import ItemView from "../../loan/components/item-view"
 import Document from "./document"
 import Note from "../../../components/note/note"
 import { Box } from "native-base"
-import { useKeyboard } from "../../../hooks/useKeyboard"
+import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view"
 
 interface Props {}
 
@@ -19,15 +19,6 @@ const Info = observer((props: Props) => {
   const { loanStore } = useStores()
   const { loanDetail, files, templates, task } = loanStore
   const { user } = task
-
-  const scrollViewRef = useRef<any>(null)
-  const [keyboardHeight] = useKeyboard()
-
-  useEffect(() => {
-    if (keyboardHeight && Platform.OS === "ios") {
-      scrollViewRef?.current?.scrollToEnd({ animated: true })
-    }
-  }, [keyboardHeight])
 
   const checkGender = () => {
     if (!user?.gender) {
@@ -56,8 +47,12 @@ const Info = observer((props: Props) => {
   }
 
   return (
-    <Box flex="1" paddingBottom={keyboardHeight ? (Platform.OS === "ios" ? keyboardHeight : 0) : 0}>
-      <ScrollView ref={scrollViewRef} contentContainerStyle={styles.container}>
+    <Box flex="1">
+      <KeyboardAwareScrollView
+        enableOnAndroid
+        extraScrollHeight={20}
+        contentContainerStyle={styles.container}
+      >
         <View style={styles.content}>
           <AppText style={styles.title} value={"Khách hàng"} />
           <View style={styles.contentItem}>
@@ -95,7 +90,7 @@ const Info = observer((props: Props) => {
             </View>
           </View>
         )}
-      </ScrollView>
+      </KeyboardAwareScrollView>
     </Box>
   )
 })

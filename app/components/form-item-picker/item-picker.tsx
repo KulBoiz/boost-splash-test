@@ -1,30 +1,27 @@
 import React, { useEffect, useState } from "react"
-import { View, Pressable } from "react-native"
 import { AppText } from "../app-text/AppText"
 import FastImage from "react-native-fast-image"
 import { images } from "../../assets/images"
 import { ScaledSheet } from "react-native-size-matters"
 import { color, spacing } from "../../theme"
 import { fontFamily } from "../../constants/font-family"
-import {
-  ALIGN_CENTER,
-  FONT_REGULAR_14,
-  ROW,
-  SPACE_BETWEEN,
-} from "../../styles/common-style"
+import { ALIGN_CENTER, FONT_REGULAR_14, ROW, SPACE_BETWEEN } from "../../styles/common-style"
 import { UseFormSetValue } from "react-hook-form/dist/types/form"
 import { FieldValues } from "react-hook-form/dist/types/fields"
 import { FieldPath } from "react-hook-form/dist/types"
 import ItemPickerModal from "./item-picker-modal"
 import { isAndroid, truncateString } from "../../constants/variable"
+import { TextField } from "../text-field/text-field"
+import { Box, Pressable, Row } from "native-base"
+import { Keyboard } from "react-native"
 
-interface DataProps{
+interface DataProps {
   value: string
-  label:string
+  label: string
 }
 
-interface Props{
-  label:string
+interface Props {
+  label: string
   placeholder: string
   errorMessage: string
   setValue: UseFormSetValue<FieldValues>
@@ -36,8 +33,18 @@ interface Props{
 }
 
 const ItemPicker = React.memo((props: Props) => {
-  const { value, label, placeholder,errorMessage, setValue, data = [{value: '', label: ''}], name, handleSelect, onChangeSearchText} = props
-  const [title, setTitle] = useState<string>('')
+  const {
+    value,
+    label,
+    placeholder,
+    errorMessage,
+    setValue,
+    data = [{ value: "", label: "" }],
+    name,
+    handleSelect,
+    onChangeSearchText,
+  } = props
+  const [title, setTitle] = useState<string>("")
   const [modal, setModal] = useState<boolean>(false)
 
   const handleSelectOption = (val) => {
@@ -47,65 +54,61 @@ const ItemPicker = React.memo((props: Props) => {
     setModal(false)
   }
 
-  useEffect(()=> {
-    if (!value){
-      setTitle('')
+  useEffect(() => {
+    if (!value) {
+      setTitle("")
     }
-  },[value])
+  }, [value])
 
   return (
-    <View style={styles.container}>
-      <Pressable style={[ROW, ALIGN_CENTER, SPACE_BETWEEN, styles.border, !!errorMessage && {borderColor: color.palette.angry}]} onPress={()=> setModal(true)}>
-        <View>
-          <AppText style={styles.label} value={label}/>
-          <AppText style={FONT_REGULAR_14} value={truncateString(title, 40) || placeholder} color={title ? color.palette.black : color.palette.gray}/>
-        </View>
+    <Row alignItems="center" style={styles.container}>
+      <Box flex={1}>
+        <TextField
+          label={label}
+          placeholder={placeholder}
+          value={truncateString(title, 40)}
+          editable={false}
+          errorMessage={errorMessage}
+        />
+      </Box>
+      <Box position="absolute" right="12px" pt="1">
         <FastImage source={images.arrow_down} style={styles.icon} />
-        </Pressable>
-      <View>
-        {!!errorMessage && <AppText value={errorMessage} style={styles.errorMessage}/> }
-      </View>
-      <ItemPickerModal {...{
-        title,
-        label,
-        visible: modal,
-        closeModal: ()=> setModal(false),
-        data,
-        onPress: handleSelectOption,
-        onChangeSearchText,
-      }}/>
-    </View>
+      </Box>
+      <Pressable
+        onPress={() => {
+          Keyboard.dismiss()
+          setModal(true)
+        }}
+        position="absolute"
+        top="0"
+        left="0"
+        right="0"
+        bottom="0"
+        zIndex="1"
+      />
+      <ItemPickerModal
+        {...{
+          title,
+          label,
+          visible: modal,
+          closeModal: () => setModal(false),
+          data,
+          onPress: handleSelectOption,
+          onChangeSearchText,
+        }}
+      />
+    </Row>
   )
-});
+})
 
-export default ItemPicker;
+export default ItemPicker
 
 const styles = ScaledSheet.create({
   container: {
-    marginVertical: spacing[3],
-  },
-  border: {
-    paddingHorizontal: '12@ms',
-    borderWidth: 1.5,
-    borderColor: color.palette.deepGray,
-    borderRadius: '3@s',
-    paddingVertical: isAndroid ? '3@s' : '6@s'
-  },
-  label:{
-    marginBottom: '4@s',
-    fontSize: '11@ms',
-    fontFamily: fontFamily.regular
+    // marginVertical: spacing[3],
   },
   icon: {
-    width: '16@s',
-    height: '16@s'
+    width: "16@s",
+    height: "16@s",
   },
-  errorMessage: {
-    fontFamily: fontFamily.medium,
-    color: color.palette.angry,
-    fontSize: '12@ms',
-    marginTop: '10@s',
-    position: 'absolute',
-    top: '-7@s'
-  }
-});
+})
