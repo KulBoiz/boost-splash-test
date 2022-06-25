@@ -367,7 +367,7 @@ const BankerLoanDetailScreen: FC = observer((props: any) => {
       case LOAN_STATUS_TYPES.TRIPARTITE_BLOCKADE:
         return (
           <HStack mt="4" mb="6">
-            {buttonReject()}
+            {/* {buttonReject()} */}
             {buttonConfirm("Giải ngân", () => {
               setAlert({
                 visible: true,
@@ -382,7 +382,7 @@ const BankerLoanDetailScreen: FC = observer((props: any) => {
       case LOAN_STATUS_TYPES.DISBURSING:
         return (
           <HStack mt="4" mb="6">
-            {buttonReject()}
+            {/* {buttonReject()} */}
             {buttonConfirm("Đã giải ngân", () => {
               setAlert({
                 visible: true,
