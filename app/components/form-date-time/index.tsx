@@ -14,6 +14,7 @@ export interface FormItemPickerProps extends UseControllerProps{
   style?: ViewStyle | any,
   defaultValue?: string,
   setValue: UseFormSetValue<FieldValues>
+  isMaximumDate?: boolean
 }
 
 const FormDatePicker = React.memo((props: FormItemPickerProps) => {
@@ -27,6 +28,7 @@ const FormDatePicker = React.memo((props: FormItemPickerProps) => {
     defaultValue,
     rules,
     setValue,
+    isMaximumDate,
   } = props
 
   return (
@@ -43,7 +45,8 @@ const FormDatePicker = React.memo((props: FormItemPickerProps) => {
             value,
             errorMessage:error,
             label,
-            placeholder
+            placeholder,
+            isMaximumDate
             }}
           />
         )}

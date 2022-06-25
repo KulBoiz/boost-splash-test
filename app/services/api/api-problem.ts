@@ -44,6 +44,7 @@ export type GeneralApiProblem =
  * @param response The api response.
  */
 export function getGeneralApiProblem(response: ApiResponse<any>): GeneralApiProblem | void {
+  const error = response?.data?.error
   switch (response.problem) {
     case "CONNECTION_ERROR":
       return { kind: "cannot-connect", temporary: true }
@@ -58,17 +59,17 @@ export function getGeneralApiProblem(response: ApiResponse<any>): GeneralApiProb
     case "CLIENT_ERROR":
       switch (response.status) {
         case 401:
-          return { kind: "unauthorized" }
+          return { kind: "unauthorized", error }
         case 403:
-          return { kind: "forbidden" }
+          return { kind: "forbidden", error }
         case 404:
-          return { kind: "not-found" }
+          return { kind: "not-found", error }
         default:
-          return { kind: "rejected" }
+          return { kind: "rejected", error }
       }
     case "CANCEL_ERROR":
-      return null
+      return response
   }
 
-  return null
+  return response
 }

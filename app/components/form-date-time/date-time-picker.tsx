@@ -22,10 +22,11 @@ interface Props {
   label: string
   placeholder: string
   name: FieldPath<FieldValues>
+  isMaximumDate?: boolean
 }
 
 const DatePicker = React.memo((props: Props) => {
-  const { value, setValue, errorMessage, placeholder, label, name } = props
+  const { value, setValue, errorMessage, placeholder, label, name, isMaximumDate = true } = props
   const [date, setDate] = useState(new Date());
   const [show, setShow] = useState(false);
 
@@ -65,11 +66,11 @@ const DatePicker = React.memo((props: Props) => {
             mode={'date'}
             display={'default'}
             onChange={onChange}
-            maximumDate={new Date()}
+            maximumDate={isMaximumDate ? new Date() : undefined}
           />
           }
         </>
-        : <ModalDatePicker visible={show} onChange={onChange} date={date} closeModal={()=> setShow(false)}/>
+        : <ModalDatePicker visible={show} onChange={onChange} date={date} closeModal={() => setShow(false)} isMaximumDate={isMaximumDate} />
       }
     </View>
   )

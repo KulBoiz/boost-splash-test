@@ -104,7 +104,7 @@ export const BankerStoreModel = types
     }),
     updateInfoOfDealDetail: flow(function* updateInfoOfDealDetail(dealDetailId, data) {
       const result = yield self.api.put(`deal-details/${dealDetailId}`, data)
-      if (result.kind === 'ok'){
+      if (result.kind === 'ok') {
         const newData = [...self.listLoan]
         const id = newData.findIndex(e => e.id === data.dealId)
         newData[id].dealDetails[0].info = data.info
@@ -150,8 +150,8 @@ export const BankerStoreModel = types
               self.dealStatusFilter !== LOAN_STATUS_TYPES.ALL
                 ? { inq: [self.dealStatusFilter] }
                 : {
-                    nin: ["deleted"],
-                  },
+                  nin: ["deleted"],
+                },
             searchingRule: "single",
             _q: params?.search,
           },
@@ -221,6 +221,14 @@ export const BankerStoreModel = types
         return null
       }
     }),
+    createTransaction: flow(function* updateDealStatus(body) {
+      const result = yield self.api.post(`transactions/create-transaction-deal`, body)
+      if (result.kind === "ok") {
+        return result?.data
+      } else {
+        return result
+      }
+    }),
     getDocumentTemplates: flow(function* getDocument(documentTemplateId) {
       const params = {
         filter: {
@@ -272,7 +280,7 @@ export const BankerStoreModel = types
   .postProcessSnapshot(omitFn(["dealStatusFilter"]))
 
 type BankerStoreType = Instance<typeof BankerStoreModel>
-export interface BankerStore extends BankerStoreType {}
+export interface BankerStore extends BankerStoreType { }
 type BankerStoreSnapshotType = SnapshotOut<typeof BankerStoreModel>
-export interface BankerStoreSnapshot extends BankerStoreSnapshotType {}
+export interface BankerStoreSnapshot extends BankerStoreSnapshotType { }
 export const createBankerStoreDefaultModel = () => types.optional(BankerStoreModel, {})
