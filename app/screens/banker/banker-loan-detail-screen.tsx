@@ -13,7 +13,13 @@ import { CallSvg, EditSvg, NotificationSvg } from "../../assets/svgs"
 import { Linking, View } from "react-native"
 import DocumentView from "./components/document-view"
 import BankerLoanSteps from "./components/banker-loan-steps"
-import { GENDER, LOAN_STATUS, LOAN_STATUS_TYPES, LOAN_STEP_INDEX, TRANSACTION_STATUS_TYPES } from "./constants"
+import {
+  GENDER,
+  LOAN_STATUS,
+  LOAN_STATUS_TYPES,
+  LOAN_STEP_INDEX,
+  TRANSACTION_STATUS_TYPES,
+} from "./constants"
 import { flatten, map } from "../../utils/lodash-utils"
 import Note from "../../components/note/note"
 import PopupAlert from "../../components/popup-alert/popup-alert"
@@ -409,16 +415,21 @@ const BankerLoanDetailScreen: FC = observer((props: any) => {
         }
         renderRightIcon={<NotificationSvg />}
       />
-      {data?.dealDetails?.[0]?.status !== LOAN_STATUS_TYPES.CANCELLED ?
-        <BankerLoanSteps activeIndex={LOAN_STEP_INDEX[data?.dealDetails?.[0]?.status]} mb="1" /> : 
-        <View style={{ alignItems: 'center', marginTop: s(20) }}>
+      {data?.dealDetails?.[0]?.status !== LOAN_STATUS_TYPES.CANCELLED ? (
+        <BankerLoanSteps activeIndex={LOAN_STEP_INDEX[data?.dealDetails?.[0]?.status]} mb="1" />
+      ) : (
+        <View style={{ alignItems: "center", marginTop: s(20) }}>
           <Text
-          color="lightGray"
-          size="semiBold14"
-          text={data?.status === LOAN_STATUS_TYPES.CANCELLED ? "FINA đã huỷ bỏ hồ sơ" : "Ngân hàng từ chối hồ sơ"}
-        />
+            color="lightGray"
+            size="semiBold14"
+            text={
+              data?.status === LOAN_STATUS_TYPES.CANCELLED
+                ? "FINA đã huỷ bỏ hồ sơ"
+                : "Ngân hàng từ chối hồ sơ"
+            }
+          />
         </View>
-      }
+      )}
       <ScrollView>
         <Box mb="6" mx="4" mt="5">
           <Box bg="white" borderRadius="8" p="4">
@@ -465,7 +476,7 @@ const BankerLoanDetailScreen: FC = observer((props: any) => {
             {renderItem({
               item: {
                 label: "Thời gian vay",
-                value: `${data.timeLoan || 0} (Năm)`,
+                value: `${data.timeLoan || 0} (Tháng)`,
               },
               index: 5,
             })}
@@ -503,7 +514,7 @@ const BankerLoanDetailScreen: FC = observer((props: any) => {
             {renderItem({
               item: {
                 label: "Thời gian vay",
-                value: dealDetail?.info?.borrowTime ? `${dealDetail?.info?.borrowTime} Năm` : "_",
+                value: dealDetail?.info?.borrowTime ? `${dealDetail?.info?.borrowTime} Tháng` : "_",
               },
               index: 1,
             })}

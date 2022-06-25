@@ -121,6 +121,7 @@ const PopupEditLoanDocument = React.memo(({ visible, onClose, onConfirm }: Props
               {...{
                 name: "time",
                 label: "Thời gian vay",
+                placeholder: "Nhập số tháng vay",
                 error: errors?.product?.message,
                 ...inputProps,
                 keyboardType: "number-pad",

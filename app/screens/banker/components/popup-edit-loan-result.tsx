@@ -90,7 +90,7 @@ const PopupEditLoanResult = React.memo(({ visible, onClose, onConfirm, data: dat
                 label: "Số tiền phê duyệt",
                 error: errors?.approvalAmount?.message,
                 ...inputProps,
-                keyboardType: 'number-pad'
+                keyboardType: "number-pad",
                 // ...currencyInputProps,
               }}
             />
@@ -98,9 +98,10 @@ const PopupEditLoanResult = React.memo(({ visible, onClose, onConfirm, data: dat
               {...{
                 name: "borrowTime",
                 label: "Thời gian vay",
+                placeholder: "Nhập số tháng cho vay",
                 error: errors?.borrowTime?.message,
                 ...inputProps,
-                keyboardType: 'number-pad'
+                keyboardType: "number-pad",
               }}
             />
             {/* <FormInput

@@ -30,14 +30,14 @@ const BankerLoanItem = React.memo(({ item, index, onPress }: Props) => {
     >
       <Box alignItems="center" justifyContent="center" width={s(100)} px="4">
         <Text fontSize={10} fontWeight="500" color="ebony" text={`HSV - ${item._iid}`} />
-        <Text fontSize={10} fontWeight="500" color="ebony" text={`${item.code}`} />
+        <Text fontSize={10} fontWeight="500" color="ebony" text={`${item.code || ""}`} />
         <Text
           fontSize={10}
           fontWeight="500"
           mt="0.5"
           color="grayChateau"
           textAlign="center"
-          text={status?.text ? status?.text : 'Chưa chia sẻ'}
+          text={status?.text ? status?.text : "Chưa chia sẻ"}
         />
       </Box>
       <Box height={vs(77)} borderLeftWidth={1} mr={s(21)} borderLeftColor="iron" />
