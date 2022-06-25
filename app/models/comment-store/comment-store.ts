@@ -17,6 +17,7 @@ export const CommentStoreModel = types
   .actions((self) => ({
     get: flow(function* get(id) {
       self.comments = []
+      
       const api = new BaseApi(self.environment.api)
       const param = {
         filter: {

@@ -9,8 +9,8 @@ import { s, vs } from "react-native-size-matters"
 import { Text } from "../../components"
 import numeral from "numeral"
 import moment from "moment"
-import { CallSvg, EditSvg, NotificationSvg } from "../../assets/svgs"
-import { Linking, View } from "react-native"
+import { CallSvg, EditSvg, NotificationSvg, PlusBottomSvg, PlusSvg } from "../../assets/svgs"
+import { Alert, Linking, View } from "react-native"
 import DocumentView from "./components/document-view"
 import BankerLoanSteps from "./components/banker-loan-steps"
 import {
@@ -26,6 +26,7 @@ import PopupAlert from "../../components/popup-alert/popup-alert"
 import PopupEditLoanDocument from "./components/popup-edit-loan-document"
 import PopupEditLoanResult from "./components/popup-edit-loan-result"
 import { getDocumentFiles } from "../../utils/file"
+import PopupCreateTransaction from "./components/popup-create-transaction"
 
 const BankerLoanDetailScreen: FC = observer((props: any) => {
   // const data = props?.route?.params?.data
@@ -46,6 +47,7 @@ const BankerLoanDetailScreen: FC = observer((props: any) => {
 
   const [editDocumentLoanVisible, setEditDocumentLoanVisible] = useState(false)
   const [editLoanResultVisible, setEditLoanResultVisible] = useState(false)
+  const [createTransactionVisible, setCreateTransactionVisible] = useState(false)
 
   const name =
     data?.user?.fullName || `${data?.user?.firstName || ""} ${data?.user?.lastName || ""}`
@@ -205,18 +207,18 @@ const BankerLoanDetailScreen: FC = observer((props: any) => {
   }, [documents])
 
   const renderTransactionDetails = useCallback(() => {
-    if (transactionDetail?.transactionDetails?.length) {
-      return (
-        <Box bg="white" borderRadius="8" p="4" mt={vs(8)}>
-          <Text
-            color="ebony"
-            fontSize={14}
-            lineHeight={20}
-            fontWeight="600"
-            text="Quá trình giải ngân:"
-          />
+    return (
+      <Box bg="white" borderRadius="8" p="4" mt={vs(8)}>
+        <Text
+          color="ebony"
+          fontSize={14}
+          lineHeight={20}
+          fontWeight="600"
+          text="Quá trình giải ngân:"
+        />
+        {transactionDetail?.transactionDetails?.length > 0 && <>
           <Box height="1.0" my="3" bg="iron" opacity={0.5} />
-          {transactionDetail?.transactionDetails.map((item, index) =>
+          {transactionDetail?.transactionDetails?.map((item, index) =>
             renderItem({
               item: {
                 label: `${numeral(item.amount).format("0,0")} VNĐ`,
@@ -232,24 +234,42 @@ const BankerLoanDetailScreen: FC = observer((props: any) => {
                     item.status === TRANSACTION_STATUS_TYPES.FOR_CONTROL
                       ? "green"
                       : item.status === TRANSACTION_STATUS_TYPES.CANCELLED
-                      ? "red"
-                      : "orange"
+                        ? "red"
+                        : "orange"
                   }
                   text={
                     item.status === TRANSACTION_STATUS_TYPES.FOR_CONTROL
                       ? "Đã đối soát"
                       : item.status === TRANSACTION_STATUS_TYPES.CANCELLED
-                      ? "Huỷ"
-                      : "Chưa đối soát"
+                        ? "Huỷ"
+                        : "Chưa đối soát"
                   }
                 />
               ),
             }),
-          )}
-        </Box>
-      )
-    }
-    return null
+          )}</>}
+
+        {data?.dealDetails?.[0]?.status === LOAN_STATUS_TYPES.DISBURSING && <>
+          <Box height="1.0" my="3" bg="iron" opacity={0.5} />
+
+          <Pressable
+            onPress={() => {
+              if (!dealDetail?.info?.approvalAmount || dealDetail?.info?.approvalAmount === 0) {
+                Alert.alert('Chưa phê duyệt số tiền cần giải ngân');
+              } else {
+                setCreateTransactionVisible(true)
+              }
+            }}
+            style={{
+              flex: 1,
+              alignItems: "center",
+            }}
+          >
+            <PlusBottomSvg />
+          </Pressable>
+        </>}
+      </Box>
+    )
   }, [transactionDetail])
 
   const renderFooterButton = useCallback(() => {
@@ -546,10 +566,13 @@ const BankerLoanDetailScreen: FC = observer((props: any) => {
             })}
           </Box>
           {/* {renderNotes()} */}
-          {renderTransactionDetails()}
+          {data?.dealDetails?.[0]?.status === LOAN_STATUS_TYPES.DISBURSING && renderTransactionDetails()}
           {renderDocuments()}
           {renderNotes()}
-          <Box mt={vs(34)}>{renderFooterButton()}</Box>
+          {
+            (data?.dealDetails?.[0]?.status !== LOAN_STATUS_TYPES.CANCELLED && data?.status !== LOAN_STATUS_TYPES.CANCELLED)
+            && <Box mt={vs(34)}>{renderFooterButton()}</Box>
+          }
         </Box>
       </ScrollView>
       <PopupAlert
@@ -587,6 +610,38 @@ const BankerLoanDetailScreen: FC = observer((props: any) => {
             })
         }}
       />
+
+      {createTransactionVisible &&
+        <PopupCreateTransaction
+          visible={createTransactionVisible}
+          onClose={() => setCreateTransactionVisible(false)}
+          data={dealDetail?.info}
+          onConfirm={(value) => {
+            bankerStore.createTransaction(
+              {
+                historiesDisbursement: [value],
+                dealId: objectId,
+                dealDetailId: dealDetailId,
+                partnerId: dealDetail?.partnerId,
+                productId: data?.productId,
+                categoryId: data?.categoryId,
+                staffId: data?.assigneeId,
+                customerId: data?.userId,
+                productCategory: data?.category?.productCategory,
+                executePartnerId: dealDetail.executePartnerId,
+                partnerStaffId: dealDetail?.partnerStaffId,
+                consultantStaffId: data?.sourceId
+              }
+            ).then((res) => {
+              if (res?.error) {
+                Alert.alert(res?.error?.message || 'Error');
+              } else {
+                getTransactionDeal()
+                setCreateTransactionVisible(false)
+              }
+            })
+          }} />
+      }
     </Box>
   )
 })
