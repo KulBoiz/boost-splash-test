@@ -2,9 +2,8 @@ import React from 'react';
 import { View, Pressable, ScrollView, ViewStyle } from "react-native"
 import { AppText } from "../../../components/app-text/AppText"
 import FastImage from "react-native-fast-image"
-import { s, ScaledSheet } from "react-native-size-matters"
+import { ScaledSheet } from "react-native-size-matters"
 import { color } from "../../../theme"
-import { SvgUri } from 'react-native-svg';
 
 interface Props {
   currentSelected: number

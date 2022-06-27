@@ -15,6 +15,8 @@ import { color } from "../../theme"
 import { debounce, groupBy, map } from "../../utils/lodash-utils"
 import moment from "moment"
 import BankerRequestItem from "./components/banker-request-item"
+import BankerTab from "./components/banker-tab"
+import { REQUEST_STATUS_DATA } from "./constants"
 
 interface Props {}
 
@@ -73,6 +75,10 @@ const BankerListRequestScreen: FC<Props> = observer((props: Props) => {
     }, 500),
     [],
   )
+
+  const onChangeTab = useCallback((key) => {
+    bankerStore.getListRequest({ status: key }, { page: 1, limit: 20 })
+  }, [])
 
   const renderSectionHeader = useCallback(({ section: { title, data } }) => {
     return (
@@ -142,8 +148,11 @@ const BankerListRequestScreen: FC<Props> = observer((props: Props) => {
           </Box>
         </HStack>
       </Box>
+      <Box mt={vs(16)}>
+        <BankerTab data={REQUEST_STATUS_DATA} onChangeTab={onChangeTab} />
+      </Box>
       <SectionList
-        contentContainerStyle={{ paddingTop: vs(18) }}
+        contentContainerStyle={{ paddingTop: vs(8) }}
         sections={getData}
         keyExtractor={(_, index) => index.toString()}
         renderItem={renderItem}

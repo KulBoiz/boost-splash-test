@@ -15,8 +15,8 @@ import { color } from "../../theme"
 import { debounce, groupBy, map } from "../../utils/lodash-utils"
 import moment from "moment"
 import BankerLoanItem from "./components/banker-loan-item"
-import BankerLoanTab from "./components/banker-loan-tab"
-import { LOAN_STATUS_TYPES } from "./constants"
+import BankerTab from "./components/banker-tab"
+import { LOAN_STATUS_DATA, LOAN_STATUS_TYPES } from "./constants"
 
 interface Props {}
 
@@ -26,7 +26,6 @@ const BankerListLoanScreen: FC<Props> = observer((props: Props) => {
 
   useEffect(() => {
     bankerStore.getListLoan({}, { page: 1, limit: 20 })
-    return () => bankerStore.setDealStatusFilter(LOAN_STATUS_TYPES.ALL)
   }, [])
 
   const showDetail = useCallback(
@@ -76,8 +75,8 @@ const BankerListLoanScreen: FC<Props> = observer((props: Props) => {
     }, 500),
     [],
   )
-  const onChangeTab = useCallback(() => {
-    bankerStore.getListLoan({}, { page: 1, limit: 20 })
+  const onChangeTab = useCallback((key) => {
+    bankerStore.getListLoan({ status: key }, { page: 1, limit: 20 })
   }, [])
 
   const renderSectionHeader = useCallback(({ section: { title, data } }) => {
@@ -139,8 +138,8 @@ const BankerListLoanScreen: FC<Props> = observer((props: Props) => {
           </Box>
         </HStack>
       </Box>
-      <Box mt={vs(24)} mb={vs(8)}>
-        <BankerLoanTab onChangeTab={onChangeTab} />
+      <Box mt={vs(16)} mb={vs(8)}>
+        <BankerTab data={LOAN_STATUS_DATA} onChangeTab={onChangeTab} />
       </Box>
       <SectionList
         sections={data}

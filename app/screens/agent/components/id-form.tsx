@@ -35,7 +35,8 @@ const IdForm = React.memo((props: Props) => {
           labelTx: 'label.fullName',
           placeholderTx: 'placeholder.fullName',
           control,
-          error: errors?.fullName?.message
+          error: errors?.fullName?.message,
+          editable: false
         }}
       />
       <FormInput

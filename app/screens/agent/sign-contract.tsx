@@ -3,7 +3,7 @@ import { ActivityIndicator, Alert, ScrollView, View } from "react-native"
 import AppHeader from "../../components/app-header/AppHeader"
 import AppButton from "../../components/app-button/AppButton"
 import RenderHtml from 'react-native-render-html';
-import { isAndroid, verticalScale, width } from "../../constants/variable"
+import { isAndroid, width } from "../../constants/variable"
 import { CollaboratorContractInfoDesktop } from "./constants"
 import { s, ScaledSheet } from "react-native-size-matters"
 import SignatureModal from "./components/signature-modal"
@@ -59,6 +59,7 @@ const SignContract = React.memo((props: Props) => {
       <ScrollView style={[CONTAINER_PADDING, PADDING_VERTICAL]}>
         <RenderHtml
           contentWidth={width}
+          // @ts-ignore
           baseStyle={styles.htmlContainer}
           source={CollaboratorContractInfoDesktop({
             fullName: agentStore.fullName?.toUpperCase(),
@@ -137,7 +138,7 @@ const styles = ScaledSheet.create({
   signatureContainer: {
     width: '40%',
     position: 'absolute',
-    bottom: isAndroid ? '160@s' : '140@s',
+    bottom: isAndroid ? '150@s' : '140@s',
     right: s(25),
     alignItems: 'center'
   }

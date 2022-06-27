@@ -7,6 +7,7 @@
     "apk": "cd android &&./gradlew clean && ./gradlew assembleRelease && cd ..",
     "start": "react-native start",
     "ios": "react-native run-ios",
+    "ios11": "react-native run-ios --simulator 'iPhone 11'",
     "android": "react-native run-android",
     "test:e2e": "detox test -c ios.sim.debug",
     "build:e2e": "detox build -c ios.sim.debug",

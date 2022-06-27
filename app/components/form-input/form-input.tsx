@@ -1,25 +1,24 @@
-import React from 'react';
+import React from "react"
 import { View, StyleSheet, ViewStyle } from "react-native"
 import { TextField, TextFieldProps } from "../text-field/text-field"
 import { Controller, UseControllerProps } from "react-hook-form"
 import { Control } from "react-hook-form/dist/types/form"
-import { FieldValues } from "react-hook-form/dist/types/fields"
 import { TxKeyPath } from "../../i18n"
 import i18n from "i18n-js"
 
-export interface FormInputProps extends TextFieldProps, UseControllerProps{
-  name: string,
-  label?: string,
-  placeholder?: string,
+export interface FormInputProps extends TextFieldProps, UseControllerProps {
+  name: string
+  label?: string
+  placeholder?: string
   placeholderTx?: TxKeyPath
   labelTx?: TxKeyPath
   txOptions?: i18n.TranslateOptions
-  control: Control,
-  error: string | undefined,
-  style?: ViewStyle | any,
-  defaultValue?: string,
+  control: Control
+  error: string | undefined
+  style?: ViewStyle | any
+  defaultValue?: string
   showIcon?: boolean
-  multiline?:boolean
+  multiline?: boolean
 }
 
 const FormInput = React.memo((props: FormInputProps) => {
@@ -33,7 +32,7 @@ const FormInput = React.memo((props: FormInputProps) => {
     error,
     style,
     rules,
-    defaultValue = '',
+    defaultValue = "",
     showIcon = false,
     multiline,
     ...rest
@@ -66,12 +65,12 @@ const FormInput = React.memo((props: FormInputProps) => {
       />
     </View>
   )
-});
+})
 
-export default FormInput;
+export default FormInput
 
-FormInput.displayName = 'FormInput'
+FormInput.displayName = "FormInput"
 
 const styles = StyleSheet.create({
-    container: {},
-});
+  container: {},
+})

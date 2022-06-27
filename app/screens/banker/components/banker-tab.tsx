@@ -1,23 +1,20 @@
 import { observer } from "mobx-react-lite"
 import { HStack, Pressable, ScrollView } from "native-base"
-import React, { useCallback } from "react"
+import React, { useCallback, useState } from "react"
 import { s, vs } from "react-native-size-matters"
 import { Text } from "../../../components"
-import { useStores } from "../../../models"
-import { LOAN_STATUS_DATA } from "../constants"
+import { map } from "../../../utils/lodash-utils"
 
 interface Props {
   onChangeTab?: (key) => void
+  data: any
 }
 
-const BankerLoanTab = observer(({ onChangeTab }: Props) => {
-  const {
-    bankerStore: { dealStatusFilter, setDealStatusFilter },
-  } = useStores()
-
+const BankerTab = observer(({ onChangeTab, data }: Props) => {
+  const [tabSelected, setTabSelected] = useState(data?.[0]?.key)
   const onSelectTab = useCallback(
     (key) => () => {
-      setDealStatusFilter(key)
+      setTabSelected?.(key)
       onChangeTab?.(key)
     },
     [onChangeTab],
@@ -30,8 +27,8 @@ const BankerLoanTab = observer(({ onChangeTab }: Props) => {
         showsHorizontalScrollIndicator={false}
         contentContainerStyle={{ paddingLeft: s(16) }}
       >
-        {LOAN_STATUS_DATA.map((status, index) => {
-          const selected = dealStatusFilter === status.key
+        {map(data, (status, index) => {
+          const selected = tabSelected === status.key
           return (
             <Pressable
               onPress={onSelectTab(status.key)}
@@ -60,4 +57,4 @@ const BankerLoanTab = observer(({ onChangeTab }: Props) => {
   )
 })
 
-export default BankerLoanTab
+export default BankerTab

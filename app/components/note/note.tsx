@@ -9,6 +9,9 @@ import { color } from "../../theme"
 import { AppText } from "../app-text/AppText"
 import { Button } from "../button/button"
 import FormInput from "../form-input/form-input"
+import RenderHtml from "react-native-render-html"
+import { Box } from "native-base"
+import { width } from "../../constants/variable"
 
 interface Props {
   id?: any
@@ -91,7 +94,15 @@ const Note = observer((props: Props) => {
           <View style={styles.noteContent}>
             <AppText style={styles.name} value={comment?.createdBy?.fullName} />
             <AppText style={styles.time} value={moment(comment?.createdAt).fromNow()} />
-            <AppText style={styles.valueNote} value={comment?.content} />
+            {/* <AppText style={styles.valueNote} value={comment?.content?.toString()} /> */}
+            <Box my="1" width="full">
+              <RenderHtml
+                contentWidth={width}
+                source={{
+                  html: `<div style="color: #151940; font-size: 12px;">${comment?.content}</div>`,
+                }}
+              />
+            </Box>
 
             {comment?.reply &&
               comment?.reply?.map((subComment, index) => (
