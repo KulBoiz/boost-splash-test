@@ -4,7 +4,7 @@ import { observer } from "mobx-react-lite"
 import { Box, HStack, Pressable, ScrollView } from "native-base"
 import numeral from "numeral"
 import React, { FC, useCallback, useState } from "react"
-import { Alert, View } from "react-native"
+import { Alert, KeyboardAvoidingView, View } from "react-native"
 import { ScaledSheet, vs } from "react-native-size-matters"
 import { Text } from "../../components"
 import AppHeader from "../../components/app-header/AppHeader"
@@ -15,10 +15,7 @@ import { useStores } from "../../models"
 import { color } from "../../theme"
 import PopupConfirm from "./components/popup-confirm"
 import PopupReject from "./components/popup-reject"
-import {
-  getSurveyDetails,
-  getSurveyName, STATUS_BANK_FEED_BACK
-} from "./constants"
+import { getSurveyDetails, getSurveyName, STATUS_BANK_FEED_BACK } from "./constants"
 
 const BankerRequestDetailScreen: FC = observer((props: any) => {
   const navigation = useNavigation()
@@ -35,7 +32,8 @@ const BankerRequestDetailScreen: FC = observer((props: any) => {
 
   const data = props?.route?.params?.data
   const name = getSurveyName(data?.surveyDetails)
-  const bankerFeedBack = data?.bankFeedbacks?.find(el => el?.userId === authStoreModel?.user?.id)?.content
+  const bankerFeedBack = data?.bankFeedbacks?.find((el) => el?.userId === authStoreModel?.user?.id)
+    ?.content
 
   const showPopupReject = useCallback(() => setRejectVisible(true), [])
   const hidePopupReject = useCallback(() => setRejectVisible(false), [])
@@ -154,251 +152,257 @@ const BankerRequestDetailScreen: FC = observer((props: any) => {
   }
 
   return (
-    <Box flex="1" bg="lightBlue">
-      <AppHeader
-        renderTitle={
-          <Box
-            position="absolute"
-            bottom="4.0"
-            left="0"
-            right="0"
-            justifyContent="flex-end"
-            alignItems="center"
-            pointerEvents="none"
-          >
-            <Text color="ebony" fontSize={14} lineHeight={20} fontWeight="700" text={name} />
-            <Text
-              color="grayChateau"
-              fontSize={12}
-              lineHeight={17}
-              fontWeight="600"
-              text={`HSV - ${data._iid}`}
-            />
-          </Box>
-        }
-      />
-      <ScrollView>
-        <Box mt="6" mx="4">
-          <Box bg="white" borderRadius="8" p="4">
-            <Text
-              color="ebony"
-              fontSize={14}
-              lineHeight={20}
-              fontWeight="600"
-              text="Thông tin khoản vay"
-            />
-            <Box height="1.0" my="3" bg="iron" opacity={0.5} />
-            {getSurveyDetails(data?.surveyDetails).map((item, index) => renderItem(item, index))}
-          </Box>
+    <KeyboardAvoidingView
+      behavior="position"
+      contentContainerStyle={{ flex: 1 }}
+      style={{ flex: 1 }}
+    >
+      <Box flex="1" bg="lightBlue">
+        <AppHeader
+          renderTitle={
+            <Box
+              position="absolute"
+              bottom="4.0"
+              left="0"
+              right="0"
+              justifyContent="flex-end"
+              alignItems="center"
+              pointerEvents="none"
+            >
+              <Text color="ebony" fontSize={14} lineHeight={20} fontWeight="700" text={name} />
+              <Text
+                color="grayChateau"
+                fontSize={12}
+                lineHeight={17}
+                fontWeight="600"
+                text={`HSV - ${data._iid}`}
+              />
+            </Box>
+          }
+        />
+        <ScrollView>
+          <Box mt="6" mx="4">
+            <Box bg="white" borderRadius="8" p="4">
+              <Text
+                color="ebony"
+                fontSize={14}
+                lineHeight={20}
+                fontWeight="600"
+                text="Thông tin khoản vay"
+              />
+              <Box height="1.0" my="3" bg="iron" opacity={0.5} />
+              {getSurveyDetails(data?.surveyDetails).map((item, index) => renderItem(item, index))}
+            </Box>
 
-          {bankerFeedBack &&
+            {bankerFeedBack && (
+              <Box bg="white" borderRadius="8" p="4" mt="4">
+                <Text
+                  color="ebony"
+                  fontSize={14}
+                  lineHeight={20}
+                  fontWeight="600"
+                  text="Thông tin chào gói vay"
+                />
+                <Box height="1.0" my="3" bg="iron" opacity={0.5} />
+                <HStack mt={0}>
+                  <Text
+                    color="lighterGray"
+                    fontSize={14}
+                    lineHeight={20}
+                    fontWeight="400"
+                    flex="1"
+                    text={"Khả năng vay:"}
+                  />
+                  <Text
+                    color="black"
+                    fontSize={14}
+                    lineHeight={20}
+                    fontWeight="500"
+                    text={`${numeral(bankerFeedBack?.loanDemand).format("0,0")} vnđ`}
+                    flex="1"
+                    textAlign="right"
+                  />
+                </HStack>
+                <HStack mt={3}>
+                  <Text
+                    color="lighterGray"
+                    fontSize={14}
+                    lineHeight={20}
+                    fontWeight="400"
+                    flex="1"
+                    text={"Định giá tài sản sơ bộ dự kiến:"}
+                  />
+                  <Text
+                    color="black"
+                    fontSize={14}
+                    lineHeight={20}
+                    fontWeight="500"
+                    text={bankerFeedBack?.propertyValuation}
+                    flex="1"
+                    textAlign="right"
+                  />
+                </HStack>
+                <HStack mt={3}>
+                  <Text
+                    color="lighterGray"
+                    fontSize={14}
+                    lineHeight={20}
+                    fontWeight="400"
+                    flex="1"
+                    text={"Số tháng cho vay:"}
+                  />
+                  <Text
+                    color="black"
+                    fontSize={14}
+                    lineHeight={20}
+                    fontWeight="500"
+                    text={`${bankerFeedBack?.borrowTime} Tháng`}
+                    flex="1"
+                    textAlign="right"
+                  />
+                </HStack>
+                <HStack mt={3}>
+                  <Text
+                    color="lighterGray"
+                    fontSize={14}
+                    lineHeight={20}
+                    fontWeight="400"
+                    flex="1"
+                    text={"Thời gian ưu đãi dự kiến:"}
+                  />
+                  <Text
+                    color="black"
+                    fontSize={14}
+                    lineHeight={20}
+                    fontWeight="500"
+                    text={`${bankerFeedBack?.preferentialTime} Tháng`}
+                    flex="1"
+                    textAlign="right"
+                  />
+                </HStack>
+                <HStack mt={3}>
+                  <Text
+                    color="lighterGray"
+                    fontSize={14}
+                    lineHeight={20}
+                    fontWeight="400"
+                    flex="1"
+                    text={"Lãi xuất ưu đãi dự kiến:"}
+                  />
+                  <Text
+                    color="black"
+                    fontSize={14}
+                    lineHeight={20}
+                    fontWeight="500"
+                    text={`${bankerFeedBack?.interestRate} %`}
+                    flex="1"
+                    textAlign="right"
+                  />
+                </HStack>
+                <HStack mt={3}>
+                  <Text
+                    color="lighterGray"
+                    fontSize={14}
+                    lineHeight={20}
+                    fontWeight="400"
+                    flex="1"
+                    text={"Phí trả trước hạn dự kiến:"}
+                  />
+                  <Text
+                    color="black"
+                    fontSize={14}
+                    lineHeight={20}
+                    fontWeight="500"
+                    text={`${numeral(bankerFeedBack?.prepaidTermFee).format("0,0")} vnđ`}
+                    flex="1"
+                    textAlign="right"
+                  />
+                </HStack>
+              </Box>
+            )}
+
             <Box bg="white" borderRadius="8" p="4" mt="4">
               <Text
                 color="ebony"
                 fontSize={14}
                 lineHeight={20}
                 fontWeight="600"
-                text="Thông tin chào gói vay"
+                text="Các hồ sơ cần chuẩn bị"
               />
               <Box height="1.0" my="3" bg="iron" opacity={0.5} />
-              <HStack mt={0}>
-                <Text
-                  color="lighterGray"
-                  fontSize={14}
-                  lineHeight={20}
-                  fontWeight="400"
-                  flex="1"
-                  text={'Khả năng vay:'}
-                />
-                <Text
-                  color="black"
-                  fontSize={14}
-                  lineHeight={20}
-                  fontWeight="500"
-                  text={`${numeral(bankerFeedBack?.loanDemand).format("0,0")} vnđ`}
-                  flex="1"
-                  textAlign="right"
-                />
-              </HStack>
-              <HStack mt={3}>
-                <Text
-                  color="lighterGray"
-                  fontSize={14}
-                  lineHeight={20}
-                  fontWeight="400"
-                  flex="1"
-                  text={'Định giá tài sản sơ bộ dự kiến:'}
-                />
-                <Text
-                  color="black"
-                  fontSize={14}
-                  lineHeight={20}
-                  fontWeight="500"
-                  text={bankerFeedBack?.propertyValuation}
-                  flex="1"
-                  textAlign="right"
-                />
-              </HStack>
-              <HStack mt={3}>
-                <Text
-                  color="lighterGray"
-                  fontSize={14}
-                  lineHeight={20}
-                  fontWeight="400"
-                  flex="1"
-                  text={'Số tháng cho vay:'}
-                />
-                <Text
-                  color="black"
-                  fontSize={14}
-                  lineHeight={20}
-                  fontWeight="500"
-                  text={`${bankerFeedBack?.borrowTime} Tháng`}
-                  flex="1"
-                  textAlign="right"
-                />
-              </HStack>
-              <HStack mt={3}>
-                <Text
-                  color="lighterGray"
-                  fontSize={14}
-                  lineHeight={20}
-                  fontWeight="400"
-                  flex="1"
-                  text={'Thời gian ưu đãi dự kiến:'}
-                />
-                <Text
-                  color="black"
-                  fontSize={14}
-                  lineHeight={20}
-                  fontWeight="500"
-                  text={`${bankerFeedBack?.preferentialTime} Tháng`}
-                  flex="1"
-                  textAlign="right"
-                />
-              </HStack>
-              <HStack mt={3}>
-                <Text
-                  color="lighterGray"
-                  fontSize={14}
-                  lineHeight={20}
-                  fontWeight="400"
-                  flex="1"
-                  text={'Lãi xuất ưu đãi dự kiến:'}
-                />
-                <Text
-                  color="black"
-                  fontSize={14}
-                  lineHeight={20}
-                  fontWeight="500"
-                  text={`${bankerFeedBack?.interestRate} %`}
-                  flex="1"
-                  textAlign="right"
-                />
-              </HStack>
-              <HStack mt={3}>
-                <Text
-                  color="lighterGray"
-                  fontSize={14}
-                  lineHeight={20}
-                  fontWeight="400"
-                  flex="1"
-                  text={'Phí trả trước hạn dự kiến:'}
-                />
-                <Text
-                  color="black"
-                  fontSize={14}
-                  lineHeight={20}
-                  fontWeight="500"
-                  text={`${numeral(bankerFeedBack?.prepaidTermFee).format("0,0")} vnđ`}
-                  flex="1"
-                  textAlign="right"
-                />
-              </HStack>
+              {documents.map((item, index) => (
+                <HStack key={index} mt={index ? 3 : 0} alignItems="center">
+                  <Box width="1" height="1" rounded="full" bg="black" mr="1" />
+                  <Text
+                    color="black"
+                    fontSize={12}
+                    lineHeight={17}
+                    fontWeight="400"
+                    text={item}
+                    textTransform="capitalize"
+                  />
+                </HStack>
+              ))}
             </Box>
-          }
-
-          <Box bg="white" borderRadius="8" p="4" mt="4">
-            <Text
-              color="ebony"
-              fontSize={14}
-              lineHeight={20}
-              fontWeight="600"
-              text="Các hồ sơ cần chuẩn bị"
-            />
-            <Box height="1.0" my="3" bg="iron" opacity={0.5} />
-            {documents.map((item, index) => (
-              <HStack key={index} mt={index ? 3 : 0} alignItems="center">
-                <Box width="1" height="1" rounded="full" bg="black" mr="1" />
-                <Text
-                  color="black"
-                  fontSize={12}
-                  lineHeight={17}
-                  fontWeight="400"
-                  text={item}
-                  textTransform="capitalize"
-                />
+            <View style={[styles.contentItem, styles.contentItemNote]}>
+              <Note id={data?.taskId} />
+            </View>
+            {renderAction() && (
+              <HStack mt="4" mb="6">
+                <Pressable
+                  onPress={showPopupReject}
+                  flex="1"
+                  bg="white"
+                  borderWidth="1"
+                  h={vs(51)}
+                  borderRadius="8"
+                  borderColor="primary"
+                  alignItems="center"
+                  justifyContent="center"
+                >
+                  <Text fontSize={16} fontWeight="600" color="primary" tx="banker.reject" />
+                </Pressable>
+                <Pressable
+                  onPress={showPopupConfirm}
+                  flex="1"
+                  h={vs(51)}
+                  borderRadius="8"
+                  bg="primary"
+                  alignItems="center"
+                  justifyContent="center"
+                  ml="4"
+                >
+                  <Text fontSize={16} fontWeight="600" color="white" tx="banker.approve" />
+                </Pressable>
               </HStack>
-            ))}
+            )}
           </Box>
-          <View style={[styles.contentItem, styles.contentItemNote]}>
-            <Note id={data?.taskId} />
-          </View>
-          {renderAction() && (
-            <HStack mt="4" mb="6">
-              <Pressable
-                onPress={showPopupReject}
-                flex="1"
-                bg="white"
-                borderWidth="1"
-                h={vs(51)}
-                borderRadius="8"
-                borderColor="primary"
-                alignItems="center"
-                justifyContent="center"
-              >
-                <Text fontSize={16} fontWeight="600" color="primary" tx="banker.reject" />
-              </Pressable>
-              <Pressable
-                onPress={showPopupConfirm}
-                flex="1"
-                h={vs(51)}
-                borderRadius="8"
-                bg="primary"
-                alignItems="center"
-                justifyContent="center"
-                ml="4"
-              >
-                <Text fontSize={16} fontWeight="600" color="white" tx="banker.approve" />
-              </Pressable>
-            </HStack>
-          )}
-        </Box>
-      </ScrollView>
+        </ScrollView>
 
-      {renderAction() && (
-        <>
-          <PopupReject
-            visible={rejectVisible}
-            onClose={hidePopupReject}
-            onConfirm={onConfirmReject}
-          />
-          <PopupConfirm
-            visible={confirmVisible}
-            onClose={hidePopupConfirm}
-            onConfirm={onConfirmReceived}
-          />
-        </>
-      )}
+        {renderAction() && (
+          <>
+            <PopupReject
+              visible={rejectVisible}
+              onClose={hidePopupReject}
+              onConfirm={onConfirmReject}
+            />
+            <PopupConfirm
+              visible={confirmVisible}
+              onClose={hidePopupConfirm}
+              onConfirm={onConfirmReceived}
+            />
+          </>
+        )}
 
-      <PopupAlert
-        visible={alert.visible}
-        type={alert.type}
-        message={alert.message}
-        onClose={() => setAlert({ visible: false })}
-        onConfirm={onAlertConfirm}
-      />
-    </Box>
+        <PopupAlert
+          visible={alert.visible}
+          type={alert.type}
+          message={alert.message}
+          onClose={() => setAlert({ visible: false })}
+          onConfirm={onAlertConfirm}
+        />
+      </Box>
+    </KeyboardAvoidingView>
   )
 })
 
