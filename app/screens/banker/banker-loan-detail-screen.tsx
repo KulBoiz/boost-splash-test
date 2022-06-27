@@ -10,7 +10,7 @@ import { Text } from "../../components"
 import numeral from "numeral"
 import moment from "moment"
 import { CallSvg, EditSvg, NotificationSvg, PlusBottomSvg, PlusSvg } from "../../assets/svgs"
-import { Alert, KeyboardAvoidingView, Linking, View } from "react-native"
+import { Alert, Linking, View } from "react-native"
 import DocumentView from "./components/document-view"
 import BankerLoanSteps from "./components/banker-loan-steps"
 import {
@@ -119,8 +119,8 @@ const BankerLoanDetailScreen: FC = observer((props: any) => {
 
     setAlert({ visible: false })
     if (result) {
-      if (result === "CHECKED_AMOUNT_IS_NOT_ENOUGH") {
-        Alert.alert("Kiểm tra lại thông tin giải ngân hoặc số tiền giải ngân")
+      if (result === 'CHECKED_AMOUNT_IS_NOT_ENOUGH') {
+        Alert.alert('Kiểm tra lại thông tin giải ngân hoặc số tiền giải ngân');
       } else {
         toast.show({
           description: result,
@@ -142,7 +142,7 @@ const BankerLoanDetailScreen: FC = observer((props: any) => {
         </Box>
       )
     return null
-  }, [notes, dealDetailId])
+  }, [notes])
 
   const renderItem = useCallback(
     ({
@@ -220,63 +220,58 @@ const BankerLoanDetailScreen: FC = observer((props: any) => {
           fontWeight="600"
           text="Quá trình giải ngân:"
         />
-        {transactionDetail?.transactionDetails?.length > 0 && (
-          <>
-            <Box height="1.0" my="3" bg="iron" opacity={0.5} />
-            {transactionDetail?.transactionDetails?.map((item, index) =>
-              renderItem({
-                item: {
-                  label: `${numeral(item.amount).format("0,0")} VNĐ`,
-                  value: "",
-                },
-                index: index,
-                rightComponent: (
-                  <Text
-                    size="medium12"
-                    flex="1"
-                    textAlign="right"
-                    color={
-                      item.status === TRANSACTION_STATUS_TYPES.FOR_CONTROL
-                        ? "green"
-                        : item.status === TRANSACTION_STATUS_TYPES.CANCELLED
+        {transactionDetail?.transactionDetails?.length > 0 && <>
+          <Box height="1.0" my="3" bg="iron" opacity={0.5} />
+          {transactionDetail?.transactionDetails?.map((item, index) =>
+            renderItem({
+              item: {
+                label: `${numeral(item.amount).format("0,0")} VNĐ`,
+                value: "",
+              },
+              index: index,
+              rightComponent: (
+                <Text
+                  size="medium12"
+                  flex="1"
+                  textAlign="right"
+                  color={
+                    item.status === TRANSACTION_STATUS_TYPES.FOR_CONTROL
+                      ? "green"
+                      : item.status === TRANSACTION_STATUS_TYPES.CANCELLED
                         ? "red"
                         : "orange"
-                    }
-                    text={
-                      item.status === TRANSACTION_STATUS_TYPES.FOR_CONTROL
-                        ? "Đã đối soát"
-                        : item.status === TRANSACTION_STATUS_TYPES.CANCELLED
+                  }
+                  text={
+                    item.status === TRANSACTION_STATUS_TYPES.FOR_CONTROL
+                      ? "Đã đối soát"
+                      : item.status === TRANSACTION_STATUS_TYPES.CANCELLED
                         ? "Huỷ"
                         : "Chưa đối soát"
-                    }
-                  />
-                ),
-              }),
-            )}
-          </>
-        )}
+                  }
+                />
+              ),
+            }),
+          )}</>}
 
-        {data?.dealDetails?.[0]?.status === LOAN_STATUS_TYPES.DISBURSING && (
-          <>
-            <Box height="1.0" my="3" bg="iron" opacity={0.5} />
+        {data?.dealDetails?.[0]?.status === LOAN_STATUS_TYPES.DISBURSING && <>
+          <Box height="1.0" my="3" bg="iron" opacity={0.5} />
 
-            <Pressable
-              onPress={() => {
-                if (!dealDetail?.info?.approvalAmount || dealDetail?.info?.approvalAmount === 0) {
-                  Alert.alert("Chưa phê duyệt số tiền cần giải ngân")
-                } else {
-                  setCreateTransactionVisible(true)
-                }
-              }}
-              style={{
-                flex: 1,
-                alignItems: "center",
-              }}
-            >
-              <PlusBottomSvg />
-            </Pressable>
-          </>
-        )}
+          <Pressable
+            onPress={() => {
+              if (!dealDetail?.info?.approvalAmount || dealDetail?.info?.approvalAmount === 0) {
+                Alert.alert('Chưa phê duyệt số tiền cần giải ngân');
+              } else {
+                setCreateTransactionVisible(true)
+              }
+            }}
+            style={{
+              flex: 1,
+              alignItems: "center",
+            }}
+          >
+            <PlusBottomSvg />
+          </Pressable>
+        </>}
       </Box>
     )
   }, [transactionDetail])
@@ -428,243 +423,236 @@ const BankerLoanDetailScreen: FC = observer((props: any) => {
     }
   }, [onReject, onExpertise])
   return (
-    <KeyboardAvoidingView
-      style={{ flex: 1 }}
-      behavior="position"
-      contentContainerStyle={{ flex: 1 }}
-    >
-      <Box flex="1" bg="lightBlue">
-        <AppHeader
-          renderTitle={
-            <Box
-              flex="1"
-              justifyContent="flex-end"
-              alignItems="center"
-              pointerEvents="none"
-              mb="-3.5"
-            >
-              <Text color="ebony" size="bold14" text={name} />
-              <Text size="semiBold12" color="grayChateau" text={`HSV - ${data._iid}`} />
-            </Box>
-          }
-          renderRightIcon={<NotificationSvg />}
-        />
-        {data?.dealDetails?.[0]?.status !== LOAN_STATUS_TYPES.CANCELLED ? (
-          <BankerLoanSteps activeIndex={LOAN_STEP_INDEX[data?.dealDetails?.[0]?.status]} mb="1" />
-        ) : (
-          <View style={{ alignItems: "center", marginTop: s(20) }}>
-            <Text
-              color="lightGray"
-              size="semiBold14"
-              text={
-                data?.status === LOAN_STATUS_TYPES.CANCELLED
-                  ? "FINA đã huỷ bỏ hồ sơ"
-                  : "Ngân hàng từ chối hồ sơ"
-              }
-            />
-          </View>
-        )}
-        <ScrollView>
-          <Box mb="6" mx="4" mt="5">
-            <Box bg="white" borderRadius="8" p="4">
-              <Text color="ebony" size="semiBold14" text="Khách hàng" />
-              <Box height="1.0" my="3" bg="iron" opacity={0.5} />
-              {renderItem({
-                item: { label: "Họ tên", value: name },
-                index: 0,
-                rightComponent: renderCall(name, data.user?.tels?.[0]?.tel),
-              })}
-              {renderItem({ item: { label: "Giới tính", value: renderGender() }, index: 1 })}
-              {/* {renderItem({ item: { label: "Phương án", value: "-" }, index: 2 })} */}
-              {renderItem({ item: { label: "Yêu cầu", value: "-" }, index: 3 })}
-              {renderItem({ item: { label: "Thông tin bổ sung", value: "-" }, index: 4 })}
-            </Box>
-            <Box bg="white" borderRadius="8" p="4" mt={vs(8)}>
-              <HStack alignItems="center" justifyContent="space-between">
-                <Text size="semiBold14" text="Hồ sơ cho vay" />
-                {/* <Pressable onPress={() => setEditDocumentLoanVisible(true)}>
+    <Box flex="1" bg="lightBlue">
+      <AppHeader
+        renderTitle={
+          <Box
+            flex="1"
+            justifyContent="flex-end"
+            alignItems="center"
+            pointerEvents="none"
+            mb="-3.5"
+          >
+            <Text color="ebony" size="bold14" text={name} />
+            <Text size="semiBold12" color="grayChateau" text={`HSV - ${data._iid}`} />
+          </Box>
+        }
+        renderRightIcon={<NotificationSvg />}
+      />
+      {data?.dealDetails?.[0]?.status !== LOAN_STATUS_TYPES.CANCELLED ? (
+        <BankerLoanSteps activeIndex={LOAN_STEP_INDEX[data?.dealDetails?.[0]?.status]} mb="1" />
+      ) : (
+        <View style={{ alignItems: "center", marginTop: s(20) }}>
+          <Text
+            color="lightGray"
+            size="semiBold14"
+            text={
+              data?.status === LOAN_STATUS_TYPES.CANCELLED
+                ? "FINA đã huỷ bỏ hồ sơ"
+                : "Ngân hàng từ chối hồ sơ"
+            }
+          />
+        </View>
+      )}
+      <ScrollView>
+        <Box mb="6" mx="4" mt="5">
+          <Box bg="white" borderRadius="8" p="4">
+            <Text color="ebony" size="semiBold14" text="Khách hàng" />
+            <Box height="1.0" my="3" bg="iron" opacity={0.5} />
+            {renderItem({
+              item: { label: "Họ tên", value: name },
+              index: 0,
+              rightComponent: renderCall(name, data.user?.tels?.[0]?.tel),
+            })}
+            {renderItem({ item: { label: "Giới tính", value: renderGender() }, index: 1 })}
+            {/* {renderItem({ item: { label: "Phương án", value: "-" }, index: 2 })} */}
+            {renderItem({ item: { label: "Yêu cầu", value: "-" }, index: 3 })}
+            {renderItem({ item: { label: "Thông tin bổ sung", value: "-" }, index: 4 })}
+          </Box>
+          <Box bg="white" borderRadius="8" p="4" mt={vs(8)}>
+            <HStack alignItems="center" justifyContent="space-between">
+              <Text size="semiBold14" text="Hồ sơ cho vay" />
+              {/* <Pressable onPress={() => setEditDocumentLoanVisible(true)}>
                 <EditSvg />
               </Pressable> */}
-              </HStack>
-              <Box height="1.0" my="3" bg="iron" opacity={0.5} />
-              {renderItem({ item: { label: "Sản phẩm", value: data?.product?.name }, index: 0 })}
-              {renderItem({
-                item: { label: "Mã SP CĐT", value: data?.apartmentCodeInvestor || "-" },
-                index: 1,
-              })}
-              {renderItem({
-                item: { label: "Mã căn hộ", value: data?.realEstateInfo?.apartmentCode || "-" },
-                index: 2,
-              })}
-              {renderItem({
-                item: { label: "Địa chỉ", value: data?.realEstateInfo?.address || "_" },
-                index: 3,
-              })}
-              {renderItem({
-                item: {
-                  label: "Số tiền khách yêu cầu vay",
-                  value: `${numeral(data?.loanMoney).format("0,0")} ${data?.suffix || "vnđ"}`,
-                },
-                index: 4,
-              })}
-              {renderItem({
-                item: {
-                  label: "Thời gian vay",
-                  value: `${data.timeLoan || 0} (Tháng)`,
-                },
-                index: 5,
-              })}
-              {renderItem({
-                item: {
-                  label: "Thời gian tạo",
-                  value: moment(data.createdAt).format("DD/MM/YYYY | hh:mm"),
-                },
-                index: 6,
-              })}
-              {renderItem({
-                item: { label: "Nhân viên FINA", value: data?.createdBy?.fullName },
-                index: 7,
-                rightComponent: renderCall(
-                  data?.createdBy?.fullName,
-                  data.createdBy?.tels?.[0]?.tel,
-                ),
-              })}
-            </Box>
-            <Box bg="white" borderRadius="8" p="4" mt={vs(8)}>
-              <HStack alignItems="center" justifyContent="space-between">
-                <Text color="ebony" size="semiBold14" text="Kết quả" />
-                <Pressable onPress={() => setEditLoanResultVisible(true)}>
-                  <EditSvg />
-                </Pressable>
-              </HStack>
-              <Box height="1.0" my="3" bg="iron" opacity={0.5} />
-              {renderItem({
-                item: {
-                  label: "Số tiền phê duyệt",
-                  value: dealDetail?.info?.approvalAmount
-                    ? `${numeral(dealDetail?.info?.approvalAmount).format("0,0")} VNĐ`
-                    : "-",
-                },
-                index: 0,
-                required: true,
-              })}
-              {renderItem({
-                item: {
-                  label: "Thời gian vay",
-                  value: dealDetail?.info?.borrowTime
-                    ? `${dealDetail?.info?.borrowTime} Tháng`
-                    : "_",
-                },
-                index: 1,
-              })}
-              {renderItem({
-                item: {
-                  label: "Ngày phê duyệt",
-                  value: dealDetail?.info?.approvalDate
-                    ? moment(dealDetail?.info?.approvalDate).format("DD/MM/YYYY | hh:mm")
-                    : "-",
-                },
-                index: 2,
-                required: true,
-              })}
-              {renderItem({
-                item: {
-                  label: "Mã hồ sơ phía ngân hàng",
-                  value: dealDetail?.info?.codeBankProfile,
-                },
-                index: 3,
-                required: true,
-              })}
-              {renderItem({
-                item: {
-                  label: "Mã khách hàng phía ngân hàng",
-                  value: dealDetail?.info?.codeBankCustomer,
-                },
-                index: 4,
-                required: true,
-              })}
-            </Box>
-            {/* {renderNotes()} */}
-            {data?.dealDetails?.[0]?.status === LOAN_STATUS_TYPES.DISBURSING &&
-              renderTransactionDetails()}
-            {renderDocuments()}
-            {renderNotes()}
-            {data?.dealDetails?.[0]?.status !== LOAN_STATUS_TYPES.CANCELLED &&
-              data?.status !== LOAN_STATUS_TYPES.CANCELLED && (
-                <Box mt={vs(34)}>{renderFooterButton()}</Box>
-              )}
+            </HStack>
+            <Box height="1.0" my="3" bg="iron" opacity={0.5} />
+            {renderItem({ item: { label: "Sản phẩm", value: data?.product?.name }, index: 0 })}
+            {renderItem({
+              item: { label: "Mã SP CĐT", value: data?.apartmentCodeInvestor || "-" },
+              index: 1,
+            })}
+            {renderItem({
+              item: { label: "Mã căn hộ", value: data?.realEstateInfo?.apartmentCode || "-" },
+              index: 2,
+            })}
+            {renderItem({
+              item: { label: "Địa chỉ", value: data?.realEstateInfo?.address || "_" },
+              index: 3,
+            })}
+            {renderItem({
+              item: {
+                label: "Số tiền khách yêu cầu vay",
+                value: `${numeral(data?.loanMoney).format("0,0")} ${data?.suffix || "vnđ"}`,
+              },
+              index: 4,
+            })}
+            {renderItem({
+              item: {
+                label: "Thời gian vay",
+                value: `${data.timeLoan || 0} (Tháng)`,
+              },
+              index: 5,
+            })}
+            {renderItem({
+              item: {
+                label: "Thời gian tạo",
+                value: moment(data.createdAt).format("DD/MM/YYYY | hh:mm"),
+              },
+              index: 6,
+            })}
+            {renderItem({
+              item: { label: "Nhân viên FINA", value: data?.createdBy?.fullName },
+              index: 7,
+              rightComponent: renderCall(data?.createdBy?.fullName, data.createdBy?.tels?.[0]?.tel),
+            })}
           </Box>
-        </ScrollView>
-        <PopupAlert
-          visible={alert.visible}
-          type={alert.type}
-          message={alert.message}
-          confirmText={alert.confirmText}
-          rejectText={alert.rejectText}
-          onClose={() => setAlert({ visible: false })}
-          onConfirm={onAlertConfirm}
-          loading={bankerStore.isUpdating}
-        />
-        <PopupEditLoanDocument
-          visible={editDocumentLoanVisible}
-          onClose={() => setEditDocumentLoanVisible(false)}
-          onConfirm={() => {
-            //
-          }}
-        />
-        <PopupEditLoanResult
-          visible={editLoanResultVisible}
-          onClose={() => setEditLoanResultVisible(false)}
+          <Box bg="white" borderRadius="8" p="4" mt={vs(8)}>
+            <HStack alignItems="center" justifyContent="space-between">
+              <Text color="ebony" size="semiBold14" text="Kết quả" />
+              <Pressable onPress={() => setEditLoanResultVisible(true)}>
+                <EditSvg />
+              </Pressable>
+            </HStack>
+            <Box height="1.0" my="3" bg="iron" opacity={0.5} />
+            {renderItem({
+              item: {
+                label: "Số tiền phê duyệt",
+                value: dealDetail?.info?.approvalAmount
+                  ? `${numeral(dealDetail?.info?.approvalAmount).format("0,0")} VNĐ`
+                  : "-",
+              },
+              index: 0,
+              required: true,
+            })}
+            {renderItem({
+              item: {
+                label: "Thời gian vay",
+                value: dealDetail?.info?.borrowTime ? `${dealDetail?.info?.borrowTime} Tháng` : "_",
+              },
+              index: 1,
+            })}
+            {renderItem({
+              item: {
+                label: "Ngày phê duyệt",
+                value: dealDetail?.info?.approvalDate
+                  ? moment(dealDetail?.info?.approvalDate).format("DD/MM/YYYY | hh:mm")
+                  : "-",
+              },
+              index: 2,
+              required: true,
+            })}
+            {renderItem({
+              item: {
+                label: "Mã hồ sơ phía ngân hàng",
+                value: dealDetail?.info?.codeBankProfile,
+              },
+              index: 3,
+              required: true,
+            })}
+            {renderItem({
+              item: {
+                label: "Mã khách hàng phía ngân hàng",
+                value: dealDetail?.info?.codeBankCustomer,
+              },
+              index: 4,
+              required: true,
+            })}
+          </Box>
+          {/* {renderNotes()} */}
+          {data?.dealDetails?.[0]?.status === LOAN_STATUS_TYPES.DISBURSING && renderTransactionDetails()}
+          {renderDocuments()}
+          {renderNotes()}
+          {
+            (data?.dealDetails?.[0]?.status !== LOAN_STATUS_TYPES.CANCELLED && data?.status !== LOAN_STATUS_TYPES.CANCELLED)
+            && <Box mt={vs(34)}>{renderFooterButton()}</Box>
+          }
+        </Box>
+      </ScrollView>
+      <PopupAlert
+        visible={alert.visible}
+        type={alert.type}
+        message={alert.message}
+        confirmText={alert.confirmText}
+        rejectText={alert.rejectText}
+        onClose={() => setAlert({ visible: false })}
+        onConfirm={onAlertConfirm}
+        loading={bankerStore.isUpdating}
+      />
+      <PopupEditLoanDocument
+        visible={editDocumentLoanVisible}
+        onClose={() => setEditDocumentLoanVisible(false)}
+        onConfirm={() => {
+          //
+        }}
+      />
+      <PopupEditLoanResult
+        visible={editLoanResultVisible}
+        onClose={() => setEditLoanResultVisible(false)}
+        data={dealDetail?.info}
+        onConfirm={(value) => {
+          bankerStore
+            .updateInfoOfDealDetail(dealDetailId, {
+              info: {
+                ...value,
+                approvalAmount: parseFloat(value.approvalAmount)
+              },
+              dealId: data?.id,
+              partnerStaffId: dealDetail?.partnerStaffId,
+              partnerCodeName: dealDetail?.partnerCodeName,
+              executePartnerId: dealDetail.executePartnerId,
+            })
+            .then(() => {
+              setEditLoanResultVisible(false)
+            })
+        }}
+      />
+
+      {createTransactionVisible &&
+        <PopupCreateTransaction
+          visible={createTransactionVisible}
+          onClose={() => setCreateTransactionVisible(false)}
           data={dealDetail?.info}
           onConfirm={(value) => {
-            bankerStore
-              .updateInfoOfDealDetail(dealDetailId, {
-                info: value,
-                dealId: data?.id,
-                partnerStaffId: dealDetail?.partnerStaffId,
-                partnerCodeName: dealDetail?.partnerCodeName,
+            bankerStore.createTransaction(
+              {
+                historiesDisbursement: [{
+                  disbursedAmount: parseFloat(value?.disbursedAmount),
+                  paymentDate: value?.paymentDate
+                }],
+                dealId: objectId,
+                dealDetailId: dealDetailId,
+                partnerId: dealDetail?.partnerId,
+                productId: data?.productId,
+                categoryId: data?.categoryId,
+                staffId: data?.assigneeId,
+                customerId: data?.userId,
+                productCategory: data?.category?.productCategory,
                 executePartnerId: dealDetail.executePartnerId,
-              })
-              .then(() => {
-                setEditLoanResultVisible(false)
-              })
-          }}
-        />
-
-        {createTransactionVisible && (
-          <PopupCreateTransaction
-            visible={createTransactionVisible}
-            onClose={() => setCreateTransactionVisible(false)}
-            data={dealDetail?.info}
-            onConfirm={(value) => {
-              bankerStore
-                .createTransaction({
-                  historiesDisbursement: [value],
-                  dealId: objectId,
-                  dealDetailId: dealDetailId,
-                  partnerId: dealDetail?.partnerId,
-                  productId: data?.productId,
-                  categoryId: data?.categoryId,
-                  staffId: data?.assigneeId,
-                  customerId: data?.userId,
-                  productCategory: data?.category?.productCategory,
-                  executePartnerId: dealDetail.executePartnerId,
-                  partnerStaffId: dealDetail?.partnerStaffId,
-                  consultantStaffId: data?.sourceId,
-                })
-                .then((res) => {
-                  if (res?.error) {
-                    Alert.alert(res?.error?.message || "Error")
-                  } else {
-                    getTransactionDeal()
-                    setCreateTransactionVisible(false)
-                  }
-                })
-            }}
-          />
-        )}
-      </Box>
-    </KeyboardAvoidingView>
+                partnerStaffId: dealDetail?.partnerStaffId,
+                consultantStaffId: data?.sourceId
+              }
+            ).then((res) => {
+              if (res?.error) {
+                Alert.alert(res?.error?.message || 'Error');
+              } else {
+                getTransactionDeal()
+                setCreateTransactionVisible(false)
+              }
+            })
+          }} />
+      }
+    </Box>
   )
 })
 
