@@ -115,7 +115,7 @@ const BankerListRequestScreen: FC<Props> = observer((props: Props) => {
           <HeaderBgSvg />
         </Box>
         <AppHeader isBlue style={styles.header} headerTx={"header.bankerListRequest"} />
-        <HStack alignItems="center">
+        {/* <HStack alignItems="center">
           <HStack
             flex="1"
             height={vs(40)}
@@ -146,7 +146,7 @@ const BankerListRequestScreen: FC<Props> = observer((props: Props) => {
           <Box height={vs(40)} px={s(16)}>
             <FilterSvg />
           </Box>
-        </HStack>
+        </HStack> */}
       </Box>
       <Box mt={vs(16)}>
         <BankerTab data={REQUEST_STATUS_DATA} onChangeTab={onChangeTab} />
