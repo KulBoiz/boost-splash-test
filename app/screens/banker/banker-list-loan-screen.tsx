@@ -105,13 +105,12 @@ const BankerListLoanScreen: FC<Props> = observer((props: Props) => {
           <HeaderBgSvg />
         </Box>
         <AppHeader isBlue style={styles.header} headerTx={"header.bankerListLoan"} />
-        <HStack alignItems="center">
+        <HStack alignItems="center" px={s(16)}>
           <HStack
             flex="1"
             height={vs(40)}
             bg="white"
             borderRadius="8"
-            ml={s(16)}
             mb={s(16)}
             alignItems="center"
             px={s(8)}
@@ -133,9 +132,9 @@ const BankerListLoanScreen: FC<Props> = observer((props: Props) => {
               onChangeText={onDebouncedSearch}
             />
           </HStack>
-          <Box height={vs(40)} px={s(16)}>
+          {/* <Box height={vs(40)} px={s(16)}>
             <FilterSvg />
-          </Box>
+          </Box> */}
         </HStack>
       </Box>
       <Box mt={vs(16)} mb={vs(8)}>
