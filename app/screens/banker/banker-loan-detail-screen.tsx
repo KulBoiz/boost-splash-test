@@ -120,11 +120,15 @@ const BankerLoanDetailScreen: FC = observer((props: any) => {
 
     setAlert({ visible: false })
     if (result) {
-      toast.show({
-        description: result,
-      })
-      bankerStore.getListLoan({}, { page: 1, limit: 20 })
-      navigation.goBack()
+      if (result === 'CHECKED_AMOUNT_IS_NOT_ENOUGH') {
+        Alert.alert('Kiểm tra lại thông tin giải ngân hoặc số tiền giải ngân');
+      } else {
+        toast.show({
+          description: result,
+        })
+        bankerStore.getListLoan({}, { page: 1, limit: 20 })
+        navigation.goBack()
+      }
     }
   }, [alert, navigation])
 
