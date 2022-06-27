@@ -88,9 +88,23 @@ export const LOAN_STATUS_DATA = [
   { key: LOAN_STATUS_TYPES.CANCELLED, text: "Huỷ bỏ" },
 ]
 
+export const REQUEST_STATUS_TYPES = {
+  DEAL_PROCESSING_TASK: "deal_processing_task",
+  WAITING_TO_RECEIVE: "waiting_to_receive",
+  RECEIVED: "received",
+  REJECT: "reject",
+}
+
+export const REQUEST_STATUS_DATA = [
+  { key: REQUEST_STATUS_TYPES.DEAL_PROCESSING_TASK, text: "Tất cả" },
+  { key: REQUEST_STATUS_TYPES.WAITING_TO_RECEIVE, text: "Chờ xử lý" },
+  { key: REQUEST_STATUS_TYPES.RECEIVED, text: "Tiếp nhận" },
+  { key: REQUEST_STATUS_TYPES.REJECT, text: "Từ chối" },
+]
+
 export const GENDER = {
-  male: 'Nam',
-  female: 'Nữ'
+  male: "Nam",
+  female: "Nữ",
 }
 
 export const QUESTION_TYPES = {
