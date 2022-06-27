@@ -594,33 +594,76 @@ const BankerLoanDetailScreen: FC = observer((props: any) => {
                 <Box mt={vs(34)}>{renderFooterButton()}</Box>
               )}
           </Box>
-        </ScrollView>
-        <PopupAlert
-          visible={alert.visible}
-          type={alert.type}
-          message={alert.message}
-          confirmText={alert.confirmText}
-          rejectText={alert.rejectText}
-          onClose={() => setAlert({ visible: false })}
-          onConfirm={onAlertConfirm}
-          loading={bankerStore.isUpdating}
-        />
-        <PopupEditLoanDocument
-          visible={editDocumentLoanVisible}
-          onClose={() => setEditDocumentLoanVisible(false)}
-          onConfirm={() => {
-            //
-          }}
-        />
-        <PopupEditLoanResult
-          visible={editLoanResultVisible}
-          onClose={() => setEditLoanResultVisible(false)}
+          {/* {renderNotes()} */}
+          {data?.dealDetails?.[0]?.status === LOAN_STATUS_TYPES.DISBURSING && renderTransactionDetails()}
+          {renderDocuments()}
+          {renderNotes()}
+          {
+            (data?.dealDetails?.[0]?.status !== LOAN_STATUS_TYPES.CANCELLED && data?.status !== LOAN_STATUS_TYPES.CANCELLED)
+            && <Box mt={vs(34)}>{renderFooterButton()}</Box>
+          }
+        </Box>
+      </ScrollView>
+      <PopupAlert
+        visible={alert.visible}
+        type={alert.type}
+        message={alert.message}
+        confirmText={alert.confirmText}
+        rejectText={alert.rejectText}
+        onClose={() => setAlert({ visible: false })}
+        onConfirm={onAlertConfirm}
+        loading={bankerStore.isUpdating}
+      />
+      <PopupEditLoanDocument
+        visible={editDocumentLoanVisible}
+        onClose={() => setEditDocumentLoanVisible(false)}
+        onConfirm={() => {
+          //
+        }}
+      />
+      <PopupEditLoanResult
+        visible={editLoanResultVisible}
+        onClose={() => setEditLoanResultVisible(false)}
+        data={dealDetail?.info}
+        onConfirm={(value) => {
+          bankerStore
+            .updateInfoOfDealDetail(dealDetailId, {
+              info: {
+                ...value,
+                approvalAmount: parseFloat(value?.approvalAmount)
+              },
+              dealId: data?.id,
+              partnerStaffId: dealDetail?.partnerStaffId,
+              partnerCodeName: dealDetail?.partnerCodeName,
+              executePartnerId: dealDetail.executePartnerId,
+            })
+            .then(() => {
+              setEditLoanResultVisible(false)
+            })
+        }}
+      />
+
+      {createTransactionVisible &&
+        <PopupCreateTransaction
+          visible={createTransactionVisible}
+          onClose={() => setCreateTransactionVisible(false)}
           data={dealDetail?.info}
           onConfirm={(value) => {
-            bankerStore
-              .updateInfoOfDealDetail(dealDetailId, {
-                info: value,
-                dealId: data?.id,
+            bankerStore.createTransaction(
+              {
+                historiesDisbursement: [{
+                  disbursedAmount: parseFloat(value?.disbursedAmount),
+                  paymentDate: value?.paymentDate
+                }],
+                dealId: objectId,
+                dealDetailId: dealDetailId,
+                partnerId: dealDetail?.partnerId,
+                productId: data?.productId,
+                categoryId: data?.categoryId,
+                staffId: data?.assigneeId,
+                customerId: data?.userId,
+                productCategory: data?.category?.productCategory,
+                executePartnerId: dealDetail.executePartnerId,
                 partnerStaffId: dealDetail?.partnerStaffId,
                 partnerCodeName: dealDetail?.partnerCodeName,
                 executePartnerId: dealDetail.executePartnerId,
