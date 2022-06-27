@@ -95,7 +95,7 @@ const Note = observer((props: Props) => {
             <AppText style={styles.name} value={comment?.createdBy?.fullName} />
             <AppText style={styles.time} value={moment(comment?.createdAt).fromNow()} />
             {/* <AppText style={styles.valueNote} value={comment?.content?.toString()} /> */}
-            <Box my="1">
+            <Box my="1" width="full">
               <RenderHtml
                 contentWidth={width}
                 source={{

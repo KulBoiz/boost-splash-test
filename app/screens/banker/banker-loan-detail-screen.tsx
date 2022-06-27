@@ -120,8 +120,8 @@ const BankerLoanDetailScreen: FC = observer((props: any) => {
 
     setAlert({ visible: false })
     if (result) {
-      if (result === 'CHECKED_AMOUNT_IS_NOT_ENOUGH') {
-        Alert.alert('Kiểm tra lại thông tin giải ngân hoặc số tiền giải ngân');
+      if (result === "CHECKED_AMOUNT_IS_NOT_ENOUGH") {
+        Alert.alert("Kiểm tra lại thông tin giải ngân hoặc số tiền giải ngân")
       } else {
         toast.show({
           description: result,
@@ -143,7 +143,7 @@ const BankerLoanDetailScreen: FC = observer((props: any) => {
         </Box>
       )
     return null
-  }, [notes])
+  }, [notes, dealDetailId])
 
   const renderItem = useCallback(
     ({
