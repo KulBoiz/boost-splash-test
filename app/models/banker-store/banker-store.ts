@@ -35,7 +35,6 @@ export const BankerStoreModel = types
     listLoan: types.optional(types.frozen(), []),
     documentTemplates: types.optional(types.frozen(), []),
     documentTemplateFiles: types.optional(types.frozen(), []),
-    dealStatusFilter: LOAN_STATUS_TYPES.ALL,
   })
   .views((self) => ({
     get api() {
@@ -43,11 +42,7 @@ export const BankerStoreModel = types
     },
   })) // eslint-disable-line @typescript-eslint/no-unused-vars
 
-  .actions((self) => ({
-    setDealStatusFilter: (value) => {
-      self.dealStatusFilter = value
-    },
-  }))
+  .actions((self) => ({}))
   .actions((self) => ({
     getListRequest: flow(function* getListRequest(
       params?: any,
@@ -58,6 +53,9 @@ export const BankerStoreModel = types
         self.isRefreshingListRequest = true
       } else {
         self.isLoadingMoreListRequest = true
+      }
+      if (isRefresh || pagingParams?.page === 1) {
+        self.listRequest = []
       }
       const _pagingParams: any = {
         ...self.pagingParamsListRequest,
@@ -76,25 +74,29 @@ export const BankerStoreModel = types
           ],
           where: {
             _q: params?.search,
-            status: "deal_processing_task",
+            status: params?.status || "deal_processing_task",
           },
           limit: pagingParams?.limit,
           skip: (pagingParams?.page - 1) * pagingParams?.limit,
         },
         page: pagingParams?.page,
       })
-      self.isRefreshingListRequest = false
-      self.isLoadingMoreListRequest = false
       if (result.kind === "ok") {
         const data = result?.data?.data
         self.pagingParamsListRequest = _pagingParams
         self.listRequestTotal = result?.data?.total
         if (isRefresh || pagingParams?.page === 1) {
           self.listRequest = data
+          self.isRefreshingListRequest = false
+          self.isLoadingMoreListRequest = false
         } else {
           self.listRequest = unionBy(self.listRequest, data, "_id")
+          self.isRefreshingListRequest = false
+          self.isLoadingMoreListRequest = false
         }
       } else {
+        self.isRefreshingListRequest = false
+        self.isLoadingMoreListRequest = false
         return result
       }
     }),
@@ -104,9 +106,9 @@ export const BankerStoreModel = types
     }),
     updateInfoOfDealDetail: flow(function* updateInfoOfDealDetail(dealDetailId, data) {
       const result = yield self.api.put(`deal-details/${dealDetailId}`, data)
-      if (result.kind === 'ok') {
+      if (result.kind === "ok") {
         const newData = [...self.listLoan]
-        const id = newData.findIndex(e => e.id === data.dealId)
+        const id = newData.findIndex((e) => e.id === data.dealId)
         newData[id].dealDetails[0].info = data.info
         self.listLoan = newData
       }
@@ -139,6 +141,9 @@ export const BankerStoreModel = types
       } else {
         self.isLoadingMoreListLoan = true
       }
+      if (isRefresh || pagingParams?.page === 1) {
+        self.listLoan = []
+      }
       const _pagingParams: any = {
         ...self.pagingParamsListLoan,
         ...pagingParams,
@@ -147,11 +152,11 @@ export const BankerStoreModel = types
         filter: {
           where: {
             status:
-              self.dealStatusFilter !== LOAN_STATUS_TYPES.ALL
-                ? { inq: [self.dealStatusFilter] }
+              params?.status !== LOAN_STATUS_TYPES.ALL
+                ? { inq: [params?.status] }
                 : {
-                  nin: ["deleted"],
-                },
+                    nin: ["deleted"],
+                  },
             searchingRule: "single",
             _q: params?.search,
           },
@@ -184,8 +189,6 @@ export const BankerStoreModel = types
         },
         page: pagingParams?.page,
       })
-      self.isRefreshingListLoan = false
-      self.isLoadingMoreListLoan = false
 
       if (result.kind === "ok") {
         const data = result?.data?.data
@@ -193,10 +196,16 @@ export const BankerStoreModel = types
         self.listLoanTotal = result?.data?.total
         if (isRefresh || pagingParams?.page === 1) {
           self.listLoan = data
+          self.isRefreshingListLoan = false
+          self.isLoadingMoreListLoan = false
         } else {
           self.listLoan = unionBy(self.listLoan, data, "id")
+          self.isRefreshingListLoan = false
+          self.isLoadingMoreListLoan = false
         }
       } else {
+        self.isRefreshingListLoan = false
+        self.isLoadingMoreListLoan = false
         return result
       }
     }),
@@ -280,7 +289,7 @@ export const BankerStoreModel = types
   .postProcessSnapshot(omitFn(["dealStatusFilter"]))
 
 type BankerStoreType = Instance<typeof BankerStoreModel>
-export interface BankerStore extends BankerStoreType { }
+export interface BankerStore extends BankerStoreType {}
 type BankerStoreSnapshotType = SnapshotOut<typeof BankerStoreModel>
-export interface BankerStoreSnapshot extends BankerStoreSnapshotType { }
+export interface BankerStoreSnapshot extends BankerStoreSnapshotType {}
 export const createBankerStoreDefaultModel = () => types.optional(BankerStoreModel, {})
