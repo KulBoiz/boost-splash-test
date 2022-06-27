@@ -1,5 +1,5 @@
 import React, { useState } from "react"
-import { Pressable, StyleProp, TextInputProps, TextStyle, View, ViewStyle } from "react-native"
+import { StyleProp, TextInputProps, TextStyle, View, ViewStyle } from "react-native"
 import { TextInput } from "react-native-paper"
 import { color, spacing } from "../../theme"
 import { translate, TxKeyPath } from "../../i18n"
@@ -10,7 +10,7 @@ import { fontFamily } from "../../constants/font-family"
 
 // the base styling for the container
 const CONTAINER: ViewStyle = {
-  marginVertical: spacing[2],
+  marginVertical: spacing[3],
 }
 const WRAP_INPUT: ViewStyle = {
   flexDirection: "row",
@@ -25,10 +25,20 @@ const INPUT: TextStyle = {
   fontSize: ms(14),
   backgroundColor: color.background,
   height: s(46),
-  paddingVertical: 0,
+}
+
+const MULTILINE: TextStyle = {
+  flex: 1,
+  fontFamily: fontFamily.medium,
+  color: color.palette.black,
+  fontSize: ms(14),
+  backgroundColor: color.background,
+  minHeight: s(80),
+  maxHeight: s(200),
 }
 
 const ERROR: TextStyle = {
+  position: 'absolute',
   fontFamily: fontFamily.medium,
   color: color.palette.angry,
   fontSize: ms(12),
@@ -85,7 +95,7 @@ export function TextField(props: TextFieldProps) {
     errorStyle: errorStyleOverride,
     forwardedRef,
     errorMessage,
-    multiline,
+    multiline = false,
     showIcon = false,
     ...rest
   } = props
@@ -110,7 +120,7 @@ export function TextField(props: TextFieldProps) {
           secureTextEntry={showIcon ? showPassword : false}
           {...rest}
           multiline={multiline}
-          style={inputStyles}
+          style={multiline ? MULTILINE : inputStyles }
           ref={forwardedRef}
           right={
             showIcon && (

@@ -11,6 +11,7 @@ import { yupResolver } from "@hookform/resolvers/yup"
 import * as Yup from "yup"
 import FormDatePicker from "../../../components/form-date-time"
 import { createNumberMask, useMaskedInputProps } from "react-native-mask-input"
+import { numberWithCommas } from "../../../constants/variable"
 
 interface Props {
   visible: boolean
@@ -38,6 +39,7 @@ const PopupEditLoanResult = React.memo(({ visible, onClose, onConfirm, data: dat
     handleSubmit,
     formState: { errors, isValid },
     reset,
+    watch,
     setValue,
     getValues,
   } = useForm({
@@ -66,7 +68,7 @@ const PopupEditLoanResult = React.memo(({ visible, onClose, onConfirm, data: dat
   })
 
   const currencyInputProps = useMaskedInputProps({
-    value: getValues("approvalAmount"),
+    value: watch("approvalAmount"),
     onChangeText: (value) => setValue("approvalAmount", value),
     mask: currencyMask,
   })
@@ -90,6 +92,7 @@ const PopupEditLoanResult = React.memo(({ visible, onClose, onConfirm, data: dat
                 label: "Số tiền phê duyệt",
                 error: errors?.approvalAmount?.message,
                 ...inputProps,
+                ...currencyInputProps,
                 keyboardType: "number-pad",
                 // ...currencyInputProps,
               }}
