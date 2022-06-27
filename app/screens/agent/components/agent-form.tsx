@@ -151,7 +151,7 @@ const AgentForm = observer((props: Props) => {
           placeholderTx: "placeholder.phone",
           control,
           error: errors?.phone?.message,
-          keyboardType: "phone-pad",
+          keyboardType: "number-pad",
         }}
       />
       <FormInput

@@ -23,6 +23,7 @@ const SignatureModal = React.memo((props: Props) => {
   const {agentStore} = useStores()
 
   const resetSign = () =>  {
+    setCheckSign(false)
     // @ts-ignore
     signRef?.current?.resetImage();
   }
