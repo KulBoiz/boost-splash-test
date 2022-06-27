@@ -151,12 +151,11 @@ export const BankerStoreModel = types
       const result = yield self.api.get("deals/bank", {
         filter: {
           where: {
-            status:
-              params?.status !== LOAN_STATUS_TYPES.ALL
-                ? { inq: [params?.status] }
-                : {
-                    nin: ["deleted"],
-                  },
+            status: params?.status
+              ? { inq: [params?.status] }
+              : {
+                  nin: ["deleted"],
+                },
             searchingRule: "single",
             _q: params?.search,
           },
