@@ -25,7 +25,6 @@ const INPUT: TextStyle = {
   fontSize: ms(14),
   backgroundColor: color.background,
   height: s(46),
-  paddingVertical: 0,
 }
 
 const MULTILINE: TextStyle = {

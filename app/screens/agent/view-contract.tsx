@@ -5,7 +5,7 @@ import RenderHtml from 'react-native-render-html';
 import { s, ScaledSheet } from "react-native-size-matters"
 import AppHeader from "../../components/app-header/AppHeader";
 import { fontFamily } from "../../constants/font-family";
-import { isAndroid, verticalScale, width } from "../../constants/variable"
+import { isAndroid, width } from "../../constants/variable"
 import { useStores } from "../../models";
 import { CONTAINER_PADDING, PADDING_VERTICAL } from "../../styles/common-style"
 import { color } from "../../theme";
@@ -33,6 +33,7 @@ const ViewContract = React.memo((props: Props) => {
       <ScrollView style={[CONTAINER_PADDING, PADDING_VERTICAL]}>
         <RenderHtml
           contentWidth={width}
+          // @ts-ignore
           baseStyle={styles.htmlContainer}
           source={CollaboratorContractInfoDesktop({
             fullName: user?.fullName?.toUpperCase(),
@@ -87,7 +88,7 @@ const styles = ScaledSheet.create({
   signatureContainer: {
     width: '40%',
     position: 'absolute',
-    bottom: isAndroid ? '140@s' : '120@s',
+    bottom: isAndroid ? '130@s' : '120@s',
     right: s(25),
     alignItems: 'center'
   }
