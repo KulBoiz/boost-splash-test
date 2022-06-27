@@ -1,18 +1,19 @@
 import React, { useState } from "react"
-import { Pressable, View } from "react-native"
+import { Keyboard } from "react-native"
 import { ScaledSheet } from "react-native-size-matters"
-import { AppText } from "../app-text/AppText"
-import { color, spacing } from "../../theme"
+import { color } from "../../theme"
 import { fontFamily } from "../../constants/font-family"
 import { CalenderSvg } from "../../assets/svgs"
 import { UseFormSetValue } from "react-hook-form/dist/types/form"
 import { FieldValues } from "react-hook-form/dist/types/fields"
 import moment from "moment"
 import { FieldPath } from "react-hook-form/dist/types"
-import { FONT_MEDIUM_14 } from "../../styles/common-style"
 import ModalDatePicker from "./modal-pick-date"
 import { isAndroid } from "../../constants/variable"
 import DateTimePicker from "@react-native-community/datetimepicker"
+import { TextField } from "../text-field/text-field"
+import { Box, Row, Pressable } from "native-base"
+
 
 
 interface Props {
@@ -43,36 +44,47 @@ const DatePicker = React.memo((props: Props) => {
 
 
   return (
-    <View style={styles.container}>
-      <Pressable style={[styles.wrapper , {borderColor: errorMessage ? color.palette.angry : color.palette.blue, }]} onPress={showMode}>
-        <View>
-          <AppText value={label} style={styles.label} color={color.palette.black}/>
-          <AppText
-            value={value ? moment(value).format('DD/MM/YYYY') : placeholder}
-             style={FONT_MEDIUM_14} color={value ? color.palette.black : color.palette.deepGray}
-          />
-        </View>
-        <CalenderSvg />
-      </Pressable>
-      <View>
-        {!!errorMessage && <AppText value={errorMessage} style={styles.errorMessage}/> }
-      </View>
-      {isAndroid ?
-        <>
-          {
-            show && <DateTimePicker
-            testID="dateTimePicker"
-            value={date}
-            mode={'date'}
-            display={'default'}
-            onChange={onChange}
-            maximumDate={isMaximumDate ? new Date() : undefined}
-          />
-          }
-        </>
-        : <ModalDatePicker visible={show} onChange={onChange} date={date} closeModal={() => setShow(false)} isMaximumDate={isMaximumDate} />
-      }
-    </View>
+    <Row alignItems="center" style={styles.container}>
+      <Box flex={1}>
+        <TextField
+          label={label}
+          placeholder={placeholder}
+          value={moment(value).format('DD/MM/YYYY')}
+          editable={false}
+          errorMessage={errorMessage}
+        />
+      </Box>
+      <Box position="absolute" right="12px" pt="1">
+          <CalenderSvg />
+      </Box>
+      <Pressable
+        onPress={() => {
+          Keyboard.dismiss()
+          showMode()
+        }}
+        position="absolute"
+        top="0"
+        left="0"
+        right="0"
+        bottom="0"
+        zIndex="1"
+      />
+       {isAndroid ?
+          <>
+            {
+              show && <DateTimePicker
+              testID="dateTimePicker"
+              value={date}
+              mode={'date'}
+              display={'default'}
+              onChange={onChange}
+              maximumDate={isMaximumDate ? new Date() : undefined}
+            />
+            }
+          </>
+          : <ModalDatePicker visible={show} onChange={onChange} date={date} closeModal={() => setShow(false)} isMaximumDate={isMaximumDate} />
+        }
+    </Row>
   )
 });
 
@@ -80,8 +92,7 @@ export default DatePicker;
 
 const styles = ScaledSheet.create({
   container: {
-    marginVertical: spacing[3],
-    paddingTop: isAndroid ? '5.5@ms' : '6@ms'
+    // marginVertical: spacing[3],
   },
   wrapper: {
     flexDirection: "row",
@@ -89,8 +100,8 @@ const styles = ScaledSheet.create({
     alignItems: "center",
     borderWidth: 1,
     borderRadius: '4@s',
-    paddingVertical: isAndroid ? '3@s' : '6@s',
-    paddingHorizontal: '12@ms'
+    // paddingVertical: isAndroid ? '3@s' : 9.5,
+    paddingHorizontal: '12@ms',
   },
   errorMessage: {
     fontFamily: fontFamily.medium,

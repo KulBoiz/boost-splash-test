@@ -45,6 +45,12 @@ const SignatureModal = React.memo((props: Props) => {
     signRef?.current?.saveImage();
     closeModal()
   }
+
+  const _closeModal = useCallback(()=> {
+    closeModal()
+    setCheckSign(false)
+  },[])
+
   return (
     <Modal
       isVisible={visible}
@@ -70,7 +76,7 @@ const SignatureModal = React.memo((props: Props) => {
           onDragEvent={_onDragEvent}
         />
         <View style={styles.btnContainer}>
-          <AppButton title={'Hủy'} onPress={closeModal} titleStyle={styles.cancelText} style={[styles.btn, styles.cancelBtn]}/>
+          <AppButton title={'Hủy'} onPress={_closeModal} titleStyle={styles.cancelText} style={[styles.btn, styles.cancelBtn]}/>
           <AppButton title={'Tiếp tục'} onPress={onSubmit} titleStyle={FONT_SEMI_BOLD_12} style={[styles.btn, styles.submitBtn]}/>
         </View>
       </View>

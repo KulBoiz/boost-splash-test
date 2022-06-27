@@ -63,7 +63,7 @@ const PopupConfirm = React.memo(({ visible, onClose, onConfirm }: Props) => {
             />
             <BankerInput
               _container={{ mt: "5" }}
-              label="Số năm cho vay"
+              label="Số tháng cho vay"
               prefix="tháng"
               required
               keyboardType="number-pad"
