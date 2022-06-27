@@ -64,7 +64,7 @@ const PopupConfirm = React.memo(({ visible, onClose, onConfirm }: Props) => {
             <BankerInput
               _container={{ mt: "5" }}
               label="Số năm cho vay"
-              prefix="năm"
+              prefix="tháng"
               required
               keyboardType="number-pad"
               value={data.borrowTime}
@@ -81,7 +81,7 @@ const PopupConfirm = React.memo(({ visible, onClose, onConfirm }: Props) => {
             <BankerInput
               _container={{ mt: "5" }}
               label="Thời gian ưu đãi dự kiến"
-              prefix="năm"
+              prefix="tháng"
               keyboardType="number-pad"
               value={data.preferentialTime}
               onChangeText={(value) => setData({ ...data, preferentialTime: value })}
