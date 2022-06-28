@@ -49,7 +49,7 @@ const DatePicker = React.memo((props: Props) => {
         <TextField
           label={label}
           placeholder={placeholder}
-          value={moment(value).format('DD/MM/YYYY')}
+          value={value ? moment(value).format('DD/MM/YYYY') : ''}
           editable={false}
           errorMessage={errorMessage}
         />

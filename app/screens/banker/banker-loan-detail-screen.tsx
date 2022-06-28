@@ -9,18 +9,17 @@ import { s, vs } from "react-native-size-matters"
 import { Text } from "../../components"
 import numeral from "numeral"
 import moment from "moment"
-import { CallSvg, EditSvg, NotificationSvg, PlusBottomSvg, PlusSvg } from "../../assets/svgs"
+import { CallSvg, EditSvg, NotificationSvg, PlusBottomSvg } from "../../assets/svgs"
 import { Alert, Linking, View } from "react-native"
 import DocumentView from "./components/document-view"
 import BankerLoanSteps from "./components/banker-loan-steps"
 import {
   GENDER,
-  LOAN_STATUS,
   LOAN_STATUS_TYPES,
   LOAN_STEP_INDEX,
   TRANSACTION_STATUS_TYPES,
 } from "./constants"
-import { flatten, map } from "../../utils/lodash-utils"
+import { map } from "../../utils/lodash-utils"
 import Note from "../../components/note/note"
 import PopupAlert from "../../components/popup-alert/popup-alert"
 import PopupEditLoanDocument from "./components/popup-edit-loan-document"
@@ -434,7 +433,7 @@ const BankerLoanDetailScreen: FC = observer((props: any) => {
             mb="-3.5"
           >
             <Text color="ebony" size="bold14" text={name} />
-            <Text size="semiBold12" color="grayChateau" text={`HSV - ${data._iid}`} />
+            <Text size="semiBold12" color="grayChateau" text={`HSV - ${data?._iid}`} />
           </Box>
         }
         renderRightIcon={<NotificationSvg />}
@@ -462,7 +461,7 @@ const BankerLoanDetailScreen: FC = observer((props: any) => {
             {renderItem({
               item: { label: "Họ tên", value: name },
               index: 0,
-              rightComponent: renderCall(name, data.user?.tels?.[0]?.tel),
+              rightComponent: renderCall(name, data?.user?.tels?.[0]?.tel),
             })}
             {renderItem({ item: { label: "Giới tính", value: renderGender() }, index: 1 })}
             {/* {renderItem({ item: { label: "Phương án", value: "-" }, index: 2 })} */}
@@ -500,21 +499,21 @@ const BankerLoanDetailScreen: FC = observer((props: any) => {
             {renderItem({
               item: {
                 label: "Thời gian vay",
-                value: `${data.timeLoan || 0} (Tháng)`,
+                value: `${data?.timeLoan || 0} (Tháng)`,
               },
               index: 5,
             })}
             {renderItem({
               item: {
                 label: "Thời gian tạo",
-                value: moment(data.createdAt).format("DD/MM/YYYY | hh:mm"),
+                value: moment(data?.createdAt).format("DD/MM/YYYY | hh:mm"),
               },
               index: 6,
             })}
             {renderItem({
               item: { label: "Nhân viên FINA", value: data?.createdBy?.fullName },
               index: 7,
-              rightComponent: renderCall(data?.createdBy?.fullName, data.createdBy?.tels?.[0]?.tel),
+              rightComponent: renderCall(data?.createdBy?.fullName, data?.createdBy?.tels?.[0]?.tel),
             })}
           </Box>
           <Box bg="white" borderRadius="8" p="4" mt={vs(8)}>

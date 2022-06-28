@@ -175,7 +175,7 @@ const BankerRequestDetailScreen: FC = observer((props: any) => {
                 fontSize={12}
                 lineHeight={17}
                 fontWeight="600"
-                text={`HSV - ${data._iid}`}
+                text={`HSV - ${data?._iid}`}
               />
             </Box>
           }
