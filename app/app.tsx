@@ -36,7 +36,6 @@ export const NAVIGATION_PERSISTENCE_KEY = "NAVIGATION_STATE"
 function App() {
   const [rootStore, setRootStore] = useState<RootStore | undefined>(undefined)
   const {
-    initialNavigationState,
     onNavigationStateChange,
     isRestored: isNavigationStateRestored,
   } = useNavigationPersistence(storage, NAVIGATION_PERSISTENCE_KEY)
@@ -48,7 +47,7 @@ function App() {
       authStatus === messaging.AuthorizationStatus.PROVISIONAL
 
     if (enabled) {
-      console.log("Authorization status:", authStatus)
+      // console.log("Authorization status:", authStatus)
     }
   }
 
