@@ -31,6 +31,7 @@ export const STATUS_BANK_FEED_BACK = {
 
 export const LOAN_STATUS_TYPES = {
   ALL: "all",
+  MOVE_TO_FINANCIAL_ORIGANIZATION: 'moved_to_financial_organization', // đã share cho ngân hàng
   WAIT_PROCESSING: "wait_processing", // Chờ xử lý
   RECEIVED: "received", // tiếp nhận
   APPRAISAL_PROGRESS: "appraisal_progress", // thẩm định
@@ -80,7 +81,7 @@ export const LOAN_STATUS = [
 
 export const LOAN_STATUS_DATA = [
   { key: LOAN_STATUS_TYPES.ALL, text: "Tất cả" },
-  { key: LOAN_STATUS_TYPES.WAIT_PROCESSING, text: "Hồ sơ chờ duyệt" },
+  { key: LOAN_STATUS_TYPES.MOVE_TO_FINANCIAL_ORIGANIZATION, text: "Hồ sơ chờ duyệt" },
   { key: LOAN_STATUS_TYPES.LEND_APPROVAL, text: "Duyệt cho vay" },
   { key: LOAN_STATUS_TYPES.TRIPARTITE_BLOCKADE, text: "Phong tỏa 3 bên" },
   { key: LOAN_STATUS_TYPES.DISBURSING, text: "Đang giải ngân" },

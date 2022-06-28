@@ -9,6 +9,7 @@ import * as Yup from "yup"
 import { Text } from "../../../components"
 import FormDatePicker from "../../../components/form-date-time"
 import FormInput from "../../../components/form-input/form-input"
+import { createNumberMask, useMaskedInputProps } from "react-native-mask-input"
 
 
 interface Props {
@@ -34,6 +35,7 @@ const PopupCreateTransaction = React.memo(({ visible, onClose, onConfirm, data: 
     handleSubmit,
     formState: { errors },
     setValue,
+    watch
   } = useForm({
     delayError: 0,
     resolver: yupResolver(validationSchema),
@@ -43,6 +45,17 @@ const PopupCreateTransaction = React.memo(({ visible, onClose, onConfirm, data: 
   const inputProps = {
     control,
   }
+
+  const currencyMask = createNumberMask({
+    delimiter: ",",
+    precision: 0,
+  })
+
+  const currencyInputProps = useMaskedInputProps({
+    value: watch("disbursedAmount"),
+    onChangeText: (value) => setValue("disbursedAmount", value),
+    mask: currencyMask,
+  })
 
   return (
     <Modal isVisible={visible} onBackdropPress={onClose} onDismiss={() => setData({})}>
@@ -63,6 +76,7 @@ const PopupCreateTransaction = React.memo(({ visible, onClose, onConfirm, data: 
                 label: "Số tiền phê duyệt",
                 error: errors?.disbursedAmount?.message,
                 ...inputProps,
+                ...currencyInputProps,
                 keyboardType: 'number-pad'
               }}
             />
