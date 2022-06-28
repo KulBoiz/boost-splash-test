@@ -1,5 +1,5 @@
 /* eslint-disable react-native/no-color-literals */
-import React, { FC, useCallback, useEffect, useMemo } from "react"
+import React, { FC, useCallback, useEffect, useMemo, useState } from "react"
 import { RefreshControl, StyleSheet } from "react-native"
 import { observer } from "mobx-react-lite"
 import AppHeader from "../../components/app-header/AppHeader"
@@ -23,6 +23,8 @@ interface Props {}
 const BankerListLoanScreen: FC<Props> = observer((props: Props) => {
   const navigation = useNavigation()
   const { bankerStore } = useStores()
+
+  const [searchStr, setSearchStr] = useState("")
 
   useEffect(() => {
     bankerStore.getListLoan({}, { page: 1, limit: 20 })
@@ -49,8 +51,8 @@ const BankerListLoanScreen: FC<Props> = observer((props: Props) => {
   }, [bankerStore.listLoan])
 
   const _onRefresh = useCallback(() => {
-    bankerStore.getListLoan({}, { page: 1, limit: 20 }, true)
-  }, [])
+    bankerStore.getListLoan({ search: searchStr }, { page: 1, limit: 20 }, true)
+  }, [searchStr])
   const _onLoadMore = useCallback(() => {
     if (
       bankerStore.listLoan?.length < bankerStore.listLoanTotal &&
@@ -129,7 +131,11 @@ const BankerListLoanScreen: FC<Props> = observer((props: Props) => {
               selectionColor="primary"
               bg="white"
               _focus={{ bg: "white" }}
-              onChangeText={onDebouncedSearch}
+              value={searchStr}
+              onChangeText={(value) => {
+                setSearchStr(value)
+                onDebouncedSearch(value)
+              }}
             />
           </HStack>
           {/* <Box height={vs(40)} px={s(16)}>
