@@ -604,7 +604,7 @@ const BankerLoanDetailScreen: FC = observer((props: any) => {
             .updateInfoOfDealDetail(dealDetailId, {
               info: {
                 ...value,
-                approvalAmount: parseFloat(value.approvalAmount)
+                approvalAmount: parseFloat(value.approvalAmount?.replace(/,/g, ''))
               },
               dealId: data?.id,
               partnerStaffId: dealDetail?.partnerStaffId,
@@ -626,7 +626,7 @@ const BankerLoanDetailScreen: FC = observer((props: any) => {
             bankerStore.createTransaction(
               {
                 historiesDisbursement: [{
-                  disbursedAmount: parseFloat(value?.disbursedAmount),
+                  disbursedAmount: parseFloat(value?.disbursedAmount?.replace(/,/g, '')),
                   paymentDate: value?.paymentDate
                 }],
                 dealId: objectId,

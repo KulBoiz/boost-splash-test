@@ -42,12 +42,19 @@ export const LoginScreen: FC<StackScreenProps<AuthStackParamList, ScreenNames.LO
     const isFocused = useIsFocused()
     const { authStoreModel } = useStores()
     const [visible, setVisible] = useState<boolean>(false)
+    const [loading, setLoading] = useState<boolean>(false)
 
     const _handleLogin = async (data) => {
+      setLoading(true)
       const auth = await authStoreModel.login(data.email, data.password)
       if (auth.kind === "ok") {
         navigation.dispatch(StackActions.push(ScreenNames.APP))
-      } else setVisible(true)
+        setLoading(false)
+      }
+      else {
+        setVisible(true)
+        setLoading(false)
+      }
     }
 
     const closeModal = () => {
@@ -99,6 +106,7 @@ export const LoginScreen: FC<StackScreenProps<AuthStackParamList, ScreenNames.LO
             onPress={handleSubmit(_handleLogin)}
             tx={"auth.login"}
             containerStyle={styles.button}
+            loading={loading}
           />
           <AppText
             tx={"auth.backToHome"}

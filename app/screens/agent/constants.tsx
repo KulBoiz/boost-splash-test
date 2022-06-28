@@ -200,7 +200,7 @@ export const CollaboratorContractInfoDesktop = (props: Props) => {
         <span>Cộng Tác Viên sẽ thực hiện các công việc sau cho TULIP: </span>
       </div>
       <p style="marginBottom: 5px; marginTop: 10px">
-        1. Cug cấp dữ liệu Khách Hàng bằng cách đăng tải, đưa thông tin của Khách Hàng có nhu cầu sử
+        1. Cung cấp dữ liệu Khách Hàng bằng cách đăng tải, đưa thông tin của Khách Hàng có nhu cầu sử
         dụng các sản phẩm, dịch vụ của Đối Tác (“Sản Phẩm”) lên Nền tảng, nhằm làm đa đạng hóa hệ
         thống dữ liệu và mở rộng mạng lưới Khách Hàng tiếp cận với Sản Phẩm của Đối Tác trên Nền
         tảng.

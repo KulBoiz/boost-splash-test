@@ -4,14 +4,12 @@ import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view
 import Modal from "react-native-modal"
 import { s, vs } from "react-native-size-matters"
 import { Text } from "../../../components"
-
 import FormInput from "../../../components/form-input/form-input"
 import { useForm } from "react-hook-form"
 import { yupResolver } from "@hookform/resolvers/yup"
 import * as Yup from "yup"
 import FormDatePicker from "../../../components/form-date-time"
 import { createNumberMask, useMaskedInputProps } from "react-native-mask-input"
-import { numberWithCommas } from "../../../constants/variable"
 
 interface Props {
   visible: boolean
@@ -38,10 +36,8 @@ const PopupEditLoanResult = React.memo(({ visible, onClose, onConfirm, data: dat
     control,
     handleSubmit,
     formState: { errors, isValid },
-    reset,
     watch,
     setValue,
-    getValues,
   } = useForm({
     delayError: 0,
     resolver: yupResolver(validationSchema),
@@ -72,7 +68,6 @@ const PopupEditLoanResult = React.memo(({ visible, onClose, onConfirm, data: dat
     onChangeText: (value) => setValue("approvalAmount", value),
     mask: currencyMask,
   })
-
   return (
     <Modal isVisible={visible} onBackdropPress={onClose} onDismiss={() => setData({})}>
       <Box>
@@ -94,7 +89,6 @@ const PopupEditLoanResult = React.memo(({ visible, onClose, onConfirm, data: dat
                 ...inputProps,
                 ...currencyInputProps,
                 keyboardType: "number-pad",
-                // ...currencyInputProps,
               }}
             />
             <FormInput
@@ -107,17 +101,8 @@ const PopupEditLoanResult = React.memo(({ visible, onClose, onConfirm, data: dat
                 keyboardType: "number-pad",
               }}
             />
-            {/* <FormInput
-              {...{
-                name: "date",
-                label: "Ngày phê duyệt",
-                error: errors?.product?.message,
-                ...inputProps,
-              }}
-            /> */}
             <FormDatePicker
               {...{
-                // style: { flex: 1, marginRight: 5 },
                 name: "approvalDate",
                 label: "Ngày phê duyệt",
                 placeholder: "DD/MM/YYYY",

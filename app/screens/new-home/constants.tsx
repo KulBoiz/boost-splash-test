@@ -2,13 +2,16 @@ import { images } from "../../assets/images"
 import i18n from "i18n-js"
 import { navigate } from "../../navigators";
 import { ScreenNames } from "../../navigators/screen-names";
+import { isAndroid } from "../../constants/variable"
+import { s } from "react-native-size-matters"
 
 export const getFeatureViewAnimation = (animatedValue, outputX: number) => {
   const TRANSLATE_X_INPUT_RANGE = [0, 90];
+  const TRANSLATE_Y_INPUT = isAndroid ? s(15) : s(6);
   const translateY = {
     translateY: animatedValue.interpolate({
       inputRange: [0, 90],
-      outputRange: [0, 10],
+      outputRange: [0, TRANSLATE_Y_INPUT],
       extrapolate: 'clamp',
     }),
   };
