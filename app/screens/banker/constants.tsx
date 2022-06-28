@@ -30,7 +30,7 @@ export const STATUS_BANK_FEED_BACK = {
 }
 
 export const LOAN_STATUS_TYPES = {
-  ALL: "all",
+  ALL: undefined,
   MOVE_TO_FINANCIAL_ORIGANIZATION: 'moved_to_financial_organization', // đã share cho ngân hàng
   WAIT_PROCESSING: "wait_processing", // Chờ xử lý
   RECEIVED: "received", // tiếp nhận

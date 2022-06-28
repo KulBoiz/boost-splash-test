@@ -540,6 +540,7 @@ const BankerLoanDetailScreen: FC = observer((props: any) => {
                 value: dealDetail?.info?.borrowTime ? `${dealDetail?.info?.borrowTime} Tháng` : "_",
               },
               index: 1,
+              required: true,
             })}
             {renderItem({
               item: {
@@ -557,7 +558,6 @@ const BankerLoanDetailScreen: FC = observer((props: any) => {
                 value: dealDetail?.info?.codeBankProfile,
               },
               index: 3,
-              required: true,
             })}
             {renderItem({
               item: {
@@ -565,7 +565,6 @@ const BankerLoanDetailScreen: FC = observer((props: any) => {
                 value: dealDetail?.info?.codeBankCustomer,
               },
               index: 4,
-              required: true,
             })}
           </Box>
           {/* {renderNotes()} */}
