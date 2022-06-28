@@ -28,8 +28,9 @@ const PopupEditLoanResult = React.memo(({ visible, onClose, onConfirm, data: dat
   })
 
   const validationSchema = Yup.object().shape({
-    // approvalAmount: Yup.string().trim().required("Vui lòng nhập"),
-    // borrowTime: Yup.string().required("Vui lòng nhập").trim(),
+    approvalAmount: Yup.string().trim().required("Vui lòng nhập số tiền"),
+    borrowTime: Yup.string().required("Vui lòng nhập thời gian").trim(),
+    approvalDate: Yup.date().required("Vui lòng chọn ngày phê duyệt"),
   })
 
   const {
@@ -37,6 +38,7 @@ const PopupEditLoanResult = React.memo(({ visible, onClose, onConfirm, data: dat
     handleSubmit,
     formState: { errors, isValid },
     watch,
+    clearErrors,
     setValue,
   } = useForm({
     delayError: 0,
@@ -53,9 +55,7 @@ const PopupEditLoanResult = React.memo(({ visible, onClose, onConfirm, data: dat
   }, [])
 
   const inputProps = {
-    control,
-    // inputStyle: { height: 40 },
-    // style: { marginTop: 4 },
+    control
   }
 
   const currencyMask = createNumberMask({
@@ -65,7 +65,7 @@ const PopupEditLoanResult = React.memo(({ visible, onClose, onConfirm, data: dat
 
   const currencyInputProps = useMaskedInputProps({
     value: watch("approvalAmount"),
-    onChangeText: (value) => setValue("approvalAmount", value),
+    onChangeText: (value) => {setValue("approvalAmount", value); clearErrors("approvalAmount")},
     mask: currencyMask,
   })
   return (

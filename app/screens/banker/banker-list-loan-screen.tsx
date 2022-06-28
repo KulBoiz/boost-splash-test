@@ -6,7 +6,7 @@ import AppHeader from "../../components/app-header/AppHeader"
 import { useStores } from "../../models"
 import { useNavigation } from "@react-navigation/native"
 import { ScreenNames } from "../../navigators/screen-names"
-import { HeaderBgSvg, SearchNormalSvg, FilterSvg } from "../../assets/svgs"
+import { HeaderBgSvg, SearchNormalSvg } from "../../assets/svgs"
 import { Box, HStack, Input, SectionList, Spinner } from "native-base"
 import { s, vs } from "react-native-size-matters"
 import { translate } from "../../i18n"
@@ -53,10 +53,11 @@ const BankerListLoanScreen: FC<Props> = observer((props: Props) => {
   const _onRefresh = useCallback(() => {
     bankerStore.getListLoan({ search: searchStr }, { page: 1, limit: 20 }, true)
   }, [searchStr])
+
   const _onLoadMore = useCallback(() => {
     if (
       bankerStore.listLoan?.length < bankerStore.listLoanTotal &&
-      bankerStore.isLoadingMoreListLoan
+      !bankerStore.isLoadingMoreListLoan
     ) {
       bankerStore.getListLoan(
         {},
@@ -68,7 +69,7 @@ const BankerListLoanScreen: FC<Props> = observer((props: Props) => {
     bankerStore.listLoan,
     bankerStore.listLoanTotal,
     bankerStore?.pagingParamsListLoan?.page,
-    bankerStore.isLoadingMoreListLoan,
+    // bankerStore.isLoadingMoreListLoan,
   ])
 
   const onDebouncedSearch = React.useCallback(
