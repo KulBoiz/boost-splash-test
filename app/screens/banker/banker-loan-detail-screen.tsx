@@ -120,6 +120,8 @@ const BankerLoanDetailScreen: FC = observer((props: any) => {
     if (result) {
       if (result === 'CHECKED_AMOUNT_IS_NOT_ENOUGH') {
         Alert.alert('Kiểm tra lại thông tin giải ngân hoặc số tiền giải ngân');
+      } else if (result === 'ERROR_STATUS_NOT_FOR_CONTROL') {
+        Alert.alert('Kiểm tra lại số tiền chưa được đối soát');
       } else {
         toast.show({
           description: result,
@@ -335,13 +337,15 @@ const BankerLoanDetailScreen: FC = observer((props: any) => {
           <HStack mt="4" mb="6">
             {buttonReject()}
             {buttonConfirm("Duyệt cho vay", () => {
-              setAlert({
-                visible: true,
-                type: "confirm",
-                message: "Bạn muốn duyệt cho vay hồ sơ này?",
-                confirmText: "Duyệt cho vay",
-                status: LOAN_STATUS_TYPES.LEND_APPROVAL,
-              })
+              setEditLoanResultVisible(true)
+
+              // setAlert({
+              //   visible: true,
+              //   type: "confirm",
+              //   message: "Bạn muốn duyệt cho vay hồ sơ này?",
+              //   confirmText: "Duyệt cho vay",
+              //   status: LOAN_STATUS_TYPES.LEND_APPROVAL,
+              // })
             })}
           </HStack>
         )
@@ -519,9 +523,12 @@ const BankerLoanDetailScreen: FC = observer((props: any) => {
           <Box bg="white" borderRadius="8" p="4" mt={vs(8)}>
             <HStack alignItems="center" justifyContent="space-between">
               <Text color="ebony" size="semiBold14" text="Kết quả" />
-              <Pressable onPress={() => setEditLoanResultVisible(true)}>
-                <EditSvg />
-              </Pressable>
+              {
+                data?.dealDetails?.[0]?.status === LOAN_STATUS_TYPES.LEND_APPROVAL &&
+                <Pressable onPress={() => setEditLoanResultVisible(true)}>
+                  <EditSvg />
+                </Pressable>
+              }
             </HStack>
             <Box height="1.0" my="3" bg="iron" opacity={0.5} />
             {renderItem({
@@ -612,6 +619,9 @@ const BankerLoanDetailScreen: FC = observer((props: any) => {
             })
             .then(() => {
               setEditLoanResultVisible(false)
+              if (data?.dealDetails?.[0]?.status === LOAN_STATUS_TYPES.APPRAISAL_PROGRESS) {
+                bankerStore.updateDealStatus(dealDetailId, LOAN_STATUS_TYPES.LEND_APPROVAL, objectId)
+              }
             })
         }}
       />
