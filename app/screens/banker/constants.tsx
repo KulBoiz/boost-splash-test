@@ -129,8 +129,8 @@ export const getSurveyName = (surveyDetails: any) => {
   return find(surveyDetails, (i) => i.questionData?.code === "QUESTION_LPC_NAME")?.content
 }
 
-export const getSurveyDetails = (surveyDetails: any) => {
-  return surveyDetails.map((el) => {
+export const getSurveyDetails = (surveyDetails: any = []) => {
+  return surveyDetails?.map((el) => {
     const questionData: any = el?.questionData || {}
     const type = el?.type
 
