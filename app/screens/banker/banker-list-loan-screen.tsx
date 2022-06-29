@@ -16,7 +16,7 @@ import { debounce, groupBy, map } from "../../utils/lodash-utils"
 import moment from "moment"
 import BankerLoanItem from "./components/banker-loan-item"
 import BankerTab from "./components/banker-tab"
-import { LOAN_STATUS_DATA, LOAN_STATUS_TYPES } from "./constants"
+import { LOAN_STATUS_DATA } from "./constants"
 
 interface Props {}
 
@@ -25,6 +25,7 @@ const BankerListLoanScreen: FC<Props> = observer((props: Props) => {
   const { bankerStore } = useStores()
 
   const [searchStr, setSearchStr] = useState("")
+  const [tab, setTab] = useState(undefined)
 
   useEffect(() => {
     bankerStore.getListLoan({}, { page: 1, limit: 20 })
@@ -51,8 +52,8 @@ const BankerListLoanScreen: FC<Props> = observer((props: Props) => {
   }, [bankerStore.listLoan])
 
   const _onRefresh = useCallback(() => {
-    bankerStore.getListLoan({ search: searchStr }, { page: 1, limit: 20 }, true)
-  }, [searchStr])
+    bankerStore.getListLoan({ search: searchStr, status: tab }, { page: 1, limit: 20 }, true)
+  }, [searchStr, tab])
 
   const _onLoadMore = useCallback(() => {
     if (
@@ -60,7 +61,7 @@ const BankerListLoanScreen: FC<Props> = observer((props: Props) => {
       !bankerStore.isLoadingMoreListLoan
     ) {
       bankerStore.getListLoan(
-        { search: searchStr },
+        { search: searchStr, status: tab },
         { page: bankerStore?.pagingParamsListLoan?.page + 1, limit: 20 },
         false,
       )
@@ -71,17 +72,20 @@ const BankerListLoanScreen: FC<Props> = observer((props: Props) => {
     bankerStore?.pagingParamsListLoan?.page,
     bankerStore.isLoadingMoreListLoan,
     searchStr,
+    tab
   ])
 
   const onDebouncedSearch = React.useCallback(
     debounce((value) => {
-      bankerStore.getListLoan({ search: value }, { page: 1, limit: 20 })
+      bankerStore.getListLoan({ search: value, status: tab}, { page: 1, limit: 20 })
     }, 500),
-    [],
+    [tab],
   )
+  
   const onChangeTab = useCallback((key) => {
-    bankerStore.getListLoan({ status: key }, { page: 1, limit: 20 })
-  }, [])
+    setTab(key)
+    bankerStore.getListLoan({ search: searchStr, status: key }, { page: 1, limit: 20 })
+  }, [searchStr])
 
   const renderSectionHeader = useCallback(({ section: { title, data } }) => {
     return (
