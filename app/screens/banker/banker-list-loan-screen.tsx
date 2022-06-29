@@ -81,7 +81,7 @@ const BankerListLoanScreen: FC<Props> = observer((props: Props) => {
     }, 500),
     [tab],
   )
-  
+
   const onChangeTab = useCallback((key) => {
     setTab(key)
     bankerStore.getListLoan({ search: searchStr, status: key }, { page: 1, limit: 20 })
