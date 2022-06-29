@@ -35,6 +35,7 @@ const BankerRequestDetailScreen: FC = observer((props: any) => {
   const bankerFeedBack = data?.bankFeedbacks?.find((el) => el?.userId === authStoreModel?.user?.id)
     ?.content
 
+
   const showPopupReject = useCallback(() => setRejectVisible(true), [])
   const hidePopupReject = useCallback(() => setRejectVisible(false), [])
   const showPopupConfirm = useCallback(() => setConfirmVisible(true), [])
@@ -194,7 +195,7 @@ const BankerRequestDetailScreen: FC = observer((props: any) => {
               {getSurveyDetails(data?.surveyDetails).map((item, index) => renderItem(item, index))}
             </Box>
 
-            {bankerFeedBack && (
+            {bankerFeedBack?.loanDemand && (
               <Box bg="white" borderRadius="8" p="4" mt="4">
                 <Text
                   color="ebony"

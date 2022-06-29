@@ -1,8 +1,7 @@
 import { yupResolver } from "@hookform/resolvers/yup"
-import { Box, HStack, Pressable } from "native-base"
+import { Box, HStack, Pressable, ScrollView } from "native-base"
 import React, { useState } from "react"
 import { useForm } from "react-hook-form"
-import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view"
 import Modal from "react-native-modal"
 import { s, vs } from "react-native-size-matters"
 import * as Yup from "yup"
@@ -60,7 +59,7 @@ const PopupCreateTransaction = React.memo(({ visible, onClose, onConfirm, data: 
   return (
     <Modal isVisible={visible} onBackdropPress={onClose} onDismiss={() => setData({})}>
       <Box>
-        <KeyboardAwareScrollView>
+        <ScrollView>
           <Box bg="white" borderRadius="8" p={s(16)}>
             <Text
               textAlign="center"
@@ -120,7 +119,7 @@ const PopupCreateTransaction = React.memo(({ visible, onClose, onConfirm, data: 
               </Pressable>
             </HStack>
           </Box>
-        </KeyboardAwareScrollView>
+        </ScrollView>
       </Box>
     </Modal>
   )

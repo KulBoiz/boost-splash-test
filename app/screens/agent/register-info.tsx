@@ -1,5 +1,5 @@
 import React, { useState } from "react"
-import { View } from "react-native"
+import { Alert, View } from "react-native"
 import AppHeader from "../../components/app-header/AppHeader"
 import RenderStepAgent from "./components/render-step"
 import AgentForm from "./components/agent-form"
@@ -58,8 +58,13 @@ const RegisterInfo = React.memo((props: Props) => {
       data.bankBranch,
       data.address,
     )
-    agentStore.registerInformation()
-    navigate(ScreenNames.PHOTO_TUTORIAL)
+    agentStore.registerInformation().then(res=> {
+      if (res.error){
+        Alert.alert(res.error.message)
+        return
+      }
+      navigate(ScreenNames.PHOTO_TUTORIAL)
+    })
   }
   const selectGender = (gender) => {
     setGenderValue(gender)
