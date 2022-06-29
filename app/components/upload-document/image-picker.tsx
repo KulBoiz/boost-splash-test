@@ -37,61 +37,61 @@ const ImagePickerModal: React.FC<ImagePickerProps> = React.memo(
     }
     const _selectFile = () => {
       onCancel?.()
-      launchImageLibrary(
-        {
-          // includeBase64: true,
-          quality: 0.7,
-          mediaType: "photo",
-        },
-        async (res) => {
-          if (res && !res.didCancel && res.assets) {
-            const size = res.assets[0]?.fileSize ?? 0
-            const type = res.assets[0].type ?? ""
+      setTimeout(() => {
+        launchImageLibrary(
+          {
+            // includeBase64: true,
+            quality: 0.7,
+            mediaType: "photo",
+          },
+          async (res) => {
+            if (res && !res.didCancel && res.assets) {
+              const size = res.assets[0]?.fileSize ?? 0
+              const type = res.assets[0].type ?? ""
 
-            if (size > FileSize) {
-              // error
-              return
-            }
+              if (size > FileSize) {
+                // error
+                return
+              }
 
-            if (!type.includes("/jpg") && !type.includes("/jpeg") && !type.includes("/png")) {
-              // error
-              return
+              if (!type.includes("/jpg") && !type.includes("/jpeg") && !type.includes("/png")) {
+                // error
+                return
+              }
+              // @ts-ignore
+              onSelectImage(res)
             }
-            // @ts-ignore
-            onSelectImage(res)
-          }
-        },
-      )
+          },
+        )
+      }, 500)
     }
 
     const _selectCamera = async () => {
       onCancel?.()
-      await _checkPermission()
-      launchCamera(
-        {
+      setTimeout(async () => {
+        await _checkPermission()
+        const res = await launchCamera({
           // includeBase64: true,
           quality: 0.6,
           mediaType: "photo",
-        },
-        async (res) => {
-          if (res && !res.didCancel && res.assets) {
-            const size = res.assets[0]?.fileSize ?? 0
-            const type = res.assets[0].type ?? ""
-            if (size > FileSize) {
-              // error
-              return
-            }
-
-            if (!type.includes("/jpg") && !type.includes("/jpeg") && !type.includes("/png")) {
-              // error
-              return
-            }
-            // @ts-ignore
-            onSelectImage(res)
-            // }
+        })
+        if (res && !res.didCancel && res.assets) {
+          const size = res.assets[0]?.fileSize ?? 0
+          const type = res.assets[0].type ?? ""
+          if (size > FileSize) {
+            // error
+            return
           }
-        },
-      )
+
+          if (!type.includes("/jpg") && !type.includes("/jpeg") && !type.includes("/png")) {
+            // error
+            return
+          }
+          // @ts-ignore
+          onSelectImage(res)
+          // }
+        }
+      }, 500)
     }
 
     return (
