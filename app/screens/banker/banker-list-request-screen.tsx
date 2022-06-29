@@ -1,5 +1,5 @@
 /* eslint-disable react-native/no-color-literals */
-import React, { FC, useCallback, useEffect, useMemo } from "react"
+import React, { FC, useCallback, useEffect, useMemo, useState } from "react"
 import { RefreshControl, StyleSheet } from "react-native"
 import { observer } from "mobx-react-lite"
 import AppHeader from "../../components/app-header/AppHeader"
@@ -15,16 +15,19 @@ import { debounce, groupBy, map } from "../../utils/lodash-utils"
 import moment from "moment"
 import BankerRequestItem from "./components/banker-request-item"
 import BankerTab from "./components/banker-tab"
-import { REQUEST_STATUS_DATA } from "./constants"
+import { REQUEST_STATUS_DATA, REQUEST_STATUS_TYPES } from "./constants"
 
 interface Props {}
 
 const BankerListRequestScreen: FC<Props> = observer((props: Props) => {
   const navigation = useNavigation()
   const { bankerStore } = useStores()
+  const [tab, setTab] = useState(REQUEST_STATUS_TYPES.DEAL_PROCESSING_TASK)
 
   useEffect(() => {
-    bankerStore.getListRequest({}, { page: 1, limit: 20 })
+    bankerStore.getListRequest({
+      status: tab
+    }, { page: 1, limit: 20 })
   }, [])
 
   const showDetail = useCallback(
@@ -48,15 +51,18 @@ const BankerListRequestScreen: FC<Props> = observer((props: Props) => {
   }, [bankerStore.listRequest])
 
   const _onRefresh = useCallback(() => {
-    bankerStore.getListRequest({}, { page: 1, limit: 20 }, true)
-  }, [])
+    bankerStore.getListRequest({ status: tab }, { page: 1, limit: 20 }, true)
+  }, [tab])
+
   const _onLoadMore = useCallback(() => {
     if (
       bankerStore.listRequest?.length < bankerStore.listRequestTotal &&
       !bankerStore.isLoadingMoreListRequest
     ) {
       bankerStore.getListRequest(
-        {},
+        {
+          status: tab
+        },
         { page: bankerStore?.pagingParamsListRequest?.page + 1, limit: 20 },
         false,
       )
@@ -66,16 +72,18 @@ const BankerListRequestScreen: FC<Props> = observer((props: Props) => {
     bankerStore?.pagingParamsListRequest?.page,
     bankerStore.listRequestTotal,
     bankerStore.isLoadingMoreListRequest,
+    tab
   ])
 
-  const onDebouncedSearch = React.useCallback(
-    debounce((value) => {
-      bankerStore.getListRequest({ search: value }, { page: 1, limit: 20 })
-    }, 500),
-    [],
-  )
+  // const onDebouncedSearch = React.useCallback(
+  //   debounce((value) => {
+  //     bankerStore.getListRequest({ search: value }, { page: 1, limit: 20 })
+  //   }, 500),
+  //   [],
+  // )
 
   const onChangeTab = useCallback((key) => {
+    setTab(key)
     bankerStore.getListRequest({ status: key }, { page: 1, limit: 20 })
   }, [])
 
