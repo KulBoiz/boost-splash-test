@@ -31,7 +31,7 @@ export const STATUS_BANK_FEED_BACK = {
 
 export const LOAN_STATUS_TYPES = {
   ALL: undefined,
-  MOVE_TO_FINANCIAL_ORIGANIZATION: 'moved_to_financial_organization', // đã share cho ngân hàng
+  MOVE_TO_FINANCIAL_ORIGANIZATION: "moved_to_financial_organization", // đã share cho ngân hàng
   WAIT_PROCESSING: "wait_processing", // Chờ xử lý
   RECEIVED: "received", // tiếp nhận
   APPRAISAL_PROGRESS: "appraisal_progress", // thẩm định
@@ -153,7 +153,7 @@ export const getSurveyDetails = (surveyDetails: any = []) => {
       case QUESTION_TYPES.OPEN_ENDED_NUMBER:
         return {
           label: questionData?.content?.blocks?.[0]?.text,
-          value: numeral(el?.content).format("0,0") + " " + questionData?.suffix,
+          value: `${numeral(el?.content).format("0,0")} ${questionData?.suffix || ""}`,
         }
       case QUESTION_TYPES.TEXT_SELECTION:
         return {
