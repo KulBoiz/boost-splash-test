@@ -619,8 +619,11 @@ const BankerLoanDetailScreen: FC = observer((props: any) => {
             })
             .then(() => {
               setEditLoanResultVisible(false)
+              
               if (data?.dealDetails?.[0]?.status === LOAN_STATUS_TYPES.APPRAISAL_PROGRESS) {
-                bankerStore.updateDealStatus(dealDetailId, LOAN_STATUS_TYPES.LEND_APPROVAL, objectId)
+                bankerStore.updateDealStatus(dealDetailId, LOAN_STATUS_TYPES.LEND_APPROVAL, objectId).then(() => {
+                  navigation.goBack()
+                })
               }
             })
         }}
