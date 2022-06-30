@@ -1,31 +1,31 @@
 /* eslint-disable react-native/no-color-literals */
-import React, { FC, useCallback, useEffect, useMemo, useState } from "react"
-import { observer } from "mobx-react-lite"
-import AppHeader from "../../components/app-header/AppHeader"
-import { useStores } from "../../models"
 import { useNavigation } from "@react-navigation/native"
-import { Box, Button, HStack, Pressable, ScrollView, useToast } from "native-base"
-import { s, vs } from "react-native-size-matters"
-import { Text } from "../../components"
-import numeral from "numeral"
+import { observer } from "mobx-react-lite"
 import moment from "moment"
-import { CallSvg, EditSvg, NotificationSvg, PlusBottomSvg } from "../../assets/svgs"
+import React, { FC, useCallback, useEffect, useMemo, useState } from "react"
+import { Box, Button, HStack, Pressable, ScrollView, useToast } from "native-base"
+import numeral from "numeral"
 import { Alert, Linking, View } from "react-native"
-import DocumentView from "./components/document-view"
+import { s, vs } from "react-native-size-matters"
+import { CallSvg, EditSvg, NotificationSvg, PlusBottomSvg } from "../../assets/svgs"
+import { Text } from "../../components"
+import AppHeader from "../../components/app-header/AppHeader"
+import Note from "../../components/note/note"
+import PopupAlert from "../../components/popup-alert/popup-alert"
+import { useStores } from "../../models"
+import { getDocumentFiles } from "../../utils/file"
+import { map } from "../../utils/lodash-utils"
 import BankerLoanSteps from "./components/banker-loan-steps"
+import DocumentView from "./components/document-view"
+import PopupCreateTransaction from "./components/popup-create-transaction"
+import PopupEditLoanDocument from "./components/popup-edit-loan-document"
+import PopupEditLoanResult from "./components/popup-edit-loan-result"
 import {
   GENDER,
   LOAN_STATUS_TYPES,
   LOAN_STEP_INDEX,
-  TRANSACTION_STATUS_TYPES,
+  TRANSACTION_STATUS_TYPES
 } from "./constants"
-import { map } from "../../utils/lodash-utils"
-import Note from "../../components/note/note"
-import PopupAlert from "../../components/popup-alert/popup-alert"
-import PopupEditLoanDocument from "./components/popup-edit-loan-document"
-import PopupEditLoanResult from "./components/popup-edit-loan-result"
-import { getDocumentFiles } from "../../utils/file"
-import PopupCreateTransaction from "./components/popup-create-transaction"
 
 const BankerLoanDetailScreen: FC = observer((props: any) => {
   const tab = props?.route?.params?.tab
