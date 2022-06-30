@@ -1,22 +1,22 @@
 /* eslint-disable react-native/no-color-literals */
+import { useIsFocused, useNavigation } from "@react-navigation/native"
+import { observer } from "mobx-react-lite"
+import moment from "moment"
+import { Box, HStack, Input, SectionList, Spinner } from "native-base"
 import React, { FC, useCallback, useEffect, useMemo, useState } from "react"
 import { RefreshControl, StyleSheet } from "react-native"
-import { observer } from "mobx-react-lite"
-import AppHeader from "../../components/app-header/AppHeader"
-import { useStores } from "../../models"
-import { useNavigation } from "@react-navigation/native"
-import { ScreenNames } from "../../navigators/screen-names"
-import { HeaderBgSvg, SearchNormalSvg } from "../../assets/svgs"
-import { Box, HStack, Input, SectionList, Spinner } from "native-base"
 import { s, vs } from "react-native-size-matters"
-import { translate } from "../../i18n"
+import { HeaderBgSvg, SearchNormalSvg } from "../../assets/svgs"
 import { Text } from "../../components"
+import AppHeader from "../../components/app-header/AppHeader"
+import { translate } from "../../i18n"
+import { useStores } from "../../models"
+import { ScreenNames } from "../../navigators/screen-names"
 import { color } from "../../theme"
 import { debounce, groupBy, map } from "../../utils/lodash-utils"
-import moment from "moment"
 import BankerLoanItem from "./components/banker-loan-item"
 import BankerTab from "./components/banker-tab"
-import { LOAN_STATUS_DATA } from "./constants"
+import { LOAN_STATUS_DATA, LOAN_STATUS_TYPES } from "./constants"
 
 interface Props {}
 
@@ -25,13 +25,21 @@ const BankerListLoanScreen: FC<Props> = observer((props: Props) => {
   const { bankerStore } = useStores()
 
   const [searchStr, setSearchStr] = useState("")
-  const [tab, setTab] = useState(undefined)
+  const [tab, setTab] = useState(LOAN_STATUS_TYPES.ALL)
+  const isFocused = useIsFocused()
 
   useEffect(() => {
-    bankerStore.getListLoan({}, { page: 1, limit: 20 })
+    bankerStore.getListLoan({ status: tab }, { page: 1, limit: 20 })
+    // onChangeTab(LOAN_STATUS_TYPES.ALL)
   }, [])
 
+  // useEffect(() => {
+  //   // bankerStore.getListLoan({ status: tab }, { page: 1, limit: 20 })
+  //   onChangeTab(LOAN_STATUS_TYPES.ALL)
+  // }, [isFocused])
+
   const showDetail = useCallback(
+    // @ts-ignore
     (data, index) => navigation.navigate(ScreenNames.BANKER_LOAN_DETAIL_SCREEN, { data, index }),
     [],
   )
@@ -97,7 +105,7 @@ const BankerListLoanScreen: FC<Props> = observer((props: Props) => {
   }, [])
   const renderItem = useCallback(({ item, index }) => {
     return <BankerLoanItem item={item} index={index} onPress={() => showDetail(item, index)} />
-  }, [])
+  }, [tab])
 
   const ListFooterComponent = useCallback(() => {
     if (bankerStore.isLoadingMoreListLoan) {
@@ -150,7 +158,7 @@ const BankerListLoanScreen: FC<Props> = observer((props: Props) => {
         </HStack>
       </Box>
       <Box mt={vs(16)} mb={vs(8)}>
-        <BankerTab data={LOAN_STATUS_DATA} onChangeTab={onChangeTab} />
+        <BankerTab data={LOAN_STATUS_DATA} onChangeTab={onChangeTab} tab={tab}/>
       </Box>
       <SectionList
         sections={data}

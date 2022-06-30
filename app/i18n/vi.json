@@ -138,7 +138,8 @@
       "vehicleInsurance": "Bảo hiểm phương tiện",
       "healthInsurance": "Bảo hiểm sức khoẻ",
       "travelInsurance": "Bảo hiểm du lịch",
-      "otherInsurance": "Bảo hiểm khác"
+      "otherInsurance": "Bảo hiểm khác",
+      "claimInsurance": "Claim bảo hiểm"
     },
     "invest": {
       "invest": "Đầu tư",

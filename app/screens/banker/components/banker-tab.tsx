@@ -8,17 +8,15 @@ import { map } from "../../../utils/lodash-utils"
 interface Props {
   onChangeTab?: (key) => void
   data: any
+  tab: any
 }
 
-const BankerTab = observer(({ onChangeTab, data }: Props) => {
+const BankerTab = observer(({ onChangeTab, data, tab }: Props) => {
   const [tabSelected, setTabSelected] = useState(data?.[0]?.key)
-  const onSelectTab = useCallback(
-    (key) => () => {
+  const onSelectTab = (key) => () => {
       setTabSelected?.(key)
       onChangeTab?.(key)
-    },
-    [onChangeTab],
-  )
+    }
 
   return (
     <HStack>
@@ -28,7 +26,7 @@ const BankerTab = observer(({ onChangeTab, data }: Props) => {
         contentContainerStyle={{ paddingLeft: s(16) }}
       >
         {map(data, (status, index) => {
-          const selected = tabSelected === status.key
+          const selected = tab === status.key
           return (
             <Pressable
               onPress={onSelectTab(status.key)}
