@@ -1,7 +1,7 @@
 import React, { useState } from "react"
 import { View } from "react-native"
 import HomeItem from "./components/home-item"
-import { LOAN_PRODUCT } from "./constants"
+import { INSURANCE_PRODUCT, LOAN_PRODUCT } from "./constants"
 import LoanPackage from "./components/loan-package"
 import HomeBanner from "./components/home-banner"
 import { ScaledSheet } from "react-native-size-matters"
@@ -58,6 +58,7 @@ const HomeFinance = React.memo((props: Props) => {
   return (
     <View style={styles.container}>
       <HomeItem data={LOAN_PRODUCT} label={"Sản phẩm vay"} style={styles.itemMargin} />
+      <HomeItem data={INSURANCE_PRODUCT} label={"Sản bảo hiểm"} style={styles.itemMargin} />
       <LoanPackage />
       <HomeItem data={SUPPORT_TOOL} label={"Công cụ hỗ trợ"} style={styles.itemMargin} />
       <HomeBanner />

@@ -1,19 +1,19 @@
 /* eslint-disable react-native/no-color-literals */
+import { useNavigation } from "@react-navigation/native"
+import { observer } from "mobx-react-lite"
+import moment from "moment"
+import { Box, HStack, Input, SectionList, Spinner } from "native-base"
 import React, { FC, useCallback, useEffect, useMemo, useState } from "react"
 import { RefreshControl, StyleSheet } from "react-native"
-import { observer } from "mobx-react-lite"
-import AppHeader from "../../components/app-header/AppHeader"
-import { useStores } from "../../models"
-import { useNavigation } from "@react-navigation/native"
-import { ScreenNames } from "../../navigators/screen-names"
-import { HeaderBgSvg, SearchNormalSvg } from "../../assets/svgs"
-import { Box, HStack, Input, SectionList, Spinner } from "native-base"
 import { s, vs } from "react-native-size-matters"
-import { translate } from "../../i18n"
+import { HeaderBgSvg, SearchNormalSvg } from "../../assets/svgs"
 import { Text } from "../../components"
+import AppHeader from "../../components/app-header/AppHeader"
+import { translate } from "../../i18n"
+import { useStores } from "../../models"
+import { ScreenNames } from "../../navigators/screen-names"
 import { color } from "../../theme"
 import { debounce, groupBy, map } from "../../utils/lodash-utils"
-import moment from "moment"
 import BankerLoanItem from "./components/banker-loan-item"
 import BankerTab from "./components/banker-tab"
 import { LOAN_STATUS_DATA } from "./constants"
@@ -96,7 +96,7 @@ const BankerListLoanScreen: FC<Props> = observer((props: Props) => {
   }, [])
   const renderItem = useCallback(({ item, index }) => {
     return <BankerLoanItem item={item} index={index} onPress={() => showDetail(tab, index)} />
-  }, [])
+  }, [tab])
 
   const ListFooterComponent = useCallback(() => {
     if (bankerStore.isLoadingMoreListLoan) {

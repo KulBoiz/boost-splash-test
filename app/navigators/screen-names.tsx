@@ -45,4 +45,5 @@ export enum ScreenNames {
   MANAGE_INSURANCE_FILTER = "ManageInsuranceFilter",
   INSURANCE_REQUEST_CLAIM_SUCCESS_SCREEN = "InsuranceRequestClaimSuccessScreen",
   MANAGE_INSURANCE_DETAIL_SCREEN = "ManageInsuranceDetailScreen",
+  CLAIM_INSURANCE = "ClaimInsurance",
 }

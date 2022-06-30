@@ -1,4 +1,4 @@
-import { useFocusEffect } from "@react-navigation/native"
+import { useFocusEffect, useIsFocused } from "@react-navigation/native"
 import { observer } from "mobx-react-lite"
 import React, { useEffect, useRef, useState } from "react"
 import { BackHandler, Pressable, StatusBar, View, Dimensions } from "react-native"
@@ -31,13 +31,16 @@ export const BankHomeScreen = observer(({ navigation }) => {
     return () => BackHandler.removeEventListener("hardwareBackPress", () => true)
   })
 
+
+  const [total, setTotal]: any = useState()
   const { bankerStore } = useStores()
   const { listRequest, listLoanTotal, listRequestTotal } = bankerStore
   const ref = useRef()
 
   useEffect(() => {
-    bankerStore.getListRequest({}, { page: 1, limit: 20 }, true)
-    bankerStore.getListLoan({}, { page: 1, limit: 20 })
+    bankerStore.getTotal().then((res) => {
+      setTotal({ deal: res?.resultDeal?.total, task: res?.result?.total })
+    })
   }, [])
 
   // console.log(SurveyResultBase(listRequest));
@@ -110,12 +113,12 @@ export const BankHomeScreen = observer(({ navigation }) => {
           <AppText style={styles.title}>
             Có{" "}
             <AppText
-              value={`${listLoanTotal} hồ sơ vay `}
+              value={`${total?.deal || '0'} hồ sơ vay `}
               style={[styles.title, { color: color.palette.blue }]}
             />
             và{" "}
             <AppText
-              value={`${listRequestTotal} YCTV`}
+              value={`${total?.task || '0'} YCTV`}
               style={[styles.title, { color: color.palette.orange }]}
             />
           </AppText>
