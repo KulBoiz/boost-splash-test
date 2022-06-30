@@ -43,6 +43,34 @@ export const BankerStoreModel = types
 
   .actions((self) => ({}))
   .actions((self) => ({
+    getTotal: flow(function* getTotal(
+    ) {
+      const result = yield self.api.get("survey-results/search-for-teller",
+        {
+          filter: {
+            order: ["sharedAt desc"],
+            where: {
+              status: "deal_processing_task",
+            },
+            limit: 20,
+            skip: 0,
+          },
+          page: 1,
+        })
+
+      const resultDeal = yield self.api.get("deals/bank", {
+        filter: {
+          where: {
+            status: {
+              nin: ["deleted"],
+            },
+            searchingRule: "single",
+          },
+        },
+      })
+
+      return { result: result?.data, resultDeal: resultDeal?.data }
+    }),
     getListRequest: flow(function* getListRequest(
       params?: any,
       pagingParams?: PagingParamsType,
@@ -153,8 +181,8 @@ export const BankerStoreModel = types
             status: params?.status
               ? { inq: [params?.status] }
               : {
-                  nin: ["deleted"],
-                },
+                nin: ["deleted"],
+              },
             searchingRule: "single",
             _q: params?.search,
           },
@@ -287,7 +315,7 @@ export const BankerStoreModel = types
   .postProcessSnapshot(omitFn(["dealStatusFilter"]))
 
 type BankerStoreType = Instance<typeof BankerStoreModel>
-export interface BankerStore extends BankerStoreType {}
+export interface BankerStore extends BankerStoreType { }
 type BankerStoreSnapshotType = SnapshotOut<typeof BankerStoreModel>
-export interface BankerStoreSnapshot extends BankerStoreSnapshotType {}
+export interface BankerStoreSnapshot extends BankerStoreSnapshotType { }
 export const createBankerStoreDefaultModel = () => types.optional(BankerStoreModel, {})

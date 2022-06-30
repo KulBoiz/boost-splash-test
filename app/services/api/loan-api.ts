@@ -66,7 +66,7 @@ export class LoanApi {
     try {
       // make the api call
       const response: ApiResponse<any> = await this.api.apisauce.post(`${API_ENDPOINT}/tasks/public`, {
-        sourceId, customerName, email, phone, page: "mobile"
+        sourceId, customerName, email, phone, page: "mobile", rootTask: 'Mobile App'
       })
       if (!response.ok) {
         const problem = getGeneralApiProblem(response)
@@ -79,10 +79,17 @@ export class LoanApi {
     }
   }
 
-  async createRequestCounselling(email: string, fullName: string, tel: string, note?: string, sourceId?: any): Promise<any> {
+  async createRequestCounselling(email: string, fullName: string, tel: string, note?: string, sourceId?: any, type?: string): Promise<any> {
     try {
       // make the api call
-      const body: any = { customerInfo: { email, fullName, tel }, note, type: "counselling", page: 'mobile', productType: "loan", }
+      const body: any = {
+        customerInfo: { email, fullName, tel },
+        note,
+        type: type || "counselling",
+        page: 'mobile',
+        productType: "loan",
+        rootTask: 'Mobile App'
+      }
       if (sourceId) {
         body.sourceId = sourceId
       }
