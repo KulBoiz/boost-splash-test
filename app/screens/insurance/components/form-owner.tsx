@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react"
+import React, { useEffect } from "react"
 import { View } from "react-native"
 import { AppText } from "../../../components/app-text/AppText"
 import { fontFamily } from "../../../constants/font-family"
@@ -9,7 +9,6 @@ import FormDatePicker from "../../../components/form-date-time"
 import FormItemPicker from "../../../components/form-item-picker"
 import { GENDER } from "../../../constants/gender"
 import { Row } from "native-base"
-import { IS_INSURANCE_CARD, PACKAGES_INSURANCE, RELATIONSHIP_INSURANCE } from "../constants"
 import * as Yup from "yup"
 import { yupResolver } from "@hookform/resolvers/yup"
 import { useForm } from "react-hook-form"
@@ -39,7 +38,6 @@ const FormOwner = React.memo((props: Props) => {
   const {
     control,
     handleSubmit,
-    getValues,
     formState: { errors, isValid },
     setValue,
   } = useForm({
@@ -58,7 +56,10 @@ const FormOwner = React.memo((props: Props) => {
     if (isSubmitForm) {
       onSubmit()
     }
-  }, [isSubmitForm])
+    if (isValid) {
+      onSubmit()
+    }
+  }, [isSubmitForm, isValid])
 
   useEffect(() => {
     onIsValid?.(isValid)

@@ -81,20 +81,20 @@ const BuyInsurance = observer((props: Props) => {
   const [transaction, setTransaction] = useState()
 
   const stepOneQuestion = () => {
-    // @ts-ignore
-    ref.current.scrollTo({ x: 0, animated: true })
+    // // @ts-ignore
+    // ref.current.scrollTo({ x: 0, animated: true })
     setCurrentPosition(0.1)
   }
 
   const stepOneForm = () => {
     // @ts-ignore
-    ref.current.scrollTo({ x: 0, animated: true })
+    // ref.current.scrollTo({ x: 0, animated: true })
     setCurrentPosition(0.2)
   }
 
   const stepTwo = () => {
     // @ts-ignore
-    ref.current.scrollTo({ x: 0, animated: true })
+    // ref.current.scrollTo({ x: 0, animated: true })
     setCurrentPosition(1)
   }
 
@@ -192,7 +192,7 @@ const BuyInsurance = observer((props: Props) => {
   }
 
   return (
-    <KeyboardAwareScrollView style={styles.container} ref={ref}>
+    <KeyboardAwareScrollView keyboardShouldPersistTaps="handled" style={styles.container} ref={ref}>
       {!!productDetail?.id && renderScreen()}
     </KeyboardAwareScrollView>
   )

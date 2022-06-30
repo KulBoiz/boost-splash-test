@@ -36,29 +36,31 @@ const BuyStepOneForm = React.memo((props: Props) => {
 
   const onSubmit = async () => {
     setIsSubmitForm(new Date().toISOString())
-    if (isValid) {
-      const data = {
-        staffInfo: {
-          fullName: ownerData.fullName,
-          dateOfBirth: ownerData.dateOfBirth,
-          email: ownerData.email,
-          idNumber: ownerData.idNumber,
-          gender: ownerData.gender,
-          tel: ownerData.tel,
-        },
-        company: ownerData.company,
-        level: ownerData.level,
-        customers: map(formCustomerData, (fc) => fc.data),
-        productId: productDetail?.id,
-        type: "insurances",
-        subType: "",
-        amount: insurance?.price,
+    setTimeout(async () => {
+      if (isValid) {
+        const data = {
+          staffInfo: {
+            fullName: ownerData.fullName,
+            dateOfBirth: ownerData.dateOfBirth,
+            email: ownerData.email,
+            idNumber: ownerData.idNumber,
+            gender: ownerData.gender,
+            tel: ownerData.tel,
+          },
+          company: ownerData.company,
+          level: ownerData.level,
+          customers: map(formCustomerData, (fc) => fc.data),
+          productId: productDetail?.id,
+          type: "insurances",
+          subType: "",
+          amount: insurance?.price,
+        }
+        const result = await insuranceStore.buyInsurance(data)
+        if (result) {
+          onSuccess?.(data)
+        }
       }
-      const result = await insuranceStore.buyInsurance(data)
-      if (result) {
-        onSuccess?.(data)
-      }
-    }
+    }, 1000)
   }
 
   const addFormCustomer = () => {
@@ -149,7 +151,7 @@ const BuyStepOneForm = React.memo((props: Props) => {
       <HomeInsurance productDetail={productDetail} />
       <CalculateMoney
         insurance={insurance}
-        enable={!isValid}
+        // enable={!isValid}
         productDetail={productDetail}
         onPress={onSubmit}
       />

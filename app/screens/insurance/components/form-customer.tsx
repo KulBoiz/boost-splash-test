@@ -68,7 +68,10 @@ const FormCustomer = React.memo((props: Props) => {
     if (isSubmitForm) {
       onSubmit()
     }
-  }, [isSubmitForm])
+    if (isValid) {
+      onSubmit()
+    }
+  }, [isSubmitForm, isValid])
 
   useEffect(() => {
     onIsValid?.(isValid)
