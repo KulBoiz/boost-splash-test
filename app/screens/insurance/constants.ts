@@ -65,10 +65,15 @@ export const RELATIONSHIP_INSURANCE = [
   { label: "Chồng", value: USER_RELATIONSHIP.HUSBAND },
   { label: "Con", value: USER_RELATIONSHIP.CHILD },
 ]
-export const PACKAGES_INSURANCE = [
+export const EMPLOYEE_INSURANCE = [
   { label: "Nhân viên", value: "staff" },
   { label: "Người thân", value: "relative" },
 ]
+export const PACKAGES_INSURANCE_STAFF = [
+  { label: "Gói vàng - 20,000,000 VNĐ", value: "1" },
+  { label: "Gói bạc - 15,000,000 VNĐ", value: "2" },
+]
+export const PACKAGES_INSURANCE_RELATIVE = [{ label: "Gói kim cương - 50,000,000 VNĐ", value: "3" }]
 
 export const IS_INSURANCE_CARD = [
   { label: "Có", value: "yes" },

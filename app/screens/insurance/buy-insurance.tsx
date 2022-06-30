@@ -5,6 +5,7 @@ import { observer } from "mobx-react-lite"
 import React, { useRef, useState } from "react"
 import { useForm } from "react-hook-form"
 import { ScrollView, View } from "react-native"
+import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view"
 import { ScaledSheet } from "react-native-size-matters"
 import WebView from "react-native-webview"
 import * as Yup from "yup"
@@ -191,9 +192,9 @@ const BuyInsurance = observer((props: Props) => {
   }
 
   return (
-    <ScrollView style={styles.container} ref={ref}>
+    <KeyboardAwareScrollView style={styles.container} ref={ref}>
       {!!productDetail?.id && renderScreen()}
-    </ScrollView>
+    </KeyboardAwareScrollView>
   )
 })
 

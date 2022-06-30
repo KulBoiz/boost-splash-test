@@ -9,7 +9,13 @@ import FormDatePicker from "../../../components/form-date-time"
 import FormItemPicker from "../../../components/form-item-picker"
 import { GENDER } from "../../../constants/gender"
 import { Row } from "native-base"
-import { IS_INSURANCE_CARD, PACKAGES_INSURANCE, RELATIONSHIP_INSURANCE } from "../constants"
+import {
+  EMPLOYEE_INSURANCE,
+  IS_INSURANCE_CARD,
+  PACKAGES_INSURANCE_RELATIVE,
+  PACKAGES_INSURANCE_STAFF,
+  RELATIONSHIP_INSURANCE,
+} from "../constants"
 import * as Yup from "yup"
 import { yupResolver } from "@hookform/resolvers/yup"
 import { useForm } from "react-hook-form"
@@ -17,11 +23,14 @@ import { useForm } from "react-hook-form"
 interface Props {
   isSubmitForm?: string
   onSubmit?: (data) => void
+  onIsValid?: (value) => void
   defaultValues?: any
 }
 
 const FormCustomer = React.memo((props: Props) => {
-  const { isSubmitForm, defaultValues } = props
+  const { isSubmitForm, defaultValues, onIsValid } = props
+
+  const [packages, setPackages] = useState<any>([])
 
   const validationSchema = Yup.object().shape({
     fullName: Yup.string().required("Vui lòng nhập họ và tên"),
@@ -41,7 +50,7 @@ const FormCustomer = React.memo((props: Props) => {
     control,
     handleSubmit,
     getValues,
-    formState: { errors },
+    formState: { errors, isValid },
     setValue,
   } = useForm({
     delayError: 0,
@@ -60,6 +69,10 @@ const FormCustomer = React.memo((props: Props) => {
       onSubmit()
     }
   }, [isSubmitForm])
+
+  useEffect(() => {
+    onIsValid?.(isValid)
+  }, [isValid])
 
   return (
     <>
@@ -124,19 +137,24 @@ const FormCustomer = React.memo((props: Props) => {
         <FormItemPicker
           {...{
             style: { flex: 1 },
-            data: GENDER,
+            data: EMPLOYEE_INSURANCE,
             name: "employeeBuy",
             labelTx: "placeholder.insurance.employeeBuy",
             placeholderTx: "placeholder.insurance.employeeBuy",
             control,
-            setValue: (key, value) => setValue("employeeBuy", value),
+            setValue: (key, value) => {
+              setValue("employeeBuy", value)
+              setPackages(
+                value === "staff" ? PACKAGES_INSURANCE_STAFF : PACKAGES_INSURANCE_RELATIVE,
+              )
+            },
             error: errors?.employeeBuy?.message,
           }}
         />
         <FormItemPicker
           {...{
             style: { flex: 1 },
-            data: PACKAGES_INSURANCE,
+            data: packages,
             name: "package",
             labelTx: "placeholder.insurance.package",
             placeholderTx: "placeholder.insurance.package",
@@ -192,7 +210,8 @@ const styles = ScaledSheet.create({
     paddingHorizontal: "16@ms",
     backgroundColor: color.background,
     // marginTop: '24@s',
-    paddingVertical: "24@s",
+    paddingTop: "24@s",
+    paddingVertical: 8,
   },
   title: {
     fontSize: "16@ms",

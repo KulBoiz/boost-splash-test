@@ -18,10 +18,11 @@ interface Props {
   isSubmitForm?: string
   onSubmit?: (data) => void
   defaultValues?: any
+  onIsValid?: (value) => void
 }
 
 const FormOwner = React.memo((props: Props) => {
-  const { isSubmitForm, defaultValues } = props
+  const { isSubmitForm, defaultValues, onIsValid } = props
 
   const validationSchema = Yup.object().shape({
     fullName: Yup.string().required("Vui lòng nhập họ và tên"),
@@ -31,17 +32,15 @@ const FormOwner = React.memo((props: Props) => {
     gender: Yup.string().required("Vui lòng chọn giới tính"),
     idNumber: Yup.string().required("Vui lòng nhập CMND/CCCD/Hộ chiếu"),
     tel: Yup.string().required("Vui lòng nhập số điện thoại"),
-    employeeBuy: Yup.string().required("Vui lòng chọn"),
-    package: Yup.string().required("Vui lòng chọn loại bảo hiểm"),
-    relationship: Yup.string().required("Vui lòng chọn quan hệ chủ hợp đống"),
-    isInsuranceCard: Yup.string().required("Vui lòng chọn"),
+    company: Yup.string().required("Vui lòng nhập công ty"),
+    level: Yup.string().required("Vui lòng nhập chức vụ"),
     email: Yup.string().trim().required("Vui lòng nhập email").email("Địa chỉ email không hợp lệ"),
   })
   const {
     control,
     handleSubmit,
     getValues,
-    formState: { errors },
+    formState: { errors, isValid },
     setValue,
   } = useForm({
     delayError: 0,
@@ -60,6 +59,10 @@ const FormOwner = React.memo((props: Props) => {
       onSubmit()
     }
   }, [isSubmitForm])
+
+  useEffect(() => {
+    onIsValid?.(isValid)
+  }, [isValid])
 
   return (
     <>
@@ -163,6 +166,7 @@ const styles = ScaledSheet.create({
     backgroundColor: color.background,
     // marginTop: '24@s',
     paddingTop: "24@s",
+    paddingBottom: "8@s",
   },
   title: {
     fontSize: "16@ms",
