@@ -9,7 +9,7 @@ import { ScaledSheet } from "react-native-size-matters"
 import WebView from "react-native-webview"
 import * as Yup from "yup"
 import ShareComponent from "../../components/share"
-import { useStores } from '../../models/root-store/root-store-context'
+import { useStores } from "../../models/root-store/root-store-context"
 import { ScreenNames } from "../../navigators/screen-names"
 import { color } from "../../theme"
 import BuyStepOnePackage from "./components/buy-step-one"
@@ -19,7 +19,7 @@ import BuyStepOneQuestion from "./components/buy-step-one-question"
 import BuyStepThree from "./components/buy-step-three"
 import BuyStepTwo from "./components/buy-step-two"
 
-interface Props { }
+interface Props {}
 
 const BuyInsurance = observer((props: Props) => {
   // @ts-ignore
@@ -41,23 +41,29 @@ const BuyInsurance = observer((props: Props) => {
     // //
     emailCustomer: Yup.string()
       .trim()
-      .required(i18n.t('errors.requireEmail'))
-      .email(i18n.t('errors.invalidEmail')),
-    fullNameCustomer: Yup.string().required(i18n.t('errors.requireFullName')),
-    dateOfBirthCustomer: Yup.date().required(i18n.t('errors.requireDateOfBirth')).max(new Date(), "Ngày sinh không phù hợp"),
-    sexCustomer: Yup.string().required(i18n.t('errors.requireSex')),
-    citizenIdentificationCustomer: Yup.string().required(i18n.t('errors.requireCitizenIdentification')),
-    dateRangeCustomer: Yup.date().required(i18n.t('errors.requireDateRange')).max(new Date(), "Ngày cấp không phù hợp"),
-    issuedByCustomer: Yup.string().required(i18n.t('errors.requireIssuedBy')),
-    contactAddressCustomer: Yup.string().required(i18n.t('errors.requireAddress')),
-    phoneCustomer: Yup.string().required(i18n.t('errors.requirePhone'))
+      .required(i18n.t("errors.requireEmail"))
+      .email(i18n.t("errors.invalidEmail")),
+    fullNameCustomer: Yup.string().required(i18n.t("errors.requireFullName")),
+    dateOfBirthCustomer: Yup.date()
+      .required(i18n.t("errors.requireDateOfBirth"))
+      .max(new Date(), "Ngày sinh không phù hợp"),
+    sexCustomer: Yup.string().required(i18n.t("errors.requireSex")),
+    citizenIdentificationCustomer: Yup.string().required(
+      i18n.t("errors.requireCitizenIdentification"),
+    ),
+    dateRangeCustomer: Yup.date()
+      .required(i18n.t("errors.requireDateRange"))
+      .max(new Date(), "Ngày cấp không phù hợp"),
+    issuedByCustomer: Yup.string().required(i18n.t("errors.requireIssuedBy")),
+    contactAddressCustomer: Yup.string().required(i18n.t("errors.requireAddress")),
+    phoneCustomer: Yup.string().required(i18n.t("errors.requirePhone")),
   })
   const {
     control,
     handleSubmit,
     getValues,
     formState: { errors },
-    setValue
+    setValue,
   } = useForm({
     delayError: 0,
     defaultValues: undefined,
@@ -92,7 +98,7 @@ const BuyInsurance = observer((props: Props) => {
   }
 
   const stepThree = (transaction) => {
-    setTransaction(transaction);
+    setTransaction(transaction)
 
     setCurrentPosition(2)
   }
@@ -103,71 +109,84 @@ const BuyInsurance = observer((props: Props) => {
 
   if (productDetail && productDetail?.source) {
     return (
-    //   <WebView
-    //   source={{ uri: productDetail?.info?.productUrlOriginal }}
-    // />
-      <View style={{ position: 'relative' }}>
-        <View style={{ height: '100%' }}>
-          <WebView
-            source={{ uri: productDetail?.info?.productUrlOriginal }}
-          />
+      //   <WebView
+      //   source={{ uri: productDetail?.info?.productUrlOriginal }}
+      // />
+      <View style={{ position: "relative" }}>
+        <View style={{ height: "100%" }}>
+          <WebView source={{ uri: productDetail?.info?.productUrlOriginal }} />
         </View>
-        <ShareComponent url={productDetail?.info?.productUrlOriginal} isIcon={true}/>
+        <ShareComponent url={productDetail?.info?.productUrlOriginal} isIcon={true} />
       </View>
     )
   }
 
   const renderScreen = () => {
     switch (currentPosition) {
-      case 0: return <BuyStepOnePackage  {...{
-        control,
-        errors,
-        onPress: stepOneQuestion,
-        insuranceType,
-        setInsuranceType,
-        productDetail,
-        questionGroups,
-        setValue,
-      }}
-        getValues={getValues()}
-      />
-      case 0.1: return <BuyStepOneQuestion  {...{
-        control,
-        errors,
-        onPress: stepOneForm,
-        insuranceType,
-        setInsuranceType,
-        productDetail,
-        questionGroups,
-        setValue,
-      }}
-        getValues={getValues()}
-      />
-      case 0.2: return <BuyStepOneForm  {...{
-        control,
-        errors,
-        onPress: handleSubmit(stepTwo),
-        insuranceType,
-        setInsuranceType,
-        productDetail,
-        questionGroups,
-        setValue,
-      }}
-        getValues={getValues()}
-      />
+      case 0:
+        return (
+          <BuyStepOnePackage
+            {...{
+              control,
+              errors,
+              onPress: stepOneQuestion,
+              insuranceType,
+              setInsuranceType,
+              productDetail,
+              questionGroups,
+              setValue,
+            }}
+            getValues={getValues()}
+          />
+        )
+      case 0.1:
+        return (
+          <BuyStepOneQuestion
+            {...{
+              control,
+              errors,
+              onPress: stepOneForm,
+              insuranceType,
+              setInsuranceType,
+              productDetail,
+              questionGroups,
+              setValue,
+            }}
+            getValues={getValues()}
+          />
+        )
+      case 0.2:
+        return (
+          <BuyStepOneForm
+            {...{
+              onPress: handleSubmit(stepTwo),
+              insuranceType,
+              setInsuranceType,
+              productDetail,
+              questionGroups,
+            }}
+          />
+        )
 
-      case 1: return <BuyStepTwo {...{
-        stepThree,
-        productDetail,
-        questionGroups,
-        insuranceType
-      }}
-        getValues={getValues()}
-      />
-      case 2: return <BuyStepThree
-        {...{ onPress: buyRecords, productDetail, insuranceType, transaction}}
-        getValues={getValues()}
-      />
+      case 1:
+        return (
+          <BuyStepTwo
+            {...{
+              stepThree,
+              productDetail,
+              questionGroups,
+              insuranceType,
+            }}
+            getValues={getValues()}
+          />
+        )
+      case 2:
+        return (
+          <BuyStepThree
+            {...{ onPress: buyRecords, productDetail, insuranceType, transaction }}
+            getValues={getValues()}
+          />
+        )
     }
   }
 
@@ -176,13 +195,13 @@ const BuyInsurance = observer((props: Props) => {
       {!!productDetail?.id && renderScreen()}
     </ScrollView>
   )
-});
+})
 
-export default BuyInsurance;
+export default BuyInsurance
 
 const styles = ScaledSheet.create({
   container: {
     flex: 1,
     backgroundColor: color.palette.white,
   },
-});
+})

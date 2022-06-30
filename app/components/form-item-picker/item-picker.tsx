@@ -17,13 +17,13 @@ interface DataProps {
 }
 
 interface Props {
-  label: string
-  placeholder: string
+  label?: string
+  placeholder?: string
   errorMessage: string
   setValue: UseFormSetValue<FieldValues>
   data: Array<DataProps>
   name: FieldPath<FieldValues>
-  value: string
+  value?: string
   handleSelect?: any
   onChangeSearchText?: any
 }

@@ -50,3 +50,27 @@ export const INSURANCE_TABS = [
   { key: "1", text: "Danh sách bảo hiểm" },
   { key: "2", text: "Yêu cầu bồi thường" },
 ]
+
+export const USER_RELATIONSHIP = {
+  FATHER: "father",
+  MOTHER: "mother",
+  CHILD: "child",
+  WIFE: "wife",
+  HUSBAND: "husband",
+}
+export const RELATIONSHIP_INSURANCE = [
+  { label: "Bố", value: USER_RELATIONSHIP.FATHER },
+  { label: "Mẹ", value: USER_RELATIONSHIP.MOTHER },
+  { label: "Vợ", value: USER_RELATIONSHIP.WIFE },
+  { label: "Chồng", value: USER_RELATIONSHIP.HUSBAND },
+  { label: "Con", value: USER_RELATIONSHIP.CHILD },
+]
+export const PACKAGES_INSURANCE = [
+  { label: "Nhân viên", value: "staff" },
+  { label: "Người thân", value: "relative" },
+]
+
+export const IS_INSURANCE_CARD = [
+  { label: "Có", value: "yes" },
+  { label: "Không", value: "no" },
+]

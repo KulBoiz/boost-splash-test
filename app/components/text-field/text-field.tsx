@@ -38,7 +38,7 @@ const MULTILINE: TextStyle = {
 }
 
 const ERROR: TextStyle = {
-  position: 'absolute',
+  position: "absolute",
   fontFamily: fontFamily.medium,
   color: color.palette.angry,
   fontSize: ms(12),
@@ -120,7 +120,7 @@ export function TextField(props: TextFieldProps) {
           secureTextEntry={showIcon ? showPassword : false}
           {...rest}
           multiline={multiline}
-          style={multiline ? MULTILINE : inputStyles }
+          style={multiline ? MULTILINE : inputStyles}
           ref={forwardedRef}
           right={
             showIcon && (
