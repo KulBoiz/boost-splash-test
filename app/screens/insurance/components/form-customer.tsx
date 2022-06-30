@@ -52,6 +52,7 @@ const FormCustomer = React.memo((props: Props) => {
     getValues,
     formState: { errors, isValid },
     setValue,
+    clearErrors
   } = useForm({
     delayError: 0,
     defaultValues,
@@ -93,6 +94,7 @@ const FormCustomer = React.memo((props: Props) => {
         <Row>
           <FormDatePicker
             {...{
+              clearErrors,
               style: { flex: 1, marginRight: 5 },
               name: "dateOfBirth",
               labelTx: "placeholder.insurance.dateOfBirth",
@@ -104,6 +106,7 @@ const FormCustomer = React.memo((props: Props) => {
           />
           <FormItemPicker
             {...{
+              clearErrors,
               style: { flex: 1 },
               data: GENDER,
               name: "gender",
@@ -139,6 +142,7 @@ const FormCustomer = React.memo((props: Props) => {
         />
         <FormItemPicker
           {...{
+            clearErrors,
             style: { flex: 1 },
             data: EMPLOYEE_INSURANCE,
             name: "employeeBuy",
@@ -156,6 +160,7 @@ const FormCustomer = React.memo((props: Props) => {
         />
         <FormItemPicker
           {...{
+            clearErrors,
             style: { flex: 1 },
             data: packages,
             name: "package",
@@ -168,6 +173,7 @@ const FormCustomer = React.memo((props: Props) => {
         />
         <FormItemPicker
           {...{
+            clearErrors,
             style: { flex: 1 },
             data: RELATIONSHIP_INSURANCE,
             name: "relationship",
@@ -180,6 +186,7 @@ const FormCustomer = React.memo((props: Props) => {
         />
         <FormItemPicker
           {...{
+            clearErrors,
             style: { flex: 1 },
             data: IS_INSURANCE_CARD,
             name: "isInsuranceCard",

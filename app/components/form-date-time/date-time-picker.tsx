@@ -4,7 +4,7 @@ import { ScaledSheet } from "react-native-size-matters"
 import { color } from "../../theme"
 import { fontFamily } from "../../constants/font-family"
 import { CalenderSvg } from "../../assets/svgs"
-import { UseFormSetValue } from "react-hook-form/dist/types/form"
+import { UseFormClearErrors, UseFormSetValue } from "react-hook-form/dist/types/form"
 import { FieldValues } from "react-hook-form/dist/types/fields"
 import moment from "moment"
 import { FieldPath } from "react-hook-form/dist/types"
@@ -24,6 +24,7 @@ interface Props {
   placeholderTx: string
   name: FieldPath<FieldValues>
   isMaximumDate?: boolean
+  clearErrors?: UseFormClearErrors<FieldValues>;
 }
 
 const DatePicker = React.memo((props: Props) => {
@@ -37,6 +38,7 @@ const DatePicker = React.memo((props: Props) => {
     isMaximumDate = true,
     labelTx,
     placeholderTx,
+    clearErrors
   } = props
   const [date, setDate] = useState(new Date())
   const [show, setShow] = useState(false)
@@ -46,6 +48,9 @@ const DatePicker = React.memo((props: Props) => {
     setShow(false)
     setDate(currentDate)
     setValue(name, selectedDate)
+    if (clearErrors) {
+      clearErrors(name)
+    }
   }
 
   const showMode = () => {

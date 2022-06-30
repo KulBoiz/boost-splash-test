@@ -40,6 +40,7 @@ const FormOwner = React.memo((props: Props) => {
     handleSubmit,
     formState: { errors, isValid },
     setValue,
+    clearErrors
   } = useForm({
     delayError: 0,
     defaultValues,
@@ -86,12 +87,14 @@ const FormOwner = React.memo((props: Props) => {
               labelTx: "placeholder.insurance.dateOfBirth",
               placeholderTx: "placeholder.insurance.dateOfBirth",
               setValue: setValue,
+              clearErrors,
               control,
               error: errors?.dateOfBirth?.message,
             }}
           />
           <FormItemPicker
             {...{
+              clearErrors,
               style: { flex: 1 },
               data: GENDER,
               name: "gender",

@@ -163,7 +163,7 @@ export default BuyStepOneForm
 
 const styles = ScaledSheet.create({
   container: {
-    marginBottom: "24@s",
+    // marginBottom: "24@s",
   },
   contentContainer: {
     paddingHorizontal: "16@s",

@@ -1,7 +1,7 @@
 import React from "react"
 import { View, StyleSheet, ViewStyle } from "react-native"
 import { Controller, UseControllerProps } from "react-hook-form"
-import { Control, UseFormSetValue } from "react-hook-form/dist/types/form"
+import { Control, UseFormClearErrors, UseFormSetValue } from "react-hook-form/dist/types/form"
 import DatePicker from "./date-time-picker"
 import { FieldValues } from "react-hook-form/dist/types/fields"
 
@@ -17,6 +17,7 @@ export interface FormItemPickerProps extends UseControllerProps {
   defaultValue?: string
   setValue?: UseFormSetValue<FieldValues>
   isMaximumDate?: boolean
+  clearErrors?: UseFormClearErrors<FieldValues>;
 }
 
 const FormDatePicker = React.memo((props: FormItemPickerProps) => {
@@ -33,6 +34,7 @@ const FormDatePicker = React.memo((props: FormItemPickerProps) => {
     isMaximumDate,
     labelTx,
     placeholderTx,
+    clearErrors
   } = props
 
   return (
@@ -54,6 +56,7 @@ const FormDatePicker = React.memo((props: FormItemPickerProps) => {
               isMaximumDate,
               labelTx,
               placeholderTx,
+              clearErrors
             }}
           />
         )}

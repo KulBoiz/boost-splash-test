@@ -75,7 +75,7 @@ const BuyInsurance = observer((props: Props) => {
 
   const ref = useRef(null)
   const navigation = useNavigation()
-  const [currentPosition, setCurrentPosition] = useState(0)
+  const [currentPosition, setCurrentPosition] = useState(0.2)
   const [insuranceType, setInsuranceType] = useState(0)
   // const [checkboxState, setCheckboxState] = useState<boolean>(true)
   const [transaction, setTransaction] = useState()
