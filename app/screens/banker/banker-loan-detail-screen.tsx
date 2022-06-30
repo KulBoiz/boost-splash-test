@@ -28,7 +28,7 @@ import { getDocumentFiles } from "../../utils/file"
 import PopupCreateTransaction from "./components/popup-create-transaction"
 
 const BankerLoanDetailScreen: FC = observer((props: any) => {
-  // const data = props?.route?.params?.data
+  const tab = props?.route?.params?.tab
   const index = props?.route?.params?.index
 
   const navigation = useNavigation()
@@ -126,7 +126,7 @@ const BankerLoanDetailScreen: FC = observer((props: any) => {
         toast.show({
           description: result,
         })
-        bankerStore.getListLoan({}, { page: 1, limit: 20 })
+        bankerStore.getListLoan({status: tab}, { page: 1, limit: 20 })
         navigation.goBack()
       }
     }
@@ -619,9 +619,10 @@ const BankerLoanDetailScreen: FC = observer((props: any) => {
             })
             .then(() => {
               setEditLoanResultVisible(false)
-              
+
               if (data?.dealDetails?.[0]?.status === LOAN_STATUS_TYPES.APPRAISAL_PROGRESS) {
                 bankerStore.updateDealStatus(dealDetailId, LOAN_STATUS_TYPES.LEND_APPROVAL, objectId).then(() => {
+                  bankerStore.getListLoan({status: tab}, { page: 1, limit: 20 })
                   navigation.goBack()
                 })
               }

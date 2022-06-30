@@ -28,14 +28,13 @@ const BankerListLoanScreen: FC<Props> = observer((props: Props) => {
   const [tab, setTab] = useState(undefined)
 
   useEffect(() => {
-    bankerStore.getListLoan({}, { page: 1, limit: 20 })
+    bankerStore.getListLoan({status: tab}, { page: 1, limit: 20 })
   }, [])
 
   const showDetail = useCallback(
-    (data, index) => navigation.navigate(ScreenNames.BANKER_LOAN_DETAIL_SCREEN, { data, index }),
-    [],
+    (tab, index) => navigation.navigate(ScreenNames.BANKER_LOAN_DETAIL_SCREEN, { tab, index }),
+    [tab],
   )
-
   const data = useMemo(() => {
     const dataGroup = groupBy(
       map(bankerStore.listLoan, (item) => ({
@@ -96,7 +95,7 @@ const BankerListLoanScreen: FC<Props> = observer((props: Props) => {
     )
   }, [])
   const renderItem = useCallback(({ item, index }) => {
-    return <BankerLoanItem item={item} index={index} onPress={() => showDetail(item, index)} />
+    return <BankerLoanItem item={item} index={index} onPress={() => showDetail(tab, index)} />
   }, [])
 
   const ListFooterComponent = useCallback(() => {

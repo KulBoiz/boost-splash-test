@@ -20,7 +20,6 @@ import { getSurveyDetails, getSurveyName, STATUS_BANK_FEED_BACK } from "./consta
 const BankerRequestDetailScreen: FC = observer((props: any) => {
   const navigation = useNavigation()
   const { bankerStore, authStoreModel } = useStores()
-
   const [rejectVisible, setRejectVisible] = useState<boolean>(false)
   const [confirmVisible, setConfirmVisible] = useState<boolean>(false)
   const [alert, setAlert] = useState<any>({
@@ -29,12 +28,13 @@ const BankerRequestDetailScreen: FC = observer((props: any) => {
     type: "reject",
     message: "",
   })
+  const tab = props?.route?.params?.tab
+  const index = props?.route?.params?.index
+  const data = bankerStore.listRequest[index]
 
-  const data = props?.route?.params?.data
   const name = getSurveyName(data?.surveyDetails)
   const bankerFeedBack = data?.bankFeedbacks?.find((el) => el?.userId === authStoreModel?.user?.id)
     ?.content
-
 
   const showPopupReject = useCallback(() => setRejectVisible(true), [])
   const hidePopupReject = useCallback(() => setRejectVisible(false), [])
@@ -96,7 +96,7 @@ const BankerRequestDetailScreen: FC = observer((props: any) => {
       .updateSurveyTask(data?.taskId, alert.data)
       .then(() => {
         Alert.alert("Đã phản hồi thành công")
-        bankerStore.getListRequest({}, { page: 1, limit: 20 }, true)
+        bankerStore.getListRequest({status: tab}, { page: 1, limit: 20 }, true)
         setAlert({ visible: false })
         navigation.goBack()
       })

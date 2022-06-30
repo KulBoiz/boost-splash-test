@@ -31,8 +31,8 @@ const BankerListRequestScreen: FC<Props> = observer((props: Props) => {
   }, [])
 
   const showDetail = useCallback(
-    (data) => navigation.navigate(ScreenNames.BANKER_REQUEST_DETAIL_SCREEN, { data }),
-    [],
+    (tab, index) => navigation.navigate(ScreenNames.BANKER_REQUEST_DETAIL_SCREEN, { tab, index }),
+    [tab],
   )
 
   const getData = useMemo(() => {
@@ -104,9 +104,10 @@ const BankerListRequestScreen: FC<Props> = observer((props: Props) => {
       </HStack>
     )
   }, [])
+  
   const renderItem = useCallback(({ item, index }) => {
-    return <BankerRequestItem item={item} index={index} onPress={() => showDetail(item)} />
-  }, [])
+    return <BankerRequestItem item={item} index={index} onPress={() => showDetail(tab, index)} />
+  }, [tab])
 
   const ListFooterComponent = useCallback(() => {
     if (bankerStore.isLoadingMoreListRequest) {
