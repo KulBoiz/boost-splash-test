@@ -1,5 +1,10 @@
 import { images } from "../../assets/images"
 
+export const TYPE = {
+	staff: 'staff',
+	relative: 'relative',
+};
+
 export const HAVE_INSURANCE = [
   {
     icon: images.ribbon,
