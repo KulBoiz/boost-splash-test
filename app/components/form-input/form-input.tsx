@@ -10,8 +10,8 @@ export interface FormInputProps extends TextFieldProps, UseControllerProps {
   name: string
   label?: string
   placeholder?: string
-  placeholderTx?: TxKeyPath
-  labelTx?: TxKeyPath
+  placeholderTx?: any
+  labelTx?: any
   txOptions?: i18n.TranslateOptions
   control: Control
   error: string | undefined

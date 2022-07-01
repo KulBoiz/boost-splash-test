@@ -14,13 +14,13 @@ interface DataProps {
 export interface FormItemPickerProps extends UseControllerProps {
   name: string
   label?: string
-  labelTx?: TxKeyPath
+  labelTx?: any
   placeholder?: string
-  placeholderTx?: TxKeyPath
+  placeholderTx?: any
   control: Control
   setValue: UseFormSetValue<FieldValues>
   clearErrors?: UseFormClearErrors<FieldValues>;
-  error: string
+  error: string | undefined
   style?: ViewStyle | any
   defaultValue?: string
   data: Array<DataProps>

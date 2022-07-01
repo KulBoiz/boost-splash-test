@@ -1,13 +1,13 @@
 import React, { useEffect, useState } from "react"
 import { View } from "react-native"
-import { AppText } from "../../../components/app-text/AppText"
-import { fontFamily } from "../../../constants/font-family"
+import { AppText } from "../../../../components/app-text/AppText"
+import { fontFamily } from "../../../../constants/font-family"
 import { ScaledSheet } from "react-native-size-matters"
-import FormInput from "../../../components/form-input/form-input"
-import { color } from "../../../theme"
-import FormDatePicker from "../../../components/form-date-time"
-import FormItemPicker from "../../../components/form-item-picker"
-import { GENDER } from "../../../constants/gender"
+import FormInput from "../../../../components/form-input/form-input"
+import { color } from "../../../../theme"
+import FormDatePicker from "../../../../components/form-date-time"
+import FormItemPicker from "../../../../components/form-item-picker"
+import { GENDER } from "../../../../constants/gender"
 import { Row } from "native-base"
 import {
   EMPLOYEE_INSURANCE,
@@ -15,36 +15,34 @@ import {
   PACKAGES_INSURANCE_RELATIVE,
   PACKAGES_INSURANCE_STAFF,
   RELATIONSHIP_INSURANCE,
-} from "../constants"
+} from "../../constants"
 import * as Yup from "yup"
 import { yupResolver } from "@hookform/resolvers/yup"
 import { useForm } from "react-hook-form"
+import { isEmpty } from "lodash"
 
 interface Props {
   isSubmitForm?: string
   onSubmit?: (data) => void
-  onIsValid?: (value) => void
+  onIsValid: (value) => void
   defaultValues?: any
+  listPackageStaff: any
+  listPackageRelative: any
 }
 
 const FormCustomer = React.memo((props: Props) => {
-  const { isSubmitForm, defaultValues, onIsValid } = props
+  const { isSubmitForm, defaultValues, onIsValid, listPackageStaff, listPackageRelative } = props
 
   const [packages, setPackages] = useState<any>([])
 
   const validationSchema = Yup.object().shape({
     fullName: Yup.string().required("Vui lòng nhập họ và tên"),
     dateOfBirth: Yup.date()
-      .required("Vui lòng nhập ngày sinh")
-      .max(new Date(), "Ngày sinh không phù hợp"),
+      .required("Vui lòng nhập ngày sinh"),
     gender: Yup.string().required("Vui lòng chọn giới tính"),
-    idNumber: Yup.string().required("Vui lòng nhập CMND/CCCD/Hộ chiếu"),
     tel: Yup.string().required("Vui lòng nhập số điện thoại"),
     employeeBuy: Yup.string().required("Vui lòng chọn"),
     package: Yup.string().required("Vui lòng chọn loại bảo hiểm"),
-    relationship: Yup.string().required("Vui lòng chọn quan hệ chủ hợp đống"),
-    isInsuranceCard: Yup.string().required("Vui lòng chọn"),
-    email: Yup.string().trim().required("Vui lòng nhập email").email("Địa chỉ email không hợp lệ"),
   })
   const {
     control,
@@ -56,7 +54,7 @@ const FormCustomer = React.memo((props: Props) => {
   } = useForm({
     delayError: 0,
     defaultValues,
-    mode: "all",
+    mode: 'all',
     resolver: yupResolver(validationSchema),
     reValidateMode: "onChange" || "onTouched",
   })
@@ -66,17 +64,12 @@ const FormCustomer = React.memo((props: Props) => {
   })
 
   useEffect(() => {
+    onIsValid(isEmpty(errors));
+
     if (isSubmitForm) {
       onSubmit()
     }
-    if (isValid) {
-      onSubmit()
-    }
-  }, [isSubmitForm, isValid])
-
-  useEffect(() => {
-    onIsValid?.(isValid)
-  }, [isValid])
+  }, [isSubmitForm])
 
   return (
     <>
@@ -124,9 +117,9 @@ const FormCustomer = React.memo((props: Props) => {
             labelTx: "placeholder.insurance.idNumber",
             placeholderTx: "placeholder.insurance.idNumber",
             control,
-            error: errors?.idNumber?.message,
             keyboardType: "number-pad",
             style: { marginTop: 6 },
+            error: undefined
           }}
         />
         <FormInput
@@ -151,8 +144,9 @@ const FormCustomer = React.memo((props: Props) => {
             control,
             setValue: (key, value) => {
               setValue("employeeBuy", value)
+              setValue("package", undefined)
               setPackages(
-                value === "staff" ? PACKAGES_INSURANCE_STAFF : PACKAGES_INSURANCE_RELATIVE,
+                value === "staff" ? listPackageStaff : listPackageRelative,
               )
             },
             error: errors?.employeeBuy?.message,
@@ -181,7 +175,7 @@ const FormCustomer = React.memo((props: Props) => {
             placeholderTx: "placeholder.insurance.relationship",
             control,
             setValue: (key, value) => setValue("relationship", value),
-            error: errors?.relationship?.message,
+            error: undefined
           }}
         />
         <FormItemPicker
@@ -194,7 +188,7 @@ const FormCustomer = React.memo((props: Props) => {
             placeholderTx: "placeholder.insurance.isInsuranceCard",
             control,
             setValue: (key, value) => setValue("isInsuranceCard", value),
-            error: errors?.isInsuranceCard?.message,
+            error: undefined
           }}
         />
         <FormInput
@@ -204,8 +198,8 @@ const FormCustomer = React.memo((props: Props) => {
             placeholder: "Email",
             autoCapitalize: "none",
             control,
-            error: errors?.email?.message,
             style: { marginTop: 6 },
+            error: undefined
           }}
         />
       </View>

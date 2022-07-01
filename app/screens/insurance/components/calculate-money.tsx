@@ -23,9 +23,6 @@ interface Props {
 const CalculateMoney = React.memo(({ onPress, insurance, enable = false, getValues, productDetail }: Props) => {
 
   const linkShare = () => {
-    console.log('getValues', getValues);
-    console.log('productDetail', productDetail);
-
     if (getValues) {
       // todo
       const {

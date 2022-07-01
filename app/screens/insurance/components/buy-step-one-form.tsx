@@ -1,30 +1,34 @@
 import React, { useState } from "react"
 import { View } from "react-native"
 import { s, ScaledSheet } from "react-native-size-matters"
-import FormCustomer from "./form-customer"
+import FormCustomer from "./form/form-customer"
 import HomeInsurance from "./home-insurance"
 import CalculateMoney from "./calculate-money"
 import { color } from "../../../theme"
 import { fontFamily } from "../../../constants/font-family"
 import { useStores } from "../../../models"
-import FormOwner from "./form-owner"
+import FormOwner from "./form/form-owner"
 import { AddIcon, Box, MinusIcon, Pressable } from "native-base"
 import uuid from "uuid"
 import { filter, find, map, union } from "../../../utils/lodash-utils"
+import { TYPE } from "../constants"
 
 interface Props {
   insuranceType: number
   setInsuranceType(e: number): void
   productDetail: any
   questionGroups: any
-  onSuccess?: (data) => void
+  onPress: (data) => void
 }
 
+const MaxAge = 65;
+
 const BuyStepOneForm = React.memo((props: Props) => {
-  const { onSuccess, insuranceType, productDetail } = props
+  const { insuranceType, productDetail, onPress } = props
   const { insuranceStore } = useStores()
 
-  const insurance = productDetail?.packages?.[insuranceType]
+  // const insurance = productDetail?.packages?.[insuranceType]
+
   const [ownerData, setOwnerData] = useState<any>({})
   const [formCustomerData, setFormCustomerData] = useState<any>([
     { data: {}, id: uuid.v4(), isValid: false },
@@ -32,33 +36,66 @@ const BuyStepOneForm = React.memo((props: Props) => {
   const [isSubmitForm, setIsSubmitForm] = useState<string>("")
   const [formOwnerIsValid, setFormOwnerIsValid] = useState<boolean>(false)
 
-  const isValid = formOwnerIsValid && !find(formCustomerData, (fc) => !fc.isValid)
+  const packages = productDetail?.packages.map((el, index) => ({...el, value: index, label: `${el?.name}-${el?.price} VNĐ`}));
+	const listPackageStaff = packages.filter(el => el?.objects?.find(e => e === TYPE?.staff));
+	const listPackageRelative = packages.filter(el => el?.objects?.find(e => e === TYPE?.relative));
 
+  // const isValid = formOwnerIsValid && !find(formCustomerData, (fc) => !fc.isValid)
+
+  // const checkAge = (user) => {
+	// 	const birthday = new Date(user?.dateOfBirth);
+	// 	const ageDifMs = Date.now() - birthday.getTime();
+	// 	const ageDate = new Date(ageDifMs);
+	// 	return Math.abs(ageDate.getUTCFullYear() - 1970);
+	// };
+
+	// const renderPrice = (customer) => {
+	// 	if (checkAge(customer) > MaxAge) {
+	// 		return customer?.meta?.price * 1.5;
+	// 	}
+
+	// 	return customer?.meta?.price || 0;
+  // };
+  
+  // const totalAmount = (data) => {
+	// 	let amount = 0;
+	// 	formValue?.customers?.forEach(customer => {
+	// 		amount = renderPrice(customer)+ amount;
+  //   });
+
+	// 	return {
+	// 		value: amount || 0,
+	// 		label: FormatterUtils.formatAmount(amount, 'vnđ') || '',
+	// 	};
+  // };
+  
   const onSubmit = async () => {
+    console.log(222);
+    
     setIsSubmitForm(new Date().toISOString())
     setTimeout(async () => {
-      if (isValid) {
+      const { fullName, dateOfBirth, email, idNumber, gender, tel, company, level } = ownerData
+      
+      if (formOwnerIsValid && !find(formCustomerData, (fc) => !fc.isValid)) {
         const data = {
-          staffInfo: {
-            fullName: ownerData.fullName,
-            dateOfBirth: ownerData.dateOfBirth,
-            email: ownerData.email,
-            idNumber: ownerData.idNumber,
-            gender: ownerData.gender,
-            tel: ownerData.tel,
-          },
-          company: ownerData.company,
-          level: ownerData.level,
+          staffInfo: { fullName, dateOfBirth, email, idNumber, gender, tel},
+          company,
+          level,
           customers: map(formCustomerData, (fc) => fc.data),
           productId: productDetail?.id,
           type: "insurances",
-          subType: "",
-          amount: insurance?.price,
+          subType: productDetail?.name,
+          // amount: insurance?.price,
         }
-        const result = await insuranceStore.buyInsurance(data)
-        if (result) {
-          onSuccess?.(data)
-        }
+
+        // const result = await insuranceStore.buyInsurance(data)
+        // if (result) {
+        //   onSuccess?.(data)
+        // }
+
+        console.log(data);
+        
+        onPress(data)
       }
     }, 1000)
   }
@@ -111,8 +148,14 @@ const BuyStepOneForm = React.memo((props: Props) => {
           <Box key={index}>
             <FormCustomer
               isSubmitForm={isSubmitForm}
-              onSubmit={(data) => onSubmitFormCustomer(item.id, data)}
-              onIsValid={(value) => onValidFormCustomer(item.id, value)}
+              listPackageStaff={listPackageStaff}
+              listPackageRelative={listPackageRelative}
+              onSubmit={(data) => {
+                onSubmitFormCustomer(item.id, data)
+              }}
+              onIsValid={(value) => {
+                onValidFormCustomer(item.id, value)
+              }}
             />
 
             {index ? (
@@ -149,8 +192,9 @@ const BuyStepOneForm = React.memo((props: Props) => {
       </Pressable>
 
       <HomeInsurance productDetail={productDetail} />
+
       <CalculateMoney
-        insurance={insurance}
+        insurance={''}
         // enable={!isValid}
         productDetail={productDetail}
         onPress={onSubmit}

@@ -146,7 +146,7 @@ export const BankHomeScreen = observer(({ navigation }) => {
         </View>
       </View>
 
-      <View style={styles.container}>
+      {/* <View style={styles.container}>
         <View style={[ROW, SPACE_BETWEEN]}>
           <AppText
             value={`Hồ sơ mới`}
@@ -156,17 +156,6 @@ export const BankHomeScreen = observer(({ navigation }) => {
               fontFamily: fontFamily.medium,
             }}
           />
-          {/* <AppText */}
-          {/*  value={`Xem thêm`} */}
-          {/*  style={{ */}
-          {/*    marginBottom: s(10), */}
-          {/*    marginTop: s(15), */}
-          {/*    fontFamily: fontFamily.medium, */}
-          {/*    fontSize: s(11), */}
-          {/*    color: color.palette.blue */}
-          {/*  }} */}
-          {/*  onPress={()=> navigate(ScreenNames.BANKER_LIST_REQUEST_SCREEN)} */}
-          {/* /> */}
         </View>
 
         <Carousel
@@ -179,7 +168,7 @@ export const BankHomeScreen = observer(({ navigation }) => {
           inactiveSlideScale={1}
           activeSlideAlignment={"start"}
         />
-      </View>
+      </View> */}
     </View>
   )
 })
