@@ -96,7 +96,11 @@ const ImagePickerModal: React.FC<ImagePickerProps> = React.memo(
 
     const showActionSheetIos = () => {
       ActionSheetIOS.showActionSheetWithOptions(
-        { options: ["Chụp ảnh", "Upload ảnh", "Hủy"], cancelButtonIndex: 2 },
+        {
+          options: ["Chụp ảnh", "Upload ảnh", "Hủy"],
+          cancelButtonIndex: 2,
+          userInterfaceStyle: "light",
+        },
         (index) => {
           onCancel?.()
           switch (index) {
