@@ -11,11 +11,11 @@ import { useForm } from "react-hook-form"
 import { yupResolver } from "@hookform/resolvers/yup"
 import AppViewNoAuth from '../../components/app-view-no-auth';
 import FormInput from '../../components/form-input/form-input';
-import { presets } from '../../constants/presets';
 import TermCheckbox from '../auth/components/TermCheckbox';
 import AppButton from '../../components/app-button/AppButton';
 import FormItemPicker from '../../components/form-item-picker';
-import { goBack } from '../../navigators';
+import { navigate } from "../../navigators"
+import { ScreenNames } from "../../navigators/screen-names"
 
 export const USER_RELATIONSHIP = {
   FATHER: 'father',
@@ -65,7 +65,7 @@ const ClaimInsuranceDetailScreen = React.memo((props: Props) => {
     )
     if (send.kind === "ok") {
       // todo
-      goBack()
+      navigate(ScreenNames.INSURANCE_REQUEST_CLAIM_SUCCESS_SCREEN)
     } else Alert.alert("Something went wrong")
   }
   if (!authStoreModel.isLoggedIn) {
