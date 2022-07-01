@@ -1,7 +1,7 @@
 import React from "react"
 import { View, ViewStyle } from "react-native"
 import { Controller, UseControllerProps } from "react-hook-form"
-import { Control, UseFormSetValue } from "react-hook-form/dist/types/form"
+import { Control, UseFormClearErrors, UseFormSetValue } from "react-hook-form/dist/types/form"
 import { FieldValues } from "react-hook-form/dist/types/fields"
 import ItemPicker from "./item-picker"
 import { translate, TxKeyPath } from "../../i18n"
@@ -19,6 +19,7 @@ export interface FormItemPickerProps extends UseControllerProps {
   placeholderTx?: TxKeyPath
   control: Control
   setValue: UseFormSetValue<FieldValues>
+  clearErrors?: UseFormClearErrors<FieldValues>;
   error: string
   style?: ViewStyle | any
   defaultValue?: string
@@ -41,6 +42,7 @@ const FormItemPicker = React.memo((props: FormItemPickerProps) => {
     rules,
     setValue,
     handleSelect,
+    clearErrors,
     data = [{ value: "", label: "" }],
     onChangeSearchText,
   } = props
@@ -65,6 +67,7 @@ const FormItemPicker = React.memo((props: FormItemPickerProps) => {
               data,
               handleSelect,
               onChangeSearchText,
+              clearErrors
             }}
           />
         )}

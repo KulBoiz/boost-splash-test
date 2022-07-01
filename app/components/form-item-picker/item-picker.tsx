@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react"
 import FastImage from "react-native-fast-image"
 import { images } from "../../assets/images"
 import { ScaledSheet } from "react-native-size-matters"
-import { UseFormSetValue } from "react-hook-form/dist/types/form"
+import { UseFormClearErrors, UseFormSetValue } from "react-hook-form/dist/types/form"
 import { FieldValues } from "react-hook-form/dist/types/fields"
 import { FieldPath } from "react-hook-form/dist/types"
 import ItemPickerModal from "./item-picker-modal"
@@ -17,15 +17,16 @@ interface DataProps {
 }
 
 interface Props {
-  label: string
-  placeholder: string
+  label?: string
+  placeholder?: string
   errorMessage: string
   setValue: UseFormSetValue<FieldValues>
   data: Array<DataProps>
   name: FieldPath<FieldValues>
-  value: string
+  value?: string
   handleSelect?: any
   onChangeSearchText?: any
+  clearErrors?: UseFormClearErrors<FieldValues>;
 }
 
 const ItemPicker = React.memo((props: Props) => {
@@ -39,6 +40,7 @@ const ItemPicker = React.memo((props: Props) => {
     name,
     handleSelect,
     onChangeSearchText,
+    clearErrors
   } = props
   const [title, setTitle] = useState<string>("")
   const [modal, setModal] = useState<boolean>(false)
@@ -46,6 +48,9 @@ const ItemPicker = React.memo((props: Props) => {
   const handleSelectOption = (val) => {
     setTitle(val.label)
     setValue(name, val.value)
+    if (clearErrors) {
+      clearErrors(name)
+    }
     if (handleSelect) handleSelect(val)
     setModal(false)
   }

@@ -122,7 +122,20 @@
     "email": "email@adress.com",
     "phone": "09********",
     "address": "Nhập địa chỉ",
-    "contactAddress": "Nơi bạn đang sinh sống"
+    "contactAddress": "Nơi bạn đang sinh sống",
+    "insurance": {
+      "isInsuranceCard": "Lấy thẻ cứng bảo hiểm",
+      "relationship": "Quan hệ chủ hợp đồng",
+      "package": "Gói bảo hiểm",
+      "employeeBuy": "Loại bảo hiểm",
+      "tel": "Số điện thoại",
+      "idNumber": "CMND/CCCD/Hộ chiếu",
+      "gender": "Giới tính",
+      "dateOfBirth": "Ngày sinh",
+      "fullName": "Họ và tên",
+      "company": "Công ty",
+      "level": "Chức vụ"
+    }
   },
   "home": {
     "finance": {

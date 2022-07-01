@@ -1,20 +1,23 @@
-import React from 'react';
+import React from "react"
 import { View, StyleSheet, ViewStyle } from "react-native"
 import { Controller, UseControllerProps } from "react-hook-form"
-import { Control, UseFormSetValue } from "react-hook-form/dist/types/form"
+import { Control, UseFormClearErrors, UseFormSetValue } from "react-hook-form/dist/types/form"
 import DatePicker from "./date-time-picker"
 import { FieldValues } from "react-hook-form/dist/types/fields"
 
-export interface FormItemPickerProps extends UseControllerProps{
-  name: string,
-  label: string,
-  placeholder: string,
-  control: Control,
-  error: string,
-  style?: ViewStyle | any,
-  defaultValue?: string,
-  setValue: UseFormSetValue<FieldValues>
+export interface FormItemPickerProps extends UseControllerProps {
+  name: string
+  label?: string
+  placeholder?: string
+  labelTx?: string
+  placeholderTx?: string
+  control: Control
+  error: string
+  style?: ViewStyle | any
+  defaultValue?: string
+  setValue?: UseFormSetValue<FieldValues>
   isMaximumDate?: boolean
+  clearErrors?: UseFormClearErrors<FieldValues>;
 }
 
 const FormDatePicker = React.memo((props: FormItemPickerProps) => {
@@ -29,6 +32,9 @@ const FormDatePicker = React.memo((props: FormItemPickerProps) => {
     rules,
     setValue,
     isMaximumDate,
+    labelTx,
+    placeholderTx,
+    clearErrors
   } = props
 
   return (
@@ -39,25 +45,28 @@ const FormDatePicker = React.memo((props: FormItemPickerProps) => {
         defaultValue={defaultValue}
         rules={rules}
         render={({ field: { onChange, value, ref } }) => (
-          <DatePicker {...{
-            name,
-            setValue,
-            value,
-            errorMessage:error,
-            label,
-            placeholder,
-            isMaximumDate
+          <DatePicker
+            {...{
+              name,
+              setValue,
+              value,
+              errorMessage: error,
+              label,
+              placeholder,
+              isMaximumDate,
+              labelTx,
+              placeholderTx,
+              clearErrors
             }}
           />
         )}
       />
     </View>
   )
-});
+})
 
-export default FormDatePicker;
-
+export default FormDatePicker
 
 const styles = StyleSheet.create({
   container: {},
-});
+})

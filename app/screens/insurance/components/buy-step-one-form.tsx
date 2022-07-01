@@ -1,156 +1,204 @@
-import React, { useState } from 'react';
-import { View } from 'react-native';
-import { ScaledSheet } from "react-native-size-matters"
-import InsurancePicker from "./insurance-picker"
-import SurveyQuestion from "./survey-question"
-import InputCustomer from "./input-customer"
+import React, { useState } from "react"
+import { View } from "react-native"
+import { s, ScaledSheet } from "react-native-size-matters"
+import FormCustomer from "./form-customer"
 import HomeInsurance from "./home-insurance"
 import CalculateMoney from "./calculate-money"
-import { Control } from "react-hook-form/dist/types/form"
-import { FieldErrors } from "react-hook-form/dist/types/errors"
-import { FieldValues } from "react-hook-form/dist/types/fields"
-import { color } from '../../../theme';
-import ItemView from '../../loan/components/item-view';
-import { AppText } from '../../../components/app-text/AppText';
-import FastImage from 'react-native-fast-image';
-import { images } from '../../../assets/images';
-import moment from 'moment';
-import { MARGIN_TOP_16 } from '../../../styles/common-style';
-import { fontFamily } from '../../../constants/font-family';
-import { useStores } from '../../../models';
-import Accordion from 'react-native-collapsible/Accordion';
+import { color } from "../../../theme"
+import { fontFamily } from "../../../constants/font-family"
+import { useStores } from "../../../models"
+import FormOwner from "./form-owner"
+import { AddIcon, Box, MinusIcon, Pressable } from "native-base"
+import uuid from "uuid"
+import { filter, find, map, union } from "../../../utils/lodash-utils"
 
 interface Props {
-  control: Control,
-  errors: FieldErrors<FieldValues>
-  onPress(): void
   insuranceType: number
   setInsuranceType(e: number): void
   productDetail: any
   questionGroups: any
-  setValue: any
-  getValues: any
+  onSuccess?: (data) => void
 }
 
 const BuyStepOneForm = React.memo((props: Props) => {
-  const {
-    control,
-    errors,
-    onPress,
-    insuranceType,
-    setInsuranceType,
-    productDetail,
-    questionGroups,
-    setValue,
-    getValues
-  } = props
-  const { authStoreModel } = useStores()
+  const { onSuccess, insuranceType, productDetail } = props
+  const { insuranceStore } = useStores()
 
   const insurance = productDetail?.packages?.[insuranceType]
-  const [enable, setEnable] = useState();
+  const [ownerData, setOwnerData] = useState<any>({})
+  const [formCustomerData, setFormCustomerData] = useState<any>([
+    { data: {}, id: uuid.v4(), isValid: false },
+  ])
+  const [isSubmitForm, setIsSubmitForm] = useState<string>("")
+  const [formOwnerIsValid, setFormOwnerIsValid] = useState<boolean>(false)
 
-  const [activeSections, setActiveSections] = useState<number[]>([0]);
-  const _handleSections = (index: number[]) => {
-    setActiveSections(index);
-  };
+  const isValid = formOwnerIsValid && !find(formCustomerData, (fc) => !fc.isValid)
 
-  const renderHeader = (index: number, title: string) => {
-    const isOpen = activeSections[0] === index
-    return (
-      <>
-        <View
-          style={styles.headerBody}>
-            <AppText
-              value={title}
-              style={styles.headerText}
-            />
-          <FastImage source={activeSections?.includes(index) ? images.arrow_up : images.arrow_down} style={styles.icon} />
-        </View>
-        {isOpen && <View style={styles.line}/>}
-      </>
-  );
-  };
+  const onSubmit = async () => {
+    setIsSubmitForm(new Date().toISOString())
+    setTimeout(async () => {
+      if (isValid) {
+        const data = {
+          staffInfo: {
+            fullName: ownerData.fullName,
+            dateOfBirth: ownerData.dateOfBirth,
+            email: ownerData.email,
+            idNumber: ownerData.idNumber,
+            gender: ownerData.gender,
+            tel: ownerData.tel,
+          },
+          company: ownerData.company,
+          level: ownerData.level,
+          customers: map(formCustomerData, (fc) => fc.data),
+          productId: productDetail?.id,
+          type: "insurances",
+          subType: "",
+          amount: insurance?.price,
+        }
+        const result = await insuranceStore.buyInsurance(data)
+        if (result) {
+          onSuccess?.(data)
+        }
+      }
+    }, 1000)
+  }
 
-  const renderContent = () => {
-    const info = authStoreModel?.user
-    return (
-      <View style={styles.contentContainer}>
-        <ItemView title={'Họ và tên:'} content={info?.fullName} style={MARGIN_TOP_16}/>
-        <ItemView title={'Ngày sinh:'} content={`${moment(info?.dateOfBirth).format('DD/MM/YYYY')}`} style={MARGIN_TOP_16}/>
-        <ItemView title={'CMND/ CCCD:'} content={info?.citizenIdentification} style={MARGIN_TOP_16}/>
-        <ItemView title={'Email'} content={info?.email} style={MARGIN_TOP_16}/>
-      </View>
-    );
-  };
+  const addFormCustomer = () => {
+    setFormCustomerData(union(formCustomerData, [{ data: {}, id: uuid.v4(), isValid: false }]))
+  }
+  const removeFormCustomer = (id) => {
+    setFormCustomerData(filter(formCustomerData, (f) => f.id !== id))
+  }
+
+  const onSubmitFormCustomer = (fId, data) => {
+    setFormCustomerData(
+      map(formCustomerData, (f) => {
+        if (f.id === fId) {
+          return {
+            ...f,
+            data,
+          }
+        } else {
+          return f
+        }
+      }),
+    )
+  }
+  const onValidFormCustomer = (fId, value) => {
+    setFormCustomerData(
+      map(formCustomerData, (f) => {
+        if (f.id === fId) {
+          return {
+            ...f,
+            isValid: value,
+          }
+        } else {
+          return f
+        }
+      }),
+    )
+  }
+
   return (
     <View style={styles.container}>
-      {/* <Benefit /> */}
-      <Accordion
-        containerStyle={[styles.collapsibleContainer,  {borderWidth: activeSections.length > 0 ? 1: 0}]}
-        sections={[0]}
-        activeSections={activeSections}
-        renderHeader={(content, index) => renderHeader(index, 'Thông tin người mua bảo hiểm')}
-        renderContent={() =>renderContent()}
-        onChange={(indexes) => _handleSections(indexes)}
-        keyExtractor={(v, i) => i.toString()}
-        underlayColor={'transparent'}
+      <FormOwner
+        isSubmitForm={isSubmitForm}
+        onSubmit={setOwnerData}
+        onIsValid={setFormOwnerIsValid}
       />
+      {formCustomerData.map((item, index) => {
+        return (
+          <Box key={index}>
+            <FormCustomer
+              isSubmitForm={isSubmitForm}
+              onSubmit={(data) => onSubmitFormCustomer(item.id, data)}
+              onIsValid={(value) => onValidFormCustomer(item.id, value)}
+            />
 
-      {
-        !enable && <>
-          <InputCustomer
-            {...{ control, errors, setValue, getValues }}
-          />
-        </>
-      }
+            {index ? (
+              <Pressable
+                width="40px"
+                height="40px"
+                bg="primary"
+                alignItems="center"
+                justifyContent="center"
+                rounded="full"
+                onPress={() => removeFormCustomer(item.id)}
+                mx={s(16)}
+                mt={s(16)}
+                mb="1"
+              >
+                <MinusIcon color="white" />
+              </Pressable>
+            ) : null}
+          </Box>
+        )
+      })}
+      <Pressable
+        width="40px"
+        height="40px"
+        bg="primary"
+        alignItems="center"
+        justifyContent="center"
+        rounded="full"
+        onPress={addFormCustomer}
+        mx={s(16)}
+        my={s(16)}
+      >
+        <AddIcon color="white" />
+      </Pressable>
 
       <HomeInsurance productDetail={productDetail} />
-      <CalculateMoney {...{ onPress }} insurance={insurance} enable={enable} productDetail={productDetail} />
+      <CalculateMoney
+        insurance={insurance}
+        // enable={!isValid}
+        productDetail={productDetail}
+        onPress={onSubmit}
+      />
     </View>
   )
-});
+})
 
-export default BuyStepOneForm;
+export default BuyStepOneForm
 
 const styles = ScaledSheet.create({
   container: {
-    marginVertical: '24@s',
-    // marginHorizontal:'16@ms'
+    // marginBottom: "24@s",
   },
   contentContainer: {
-    paddingHorizontal: '16@s',
-    paddingBottom: '16@s'
+    paddingHorizontal: "16@s",
+    paddingBottom: "16@s",
   },
-  collapsibleContainer:{
+  collapsibleContainer: {
     backgroundColor: color.background,
-    borderRadius: '8@s',
+    borderRadius: "8@s",
     borderColor: color.palette.blue,
     // marginBottom: '8@s',
-    marginHorizontal:'16@ms',
+    marginHorizontal: "16@ms",
   },
-  headerText:{
-    fontSize: '14@ms',
+  headerText: {
+    fontSize: "14@ms",
     fontFamily: fontFamily.medium,
-    fontWeight: '500'
+    fontWeight: "500",
   },
   headerBody: {
-    padding: '16@s',
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
+    padding: "16@s",
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
   },
   title: {
-    fontSize:'12@ms',
+    fontSize: "12@ms",
     color: color.palette.blue,
-    marginBottom: '8@s'
+    marginBottom: "8@s",
   },
   icon: {
-    width: '16@s',
-    height: '16@s',
+    width: "16@s",
+    height: "16@s",
   },
   line: {
     height: 1,
     backgroundColor: color.palette.F0F0F0,
-    marginHorizontal:'16@ms'
-  }
-});
+    marginHorizontal: "16@ms",
+  },
+})
