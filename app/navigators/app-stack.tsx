@@ -170,7 +170,7 @@ const styles = ScaledSheet.create({
     backgroundColor: 'transparent',
     elevation: 30
   },
-  itemStyle: { backgroundColor: 'white', height: isAndroid ? '60@ms' : '55@ms', paddingVertical: '7@vs' },
+  itemStyle: { backgroundColor: 'white', height: isAndroid ? '53@ms' : isIphoneX() ? '55@ms' : '50@ms', paddingVertical: '7@vs' },
   xFillLine: {
     backgroundColor: color.background,
     position: 'absolute',
