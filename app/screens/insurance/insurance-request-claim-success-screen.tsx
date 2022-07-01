@@ -23,17 +23,18 @@ const InsuranceRequestClaimSuccessScreen: FC<Props> = observer((props: Props) =>
         <Text
           fontSize="14"
           fontWeight="300"
-          color="grayChateau"
+          color="gray"
           textAlign="center"
           text="Nhân viên FINA đã nhận được yêu cầu từ bạn và sẽ phản hồi trong vòng 24 giờ làm việc"
         />
       </Box>
       <Box px="4">
-        <Button>Theo dõi lịch sử xử lý</Button>
+        {/*<Button>Theo dõi lịch sử xử lý</Button>*/}
+        <Button>Trở về</Button>
         <Text
           suppressHighlighting
           onPress={navigation.goBack}
-          text="Trở về"
+          text=""
           py="4"
           mb="2"
           textAlign="center"

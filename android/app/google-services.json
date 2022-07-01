@@ -1,45 +1,37 @@
 {
   "project_info": {
-    "project_number": "863183439399",
-    "project_id": "crm-beta-fc774",
-    "storage_bucket": "crm-beta-fc774.appspot.com"
+    "project_number": "106335021489",
+    "project_id": "fina-1140f",
+    "storage_bucket": "fina-1140f.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:863183439399:android:55b39585b58fde5c357002",
+        "mobilesdk_app_id": "1:106335021489:android:6b82e298897e941098b590",
         "android_client_info": {
-          "package_name": "com.fina.tulip"
+          "package_name": "com.fina.mobile"
         }
       },
       "oauth_client": [
         {
-          "client_id": "863183439399-at0r4q3ajcnoj9tlm9ardc5qvlggrorm.apps.googleusercontent.com",
-          "client_type": 1,
-          "android_info": {
-            "package_name": "com.fina.tulip",
-            "certificate_hash": "149d5e39eb1d010aaae8843f4571a3a92f58f041"
-          }
-        },
-        {
-          "client_id": "863183439399-23h1rc37krpvu1aoe64i0t02euerusiv.apps.googleusercontent.com",
+          "client_id": "106335021489-koa37830157hro58ai9i2b5r8e3p9jeb.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyAXX9g17nXurhlQhKB_DRAGo8ghVNs92Ss"
+          "current_key": "AIzaSyAbjPOlhHRTr8swENkwVlf2iN16okIzYXU"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "863183439399-23h1rc37krpvu1aoe64i0t02euerusiv.apps.googleusercontent.com",
+              "client_id": "106335021489-koa37830157hro58ai9i2b5r8e3p9jeb.apps.googleusercontent.com",
               "client_type": 3
             },
             {
-              "client_id": "863183439399-tif453nj4mp276dq4jb9mb531i3vl079.apps.googleusercontent.com",
+              "client_id": "106335021489-vikovktb1djt0b2vvro9odgppchc5afd.apps.googleusercontent.com",
               "client_type": 2,
               "ios_info": {
                 "bundle_id": "com.fina.vn"
