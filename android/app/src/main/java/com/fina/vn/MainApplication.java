@@ -1,4 +1,4 @@
-package com.fina.tulip;
+package com.fina.mobile;
 
 import android.app.Application;
 import android.content.Context;

@@ -1,16 +1,16 @@
-import React from "react"
-import { Modal, Platform, Pressable, View } from "react-native"
+/* eslint-disable react-native/split-platform-components */
+import React, { useEffect } from "react"
+import { Platform, View, ActionSheetIOS } from "react-native"
 import {
   Asset,
   ImagePickerResponse,
   launchCamera,
   launchImageLibrary,
 } from "react-native-image-picker"
-import { ScaledSheet } from "react-native-size-matters"
+import { s, ms } from "react-native-size-matters"
 import { PERMISSIONS, check, RESULTS, request } from "react-native-permissions"
-import { color } from "../../theme"
-import { AppText } from "../app-text/AppText"
-import { FONT_MEDIUM_14 } from "../../styles/common-style"
+import { Box, Modal, Pressable } from "native-base"
+import { Text } from "../text/text"
 interface ImagePickerProps {
   visible: boolean
   onCancel: () => void
@@ -94,65 +94,73 @@ const ImagePickerModal: React.FC<ImagePickerProps> = React.memo(
       }, 500)
     }
 
+    const showActionSheetIos = () => {
+      ActionSheetIOS.showActionSheetWithOptions(
+        { options: ["Chụp ảnh", "Upload ảnh", "Hủy"], cancelButtonIndex: 2 },
+        (index) => {
+          onCancel?.()
+          switch (index) {
+            case 0:
+              _selectCamera()
+              break
+            case 1:
+              _selectFile()
+              break
+
+            default:
+              break
+          }
+        },
+      )
+    }
+
+    useEffect(() => {
+      if (visible && Platform.OS === "ios") {
+        showActionSheetIos()
+      }
+    }, [visible, showActionSheetIos])
+
+    if (Platform.OS === "ios") {
+      return null
+    }
     return (
-      <Modal animationType="fade" visible={visible} transparent={true}>
-        <View style={styles.container}>
-          <Pressable onPress={_selectCamera} style={[styles.btn, styles.takePicture]}>
-            <AppText color={color.palette.blue} style={FONT_MEDIUM_14}>
-              Chụp ảnh
-            </AppText>
-          </Pressable>
-          <Pressable onPress={_selectFile} style={[styles.btn, styles.gallery]}>
-            <AppText color={color.palette.blue} style={FONT_MEDIUM_14}>
-              Thư viện ảnh
-            </AppText>
-          </Pressable>
-          <Pressable onPress={() => onCancel()} style={styles.btnCancel}>
-            <AppText style={FONT_MEDIUM_14}>Huỷ</AppText>
-          </Pressable>
-        </View>
+      <Modal isOpen={visible}>
+        <Box width="full" height="full" bg="transparent" p={s(12)} safeAreaBottom>
+          <Pressable flex="1" onPress={onCancel} />
+          <Box bg="white" borderRadius="8">
+            <Pressable
+              onPress={_selectCamera}
+              borderBottomWidth={0.5}
+              borderBottomColor="BABABA"
+              height="55px"
+              alignItems="center"
+              justifyContent="center"
+            >
+              <Text text="Chụp ảnh" color="blue" fontWeight="500" fontSize={ms(15)} />
+            </Pressable>
+            <Pressable
+              onPress={_selectFile}
+              borderBottomWidth={0.5}
+              borderBottomColor="BABABA"
+              height="55px"
+              alignItems="center"
+              justifyContent="center"
+            >
+              <Text text="Upload ảnh" color="blue" fontWeight="500" fontSize={ms(15)} />
+            </Pressable>
+            <Pressable
+              onPress={() => onCancel()}
+              height="55px"
+              alignItems="center"
+              justifyContent="center"
+            >
+              <Text text="Huỷ" color="blue" fontWeight="600" fontSize={ms(15)} />
+            </Pressable>
+          </Box>
+        </Box>
       </Modal>
     )
   },
 )
 
 export default ImagePickerModal
-
-const styles = ScaledSheet.create({
-  container: {
-    backgroundColor: "rgba(0,0,0,0.7)",
-    flexDirection: "column",
-    justifyContent: "flex-end",
-    paddingHorizontal: "16@ms",
-    paddingVertical: "24@s",
-    height: "100%",
-    width: "100%",
-    borderRadius: "8@s",
-  },
-  takePicture: {
-    borderTopRightRadius: "8@s",
-    borderTopLeftRadius: "8@s",
-    borderBottomWidth: 0.5,
-    borderBottomColor: color.palette.BABABA,
-  },
-  gallery: {
-    borderBottomRightRadius: "8@s",
-    borderBottomLeftRadius: "8@s",
-    marginBottom: "8@s",
-  },
-  btn: {
-    backgroundColor: color.text,
-    paddingVertical: "15@s",
-    width: "100%",
-    justifyContent: "center",
-    alignItems: "center",
-  },
-  btnCancel: {
-    backgroundColor: color.text,
-    borderRadius: "8@s",
-    paddingVertical: "15@s",
-    width: "100%",
-    justifyContent: "center",
-    alignItems: "center",
-  },
-})
