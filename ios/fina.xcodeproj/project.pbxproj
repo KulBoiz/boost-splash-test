@@ -20,7 +20,7 @@
 		A4B148D367B119F99EC2C2E5 /* libPods-fina.a in Frameworks */ = {isa = PBXBuildFile; fileRef = EADEA568884090C1B008E181 /* libPods-fina.a */; };
 		D3BBD1EE28083B32DCCCD9E7 /* ExpoModulesProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32BB11C19824A84866ED4603 /* ExpoModulesProvider.swift */; };
 		E0E402AF856107EC82190244 /* libPods-fina-finaTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 301BE758935A381A571F5B21 /* libPods-fina-finaTests.a */; };
-		E9FADDB4283C8B4E000A0A76 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = E9FADDB3283C8B4E000A0A76 /* GoogleService-Info.plist */; };
+		E921F73A286EDB80000D6A27 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = E921F739286EDB80000D6A27 /* GoogleService-Info.plist */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -61,9 +61,9 @@
 		81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = LaunchScreen.storyboard; path = fina/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		8D3D2E99D3814D73E5353ACB /* Pods-fina-finaTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-fina-finaTests.debug.xcconfig"; path = "Target Support Files/Pods-fina-finaTests/Pods-fina-finaTests.debug.xcconfig"; sourceTree = "<group>"; };
 		B5CD00143C8AA5EF71C17FFB /* ExpoModulesProvider.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = ExpoModulesProvider.swift; path = "Pods/Target Support Files/Pods-fina/ExpoModulesProvider.swift"; sourceTree = "<group>"; };
+		E921F739286EDB80000D6A27 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "GoogleService-Info.plist"; path = "../../../../Desktop/GoogleService-Info.plist"; sourceTree = "<group>"; };
 		E9A75AE3274586F80062D054 /* fina-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "fina-Bridging-Header.h"; sourceTree = "<group>"; };
 		E9C72580283BBED30084057D /* fina.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; name = fina.entitlements; path = fina/fina.entitlements; sourceTree = "<group>"; };
-		E9FADDB3283C8B4E000A0A76 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		EADEA568884090C1B008E181 /* libPods-fina.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-fina.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		ED297162215061F000B7C4FE /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = System/Library/Frameworks/JavaScriptCore.framework; sourceTree = SDKROOT; };
 		ED2971642150620600B7C4FE /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = Platforms/AppleTVOS.platform/Developer/SDKs/AppleTVOS12.0.sdk/System/Library/Frameworks/JavaScriptCore.framework; sourceTree = DEVELOPER_DIR; };
@@ -185,7 +185,7 @@
 		83CBB9F61A601CBA00E9B192 = {
 			isa = PBXGroup;
 			children = (
-				E9FADDB3283C8B4E000A0A76 /* GoogleService-Info.plist */,
+				E921F739286EDB80000D6A27 /* GoogleService-Info.plist */,
 				13B07FAE1A68108700A75B9A /* fina */,
 				832341AE1AAA6A7D00B99B32 /* Libraries */,
 				00E356EF1AD99517003FC87E /* finaTests */,
@@ -372,7 +372,7 @@
 			files = (
 				81AB9BB82411601600AC10FF /* LaunchScreen.storyboard in Resources */,
 				13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */,
-				E9FADDB4283C8B4E000A0A76 /* GoogleService-Info.plist in Resources */,
+				E921F73A286EDB80000D6A27 /* GoogleService-Info.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -776,19 +776,19 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = fina/fina.entitlements;
-				CURRENT_PROJECT_VERSION = 15;
+				CURRENT_PROJECT_VERSION = 13;
 				DEVELOPMENT_TEAM = XT35Y9ZG2M;
 				ENABLE_BITCODE = NO;
 				INFOPLIST_FILE = fina/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				MARKETING_VERSION = 1.0.0;
+				MARKETING_VERSION = 1.1.0;
 				OTHER_LDFLAGS = (
 					"$(inherited)",
 					"-ObjC",
 					"-lc++",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.fina.tulip;
+				PRODUCT_BUNDLE_IDENTIFIER = com.fina.vn;
 				PRODUCT_NAME = fina;
 				SWIFT_OBJC_BRIDGING_HEADER = "fina-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
@@ -804,18 +804,18 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = fina/fina.entitlements;
-				CURRENT_PROJECT_VERSION = 15;
+				CURRENT_PROJECT_VERSION = 13;
 				DEVELOPMENT_TEAM = XT35Y9ZG2M;
 				INFOPLIST_FILE = fina/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				MARKETING_VERSION = 1.0.0;
+				MARKETING_VERSION = 1.1.0;
 				OTHER_LDFLAGS = (
 					"$(inherited)",
 					"-ObjC",
 					"-lc++",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.fina.tulip;
+				PRODUCT_BUNDLE_IDENTIFIER = com.fina.vn;
 				PRODUCT_NAME = fina;
 				SWIFT_OBJC_BRIDGING_HEADER = "fina-Bridging-Header.h";
 				SWIFT_VERSION = 5.0;

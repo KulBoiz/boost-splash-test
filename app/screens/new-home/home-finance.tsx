@@ -58,7 +58,7 @@ const HomeFinance = React.memo((props: Props) => {
   return (
     <View style={styles.container}>
       <HomeItem data={LOAN_PRODUCT} label={"Sản phẩm vay"} style={styles.itemMargin} />
-      <HomeItem data={INSURANCE_PRODUCT} label={"Sản bảo hiểm"} style={styles.itemMargin} />
+      <HomeItem data={INSURANCE_PRODUCT} label={"Sản phẩm bảo hiểm"} style={styles.itemMargin} />
       <LoanPackage />
       <HomeItem data={SUPPORT_TOOL} label={"Công cụ hỗ trợ"} style={styles.itemMargin} />
       <HomeBanner />
