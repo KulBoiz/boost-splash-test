@@ -135,11 +135,11 @@ android {
 
     defaultConfig {
         vectorDrawables.useSupportLibrary = true
-        applicationId "com.fina.tulip"
+        applicationId "com.fina.mobile"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
         versionCode 1
-        versionName "1.0.0"
+        versionName "1.1.0"
     }
     splits {
         abi {
@@ -157,10 +157,10 @@ android {
             keyPassword 'android'
         }
         release {
-            keyAlias 'fina-alias'
-            keyPassword '123123123'
-            storeFile file('fina-tulip.keystore')
-            storePassword '123123123'
+            keyAlias 'fina_release_keystore'
+            keyPassword 'Fina@112233'
+            storeFile file('../keystore/keystore_fina.keystore')
+            storePassword 'Fina@112233'
         }
     }
     buildTypes {
