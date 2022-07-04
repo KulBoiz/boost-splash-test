@@ -7,9 +7,8 @@ import BuySuccess from "./buy-success"
 interface Props{
   onPress(): void,
   productDetail,
-  insuranceType,
-  getValues,
-  transaction
+  transaction,
+  respondTransaction,
 }
 
 const BuyStepTwo = React.memo((props: Props) => {
