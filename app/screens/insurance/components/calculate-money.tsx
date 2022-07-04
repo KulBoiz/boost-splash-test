@@ -10,7 +10,7 @@ import { MARGIN_BOTTOM_16 } from "../../../styles/common-style"
 import { color } from "../../../theme"
 import ItemView from "../../loan/components/item-view"
 // import { AppText } from "../../../components/app-text/AppText"
-import {API_ENDPOINT} from "@env"
+import {DOMAIN} from "@env"
 
 interface Props {
   onPress(): void
@@ -23,7 +23,7 @@ const CalculateMoney = React.memo(({ onPress, insurance, enable = false, product
   console.log('insurance', insurance, productDetail);
   
   const linkShare = () => {
-    return API_ENDPOINT+'/san-pham-bao-hiem'
+    return DOMAIN + 'san-pham-bao-hiem/' + productDetail?.slug
   }
 
   return (
