@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { View } from 'react-native';
+import { ScrollView, View } from "react-native"
 import { SuccessSvg } from "../../../assets/svgs"
 import { AppText } from "../../../components/app-text/AppText"
 import ItemView from "../../loan/components/item-view"
@@ -10,7 +10,7 @@ import { fontFamily } from "../../../constants/font-family"
 import AppButton from "../../../components/app-button/AppButton"
 import { ScreenNames } from "../../../navigators/screen-names"
 import { navigate } from "../../../navigators"
-import { numberWithCommas } from '../../../constants/variable';
+import { numberWithCommas } from "../../../constants/variable"
 import moment from 'moment';
 import { useStores } from '../../../models';
 
@@ -62,12 +62,12 @@ const BuySuccess = React.memo(({ onPress, productDetail, insuranceType, getValue
   }, [time])
 
   return (
-    <View style={styles.container}>
+    <ScrollView style={styles.container}>
       <View style={styles.body}>
         <View style={styles.success}>
           {status === STATUS.SUCCEEDED && <SuccessSvg />}
           <AppText value={'Mua bảo hiểm'} style={[FONT_REGULAR_12, styles.buyText]} />
-          <AppText value={`${MAPPING_STATUS[status]}${time > 0  && status === STATUS.PENDING  ? `(${time})` : ''}`} style={styles.successText} />
+          <AppText value={`${MAPPING_STATUS[status] ?? 'Chờ xác nhận'}${time > 0  && status === STATUS.PENDING  ? `(${time})` : ''}`} style={styles.successText} />
         </View>
         <View style={styles.itemContainer}>
           <ItemView title={'Dịch vụ:'} content={insurance?.name} style={MARGIN_TOP_16} />
@@ -78,15 +78,14 @@ const BuySuccess = React.memo(({ onPress, productDetail, insuranceType, getValue
         </View>
         <ItemView title={'Số tiền bảo hiểm'} content={`${numberWithCommas(insurance?.price)}đ`} style={MARGIN_TOP_16} />
       </View>
-
-      <View style={styles.wrapButton}>
-        <AppButton
-          title={'Quay về'} onPress={() => navigate(ScreenNames.HOME)}
-          containerStyle={[styles.btn, styles.whiteBtn]}
-          titleStyle={styles.textBtn} />
-        <AppButton title={'Lịch sử'} onPress={onPress} containerStyle={[styles.btn]} />
-      </View>
-    </View>
+        <View style={styles.wrapButton}>
+          <AppButton
+            title={'Quay về'} onPress={() => navigate(ScreenNames.HOME)}
+            containerStyle={[styles.btn, styles.whiteBtn]}
+            titleStyle={styles.textBtn} />
+          <AppButton title={'Lịch sử'} onPress={onPress} containerStyle={[styles.btn]} />
+        </View>
+    </ScrollView>
   )
 });
 
@@ -121,7 +120,7 @@ const styles = ScaledSheet.create({
     paddingBottom: '16@s'
   },
   wrapButton: {
-    height: '170@vs',
+    height: '170@s',
     flexDirection: "row",
     justifyContent: "space-between",
     alignItems: "flex-end",
