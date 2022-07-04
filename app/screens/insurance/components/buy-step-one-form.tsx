@@ -12,6 +12,10 @@ import { AddIcon, Box, MinusIcon, Pressable } from "native-base"
 import uuid from "uuid"
 import { filter, find, map, union } from "../../../utils/lodash-utils"
 import { TYPE } from "../constants"
+import { numberWithCommas } from "../../../constants/variable"
+import Modal from "react-native-modal"
+import { AppText } from "../../../components/app-text/AppText"
+import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view"
 
 interface Props {
   insuranceType: number
@@ -24,68 +28,64 @@ interface Props {
 const MaxAge = 65;
 
 const BuyStepOneForm = React.memo((props: Props) => {
-  const { insuranceType, productDetail, onPress } = props
-  const { insuranceStore } = useStores()
-
-  // const insurance = productDetail?.packages?.[insuranceType]
+  const { productDetail, onPress } = props
 
   const [ownerData, setOwnerData] = useState<any>({})
-  const [formCustomerData, setFormCustomerData] = useState<any>([
-    { data: {}, id: uuid.v4(), isValid: false },
-  ])
+  const [formCustomerData, setFormCustomerData] = useState<any>([])
   const [isSubmitForm, setIsSubmitForm] = useState<string>("")
   const [formOwnerIsValid, setFormOwnerIsValid] = useState<boolean>(false)
+  const [addCustomer, setAddCustomer] = useState<boolean>(false)
 
-  const packages = productDetail?.packages.map((el, index) => ({...el, value: index, label: `${el?.name}-${el?.price} VNĐ`}));
-	const listPackageStaff = packages.filter(el => el?.objects?.find(e => e === TYPE?.staff));
-	const listPackageRelative = packages.filter(el => el?.objects?.find(e => e === TYPE?.relative));
+  const packages = productDetail?.packages.map((el, index) => ({ ...el, value: index, label: `${el?.name}-${el?.price} VNĐ` }));
+  const listPackageStaff = packages.filter(el => el?.objects?.find(e => e === TYPE?.staff));
+  const listPackageRelative = packages.filter(el => el?.objects?.find(e => e === TYPE?.relative));
 
-  // const isValid = formOwnerIsValid && !find(formCustomerData, (fc) => !fc.isValid)
+  const checkAge = (user) => {
+    const birthday = new Date(user?.dateOfBirth);
+    const ageDifMs = Date.now() - birthday.getTime();
+    const ageDate = new Date(ageDifMs);
+    return Math.abs(ageDate.getUTCFullYear() - 1970);
+  };
 
-  // const checkAge = (user) => {
-	// 	const birthday = new Date(user?.dateOfBirth);
-	// 	const ageDifMs = Date.now() - birthday.getTime();
-	// 	const ageDate = new Date(ageDifMs);
-	// 	return Math.abs(ageDate.getUTCFullYear() - 1970);
-	// };
+  const renderPrice = (customer) => {
+    if (checkAge(customer) > MaxAge) {
+      return customer?.meta?.price * 1.5;
+    }
 
-	// const renderPrice = (customer) => {
-	// 	if (checkAge(customer) > MaxAge) {
-	// 		return customer?.meta?.price * 1.5;
-	// 	}
+    return customer?.meta?.price || 0;
+  };
 
-	// 	return customer?.meta?.price || 0;
-  // };
-  
-  // const totalAmount = (data) => {
-	// 	let amount = 0;
-	// 	formValue?.customers?.forEach(customer => {
-	// 		amount = renderPrice(customer)+ amount;
-  //   });
+  const totalAmount = () => {
+    let amount = 0;
+    const customers = map(formCustomerData, (fc) => {
+      return { ...fc.data }
+    })
 
-	// 	return {
-	// 		value: amount || 0,
-	// 		label: FormatterUtils.formatAmount(amount, 'vnđ') || '',
-	// 	};
-  // };
-  
+    customers?.forEach(customer => {
+      amount = renderPrice(customer) + amount;
+    });
+
+    return {
+      value: amount || 0,
+      label: numberWithCommas(amount) || '',
+    };
+  };
+
   const onSubmit = async () => {
-    console.log(222);
-    
     setIsSubmitForm(new Date().toISOString())
     setTimeout(async () => {
       const { fullName, dateOfBirth, email, idNumber, gender, tel, company, level } = ownerData
-      
-      if (formOwnerIsValid && !find(formCustomerData, (fc) => !fc.isValid)) {
+
+      if (formOwnerIsValid && formCustomerData?.length > 0) {
         const data = {
-          staffInfo: { fullName, dateOfBirth, email, idNumber, gender, tel},
+          staffInfo: { fullName, dateOfBirth, email, idNumber, gender, tel },
           company,
           level,
-          customers: map(formCustomerData, (fc) => fc.data),
+          customers: formCustomerData.map((fc) => ({ ...fc.data, meta: packages[parseInt(fc.package)] })),
           productId: productDetail?.id,
           type: "insurances",
           subType: productDetail?.name,
-          // amount: insurance?.price,
+          amount: totalAmount()?.value,
         }
 
         // const result = await insuranceStore.buyInsurance(data)
@@ -94,47 +94,28 @@ const BuyStepOneForm = React.memo((props: Props) => {
         // }
 
         console.log(data);
-        
+
         onPress(data)
       }
     }, 1000)
   }
 
   const addFormCustomer = () => {
-    setFormCustomerData(union(formCustomerData, [{ data: {}, id: uuid.v4(), isValid: false }]))
-  }
-  const removeFormCustomer = (id) => {
-    setFormCustomerData(filter(formCustomerData, (f) => f.id !== id))
+    setAddCustomer(true)
   }
 
-  const onSubmitFormCustomer = (fId, data) => {
-    setFormCustomerData(
-      map(formCustomerData, (f) => {
-        if (f.id === fId) {
-          return {
-            ...f,
-            data,
-          }
-        } else {
-          return f
-        }
-      }),
-    )
+  const removeFormCustomer = (index) => {
+    const list = [...formCustomerData]
+    list.splice(index, 1)
+    setFormCustomerData(list)
   }
-  const onValidFormCustomer = (fId, value) => {
-    setFormCustomerData(
-      map(formCustomerData, (f) => {
-        if (f.id === fId) {
-          return {
-            ...f,
-            isValid: value,
-          }
-        } else {
-          return f
-        }
-      }),
-    )
+
+  const onSubmitFormCustomer = (data) => {
+    setFormCustomerData(formCustomerData.concat([data]))
+    setAddCustomer(false)
   }
+
+  console.log('formCustomerData', formCustomerData);
 
   return (
     <View style={styles.container}>
@@ -146,39 +127,34 @@ const BuyStepOneForm = React.memo((props: Props) => {
       {formCustomerData.map((item, index) => {
         return (
           <Box key={index}>
-            <FormCustomer
-              isSubmitForm={isSubmitForm}
-              listPackageStaff={listPackageStaff}
-              listPackageRelative={listPackageRelative}
-              onSubmit={(data) => {
-                onSubmitFormCustomer(item.id, data)
-              }}
-              onIsValid={(value) => {
-                onValidFormCustomer(item.id, value)
-              }}
-            />
+            <View>
+              <AppText value={item?.fullName} />
+            </View>
 
-            {index ? (
-              <Pressable
-                width="40px"
-                height="40px"
-                bg="primary"
-                alignItems="center"
-                justifyContent="center"
-                rounded="full"
-                onPress={() => removeFormCustomer(item.id)}
-                mx={s(16)}
-                mt={s(16)}
-                mb="1"
-              >
-                <MinusIcon color="white" />
-              </Pressable>
-            ) : null}
+            {index && <Pressable
+              width="40px"
+              height="40px"
+              bg="primary"
+              alignItems="center"
+              justifyContent="center"
+              rounded="full"
+              onPress={() => removeFormCustomer(index)}
+              mx={s(16)}
+              mt={s(16)}
+              mb="1"
+            >
+              <MinusIcon color="white" />
+            </Pressable>}
           </Box>
         )
       })}
+
+      <View style={{ alignItems: 'center' }}>
+        <AppText value={"THÔNG TIN NGƯỜI HƯỞNG BẢO HIỂM"} style={[styles.headerText, { paddingLeft: s(15) }]} />
+      </View>
+
       <Pressable
-        width="40px"
+        width="210px"
         height="40px"
         bg="primary"
         alignItems="center"
@@ -187,18 +163,43 @@ const BuyStepOneForm = React.memo((props: Props) => {
         onPress={addFormCustomer}
         mx={s(16)}
         my={s(16)}
+        style={{ flexDirection: 'row', justifyContent: 'space-around' }}
       >
-        <AddIcon color="white" />
+        {/* <AddIcon color="white" /> */}
+        <AppText color="white" style={{ fontFamily: fontFamily.medium }} value={"Thêm người hưởng bảo hiểm"} />
       </Pressable>
+
+      {
+        formCustomerData?.length === 0 &&
+        <View style={{ alignItems: 'center', marginBottom: s(20) }}>
+          <AppText color="red" style={{ fontFamily: fontFamily.medium }} value={"Cần thêm thông tin người hưởng bảo hiểm"} />
+        </View>
+      }
 
       <HomeInsurance productDetail={productDetail} />
 
       <CalculateMoney
         insurance={''}
-        // enable={!isValid}
         productDetail={productDetail}
         onPress={onSubmit}
       />
+
+      <Modal
+        isVisible={addCustomer}
+        onBackdropPress={() => setAddCustomer(false)}
+        style={{ marginVertical: s(70), borderRadius: s(16) }}
+      >
+        <FormCustomer
+          listPackageStaff={listPackageStaff}
+          listPackageRelative={listPackageRelative}
+          onSubmit={(data) => {
+            onSubmitFormCustomer(data)
+          }}
+          onClose={() => {
+            setAddCustomer(false)
+          }}
+        />
+      </Modal>
     </View>
   )
 })

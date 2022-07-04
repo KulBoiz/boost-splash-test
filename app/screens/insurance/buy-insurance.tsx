@@ -43,7 +43,9 @@ const BuyInsurance = observer((props: Props) => {
   const stepOneForm = (data) => {
     // @ts-ignore
     // ref.current.scrollTo({ x: 0, animated: true })
-    setCurrentPosition(1)
+    setTransaction(data)
+    
+    // setCurrentPosition(1)
   }
 
   const stepTwo = () => {
