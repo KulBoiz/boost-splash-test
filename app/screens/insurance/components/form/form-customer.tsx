@@ -2,13 +2,13 @@ import React, { useEffect, useState } from "react"
 import { View } from "react-native"
 import { AppText } from "../../../../components/app-text/AppText"
 import { fontFamily } from "../../../../constants/font-family"
-import { ScaledSheet } from "react-native-size-matters"
+import { ScaledSheet, s } from "react-native-size-matters"
 import FormInput from "../../../../components/form-input/form-input"
 import { color } from "../../../../theme"
 import FormDatePicker from "../../../../components/form-date-time"
 import FormItemPicker from "../../../../components/form-item-picker"
 import { GENDER } from "../../../../constants/gender"
-import { Row } from "native-base"
+import { Row, Pressable } from "native-base"
 import {
   EMPLOYEE_INSURANCE,
   IS_INSURANCE_CARD,
@@ -20,18 +20,19 @@ import * as Yup from "yup"
 import { yupResolver } from "@hookform/resolvers/yup"
 import { useForm } from "react-hook-form"
 import { isEmpty } from "lodash"
+import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view"
+import colors from "native-base/lib/typescript/theme/base/colors"
 
 interface Props {
-  isSubmitForm?: string
   onSubmit?: (data) => void
-  onIsValid: (value) => void
   defaultValues?: any
   listPackageStaff: any
   listPackageRelative: any
+  onClose: () => void
 }
 
 const FormCustomer = React.memo((props: Props) => {
-  const { isSubmitForm, defaultValues, onIsValid, listPackageStaff, listPackageRelative } = props
+  const { defaultValues, listPackageStaff, listPackageRelative, onClose } = props
 
   const [packages, setPackages] = useState<any>([])
 
@@ -48,7 +49,7 @@ const FormCustomer = React.memo((props: Props) => {
     control,
     handleSubmit,
     getValues,
-    formState: { errors, isValid },
+    formState: { errors },
     setValue,
     clearErrors
   } = useForm({
@@ -63,17 +64,10 @@ const FormCustomer = React.memo((props: Props) => {
     props?.onSubmit?.(data)
   })
 
-  useEffect(() => {
-    onIsValid(isEmpty(errors));
-
-    if (isSubmitForm) {
-      onSubmit()
-    }
-  }, [isSubmitForm])
-
   return (
     <>
       <View style={styles.container}>
+      <KeyboardAwareScrollView>
         <AppText value={"THÔNG TIN NGƯỜI HƯỞNG BẢO HIỂM"} style={styles.title} />
         <FormInput
           {...{
@@ -201,7 +195,22 @@ const FormCustomer = React.memo((props: Props) => {
             style: { marginTop: 6 },
             error: undefined
           }}
-        />
+          />
+          </KeyboardAwareScrollView>
+        <Row style={{ justifyContent: 'space-between', flexDirection: 'row' }}>
+          <Pressable
+            onPress={onClose}
+            style={styles.btn}
+          >
+            <AppText color="white" value={"Huỷ"} />
+          </Pressable>
+          <Pressable
+            onPress={onSubmit}
+            style={styles.btn}
+          >
+            <AppText color="white"  value={"Tạo"} />
+          </Pressable>
+        </Row>
       </View>
     </>
   )
@@ -216,6 +225,7 @@ const styles = ScaledSheet.create({
     // marginTop: '24@s',
     paddingTop: "24@s",
     paddingVertical: 8,
+    borderRadius: s(8)
   },
   title: {
     fontSize: "16@ms",
@@ -223,4 +233,12 @@ const styles = ScaledSheet.create({
     textAlign: "center",
     marginBottom: "8@s",
   },
+  btn: {
+    width: '120@s',
+    height: '40@s',
+    backgroundColor: color.palette.blue,
+    alignItems: 'center',
+    justifyContent: 'center',
+    borderRadius: '8@s'
+  }
 })
