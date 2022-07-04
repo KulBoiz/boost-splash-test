@@ -20,16 +20,13 @@ export const InsuranceStoreModel = types
     buyInsurance: flow(function* buyInsurance(data) {
       const api = new BaseApi(self.environment.api)
       const result = yield api.post("/transactions/public/insurance-multiple", data)
-      if (result.kind === "ok") {
-        return result?.data?.data
-      } else {
-        return undefined
-      }
+
+      return result
     }),
   })) // eslint-disable-line @typescript-eslint/no-unused-vars
 
 type InsuranceStoreType = Instance<typeof InsuranceStoreModel>
-export interface InsuranceStore extends InsuranceStoreType {}
+export interface InsuranceStore extends InsuranceStoreType { }
 type InsuranceStoreSnapshotType = SnapshotOut<typeof InsuranceStoreModel>
-export interface InsuranceStoreSnapshot extends InsuranceStoreSnapshotType {}
+export interface InsuranceStoreSnapshot extends InsuranceStoreSnapshotType { }
 export const createInsuranceStoreDefaultModel = () => types.optional(InsuranceStoreModel, {})

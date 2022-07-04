@@ -6,87 +6,51 @@ import FullScreenModal from "../../../components/app-modal/full-screen-modal";
 import { useStores } from "../../../models";
 import CalculateMoney from "./calculate-money";
 import CollapsibleInfoCustomer from "./collapsible-info-customer";
+import CollapsibleInfoStaff from "./collapsible-info-staff";
 import InsuranceInfo from "./insurance-info";
 import PaymentMethod from "./payment-method";
 
 
 interface Props {
   stepThree: any
-  getValues: any
-  // getValuesCustomer: any
-  insuranceType: any
   productDetail: any
-  questionGroups: any
+  transaction: any
 }
 
-const BuyStepTwo = React.memo(({ stepThree, getValues, insuranceType, productDetail }: Props) => {
+const BuyStepTwo = React.memo(({ stepThree, transaction, productDetail }: Props) => {
   // @ts-ignore
-  const { paymentStore, productStore, authStoreModel } = useStores()
+  const { paymentStore, productStore, authStoreModel, insuranceStore } = useStores()
   const [modal, setModal] = useState(false)
   const [link, setLink] = useState('')
   const [infoPayment, setInfoPayment] = useState<any>({})
   const [linkPayment, setLinkPayment] = useState('')
 
-  const insurance = productDetail?.packages?.[insuranceType]
 
   const openPayment = () => {
-    const user = authStoreModel.user
     if (linkPayment) {
       setModal(true)
       return
     }
 
-    const {
-      // fullName,
-      // phone,
-      // email,
-      // sex,
-      // citizenIdentification,
-      // dateOfBirth,
-      // contactAddress,
-      //
-      fullNameCustomer,
-      emailCustomer,
-      sexCustomer,
-      phoneCustomer,
-      citizenIdentificationCustomer,
-      dateOfBirthCustomer,
-      contactAddressCustomer
-    } = getValues
+    const { fullName, email, sex, tel, dateOfBirth, idNumber, gender, customers} = transaction
     const data = {
       agreement: true,
       productId: productDetail?.id,
-      // staffInfo: {
-      //   email, fullName, tel: phone, gender: sex,
-      //   idNumber: citizenIdentification, yearOfBirth: dateOfBirth, address: contactAddress
-      // },
-      staffInfo: {
-        email: user?.emails?.[0]?.email,
-        fullName: user?.fullName,
-        tel: user?.tels?.[0]?.tel,
-        gender: user?.gender,
-      },
-      customerInfo: {
-        email: emailCustomer, fullName: fullNameCustomer, tel: phoneCustomer, gender: sexCustomer,
-        idNumber: citizenIdentificationCustomer, yearOfBirth: dateOfBirthCustomer, address: contactAddressCustomer
-      },
+      staffInfo: { fullName, email, sex, tel, dateOfBirth, idNumber, gender },
+      customers: customers,
       type: 'insurances',
-      subType: 'fina',
-      metaData: {
-        package: insurance.price,
-        effectiveTime: moment(),
-        expirationTime: moment().add(1, 'y')
-      }
+      subType: productDetail?.name,
+      amount: transaction?.amount,
     }
 
-    paymentStore.post(data).then((res) => {
+    insuranceStore.buyInsurance(data).then((res) => {
       if (res?.data?.paymentInfo?.url) {
         setLinkPayment(res?.data?.paymentInfo?.url)
         setModal(true)
         setLink(res?.data?.paymentInfo?.url)
         setInfoPayment(res?.data)
       } else {
-        Alert.alert("Thanh toán đanh gặp vấn đề")
+        Alert.alert("Thanh toán đang gặp vấn đề")
       }
     })
   }
@@ -94,13 +58,19 @@ const BuyStepTwo = React.memo(({ stepThree, getValues, insuranceType, productDet
   return (
     <View style={styles.container}>
       {/* <Benefit /> */}
-      <InsuranceInfo insurance={insurance} productDetail={productDetail} />
-      <CollapsibleInfoCustomer infoCustomer={getValues} infoBuyInsurance={getValues} />
+      <InsuranceInfo
+        insurance={transaction}
+        productDetail={productDetail}
+      />
+
+      <CollapsibleInfoStaff infoStaff={transaction?.staffInfo} />
+      
+      <CollapsibleInfoCustomer infoCustomer={transaction?.customers} />
+
       <PaymentMethod />
 
       <CalculateMoney
-        insurance={insurance}
-        getValues={getValues}
+        insurance={transaction}
         productDetail={productDetail}
         onPress={() => {
           openPayment()

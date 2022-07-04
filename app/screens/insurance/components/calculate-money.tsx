@@ -16,62 +16,19 @@ interface Props {
   onPress(): void
   insurance: any
   enable?: any
-  getValues?: any
   productDetail: any
 }
 
-const CalculateMoney = React.memo(({ onPress, insurance, enable = false, getValues, productDetail }: Props) => {
-
+const CalculateMoney = React.memo(({ onPress, insurance, enable = false, productDetail }: Props) => {
+  console.log('insurance', insurance, productDetail);
+  
   const linkShare = () => {
-    if (getValues) {
-      // todo
-      const {
-        fullName,
-        phone,
-        email,
-        sex,
-        citizenIdentification,
-        dateOfBirth,
-        contactAddress,
-        fullNameCustomer,
-        emailCustomer,
-        sexCustomer,
-        phoneCustomer,
-        citizenIdentificationCustomer,
-        dateOfBirthCustomer,
-        contactAddressCustomer
-      } = getValues
-      const data = {
-        productDetail,
-        agreement: true,
-        insurance: insurance,
-        step: 1,
-        staffInfo: {
-          email, fullName, tel: phone, gender: sex,
-          idNumber: citizenIdentification, yearOfBirth: dateOfBirth, address:contactAddress
-        },
-        customerInfo: {
-          email: emailCustomer, fullName: fullNameCustomer, tel: phoneCustomer, gender: sexCustomer,
-          idNumber: citizenIdentificationCustomer, yearOfBirth: dateOfBirthCustomer, address: contactAddressCustomer
-        },
-        type: 'insurances',
-        subType: 'fina',
-        metaData: {
-          package: insurance.price,
-          effectiveTime: moment(),
-          expirationTime: moment().add(1, 'y')
-        }
-      }
-
-      return API_ENDPOINT + `landing-bao-hiem?token=${JSON.stringify(data)}`
-    }
-
-    return "Bảo hiểm FINA-" + productDetail?.name + "-" + `${insurance?.name}-${insurance?.price}`
+    return API_ENDPOINT+'/san-pham-bao-hiem'
   }
 
   return (
     <View style={styles.container}>
-      <ItemView title={'Tổng tiền:'} content={`${numberWithCommas(insurance?.price)}đ`} style={MARGIN_BOTTOM_16} contentStyle={styles.price} />
+      <ItemView title={'Tổng tiền:'} content={`${numberWithCommas(insurance?.amount)}đ`} style={MARGIN_BOTTOM_16} contentStyle={styles.price} />
       {/* <ItemView title={'Số lượng:'} content={renderInput()} style={MARGIN_BOTTOM_16}/> */}
       <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
         <View style={{ width: '48%' }}>

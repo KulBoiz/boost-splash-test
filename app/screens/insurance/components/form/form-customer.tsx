@@ -67,136 +67,136 @@ const FormCustomer = React.memo((props: Props) => {
   return (
     <>
       <View style={styles.container}>
-      <KeyboardAwareScrollView>
-        <AppText value={"THÔNG TIN NGƯỜI HƯỞNG BẢO HIỂM"} style={styles.title} />
-        <FormInput
-          {...{
-            name: "fullName",
-            labelTx: "placeholder.insurance.fullName",
-            placeholderTx: "placeholder.insurance.fullName",
-            control,
-            error: errors?.fullName?.message,
-          }}
-        />
-        <Row>
-          <FormDatePicker
+        <KeyboardAwareScrollView>
+          <AppText value={"THÔNG TIN NGƯỜI HƯỞNG BẢO HIỂM"} style={styles.title} />
+          <FormItemPicker
             {...{
               clearErrors,
-              style: { flex: 1, marginRight: 5 },
-              name: "dateOfBirth",
-              labelTx: "placeholder.insurance.dateOfBirth",
-              placeholderTx: "placeholder.insurance.dateOfBirth",
-              setValue: setValue,
+              style: { flex: 1 },
+              data: EMPLOYEE_INSURANCE,
+              name: "employeeBuy",
+              labelTx: "placeholder.insurance.employeeBuy",
+              placeholderTx: "placeholder.insurance.employeeBuy",
               control,
-              error: errors?.dateOfBirth?.message,
+              setValue: (key, value) => {
+                setValue("employeeBuy", value)
+                setValue("package", undefined)
+                setPackages(
+                  value === "staff" ? listPackageStaff : listPackageRelative,
+                )
+              },
+              error: errors?.employeeBuy?.message,
             }}
           />
           <FormItemPicker
             {...{
               clearErrors,
               style: { flex: 1 },
-              data: GENDER,
-              name: "gender",
-              labelTx: "placeholder.insurance.gender",
-              placeholderTx: "placeholder.insurance.gender",
+              data: packages,
+              name: "package",
+              labelTx: "placeholder.insurance.package",
+              placeholderTx: "placeholder.insurance.package",
               control,
-              setValue: (key, value) => setValue("gender", value),
-              error: errors?.gender?.message,
+              setValue: (key, value) => setValue("package", value),
+              error: errors?.package?.message,
             }}
           />
-        </Row>
-        <FormInput
-          {...{
-            name: "idNumber",
-            labelTx: "placeholder.insurance.idNumber",
-            placeholderTx: "placeholder.insurance.idNumber",
-            control,
-            keyboardType: "number-pad",
-            style: { marginTop: 6 },
-            error: undefined
-          }}
-        />
-        <FormInput
-          {...{
-            name: "tel",
-            labelTx: "placeholder.insurance.tel",
-            placeholderTx: "placeholder.insurance.tel",
-            control,
-            error: errors?.tel?.message,
-            keyboardType: "number-pad",
-            style: { marginTop: 6 },
-          }}
-        />
-        <FormItemPicker
-          {...{
-            clearErrors,
-            style: { flex: 1 },
-            data: EMPLOYEE_INSURANCE,
-            name: "employeeBuy",
-            labelTx: "placeholder.insurance.employeeBuy",
-            placeholderTx: "placeholder.insurance.employeeBuy",
-            control,
-            setValue: (key, value) => {
-              setValue("employeeBuy", value)
-              setValue("package", undefined)
-              setPackages(
-                value === "staff" ? listPackageStaff : listPackageRelative,
-              )
-            },
-            error: errors?.employeeBuy?.message,
-          }}
-        />
-        <FormItemPicker
-          {...{
-            clearErrors,
-            style: { flex: 1 },
-            data: packages,
-            name: "package",
-            labelTx: "placeholder.insurance.package",
-            placeholderTx: "placeholder.insurance.package",
-            control,
-            setValue: (key, value) => setValue("package", value),
-            error: errors?.package?.message,
-          }}
-        />
-        <FormItemPicker
-          {...{
-            clearErrors,
-            style: { flex: 1 },
-            data: RELATIONSHIP_INSURANCE,
-            name: "relationship",
-            labelTx: "placeholder.insurance.relationship",
-            placeholderTx: "placeholder.insurance.relationship",
-            control,
-            setValue: (key, value) => setValue("relationship", value),
-            error: undefined
-          }}
-        />
-        <FormItemPicker
-          {...{
-            clearErrors,
-            style: { flex: 1 },
-            data: IS_INSURANCE_CARD,
-            name: "isInsuranceCard",
-            labelTx: "placeholder.insurance.isInsuranceCard",
-            placeholderTx: "placeholder.insurance.isInsuranceCard",
-            control,
-            setValue: (key, value) => setValue("isInsuranceCard", value),
-            error: undefined
-          }}
-        />
-        <FormInput
-          {...{
-            name: "email",
-            label: "Email",
-            placeholder: "Email",
-            autoCapitalize: "none",
-            control,
-            style: { marginTop: 6 },
-            error: undefined
-          }}
+          <FormInput
+            {...{
+              name: "fullName",
+              labelTx: "placeholder.insurance.fullName",
+              placeholderTx: "placeholder.insurance.fullName",
+              control,
+              error: errors?.fullName?.message,
+            }}
           />
-          </KeyboardAwareScrollView>
+          <Row>
+            <FormDatePicker
+              {...{
+                clearErrors,
+                style: { flex: 1, marginRight: 5 },
+                name: "dateOfBirth",
+                labelTx: "placeholder.insurance.dateOfBirth",
+                placeholderTx: "placeholder.insurance.dateOfBirth",
+                setValue: setValue,
+                control,
+                error: errors?.dateOfBirth?.message,
+              }}
+            />
+            <FormItemPicker
+              {...{
+                clearErrors,
+                style: { flex: 1 },
+                data: GENDER,
+                name: "gender",
+                labelTx: "placeholder.insurance.gender",
+                placeholderTx: "placeholder.insurance.gender",
+                control,
+                setValue: (key, value) => setValue("gender", value),
+                error: errors?.gender?.message,
+              }}
+            />
+          </Row>
+          <FormInput
+            {...{
+              name: "idNumber",
+              labelTx: "placeholder.insurance.idNumber",
+              placeholderTx: "placeholder.insurance.idNumber",
+              control,
+              keyboardType: "number-pad",
+              style: { marginTop: 6 },
+              error: undefined
+            }}
+          />
+          <FormInput
+            {...{
+              name: "tel",
+              labelTx: "placeholder.insurance.tel",
+              placeholderTx: "placeholder.insurance.tel",
+              control,
+              error: errors?.tel?.message,
+              keyboardType: "number-pad",
+              style: { marginTop: 6 },
+            }}
+          />
+          <FormItemPicker
+            {...{
+              clearErrors,
+              style: { flex: 1 },
+              data: RELATIONSHIP_INSURANCE,
+              name: "relationship",
+              labelTx: "placeholder.insurance.relationship",
+              placeholderTx: "placeholder.insurance.relationship",
+              control,
+              setValue: (key, value) => setValue("relationship", value),
+              error: undefined
+            }}
+          />
+          <FormItemPicker
+            {...{
+              clearErrors,
+              style: { flex: 1 },
+              data: IS_INSURANCE_CARD,
+              name: "isInsuranceCard",
+              labelTx: "placeholder.insurance.isInsuranceCard",
+              placeholderTx: "placeholder.insurance.isInsuranceCard",
+              control,
+              setValue: (key, value) => setValue("isInsuranceCard", value),
+              error: undefined
+            }}
+          />
+          <FormInput
+            {...{
+              name: "email",
+              label: "Email",
+              placeholder: "Email",
+              autoCapitalize: "none",
+              control,
+              style: { marginTop: 6 },
+              error: undefined
+            }}
+          />
+        </KeyboardAwareScrollView>
         <Row style={{ justifyContent: 'space-between', flexDirection: 'row' }}>
           <Pressable
             onPress={onClose}
@@ -208,7 +208,7 @@ const FormCustomer = React.memo((props: Props) => {
             onPress={onSubmit}
             style={styles.btn}
           >
-            <AppText color="white"  value={"Tạo"} />
+            <AppText color="white" value={"Tạo"} />
           </Pressable>
         </Row>
       </View>
