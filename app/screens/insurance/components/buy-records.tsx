@@ -72,9 +72,9 @@ const BuyRecords = observer((props: Props) => {
 
     <View style={styles.container}>
       {show && <>
-        <SearchBar onChangeText={(e: string) => {
-          //
-        }} placeholder={"Bạn đang tìm gì"} />
+        {/*<SearchBar onChangeSearchText={(e: string) => {*/}
+        {/*  //*/}
+        {/*}} placeholder={"Bạn đang tìm gì"} />*/}
         <AppText style={[FONT_MEDIUM_12, styles.recordText]}>
           Có tất cả
           <AppText value={` ${transactionInsurance?.total || 0} `} color={color.palette.blue} />
