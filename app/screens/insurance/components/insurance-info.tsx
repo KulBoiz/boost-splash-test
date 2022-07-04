@@ -20,12 +20,11 @@ const InsuranceInfo = React.memo(({ insurance, productDetail }: Props) => {
           <View style={styles.header}>
             <AppText value={'Thông tin bảo hiểm'} style={FONT_MEDIUM_14} />
           </View>
-          <ItemView title={'Nhà bảo hiểm:'} content={'BSH Care'} style={MARGIN_TOP_16} />
+          <ItemView title={'Nhà bảo hiểm:'} content={'BSH'} style={MARGIN_TOP_16} />
           <ItemView title={'Sản phẩm bảo hiểm:'} content={productDetail?.name} style={MARGIN_TOP_16} />
-          <ItemView title={'Gói bảo hiểm:'} content={insurance?.name} style={MARGIN_TOP_16} />
           <ItemView title={'Thời hạn hợp đồng:'} content={'_'} style={MARGIN_TOP_16} />
-          <ItemView title={'Tổng số người tham giá:'} content={'_'} style={MARGIN_TOP_16} />
-          <ItemView title={'Số tiền bảo hiểm:'} content={`${insurance?.price}vnđ`} style={MARGIN_TOP_16} />
+          <ItemView title={'Tổng số người tham giá:'} content={insurance?.customers?.length || 0} style={MARGIN_TOP_16} />
+          <ItemView title={'Số tiền bảo hiểm:'} content={`${insurance?.amount} vnđ`} style={MARGIN_TOP_16} />
         </View>
       </View>
 

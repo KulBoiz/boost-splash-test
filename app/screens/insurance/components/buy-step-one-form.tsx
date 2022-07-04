@@ -8,7 +8,7 @@ import { color } from "../../../theme"
 import { fontFamily } from "../../../constants/font-family"
 import { useStores } from "../../../models"
 import FormOwner from "./form/form-owner"
-import { AddIcon, Box, MinusIcon, Pressable } from "native-base"
+import { AddIcon, Box, MinusIcon, Pressable, Row } from "native-base"
 import uuid from "uuid"
 import { filter, find, map, union } from "../../../utils/lodash-utils"
 import { TYPE } from "../constants"
@@ -47,22 +47,18 @@ const BuyStepOneForm = React.memo((props: Props) => {
     return Math.abs(ageDate.getUTCFullYear() - 1970);
   };
 
-  const renderPrice = (customer) => {
+  const renderPrice = (customer, meta) => {
     if (checkAge(customer) > MaxAge) {
-      return customer?.meta?.price * 1.5;
+      return meta?.price * 1.5;
     }
 
-    return customer?.meta?.price || 0;
+    return meta?.price || 0;
   };
 
   const totalAmount = () => {
     let amount = 0;
-    const customers = map(formCustomerData, (fc) => {
-      return { ...fc.data }
-    })
-
-    customers?.forEach(customer => {
-      amount = renderPrice(customer) + amount;
+    formCustomerData?.forEach(customer => {
+      amount = customer?.meta?.amount + amount;
     });
 
     return {
@@ -81,7 +77,7 @@ const BuyStepOneForm = React.memo((props: Props) => {
           staffInfo: { fullName, dateOfBirth, email, idNumber, gender, tel },
           company,
           level,
-          customers: formCustomerData.map((fc) => ({ ...fc.data, meta: packages[parseInt(fc.package)] })),
+          customers: formCustomerData,
           productId: productDetail?.id,
           type: "insurances",
           subType: productDetail?.name,
@@ -92,8 +88,6 @@ const BuyStepOneForm = React.memo((props: Props) => {
         // if (result) {
         //   onSuccess?.(data)
         // }
-
-        console.log(data);
 
         onPress(data)
       }
@@ -111,11 +105,18 @@ const BuyStepOneForm = React.memo((props: Props) => {
   }
 
   const onSubmitFormCustomer = (data) => {
-    setFormCustomerData(formCustomerData.concat([data]))
-    setAddCustomer(false)
-  }
 
-  console.log('formCustomerData', formCustomerData);
+    setFormCustomerData(formCustomerData.concat([
+      {
+        ...data,
+        meta: {
+          ...packages[parseInt(data.package)],
+          amount: renderPrice(data, packages[parseInt(data.package)])
+        },
+      }]))
+    setAddCustomer(false)
+    totalAmount()
+  }
 
   return (
     <View style={styles.container}>
@@ -124,14 +125,31 @@ const BuyStepOneForm = React.memo((props: Props) => {
         onSubmit={setOwnerData}
         onIsValid={setFormOwnerIsValid}
       />
+
+      <View style={{ alignItems: 'center' }}>
+        <AppText value={"THÔNG TIN NGƯỜI HƯỞNG BẢO HIỂM"} style={[styles.headerText, { paddingLeft: s(15) }]} />
+      </View>
+
       {formCustomerData.map((item, index) => {
         return (
-          <Box key={index}>
-            <View>
-              <AppText value={item?.fullName} />
+          <Row key={index} style={{
+            alignItems: 'center',
+            justifyContent: 'space-between',
+            paddingHorizontal: s(16),
+            marginTop: s(16)
+          }}>
+            <View style={{
+              // margin: s(16),
+              borderWidth: 1,
+              borderColor: color.palette.BABABA,
+              borderRadius: s(8),
+              flex: 1,
+              padding: s(16),
+            }}>
+              <AppText style={styles.headerText} value={item?.fullName} />
             </View>
 
-            {index && <Pressable
+            <Pressable
               width="40px"
               height="40px"
               bg="primary"
@@ -139,19 +157,16 @@ const BuyStepOneForm = React.memo((props: Props) => {
               justifyContent="center"
               rounded="full"
               onPress={() => removeFormCustomer(index)}
-              mx={s(16)}
-              mt={s(16)}
-              mb="1"
+              // mx={s(16)}
+              // mt={s(16)}
+              // mb="1"
+              ml={s(16)}
             >
               <MinusIcon color="white" />
-            </Pressable>}
-          </Box>
+            </Pressable>
+          </Row>
         )
       })}
-
-      <View style={{ alignItems: 'center' }}>
-        <AppText value={"THÔNG TIN NGƯỜI HƯỞNG BẢO HIỂM"} style={[styles.headerText, { paddingLeft: s(15) }]} />
-      </View>
 
       <Pressable
         width="210px"
@@ -179,7 +194,11 @@ const BuyStepOneForm = React.memo((props: Props) => {
       <HomeInsurance productDetail={productDetail} />
 
       <CalculateMoney
-        insurance={''}
+        insurance={{
+          ...ownerData,
+          customers: [...formCustomerData],
+          amount: totalAmount()?.value,
+        }}
         productDetail={productDetail}
         onPress={onSubmit}
       />

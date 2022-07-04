@@ -45,7 +45,7 @@ const BuyInsurance = observer((props: Props) => {
     // ref.current.scrollTo({ x: 0, animated: true })
     setTransaction(data)
     
-    // setCurrentPosition(1)
+    setCurrentPosition(1)
   }
 
   const stepTwo = () => {
@@ -128,10 +128,8 @@ const BuyInsurance = observer((props: Props) => {
             {...{
               stepThree,
               productDetail,
-              questionGroups,
-              insuranceType,
+              transaction
             }}
-            getValues={{}}
           />
         )
       case 2:

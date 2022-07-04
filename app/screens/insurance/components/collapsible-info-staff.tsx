@@ -12,11 +12,10 @@ import { MARGIN_TOP_16 } from "../../../styles/common-style"
 import moment from "moment"
 import { useStores } from '../../../models';
 interface Props {
-  infoCustomer: any
+  infoStaff: any
 }
 
-const CollapsibleInfoCustomer = React.memo(({ infoCustomer }: Props) => {
-  const { authStoreModel } = useStores()
+const CollapsibleInfoStaff = React.memo(({ infoStaff }: Props) => {
 
   const accordionItem = (content) => {
     const [activeSections, setActiveSections]: any = useState([]);
@@ -41,24 +40,13 @@ const CollapsibleInfoCustomer = React.memo(({ infoCustomer }: Props) => {
       );
     };
 
-    const renderContent = (customers: any) => {
+    const renderContent = (info: any) => {
       return (
         <View style={styles.contentContainer}>
-          {customers?.map((info, index) => (
-            <View key={index}>
-              <ItemView title={'Họ và tên:'} content={info?.fullName} style={MARGIN_TOP_16} />
-              <ItemView title={'Ngày sinh:'} content={`${moment(info?.dateOfBirth).format('DD/MM/YYYY')}`} style={MARGIN_TOP_16} />
-              <ItemView title={'CMND/ CCCD:'} content={info?.idNumber} style={MARGIN_TOP_16} />
-              <ItemView title={'Email'} content={info?.email || '_'} style={MARGIN_TOP_16} />
-              <ItemView title={'Gói bảo hiểm'} content={info?.email} style={MARGIN_TOP_16} />
-              <ItemView title={'Giá tiền'} content={`${info?.meta?.price} VNĐ`} style={MARGIN_TOP_16} />
-              <ItemView title={'Tiền thanh toán'} content={`${info?.meta?.amount} VNĐ`} style={MARGIN_TOP_16} />
-              {info?.meta?.price !== info?.meta?.amount &&
-                <AppText style={MARGIN_TOP_16} value={'* Người hưởng quá 65 tuổi, số tiền bảo hiểm  tính x1,5'} />}
-              {index < customers?.length - 1 &&
-                <View style={[MARGIN_TOP_16, { borderWidth: 1, borderBottomColor: color.palette.BABABA }]} />}
-            </View>
-          ))}
+          <ItemView title={'Họ và tên:'} content={info?.fullName} style={MARGIN_TOP_16} />
+          <ItemView title={'Ngày sinh:'} content={`${moment(info?.dateOfBirth).format('DD/MM/YYYY')}`} style={MARGIN_TOP_16} />
+          <ItemView title={'CMND/ CCCD:'} content={info?.idNumber} style={MARGIN_TOP_16} />
+          <ItemView title={'Email'} content={info?.email || '_'} style={MARGIN_TOP_16} />
         </View>
       );
     };
@@ -67,8 +55,8 @@ const CollapsibleInfoCustomer = React.memo(({ infoCustomer }: Props) => {
       containerStyle={[styles.collapsibleContainer, { borderWidth: activeSections.length > 0 ? 1 : 0 }]}
       sections={[0]}
       activeSections={activeSections}
-      renderHeader={(content, index) => renderHeader(index, 'Thông tin người hưởng bảo hiểm')}
-      renderContent={() => renderContent(infoCustomer)}
+      renderHeader={(content, index) => renderHeader(index, 'Thông tin chủ hợp đồng')}
+      renderContent={() => renderContent(infoStaff)}
       onChange={(indexes) => {
         _handleSections(indexes)
       }}
@@ -79,17 +67,12 @@ const CollapsibleInfoCustomer = React.memo(({ infoCustomer }: Props) => {
 
   return (
     <View style={styles.container}>
-      {accordionItem({
-        fullName: infoCustomer?.fullNameCustomer,
-        dateOfBirth: infoCustomer?.dateOfBirthCustomer,
-        citizenIdentification: infoCustomer?.citizenIdentificationCustomer,
-        email: infoCustomer?.emailCustomer,
-      })}
+      {accordionItem(infoStaff)}
     </View>
   );
 });
 
-export default CollapsibleInfoCustomer;
+export default CollapsibleInfoStaff;
 
 const styles = ScaledSheet.create({
   container: {
