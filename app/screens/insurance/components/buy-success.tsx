@@ -17,9 +17,8 @@ import { useStores } from '../../../models';
 interface Props {
   onPress(): void,
   productDetail,
-  insuranceType,
-  getValues,
-  transaction
+  transaction,
+  respondTransaction
 }
 
 const STATUS = {
@@ -36,15 +35,14 @@ export const MAPPING_STATUS = {
 
 const defaultTime = 30
 
-const BuySuccess = React.memo(({ onPress, productDetail, insuranceType, getValues, transaction = {} }: Props) => {
+const BuySuccess = React.memo(({ onPress, productDetail, transaction = {}, respondTransaction }: Props) => {
   const {productStore} = useStores()
-  const insurance = productDetail?.packages?.[insuranceType]
   const [time, setTime] = useState(defaultTime)
   const [reload, setReload] = useState(true)
-  const [status, setStatus] = useState(transaction.status)
+  const [status, setStatus] = useState(respondTransaction.status)
 
   useEffect(() => {
-    if (time > 0 && transaction?.status === STATUS.PENDING) {
+    if (time > 0 && respondTransaction?.status === STATUS.PENDING) {
       setTimeout(() => {
         setTime(time - 1)
       }, 1000);
@@ -70,13 +68,12 @@ const BuySuccess = React.memo(({ onPress, productDetail, insuranceType, getValue
           <AppText value={`${MAPPING_STATUS[status] ?? 'Chờ xác nhận'}${time > 0  && status === STATUS.PENDING  ? `(${time})` : ''}`} style={styles.successText} />
         </View>
         <View style={styles.itemContainer}>
-          <ItemView title={'Dịch vụ:'} content={insurance?.name} style={MARGIN_TOP_16} />
+          <ItemView title={'Sản phẩm bảo hiểm:'} content={productDetail?.name} style={MARGIN_TOP_16} />
           <ItemView title={'Nhà bảo hiểm:'} content={'FINA'} style={MARGIN_TOP_16} />
           <ItemView title={'Thời hạn hợp đồng:'} content={'_'} style={MARGIN_TOP_16} />
-          <ItemView title={'Họ và tên:'} content={getValues?.fullName} style={MARGIN_TOP_16} />
-          <ItemView title={'Ngày sinh:'} content={`${moment(getValues?.dateOfBirth).format('DD/MM/YYYY')}`} style={MARGIN_TOP_16} />
+          <ItemView title={'Họ và tên:'} content={transaction?.staffInfo?.fullName} style={MARGIN_TOP_16} />
         </View>
-        <ItemView title={'Số tiền bảo hiểm'} content={`${numberWithCommas(insurance?.price)}đ`} style={MARGIN_TOP_16} />
+        <ItemView title={'Số tiền bảo hiểm'} content={`${numberWithCommas(transaction?.amount)} vnđ`} style={MARGIN_TOP_16} />
       </View>
         <View style={styles.wrapButton}>
           <AppButton
