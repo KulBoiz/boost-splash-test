@@ -32,12 +32,11 @@ const BuyStepTwo = React.memo(({ stepThree, transaction, productDetail }: Props)
       return
     }
 
-    const { fullName, email, sex, tel, dateOfBirth, idNumber, gender, customers} = transaction
     const data = {
       agreement: true,
       productId: productDetail?.id,
-      staffInfo: { fullName, email, sex, tel, dateOfBirth, idNumber, gender },
-      customers: customers,
+      staffInfo: transaction?.staffInfo,
+      customers: transaction?.customers,
       type: 'insurances',
       subType: productDetail?.name,
       amount: transaction?.amount,
@@ -64,7 +63,7 @@ const BuyStepTwo = React.memo(({ stepThree, transaction, productDetail }: Props)
       />
 
       <CollapsibleInfoStaff infoStaff={transaction?.staffInfo} />
-      
+
       <CollapsibleInfoCustomer infoCustomer={transaction?.customers} />
 
       <PaymentMethod />
