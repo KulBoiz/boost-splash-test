@@ -18,8 +18,6 @@ import { AppText } from "../../../components/app-text/AppText"
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view"
 
 interface Props {
-  insuranceType: number
-  setInsuranceType(e: number): void
   productDetail: any
   questionGroups: any
   onPress: (data) => void
