@@ -79,7 +79,7 @@ export class LoanApi {
     }
   }
 
-  async createRequestCounselling(email: string, fullName: string, tel: string, note?: string, sourceId?: any, type?: string): Promise<any> {
+  async createRequestCounselling(email: string, fullName: string, tel: string, note?: string, sourceId?: any, type?: string, productId?: string): Promise<any> {
     try {
       // make the api call
       const body: any = {
@@ -88,10 +88,14 @@ export class LoanApi {
         type: type || "counselling",
         page: 'mobile',
         productType: "loan",
-        rootTask: 'Mobile App'
+        rootTask: 'Mobile App',
       }
       if (sourceId) {
         body.sourceId = sourceId
+      }
+
+      if (productId) {
+        body.productId = productId
       }
 
       const response: ApiResponse<any> = await this.api.apisauce.post(`${API_ENDPOINT}/tasks/public/insurance`, body)
