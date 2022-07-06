@@ -20,7 +20,6 @@ interface Props { }
 const SettingScreen: FC<Props> = observer((props: Props) => {
   const navigation = useNavigation()
   const { authStoreModel } = useStores()
-
   const logout = async () => {
     await authStoreModel.logout()
     navigation.dispatch(StackActions.push(ScreenNames.AUTH))

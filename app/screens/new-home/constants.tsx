@@ -92,5 +92,12 @@ export const INSURANCE_PRODUCT  = [
       navigate(ScreenNames.CLAIM_INSURANCE)
     }
   },
+  {
+    image: images.home_records,
+    title: i18n.t('home.insurance.listClaimInsurance'),
+    onPress: () =>  {
+      navigate(ScreenNames.MANAGE_INSURANCE_LIST)
+    }
+  },
 ]
 

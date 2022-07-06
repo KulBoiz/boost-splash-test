@@ -3,40 +3,33 @@ import React, { FC, useCallback, useState } from "react"
 import { observer } from "mobx-react-lite"
 import AppHeader from "../../components/app-header/AppHeader"
 import { useStores } from "../../models"
-import { useNavigation } from "@react-navigation/native"
 import {
   Box,
   Button,
   HStack,
-  Input,
-  Popover,
-  Pressable,
   Row,
   ScrollView,
-  SectionList,
-  Spinner,
 } from "native-base"
-import { s, vs } from "react-native-size-matters"
+import { vs } from "react-native-size-matters"
 import ManageInsuranceHelp from "./components/manage-insurance-help"
 import { BORDER_BOTTOM_0 } from "../../styles/common-style"
 import {
-  BenefitInsuranceSvg,
-  ChevronDownPrimarySvg,
-  ChevronDownSvg,
   FileDocSvg,
 } from "../../assets/svgs"
 import { Text } from "../../components"
-import Collapsible from "react-native-collapsible"
-
-import { Text as ReactNativeText } from "react-native"
 import { ScreenNames } from "../../navigators/screen-names"
 import PopupHospitalList from "./components/popup-hospital-list"
+import { navigate } from "../../navigators"
+import moment from "moment"
 
 interface Props {}
 
-const ManageInsuranceDetailScreen: FC<Props> = observer((props: Props) => {
-  const navigation = useNavigation()
-  const {} = useStores()
+const ManageInsuranceDetailScreen: FC<Props> = observer((props: any) => {
+  const {insuranceStore} = useStores()
+  const index = props?.route?.params?.index
+  const isListBuy = props?.route?.params?.isListBuy
+
+  const data = isListBuy ? insuranceStore.listBuy[index] : insuranceStore.listClaim[index]
 
   const [collapsed, setCollapsed] = useState(true)
   const [popupHospitalListVisible, setPopupHospitalListVisible] = useState(false)
@@ -45,7 +38,7 @@ const ManageInsuranceDetailScreen: FC<Props> = observer((props: Props) => {
   const hidePopupHospital = useCallback(() => setPopupHospitalListVisible(false), [])
 
   const onRequest = useCallback(() => {
-    navigation.navigate(ScreenNames.INSURANCE_REQUEST_CLAIM_SUCCESS_SCREEN)
+    navigate(ScreenNames.CLAIM_INSURANCE)
   }, [])
 
   const renderItem = useCallback(({ item, index }: { item: any; index: any }) => {
@@ -62,7 +55,7 @@ const ManageInsuranceDetailScreen: FC<Props> = observer((props: Props) => {
     <Box flex="1" bg="lightBlue">
       <AppHeader
         style={BORDER_BOTTOM_0}
-        headerText={"An tâm mùa dịch"}
+        headerText={data?.product?.name ?? ''}
         renderRightIcon={<ManageInsuranceHelp />}
       />
       <ScrollView>
@@ -92,147 +85,147 @@ const ManageInsuranceDetailScreen: FC<Props> = observer((props: Props) => {
             {renderItem({
               item: {
                 label: "Dịch vụ",
-                value: "An tâm mùa dịch",
+                value: data?.product?.name ?? '',
               },
               index: 0,
             })}
             {renderItem({
               item: {
                 label: "Nhà bảo hiểm",
-                value: "BSH Care",
+                value: data?.product?.isFina ? "FINA" : data?.product?.org?.name ?? '_',
               },
               index: 1,
             })}
             {renderItem({
               item: {
                 label: "Thời hạn hợp đồng",
-                value: "25/04/2022 - 25/04/2023",
+                value: `${moment(data?.createdAt).format('DD/MM/YYYY')} - ${moment(data?.createdAt).add(1,'years').format('DD/MM/YYYY')}`,
               },
               index: 2,
             })}
             {renderItem({
               item: {
                 label: "Tổng số người tham gia",
-                value: "1 người",
+                value: `${data?.sharingWithUserIds.length - 1} người`,
               },
               index: 3,
             })}
             {renderItem({
               item: {
                 label: "Số tiền bảo hiểm",
-                value: "200.000vnđ",
+                value: `${data?.totalAmount ?? '0'}vnđ`,
               },
               index: 4,
             })}
           </Box>
-          <Box bg="white" borderRadius="8" py="3" px="4" mt="4">
-            <Text
-              color="ebony"
-              fontSize={12}
-              lineHeight={17}
-              fontWeight="500"
-              text="Thông tin người được bảo hiểm"
-            />
-            <Box height="1.0" my="3" bg="iron" opacity={0.5} />
-            {renderItem({
-              item: {
-                label: "Họ và tên",
-                value: "điểu nguyễn trọng nguyên",
-              },
-              index: 0,
-            })}
-            {renderItem({
-              item: {
-                label: "Ngày sinh",
-                value: "BSH Care",
-              },
-              index: 1,
-            })}
-            {renderItem({
-              item: {
-                label: "CMND/ CCCD",
-                value: "123456789",
-              },
-              index: 2,
-            })}
-            {renderItem({
-              item: {
-                label: "Email",
-                value: "nguyendnt@gmail.com",
-              },
-              index: 3,
-            })}
-          </Box>
+          {/*<Box bg="white" borderRadius="8" py="3" px="4" mt="4">*/}
+          {/*  <Text*/}
+          {/*    color="ebony"*/}
+          {/*    fontSize={12}*/}
+          {/*    lineHeight={17}*/}
+          {/*    fontWeight="500"*/}
+          {/*    text="Thông tin người được bảo hiểm"*/}
+          {/*  />*/}
+          {/*  <Box height="1.0" my="3" bg="iron" opacity={0.5} />*/}
+          {/*  {renderItem({*/}
+          {/*    item: {*/}
+          {/*      label: "Họ và tên",*/}
+          {/*      value: "điểu nguyễn trọng nguyên",*/}
+          {/*    },*/}
+          {/*    index: 0,*/}
+          {/*  })}*/}
+          {/*  {renderItem({*/}
+          {/*    item: {*/}
+          {/*      label: "Ngày sinh",*/}
+          {/*      value: "BSH Care",*/}
+          {/*    },*/}
+          {/*    index: 1,*/}
+          {/*  })}*/}
+          {/*  {renderItem({*/}
+          {/*    item: {*/}
+          {/*      label: "CMND/ CCCD",*/}
+          {/*      value: "123456789",*/}
+          {/*    },*/}
+          {/*    index: 2,*/}
+          {/*  })}*/}
+          {/*  {renderItem({*/}
+          {/*    item: {*/}
+          {/*      label: "Email",*/}
+          {/*      value: "nguyendnt@gmail.com",*/}
+          {/*    },*/}
+          {/*    index: 3,*/}
+          {/*  })}*/}
+          {/*</Box>*/}
 
-          <Box bg="white" borderRadius="8" mt="4">
-            <Pressable
-              flexDirection="row"
-              py={vs(12)}
-              px={s(12)}
-              alignItems="center"
-              onPress={() => setCollapsed(!collapsed)}
-            >
-              <Text
-                fontWeight="500"
-                color="primary"
-                fontSize="12"
-                lineHeight="17"
-                flex="1"
-                text={"Quyền lợi bảo hiểm"}
-                mr="3"
-                numberOfLines={1}
-              />
-              <Box style={!collapsed && { transform: [{ rotate: "180deg" }] }}>
-                <ChevronDownPrimarySvg />
-              </Box>
-            </Pressable>
-            <Collapsible collapsed={collapsed}>
-              <Box px="4" pb="3">
-                <Box height="1.0" bg="iron" mb="3" opacity={0.5} />
-                <Text text="Số tiền bảo hiểm:" />
-                <ReactNativeText>
-                  <Text size="regular12" color="grayChateau" text="- Chương trình" />
-                  <Text fontSize="12" fontWeight="700" color="orange" text=" Đồng: 25 triệu " />
-                  <Text size="regular12" color="grayChateau" text="đồng/người" />
-                </ReactNativeText>
-                <ReactNativeText>
-                  <Text size="regular12" color="grayChateau" text="- Chương trình" />
-                  <Text fontSize="12" fontWeight="700" color="orange" text=" Bạc: 50 triệu  " />
-                  <Text size="regular12" color="grayChateau" text="đồng/người" />
-                </ReactNativeText>
-                <ReactNativeText>
-                  <Text size="regular12" color="grayChateau" text="- Chương trình" />
-                  <Text fontSize="12" fontWeight="700" color="orange" text=" Vàng: 100 triệu  " />
-                  <Text size="regular12" color="grayChateau" text="đồng/người" />
-                </ReactNativeText>
-                <ReactNativeText>
-                  <Text size="regular12" color="grayChateau" text="- Chương trình" />
-                  <Text
-                    fontSize="12"
-                    fontWeight="700"
-                    color="orange"
-                    text=" Bạch Kim: 200 triệu  "
-                  />
-                  <Text size="regular12" color="grayChateau" text="đồng/người" />
-                </ReactNativeText>
-                <Row>
-                  <Box flex="1">
-                    <ReactNativeText>
-                      <Text size="regular12" color="grayChateau" text="- Chương trình" />
-                      <Text
-                        fontSize="12"
-                        fontWeight="700"
-                        color="orange"
-                        text=" Kim Cương: 500 triệu "
-                      />
-                      <Text size="regular12" color="grayChateau" text="đồng/người" />
-                    </ReactNativeText>
-                  </Box>
-                  <BenefitInsuranceSvg />
-                </Row>
-              </Box>
-            </Collapsible>
-          </Box>
+          {/*<Box bg="white" borderRadius="8" mt="4">*/}
+          {/*  <Pressable*/}
+          {/*    flexDirection="row"*/}
+          {/*    py={vs(12)}*/}
+          {/*    px={s(12)}*/}
+          {/*    alignItems="center"*/}
+          {/*    onPress={() => setCollapsed(!collapsed)}*/}
+          {/*  >*/}
+          {/*    <Text*/}
+          {/*      fontWeight="500"*/}
+          {/*      color="primary"*/}
+          {/*      fontSize="12"*/}
+          {/*      lineHeight="17"*/}
+          {/*      flex="1"*/}
+          {/*      text={"Quyền lợi bảo hiểm"}*/}
+          {/*      mr="3"*/}
+          {/*      numberOfLines={1}*/}
+          {/*    />*/}
+          {/*    <Box style={!collapsed && { transform: [{ rotate: "180deg" }] }}>*/}
+          {/*      <ChevronDownPrimarySvg />*/}
+          {/*    </Box>*/}
+          {/*  </Pressable>*/}
+          {/*  <Collapsible collapsed={collapsed}>*/}
+          {/*    <Box px="4" pb="3">*/}
+          {/*      <Box height="1.0" bg="iron" mb="3" opacity={0.5} />*/}
+          {/*      <Text text="Số tiền bảo hiểm:" />*/}
+          {/*      <ReactNativeText>*/}
+          {/*        <Text size="regular12" color="grayChateau" text="- Chương trình" />*/}
+          {/*        <Text fontSize="12" fontWeight="700" color="orange" text=" Đồng: 25 triệu " />*/}
+          {/*        <Text size="regular12" color="grayChateau" text="đồng/người" />*/}
+          {/*      </ReactNativeText>*/}
+          {/*      <ReactNativeText>*/}
+          {/*        <Text size="regular12" color="grayChateau" text="- Chương trình" />*/}
+          {/*        <Text fontSize="12" fontWeight="700" color="orange" text=" Bạc: 50 triệu  " />*/}
+          {/*        <Text size="regular12" color="grayChateau" text="đồng/người" />*/}
+          {/*      </ReactNativeText>*/}
+          {/*      <ReactNativeText>*/}
+          {/*        <Text size="regular12" color="grayChateau" text="- Chương trình" />*/}
+          {/*        <Text fontSize="12" fontWeight="700" color="orange" text=" Vàng: 100 triệu  " />*/}
+          {/*        <Text size="regular12" color="grayChateau" text="đồng/người" />*/}
+          {/*      </ReactNativeText>*/}
+          {/*      <ReactNativeText>*/}
+          {/*        <Text size="regular12" color="grayChateau" text="- Chương trình" />*/}
+          {/*        <Text*/}
+          {/*          fontSize="12"*/}
+          {/*          fontWeight="700"*/}
+          {/*          color="orange"*/}
+          {/*          text=" Bạch Kim: 200 triệu  "*/}
+          {/*        />*/}
+          {/*        <Text size="regular12" color="grayChateau" text="đồng/người" />*/}
+          {/*      </ReactNativeText>*/}
+          {/*      <Row>*/}
+          {/*        <Box flex="1">*/}
+          {/*          <ReactNativeText>*/}
+          {/*            <Text size="regular12" color="grayChateau" text="- Chương trình" />*/}
+          {/*            <Text*/}
+          {/*              fontSize="12"*/}
+          {/*              fontWeight="700"*/}
+          {/*              color="orange"*/}
+          {/*              text=" Kim Cương: 500 triệu "*/}
+          {/*            />*/}
+          {/*            <Text size="regular12" color="grayChateau" text="đồng/người" />*/}
+          {/*          </ReactNativeText>*/}
+          {/*        </Box>*/}
+          {/*        <BenefitInsuranceSvg />*/}
+          {/*      </Row>*/}
+          {/*    </Box>*/}
+          {/*  </Collapsible>*/}
+          {/*</Box>*/}
           <Button my="6" onPress={onRequest}>
             Yêu cầu bồi thường bảo hiểm
           </Button>

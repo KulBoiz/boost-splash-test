@@ -1,10 +1,9 @@
 /* eslint-disable react-native/no-color-literals */
-import React, { FC, useCallback, useMemo, useState } from "react"
+import React, { FC, useCallback, useEffect, useMemo, useState } from "react"
 import { RefreshControl, StyleSheet } from "react-native"
 import { observer } from "mobx-react-lite"
 import AppHeader from "../../components/app-header/AppHeader"
 import { useStores } from "../../models"
-import { useNavigation } from "@react-navigation/native"
 import { ScreenNames } from "../../navigators/screen-names"
 import { SearchNormalSvg, FilterInsuranceSvg } from "../../assets/svgs"
 import { Box, HStack, Input, Pressable, SectionList, Spinner } from "native-base"
@@ -16,59 +15,90 @@ import ManageInsuranceItem from "./components/manage-insurance-item"
 import ManageInsuranceTab from "./components/manage-insurance-tab"
 import { INSURANCE_TABS } from "./constants"
 import ManageInsuranceHelp from "./components/manage-insurance-help"
+import { navigate } from "../../navigators"
+import moment from "moment"
 
 interface Props {}
 
 const ManageInsuranceListScreen: FC<Props> = observer((props: Props) => {
-  const navigation = useNavigation()
-  const { bankerStore } = useStores()
-
+  const { bankerStore, insuranceStore} = useStores()
   const [tabSelect, setTabSelect] = useState(INSURANCE_TABS[0].key)
+  const isListBuy = tabSelect === INSURANCE_TABS[0].key
 
-  const showDetail = useCallback((data) => {
-    navigation.navigate(ScreenNames.MANAGE_INSURANCE_DETAIL_SCREEN, { data })
+  useEffect(()=> {
+    insuranceStore.getListBuyInsurance({}, {page: 1, limit: 20}, true)
+  },[])
+
+  const showDetail = useCallback((index) => {
+    navigate(ScreenNames.MANAGE_INSURANCE_DETAIL_SCREEN, { index, isListBuy })
   }, [])
+
   const showFilter = useCallback((data) => {
-    navigation.navigate(ScreenNames.MANAGE_INSURANCE_FILTER)
+    navigate(ScreenNames.MANAGE_INSURANCE_FILTER)
   }, [])
 
   const data = useMemo(() => {
-    const sections =
-      tabSelect === INSURANCE_TABS[0].key
-        ? [
-            { data: Array(3).fill(""), title: `Bảo hiểm sức khoẻ` },
-            { data: Array(3).fill(""), title: `Bảo hiểm du lịch` },
-          ]
-        : [
-            { data: [{ status: "1" }], title: `Bảo hiểm sức khoẻ` },
-            { data: Array(3).fill(""), title: `Bảo hiểm du lịch` },
-          ]
+    const dataGroup = groupBy(
+      map(isListBuy ? insuranceStore.listBuy : insuranceStore.listClaim, (item) => ({
+        ...item,
+        dateGroup: moment(item.createdAt).format("MM/YYYY"),
+      })),
+      "dateGroup",
+    )
+    const sections = Object.keys(dataGroup).map((key) => ({
+      data: dataGroup[key],
+      title: `Tháng ${key}`,
+    }))
     return sections
-  }, [tabSelect])
+  }, [insuranceStore.listBuy, insuranceStore.listClaim])
 
   const _onRefresh = useCallback(() => {
-    bankerStore.getListLoan({}, { page: 1, limit: 20 }, true)
-  }, [])
+    isListBuy ?
+      insuranceStore.getListBuyInsurance({}, { page: 1, limit: 20 }, true)
+      : insuranceStore.getListClaimInsurance({}, { page: 1, limit: 20 }, true)
+  }, [isListBuy])
+
   const _onLoadMore = useCallback(() => {
-    if (bankerStore.listLoan?.length < bankerStore.listLoanTotal) {
-      // bankerStore.getListLoan(
-      //   {},
-      //   { page: bankerStore?.pagingParamsListLoan?.page + 1, limit: 20 },
-      //   false,
-      // )
+    if (isListBuy){
+      if (insuranceStore.listBuy?.length < insuranceStore.listBuyTotal
+          && !insuranceStore.isLoadingMore
+      ) {
+        insuranceStore.getListBuyInsurance(
+          {},
+          { page: insuranceStore?.pagingListBuy?.page + 1, limit: 20 },
+          false
+        )
+      }
     }
-  }, [bankerStore])
+    else {
+      if (insuranceStore.listClaim?.length < insuranceStore.listClaimTotal
+          && !insuranceStore.isLoadingMore
+      ) {
+        insuranceStore.getListClaimInsurance(
+          {},
+          { page: insuranceStore?.pagingListClaim?.page + 1, limit: 20 },
+          false
+        )
+      }
+    }
+  }, [insuranceStore.isLoadingMore, insuranceStore.listBuy, insuranceStore.listClaim])
 
   const onDebouncedSearch = React.useCallback(
-    debounce((value) => {
-      bankerStore.getListLoan({ search: value }, { page: 1, limit: 20 })
-    }, 500),
+    // debounce((value) => {
+    //   bankerStore.getListLoan({ search: value }, { page: 1, limit: 20 })
+    // }, 500),
+    ()=> {
+      //
+    },
     [],
   )
+
   const onChangeTab = useCallback((key) => {
     setTabSelect(key)
-    // bankerStore.getListLoan({}, { page: 1, limit: 20 })
-  }, [])
+    key === INSURANCE_TABS[0].key ?
+    insuranceStore.getListBuyInsurance({}, { page: 1, limit: 20 })
+    : insuranceStore.getListClaimInsurance({}, { page: 1, limit: 20 })
+  }, [tabSelect])
 
   const renderSectionHeader = useCallback(({ section: { title, data } }) => {
     return (
@@ -78,16 +108,17 @@ const ManageInsuranceListScreen: FC<Props> = observer((props: Props) => {
       </HStack>
     )
   }, [])
+
   const renderItem = useCallback(({ item, index }) => {
-    return <ManageInsuranceItem item={item} index={index} onPress={() => showDetail(item)} />
-  }, [])
+    return <ManageInsuranceItem item={item} index={index} onPress={() => showDetail(index)} />
+  }, [tabSelect])
 
   const ListFooterComponent = useCallback(() => {
-    if (bankerStore.isLoadingMoreListLoan) {
+    if (insuranceStore.isLoadingMore) {
       return <Spinner color="primary" m="4" />
     }
     return <Box m="4" />
-  }, [bankerStore.isLoadingMoreListLoan])
+  }, [insuranceStore.isLoadingMore])
 
   return (
     <Box flex="1" bg="lightBlue">
@@ -146,7 +177,7 @@ const ManageInsuranceListScreen: FC<Props> = observer((props: Props) => {
           stickySectionHeadersEnabled
           refreshControl={
             <RefreshControl
-              refreshing={bankerStore.isRefreshingListLoan}
+              refreshing={insuranceStore.isRefreshing}
               onRefresh={_onRefresh}
               colors={[color.primary]}
               tintColor={color.primary}

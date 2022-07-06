@@ -152,7 +152,8 @@
       "healthInsurance": "Bảo hiểm sức khoẻ",
       "travelInsurance": "Bảo hiểm du lịch",
       "otherInsurance": "Bảo hiểm khác",
-      "claimInsurance": "Claim bảo hiểm"
+      "claimInsurance": "Claim bảo hiểm",
+      "listClaimInsurance": "Danh sách claim bảo hiểm",
     },
     "invest": {
       "invest": "Đầu tư",

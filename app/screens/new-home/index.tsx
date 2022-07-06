@@ -7,7 +7,6 @@ import HomeFinance from "./home-finance"
 import BottomView from "../../components/bottom-view"
 import ComingSoon from "../home/home-fina/coming-soon"
 import HomeInsurance from "./home-insurance"
-import { isAndroid } from "../../constants/variable"
 import { isIphoneX } from "react-native-iphone-x-helper"
 import { observer } from "mobx-react-lite"
 
@@ -15,7 +14,7 @@ interface Props {}
 
 const SCROLL_SNAPPING_THRESHOLD = 16
 
-const NewHome = observer((props: Props) => {
+const NewHome = observer(async (props: Props) => {
   const animatedValue = useRef(new Animated.Value(0)).current
   const scrollViewRef = useRef<ScrollView>(null)
   const lastOffsetY = useRef(0)
