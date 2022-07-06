@@ -62,6 +62,7 @@ const ClaimInsuranceDetailScreen = React.memo((props: Props) => {
       data.fullName,
       data.phone,
       data.note,
+      'claim_insurance'
     )
     if (send.kind === "ok") {
       // todo
