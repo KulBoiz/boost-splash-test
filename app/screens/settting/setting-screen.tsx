@@ -14,6 +14,7 @@ import SettingAuthScreen from "../../components/app-view-no-auth"
 import { navigate } from "../../navigators"
 import { ROLE } from "../../models/auth-store"
 import { ScaledSheet } from "react-native-size-matters"
+import UpdateVersion from "../../components/update-version"
 
 interface Props { }
 

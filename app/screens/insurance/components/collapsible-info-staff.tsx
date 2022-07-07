@@ -13,9 +13,10 @@ import moment from "moment"
 import { useStores } from '../../../models';
 interface Props {
   infoStaff: any
+  insurance: any
 }
 
-const CollapsibleInfoStaff = React.memo(({ infoStaff }: Props) => {
+const CollapsibleInfoStaff = React.memo(({ infoStaff, insurance}: Props) => {
 
   const accordionItem = (content) => {
     const [activeSections, setActiveSections]: any = useState([]);
@@ -47,6 +48,8 @@ const CollapsibleInfoStaff = React.memo(({ infoStaff }: Props) => {
           <ItemView title={'Ngày sinh:'} content={`${moment(info?.dateOfBirth).format('DD/MM/YYYY')}`} style={MARGIN_TOP_16} />
           <ItemView title={'CMND/ CCCD:'} content={info?.idNumber} style={MARGIN_TOP_16} />
           <ItemView title={'Email'} content={info?.email || '_'} style={MARGIN_TOP_16} />
+          <ItemView title={'Công ty'} content={insurance?.company || '_'} style={MARGIN_TOP_16} />
+          <ItemView title={'Nghề nghiệp'} content={insurance?.level || '_'} style={MARGIN_TOP_16} />
         </View>
       );
     };

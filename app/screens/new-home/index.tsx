@@ -1,7 +1,7 @@
 import React, { useRef, useState } from "react"
 import { View, ScrollView, Animated, StatusBar } from "react-native"
 import Header from "./components/header"
-import { s, ScaledSheet } from "react-native-size-matters"
+import { ScaledSheet } from "react-native-size-matters"
 import { color } from "../../theme"
 import HomeFinance from "./home-finance"
 import BottomView from "../../components/bottom-view"
@@ -12,9 +12,8 @@ import { observer } from "mobx-react-lite"
 
 interface Props {}
 
-const SCROLL_SNAPPING_THRESHOLD = 16
 
-const NewHome = observer(async (props: Props) => {
+const NewHome = observer( (props: Props) => {
   const animatedValue = useRef(new Animated.Value(0)).current
   const scrollViewRef = useRef<ScrollView>(null)
   const lastOffsetY = useRef(0)

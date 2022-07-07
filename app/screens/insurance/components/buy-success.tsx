@@ -60,20 +60,20 @@ const BuySuccess = React.memo(({ onPress, productDetail, transaction = {}, respo
   }, [time])
 
   return (
-    <ScrollView style={styles.container}>
+    <ScrollView style={styles.container} contentContainerStyle={styles.containerView}>
       <View style={styles.body}>
         <View style={styles.success}>
           {status === STATUS.SUCCEEDED && <SuccessSvg />}
           <AppText value={'Mua bảo hiểm'} style={[FONT_REGULAR_12, styles.buyText]} />
           <AppText value={`${MAPPING_STATUS[status] ?? 'Chờ xác nhận'}${time > 0  && status === STATUS.PENDING  ? `(${time})` : ''}`} style={styles.successText} />
         </View>
-        <View style={styles.itemContainer}>
-          <ItemView title={'Sản phẩm bảo hiểm:'} content={productDetail?.name} style={MARGIN_TOP_16} />
-          <ItemView title={'Nhà bảo hiểm:'} content={'FINA'} style={MARGIN_TOP_16} />
-          <ItemView title={'Thời hạn hợp đồng:'} content={'_'} style={MARGIN_TOP_16} />
-          <ItemView title={'Họ và tên:'} content={transaction?.staffInfo?.fullName} style={MARGIN_TOP_16} />
-        </View>
-        <ItemView title={'Số tiền bảo hiểm'} content={`${numberWithCommas(transaction?.amount)} vnđ`} style={MARGIN_TOP_16} />
+        {/*<View style={styles.itemContainer}>*/}
+        {/*  <ItemView title={'Sản phẩm bảo hiểm:'} content={productDetail?.name} style={MARGIN_TOP_16} />*/}
+        {/*  <ItemView title={'Nhà bảo hiểm:'} content={'FINA'} style={MARGIN_TOP_16} />*/}
+        {/*  <ItemView title={'Thời hạn hợp đồng:'} content={'_'} style={MARGIN_TOP_16} />*/}
+        {/*  <ItemView title={'Họ và tên:'} content={transaction?.staffInfo?.fullName} style={MARGIN_TOP_16} />*/}
+        {/*</View>*/}
+        {/*<ItemView title={'Số tiền bảo hiểm'} content={`${numberWithCommas(transaction?.amount)} vnđ`} style={MARGIN_TOP_16} />*/}
       </View>
         <View style={styles.wrapButton}>
           <AppButton
@@ -92,7 +92,10 @@ const styles = ScaledSheet.create({
   container: {
     flex: 1,
     marginTop: '16@s',
-    paddingHorizontal: '16@ms'
+    paddingHorizontal: '16@ms',
+  },
+  containerView: {
+    alignItems: "center",
   },
   body: {
     backgroundColor: color.background,

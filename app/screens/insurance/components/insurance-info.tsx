@@ -5,6 +5,7 @@ import { ScaledSheet } from "react-native-size-matters"
 import ItemView from "../../loan/components/item-view"
 import { FONT_MEDIUM_14, MARGIN_TOP_16 } from "../../../styles/common-style"
 import { AppText } from "../../../components/app-text/AppText"
+import { numberWithCommas } from "../../../constants/variable"
 
 interface Props {
   insurance: any
@@ -22,9 +23,9 @@ const InsuranceInfo = React.memo(({ insurance, productDetail }: Props) => {
           </View>
           <ItemView title={'Nhà bảo hiểm:'} content={'BSH'} style={MARGIN_TOP_16} />
           <ItemView title={'Sản phẩm bảo hiểm:'} content={productDetail?.name} style={MARGIN_TOP_16} />
-          <ItemView title={'Thời hạn hợp đồng:'} content={'_'} style={MARGIN_TOP_16} />
+          {/*<ItemView title={'Thời hạn hợp đồng:'} content={'_'} style={MARGIN_TOP_16} />*/}
           <ItemView title={'Tổng số người tham giá:'} content={insurance?.customers?.length || 0} style={MARGIN_TOP_16} />
-          <ItemView title={'Số tiền bảo hiểm:'} content={`${insurance?.amount} vnđ`} style={MARGIN_TOP_16} />
+          <ItemView title={'Số tiền bảo hiểm:'} content={`${numberWithCommas(insurance?.amount ?? 0)} vnđ`} style={MARGIN_TOP_16} />
         </View>
       </View>
 

@@ -62,7 +62,7 @@ const BuyStepTwo = React.memo(({ stepThree, transaction, productDetail }: Props)
         productDetail={productDetail}
       />
 
-      <CollapsibleInfoStaff infoStaff={transaction?.staffInfo} />
+      <CollapsibleInfoStaff infoStaff={transaction?.staffInfo} insurance={transaction} />
 
       <CollapsibleInfoCustomer infoCustomer={transaction?.customers} />
 
