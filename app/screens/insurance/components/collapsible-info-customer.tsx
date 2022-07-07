@@ -11,6 +11,7 @@ import ItemView from "../../loan/components/item-view"
 import { MARGIN_TOP_16 } from "../../../styles/common-style"
 import moment from "moment"
 import { useStores } from '../../../models';
+import { numberWithCommas } from "../../../constants/variable"
 interface Props {
   infoCustomer: any
 }
@@ -50,9 +51,9 @@ const CollapsibleInfoCustomer = React.memo(({ infoCustomer }: Props) => {
               <ItemView title={'Ngày sinh:'} content={`${moment(info?.dateOfBirth).format('DD/MM/YYYY')}`} style={MARGIN_TOP_16} />
               <ItemView title={'CMND/ CCCD:'} content={info?.idNumber} style={MARGIN_TOP_16} />
               <ItemView title={'Email'} content={info?.email || '_'} style={MARGIN_TOP_16} />
-              <ItemView title={'Gói bảo hiểm'} content={info?.email} style={MARGIN_TOP_16} />
-              <ItemView title={'Giá tiền'} content={`${info?.meta?.price} VNĐ`} style={MARGIN_TOP_16} />
-              <ItemView title={'Tiền thanh toán'} content={`${info?.meta?.amount} VNĐ`} style={MARGIN_TOP_16} />
+              <ItemView title={'Gói bảo hiểm'} content={info?.meta?.name} style={MARGIN_TOP_16} />
+              <ItemView title={'Giá tiền'} content={`${numberWithCommas(info?.meta?.price ?? 0)} VNĐ`} style={MARGIN_TOP_16} />
+              <ItemView title={'Tiền thanh toán'} content={`${numberWithCommas(info?.meta?.amount ?? 0)} VNĐ`} style={MARGIN_TOP_16} />
               {info?.meta?.price !== info?.meta?.amount &&
                 <AppText style={MARGIN_TOP_16} value={'* Người hưởng quá 65 tuổi, số tiền bảo hiểm  tính x1,5'} />}
               {index < customers?.length - 1 &&

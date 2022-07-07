@@ -24,9 +24,7 @@ import notifee from "@notifee/react-native"
 import { NativeBaseProvider } from "native-base"
 import { GestureHandlerRootView } from "react-native-gesture-handler"
 import { theme } from "./theme/theme"
-// This puts screens in a native ViewController or Activity. If you want fully native
-// stack navigation, use `createNativeStackNavigator` in place of `createStackNavigator`:
-// https://github.com/kmagiera/react-native-screens#using-native-stack-navigator
+import firestore from '@react-native-firebase/firestore';
 
 export const NAVIGATION_PERSISTENCE_KEY = "NAVIGATION_STATE"
 
@@ -39,6 +37,13 @@ function App() {
     onNavigationStateChange,
     isRestored: isNavigationStateRestored,
   } = useNavigationPersistence(storage, NAVIGATION_PERSISTENCE_KEY)
+
+  firestore().collection('version').get().then(res => {
+    res.forEach(document => {
+      console.log(document.data())
+    })
+  })
+
 
   async function requestUserPermission() {
     const authStatus = await messaging().requestPermission()
