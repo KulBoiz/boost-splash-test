@@ -1,15 +1,42 @@
-import React, { useState } from "react"
-import { View, StyleSheet } from 'react-native';
+import React, { useEffect, useState } from "react"
+import { View, Linking } from 'react-native';
 import Modal from "react-native-modal"
 import { AppText } from "./app-text/AppText"
 import { s, ScaledSheet } from "react-native-size-matters"
 import { color } from "../theme"
 import { fontFamily } from "../constants/font-family"
+import firestore from "@react-native-firebase/firestore"
+import { VERSION, PLAY_STORE, APP_STORE } from "@env"
+import { isAndroid } from "../constants/variable"
 
 interface Props{}
 
 const UpdateVersion = React.memo((props: Props) => {
-  const [visible, setVisible] = useState(true)
+  const [visible, setVisible] = useState(false)
+  const [version, setVersion] = useState<number>(0)
+
+  firestore().collection('version').get().then(res => {
+    res.forEach(document => {
+      setVersion(document.data().value)
+    })
+  })
+
+ useEffect(()=> {
+   if (version !== 0 && VERSION < version) {
+     console.log('hahaahahj')
+     setVisible(true)
+   }
+ }, [version])
+
+  const openStore = () => {
+    if (isAndroid){
+      Linking.openURL(PLAY_STORE)
+    }
+    else {
+      Linking.openURL(APP_STORE)
+    }
+  }
+
   return (
     <Modal
       isVisible={visible}
@@ -23,7 +50,7 @@ const UpdateVersion = React.memo((props: Props) => {
           <AppText value={'Đã có phiên bản cập nhật mới, nhấn vào\n' +
             ' Cập nhật ngay để tiến hành cài đặt'} style={styles.content}/>
         </View>
-        <AppText value={'Cài đặt ngay'} style={styles.title} fontSize={s(14)} color={color.primary}/>
+        <AppText value={'Cài đặt ngay'} style={styles.title} fontSize={s(14)} color={color.primary} onPress={openStore}/>
       </View>
     </Modal>
   )

@@ -24,7 +24,7 @@ import notifee from "@notifee/react-native"
 import { NativeBaseProvider } from "native-base"
 import { GestureHandlerRootView } from "react-native-gesture-handler"
 import { theme } from "./theme/theme"
-import firestore from '@react-native-firebase/firestore';
+import UpdateVersion from "./components/update-version"
 
 export const NAVIGATION_PERSISTENCE_KEY = "NAVIGATION_STATE"
 
@@ -37,13 +37,6 @@ function App() {
     onNavigationStateChange,
     isRestored: isNavigationStateRestored,
   } = useNavigationPersistence(storage, NAVIGATION_PERSISTENCE_KEY)
-
-  firestore().collection('version').get().then(res => {
-    res.forEach(document => {
-      console.log(document.data())
-    })
-  })
-
 
   async function requestUserPermission() {
     const authStatus = await messaging().requestPermission()
@@ -106,6 +99,7 @@ function App() {
                   // initialState={initialNavigationState}
                   onStateChange={onNavigationStateChange}
                 />
+                <UpdateVersion />
               </ErrorBoundary>
             </SafeAreaProvider>
           </NativeBaseProvider>

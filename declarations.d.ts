@@ -8,4 +8,7 @@ declare module "*.svg" {
 declare module '@env' {
   export const API_ENDPOINT: string;
   export const DOMAIN: string;
+  export const VERSION: number;
+  export const PLAY_STORE: string;
+  export const APP_STORE: string;
 }

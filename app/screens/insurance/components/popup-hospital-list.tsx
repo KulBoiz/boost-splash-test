@@ -1,12 +1,13 @@
 import { observer } from "mobx-react-lite"
 import { Box, Pressable, Row } from "native-base"
-import React, { useCallback, useState } from "react"
+import React, { useCallback, useEffect, useState } from "react"
 import Modal from "react-native-modal"
 import { CloseSvg } from "../../../assets/svgs"
 import { Text } from "../../../components"
 import { FastImage } from "../../../components/fast-image/fast-image"
 import Carousel, { Pagination } from "react-native-snap-carousel"
 import { width } from "../../../constants/variable"
+import { useStores } from "../../../models"
 
 interface Props {
   visible: boolean
@@ -14,8 +15,9 @@ interface Props {
 }
 
 const PopupHospitalList = observer(({ visible, onClose }: Props) => {
+  const {insuranceStore} = useStores()
   const [activeIndex, setActiveIndex] = useState(0)
-
+  console.log('list Hospital',insuranceStore.listHospital)
   const data = [1, 2, 3]
 
   const renderItem = useCallback(() => {

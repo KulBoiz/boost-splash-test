@@ -27,7 +27,8 @@ export const InsuranceStoreModel = types
     listBuyTotal: types.optional(types.number, 0),
     listClaimTotal: types.optional(types.number, 0),
     listBuy: types.frozen([]),
-    listClaim: types.frozen([])
+    listClaim: types.frozen([]),
+    listHospital: types.frozen([])
   })
   .views((self) => ({})) // eslint-disable-line @typescript-eslint/no-unused-vars
   .actions((self) => ({
@@ -133,6 +134,42 @@ export const InsuranceStoreModel = types
       if (result.kind === "ok") {
         self.listClaimTotal = result.data.total
         self.listClaim = data
+        self.isRefreshing = false
+        self.isLoadingMore = false
+      }
+      else{
+        self.isRefreshing = false
+        self.isLoadingMore = false
+      }
+      return result
+    }),
+
+    getListHospital: flow(function* getListHospital(
+      id: string,
+      isRefresh = false
+    ) {
+      if (isRefresh) {
+        self.isRefreshing = true
+      } else {
+        self.isLoadingMore = true
+      }
+      self.listHospital = []
+      const api = new BaseApi(self.environment.api)
+      const result = yield api.get("organization-products", {
+        filter: {
+          where: {
+            productId: id
+          },
+          include: [
+            {relation: 'organization'}
+          ]
+        }
+      })
+
+      const data = result?.data?.data
+
+      if (result.kind === "ok") {
+        self.listHospital = data
         self.isRefreshing = false
         self.isLoadingMore = false
       }
