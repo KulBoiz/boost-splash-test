@@ -1,5 +1,5 @@
 /* eslint-disable react-native/no-color-literals */
-import React, { FC, useCallback, useState } from "react"
+import React, { FC, useCallback, useEffect, useState } from "react"
 import { observer } from "mobx-react-lite"
 import AppHeader from "../../components/app-header/AppHeader"
 import { useStores } from "../../models"
@@ -30,6 +30,10 @@ const ManageInsuranceDetailScreen: FC<Props> = observer((props: any) => {
   const isListBuy = props?.route?.params?.isListBuy
 
   const data = isListBuy ? insuranceStore.listBuy[index] : insuranceStore.listClaim[index]
+
+  useEffect(()=> {
+    insuranceStore.getListHospital(data?.product?.id)
+  },[])
 
   const [collapsed, setCollapsed] = useState(true)
   const [popupHospitalListVisible, setPopupHospitalListVisible] = useState(false)
