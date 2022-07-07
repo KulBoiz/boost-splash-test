@@ -1,7 +1,6 @@
 import { observer } from "mobx-react-lite"
-import { Box, HStack, Pressable, ScrollView } from "native-base"
-import React, { useCallback, useState } from "react"
-import { s, vs } from "react-native-size-matters"
+import { Box, HStack, Pressable } from "native-base"
+import React, { useCallback } from "react"
 import { Text } from "../../../components"
 import { INSURANCE_TABS } from "../constants"
 

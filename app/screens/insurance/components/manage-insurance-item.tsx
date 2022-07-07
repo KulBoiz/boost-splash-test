@@ -11,6 +11,7 @@ interface Props {
 }
 
 const ManageInsuranceItem = React.memo(({ item, index, onPress }: Props) => {
+  const data = item?.product
   return (
     <Pressable
       onPress={() => onPress?.(item)}
@@ -26,7 +27,7 @@ const ManageInsuranceItem = React.memo(({ item, index, onPress }: Props) => {
     >
       <Box alignItems="center" justifyContent="center">
         <FastImage
-          source={{ uri: "https://bshc.com.vn/wp-content/uploads/2021/05/logo900900.png" }}
+          source={{ uri: data?.info?.image?.url }}
           width={65}
           height={24}
           resizeMode="contain"
@@ -38,7 +39,7 @@ const ManageInsuranceItem = React.memo(({ item, index, onPress }: Props) => {
           fontWeight="700"
           color="black"
           lineHeight={17}
-          text={"An tâm mùa dịch"}
+          text={data?.name ?? ''}
         />
         <Text
           mt="1"
@@ -46,28 +47,28 @@ const ManageInsuranceItem = React.memo(({ item, index, onPress }: Props) => {
           color="#A1A8AB"
           lineHeight={17}
           textTransform="capitalize"
-          text={"Trần Minh Tuấn"}
+          text={item?.staff?.fullName ?? ''}
         />
       </Box>
       <Box>
-        <Text fontSize={10} fontWeight="400" color="#A1A8AB" lineHeight={14} text={"123456890"} />
-        <Box
-          height={18}
-          bg="#E5FFE2"
-          borderRadius={8}
-          px="2"
-          alignItems="center"
-          justifyContent="center"
-          mt="1"
-        >
-          <Text
-            fontSize={10}
-            color="#52BF50"
-            lineHeight={14}
-            textTransform="capitalize"
-            text={"Có hiệu lực"}
-          />
-        </Box>
+        <Text fontSize={10} fontWeight="400" color="#A1A8AB" lineHeight={14} text={item?.code ?? ''} />
+        {/*<Box*/}
+        {/*  height={18}*/}
+        {/*  bg="#E5FFE2"*/}
+        {/*  borderRadius={8}*/}
+        {/*  px="2"*/}
+        {/*  alignItems="center"*/}
+        {/*  justifyContent="center"*/}
+        {/*  mt="1"*/}
+        {/*>*/}
+        {/*  <Text*/}
+        {/*    fontSize={10}*/}
+        {/*    color="#52BF50"*/}
+        {/*    lineHeight={14}*/}
+        {/*    textTransform="capitalize"*/}
+        {/*    text={"Có hiệu lực"}*/}
+        {/*  />*/}
+        {/*</Box>*/}
       </Box>
     </Pressable>
   )

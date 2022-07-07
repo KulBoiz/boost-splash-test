@@ -1,9 +1,9 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { View } from 'react-native';
 import { ScaledSheet } from "react-native-size-matters"
 import Share from 'react-native-share';
 import AppButton from '../app-button/AppButton';
-import Icon from 'react-native-vector-icons/FontAwesome';
+import { FontAwesome as Icon } from '@expo/vector-icons';
 import { color } from '../../theme';
 
 interface Props {
