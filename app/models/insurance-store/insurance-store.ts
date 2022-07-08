@@ -56,15 +56,19 @@ export const InsuranceStoreModel = types
         self.isLoadingMore = true
       }
       const api = new BaseApi(self.environment.api)
-      const result = yield api.get("transactions", {
+      const result = yield api.get("deals", {
         filter: {
           where: {
             type: "insurances",
-            // category: params?.category
+            category: params?.category || undefined,
+            status: {
+              nin: ['pending']
+            }
           },
           include: [
-            {relation: "staff"},
-            {relation: "customer"},
+            {relation: "source"},
+            {relation: "user"},
+            {relation: "category"},
             {relation: "product",
               scope: {
                 include: [
