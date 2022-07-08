@@ -12,6 +12,7 @@ interface Props {
 
 const ManageInsuranceItem = React.memo(({ item, index, onPress }: Props) => {
   const data = item?.product
+  
   return (
     <Pressable
       onPress={() => onPress?.(item)}
@@ -47,28 +48,36 @@ const ManageInsuranceItem = React.memo(({ item, index, onPress }: Props) => {
           color="#A1A8AB"
           lineHeight={17}
           textTransform="capitalize"
-          text={item?.staff?.fullName ?? ''}
+          text={item?.user?.fullName ?? ''}
+        />
+        <Text
+          mt="1"
+          size={"medium12"}
+          color="#A1A8AB"
+          lineHeight={17}
+          textTransform="capitalize"
+          text={item?.meta?.name ?? ''}
         />
       </Box>
       <Box>
         <Text fontSize={10} fontWeight="400" color="#A1A8AB" lineHeight={14} text={item?.code ?? ''} />
-        {/*<Box*/}
-        {/*  height={18}*/}
-        {/*  bg="#E5FFE2"*/}
-        {/*  borderRadius={8}*/}
-        {/*  px="2"*/}
-        {/*  alignItems="center"*/}
-        {/*  justifyContent="center"*/}
-        {/*  mt="1"*/}
-        {/*>*/}
-        {/*  <Text*/}
-        {/*    fontSize={10}*/}
-        {/*    color="#52BF50"*/}
-        {/*    lineHeight={14}*/}
-        {/*    textTransform="capitalize"*/}
-        {/*    text={"Có hiệu lực"}*/}
-        {/*  />*/}
-        {/*</Box>*/}
+        {/* <Box */}
+        {/*  height={18} */}
+        {/*  bg="#E5FFE2" */}
+        {/*  borderRadius={8} */}
+        {/*  px="2" */}
+        {/*  alignItems="center" */}
+        {/*  justifyContent="center" */}
+        {/*  mt="1" */}
+        {/* > */}
+        {/*  <Text */}
+        {/*    fontSize={10} */}
+        {/*    color="#52BF50" */}
+        {/*    lineHeight={14} */}
+        {/*    textTransform="capitalize" */}
+        {/*    text={"Có hiệu lực"} */}
+        {/*  /> */}
+        {/* </Box> */}
       </Box>
     </Pressable>
   )

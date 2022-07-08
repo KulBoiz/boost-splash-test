@@ -52,7 +52,7 @@ export const INDEMNIFY_STATUS = [
   { value: "3_", title: "Đang xử lý" },
 ]
 export const INSURANCE_TABS = [
-  { key: "1", text: "Danh sách bảo hiểm" },
+  { key: "1", text: "Hồ sơ bảo hiểm" },
   { key: "2", text: "Yêu cầu bồi thường" },
 ]
 
