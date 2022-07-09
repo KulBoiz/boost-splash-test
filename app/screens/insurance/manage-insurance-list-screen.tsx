@@ -15,19 +15,25 @@ import ManageInsuranceItem from "./components/manage-insurance-item"
 import ManageInsuranceTab from "./components/manage-insurance-tab"
 import { INSURANCE_TABS } from "./constants"
 import ManageInsuranceHelp from "./components/manage-insurance-help"
-import { navigate } from "../../navigators"
+import { navigate, NavigatorParamList } from "../../navigators"
 import moment from "moment"
+import { RouteProp, useRoute } from "@react-navigation/native"
 
 interface Props {}
 
-const ManageInsuranceListScreen: FC<Props> = observer((props: Props) => {
-  const { bankerStore, insuranceStore} = useStores()
-  const [tabSelect, setTabSelect] = useState(INSURANCE_TABS[0].key)
+const ManageInsuranceListScreen: FC<Props> = observer((props: any) => {
+  const key = props?.route?.params?.key
+  const { insuranceStore} = useStores()
+  const [tabSelect, setTabSelect] = useState(key ?? INSURANCE_TABS[0].key)
   const isListBuy = tabSelect === INSURANCE_TABS[0].key
 
   useEffect(()=> {
+    if (key){
+      onChangeTab(key)
+      return
+    }
     insuranceStore.getListBuyInsurance({}, {page: 1, limit: 20}, true)
-  },[])
+  },[key])
 
   const showDetail = useCallback((index) => {
     navigate(ScreenNames.MANAGE_INSURANCE_DETAIL_SCREEN, { index, isListBuy })

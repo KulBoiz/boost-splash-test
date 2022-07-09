@@ -27,7 +27,7 @@ export function randomId() {
 }
 
 export function numberWithCommas(x: number | string) {
-  return x ? x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") : '';
+  return x ? x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") : '0';
 }
 
 export function formatDate(date: string | Date) {

@@ -15,6 +15,7 @@ import { HIT_SLOP } from "../../styles/common-style"
 
 const AppHeader = React.memo((props: AppHeaderProps) => {
   const {
+    hideBack = false,
     width,
     onLeftPress,
     onRightPress,
@@ -42,19 +43,27 @@ const AppHeader = React.memo((props: AppHeaderProps) => {
         backgroundColor={isBlue ? color.palette.blue : color.background}
         barStyle={isBlue ? "light-content" : "dark-content"}
       />
-      {renderLeftIcon ? (
-        <Button preset="link" onPress={onLeftPress} style={width} hitSlop={HIT_SLOP}>
-          {renderLeftIcon}
-        </Button>
-      ) : (
-        <Button preset="link" onPress={onLeftPress ?? goBack} style={[styles.defaultView, width]} hitSlop={HIT_SLOP}>
-          <FastImage
-            source={images.arrowLeft}
-            style={styles.backIcon}
-            tintColor={isBlue ? color.palette.white : ""}
-          />
-        </Button>
-      )}
+      {
+        hideBack ?
+          <View style={[styles.defaultView, width]} />
+          :
+          <>
+            {renderLeftIcon ? (
+              <Button preset="link" onPress={onLeftPress} style={width} hitSlop={HIT_SLOP}>
+                {renderLeftIcon}
+              </Button>
+            ) : (
+              <Button preset="link" onPress={onLeftPress ?? goBack} style={[styles.defaultView, width]} hitSlop={HIT_SLOP}>
+                <FastImage
+                  source={images.arrowLeft}
+                  style={styles.backIcon}
+                  tintColor={isBlue ? color.palette.white : ""}
+                />
+              </Button>
+            )}
+          </>
+      }
+
 
       {renderTitle || (
         <View style={styles.titleView}>

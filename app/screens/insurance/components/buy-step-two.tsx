@@ -1,4 +1,3 @@
-import moment from "moment";
 import React, { useState } from "react";
 import { Alert, View } from 'react-native';
 import { ScaledSheet } from "react-native-size-matters";
@@ -18,8 +17,7 @@ interface Props {
 }
 
 const BuyStepTwo = React.memo(({ stepThree, transaction, productDetail }: Props) => {
-  // @ts-ignore
-  const { paymentStore, productStore, authStoreModel, insuranceStore } = useStores()
+  const { productStore, insuranceStore } = useStores()
   const [modal, setModal] = useState(false)
   const [link, setLink] = useState('')
   const [infoPayment, setInfoPayment] = useState<any>({})
@@ -100,6 +98,4 @@ export default BuyStepTwo;
 
 const styles = ScaledSheet.create({
   container: {},
-
-
 });
