@@ -92,6 +92,10 @@ export { default as ImageDocumentSvg } from "./image-document.svg"
 export { default as ImageDocumentBadgeSvg } from "./image-document-badge.svg"
 export { default as DeleteDocumentSvg } from "./delete-document.svg"
 export { default as DocumentReloadSvg } from "./document-reload.svg"
+export { default as SuccessInsuranceSvg } from "./success.svg"
+export { default as PencilSvg } from "./pencil.svg"
+export { default as RedTrashSvg } from "./red_trash.svg"
+export { default as OrangePlusSvg } from "./orange_plus.svg"
 
 // home
 export { default as AccountHomeActiveSvg } from "./account-home-active.svg"

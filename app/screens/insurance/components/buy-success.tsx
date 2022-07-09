@@ -1,18 +1,16 @@
 import React, { useEffect, useState } from 'react';
-import { ScrollView, View } from "react-native"
-import { SuccessSvg } from "../../../assets/svgs"
+import { View } from "react-native"
+import { SuccessInsuranceSvg } from "../../../assets/svgs"
 import { AppText } from "../../../components/app-text/AppText"
-import ItemView from "../../loan/components/item-view"
 import { ScaledSheet } from "react-native-size-matters"
 import { color } from "../../../theme"
-import { FONT_REGULAR_12, MARGIN_TOP_16 } from "../../../styles/common-style"
+import { FONT_MEDIUM_14 } from "../../../styles/common-style"
 import { fontFamily } from "../../../constants/font-family"
 import AppButton from "../../../components/app-button/AppButton"
 import { ScreenNames } from "../../../navigators/screen-names"
-import { navigate } from "../../../navigators"
-import { numberWithCommas } from "../../../constants/variable"
-import moment from 'moment';
+import { goBack, navigate } from "../../../navigators"
 import { useStores } from '../../../models';
+import AppHeader from "../../../components/app-header/AppHeader"
 
 interface Props {
   onPress(): void,
@@ -35,7 +33,8 @@ export const MAPPING_STATUS = {
 
 const defaultTime = 30
 
-const BuySuccess = React.memo(({ onPress, productDetail, transaction = {}, respondTransaction }: Props) => {
+const BuySuccess = React.memo((props: Props) => {
+  const { onPress, productDetail, transaction = {}, respondTransaction } = props
   const {productStore} = useStores()
   const [time, setTime] = useState(defaultTime)
   const [reload, setReload] = useState(true)
@@ -59,30 +58,26 @@ const BuySuccess = React.memo(({ onPress, productDetail, transaction = {}, respo
     }
   }, [time])
 
+  const goHome = () => {
+    goBack()
+  }
+
   return (
-    <ScrollView style={styles.container} contentContainerStyle={styles.containerView}>
+    <View style={styles.container}>
+      <AppHeader isBlue headerText={'Mua bảo hiểm thành công'} hideBack/>
       <View style={styles.body}>
         <View style={styles.success}>
-          {status === STATUS.SUCCEEDED && <SuccessSvg />}
-          <AppText value={'Mua bảo hiểm'} style={[FONT_REGULAR_12, styles.buyText]} />
+          {status === STATUS.SUCCEEDED && <SuccessInsuranceSvg />}
+          <AppText value={'Mua bảo hiểm'} style={[FONT_MEDIUM_14, styles.buyText]} />
           <AppText value={`${MAPPING_STATUS[status] ?? 'Chờ xác nhận'}${time > 0  && status === STATUS.PENDING  ? `(${time})` : ''}`} style={styles.successText} />
         </View>
-        {/*<View style={styles.itemContainer}>*/}
-        {/*  <ItemView title={'Sản phẩm bảo hiểm:'} content={productDetail?.name} style={MARGIN_TOP_16} />*/}
-        {/*  <ItemView title={'Nhà bảo hiểm:'} content={'FINA'} style={MARGIN_TOP_16} />*/}
-        {/*  <ItemView title={'Thời hạn hợp đồng:'} content={'_'} style={MARGIN_TOP_16} />*/}
-        {/*  <ItemView title={'Họ và tên:'} content={transaction?.staffInfo?.fullName} style={MARGIN_TOP_16} />*/}
-        {/*</View>*/}
-        {/*<ItemView title={'Số tiền bảo hiểm'} content={`${numberWithCommas(transaction?.amount)} vnđ`} style={MARGIN_TOP_16} />*/}
       </View>
+
         <View style={styles.wrapButton}>
-          <AppButton
-            title={'Quay về'} onPress={() => navigate(ScreenNames.HOME)}
-            containerStyle={[styles.btn, styles.whiteBtn]}
-            titleStyle={styles.textBtn} />
-          <AppButton title={'Lịch sử'} onPress={onPress} containerStyle={[styles.btn]} />
+          <AppText value={'Trở về trang chủ'} style={styles.homeText} onPress={goHome}/>
+          <AppButton title={'Trở về danh sách bảo hiểm'} onPress={goHome}  />
         </View>
-    </ScrollView>
+    </View>
   )
 });
 
@@ -91,13 +86,10 @@ export default BuySuccess;
 const styles = ScaledSheet.create({
   container: {
     flex: 1,
-    marginTop: '16@s',
-    paddingHorizontal: '16@ms',
-  },
-  containerView: {
-    alignItems: "center",
   },
   body: {
+    flex: 1,
+    justifyContent: 'center',
     backgroundColor: color.background,
     paddingVertical: '24@s',
     paddingHorizontal: '16@ms',
@@ -107,33 +99,26 @@ const styles = ScaledSheet.create({
     alignItems: "center"
   },
   successText: {
-    fontSize: '20@ms',
-    color: color.palette.green,
-    fontFamily: fontFamily.bold
+    fontSize: '24@ms',
+    color: color.palette.blue,
+    fontFamily: fontFamily.semiBold
   },
   buyText: {
     marginVertical: '4@s'
   },
-  itemContainer: {
-    borderBottomWidth: 1,
-    borderBottomColor: color.palette.F0F0F0,
-    paddingBottom: '16@s'
+  homeText: {
+    fontSize: '16@ms',
+    color: color.primary,
+    fontFamily: fontFamily.semiBold,
+    marginBottom: '16@s'
   },
   wrapButton: {
-    height: '170@s',
-    flexDirection: "row",
-    justifyContent: "space-between",
-    alignItems: "flex-end",
+    flex:1,
+    alignItems:"center",
+    backgroundColor: color.background,
+    justifyContent: "flex-end",
+    paddingHorizontal: '16@ms',
+    paddingBottom: '24@s'
   },
-  btn: {
-    width: '48%'
-  },
-  whiteBtn: {
-    borderWidth: 1,
-    borderColor: color.palette.blue,
-    backgroundColor: color.background
-  },
-  textBtn: {
-    color: color.palette.blue
-  }
+
 });

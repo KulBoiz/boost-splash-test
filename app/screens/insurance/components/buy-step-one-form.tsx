@@ -1,21 +1,18 @@
 import React, { useState } from "react"
-import { View } from "react-native"
+// import { View } from "react-native"
 import { s, ScaledSheet } from "react-native-size-matters"
 import FormCustomer from "./form/form-customer"
 import HomeInsurance from "./home-insurance"
 import CalculateMoney from "./calculate-money"
 import { color } from "../../../theme"
 import { fontFamily } from "../../../constants/font-family"
-import { useStores } from "../../../models"
 import FormOwner from "./form/form-owner"
-import { AddIcon, Box, MinusIcon, Pressable, Row } from "native-base"
-import uuid from "uuid"
-import { filter, find, map, union } from "../../../utils/lodash-utils"
+import { AddIcon, Pressable, Row, View } from "native-base"
 import { TYPE } from "../constants"
 import { numberWithCommas } from "../../../constants/variable"
 import Modal from "react-native-modal"
 import { AppText } from "../../../components/app-text/AppText"
-import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view"
+import { PencilSvg, RedTrashSvg } from "../../../assets/svgs"
 
 interface Props {
   productDetail: any
@@ -136,39 +133,28 @@ const BuyStepOneForm = React.memo((props: Props) => {
             paddingHorizontal: s(16),
             marginTop: s(16)
           }}>
-            <View style={{
-              // margin: s(16),
-              borderWidth: 1,
-              borderColor: color.palette.BABABA,
-              borderRadius: s(8),
-              flex: 1,
-              padding: s(16),
-            }}>
+            <View style={styles.itemName}>
               <AppText style={styles.headerText} value={item?.fullName} />
+              <Pressable>
+                <PencilSvg />
+              </Pressable>
             </View>
 
             <Pressable
               width="40px"
               height="40px"
-              bg="primary"
               alignItems="center"
               justifyContent="center"
-              rounded="full"
               onPress={() => removeFormCustomer(index)}
-              // mx={s(16)}
-              // mt={s(16)}
-              // mb="1"
-              ml={s(16)}
+              ml={s(12)}
             >
-              <MinusIcon color="white" />
+              <RedTrashSvg />
             </Pressable>
           </Row>
         )
       })}
 
       <Pressable
-        width="210px"
-        height="40px"
         bg="primary"
         alignItems="center"
         justifyContent="center"
@@ -176,9 +162,11 @@ const BuyStepOneForm = React.memo((props: Props) => {
         onPress={addFormCustomer}
         mx={s(16)}
         my={s(16)}
-        style={{ flexDirection: 'row', justifyContent: 'space-around' }}
+        style={{ flexDirection: 'row', paddingVertical: 10 }}
       >
-        {/* <AddIcon color="white" /> */}
+        <View style={styles.wrapPlus} rounded="full">
+          <AddIcon color="white" />
+        </View>
         <AppText color="white" style={{ fontFamily: fontFamily.medium }} value={"Thêm người hưởng bảo hiểm"} />
       </Pressable>
 
@@ -199,6 +187,7 @@ const BuyStepOneForm = React.memo((props: Props) => {
         }}
         productDetail={productDetail}
         onPress={onSubmit}
+        showRegister
       />
 
       <Modal
@@ -248,6 +237,24 @@ const styles = ScaledSheet.create({
     flexDirection: "row",
     justifyContent: "space-between",
     alignItems: "center",
+  },
+  itemName: {
+    borderWidth: 1,
+    borderColor: color.palette.BABABA,
+    borderRadius: s(32),
+    borderStyle: 'dashed',
+    flex: 1,
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    paddingHorizontal: s(16),
+    padding: s(12),
+  },
+  wrapPlus: {
+    borderWidth: 2,
+    borderColor: color.palette.white,
+    padding: '2@s',
+    marginRight: '10@s'
   },
   title: {
     fontSize: "12@ms",

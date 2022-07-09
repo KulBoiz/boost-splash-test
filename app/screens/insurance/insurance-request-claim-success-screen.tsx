@@ -7,11 +7,17 @@ import { useNavigation } from "@react-navigation/native"
 import { Box, Button } from "native-base"
 import { RequestSuccessSvg } from "../../assets/svgs"
 import { Text } from "../../components"
+import { navigate } from "../../navigators"
+import { ScreenNames } from "../../navigators/screen-names"
 
 interface Props {}
 
 const InsuranceRequestClaimSuccessScreen: FC<Props> = observer((props: Props) => {
   const navigation = useNavigation()
+
+  const goToListClaim = () => {
+    navigate(ScreenNames.MANAGE_INSURANCE_LIST, {key: "2"})
+  }
 
   return (
     <Box flex="1" bg="lightBlue">
@@ -29,12 +35,11 @@ const InsuranceRequestClaimSuccessScreen: FC<Props> = observer((props: Props) =>
         />
       </Box>
       <Box px="4">
-        {/*<Button>Theo dõi lịch sử xử lý</Button>*/}
-        <Button>Trở về</Button>
+        <Button onPress={goToListClaim}>Theo dõi lịch sử xử lý</Button>
         <Text
           suppressHighlighting
           onPress={navigation.goBack}
-          text=""
+          text="Trở về"
           py="4"
           mb="2"
           textAlign="center"

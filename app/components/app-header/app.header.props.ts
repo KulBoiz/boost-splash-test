@@ -5,6 +5,8 @@ export interface AppHeaderProps {
   /**
    * Main header, e.g. POWERED BY IGNITE
    */
+  hideBack?:boolean
+
   headerTx?: TxKeyPath
 
   /**
