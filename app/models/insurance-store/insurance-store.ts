@@ -69,7 +69,8 @@ export const InsuranceStoreModel = types
           include: [
             {relation: "source"},
             {relation: "user"},
-            {relation: "category"},
+            { relation: "category" },
+            {relation: "transaction"},
             {relation: "product",
               scope: {
                 include: [
