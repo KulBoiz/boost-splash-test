@@ -30,6 +30,12 @@ export function numberWithCommas(x: number | string) {
   return x ? x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") : '0';
 }
 
+export function getLastWord(words: string) {
+  const n = words.split(" ");
+  return n[n.length - 1];
+
+}
+
 export function formatDate(date: string | Date) {
   if  (!date) return ''
   return moment(date).format('DD/MM/YYYY');

@@ -103,6 +103,7 @@
     "phoneNumber": "Số điện thoại"
   },
   "placeholder": {
+    "note": "Ghi chú",
     "login": {
       "emailAndPhone": "09******** | email@adress.com",
       "password": "Nhập mật khẩu   "
@@ -153,7 +154,7 @@
       "travelInsurance": "Bảo hiểm du lịch",
       "otherInsurance": "Bảo hiểm khác",
       "claimInsurance": "Claim bảo hiểm",
-      "listClaimInsurance": "Danh sách claim bảo hiểm",
+      "listRecordInsurance": "Hồ sơ bảo hiểm"
     },
     "invest": {
       "invest": "Đầu tư",
