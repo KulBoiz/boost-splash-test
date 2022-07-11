@@ -15,13 +15,14 @@ import { SurveyResultBase } from "./constants"
 import { ScreenNames } from "../../../navigators/screen-names"
 import { navigate } from "../../../navigators"
 import {
-  ALIGN_CENTER,
+  ALIGN_CENTER, CONTAINER_PADDING,
   FONT_MEDIUM_12,
   MARGIN_TOP_16,
   ROW,
   SPACE_BETWEEN,
 } from "../../../styles/common-style"
 import { truncateString } from "../../../constants/variable"
+import ViewContent from "./components/view-content"
 
 const { width, height } = Dimensions.get("window")
 
@@ -44,13 +45,6 @@ export const BankHomeScreen = observer(({ navigation }) => {
   }, [])
 
   // console.log(SurveyResultBase(listRequest));
-
-  const onRightPress = () => {
-    navigate(ScreenNames.BANKER_LIST_REQUEST_SCREEN)
-  }
-  const onLeftPress = () => {
-    navigate(ScreenNames.BANKER_LIST_LOAN_SCREEN)
-  }
 
   const _renderItem = ({ item }) => {
     const onPress = () => {
@@ -105,44 +99,14 @@ export const BankHomeScreen = observer(({ navigation }) => {
   }
 
   return (
-    <View style={{ flex: 1, backgroundColor: color.palette.white }}>
+    <View style={styles.container}>
       <StatusBar backgroundColor={color.palette.white} barStyle={"dark-content"} />
       <HeaderCard />
-      <View style={styles.container}>
-        <View style={styles.total}>
-          <AppText style={styles.title}>
-            Có{" "}
-            <AppText
-              value={`${total?.deal || '0'} hồ sơ vay `}
-              style={[styles.title, { color: color.palette.blue }]}
-            />
-            và{" "}
-            <AppText
-              value={`${total?.task || '0'} YCTV`}
-              style={[styles.title, { color: color.palette.orange }]}
-            />
-          </AppText>
-          <AppText value={`đang chờ giải quyết!`} style={styles.title} />
-          <View style={[ROW, ALIGN_CENTER, SPACE_BETWEEN, MARGIN_TOP_16]}>
-            <Pressable onPress={onLeftPress} style={styles.button}>
-              <AppText value={"Hồ sơ vay"} style={styles.text} />
-              <ArrowBankSvg />
-            </Pressable>
-            <Pressable
-              onPress={onRightPress}
-              style={[styles.button, { backgroundColor: color.palette.orange }]}
-            >
-              <AppText value={"Yêu cầu tư vấn"} style={styles.text} />
-              <ArrowBankSvg />
-            </Pressable>
-          </View>
-          {/* <Pressable
-            onPress={() => navigate(ScreenNames.MANAGE_INSURANCE_LIST)}
-            style={[styles.button, { backgroundColor: color.palette.orange, marginTop: 12 }]}
-          >
-            <AppText value={"Bảo Hiểm"} style={styles.text} />
-            <ArrowBankSvg />
-          </Pressable> */}
+      <View style={styles.body}>
+        <AppText value={'Công việc hôm nay của bạn'} style={styles.label}/>
+        <View style={[ROW, SPACE_BETWEEN]}>
+          <ViewContent type={'counselling'} total={total?.task || 0} />
+          <ViewContent type={'loan'} total={total?.deal || 0} />
         </View>
       </View>
 
@@ -174,33 +138,21 @@ export const BankHomeScreen = observer(({ navigation }) => {
 })
 const styles = ScaledSheet.create({
   container: {
-    marginTop: "10@s",
-    paddingHorizontal: "24@ms",
-    backgroundColor: color.palette.white,
+    flex:1,
+    backgroundColor: '#316CDD',
   },
-  total: {
+  body: {
+    paddingTop: '16@s',
     backgroundColor: color.palette.white,
-    paddingHorizontal: "24@ms",
-    paddingVertical: "32@s",
-    width: "100%",
-    borderRadius: "8@s",
-    shadowColor: "#000",
-    shadowOffset: {
-      width: 0,
-      height: 2,
-    },
-    shadowOpacity: 0.23,
-    shadowRadius: 2.62,
-
-    elevation: 4,
+    paddingHorizontal: '16@ms',
+    flex: 1,
+    borderTopLeftRadius: '16@s',
+    borderTopRightRadius: '16@s'
   },
-  button: {
-    backgroundColor: color.palette.blue,
-    width: "48%",
-    padding: "13@s",
-    borderRadius: "8@s",
-    flexDirection: "row",
-    justifyContent: "center",
+  label: {
+    fontSize: '12@ms',
+    fontFamily: fontFamily.bold,
+    marginBottom: '8@s'
   },
   title: {
     color: color.palette.black,

@@ -85,16 +85,16 @@ export const LOAN_PRODUCT  = [
 ]
 
 export const INSURANCE_PRODUCT  = [
-  {
-    image: images.home_fix,
-    title: i18n.t('home.insurance.claimInsurance'),
-    onPress: () =>  {
-      navigate(ScreenNames.CLAIM_INSURANCE)
-    }
-  },
+  // {
+  //   image: images.home_fix,
+  //   title: i18n.t('home.insurance.claimInsurance'),
+  //   onPress: () =>  {
+  //     navigate(ScreenNames.CLAIM_INSURANCE)
+  //   }
+  // },
   {
     image: images.home_records,
-    title: i18n.t('home.insurance.listClaimInsurance'),
+    title: i18n.t('home.insurance.listRecordInsurance'),
     onPress: () =>  {
       navigate(ScreenNames.MANAGE_INSURANCE_LIST)
     }

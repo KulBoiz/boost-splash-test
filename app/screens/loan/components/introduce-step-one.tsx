@@ -6,8 +6,6 @@ import { yupResolver } from "@hookform/resolvers/yup"
 import FormInput from "../../../components/form-input/form-input"
 import AppButton from "../../../components/app-button/AppButton"
 import { ScaledSheet } from "react-native-size-matters"
-import { AppText } from "../../../components/app-text/AppText"
-import { presets } from "../../../constants/presets"
 import { color } from "../../../theme"
 import { observer } from "mobx-react-lite"
 import { useStores } from "../../../models"
@@ -28,7 +26,7 @@ const IntroduceStepOne = observer(({ nextStep }: Props) => {
       .required(i18n.t("errors.requireEmail"))
       .email("Không đúng định dạng email"),
     phone: Yup.string().trim().required(i18n.t("errors.requirePhone")),
-    address: Yup.string().trim(),
+    note: Yup.string().trim(),
   })
   const {
     control,
@@ -49,7 +47,7 @@ const IntroduceStepOne = observer(({ nextStep }: Props) => {
         data.fullName,
         data.email,
         data.phone,
-        data.address,
+        data.note,
       )
       if (send.kind === "ok") {
         nextStep()
@@ -59,7 +57,7 @@ const IntroduceStepOne = observer(({ nextStep }: Props) => {
         data.email,
         data.fullName,
         data.phone,
-        data.address,
+        data.note,
       )
       if (send.kind === "ok") {
         nextStep()
@@ -106,15 +104,16 @@ const IntroduceStepOne = observer(({ nextStep }: Props) => {
         />
         <FormInput
           {...{
-            name: "address",
-            placeholderTx: "placeholder.address",
+            name: "note",
+            placeholderTx: "placeholder.note",
             autoCapitalize: "none",
-            label: "Địa chỉ",
-            error: errors?.address?.message,
+            labelTx: "placeholder.note",
+            error: errors?.note?.message,
+            multiline: true,
             control,
           }}
         />
-        <AppText tx={"guide.enterKeyword"} style={presets.note} />
+        {/*<AppText tx={"guide.enterKeyword"} style={presets.note} />*/}
         <TermCheckbox checkboxState={checkboxState} setCheckboxState={setCheckboxState} />
         <View style={styles.wrapBtn}>
           <AppButton

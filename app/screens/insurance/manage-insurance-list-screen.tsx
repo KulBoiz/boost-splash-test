@@ -15,9 +15,8 @@ import ManageInsuranceItem from "./components/manage-insurance-item"
 import ManageInsuranceTab from "./components/manage-insurance-tab"
 import { INSURANCE_TABS } from "./constants"
 import ManageInsuranceHelp from "./components/manage-insurance-help"
-import { navigate, NavigatorParamList } from "../../navigators"
+import { navigate } from "../../navigators"
 import moment from "moment"
-import { RouteProp, useRoute } from "@react-navigation/native"
 
 interface Props {}
 

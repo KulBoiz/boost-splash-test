@@ -50,7 +50,7 @@ export const BankerStoreModel = types
           filter: {
             order: ["sharedAt desc"],
             where: {
-              status: "deal_processing_task",
+              status: "waiting_to_receive",
             },
             limit: 20,
             skip: 0,
@@ -62,7 +62,7 @@ export const BankerStoreModel = types
         filter: {
           where: {
             status: {
-              nin: ["deleted"],
+              nin: ["deleted", "disbursed", "cancelled"],
             },
             searchingRule: "single",
           },

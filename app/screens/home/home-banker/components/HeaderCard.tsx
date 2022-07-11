@@ -12,6 +12,8 @@ import { ROW } from "../../../../styles/common-style";
 import { color } from "../../../../theme";
 import FastImage from "react-native-fast-image"
 import { observer } from "mobx-react-lite"
+import { getLastWord } from "../../../../constants/variable"
+import { LinearGradient } from 'expo-linear-gradient';
 
 interface Props { }
 
@@ -21,39 +23,40 @@ const HeaderCard = observer((props: Props) => {
   const avatar = authStoreModel?.user?.avatar
 
   return (
-    <View style={styles.header}>
-      <View style={styles.wrapContent}>
-        <View style={[ROW, styles.itemContainer]}>
-          <Pressable onPress={()=> navigate(ScreenNames.SETTING)}>
-            {!!avatar ?
-              <FastImage source={{uri: avatar}} style={styles.avatar} /> :
-              <DefaultAvatarSvg width={s(40)} height={s(40)} />
-            }
-          </Pressable>
+    <LinearGradient colors={['#064DD6','#316CDD']} start={[0,0.5]} end={[0, 0.8]}>
+      <View style={styles.header}>
+          <View style={[ROW, styles.itemContainer]}>
+            <View style={ROW}>
+              <Pressable onPress={()=> navigate(ScreenNames.SETTING)}>
+                {!!avatar ?
+                  <FastImage source={{uri: avatar}} style={styles.avatar} /> :
+                  <DefaultAvatarSvg width={s(40)} height={s(40)} />
+                }
+              </Pressable>
+              <View style={styles.wrapName}>
+                <AppText value={`Chào ${getLastWord(user?.fullName)},`} style={styles.name} />
+                <AppText value={`Chào mừng bạn quay lại!`} style={styles.welcome} />
+              </View>
+            </View>
+            <TouchableOpacity onPress={() => navigate(ScreenNames.NOTICE)}>
+              <BellBankSvg width={s(24)} height={s(24)}/>
+            </TouchableOpacity>
+          </View>
 
-          <TouchableOpacity onPress={() => navigate(ScreenNames.NOTICE)}>
-            <BellBankSvg />
-          </TouchableOpacity>
-        </View>
-
-        <View>
-          <AppText value={`Chào ${user?.fullName},`} style={styles.name} />
-          <AppText value={`Chào mừng bạn quay lại!`} style={styles.welcome} />
-        </View>
       </View>
-    </View>
+    </LinearGradient>
+
   )
 });
 
 export default HeaderCard;
 
 const styles = ScaledSheet.create({
-  container: {},
-  wrapContent: {
-    paddingTop: isIphoneX() ? '60@s' : '40@s',
-    width: "100%",
+  header: {
+    height: isIphoneX() ? '110@vs' : '90@vs',
+    justifyContent: 'flex-end',
     paddingHorizontal: '24@ms',
-    paddingBottom: '20@s'
+
   },
   avatar: {
     width: '40@s',
@@ -62,24 +65,22 @@ const styles = ScaledSheet.create({
     borderWidth: 1,
     borderColor: 'white',
   },
+  wrapName :{
+    marginLeft: '10@ms'
+  },
   itemContainer: {
-    width: '100%',
     alignItems: "center",
     justifyContent: "space-between",
-    marginBottom: '28@s'
+    marginBottom: '15@s'
   },
   welcome: {
-    fontSize: '16@ms'
+    fontSize: '14@ms',
+    color: color.palette.white,
   },
   name: {
-    fontSize: '24@ms',
-    color: color.palette.black,
+    fontSize: '20@ms',
+    color: color.palette.white,
     fontFamily: fontFamily.bold
   },
-  header: {
-    // height: isIphoneX() ? '110@vs' : '90@vs',
-    alignItems: 'center',
-    justifyContent: 'center',
-    backgroundColor: color.palette.white
-  }
+
 });

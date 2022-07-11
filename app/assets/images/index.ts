@@ -17,6 +17,7 @@ export const images = {
   arrow_down: require('./arrow_down.png'),
   arrow_up: require('./arrow_up.png'),
   arrow_right: require('./arrow_right.png'),
+  long_arrow_right: require('./long-arrow-right.png'),
   banner: require('./banner.png'),
   fina_splash: require('./splash.png'),
   fina_logo: require('./finaLogo.png'),
