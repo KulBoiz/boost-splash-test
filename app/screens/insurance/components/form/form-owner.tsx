@@ -1,29 +1,25 @@
-import React, { useEffect } from "react"
-import { View } from "react-native"
-import { AppText } from "../../../../components/app-text/AppText"
-import { fontFamily } from "../../../../constants/font-family"
-import { ScaledSheet } from "react-native-size-matters"
-import FormInput from "../../../../components/form-input/form-input"
-import { color } from "../../../../theme"
-import FormDatePicker from "../../../../components/form-date-time"
-import FormItemPicker from "../../../../components/form-item-picker"
-import { GENDER } from "../../../../constants/gender"
 import { Row } from "native-base"
+import React from "react"
+import { View } from "react-native"
+import { ScaledSheet } from "react-native-size-matters"
 import * as Yup from "yup"
-import { yupResolver } from "@hookform/resolvers/yup"
-import { useForm } from "react-hook-form"
+import { AppText } from "../../../../components/app-text/AppText"
+import FormDatePicker from "../../../../components/form-date-time"
+import FormInput from "../../../../components/form-input/form-input"
+import FormItemPicker from "../../../../components/form-item-picker"
+import { fontFamily } from "../../../../constants/font-family"
+import { GENDER } from "../../../../constants/gender"
+import { color } from "../../../../theme"
 
 interface Props {
-  isSubmitForm?: string
-  onSubmit?: (data) => void
-  defaultValues?: any
-  onIsValid?: (value) => void
+  control: any
+  handleSubmit: any
+  setValue: any
+  errors: any
+  clearErrors: any
 }
 
-const FormOwner = React.memo((props: Props) => {
-  const { isSubmitForm, defaultValues, onIsValid } = props
-
-  const validationSchema = Yup.object().shape({
+export const validationSchema = Yup.object().shape({
     fullName: Yup.string().required("Vui lòng nhập họ và tên"),
     dateOfBirth: Yup.date()
       .required("Vui lòng nhập ngày sinh")
@@ -35,36 +31,9 @@ const FormOwner = React.memo((props: Props) => {
     level: Yup.string().required("Vui lòng nhập chức vụ"),
     email: Yup.string().trim().required("Vui lòng nhập email").email("Địa chỉ email không hợp lệ"),
   })
-  const {
-    control,
-    handleSubmit,
-    formState: { errors, isValid },
-    setValue,
-    clearErrors
-  } = useForm({
-    delayError: 0,
-    defaultValues,
-    mode: "all",
-    resolver: yupResolver(validationSchema),
-    reValidateMode: "onChange" || "onTouched",
-  })
 
-  const onSubmit = handleSubmit((data) => {
-    props?.onSubmit?.(data)
-  })
-
-  useEffect(() => {
-    if (isSubmitForm) {
-      onSubmit()
-    }
-    if (isValid) {
-      onSubmit()
-    }
-  }, [isSubmitForm, isValid])
-
-  useEffect(() => {
-    onIsValid?.(isValid)
-  }, [isValid])
+const FormOwner = React.memo((props: Props) => {
+  const { control, setValue, errors, clearErrors } = props
 
   return (
     <>

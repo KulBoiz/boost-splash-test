@@ -1,18 +1,22 @@
-import React, { useState } from "react"
-// import { View } from "react-native"
-import { s, ScaledSheet } from "react-native-size-matters"
-import FormCustomer from "./form/form-customer"
-import HomeInsurance from "./home-insurance"
-import CalculateMoney from "./calculate-money"
-import { color } from "../../../theme"
-import { fontFamily } from "../../../constants/font-family"
-import FormOwner from "./form/form-owner"
-import { AddIcon, Pressable, Row, View } from "native-base"
-import { TYPE } from "../constants"
-import { numberWithCommas } from "../../../constants/variable"
+import { yupResolver } from "@hookform/resolvers/yup"
+import { TabRouter } from "@react-navigation/native"
+import { AddIcon, Checkbox, Pressable, Row, View } from "native-base"
+import React, { useEffect, useState } from "react"
+import { useForm } from "react-hook-form"
 import Modal from "react-native-modal"
-import { AppText } from "../../../components/app-text/AppText"
+import { s, ScaledSheet } from "react-native-size-matters"
 import { PencilSvg, RedTrashSvg } from "../../../assets/svgs"
+import { AppText } from "../../../components/app-text/AppText"
+import { fontFamily } from "../../../constants/font-family"
+import { numberWithCommas } from "../../../constants/variable"
+import { useStores } from "../../../models"
+import { ROLE } from "../../../models/auth-store"
+import { color } from "../../../theme"
+import { TYPE } from "../constants"
+import CalculateMoney from "./calculate-money"
+import FormCustomer from "./form/form-customer"
+import FormOwner, { validationSchema } from "./form/form-owner"
+import HomeInsurance from "./home-insurance"
 
 interface Props {
   productDetail: any
@@ -23,17 +27,54 @@ interface Props {
 const MaxAge = 65;
 
 const BuyStepOneForm = React.memo((props: Props) => {
+  const { authStoreModel } = useStores()
   const { productDetail, onPress } = props
 
   const [ownerData, setOwnerData] = useState<any>({})
   const [formCustomerData, setFormCustomerData] = useState<any>([])
-  const [isSubmitForm, setIsSubmitForm] = useState<string>("")
-  const [formOwnerIsValid, setFormOwnerIsValid] = useState<boolean>(false)
-  const [addCustomer, setAddCustomer] = useState<boolean>(false)
+  const [showModal, setShowModal] = useState<boolean>(false)
+  const [showModalStaff, setShowModalStaff] = useState<boolean>(false)
+
+  const [indexCustomerEdit, setIndexCustomerEdit] = useState(undefined)
+  const [staffIsCustomer, setStaffIsCustomer] = useState(false)
+  const [isEdit, setIsEdit] = useState(false)
 
   const packages = productDetail?.packages.map((el, index) => ({ ...el, value: index, label: `${el?.name}-${el?.price} VNĐ` }));
   const listPackageStaff = packages.filter(el => el?.objects?.find(e => e === TYPE?.staff));
   const listPackageRelative = packages.filter(el => el?.objects?.find(e => e === TYPE?.relative));
+
+  const {
+    control: controlOwner,
+    handleSubmit: handleSubmitOwner,
+    formState: { errors: errorsOwner },
+    setValue: setValueOwner,
+    clearErrors: clearErrorsOwner,
+  } = useForm({
+    delayError: 0,
+    mode: "all",
+    resolver: yupResolver(validationSchema),
+    reValidateMode: "onChange" || "onTouched",
+  })
+
+  useEffect(() => {
+    if (!checkCTVAndFina()) {
+      const user = authStoreModel.user
+      setValueOwner('fullName', user.fullName)
+      setValueOwner('email', user?.emails?.[0]?.email || undefined)
+      setValueOwner('tel', user?.tels?.[0]?.tel || undefined)
+      setValueOwner('idNumber', user?.idNumber || undefined)
+    }
+  }, [])
+
+  const checkCTVAndFina = () => {
+    const role = authStoreModel?.role
+
+    if (role === ROLE.CTV || role === ROLE.FINA) {
+      return false
+    }
+
+    return true
+  }
 
   const checkAge = (user) => {
     const birthday = new Date(user?.dateOfBirth);
@@ -62,64 +103,114 @@ const BuyStepOneForm = React.memo((props: Props) => {
     };
   };
 
-  const onSubmit = async () => {
-    setIsSubmitForm(new Date().toISOString())
-    setTimeout(async () => {
-      const { fullName, dateOfBirth, email, idNumber, gender, tel, company, level } = ownerData
+  const onSubmit = handleSubmitOwner((e) => {
+    setOwnerData(e)
+    const { fullName, dateOfBirth, email, idNumber, gender, tel, company, level } = e
 
-      if (formOwnerIsValid && formCustomerData?.length > 0) {
-        const data = {
-          staffInfo: { fullName, dateOfBirth, email, idNumber, gender, tel },
-          company,
-          level,
-          customers: formCustomerData,
-          productId: productDetail?.id,
-          type: "insurances",
-          subType: productDetail?.name,
-          amount: totalAmount()?.value,
-        }
-
-        // const result = await insuranceStore.buyInsurance(data)
-        // if (result) {
-        //   onSuccess?.(data)
-        // }
-
-        onPress(data)
+    if (formCustomerData?.length > 0) {
+      const data = {
+        staffInfo: { fullName, dateOfBirth, email, idNumber, gender, tel },
+        company,
+        level,
+        customers: formCustomerData,
+        productId: productDetail?.id,
+        type: "insurances",
+        subType: productDetail?.name,
+        amount: totalAmount()?.value,
       }
-    }, 1000)
-  }
+
+      onPress(data)
+    }
+  })
 
   const addFormCustomer = () => {
-    setAddCustomer(true)
+    setShowModal(true)
+  }
+
+  const editFormCustomer = (index) => {
+    setIndexCustomerEdit(index)
+    setShowModal(true)
   }
 
   const removeFormCustomer = (index) => {
     const list = [...formCustomerData]
     list.splice(index, 1)
     setFormCustomerData(list)
+
+    const checkStaffDeleted = list.find(el => el?.type === 'staff')
+    if (!checkStaffDeleted) {
+      setStaffIsCustomer(false)
+    }
+
   }
 
   const onSubmitFormCustomer = (data) => {
+    const contentCustomer = {
+      ...data,
+      meta: {
+        ...packages[parseInt(data.package)],
+        amount: renderPrice(data, packages[parseInt(data.package)])
+      },
+    }
 
-    setFormCustomerData(formCustomerData.concat([
-      {
-        ...data,
-        meta: {
-          ...packages[parseInt(data.package)],
-          amount: renderPrice(data, packages[parseInt(data.package)])
-        },
-      }]))
-    setAddCustomer(false)
+    const list = [...formCustomerData]
+
+    if (indexCustomerEdit) {
+      list.splice(indexCustomerEdit - 1, 1, contentCustomer)
+      setFormCustomerData(list)
+      setIndexCustomerEdit(undefined)
+    } else {
+      setFormCustomerData(list.concat([{ ...contentCustomer }]))
+    }
+    setShowModal(false)
     totalAmount()
+  }
+
+  const checkCurrentUser = handleSubmitOwner((e) => {
+    setStaffIsCustomer(true)
+    setShowModalStaff(true)
+    setOwnerData({ ...e, type: 'staff' })
+  })
+
+  const getDefaults = () => {
+    if (isEdit && indexCustomerEdit) {
+      return formCustomerData[indexCustomerEdit - 1]
+    }
+
+    return {}
   }
 
   return (
     <View style={styles.container}>
       <FormOwner
-        isSubmitForm={isSubmitForm}
-        onSubmit={setOwnerData}
-        onIsValid={setFormOwnerIsValid}
+        control={controlOwner}
+        handleSubmit={handleSubmitOwner}
+        setValue={setValueOwner}
+        errors={{ ...errorsOwner }}
+        clearErrors={clearErrorsOwner}
       />
+
+      <View style={{ paddingHorizontal: s(16), marginBottom: s(16), flexDirection: 'row' }}>
+        <Checkbox
+          isChecked={staffIsCustomer}
+          onChange={(e) => {
+            if (e) {
+              checkCurrentUser()
+            } else {
+              setStaffIsCustomer(!!formCustomerData.find(el => el?.type === 'staff'))
+              setFormCustomerData([...formCustomerData].filter(el => el?.type !== 'staff'))
+            }
+          }}
+          value={'test'}
+          accessibilityLabel="choose numbers" />
+        <AppText value={"Người mua là người được bảo hiểm"} style={{ marginLeft: s(8), fontFamily: fontFamily.medium }} />
+      </View>
+
+      <View style={{
+        height: s(4),
+        backgroundColor: color.palette.lightBlue,
+        marginBottom: s(16),
+      }} />
 
       <View style={{ alignItems: 'center' }}>
         <AppText value={"THÔNG TIN NGƯỜI HƯỞNG BẢO HIỂM"} style={[styles.headerText, { paddingLeft: s(15) }]} />
@@ -135,7 +226,10 @@ const BuyStepOneForm = React.memo((props: Props) => {
           }}>
             <View style={styles.itemName}>
               <AppText style={styles.headerText} value={item?.fullName} />
-              <Pressable>
+              <Pressable onPress={() => {
+                editFormCustomer(index + 1)
+                setIsEdit(true)
+              }}>
                 <PencilSvg />
               </Pressable>
             </View>
@@ -187,25 +281,57 @@ const BuyStepOneForm = React.memo((props: Props) => {
         }}
         productDetail={productDetail}
         onPress={onSubmit}
-        showRegister
+        showRegister={checkCTVAndFina()}
       />
-
-      <Modal
-        isVisible={addCustomer}
-        onBackdropPress={() => setAddCustomer(false)}
+      {showModal && <Modal
+        isVisible={showModal}
+        onBackdropPress={() => {
+          setIsEdit(false)
+          setShowModal(false)
+          setIndexCustomerEdit(undefined)
+        }}
         style={{ marginVertical: s(70), borderRadius: s(16) }}
       >
         <FormCustomer
+          isEdit={isEdit}
           listPackageStaff={listPackageStaff}
           listPackageRelative={listPackageRelative}
+          defaultValuesProps={{ ...getDefaults() }}
           onSubmit={(data) => {
             onSubmitFormCustomer(data)
           }}
           onClose={() => {
-            setAddCustomer(false)
+            setIsEdit(false)
+            setShowModal(false)
+            setIndexCustomerEdit(undefined)
           }}
         />
-      </Modal>
+      </Modal>}
+
+      {showModalStaff && <Modal
+        isVisible={showModalStaff}
+        onBackdropPress={() => {
+          setShowModalStaff(false)
+        }}
+        style={{ marginVertical: s(70), borderRadius: s(16) }}
+      >
+        <FormCustomer
+          isEdit={isEdit}
+          listPackageStaff={listPackageStaff}
+          listPackageRelative={listPackageRelative}
+          defaultValuesProps={ownerData}
+          onSubmit={(data) => {
+            onSubmitFormCustomer(data)
+            setShowModalStaff(false)
+          }}
+          onClose={() => {
+            const list = [...formCustomerData].filter(el => el?.type !== 'staff')
+            setFormCustomerData(list)
+            setShowModalStaff(false)
+            setStaffIsCustomer(false)
+          }}
+        />
+      </Modal>}
     </View>
   )
 })
