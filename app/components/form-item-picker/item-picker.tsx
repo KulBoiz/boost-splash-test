@@ -58,6 +58,9 @@ const ItemPicker = React.memo((props: Props) => {
   useEffect(() => {
     if (!value) {
       setTitle("")
+    } else {
+      const t = data?.find(d => d?.value === value)?.label || ''
+      setTitle(t)
     }
   }, [value])
 

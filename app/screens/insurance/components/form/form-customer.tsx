@@ -1,39 +1,37 @@
+import { yupResolver } from "@hookform/resolvers/yup"
+import { Pressable, Row } from "native-base"
 import React, { useEffect, useState } from "react"
+import { useForm } from "react-hook-form"
 import { View } from "react-native"
+import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view"
+import { s, ScaledSheet } from "react-native-size-matters"
+import * as Yup from "yup"
 import { AppText } from "../../../../components/app-text/AppText"
-import { fontFamily } from "../../../../constants/font-family"
-import { ScaledSheet, s } from "react-native-size-matters"
-import FormInput from "../../../../components/form-input/form-input"
-import { color } from "../../../../theme"
 import FormDatePicker from "../../../../components/form-date-time"
+import FormInput from "../../../../components/form-input/form-input"
 import FormItemPicker from "../../../../components/form-item-picker"
+import { fontFamily } from "../../../../constants/font-family"
 import { GENDER } from "../../../../constants/gender"
-import { Row, Pressable } from "native-base"
+import { color } from "../../../../theme"
 import {
   EMPLOYEE_INSURANCE,
-  IS_INSURANCE_CARD,
-  PACKAGES_INSURANCE_RELATIVE,
-  PACKAGES_INSURANCE_STAFF,
-  RELATIONSHIP_INSURANCE,
+  IS_INSURANCE_CARD, RELATIONSHIP_INSURANCE
 } from "../../constants"
-import * as Yup from "yup"
-import { yupResolver } from "@hookform/resolvers/yup"
-import { useForm } from "react-hook-form"
-import { isEmpty } from "lodash"
-import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view"
-import colors from "native-base/lib/typescript/theme/base/colors"
 
 interface Props {
   onSubmit?: (data) => void
-  defaultValues?: any
+  defaultValuesProps?: any
   listPackageStaff: any
   listPackageRelative: any
-  onClose: () => void
+  onClose: any
+  isEdit: boolean
 }
 
-const FormCustomer = React.memo((props: Props) => {
-  const { defaultValues, listPackageStaff, listPackageRelative, onClose } = props
-
+const FormCustomer = (props: Props) => {
+  const {
+    defaultValuesProps, listPackageStaff, listPackageRelative, onClose, isEdit
+  } = props
+  
   const [packages, setPackages] = useState<any>([])
 
   const validationSchema = Yup.object().shape({
@@ -45,6 +43,7 @@ const FormCustomer = React.memo((props: Props) => {
     employeeBuy: Yup.string().required("Vui lòng chọn"),
     package: Yup.string().required("Vui lòng chọn loại bảo hiểm"),
   })
+
   const {
     control,
     handleSubmit,
@@ -54,11 +53,21 @@ const FormCustomer = React.memo((props: Props) => {
     clearErrors
   } = useForm({
     delayError: 0,
-    defaultValues,
+    defaultValues: {...defaultValuesProps},
     mode: 'all',
     resolver: yupResolver(validationSchema),
     reValidateMode: "onChange" || "onTouched",
   })
+
+  
+  useEffect(() => {
+    if (defaultValuesProps && defaultValuesProps?.employeeBuy ) {
+      setPackages(
+        defaultValuesProps.employeeBuy === "staff" ? listPackageStaff : listPackageRelative,
+      )
+      setValue('package', parseInt(defaultValuesProps.package));
+    }
+  }, [defaultValuesProps])
 
   const onSubmit = handleSubmit((data) => {
     props?.onSubmit?.(data)
@@ -208,13 +217,13 @@ const FormCustomer = React.memo((props: Props) => {
             onPress={onSubmit}
             style={styles.btn}
           >
-            <AppText color="white" value={"Tạo"} />
+            <AppText color="white" value={isEdit ? "Cập nhập" :"Tạo"} />
           </Pressable>
         </Row>
       </View>
     </>
   )
-})
+}
 
 export default FormCustomer
 
