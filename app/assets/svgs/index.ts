@@ -96,6 +96,7 @@ export { default as SuccessInsuranceSvg } from "./success.svg"
 export { default as PencilSvg } from "./pencil.svg"
 export { default as RedTrashSvg } from "./red_trash.svg"
 export { default as OrangePlusSvg } from "./orange_plus.svg"
+export { default as ListHospitalSvg } from "./list_hospital.svg"
 
 // home
 export { default as AccountHomeActiveSvg } from "./account-home-active.svg"

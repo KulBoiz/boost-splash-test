@@ -51,6 +51,7 @@ export const images = {
   wallet: require('./wallet.png'),
   check: require('./check.png'),
   defaultBackground: require('./defaultBackground.png'),
+  insurance_detail: require('./insurance_detail.png'),
   id_front: require('./id_front.png'),
   id_back: require('./id_back.png'),
   id_deviate: require('./id_deviate.png'),

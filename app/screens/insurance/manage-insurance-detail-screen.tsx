@@ -11,7 +11,7 @@ import {
 import React, { FC, useCallback, useEffect, useState } from "react"
 import { vs } from "react-native-size-matters"
 import {
-  FileDocSvg
+  FileDocSvg, ListHospitalSvg,
 } from "../../assets/svgs"
 import { Text } from "../../components"
 import AppHeader from "../../components/app-header/AppHeader"
@@ -21,6 +21,7 @@ import { ScreenNames } from "../../navigators/screen-names"
 import { BORDER_BOTTOM_0 } from "../../styles/common-style"
 import ManageInsuranceHelp from "./components/manage-insurance-help"
 import PopupHospitalList from "./components/popup-hospital-list"
+import ValidityCheck from "./components/validity-check"
 
 interface Props {}
 
@@ -47,7 +48,7 @@ const ManageInsuranceDetailScreen: FC<Props> = observer((props: any) => {
 
   const renderItem = useCallback(({ item, index }: { item: any; index: any }) => {
     return (
-      <HStack mt={index ? vs(12) : 0} key={index}>
+      <HStack mt={index ? vs(12) : 0} key={index.toString()}>
         <Text color="lighterGray" size="medium12" text={item.label} />
         <Text color="lighterGray" size="medium12" text=":" />
         <Text color="ebony" size="medium12" text={item.value} flex="1" textAlign="right" />
@@ -58,7 +59,6 @@ const ManageInsuranceDetailScreen: FC<Props> = observer((props: any) => {
   const getUser = (fullName) => {
     return data?.transaction?.customers?.find(item => item.fullName === fullName)
   }
-
   return (
     <Box flex="1" bg="lightBlue">
       <AppHeader
@@ -67,18 +67,21 @@ const ManageInsuranceDetailScreen: FC<Props> = observer((props: any) => {
         renderRightIcon={<ManageInsuranceHelp />}
       />
       <ScrollView>
+        <ValidityCheck endDate={data?.meta?.time?.endTime}/>
         <Box mt="6" px="4">
           <Row alignItems="center">
             <FileDocSvg />
-            <Text mx="1" fontSize="12" fontWeight="500" flex="1" text="Xem / tải hợp đồng" />
+            <Text mx="1" fontSize="12" fontWeight="500" flex="1" text="Xem / tải giấy chứng nhận" />
             <Text
               onPress={showPopupHospital}
               suppressHighlighting
-              fontSize="10"
+              fontSize="12"
               fontWeight="500"
               color="primary"
-              text="Danh sách bệnh viên bảo lãnh"
+              text="Bệnh viện bảo lãnh"
+              mr="1"
             />
+            <ListHospitalSvg />
           </Row>
 
           <Box bg="white" borderRadius="8" py="3" px="4" mt="4">
@@ -168,7 +171,7 @@ const ManageInsuranceDetailScreen: FC<Props> = observer((props: any) => {
                label: "Phone",
                value: data?.user?.tels?.[0]?.tel,
              },
-             index: 3,
+             index: 4,
            })}
           </Box>
 
@@ -233,7 +236,7 @@ const ManageInsuranceDetailScreen: FC<Props> = observer((props: any) => {
                        color="orange"
                        text=" Kim Cương: 500 triệu "
                      />
-                     <Text size="regular12" color="grayChateau" text="đồng/người" /> 
+                     <Text size="regular12" color="grayChateau" text="đồng/người" />
                    </ReactNativeText>
                  </Box>
                  <BenefitInsuranceSvg />
