@@ -1,14 +1,22 @@
 import React from 'react';
 import { View, ImageBackground } from "react-native"
 import { AppText } from '../../../components/app-text/AppText';
-import { Moment } from "moment"
-import moment from 'moment';
+import moment, { Moment } from 'moment';
 import { s, ScaledSheet } from "react-native-size-matters"
 import { color } from "../../../theme"
 import { images } from '../../../assets/images';
 import AppButton from "../../../components/app-button/AppButton"
-import { ALIGN_CENTER, MARGIN_BOTTOM_8, ROW, SPACE_BETWEEN } from "../../../styles/common-style"
+import {
+  ALIGN_CENTER, FONT_BOLD_12,
+  FONT_BOLD_14,
+  FONT_MEDIUM_12,
+  MARGIN_BOTTOM_8,
+  ROW,
+  SPACE_BETWEEN,
+} from "../../../styles/common-style"
 import Countdown from "./countdown"
+import { FastImage } from "../../../components/fast-image/fast-image"
+import { WarningSvg } from "../../../assets/svgs"
 
 interface Props{
   startDate?: Moment
@@ -31,12 +39,12 @@ const BackgroundImage = ({ type, children }: {type: 'small'| 'big', children: Re
 }
 const ExtendButton = ({onPress}: {onPress(): void}) => {
   return(
-    <AppButton title={'Gia hạn ngay'} onPress={onPress} containerStyle={styles.btn}/>
+    <AppButton title={'Gia hạn ngay'} onPress={onPress} containerStyle={styles.btn} titleStyle={FONT_BOLD_14}/>
   )
 }
 const ValidityCheck = React.memo(({ startDate, endDate }: Props) => {
   const date = 60 * 60 * 24 * 30
-  const time = moment(endDate).diff(new Date).toString().slice(0, -3);
+  const time = moment(endDate).diff(new Date()).toString().slice(0, -3);
 
   const checkStatus = React.useCallback(() => {
     if (moment().diff(moment(endDate), 'second') < date && moment().diff(moment(endDate), 'second') !== 0){
@@ -52,6 +60,10 @@ const ValidityCheck = React.memo(({ startDate, endDate }: Props) => {
     color.palette.green: checkStatus() === status.expire ?
       color.palette.angry : color.palette.orange
 
+  const image = checkStatus() === status.effective ?
+    images.circle_tick: checkStatus() === status.expire ?
+      images.circle_x : images.circle_clock
+
 
   const extendContract = ()=> {
     //
@@ -59,9 +71,10 @@ const ValidityCheck = React.memo(({ startDate, endDate }: Props) => {
   const renderHeader = () => {
     return(
       <View style={[styles.header, {backgroundColor: backgroundColorHeader}]}>
+        <FastImage source={image} style={styles.icon}/>
         <AppText color={color.palette.white} value={checkStatus() === status.effective ?
           'Có hiệu lực': checkStatus() === status.expire ?
-          "Hết hiệu lực" : "Gần hết hiệu lực"}/>
+          "Hết hiệu lực" : "Gần hết hiệu lực"} style={FONT_MEDIUM_12} />
       </View>
     )
   }
@@ -78,7 +91,13 @@ const ValidityCheck = React.memo(({ startDate, endDate }: Props) => {
       return (
         <BackgroundImage type={'small'}>
           <View style={[ROW, ALIGN_CENTER, SPACE_BETWEEN]}>
-            <AppText value={'Để gia hạn hợp đồng vui\nlòng chọn “Gia hạn ngay"'} fontSize={s(12)}/>
+            <View style={[ROW, ALIGN_CENTER]}>
+              <WarningSvg style={{marginRight: s(8)}}/>
+              <AppText fontSize={s(12)}>
+                Để gia hạn hợp đồng vui{'\n'}lòng chọn
+                <AppText value={' “Gia hạn ngay"'} style={FONT_BOLD_12}/>
+              </AppText>
+            </View>
             <ExtendButton onPress={extendContract}/>
           </View>
         </BackgroundImage>
@@ -88,7 +107,7 @@ const ValidityCheck = React.memo(({ startDate, endDate }: Props) => {
         <BackgroundImage type={'big'}>
           <AppText value={'Hợp đồng sắp đến hạn'} style={MARGIN_BOTTOM_8}/>
           <View style={[ROW, ALIGN_CENTER, SPACE_BETWEEN]}>
-            <Countdown  totalTime={time} />
+            <Countdown totalTime={time} />
             <ExtendButton onPress={extendContract}/>
           </View>
         </BackgroundImage>
@@ -107,13 +126,18 @@ export default ValidityCheck;
 
 const styles = ScaledSheet.create({
   container: {},
-
+  icon:{
+    width: '20@s',
+    height: '20@s',
+    marginRight: '8@s'
+  },
   dateText: {
-  fontSize: '20@ms',
+    fontSize: '20@ms',
     color: color.palette.orange,
     marginTop: '6@s'
   },
   header: {
+    flexDirection: 'row',
     height: '30@s',
     alignItems: "center",
     justifyContent: "center"
@@ -131,6 +155,7 @@ const styles = ScaledSheet.create({
   },
   btn: {
     width: '150@ms',
+    height: '44@s',
     borderRadius: '40@s'
   }
 });

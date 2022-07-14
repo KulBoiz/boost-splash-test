@@ -73,14 +73,14 @@ const styles = ScaledSheet.create({
     borderRadius: "8@s",
     justifyContent: "center",
     alignItems: "center",
-    paddingVertical: "14@vs",
+    height: '50@s',
   },
   disableStyle: {
     width: "100%",
     borderRadius: "8@s",
     justifyContent: "center",
     alignItems: "center",
-    paddingVertical: "14@vs",
+    height: '50@s',
     opacity: 0.6,
   },
   title: {

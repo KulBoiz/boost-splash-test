@@ -10,7 +10,7 @@ export type AppTextProps = {
   value?: string | number | TxKeyPath
   fontSize?: number
   color?: string
-  fontWeight?: FontWeight
+  fontWeight?: FontWeight | any
   underline?: boolean
   capitalize?: boolean
   tx?: TxKeyPath
@@ -33,7 +33,7 @@ const defaultProps: Partial<AppTextProps> = {
 }
 
 // eslint-disable-next-line react/display-name
-export const AppText: React.SFC<AppTextProps> = React.memo(
+export const AppText: React.FC<AppTextProps> = React.memo(
   ({
     tx,
     txOptions,
