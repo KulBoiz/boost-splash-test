@@ -1,5 +1,5 @@
 import React, { useCallback, useEffect, useRef, useState } from "react"
-import { Pressable, View } from "react-native"
+import { Pressable, View} from "react-native"
 import { observer } from "mobx-react-lite"
 import { width } from "../../../constants/variable"
 import PaginationDot from "../../../components/pagination-dot/pagination-dot"
@@ -29,7 +29,6 @@ const HomeBanner = observer((props: Props) => {
     const onPress = () => {
       navigate(ScreenNames.BANNER_DETAIL, {url : item?.slug})
     }
-
     return (
       <Pressable style={{alignItems: 'center'}} onPress={onPress}>
         <FastImage source={{uri : item?.image}} style={styles.image} resizeMode={'stretch'}/>
