@@ -1,6 +1,8 @@
 import { flow, Instance, SnapshotOut, types } from "mobx-state-tree"
 import { BaseApi } from "../../services/api/base-api"
 import { withEnvironment } from "../extensions/with-environment"
+import { DocumentTemplateApi } from "../../services/api/document-template"
+import { UploadApi } from "../../services/api/upload-api"
 
 /**
  * Model description here for TypeScript hints.
@@ -184,6 +186,7 @@ export const InsuranceStoreModel = types
       }
       return result
     }),
+
   })) // eslint-disable-line @typescript-eslint/no-unused-vars
 
 type InsuranceStoreType = Instance<typeof InsuranceStoreModel>

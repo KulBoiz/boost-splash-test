@@ -79,7 +79,7 @@ export class LoanApi {
     }
   }
 
-  async createRequestCounselling(email: string, fullName: string, tel: string, note?: string, sourceId?: any, type?: string, productId?: string): Promise<any> {
+  async createRequestCounselling(email: string, fullName: string, tel: string, note?: string, sourceId?: any, type?: string, productId?: string, info?: any): Promise<any> {
     try {
       // make the api call
       const body: any = {
@@ -89,6 +89,7 @@ export class LoanApi {
         page: 'mobile',
         productType: "loan",
         rootTask: 'Mobile App',
+        info
       }
       if (sourceId) {
         body.sourceId = sourceId

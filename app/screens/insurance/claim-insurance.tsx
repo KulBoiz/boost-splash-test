@@ -16,6 +16,7 @@ import AppButton from '../../components/app-button/AppButton';
 import FormItemPicker from '../../components/form-item-picker';
 import { navigate } from "../../navigators"
 import { ScreenNames } from "../../navigators/screen-names"
+import CollapsibleClaimUpload from './components/collapsible-claim-upload';
 
 export const USER_RELATIONSHIP = {
   FATHER: 'father',
@@ -55,6 +56,7 @@ const ClaimInsuranceDetailScreen = React.memo((props: Props) => {
     reValidateMode: "onChange",
   })
   const [checkboxState, setCheckboxState] = useState<boolean>(false)
+  const [images, setImages] = useState<any[]>([])
 
   const sendRequest = async (data) => {
     const send = await loanStore.createRequestCounselling(
@@ -62,7 +64,9 @@ const ClaimInsuranceDetailScreen = React.memo((props: Props) => {
       data.fullName,
       data.phone,
       data.note,
-      'claim_insurance'
+      'claim_insurance',
+      undefined,
+      images
     )
     if (send.kind === "ok") {
       // todo
@@ -72,7 +76,6 @@ const ClaimInsuranceDetailScreen = React.memo((props: Props) => {
   if (!authStoreModel.isLoggedIn) {
     return <AppViewNoAuth />
   }
-
   return (
     <>
       <AppHeader headerText={'Claim Bảo Hiểm'} isBlue />
@@ -137,6 +140,7 @@ const ClaimInsuranceDetailScreen = React.memo((props: Props) => {
               multiline: true,
             }}
           />
+          <CollapsibleClaimUpload files={images} setFiles={setImages}/>
           <TermCheckbox checkboxState={checkboxState} setCheckboxState={setCheckboxState} />
           <View style={styles.wrapBtn}>
             <AppButton
