@@ -1,8 +1,7 @@
 import React, { useState } from 'react';
-import { Alert, Keyboard, Pressable, View } from 'react-native';
+import { Alert, ScrollView, View } from "react-native"
 import { ScaledSheet } from "react-native-size-matters"
 import { color } from "../../theme"
-import { AppText } from "../../components/app-text/AppText"
 import AppHeader from "../../components/app-header/AppHeader"
 import * as Yup from "yup"
 import { useStores } from '../../models';
@@ -14,9 +13,10 @@ import FormInput from '../../components/form-input/form-input';
 import TermCheckbox from '../auth/components/TermCheckbox';
 import AppButton from '../../components/app-button/AppButton';
 import FormItemPicker from '../../components/form-item-picker';
-import { navigate } from "../../navigators"
+import { navigate, NavigatorParamList } from "../../navigators"
 import { ScreenNames } from "../../navigators/screen-names"
 import CollapsibleClaimUpload from './components/collapsible-claim-upload';
+import { RouteProp, useRoute } from "@react-navigation/native"
 
 export const USER_RELATIONSHIP = {
   FATHER: 'father',
@@ -33,6 +33,7 @@ export const USER_RELATIONSHIP = {
 interface Props { }
 
 const ClaimInsuranceDetailScreen = React.memo((props: Props) => {
+  const {params: {productId}} = useRoute<RouteProp<NavigatorParamList, ScreenNames.CLAIM_INSURANCE>>()
   const { loanStore, authStoreModel } = useStores()
   const validationSchema = Yup.object().shape({
     fullName: Yup.string().trim().required(i18n.t("errors.requireFullName")),
@@ -65,7 +66,7 @@ const ClaimInsuranceDetailScreen = React.memo((props: Props) => {
       data.phone,
       data.note,
       'claim_insurance',
-      undefined,
+      productId,
       images
     )
     if (send.kind === "ok") {
@@ -79,7 +80,7 @@ const ClaimInsuranceDetailScreen = React.memo((props: Props) => {
   return (
     <>
       <AppHeader headerText={'Claim Bảo Hiểm'} isBlue />
-      <Pressable style={styles.container} onPress={Keyboard.dismiss}>
+      <ScrollView style={styles.container}>
         <View style={styles.body}>
           <FormInput
             {...{
@@ -142,15 +143,16 @@ const ClaimInsuranceDetailScreen = React.memo((props: Props) => {
           />
           <CollapsibleClaimUpload files={images} setFiles={setImages}/>
           <TermCheckbox checkboxState={checkboxState} setCheckboxState={setCheckboxState} />
-          <View style={styles.wrapBtn}>
-            <AppButton
-              tx={"common.sentInformation"}
-              disable={!checkboxState}
-              onPress={handleSubmit(sendRequest)}
-            />
-          </View>
         </View>
-      </Pressable>
+      </ScrollView>
+
+        <View style={styles.wrapBtn}>
+          <AppButton
+            tx={"common.sentInformation"}
+            disable={!checkboxState}
+            onPress={handleSubmit(sendRequest)}
+          />
+        </View>
     </>
   )
 });
@@ -170,16 +172,17 @@ const styles = ScaledSheet.create({
     alignSelf: "center",
   },
   body: {
-    flex: 1,
+    flexGrow: 1,
     paddingHorizontal: "16@s",
+    paddingBottom: '10@s'
   },
 
   checkbox: {
     marginTop: "16@s",
   },
   wrapBtn: {
-    justifyContent: "flex-end",
-    flex: 1,
+    backgroundColor: color.background,
+    paddingHorizontal: "16@s",
     paddingBottom: "30@s",
   },
 });

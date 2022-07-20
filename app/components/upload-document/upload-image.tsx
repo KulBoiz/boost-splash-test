@@ -51,7 +51,7 @@ const UploadImage = observer(({ onUploadSuccess, ...rest }: Props) => {
       setIsUploading(false)
       __DEV__ && console.log(response)
       if (response.kind === "ok") {
-        const file = response.data
+        const file = response.data[0]
         onUploadSuccess?.(file)
       } else {
         setFilesUploadError(

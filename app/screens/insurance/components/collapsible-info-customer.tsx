@@ -10,14 +10,13 @@ import { fontFamily } from "../../../constants/font-family"
 import ItemView from "../../loan/components/item-view"
 import { MARGIN_TOP_16 } from "../../../styles/common-style"
 import moment from "moment"
-import { useStores } from '../../../models';
-import { numberWithCommas } from "../../../constants/variable"
+import { numberWithCommas, truncateString } from "../../../constants/variable"
+
 interface Props {
   infoCustomer: any
 }
 
 const CollapsibleInfoCustomer = React.memo(({ infoCustomer }: Props) => {
-  const { authStoreModel } = useStores()
 
   const accordionItem = (content) => {
     const [activeSections, setActiveSections]: any = useState([]);
@@ -51,7 +50,7 @@ const CollapsibleInfoCustomer = React.memo(({ infoCustomer }: Props) => {
               <ItemView title={'Ngày sinh:'} content={`${moment(info?.dateOfBirth).format('DD/MM/YYYY')}`} style={MARGIN_TOP_16} />
               <ItemView title={'CMND/ CCCD:'} content={info?.idNumber} style={MARGIN_TOP_16} />
               <ItemView title={'Email'} content={info?.email || '_'} style={MARGIN_TOP_16} />
-              <ItemView title={'Gói bảo hiểm'} content={info?.meta?.name} style={MARGIN_TOP_16} />
+              <ItemView title={'Gói bảo hiểm'} content={truncateString(info?.meta?.name, 30)} style={MARGIN_TOP_16} />
               <ItemView title={'Giá tiền'} content={`${numberWithCommas(info?.meta?.price ?? 0)} VNĐ`} style={MARGIN_TOP_16} />
               <ItemView title={'Tiền thanh toán'} content={`${numberWithCommas(info?.meta?.amount ?? 0)} VNĐ`} style={MARGIN_TOP_16} />
               {info?.meta?.price !== info?.meta?.amount &&

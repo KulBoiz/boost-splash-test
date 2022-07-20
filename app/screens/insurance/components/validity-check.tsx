@@ -22,7 +22,7 @@ interface Props{
   startDate?: Moment
   endDate?: Moment
 }
-const status = {
+export const status = {
   effective: "effective",
   expire: "expire",
   almostExpired: "almost_expired"

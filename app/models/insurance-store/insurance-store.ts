@@ -129,6 +129,7 @@ export const InsuranceStoreModel = types
           },
           include: [
             {relation: "user"},
+            {relation: "product"},
           ],
           limit: pagingParams?.limit,
           skip: (pagingParams?.page - 1) * pagingParams?.limit,
