@@ -17,6 +17,7 @@ import {
 import Countdown from "./countdown"
 import { FastImage } from "../../../components/fast-image/fast-image"
 import { WarningSvg } from "../../../assets/svgs"
+import { fontFamily } from "../../../constants/font-family"
 
 interface Props{
   startDate?: Moment
@@ -47,11 +48,11 @@ const ValidityCheck = React.memo(({ startDate, endDate }: Props) => {
   const time = moment(endDate).diff(new Date()).toString().slice(0, -3);
 
   const checkStatus = React.useCallback(() => {
-    if (moment().diff(moment(endDate), 'second') < date && moment().diff(moment(endDate), 'second') !== 0){
-      return status.almostExpired
-    }
-    if (moment().diff(moment(endDate), 'second') > date){
+    if (Number(moment(endDate).format('x')) > date * 1000){
       return status.effective
+    }
+    if (Number(moment(endDate).format('x')) < date * 1000 && moment().diff(moment(endDate), 'second') !== 0){
+      return status.almostExpired
     }
     return status.expire
   },[])
@@ -82,8 +83,10 @@ const ValidityCheck = React.memo(({ startDate, endDate }: Props) => {
     if (checkStatus() === status.effective){
       return (
         <BackgroundImage type={'small'}>
-          <AppText value={'Có hiệu lực từ ngày'} fontSize={s(12)}/>
-          <AppText value={moment(startDate).format('DD/MM/YYYY')} style={styles.dateText}/>
+          <View style={ALIGN_CENTER}>
+            <AppText value={'Có hiệu lực từ ngày'} fontSize={s(12)}/>
+            <AppText value={moment(startDate).format('DD/MM/YYYY')} style={styles.dateText}/>
+          </View>
         </BackgroundImage>
       )
     }
@@ -134,6 +137,7 @@ const styles = ScaledSheet.create({
   dateText: {
     fontSize: '20@ms',
     color: color.palette.orange,
+    fontFamily: fontFamily.bold,
     marginTop: '6@s'
   },
   header: {

@@ -84,3 +84,24 @@ export const IS_INSURANCE_CARD = [
   { label: "Có", value: "yes" },
   { label: "Không", value: "no" },
 ]
+
+export const CLAIM_INSURANCE_STATUS = {
+  CREATED: 'created', // ghi nhận
+  ASSIGNED: 'assigned', // thu thập thông tin
+  DONE: 'done', // xác nhận tạo hồ sơ claim
+  CANCEL: 'cancel' // Không đủ điều kiện
+}
+
+export const getClaimStatus = (status) => {
+  switch (status){
+    case CLAIM_INSURANCE_STATUS.CREATED:
+      return {label: 'Ghi nhận', color: 'green' }
+    case CLAIM_INSURANCE_STATUS.ASSIGNED:
+      return { label: "Thu thập thông tin", color: 'blue' }
+    case CLAIM_INSURANCE_STATUS.DONE:
+      return {label: "Tạo hồ sơ claim", color: 'coral' }
+    case CLAIM_INSURANCE_STATUS.CANCEL:
+      return {label: "Không đủ điều kiện", color: 'red' }
+    default: return {label: 'Ghi nhận', color: 'green' }
+  }
+}

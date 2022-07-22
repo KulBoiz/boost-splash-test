@@ -55,16 +55,18 @@ const BuyStepTwo = React.memo(({ stepThree, transaction, productDetail }: Props)
   return (
     <View style={styles.container}>
       {/* <Benefit /> */}
-      <InsuranceInfo
-        insurance={transaction}
-        productDetail={productDetail}
-      />
+     <View style={{flexGrow:1}}>
+       <InsuranceInfo
+         insurance={transaction}
+         productDetail={productDetail}
+       />
 
-      <CollapsibleInfoStaff infoStaff={transaction?.staffInfo} insurance={transaction} />
+       <CollapsibleInfoStaff infoStaff={transaction?.staffInfo} insurance={transaction} />
 
-      <CollapsibleInfoCustomer infoCustomer={transaction?.customers} />
+       <CollapsibleInfoCustomer infoCustomer={transaction?.customers} />
 
-      <PaymentMethod />
+       <PaymentMethod />
+     </View>
 
       <CalculateMoney
         insurance={transaction}
@@ -97,5 +99,7 @@ const BuyStepTwo = React.memo(({ stepThree, transaction, productDetail }: Props)
 export default BuyStepTwo;
 
 const styles = ScaledSheet.create({
-  container: {},
+  container: {
+    flex: 1
+  },
 });
