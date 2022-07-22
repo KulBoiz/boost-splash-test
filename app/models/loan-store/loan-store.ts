@@ -149,6 +149,7 @@ export const LoanStoreModel = types
         }
       }
     }),
+
     updateLoanDocument: flow(function* updateLoanDocument(
       fileId: string,
       documentId: string,
@@ -199,11 +200,12 @@ export const LoanStoreModel = types
       note?: string,
       type?: string,
       productId?: string,
+      info?: any
     ) {
       const user: any = new LoanApi(self?.rootStore?.authStoreModel.userId)
 
       const loanApi = new LoanApi(self.environment.api)
-      const result = yield loanApi.createRequestCounselling(email, fullName, tel, note, user?.api, type, productId)
+      const result = yield loanApi.createRequestCounselling(email, fullName, tel, note, user?.api, type, productId, info)
       const data = result.data
 
       if (result.kind !== "ok") {
@@ -334,7 +336,6 @@ export const LoanStoreModel = types
       }
 
       const data = result?.data?.data ?? []
-      console.log("DATA", data)
       const oldData: any = [...self.products]
       if (result) {
         const newData: any = oldData.concat(data)

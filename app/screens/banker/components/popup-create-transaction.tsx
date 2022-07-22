@@ -34,7 +34,8 @@ const PopupCreateTransaction = React.memo(({ visible, onClose, onConfirm, data: 
     handleSubmit,
     formState: { errors },
     setValue,
-    watch
+    watch,
+    clearErrors
   } = useForm({
     delayError: 0,
     resolver: yupResolver(validationSchema),
@@ -52,7 +53,7 @@ const PopupCreateTransaction = React.memo(({ visible, onClose, onConfirm, data: 
 
   const currencyInputProps = useMaskedInputProps({
     value: watch("disbursedAmount"),
-    onChangeText: (value) => setValue("disbursedAmount", value),
+    onChangeText: (value) => {setValue("disbursedAmount", value); clearErrors('disbursedAmount')},
     mask: currencyMask,
   })
 
@@ -76,11 +77,12 @@ const PopupCreateTransaction = React.memo(({ visible, onClose, onConfirm, data: 
                 error: errors?.disbursedAmount?.message,
                 ...inputProps,
                 ...currencyInputProps,
-                keyboardType: 'number-pad'
+                keyboardType: 'number-pad',
               }}
             />
             <FormDatePicker
               {...{
+                clearErrors,
                 name: "paymentDate",
                 label: "Ngày phê duyệt",
                 placeholder: "DD/MM/YYYY",

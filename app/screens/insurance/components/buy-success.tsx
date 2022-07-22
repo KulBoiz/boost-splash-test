@@ -64,7 +64,7 @@ const BuySuccess = React.memo((props: Props) => {
 
   return (
     <View style={styles.container}>
-      <AppHeader isBlue headerText={'Mua bảo hiểm thành công'} hideBack/>
+      <AppHeader isBlue headerText={MAPPING_STATUS[status] ?? 'Chờ xác nhận'} hideBack/>
       <View style={styles.body}>
         <View style={styles.success}>
           {status === STATUS.SUCCEEDED && <SuccessInsuranceSvg />}
@@ -90,7 +90,8 @@ const styles = ScaledSheet.create({
   body: {
     flex: 1,
     justifyContent: 'center',
-    backgroundColor: color.background,
+    // backgroundColor: color.background,
+    backgroundColor: 'coral',
     paddingVertical: '24@s',
     paddingHorizontal: '16@ms',
     borderRadius: '8@s'

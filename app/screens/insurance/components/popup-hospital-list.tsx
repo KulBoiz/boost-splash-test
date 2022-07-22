@@ -17,7 +17,6 @@ interface Props {
 const PopupHospitalList = observer(({ visible, onClose }: Props) => {
   const {insuranceStore} = useStores()
   const [activeIndex, setActiveIndex] = useState(0)
-  console.log('list Hospital',insuranceStore.listHospital)
   const data = [1, 2, 3]
 
   const renderItem = useCallback(() => {

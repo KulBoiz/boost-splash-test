@@ -1,5 +1,4 @@
-import { get } from "lodash"
-import { Box, Pressable, IBoxProps, HStack, Row } from "native-base"
+import { Box, Pressable, IBoxProps, Row } from "native-base"
 import React, { useState } from "react"
 import { useWindowDimensions } from "react-native"
 import Collapsible from "react-native-collapsible"
@@ -8,10 +7,8 @@ import {
   ChevronDownPrimarySvg,
   ChevronDownSvg,
   ImageDocumentSvg,
-  PictureSvg,
 } from "../../../assets/svgs"
 import { Text } from "../../../components"
-import { FastImage } from "../../../components/fast-image/fast-image"
 import { map } from "../../../utils/lodash-utils"
 import DocumentItem from "../../loan-profile/components/document-item"
 
@@ -23,7 +20,6 @@ const DocumentView = React.memo(({ data, ...props }: Props) => {
   const [collapsed, setCollapsed] = useState(true)
   const files = data?.files || []
   const notUpdate = files?.length === 0 || !files
-  const { width } = useWindowDimensions()
 
   return (
     <Box bg="white" borderRadius="8" {...props}>
