@@ -39,11 +39,19 @@ const BuyStepOneForm = React.memo((props: Props) => {
   const [staffIsCustomer, setStaffIsCustomer] = useState(false)
   const [isEdit, setIsEdit] = useState(false)
 
-  const packages = productDetail?.packages.map((el, index) => ({ ...el, value: index, label: `${el?.name}-${el?.price} VNĐ` }));
+  const checkCTVAndFina = () => {
+    const role = authStoreModel?.role
+
+    if (role === ROLE.CTV || role === ROLE.FINA) {
+      return false
+    }
+
+    return true
+  }
+
+  const packages = productDetail?.packages.map((el, index) => ({ ...el, value: index, label: `${el?.name}-${!checkCTVAndFina() ? el?.price : el?.priceRoot} VNĐ` }));
   const listPackageStaff = packages.filter(el => el?.objects?.find(e => e === TYPE?.staff));
   const listPackageRelative = packages.filter(el => el?.objects?.find(e => e === TYPE?.relative));
-
-  console.log('formCustomerData', formCustomerData);
 
   const {
     control: controlOwner,
@@ -65,21 +73,11 @@ const BuyStepOneForm = React.memo((props: Props) => {
     setValueOwner('fullName', user.fullName)
     setValueOwner('email', user?.emails?.[0]?.email || undefined)
     setValueOwner('tel', user?.tels?.[0]?.tel || undefined)
-    setValueOwner('idNumber', `${user?.idNumber}` || undefined)
+    setValueOwner('idNumber', user?.idNumber ? `${user?.idNumber}` : '')
     setValueOwner('gender', user?.gender)
     setValueOwner('dateOfBirth', user?.birthday)
     // }
   }, [])
-
-  const checkCTVAndFina = () => {
-    const role = authStoreModel?.role
-
-    if (role === ROLE.CTV || role === ROLE.FINA) {
-      return false
-    }
-
-    return true
-  }
 
   const checkAge = (user) => {
     const birthday = new Date(user?.dateOfBirth);
