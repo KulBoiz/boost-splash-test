@@ -19,6 +19,7 @@ const ManageInsuranceItem = React.memo(({ item, index, onPress }: Props) => {
   const date = 60 * 60 * 24 * 30
   const endDate = item?.meta?.time?.endTime
   const type = 'claim_insurance'
+  const isClaim = item?.type === type
   const userName = item?.user?.fullName ?? item?.user?.firstName + ' ' + item?.user?.lastName ?? ''
 
   const checkStatus = React.useCallback(() => {
@@ -45,7 +46,6 @@ const ManageInsuranceItem = React.memo(({ item, index, onPress }: Props) => {
 
   return (
     <Pressable
-      disabled={item?.type === type}
       onPress={() => onPress?.(item)}
       height={vs(74)}
       borderRadius={8}
@@ -73,7 +73,7 @@ const ManageInsuranceItem = React.memo(({ item, index, onPress }: Props) => {
           lineHeight={17}
           text={data?.name ?? ''}
         />
-        {item?.type === type && <Text
+        {isClaim && <Text
           mt="1"
           size={"medium12"}
           color={getClaimStatus(item?.status).color}
@@ -99,9 +99,10 @@ const ManageInsuranceItem = React.memo(({ item, index, onPress }: Props) => {
         />}
 
       </Box>
-      <Box>
-        <Text fontSize={10} fontWeight="400" color="#A1A8AB" lineHeight={14} text={item?.code ?? ''} />
-         <Box
+
+       <Box>
+        <Text fontSize={10} fontWeight="400" color="#A1A8AB" lineHeight={14} text={item?.code ?? ""} />
+         {!isClaim && <Box
           height={18}
           bg={backgroundColor}
           borderRadius={8}
@@ -109,16 +110,16 @@ const ManageInsuranceItem = React.memo(({ item, index, onPress }: Props) => {
           alignItems="center"
           justifyContent="center"
           mt="1"
-         >
+        >
           <Text
             fontSize={10}
-            color={textColor }
+            color={textColor}
             lineHeight={14}
             textTransform="capitalize"
-            text={label ?? ''}
+            text={label ?? ""}
           />
-         </Box>
-
+        </Box>
+        }
       </Box>
     </Pressable>
   )

@@ -200,12 +200,13 @@ export const LoanStoreModel = types
       note?: string,
       type?: string,
       productId?: string,
-      info?: any
+      images?: any[],
+      metadata?: any,
     ) {
       const user: any = new LoanApi(self?.rootStore?.authStoreModel.userId)
 
       const loanApi = new LoanApi(self.environment.api)
-      const result = yield loanApi.createRequestCounselling(email, fullName, tel, note, user?.api, type, productId, info)
+      const result = yield loanApi.createRequestCounselling(email, fullName, tel, note, user?.api, type, productId, images, metadata)
       const data = result.data
 
       if (result.kind !== "ok") {

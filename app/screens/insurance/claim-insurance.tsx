@@ -33,8 +33,11 @@ export const USER_RELATIONSHIP = {
 interface Props { }
 
 const ClaimInsuranceDetailScreen = React.memo((props: Props) => {
-  const {params: {productId}} = useRoute<RouteProp<NavigatorParamList, ScreenNames.CLAIM_INSURANCE>>()
-  const { loanStore, authStoreModel } = useStores()
+  const {params: {productId, index}} = useRoute<RouteProp<NavigatorParamList, ScreenNames.CLAIM_INSURANCE>>()
+  const { loanStore, authStoreModel, insuranceStore} = useStores()
+  const id = insuranceStore?.listBuy[index]?.id
+  const metadata = {...insuranceStore?.listBuy[index]?.meta, dealId: id}
+
   const validationSchema = Yup.object().shape({
     fullName: Yup.string().trim().required(i18n.t("errors.requireFullName")),
     email: Yup.string()
@@ -67,7 +70,8 @@ const ClaimInsuranceDetailScreen = React.memo((props: Props) => {
       data.note,
       'claim_insurance',
       productId,
-      images
+      images,
+      metadata,
     )
     if (send.kind === "ok") {
       // todo

@@ -43,8 +43,6 @@ const BuyStepOneForm = React.memo((props: Props) => {
   const listPackageStaff = packages.filter(el => el?.objects?.find(e => e === TYPE?.staff));
   const listPackageRelative = packages.filter(el => el?.objects?.find(e => e === TYPE?.relative));
 
-  console.log('formCustomerData', formCustomerData);
-
   const {
     control: controlOwner,
     handleSubmit: handleSubmitOwner,

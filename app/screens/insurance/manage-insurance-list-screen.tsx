@@ -35,8 +35,11 @@ const ManageInsuranceListScreen: FC<Props> = observer((props: any) => {
   },[key])
 
   const showDetail = useCallback((index) => {
-    navigate(ScreenNames.MANAGE_INSURANCE_DETAIL_SCREEN, { index, isListBuy })
-  }, [])
+    if (isListBuy){
+      navigate(ScreenNames.MANAGE_INSURANCE_DETAIL_SCREEN, { index, isListBuy })
+    }
+    else navigate(ScreenNames.INSURANCE_CLAIM_DETAIL, { index })
+  }, [tabSelect])
 
   const showFilter = useCallback((data) => {
     navigate(ScreenNames.MANAGE_INSURANCE_FILTER)
