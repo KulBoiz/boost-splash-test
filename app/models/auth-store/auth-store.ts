@@ -6,6 +6,7 @@ import { navigate } from "../../navigators"
 import AsyncStorage from "@react-native-async-storage/async-storage"
 import { UploadApi } from "../../services/api/upload-api"
 import { isAndroid } from "../../constants/variable"
+import { BaseApi } from "../../services/api/base-api"
 
 
 export const ROLE = {
@@ -218,6 +219,13 @@ export const AuthStoreModel = types
       }
     }),
 
+    getFullInfoUser: flow(function* getFullInfoUser(userId: string) {
+      const authApi = new BaseApi(self.environment.api)
+      const result = yield authApi.get(`users/${userId}`)
+      self.user = result?.data
+        return result
+    }),
+
     isExpired: () => {
       if (!self.expiresIn || !self.token) {
         return true
@@ -269,11 +277,13 @@ export const AuthStoreModel = types
         name: image.uri.substring(image.uri.lastIndexOf("/") + 1, image.uri.length),
         fileName: image.fileName
       }
+      // @ts-ignore
       formData.append("avatar", file)
 
       const result = yield authApi.uploadFile(formData)
       const avatarUri  = result.data[0].url
       if (result.kind === "ok") {
+         // @ts-ignore
        self.user = {...self.user, avatar: avatarUri ?? ''}
         return result
       }
@@ -282,6 +292,7 @@ export const AuthStoreModel = types
     updateUserAvatar: flow(function* updateUserAvatar() {
       const authApi = new AuthApi(self.environment.api)
       const params = {
+         // @ts-ignore
         avatar : self.user?.avatar ?? ''
       }
       const result = yield authApi.updateUserAvatar(params, self.userId)

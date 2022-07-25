@@ -55,6 +55,10 @@ export const LoginScreen: FC<StackScreenProps<AuthStackParamList, ScreenNames.LO
         setVisible(true)
         setLoading(false)
       }
+
+      if (auth?.data?.user?.id) {
+        await authStoreModel.getFullInfoUser(auth?.data?.user?.id)
+      }
     }
 
     const closeModal = () => {

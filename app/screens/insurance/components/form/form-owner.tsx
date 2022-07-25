@@ -17,6 +17,7 @@ interface Props {
   setValue: any
   errors: any
   clearErrors: any
+  getValues: any
 }
 
 export const validationSchema = Yup.object().shape({
@@ -33,7 +34,7 @@ export const validationSchema = Yup.object().shape({
   })
 
 const FormOwner = React.memo((props: Props) => {
-  const { control, setValue, errors, clearErrors } = props
+  const { control, setValue, errors, clearErrors, getValues } = props
 
   return (
     <>
@@ -46,6 +47,7 @@ const FormOwner = React.memo((props: Props) => {
             placeholderTx: "placeholder.insurance.fullName",
             control,
             error: errors?.fullName?.message,
+            editable: false,
           }}
         />
         <Row>
@@ -59,6 +61,7 @@ const FormOwner = React.memo((props: Props) => {
               clearErrors,
               control,
               error: errors?.dateOfBirth?.message,
+              disable: getValues()?.dateOfBirth
             }}
           />
           <FormItemPicker
@@ -72,6 +75,7 @@ const FormOwner = React.memo((props: Props) => {
               control,
               setValue: (key, value) => setValue("gender", value),
               error: errors?.gender?.message,
+              disable: getValues()?.gender
             }}
           />
         </Row>
@@ -84,6 +88,7 @@ const FormOwner = React.memo((props: Props) => {
             control,
             error: errors?.email?.message,
             style: { marginTop: 6 },
+            editable: !getValues()?.email
           }}
         />
         <FormInput
@@ -95,6 +100,7 @@ const FormOwner = React.memo((props: Props) => {
             error: errors?.idNumber?.message,
             keyboardType: "number-pad",
             style: { marginTop: 6 },
+            editable: !getValues()?.idNumber
           }}
         />
         <FormInput
@@ -106,6 +112,7 @@ const FormOwner = React.memo((props: Props) => {
             error: errors?.tel?.message,
             keyboardType: "number-pad",
             style: { marginTop: 6 },
+            editable: !getValues()?.tel
           }}
         />
         <FormInput
