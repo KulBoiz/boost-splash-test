@@ -84,3 +84,10 @@ export const IS_INSURANCE_CARD = [
   { label: "Có", value: "yes" },
   { label: "Không", value: "no" },
 ]
+
+export const checkAge = (user) => {
+  const birthday = new Date(user?.dateOfBirth);
+  const ageDifMs = Date.now() - birthday.getTime();
+  const ageDate = new Date(ageDifMs);
+  return Math.abs(ageDate.getUTCFullYear() - 1970);
+};

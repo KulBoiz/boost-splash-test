@@ -27,6 +27,7 @@ interface Props {
   handleSelect?: any
   onChangeSearchText?: any
   clearErrors?: UseFormClearErrors<FieldValues>;
+  disable?: boolean
 }
 
 const ItemPicker = React.memo((props: Props) => {
@@ -40,7 +41,8 @@ const ItemPicker = React.memo((props: Props) => {
     name,
     handleSelect,
     onChangeSearchText,
-    clearErrors
+    clearErrors,
+    disable
   } = props
   const [title, setTitle] = useState<string>("")
   const [modal, setModal] = useState<boolean>(false)
@@ -83,6 +85,7 @@ const ItemPicker = React.memo((props: Props) => {
           Keyboard.dismiss()
           setModal(true)
         }}
+        disabled={disable}
         position="absolute"
         top="0"
         left="0"

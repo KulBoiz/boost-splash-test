@@ -1,5 +1,5 @@
 import React, { useState } from "react"
-import { Keyboard } from "react-native"
+import { Keyboard, Pressable } from "react-native"
 import { ScaledSheet } from "react-native-size-matters"
 import { color } from "../../theme"
 import { fontFamily } from "../../constants/font-family"
@@ -12,7 +12,7 @@ import ModalDatePicker from "./modal-pick-date"
 import { isAndroid } from "../../constants/variable"
 import DateTimePicker from "@react-native-community/datetimepicker"
 import { TextField } from "../text-field/text-field"
-import { Box, Row, Pressable } from "native-base"
+import { Box, Row } from "native-base"
 
 interface Props {
   value: string
@@ -25,6 +25,7 @@ interface Props {
   name: FieldPath<FieldValues>
   isMaximumDate?: boolean
   clearErrors?: UseFormClearErrors<FieldValues>;
+  disable?: boolean
 }
 
 const DatePicker = React.memo((props: Props) => {
@@ -38,7 +39,8 @@ const DatePicker = React.memo((props: Props) => {
     isMaximumDate = true,
     labelTx,
     placeholderTx,
-    clearErrors
+    clearErrors,
+    disable = false
   } = props
   const [date, setDate] = useState(new Date())
   const [show, setShow] = useState(false)
@@ -78,12 +80,9 @@ const DatePicker = React.memo((props: Props) => {
           Keyboard.dismiss()
           showMode()
         }}
-        position="absolute"
-        top="0"
-        left="0"
-        right="0"
-        bottom="0"
-        zIndex="1"
+        // position="absolute"
+        style={{ position: "absolute", top: 0, left: 0, right: 0, bottom: 0, zIndex: 1 }}
+        disabled={disable}
       />
       {isAndroid ? (
         <>

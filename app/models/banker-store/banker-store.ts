@@ -104,6 +104,7 @@ export const BankerStoreModel = types
             status: params?.status || "deal_processing_task",
           },
           limit: pagingParams?.limit,
+          // @ts-ignore
           skip: (pagingParams?.page - 1) * pagingParams?.limit,
         },
         page: pagingParams?.page,
@@ -211,6 +212,7 @@ export const BankerStoreModel = types
             },
           ],
           limit: pagingParams?.limit,
+          // @ts-ignore
           skip: (pagingParams?.page - 1) * pagingParams?.limit,
         },
         page: pagingParams?.page,

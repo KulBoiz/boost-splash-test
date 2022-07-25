@@ -2,7 +2,7 @@ import { yupResolver } from "@hookform/resolvers/yup"
 import { Pressable, Row } from "native-base"
 import React, { useEffect, useState } from "react"
 import { useForm } from "react-hook-form"
-import { View } from "react-native"
+import { Alert, View } from "react-native"
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view"
 import { s, ScaledSheet } from "react-native-size-matters"
 import * as Yup from "yup"
@@ -14,6 +14,7 @@ import { fontFamily } from "../../../../constants/font-family"
 import { GENDER } from "../../../../constants/gender"
 import { color } from "../../../../theme"
 import {
+  checkAge,
   EMPLOYEE_INSURANCE,
   IS_INSURANCE_CARD, RELATIONSHIP_INSURANCE
 } from "../../constants"
@@ -25,13 +26,14 @@ interface Props {
   listPackageRelative: any
   onClose: any
   isEdit: boolean
+  isStaff?: boolean
 }
 
 const FormCustomer = (props: Props) => {
   const {
-    defaultValuesProps, listPackageStaff, listPackageRelative, onClose, isEdit
+    defaultValuesProps, listPackageStaff, listPackageRelative, onClose, isEdit, isStaff = false
   } = props
-  
+
   const [packages, setPackages] = useState<any>([])
 
   const validationSchema = Yup.object().shape({
@@ -53,15 +55,14 @@ const FormCustomer = (props: Props) => {
     clearErrors
   } = useForm({
     delayError: 0,
-    defaultValues: {...defaultValuesProps},
+    defaultValues: { ...defaultValuesProps },
     mode: 'all',
     resolver: yupResolver(validationSchema),
     reValidateMode: "onChange" || "onTouched",
   })
 
-  
   useEffect(() => {
-    if (defaultValuesProps && defaultValuesProps?.employeeBuy ) {
+    if (defaultValuesProps && defaultValuesProps?.employeeBuy) {
       setPackages(
         defaultValuesProps.employeeBuy === "staff" ? listPackageStaff : listPackageRelative,
       )
@@ -70,8 +71,28 @@ const FormCustomer = (props: Props) => {
   }, [defaultValuesProps])
 
   const onSubmit = handleSubmit((data) => {
+    const age = checkAge(getValues())
+
+    if (age < minAge() || age > 70) {
+      Alert.alert("Tuổi chọn không hợp lệ")
+      return
+    }
+
     props?.onSubmit?.(data)
   })
+
+  useEffect(() => {
+    const age = checkAge(getValues())
+
+    if ((age < minAge() || age > 70)) {
+      Alert.alert("Tuổi chọn không hợp lệ")
+    }
+  }, [getValues()?.dateOfBirth, getValues()?.employeeBuy])
+
+  const minAge = () => {
+    const employeeBuy = getValues('employee')
+    return employeeBuy === 'staff' ? 18 : 1
+  }
 
   return (
     <>
@@ -97,7 +118,7 @@ const FormCustomer = (props: Props) => {
               error: errors?.employeeBuy?.message,
             }}
           />
-          <FormItemPicker
+          {getValues().employeeBuy && <FormItemPicker
             {...{
               clearErrors,
               style: { flex: 1 },
@@ -109,7 +130,7 @@ const FormCustomer = (props: Props) => {
               setValue: (key, value) => setValue("package", value),
               error: errors?.package?.message,
             }}
-          />
+          />}
           <FormInput
             {...{
               name: "fullName",
@@ -117,6 +138,7 @@ const FormCustomer = (props: Props) => {
               placeholderTx: "placeholder.insurance.fullName",
               control,
               error: errors?.fullName?.message,
+              editable: !isStaff
             }}
           />
           <Row>
@@ -130,6 +152,7 @@ const FormCustomer = (props: Props) => {
                 setValue: setValue,
                 control,
                 error: errors?.dateOfBirth?.message,
+                disable: isStaff
               }}
             />
             <FormItemPicker
@@ -143,6 +166,7 @@ const FormCustomer = (props: Props) => {
                 control,
                 setValue: (key, value) => setValue("gender", value),
                 error: errors?.gender?.message,
+                disable: isStaff
               }}
             />
           </Row>
@@ -154,7 +178,8 @@ const FormCustomer = (props: Props) => {
               control,
               keyboardType: "number-pad",
               style: { marginTop: 6 },
-              error: undefined
+              error: undefined,
+              editable: !isStaff
             }}
           />
           <FormInput
@@ -166,9 +191,10 @@ const FormCustomer = (props: Props) => {
               error: errors?.tel?.message,
               keyboardType: "number-pad",
               style: { marginTop: 6 },
+              editable: !isStaff
             }}
           />
-          <FormItemPicker
+          {(!isStaff && getValues().employeeBuy !== 'staff') && <FormItemPicker
             {...{
               clearErrors,
               style: { flex: 1 },
@@ -180,7 +206,7 @@ const FormCustomer = (props: Props) => {
               setValue: (key, value) => setValue("relationship", value),
               error: undefined
             }}
-          />
+          />}
           <FormItemPicker
             {...{
               clearErrors,
@@ -217,7 +243,7 @@ const FormCustomer = (props: Props) => {
             onPress={onSubmit}
             style={styles.btn}
           >
-            <AppText color="white" value={isEdit ? "Cập nhập" :"Tạo"} />
+            <AppText color="white" value={isEdit ? "Cập nhập" : "Tạo"} />
           </Pressable>
         </Row>
       </View>

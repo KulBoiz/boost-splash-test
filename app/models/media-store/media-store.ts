@@ -42,6 +42,7 @@ export const MediaStoreModel = types
             return true
           } else {
             Alert.alert(
+              // @ts-ignore
               translate("common.pleaseAllowAccess"),
               translate("common.photoPermissionsMessage"),
               [
@@ -69,6 +70,7 @@ export const MediaStoreModel = types
           return true
         } else {
           Alert.alert(
+            // @ts-ignore
             translate("common.pleaseAllowAccess"),
             translate("common.cameraPermissionsMessage"),
             [

@@ -26,6 +26,7 @@ export interface FormItemPickerProps extends UseControllerProps {
   data: Array<DataProps>
   handleSelect?: any
   onChangeSearchText?: any
+  disable?: boolean
 }
 
 const FormItemPicker = React.memo((props: FormItemPickerProps) => {
@@ -45,6 +46,7 @@ const FormItemPicker = React.memo((props: FormItemPickerProps) => {
     clearErrors,
     data = [{ value: "", label: "" }],
     onChangeSearchText,
+    disable = false
   } = props
   const actualPlaceholder = placeholderTx ? translate(placeholderTx) : placeholder
   const actualLabel = labelTx ? translate(labelTx) : label
@@ -67,7 +69,8 @@ const FormItemPicker = React.memo((props: FormItemPickerProps) => {
               data,
               handleSelect,
               onChangeSearchText,
-              clearErrors
+              clearErrors,
+              disable
             }}
           />
         )}
