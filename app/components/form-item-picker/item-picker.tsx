@@ -72,7 +72,7 @@ const ItemPicker = React.memo((props: Props) => {
         <TextField
           label={label}
           placeholder={placeholder}
-          value={truncateString(title, 40)}
+          value={truncateString(title, 35)}
           editable={false}
           errorMessage={errorMessage}
         />

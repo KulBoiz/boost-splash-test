@@ -1,36 +1,32 @@
-import React, { useEffect, useMemo, useState } from "react"
+import React, { useState } from "react"
 import { View } from "react-native"
 import Accordion from "react-native-collapsible/Accordion"
 import FastImage from "react-native-fast-image"
 import { images } from "../../../assets/images"
-import { s, ScaledSheet } from "react-native-size-matters"
+import { ms, s, ScaledSheet } from "react-native-size-matters"
 import { color } from "../../../theme"
 import { fontFamily } from "../../../constants/font-family"
 import { ALIGN_CENTER, ROW } from "../../../styles/common-style"
-import UploadDocument from "../../../components/upload-document/upload-document"
-import { truncateString, width } from "../../../constants/variable"
+import { width } from "../../../constants/variable"
 import { Box, Row } from "native-base"
 import { ImageDocumentSvg, ImageDocumentBadgeSvg } from "../../../assets/svgs"
 import { Text } from "../../../components"
-import DocumentItem from "./document-item"
 import { observer } from "mobx-react-lite"
-import { useStores } from "../../../models"
 import { filter } from "../../../utils/lodash-utils"
+import DocumentItem from "../../loan-profile/components/document-item"
+import UploadImage from "../../../components/upload-document/upload-image"
+
 interface Props {
-  data: any
+  files: any
+  setFiles(e: any): void
 }
 
-const CollapsibleInfoUpload = observer(({ data }: Props) => {
-  const { loanStore } = useStores()
-
+const CollapsibleClaimUpload = observer(({ files, setFiles }: Props) => {
   const [activeSections, setActiveSections] = useState<number[]>([])
-  const [files, setFiles] = useState<any>([])
+  // const [files, setFiles] = useState<any>([])
 
-  const title = useMemo(() => truncateString(data?.document?.name, 20), [data?.document?.name])
-
-  useEffect(() => {
-    setFiles(data?.files || [])
-  }, [data.files])
+  // const title = useMemo(() => truncateString(data?.document?.name, 20), [data?.document?.name])
+  const title = "Tải lên giấy tờ"
 
   const _onUploadFile = (file: any) => {
     setFiles([file, ...(files || [])])
@@ -38,11 +34,6 @@ const CollapsibleInfoUpload = observer(({ data }: Props) => {
 
   const onDeleteDocument = async (file) => {
     setFiles(filter(files, (f) => f.id !== file.id))
-    await loanStore.updateLoanDocument(
-      file.templateDocumentFileId,
-      "unSelected",
-      loanStore?.loanDetail?.id,
-    )
   }
 
   const _handleSections = (index: number[]) => {
@@ -51,10 +42,9 @@ const CollapsibleInfoUpload = observer(({ data }: Props) => {
   const renderHeader = (item, index: number) => {
     const isOpen = activeSections?.includes(index)
     return (
-      <Box style={styles.headerBody}>
-        <Text text={title} color={isOpen ? "primary" : "grayChateau"} size="regular12" />
+      <Box style={[styles.headerBody, {borderWidth: isOpen ? 0 : 1}]}>
+        <Text text={title} color={isOpen ? "primary" : "gray"} fontSize={ms(14)} />
         <View style={[ROW, ALIGN_CENTER]}>
-          {files?.length ? (
             <Row alignItems="center">
               <Text
                 size="regular14"
@@ -69,10 +59,6 @@ const CollapsibleInfoUpload = observer(({ data }: Props) => {
                 <ImageDocumentBadgeSvg width={18} height={18} />
               )}
             </Row>
-          ) : (
-            // <Text text="đã cập nhật" color="grayChateau" size="regular12" />
-            <Text text="chưa cập nhật" color="orange" size="regular12" />
-          )}
 
           <FastImage
             source={isOpen ? images.arrow_up : images.arrow_down}
@@ -87,7 +73,7 @@ const CollapsibleInfoUpload = observer(({ data }: Props) => {
   const renderContent = () => {
     return (
       <Box>
-        <UploadDocument onUploadSuccess={_onUploadFile} documentId={data?.document?.id} />
+        <UploadImage onUploadSuccess={_onUploadFile} />
         <Box pb={s(16)} mx={s(16)}>
           {files?.length > 0
             ? files.map((item, index) => {
@@ -117,7 +103,7 @@ const CollapsibleInfoUpload = observer(({ data }: Props) => {
   )
 })
 
-export default CollapsibleInfoUpload
+export default CollapsibleClaimUpload
 
 const styles = ScaledSheet.create({
   container: {
@@ -125,7 +111,7 @@ const styles = ScaledSheet.create({
   },
   collapsibleContainer: {
     backgroundColor: color.background,
-    borderRadius: "8@s",
+    borderRadius: "4@s",
     borderColor: color.palette.blue,
   },
   headerText: {
@@ -135,7 +121,10 @@ const styles = ScaledSheet.create({
     fontWeight: "500",
   },
   headerBody: {
-    padding: "16@s",
+    borderRadius: '4@s',
+    borderColor: color.palette.grayDarker,
+    paddingHorizontal: "12@ms",
+    paddingVertical: "15@ms",
     flexDirection: "row",
     justifyContent: "space-between",
     alignItems: "center",

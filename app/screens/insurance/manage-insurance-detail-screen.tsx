@@ -43,7 +43,7 @@ const ManageInsuranceDetailScreen: FC<Props> = observer((props: any) => {
   const hidePopupHospital = useCallback(() => setPopupHospitalListVisible(false), [])
 
   const onRequest = useCallback(() => {
-    navigate(ScreenNames.CLAIM_INSURANCE)
+    navigate(ScreenNames.CLAIM_INSURANCE, {productId: data?.productId})
   }, [])
 
   const renderItem = useCallback(({ item, index }: { item: any; index: any }) => {
