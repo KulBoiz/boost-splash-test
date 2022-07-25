@@ -43,12 +43,15 @@ const BuyStepOneForm = React.memo((props: Props) => {
   const listPackageStaff = packages.filter(el => el?.objects?.find(e => e === TYPE?.staff));
   const listPackageRelative = packages.filter(el => el?.objects?.find(e => e === TYPE?.relative));
 
+  console.log('formCustomerData', formCustomerData);
+
   const {
     control: controlOwner,
     handleSubmit: handleSubmitOwner,
     formState: { errors: errorsOwner },
     setValue: setValueOwner,
     clearErrors: clearErrorsOwner,
+    getValues: getValuesOwner,
   } = useForm({
     delayError: 0,
     mode: "all",
@@ -57,13 +60,15 @@ const BuyStepOneForm = React.memo((props: Props) => {
   })
 
   useEffect(() => {
-    if (!checkCTVAndFina()) {
-      const user = authStoreModel.user
-      setValueOwner('fullName', user.fullName)
-      setValueOwner('email', user?.emails?.[0]?.email || undefined)
-      setValueOwner('tel', user?.tels?.[0]?.tel || undefined)
-      setValueOwner('idNumber', user?.idNumber || undefined)
-    }
+    // if (!checkCTVAndFina()) {
+    const user = authStoreModel.user
+    setValueOwner('fullName', user.fullName)
+    setValueOwner('email', user?.emails?.[0]?.email || undefined)
+    setValueOwner('tel', user?.tels?.[0]?.tel || undefined)
+    setValueOwner('idNumber', `${user?.idNumber}` || undefined)
+    setValueOwner('gender', user?.gender)
+    setValueOwner('dateOfBirth', user?.birthday)
+    // }
   }, [])
 
   const checkCTVAndFina = () => {
@@ -167,9 +172,9 @@ const BuyStepOneForm = React.memo((props: Props) => {
   }
 
   const checkCurrentUser = handleSubmitOwner((e) => {
+    setOwnerData({ ...e, type: 'staff' })
     setStaffIsCustomer(true)
     setShowModalStaff(true)
-    setOwnerData({ ...e, type: 'staff' })
   })
 
   const getDefaults = () => {
@@ -188,6 +193,7 @@ const BuyStepOneForm = React.memo((props: Props) => {
         setValue={setValueOwner}
         errors={{ ...errorsOwner }}
         clearErrors={clearErrorsOwner}
+        getValues={getValuesOwner}
       />
 
       <View style={{ paddingHorizontal: s(16), marginBottom: s(16), flexDirection: 'row' }}>
@@ -226,12 +232,14 @@ const BuyStepOneForm = React.memo((props: Props) => {
           }}>
             <View style={styles.itemName}>
               <AppText style={styles.headerText} value={item?.fullName} />
-              <Pressable onPress={() => {
-                editFormCustomer(index + 1)
-                setIsEdit(true)
-              }}>
-                <PencilSvg />
-              </Pressable>
+              {item?.type !== 'staff' &&
+                <Pressable onPress={() => {
+                  editFormCustomer(index + 1)
+                  setIsEdit(true)
+                }}>
+                  <PencilSvg />
+                </Pressable>
+              }
             </View>
 
             <Pressable
@@ -317,6 +325,7 @@ const BuyStepOneForm = React.memo((props: Props) => {
       >
         <FormCustomer
           isEdit={isEdit}
+          isStaff={true}
           listPackageStaff={listPackageStaff}
           listPackageRelative={listPackageRelative}
           defaultValuesProps={ownerData}
