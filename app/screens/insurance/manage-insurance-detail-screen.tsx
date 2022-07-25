@@ -22,6 +22,7 @@ import { BORDER_BOTTOM_0 } from "../../styles/common-style"
 import ManageInsuranceHelp from "./components/manage-insurance-help"
 import PopupHospitalList from "./components/popup-hospital-list"
 import ValidityCheck from "./components/validity-check"
+import { numberWithCommas } from "../../constants/variable"
 
 interface Props {}
 
@@ -116,17 +117,10 @@ const ManageInsuranceDetailScreen: FC<Props> = observer((props: any) => {
             })}
             {renderItem({
               item: {
-                label: "Tổng số người tham gia",
-                value: `${data?.transaction?.customers.length} người`,
+                label: "Số tiền bảo hiểm",
+                value: `${numberWithCommas(data?.meta?.amount) ?? '0'} vnđ`,
               },
               index: 3,
-            })}
-            {renderItem({
-              item: {
-                label: "Số tiền bảo hiểm",
-                value: `${data?.meta?.amount ?? '0'} vnđ`,
-              },
-              index: 4,
             })}
           </Box>
           <Box bg="white" borderRadius="8" py="3" px="4" mt="4">

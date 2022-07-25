@@ -8,7 +8,7 @@ import { s, ScaledSheet } from "react-native-size-matters"
 import ItemView from "../../loan/components/item-view"
 import moment from "moment"
 import { useStores } from "../../../models"
-import { hidePhoneNumber } from "../../../constants/variable"
+import { hidePhoneNumber, numberWithCommas } from "../../../constants/variable"
 import { observer } from "mobx-react-lite"
 import { MAPPING_STATUS } from "./buy-success"
 
@@ -54,9 +54,9 @@ const BuyRecords = observer((props: Props) => {
   const renderItem = useCallback(({ item }: any) => {
     return (
       <View style={styles.wrapItem}>
-        <AppText value={`${fullName(item?.customer)} - ${item?.customer?.tels?.[0]?.tel ? hidePhoneNumber(item?.customer?.tels?.[0]?.tel) : ''}`} style={MARGIN_BOTTOM_16} />
+        <AppText value={`${fullName(item?.staff)}  ${item?.staff?.tels?.[0]?.tel ? ` - ${hidePhoneNumber(item?.staff?.tels?.[0]?.tel)}` : ''}`} style={MARGIN_BOTTOM_16} />
         <ItemView title={'Trạng thái:'} content={MAPPING_STATUS[item?.status]} contentStyle={[styles.content, { color: checkStatus(MAPPING_STATUS[item?.status]).color }]} style={MARGIN_BOTTOM_16} />
-        <ItemView title={'Số tiền:'} content={`${item?.totalAmount.toLocaleString()} vnđ`} contentStyle={[styles.content]} style={MARGIN_BOTTOM_16} />
+        <ItemView title={'Số tiền:'} content={`${numberWithCommas(item?.totalAmount)} vnđ`} contentStyle={[styles.content]} style={MARGIN_BOTTOM_16} />
         <ItemView title={'Dịch vụ:'} content={item?.product?.name} contentStyle={[styles.content]} style={MARGIN_BOTTOM_16} />
         <ItemView title={'Nhà bảo hiểm:'} content={item?.product?.source ? item?.product?.source : 'FINA'} contentStyle={[styles.content]} style={MARGIN_BOTTOM_16} />
         <ItemView title={'Cập nhật:'} content={renderTime(item?.updatedAt)} contentStyle={[styles.content]} />

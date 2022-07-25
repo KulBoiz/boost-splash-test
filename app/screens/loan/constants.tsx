@@ -169,33 +169,33 @@ export const mappingStatus = (value, doc) => {
       status = 'Đóng yêu cầu tư vấn'
       color = 'red'
     }
-  
+
   	if (value === TASK_STATUSES.ASSIGNED) {
       status = 'Thu thập thông tin'
       color = 'green'
     }
-  
+
     if (value === TASK_STATUSES.CONSULTED) {
       if (doc?.statusAssign === TASK_STATUSES_ASSIGNED.NOT_PROCESSING) {
         status = 'Đã gửi thư chào tín dụng'
         color = 'green'
       }
-  
+
       if (doc?.statusAssign === TASK_STATUSES_ASSIGNED.WAITING_FOR_BANK_APPROVAL) {
         status = 'Chờ đối tác phản hồi'
         color = 'yellow'
       }
-  
+
       if (doc?.statusAssign === TASK_STATUSES_ASSIGNED.WAITING_FOR_BANK_PROCESS) {
         status = 'Có đối tác phản hồi'
         color = 'green'
       }
-  
+
       if (doc?.statusAssign === TASK_STATUSES_ASSIGNED.OVERDUE_FOR_BANK_RESPONSE) {
         status = 'Quá thời hạn phản hồi'
         color = 'red'
       }
-  
+
       if (doc?.statusAssign === TASK_STATUSES_ASSIGNED.CREATE_PROFILE) {
         status = 'Tạo hồ sơ vay'
         color = 'blue'
@@ -204,11 +204,10 @@ export const mappingStatus = (value, doc) => {
 
 		return {status, color};
 };
-  
+
 export const isTaskCreateProfile = (task) => {
   const { status, statusAssign } = task
-  console.log(status, statusAssign);
-  
+
   if (status === TASK_STATUSES.CONSULTED && statusAssign === TASK_STATUSES_ASSIGNED.CREATE_PROFILE) {
     return true
   }

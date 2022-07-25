@@ -7,8 +7,7 @@ import { color } from "../../../theme"
 import { FONT_MEDIUM_14 } from "../../../styles/common-style"
 import { fontFamily } from "../../../constants/font-family"
 import AppButton from "../../../components/app-button/AppButton"
-import { ScreenNames } from "../../../navigators/screen-names"
-import { goBack, navigate } from "../../../navigators"
+import { goBack } from "../../../navigators"
 import { useStores } from '../../../models';
 import AppHeader from "../../../components/app-header/AppHeader"
 
@@ -38,7 +37,7 @@ const BuySuccess = React.memo((props: Props) => {
   const {productStore} = useStores()
   const [time, setTime] = useState(defaultTime)
   const [reload, setReload] = useState(true)
-  const [status, setStatus] = useState(respondTransaction.status)
+  const [status, setStatus] = useState(respondTransaction?.status)
 
   useEffect(() => {
     if (time > 0 && respondTransaction?.status === STATUS.PENDING) {
@@ -50,7 +49,7 @@ const BuySuccess = React.memo((props: Props) => {
     if (time === 0 && reload) {
       productStore.getTransactionInsurance(productDetail?.id).then((res) => {
         const transaction = res?.data?.data?.find(item => item?.id === transaction?.id);
-        setStatus(transaction.status)
+        setStatus(transaction?.status)
         setReload(false)
       }).catch(() => {
         setReload(false)
@@ -90,7 +89,6 @@ const styles = ScaledSheet.create({
   body: {
     flex: 1,
     justifyContent: 'center',
-    // backgroundColor: color.background,
     backgroundColor: 'coral',
     paddingVertical: '24@s',
     paddingHorizontal: '16@ms',
