@@ -34,7 +34,7 @@ export const IntroduceScreen = React.memo(() => {
 
     const _goToInsurance = ()=> {
       insuranceStore.setIsFirstTime()
-      navigate(ScreenNames.INSURANCE_SCREEN)
+      navigate(ScreenNames.INSURANCE_SCREEN, { id: 0 })
     }
 
     return (

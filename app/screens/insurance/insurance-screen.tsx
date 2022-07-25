@@ -22,12 +22,13 @@ const InsuranceScreen = React.memo((props: Props) => {
   const id = route?.params?.id
   const navigation = useNavigation()
   const [index, setIndex] = React.useState(id ?? 0);
+
   const [routes] = React.useState([
     { key: 'first', title: 'Mua BH' },
     { key: 'second', title: 'Giao dịch' },
   ]);
-  // @ts-ignore
-  const { productStore, authStoreModel } = useStores();
+
+  const { authStoreModel } = useStores();
 
   const renderScene = SceneMap({
     first: !authStoreModel?.isLoggedIn ? SettingAuthScreen : BuyInsurance,
@@ -72,7 +73,7 @@ export default InsuranceScreen;
 
 const styles = ScaledSheet.create({
   container: { backgroundColor: color.palette.blue, flex: 1 },
-  tab: { backgroundColor: 'white', borderTopLeftRadius: '8@s', borderTopRightRadius: '8@s' },
+  tab: { backgroundColor: 'white', borderTopLeftRadius: '8@s', borderTopRightRadius: '8@s'},
   indicatorStyle: { backgroundColor: color.palette.blue},
   wrapRightIcon: {
     width: '18@s',

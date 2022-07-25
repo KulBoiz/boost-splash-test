@@ -10,7 +10,6 @@ import { useStores } from "../../models/root-store/root-store-context"
 import { ScreenNames } from "../../navigators/screen-names"
 import { color } from "../../theme"
 import BuyStepOneForm from "./components/buy-step-one-form"
-// import BuyStepOne from "./components/buy-step-one"
 import BuyStepThree from "./components/buy-step-three"
 import BuyStepTwo from "./components/buy-step-two"
 
@@ -20,10 +19,9 @@ const BuyInsurance = observer((props: Props) => {
   // @ts-ignore
   const { productStore } = useStores()
   const { productDetail, questionGroups } = productStore
-
   const ref = useRef(null)
   const navigation = useNavigation()
-  const [currentPosition, setCurrentPosition] = useState(0.2)
+  const [currentPosition, setCurrentPosition] = useState(0)
   const [transaction, setTransaction] = useState()
   const [respondTransaction, setRespondTransaction] = useState()
 
@@ -54,7 +52,7 @@ const BuyInsurance = observer((props: Props) => {
 
   const renderScreen = () => {
     switch (currentPosition) {
-      case 0.2:
+      case 0:
         return (
           <BuyStepOneForm
             {...{
@@ -85,6 +83,15 @@ const BuyInsurance = observer((props: Props) => {
             }}
           />
         )
+      default: return (
+        <BuyStepOneForm
+          {...{
+            onPress: stepOneForm,
+            productDetail,
+            questionGroups,
+          }}
+        />
+      )
     }
   }
 

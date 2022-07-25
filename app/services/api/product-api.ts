@@ -75,8 +75,8 @@ export class ProductApi {
             },
             include: [
               { relation: "transactionDetails" },
-              { relation: "customer" },
-              { relation: "product" }
+              { relation: "staff" },
+              { relation: "product" },
             ],
             limit: 50
           },
