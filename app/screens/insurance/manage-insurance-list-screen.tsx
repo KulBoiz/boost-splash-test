@@ -22,7 +22,7 @@ interface Props {}
 
 const ManageInsuranceListScreen: FC<Props> = observer((props: any) => {
   const key = props?.route?.params?.key
-  const { insuranceStore} = useStores()
+  const { insuranceStore } = useStores()
   const [tabSelect, setTabSelect] = useState(key ?? INSURANCE_TABS[0].key)
   const isListBuy = tabSelect === INSURANCE_TABS[0].key
 

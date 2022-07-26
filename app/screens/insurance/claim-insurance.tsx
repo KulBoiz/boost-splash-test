@@ -61,7 +61,9 @@ const ClaimInsuranceDetailScreen = React.memo((props: Props) => {
   })
   const [checkboxState, setCheckboxState] = useState<boolean>(false)
   const [images, setImages] = useState<any[]>([])
-
+  const onDataChange = (e: any) => {
+    setImages(e)
+  }
   const sendRequest = async (data) => {
     const send = await loanStore.createRequestCounselling(
       data.email,
@@ -81,6 +83,7 @@ const ClaimInsuranceDetailScreen = React.memo((props: Props) => {
   if (!authStoreModel.isLoggedIn) {
     return <AppViewNoAuth />
   }
+
   return (
     <>
       <AppHeader headerText={'Claim Bảo Hiểm'} isBlue />
@@ -145,7 +148,7 @@ const ClaimInsuranceDetailScreen = React.memo((props: Props) => {
               multiline: true,
             }}
           />
-          <CollapsibleClaimUpload files={images} setFiles={setImages}/>
+          <CollapsibleClaimUpload {...{ data: [], onDataChange }}/>
           <TermCheckbox checkboxState={checkboxState} setCheckboxState={setCheckboxState} />
         </View>
       </ScrollView>

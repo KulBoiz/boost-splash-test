@@ -46,6 +46,11 @@ export function formatDateTime(date: string | Date) {
   return moment(date).format('DD/MM/YYYY HH:mm');
 }
 
+export function getFullName(user: any) {
+  if  (!user) return '_'
+  return user?.fullName ?? user?.firstName + ' ' + user?.lastName
+}
+
 export function verticalScale(num: number){
   return height * num
 }
