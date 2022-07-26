@@ -22,7 +22,7 @@ import { BORDER_BOTTOM_0 } from "../../styles/common-style"
 import ManageInsuranceHelp from "./components/manage-insurance-help"
 import PopupHospitalList from "./components/popup-hospital-list"
 import ValidityCheck from "./components/validity-check"
-import { numberWithCommas } from "../../constants/variable"
+import { formatDate, numberWithCommas } from "../../constants/variable"
 
 interface Props {}
 
@@ -37,6 +37,9 @@ const ManageInsuranceDetailScreen: FC<Props> = observer((props: any) => {
     insuranceStore.getListHospital(data?.product?.id)
   },[])
 
+  const startDate = data?.meta?.time?.startTime ?? moment(data?.meta?.time?.endTime).subtract(1, 'years')
+  const endDate = data?.meta?.time?.endTime ?? moment(data?.meta?.time?.startTime).add(1, 'years')
+
   const [collapsed, setCollapsed] = useState(true)
   const [popupHospitalListVisible, setPopupHospitalListVisible] = useState(false)
 
@@ -44,7 +47,7 @@ const ManageInsuranceDetailScreen: FC<Props> = observer((props: any) => {
   const hidePopupHospital = useCallback(() => setPopupHospitalListVisible(false), [])
 
   const onRequest = useCallback(() => {
-    navigate(ScreenNames.CLAIM_INSURANCE, {productId: data?.productId})
+    navigate(ScreenNames.CLAIM_INSURANCE, {productId: data?.productId, index})
   }, [])
 
   const renderItem = useCallback(({ item, index }: { item: any; index: any }) => {
@@ -111,7 +114,7 @@ const ManageInsuranceDetailScreen: FC<Props> = observer((props: any) => {
             {renderItem({
               item: {
                 label: "Thời hạn hợp đồng",
-                value: `_`,
+                value: `${formatDate(startDate)} - ${formatDate(endDate)}`,
               },
               index: 2,
             })}

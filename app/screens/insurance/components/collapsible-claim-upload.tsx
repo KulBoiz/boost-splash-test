@@ -1,4 +1,4 @@
-import React, { useState } from "react"
+import React, { useEffect, useState } from "react"
 import { View } from "react-native"
 import Accordion from "react-native-collapsible/Accordion"
 import FastImage from "react-native-fast-image"
@@ -17,23 +17,34 @@ import DocumentItem from "../../loan-profile/components/document-item"
 import UploadImage from "../../../components/upload-document/upload-image"
 
 interface Props {
-  files: any
-  setFiles(e: any): void
+  onDataChange?(e: any): void
+  data: any
+
 }
 
-const CollapsibleClaimUpload = observer(({ files, setFiles }: Props) => {
+const CollapsibleClaimUpload = observer(({ data, onDataChange }: Props) => {
   const [activeSections, setActiveSections] = useState<number[]>([])
-  // const [files, setFiles] = useState<any>([])
+  const [files, setFiles] = useState<any>([])
+
+  useEffect(() => {
+    setFiles(data || [])
+  }, [])
 
   // const title = useMemo(() => truncateString(data?.document?.name, 20), [data?.document?.name])
   const title = "Tải lên giấy tờ"
 
   const _onUploadFile = (file: any) => {
     setFiles([file, ...(files || [])])
+    if (onDataChange) {
+      onDataChange([file, ...(files || [])])
+    }
   }
 
   const onDeleteDocument = async (file) => {
     setFiles(filter(files, (f) => f.id !== file.id))
+    if (onDataChange) {
+      onDataChange(filter(files, (f) => f.id !== file.id))
+    }
   }
 
   const _handleSections = (index: number[]) => {

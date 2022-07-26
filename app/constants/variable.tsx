@@ -1,4 +1,4 @@
-import moment from "moment"
+import moment, { Moment } from "moment"
 import { Dimensions, Platform } from "react-native"
 import { TxKeyPath } from "../i18n"
 
@@ -36,8 +36,8 @@ export function getLastWord(words: string) {
 
 }
 
-export function formatDate(date: string | Date) {
-  if  (!date) return ''
+export function formatDate(date: Moment | Date) {
+  if  (!date) return '_'
   return moment(date).format('DD/MM/YYYY');
 }
 
@@ -46,6 +46,12 @@ export function formatDateTime(date: string | Date) {
   return moment(date).format('DD/MM/YYYY HH:mm');
 }
 
+export function getFullName(user: any) {
+  if  (!user) return '_'
+  return user?.fullName ?? user?.firstName + ' ' + user?.lastName
+}
+
 export function verticalScale(num: number){
   return height * num
 }
+

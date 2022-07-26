@@ -22,7 +22,7 @@ interface Props {}
 
 const ManageInsuranceListScreen: FC<Props> = observer((props: any) => {
   const key = props?.route?.params?.key
-  const { insuranceStore} = useStores()
+  const { insuranceStore } = useStores()
   const [tabSelect, setTabSelect] = useState(key ?? INSURANCE_TABS[0].key)
   const isListBuy = tabSelect === INSURANCE_TABS[0].key
 
@@ -35,8 +35,11 @@ const ManageInsuranceListScreen: FC<Props> = observer((props: any) => {
   },[key])
 
   const showDetail = useCallback((index) => {
-    navigate(ScreenNames.MANAGE_INSURANCE_DETAIL_SCREEN, { index, isListBuy })
-  }, [])
+    if (isListBuy){
+      navigate(ScreenNames.MANAGE_INSURANCE_DETAIL_SCREEN, { index, isListBuy })
+    }
+    else navigate(ScreenNames.INSURANCE_CLAIM_DETAIL, { index })
+  }, [tabSelect])
 
   const showFilter = useCallback((data) => {
     navigate(ScreenNames.MANAGE_INSURANCE_FILTER)

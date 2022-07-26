@@ -16,7 +16,7 @@ import TermAndPolicy from "../screens/term-and-policy"
 import RequestCounselling from "../screens/loan/request-counselling"
 import InsuranceScreen from "../screens/insurance/insurance-screen"
 import InsurancePackage from "../screens/insurance/insurance-package"
-import InsuranceDetail from "../screens/insurance/insurance-detail"
+import InsuranceClaimDetail from "../screens/insurance/claim/insurance-claim-detail"
 import { IntroduceScreen } from "../screens/insurance/introduce/introduce-screen"
 import BannerDetail from "../screens/home/home-fina/banner-detail"
 import { AgentStack } from "./agent-stack"
@@ -46,7 +46,7 @@ export type NavigatorParamList = {
   [ScreenNames.TERM_AND_POLICY]: { id: number }
   [ScreenNames.INSURANCE_SCREEN]: { id?: number }
   [ScreenNames.INSURANCE_PACKAGE]: undefined
-  [ScreenNames.INSURANCE_DETAIL]: undefined
+  [ScreenNames.INSURANCE_CLAIM_DETAIL]: { index: number }
   [ScreenNames.INTRODUCE_SCREEN]: undefined
   [ScreenNames.BANNER_DETAIL]: { url: string }
   [ScreenNames.BANNER_DETAIL]: { url: string }
@@ -62,7 +62,7 @@ export type NavigatorParamList = {
   [ScreenNames.MANAGE_INSURANCE_FILTER]: undefined
   [ScreenNames.INSURANCE_REQUEST_CLAIM_SUCCESS_SCREEN]: undefined
   [ScreenNames.MANAGE_INSURANCE_DETAIL_SCREEN]: { index: number, isListBuy: any }
-  [ScreenNames.CLAIM_INSURANCE]: { productId: string }
+  [ScreenNames.CLAIM_INSURANCE]: { productId: string, index: string}
 }
 
 // Documentation: https://reactnavigation.org/docs/stack-navigator/
@@ -102,7 +102,7 @@ const RootStack = () => {
       <Stack.Screen name={ScreenNames.TERM_AND_POLICY} component={TermAndPolicy} />
       <Stack.Screen name={ScreenNames.INSURANCE_SCREEN} component={InsuranceScreen} />
       <Stack.Screen name={ScreenNames.INSURANCE_PACKAGE} component={InsurancePackage} />
-      <Stack.Screen name={ScreenNames.INSURANCE_DETAIL} component={InsuranceDetail} />
+      <Stack.Screen name={ScreenNames.INSURANCE_CLAIM_DETAIL} component={InsuranceClaimDetail} />
       <Stack.Screen name={ScreenNames.INTRODUCE_SCREEN} component={IntroduceScreen} />
       <Stack.Screen name={ScreenNames.BANNER_DETAIL} component={BannerDetail} />
       <Stack.Screen name={ScreenNames.PHOTO_PICKER} component={PhotoPickerScreen} />
@@ -148,7 +148,6 @@ interface NavigationProps extends Partial<React.ComponentProps<typeof Navigation
 
 export const AppNavigator = (props: NavigationProps) => {
   const colorScheme = useColorScheme()
-
   return (
     <NavigationContainer
       ref={navigationRef}

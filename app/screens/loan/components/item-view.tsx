@@ -40,11 +40,11 @@ const styles = ScaledSheet.create({
     justifyContent: "space-between"
   },
   title: {
-    fontSize: '14@ms',
+    fontSize: '12@ms',
     color: '#AAADB7'
   },
   content: {
     color: '#000',
-    fontSize: '14@ms',
+    fontSize: '12@ms',
   }
 });
