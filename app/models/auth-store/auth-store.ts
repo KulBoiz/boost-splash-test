@@ -7,6 +7,7 @@ import AsyncStorage from "@react-native-async-storage/async-storage"
 import { UploadApi } from "../../services/api/upload-api"
 import { isAndroid } from "../../constants/variable"
 import { BaseApi } from "../../services/api/base-api"
+import { AgentApi } from "../../services/api/agent-api"
 
 
 export const ROLE = {
@@ -233,13 +234,6 @@ export const AuthStoreModel = types
       return new Date(self.expiresIn).getTime() > new Date().getTime()
     },
 
-    // setToken: () => {
-    //   const authApi = new AuthApi(self.environment.api)
-    //   if (self.token) {
-    //     authApi.setToken(self.token)
-    //   }
-    // },
-
     setIsFirstTime: flow(function* isFirstTime() {
       self.isFirstTime = false
       return self.isFirstTime
@@ -313,6 +307,19 @@ export const AuthStoreModel = types
       self.role = null
       AsyncStorage.setItem('accessToken', '')
     },
+
+    updateInfoUser: flow(function* updateInfoUser(body) {
+      const api = new BaseApi(self.environment.api)
+      const result = yield api.put(`users/${self.userId}`, body)
+
+      if (result.kind !== "ok") {
+        return result
+      }
+      return {
+        kind: "ok",
+        data: result,
+      }
+    }),
   })) // eslint-disable-line @typescript-eslint/no-unused-vars
   .actions(self => ({
     autoRefreshToken: () => {

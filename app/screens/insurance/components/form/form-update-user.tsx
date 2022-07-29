@@ -1,8 +1,8 @@
 import { yupResolver } from "@hookform/resolvers/yup"
 import { Pressable, Row } from "native-base"
-import React, { useEffect } from "react"
+import React from "react"
 import { useForm } from "react-hook-form"
-import { Alert, View } from "react-native"
+import { View } from "react-native"
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view"
 import { s, ScaledSheet } from "react-native-size-matters"
 import * as Yup from "yup"
@@ -12,11 +12,11 @@ import FormInput from "../../../../components/form-input/form-input"
 import FormItemPicker from "../../../../components/form-item-picker"
 import { fontFamily } from "../../../../constants/font-family"
 import { GENDER } from "../../../../constants/gender"
+import { useStores } from "../../../../models"
+import { navigate } from "../../../../navigators"
+import { ScreenNames } from "../../../../navigators/screen-names"
 import { MARGIN_BOTTOM_8, MARGIN_TOP_8 } from "../../../../styles/common-style"
 import { color } from "../../../../theme"
-import {
-  checkAge
-} from "../../constants"
 // identification
 interface Props {
   onSubmit?: (data) => void
@@ -28,7 +28,7 @@ const FormUpdateUser = (props: Props) => {
   const {
     defaultValuesProps, onClose = false
   } = props
-
+  const { authStoreModel } = useStores()
 
   const validationSchema = Yup.object().shape({
     fullName: Yup.string().required("Vui lòng nhập họ và tên"),
@@ -58,27 +58,31 @@ const FormUpdateUser = (props: Props) => {
 
 
   const onSubmit = handleSubmit((data) => {
-    props?.onSubmit?.(data)
-  })
-
-  const minAge = () => {
-    const employeeBuy = getValues('employeeBuy')
-    return employeeBuy === 'staff' ? 18 : 1
-  }
-
-  useEffect(() => {
-    const age = checkAge(getValues())
-
-    if (age < minAge() || age > 70) {
-      Alert.alert("Tuổi chọn không hợp lệ")
+    const body = {
+      fullName: data.fullName,
+      idNumber: data.idNumber,
+      gender: data.gender,
+      tels: [{ tel: data.tel}],
+      emails: [{ email: data.email }],
+      birthday: data?.dateOfBirth,
+      identification: {
+        issuedOn: data.issuedOn,
+        placeOfIssue: data.placeOfIssue,
+      }
     }
-  }, [getValues()?.dateOfBirth, getValues()?.employeeBuy, minAge()])
+
+    authStoreModel.updateInfoUser(body).then(() => {
+      authStoreModel.getFullInfoUser(authStoreModel?.userId)
+      props?.onSubmit?.(data)
+    })
+  })
 
   return (
     <>
       <View style={styles.container}>
         <KeyboardAwareScrollView>
           <AppText value={"CẬP NHẬP THÔNG TIN CHỦ HỢP ĐỒNG"} style={styles.title} />
+          <AppText style={[MARGIN_TOP_8, MARGIN_BOTTOM_8]} color="red" value={'* Bạn cần cập nhật đầy đủ thông tin để có thể mua bảo hiểm'} />
           <FormInput
             {...{
               name: "fullName",
@@ -175,12 +179,12 @@ const FormUpdateUser = (props: Props) => {
             }}
           />
         </KeyboardAwareScrollView>
-
-        <AppText style={[MARGIN_TOP_8, MARGIN_BOTTOM_8]} color="red" value={'* Bạn cần cập nhật đầy đủ thông tin để có thể mua bảo hiểm'} />
-
         <Row style={{ justifyContent: 'space-between', flexDirection: 'row' }}>
           <Pressable
-            onPress={onClose}
+            onPress={() => {
+              onClose();
+              navigate(ScreenNames.HOME);
+            }}
             style={styles.btn}
           >
             <AppText color="white" value={"Huỷ"} />
