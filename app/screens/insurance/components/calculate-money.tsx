@@ -64,6 +64,8 @@ export default CalculateMoney;
 
 const styles = ScaledSheet.create({
   container: {
+    position: "absolute",
+    bottom:0, left: 0, right: 0,
     borderTopLeftRadius: '8@s',
     borderTopRightRadius: '8@s',
     marginTop: '24@s',

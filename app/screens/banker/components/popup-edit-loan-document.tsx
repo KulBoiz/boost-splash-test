@@ -10,6 +10,7 @@ import { useForm } from "react-hook-form"
 import { yupResolver } from "@hookform/resolvers/yup"
 import * as Yup from "yup"
 import { createNumberMask, useMaskedInputProps } from "react-native-mask-input"
+import { notZeroOnly } from "../../../constants/regex"
 
 interface Props {
   visible: boolean
@@ -30,6 +31,10 @@ const PopupEditLoanDocument = React.memo(({ visible, onClose, onConfirm }: Props
 
   const validationSchema = Yup.object().shape({
     product: Yup.string().trim().required("Vui lòng nhập sản phẩm"),
+    approvalAmount: Yup.string()
+      .trim()
+      .required("Vui lòng nhập số tiền")
+      .matches(notZeroOnly, 'Số tiền phê duyệt phải lớn hơn 0'),
   })
   const {
     control,

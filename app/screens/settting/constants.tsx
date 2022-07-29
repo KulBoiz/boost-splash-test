@@ -18,8 +18,8 @@ export const SETTING_LIST = [
   {
     icon: <ProfileSvg />,
     title: 'Thông tin cá nhân',
-    onPress: () => {},
-    active: false,
+    onPress: () => navigate(ScreenNames.USER_PROFILE),
+    active: true,
   },{
     icon: <MedalSvg />,
     title: 'Đăng ký làm cộng tác viên',

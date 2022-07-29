@@ -18,6 +18,8 @@ import FormCustomer from "./form/form-customer"
 import FormOwner, { validationSchema } from "./form/form-owner"
 import FormUpdateUser from "./form/form-update-user"
 import HomeInsurance from "./home-insurance"
+import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view"
+import BottomView from "../../../components/bottom-view"
 
 interface Props {
   productDetail: any
@@ -191,6 +193,7 @@ const BuyStepOneForm = React.memo((props: Props) => {
 
   return (
     <View style={styles.container}>
+      <KeyboardAwareScrollView  keyboardShouldPersistTaps="handled"  contentContainerStyle={{flexGrow: 1}}>
       <FormOwner
         control={controlOwner}
         handleSubmit={handleSubmitOwner}
@@ -284,7 +287,8 @@ const BuyStepOneForm = React.memo((props: Props) => {
       }
 
       <HomeInsurance productDetail={productDetail} />
-
+        <BottomView height={s(140)}/>
+      </KeyboardAwareScrollView>
       <CalculateMoney
         insurance={{
           ...ownerData,

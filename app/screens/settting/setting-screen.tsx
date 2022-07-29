@@ -15,7 +15,7 @@ import { navigate } from "../../navigators"
 import { ROLE } from "../../models/auth-store"
 import { ScaledSheet } from "react-native-size-matters"
 
-interface Props { }
+interface Props {}
 
 const SettingScreen: FC<Props> = observer((props: Props) => {
   const navigation = useNavigation()
