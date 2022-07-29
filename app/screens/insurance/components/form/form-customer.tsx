@@ -81,18 +81,18 @@ const FormCustomer = (props: Props) => {
     props?.onSubmit?.(data)
   })
 
+  const minAge = () => {
+    const employeeBuy = getValues('employeeBuy')
+    return employeeBuy === 'staff' ? 18 : 1
+  }
+
   useEffect(() => {
     const age = checkAge(getValues())
 
-    if ((age < minAge() || age > 70)) {
+    if (age < minAge() || age > 70) {
       Alert.alert("Tuổi chọn không hợp lệ")
     }
-  }, [getValues()?.dateOfBirth, getValues()?.employeeBuy])
-
-  const minAge = () => {
-    const employeeBuy = getValues('employee')
-    return employeeBuy === 'staff' ? 18 : 1
-  }
+  }, [getValues()?.dateOfBirth, getValues()?.employeeBuy, minAge()])
 
   return (
     <>
@@ -141,35 +141,37 @@ const FormCustomer = (props: Props) => {
               editable: !isStaff
             }}
           />
-          <Row>
-            <FormDatePicker
-              {...{
-                clearErrors,
-                style: { flex: 1, marginRight: 5 },
-                name: "dateOfBirth",
-                labelTx: "placeholder.insurance.dateOfBirth",
-                placeholderTx: "placeholder.insurance.dateOfBirth",
-                setValue: setValue,
-                control,
-                error: errors?.dateOfBirth?.message,
-                disable: isStaff
-              }}
-            />
-            <FormItemPicker
-              {...{
-                clearErrors,
-                style: { flex: 1 },
-                data: GENDER,
-                name: "gender",
-                labelTx: "placeholder.insurance.gender",
-                placeholderTx: "placeholder.insurance.gender",
-                control,
-                setValue: (key, value) => setValue("gender", value),
-                error: errors?.gender?.message,
-                disable: isStaff
-              }}
-            />
-          </Row>
+          {getValues().employeeBuy &&
+            <Row>
+              <FormDatePicker
+                {...{
+                  clearErrors,
+                  style: { flex: 1, marginRight: 5 },
+                  name: "dateOfBirth",
+                  labelTx: "placeholder.insurance.dateOfBirth",
+                  placeholderTx: "placeholder.insurance.dateOfBirth",
+                  setValue: setValue,
+                  control,
+                  error: errors?.dateOfBirth?.message,
+                  disable: isStaff
+                }}
+              />
+              <FormItemPicker
+                {...{
+                  clearErrors,
+                  style: { flex: 1 },
+                  data: GENDER,
+                  name: "gender",
+                  labelTx: "placeholder.insurance.gender",
+                  placeholderTx: "placeholder.insurance.gender",
+                  control,
+                  setValue: (key, value) => setValue("gender", value),
+                  error: errors?.gender?.message,
+                  disable: isStaff
+                }}
+              />
+            </Row>
+          }
           <FormInput
             {...{
               name: "idNumber",
