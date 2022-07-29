@@ -96,9 +96,9 @@ const BuyInsurance = observer((props: Props) => {
   }
 
   return (
-    <KeyboardAwareScrollView keyboardShouldPersistTaps="handled"  contentContainerStyle={{flexGrow: 1}} style={styles.container} ref={ref}>
+    <View style={styles.container} ref={ref}>
       {!!productDetail?.id && renderScreen()}
-    </KeyboardAwareScrollView>
+    </View>
   )
 })
 
@@ -106,6 +106,7 @@ export default BuyInsurance
 
 const styles = ScaledSheet.create({
   container: {
+    flex:1,
     backgroundColor: color.palette.white,
   },
 })

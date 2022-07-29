@@ -31,7 +31,6 @@ const InsuranceClaimDetail = React.memo((props: Props) => {
     })
   },[])
 
-  console.log(item)
   return (
     <View style={styles.container}>
       <AppHeader headerText={header} isBlue/>

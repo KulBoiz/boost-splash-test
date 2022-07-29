@@ -89,7 +89,6 @@ const styles = ScaledSheet.create({
   body: {
     flex: 1,
     justifyContent: 'center',
-    backgroundColor: 'coral',
     paddingVertical: '24@s',
     paddingHorizontal: '16@ms',
     borderRadius: '8@s'

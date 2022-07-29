@@ -61,7 +61,7 @@ const ManageInsuranceDetailScreen: FC<Props> = observer((props: any) => {
   }, [])
 
   const getUser = (fullName) => {
-    return data?.transaction?.customers?.find(item => item.fullName === fullName)
+    return data?.transaction?.customers?.find(item => item.fullName.toLowerCase() === fullName.toLowerCase())
   }
   return (
     <Box flex="1" bg="lightBlue">

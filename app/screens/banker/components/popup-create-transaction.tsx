@@ -9,6 +9,7 @@ import { Text } from "../../../components"
 import FormDatePicker from "../../../components/form-date-time"
 import FormInput from "../../../components/form-input/form-input"
 import { createNumberMask, useMaskedInputProps } from "react-native-mask-input"
+import { notZeroOnly } from "../../../constants/regex"
 
 
 interface Props {
@@ -25,7 +26,10 @@ const PopupCreateTransaction = React.memo(({ visible, onClose, onConfirm, data: 
   })
 
   const validationSchema = Yup.object().shape({
-    disbursedAmount: Yup.string().trim().required("Vui lòng nhập"),
+    disbursedAmount: Yup.string()
+      .trim()
+      .required("Vui lòng nhập")
+      .matches(notZeroOnly, 'Số tiền giải ngân phải lớn hơn 0'),
     paymentDate: Yup.string().required("Vui lòng nhập").trim(),
   })
 

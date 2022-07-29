@@ -30,6 +30,7 @@ import ManageInsuranceFilerScreen from "../screens/insurance/manage-insurance-fi
 import InsuranceRequestClaimSuccessScreen from "../screens/insurance/insurance-request-claim-success-screen"
 import ManageInsuranceDetailScreen from "../screens/insurance/manage-insurance-detail-screen"
 import ClaimInsuranceDetailScreen from "../screens/insurance/claim-insurance"
+import UserProfile from "../screens/settting/profile/user-profile"
 
 export type NavigatorParamList = {
   [ScreenNames.SPLASH]: undefined
@@ -39,6 +40,7 @@ export type NavigatorParamList = {
   [ScreenNames.APP]: undefined
   [ScreenNames.REQUEST_COUNSELLING]: undefined
   [ScreenNames.NOTICE]: undefined
+  [ScreenNames.USER_PROFILE]: undefined
   [ScreenNames.LOAN_DETAIL]: undefined
   [ScreenNames.REGISTER_LOAN]: undefined
   [ScreenNames.PROFILE_DETAIL]: undefined
@@ -139,6 +141,10 @@ const RootStack = () => {
       <Stack.Screen
         name={ScreenNames.CLAIM_INSURANCE}
         component={ClaimInsuranceDetailScreen}
+      />
+      <Stack.Screen
+        name={ScreenNames.USER_PROFILE}
+        component={UserProfile}
       />
     </Stack.Navigator>
   )

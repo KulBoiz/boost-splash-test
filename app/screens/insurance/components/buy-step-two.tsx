@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { Alert, View } from 'react-native';
-import { ScaledSheet } from "react-native-size-matters";
+import { s, ScaledSheet } from "react-native-size-matters";
 import FullScreenModal from "../../../components/app-modal/full-screen-modal";
 import { useStores } from "../../../models";
 import CalculateMoney from "./calculate-money";
@@ -8,6 +8,9 @@ import CollapsibleInfoCustomer from "./collapsible-info-customer";
 import CollapsibleInfoStaff from "./collapsible-info-staff";
 import InsuranceInfo from "./insurance-info";
 import PaymentMethod from "./payment-method";
+import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view"
+import BottomView from "../../../components/bottom-view"
+import { color } from "../../../theme"
 
 
 interface Props {
@@ -55,7 +58,7 @@ const BuyStepTwo = React.memo(({ stepThree, transaction, productDetail }: Props)
   return (
     <View style={styles.container}>
       {/* <Benefit /> */}
-     <View style={{flexGrow:1}}>
+      <KeyboardAwareScrollView keyboardShouldPersistTaps="handled" style={{flexGrow:1}}>
        <InsuranceInfo
          insurance={transaction}
          productDetail={productDetail}
@@ -66,7 +69,8 @@ const BuyStepTwo = React.memo(({ stepThree, transaction, productDetail }: Props)
        <CollapsibleInfoCustomer infoCustomer={transaction?.customers} />
 
        <PaymentMethod />
-     </View>
+        <BottomView height={s(200)} />
+     </KeyboardAwareScrollView>
 
       <CalculateMoney
         insurance={transaction}
@@ -100,6 +104,7 @@ export default BuyStepTwo;
 
 const styles = ScaledSheet.create({
   container: {
-    flex: 1
+    flex: 1,
+    backgroundColor: color.palette.lightBlue
   },
 });
