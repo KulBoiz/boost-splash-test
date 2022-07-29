@@ -16,6 +16,7 @@ import { TYPE } from "../constants"
 import CalculateMoney from "./calculate-money"
 import FormCustomer from "./form/form-customer"
 import FormOwner, { validationSchema } from "./form/form-owner"
+import FormUpdateUser from "./form/form-update-user"
 import HomeInsurance from "./home-insurance"
 
 interface Props {
@@ -34,6 +35,7 @@ const BuyStepOneForm = React.memo((props: Props) => {
   const [formCustomerData, setFormCustomerData] = useState<any>([])
   const [showModal, setShowModal] = useState<boolean>(false)
   const [showModalStaff, setShowModalStaff] = useState<boolean>(false)
+  const [showModalUpdateUser, setShowModalUpdateUser] = useState<boolean>(false)
 
   const [indexCustomerEdit, setIndexCustomerEdit] = useState(undefined)
   const [staffIsCustomer, setStaffIsCustomer] = useState(false)
@@ -68,7 +70,6 @@ const BuyStepOneForm = React.memo((props: Props) => {
   })
 
   useEffect(() => {
-    // if (!checkCTVAndFina()) {
     const user = authStoreModel.user
     setValueOwner('fullName', user.fullName)
     setValueOwner('email', user?.emails?.[0]?.email || undefined)
@@ -76,7 +77,10 @@ const BuyStepOneForm = React.memo((props: Props) => {
     setValueOwner('idNumber', user?.idNumber ? `${user?.idNumber}` : '')
     setValueOwner('gender', user?.gender)
     setValueOwner('dateOfBirth', user?.birthday)
-    // }
+
+    if (!user?.gender || !user?.birthday || user?.idNumber || user?.tels?.[0]?.tel || user?.emails?.[0]?.email) {
+      setShowModalUpdateUser(true)
+    }
   }, [])
 
   const checkAge = (user) => {
@@ -87,11 +91,12 @@ const BuyStepOneForm = React.memo((props: Props) => {
   };
 
   const renderPrice = (customer, meta) => {
+    const price = !checkCTVAndFina() ? meta?.price: meta?.priceRoot
     if (checkAge(customer) > MaxAge) {
-      return meta?.price * 1.5;
+      return price * 1.5;
     }
 
-    return meta?.price || 0;
+    return price || 0;
   };
 
   const totalAmount = () => {
@@ -152,6 +157,7 @@ const BuyStepOneForm = React.memo((props: Props) => {
       ...data,
       meta: {
         ...packages[parseInt(data.package)],
+        pricePacket: !checkCTVAndFina() ? packages[parseInt(data.package)]?.price: packages[parseInt(data.package)]?.priceRoot,
         amount: renderPrice(data, packages[parseInt(data.package)])
       },
     }
@@ -336,6 +342,24 @@ const BuyStepOneForm = React.memo((props: Props) => {
             setFormCustomerData(list)
             setShowModalStaff(false)
             setStaffIsCustomer(false)
+          }}
+        />
+      </Modal>}
+
+      {showModalUpdateUser && <Modal
+        isVisible={showModalUpdateUser}
+        onBackdropPress={() => {
+          setShowModalUpdateUser(false)
+        }}
+        style={{ marginVertical: s(70), borderRadius: s(16) }}
+      >
+        <FormUpdateUser
+          defaultValuesProps={getValuesOwner()}
+          onSubmit={(data) => {
+            setShowModalUpdateUser(false)
+          }}
+          onClose={() => {
+            setShowModalUpdateUser(false)
           }}
         />
       </Modal>}

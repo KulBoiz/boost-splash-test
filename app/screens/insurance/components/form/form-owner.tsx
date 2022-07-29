@@ -61,7 +61,7 @@ const FormOwner = React.memo((props: Props) => {
               clearErrors,
               control,
               error: errors?.dateOfBirth?.message,
-              disable: getValues()?.dateOfBirth
+              disable: true
             }}
           />
           <FormItemPicker
@@ -75,7 +75,7 @@ const FormOwner = React.memo((props: Props) => {
               control,
               setValue: (key, value) => setValue("gender", value),
               error: errors?.gender?.message,
-              disable: getValues()?.gender
+              disable: true
             }}
           />
         </Row>
@@ -88,7 +88,7 @@ const FormOwner = React.memo((props: Props) => {
             control,
             error: errors?.email?.message,
             style: { marginTop: 6 },
-            editable: !getValues()?.email
+            editable: false
           }}
         />
         <FormInput
@@ -100,7 +100,7 @@ const FormOwner = React.memo((props: Props) => {
             error: errors?.idNumber?.message,
             keyboardType: "number-pad",
             style: { marginTop: 6 },
-            editable: !getValues()?.idNumber
+            editable: false
           }}
         />
         <FormInput
@@ -112,7 +112,7 @@ const FormOwner = React.memo((props: Props) => {
             error: errors?.tel?.message,
             keyboardType: "number-pad",
             style: { marginTop: 6 },
-            editable: !getValues()?.tel
+            editable: false
           }}
         />
         <FormInput

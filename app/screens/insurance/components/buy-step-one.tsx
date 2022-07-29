@@ -21,15 +21,10 @@ interface Props {
 
 const BuyStepOnePackage = React.memo((props: Props) => {
   const {
-    control,
-    errors,
     onPress,
     insuranceType,
     setInsuranceType,
     productDetail,
-    questionGroups,
-    setValue,
-    getValues
   } = props
 
   const insurance = productDetail?.packages?.[insuranceType]

@@ -51,10 +51,10 @@ const CollapsibleInfoCustomer = React.memo(({ infoCustomer }: Props) => {
               <ItemView title={'CMND/ CCCD:'} content={info?.idNumber} style={MARGIN_TOP_16} />
               <ItemView title={'Email'} content={info?.email || '_'} style={MARGIN_TOP_16} />
               <ItemView title={'Gói bảo hiểm'} content={truncateString(info?.meta?.name, 30)} style={MARGIN_TOP_16} />
-              <ItemView title={'Giá tiền'} content={`${numberWithCommas(info?.meta?.price ?? 0)} VNĐ`} style={MARGIN_TOP_16} />
+              <ItemView title={'Giá tiền'} content={`${numberWithCommas(info?.meta?.pricePacket ?? 0)} VNĐ`} style={MARGIN_TOP_16} />
               <ItemView title={'Tiền thanh toán'} content={`${numberWithCommas(info?.meta?.amount ?? 0)} VNĐ`} style={MARGIN_TOP_16} />
               {info?.meta?.price !== info?.meta?.amount &&
-                <AppText style={MARGIN_TOP_16} value={'* Người hưởng quá 65 tuổi, số tiền bảo hiểm  tính x1,5'} />}
+                <AppText style={MARGIN_TOP_16} color="red" value={'* Người hưởng quá 65 tuổi, số tiền bảo hiểm  tính x1,5'} />}
               {index < customers?.length - 1 &&
                 <View style={[MARGIN_TOP_16, { borderWidth: 1, borderBottomColor: color.palette.BABABA }]} />}
             </View>
