@@ -80,7 +80,7 @@ const BuyStepOneForm = React.memo((props: Props) => {
     setValueOwner('gender', user?.gender)
     setValueOwner('dateOfBirth', user?.birthday)
 
-    if (!user?.gender || !user?.birthday || user?.idNumber || user?.tels?.[0]?.tel || user?.emails?.[0]?.email) {
+    if (!user?.gender || !user?.birthday || !user?.idNumber || !user?.tels?.[0]?.tel || !user?.emails?.[0]?.email) {
       setShowModalUpdateUser(true)
     }
   }, [])
