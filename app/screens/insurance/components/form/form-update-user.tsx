@@ -73,7 +73,7 @@ const FormUpdateUser = (props: Props) => {
 
     authStoreModel.updateInfoUser(body).then(() => {
       authStoreModel.getFullInfoUser(authStoreModel?.userId)
-      props?.onSubmit?.(data)
+      props?.onSubmit?.(body)
     })
   })
 

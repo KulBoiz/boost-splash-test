@@ -73,7 +73,7 @@ const FormCustomer = (props: Props) => {
   const onSubmit = handleSubmit((data) => {
     const age = checkAge(getValues())
 
-    if (age < minAge() || age > 70) {
+    if (age < minAge() || age >= 70) {
       Alert.alert("Tuổi chọn không hợp lệ")
       return
     }
@@ -89,7 +89,7 @@ const FormCustomer = (props: Props) => {
   useEffect(() => {
     const age = checkAge(getValues())
 
-    if (age < minAge() || age > 70) {
+    if (age < minAge() || age >= 70) {
       Alert.alert("Tuổi chọn không hợp lệ")
     }
   }, [getValues()?.dateOfBirth, getValues()?.employeeBuy, minAge()])
@@ -196,7 +196,7 @@ const FormCustomer = (props: Props) => {
               editable: !isStaff
             }}
           />
-          {(!isStaff && getValues().employeeBuy !== 'staff') && <FormItemPicker
+          {(!isStaff && getValues().employeeBuy && getValues().employeeBuy !== 'staff') && <FormItemPicker
             {...{
               clearErrors,
               style: { flex: 1 },
