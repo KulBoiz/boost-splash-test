@@ -12,38 +12,42 @@ import { ScreenNames } from "../../../navigators/screen-names"
 import { useStores } from "../../../models"
 import { MARGIN_TOP_16 } from "../../../styles/common-style"
 import CollapsibleClaimUpload from "../components/collapsible-claim-upload"
+import Note from "../../../components/note/note"
 
 
-interface Props{}
+interface Props { }
 
 const InsuranceClaimDetail = React.memo((props: Props) => {
-  const {params: {index}} = useRoute<RouteProp<NavigatorParamList, ScreenNames.INSURANCE_CLAIM_DETAIL>>()
-  const {insuranceStore, dealDetailStoreModel} = useStores()
+  const { params: { index } } = useRoute<RouteProp<NavigatorParamList, ScreenNames.INSURANCE_CLAIM_DETAIL>>()
+  const { insuranceStore, dealDetailStoreModel } = useStores()
   const [loading, setLoading] = useState<boolean>(true)
   const [files, setFiles] = useState([])
   const item = insuranceStore?.listClaim[index]
   const header = item?.product?.name ?? ''
   const deal = dealDetailStoreModel.deal
 
-  useEffect(()=> {
-    dealDetailStoreModel.getDeal(item?.metadata?.dealId).then(()=> {
+  useEffect(() => {
+    dealDetailStoreModel.getDeal(item?.metadata?.dealId).then(() => {
       setLoading(false)
     })
-  },[])
+  }, [])
 
   return (
     <View style={styles.container}>
-      <AppHeader headerText={header} isBlue/>
+      <AppHeader headerText={header} isBlue />
       {
         loading ?
-        <ActivityIndicator color={color.palette.blue} style={MARGIN_TOP_16} />
+          <ActivityIndicator color={color.palette.blue} style={MARGIN_TOP_16} />
           :
-        <ScrollView style={styles.body} contentContainerStyle={{ paddingBottom: 30 }}>
-          <InsuranceInfo {...{item, deal}} />
-          <BuyerInfo {...{item, deal}}/>
-          <BeneficiaryInfo {...{item, deal}}/>
-          <CollapsibleClaimUpload data={item?.images ?? []}/>
-        </ScrollView>
+          <ScrollView style={styles.body} contentContainerStyle={{ paddingBottom: 30 }}>
+            <InsuranceInfo {...{ item, deal }} />
+            <BuyerInfo {...{ item, deal }} />
+            <BeneficiaryInfo {...{ item, deal }} />
+            <CollapsibleClaimUpload data={item?.images ?? []} />
+            <View style={MARGIN_TOP_16}>
+              <Note id={item?.id} />
+            </View>
+          </ScrollView>
       }
     </View>
   )

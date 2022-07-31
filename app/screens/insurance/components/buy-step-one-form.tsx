@@ -20,6 +20,7 @@ import FormUpdateUser from "./form/form-update-user"
 import HomeInsurance from "./home-insurance"
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view"
 import BottomView from "../../../components/bottom-view"
+import { Alert } from "react-native"
 
 interface Props {
   productDetail: any
@@ -36,11 +37,11 @@ const BuyStepOneForm = React.memo((props: Props) => {
   const [ownerData, setOwnerData] = useState<any>({})
   const [formCustomerData, setFormCustomerData] = useState<any>([])
   const [showModal, setShowModal] = useState<boolean>(false)
-  const [showModalStaff, setShowModalStaff] = useState<boolean>(false)
+  // const [showModalStaff, setShowModalStaff] = useState<boolean>(false)
   const [showModalUpdateUser, setShowModalUpdateUser] = useState<boolean>(false)
 
   const [indexCustomerEdit, setIndexCustomerEdit] = useState(undefined)
-  const [staffIsCustomer, setStaffIsCustomer] = useState(false)
+  // const [staffIsCustomer, setStaffIsCustomer] = useState(false)
   const [isEdit, setIsEdit] = useState(false)
 
   const checkCTVAndFina = () => {
@@ -73,17 +74,34 @@ const BuyStepOneForm = React.memo((props: Props) => {
 
   useEffect(() => {
     const user = authStoreModel.user
+    autoFillInfoStaff(user)
+
+    if (!user?.gender || !user?.birthday || !user?.idNumber || !user?.tels?.[0]?.tel || !user?.emails?.[0]?.email) {
+      setShowModalUpdateUser(true)
+    } else {
+      autoCreateCustomer(user)
+    }
+  }, [])
+
+  const autoFillInfoStaff = (user) => {
     setValueOwner('fullName', user.fullName)
     setValueOwner('email', user?.emails?.[0]?.email || undefined)
     setValueOwner('tel', user?.tels?.[0]?.tel || undefined)
     setValueOwner('idNumber', user?.idNumber ? `${user?.idNumber}` : '')
     setValueOwner('gender', user?.gender)
     setValueOwner('dateOfBirth', user?.birthday)
+  }
 
-    if (!user?.gender || !user?.birthday || !user?.idNumber || !user?.tels?.[0]?.tel || !user?.emails?.[0]?.email) {
-      setShowModalUpdateUser(true)
-    }
-  }, [])
+  const autoCreateCustomer = (user) => {
+    setFormCustomerData([{
+      fullName: user.fullName,
+      email: user?.emails?.[0]?.email,
+      tel: user?.tels?.[0]?.tel,
+      gender: user?.gender,
+      dateOfBirth: user?.birthday,
+      idNumber: user?.idNumber ? `${user?.idNumber}` : ''
+    }])
+  }
 
   const checkAge = (user) => {
     const birthday = new Date(user?.dateOfBirth);
@@ -93,8 +111,9 @@ const BuyStepOneForm = React.memo((props: Props) => {
   };
 
   const renderPrice = (customer, meta) => {
-    const price = !checkCTVAndFina() ? meta?.price: meta?.priceRoot
-    if (checkAge(customer) > MaxAge) {
+    const price = !checkCTVAndFina() ? meta?.price : meta?.priceRoot
+    
+    if (checkAge(customer) >= MaxAge) {
       return price * 1.5;
     }
 
@@ -116,6 +135,11 @@ const BuyStepOneForm = React.memo((props: Props) => {
   const onSubmit = handleSubmitOwner((e) => {
     setOwnerData(e)
     const { fullName, dateOfBirth, email, idNumber, gender, tel, company, level } = e
+    const userNoPacket = formCustomerData.find(el => !el?.employeeBuy)
+
+    if (formCustomerData?.length > 0 && userNoPacket) {      
+      return Alert.alert(`Người hưởng ${userNoPacket?.fullName} - chưa chọn gói bảo hiểm`)
+    }
 
     if (formCustomerData?.length > 0) {
       const data = {
@@ -147,10 +171,10 @@ const BuyStepOneForm = React.memo((props: Props) => {
     list.splice(index, 1)
     setFormCustomerData(list)
 
-    const checkStaffDeleted = list.find(el => el?.type === 'staff')
-    if (!checkStaffDeleted) {
-      setStaffIsCustomer(false)
-    }
+    // const checkStaffDeleted = list.find(el => el?.type === 'staff')
+    // if (!checkStaffDeleted) {
+    //   setStaffIsCustomer(false)
+    // }
 
   }
 
@@ -177,11 +201,11 @@ const BuyStepOneForm = React.memo((props: Props) => {
     totalAmount()
   }
 
-  const checkCurrentUser = handleSubmitOwner((e) => {
-    setOwnerData({ ...e, type: 'staff' })
-    setStaffIsCustomer(true)
-    setShowModalStaff(true)
-  })
+  // const checkCurrentUser = handleSubmitOwner((e) => {
+  //   setOwnerData({ ...e, type: 'staff' })
+  //   setStaffIsCustomer(true)
+  //   setShowModalStaff(true)
+  // })
 
   const getDefaults = () => {
     if (isEdit && indexCustomerEdit) {
@@ -203,7 +227,7 @@ const BuyStepOneForm = React.memo((props: Props) => {
         getValues={getValuesOwner}
       />
 
-      <View style={{ paddingHorizontal: s(16), marginBottom: s(16), flexDirection: 'row' }}>
+      {/* <View style={{ paddingHorizontal: s(16), marginBottom: s(16), flexDirection: 'row' }}>
         <Checkbox
           isChecked={staffIsCustomer}
           onChange={(e) => {
@@ -217,7 +241,7 @@ const BuyStepOneForm = React.memo((props: Props) => {
           value={'test'}
           accessibilityLabel="choose numbers" />
         <AppText value={"Người mua là người được bảo hiểm"} style={{ marginLeft: s(8), fontFamily: fontFamily.medium }} />
-      </View>
+      </View> */}
 
       <View style={{
         height: s(4),
@@ -324,7 +348,7 @@ const BuyStepOneForm = React.memo((props: Props) => {
         />
       </Modal>}
 
-      {showModalStaff && <Modal
+      {/* {showModalStaff && <Modal
         isVisible={showModalStaff}
         onBackdropPress={() => {
           setShowModalStaff(false)
@@ -348,7 +372,7 @@ const BuyStepOneForm = React.memo((props: Props) => {
             setStaffIsCustomer(false)
           }}
         />
-      </Modal>}
+      </Modal>} */}
 
       {showModalUpdateUser && <Modal
         isVisible={showModalUpdateUser}
@@ -357,6 +381,8 @@ const BuyStepOneForm = React.memo((props: Props) => {
         <FormUpdateUser
           defaultValuesProps={getValuesOwner()}
           onSubmit={(data) => {
+            autoFillInfoStaff(data);
+            autoCreateCustomer(data);
             setShowModalUpdateUser(false)
           }}
           onClose={() => {
