@@ -71,7 +71,7 @@ const ManageInsuranceDetailScreen: FC<Props> = observer((props: any) => {
         renderRightIcon={<ManageInsuranceHelp />}
       />
       <ScrollView>
-        <ValidityCheck endDate={data?.meta?.time?.endTime ?? new Date()}/>
+        <ValidityCheck endDate={data?.meta?.time?.endTime ?? new Date()} startDate={data?.meta?.time?.startTime ?? new Date()}/>
         <Box mt="6" px="4">
           <Row alignItems="center">
             <FileDocSvg />

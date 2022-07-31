@@ -96,7 +96,8 @@ export const CLAIM_INSURANCE_STATUS = {
   CREATED: 'created', // ghi nhận
   ASSIGNED: 'assigned', // thu thập thông tin
   DONE: 'done', // xác nhận tạo hồ sơ claim
-  CANCEL: 'cancel' // Không đủ điều kiện
+  CANCEL: 'cancel', // Không đủ điều kiện
+  CONSULTED: 'consulted', // tạo hồ sơ
 }
 
 export const getClaimStatus = (status) => {
@@ -105,6 +106,8 @@ export const getClaimStatus = (status) => {
       return {label: 'Ghi nhận', color: 'green' }
     case CLAIM_INSURANCE_STATUS.ASSIGNED:
       return { label: "Thu thập thông tin", color: 'blue' }
+    case CLAIM_INSURANCE_STATUS.CONSULTED:
+      return { label: "Tạo hồ sơ", color: 'slateblue' }
     case CLAIM_INSURANCE_STATUS.DONE:
       return {label: "Tạo hồ sơ claim", color: 'coral' }
     case CLAIM_INSURANCE_STATUS.CANCEL:

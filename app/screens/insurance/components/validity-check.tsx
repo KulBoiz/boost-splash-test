@@ -101,7 +101,7 @@ const ValidityCheck = React.memo(({ startDate, endDate }: Props) => {
                 <AppText value={' “Gia hạn ngay"'} style={FONT_BOLD_12}/>
               </AppText>
             </View>
-            <ExtendButton onPress={extendContract}/>
+            {/*<ExtendButton onPress={extendContract}/>*/}
           </View>
         </BackgroundImage>
       )
@@ -111,7 +111,7 @@ const ValidityCheck = React.memo(({ startDate, endDate }: Props) => {
           <AppText value={'Hợp đồng sắp đến hạn'} style={MARGIN_BOTTOM_8}/>
           <View style={[ROW, ALIGN_CENTER, SPACE_BETWEEN]}>
             <Countdown totalTime={time} />
-            <ExtendButton onPress={extendContract}/>
+            {/*<ExtendButton onPress={extendContract}/>*/}
           </View>
         </BackgroundImage>
       )

@@ -11,6 +11,7 @@ import { FieldErrors } from "react-hook-form/dist/types/errors"
 import FormDatePicker from "../../../components/form-date-time"
 
 interface Props{
+  editable: boolean
   control: Control
   setValue: UseFormSetValue<FieldValues>
   errors: FieldErrors<FieldValues>
@@ -18,7 +19,7 @@ interface Props{
 }
 
 const UserForm = React.memo((props: Props) => {
-  const {control, setValue, errors, clearErrors } = props
+  const {control, setValue, errors, clearErrors, editable } = props
   return (
     <View style={styles.container}>
       <FormInput
@@ -28,7 +29,7 @@ const UserForm = React.memo((props: Props) => {
           placeholderTx: "placeholder.insurance.fullName",
           control,
           error: errors?.fullName?.message,
-          editable: false,
+          editable: editable,
         }}
       />
 
@@ -36,33 +37,34 @@ const UserForm = React.memo((props: Props) => {
         {...{
           name: "email",
           labelTx: "label.email",
-          placeholderTx: "placeholder.insurance.fullName",
+          placeholderTx: "placeholder.email",
           control,
-          error: errors?.fullName?.message,
-          editable: false,
+          error: errors?.email?.message,
+          editable: editable,
         }}
       />
 
       <FormInput
         {...{
-          name: "phone",
+          name: "tel",
           labelTx: "label.phoneNumber",
-          placeholderTx: "placeholder.insurance.fullName",
+          placeholderTx: "placeholder.phoneNumber",
           control,
-          error: errors?.fullName?.message,
-          editable: false,
+          error: errors?.tel?.message,
+          editable: editable,
         }}
       />
 
       <FormDatePicker
         {...{
           clearErrors,
-          name: "dateOfBirth",
+          name: "birthday",
           labelTx: "placeholder.insurance.dateOfBirth",
           placeholderTx: "placeholder.insurance.dateOfBirth",
           setValue: setValue,
           control,
-          error: errors?.dateOfBirth?.message,
+          disable: !editable,
+          error: errors?.birthday?.message,
         }}
       />
     </View>
