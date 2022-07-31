@@ -10,6 +10,7 @@ import { navigate } from "../../../navigators";
 import { ScreenNames } from "../../../navigators/screen-names";
 import { FONT_MEDIUM_12, FONT_SEMI_BOLD_14 } from "../../../styles/common-style";
 import { color } from "../../../theme";
+import { numberWithCommas } from "../../../constants/variable"
 
 interface Props {
   item: any
@@ -50,9 +51,8 @@ const InsuranceItem = React.memo((props: Props) => {
 
   const price = () => {
     if (item?.packages && item?.packages?.length > 0) {
-      return Math.min(...item?.packages.map(el => el?.price)).toLocaleString()
+      return numberWithCommas(Math.min(...item?.packages.map(el => el?.price)))
     }
-
     return '_'
   }
 

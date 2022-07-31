@@ -89,14 +89,14 @@ const ManageInsuranceItem = React.memo(({ item, index, onPress }: Props) => {
           textTransform="capitalize"
           text={userName}
         />
-        {item?.meta?.name && <Text
-          mt="1"
-          size={"medium12"}
-          color="#A1A8AB"
-          lineHeight={17}
-          textTransform="capitalize"
-          text={item?.meta?.name ?? ""}
-        />}
+        {/*{item?.meta?.name && <Text*/}
+        {/*  mt="1"*/}
+        {/*  size={"medium12"}*/}
+        {/*  color="#A1A8AB"*/}
+        {/*  lineHeight={17}*/}
+        {/*  textTransform="capitalize"*/}
+        {/*  text={item?.meta?.name ?? ""}*/}
+        {/*/>}*/}
 
       </Box>
 

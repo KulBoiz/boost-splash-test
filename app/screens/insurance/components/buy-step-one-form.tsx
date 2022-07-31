@@ -352,9 +352,6 @@ const BuyStepOneForm = React.memo((props: Props) => {
 
       {showModalUpdateUser && <Modal
         isVisible={showModalUpdateUser}
-        onBackdropPress={() => {
-          setShowModalUpdateUser(false)
-        }}
         style={{ marginVertical: s(70), borderRadius: s(16) }}
       >
         <FormUpdateUser

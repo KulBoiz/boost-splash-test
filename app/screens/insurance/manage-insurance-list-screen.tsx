@@ -17,14 +17,16 @@ import { INSURANCE_TABS } from "./constants"
 import ManageInsuranceHelp from "./components/manage-insurance-help"
 import { navigate } from "../../navigators"
 import moment from "moment"
+import SettingAuthScreen from "../../components/app-view-no-auth"
 
 interface Props {}
 
 const ManageInsuranceListScreen: FC<Props> = observer((props: any) => {
   const key = props?.route?.params?.key
-  const { insuranceStore } = useStores()
+  const { insuranceStore, authStoreModel } = useStores()
   const [tabSelect, setTabSelect] = useState(key ?? INSURANCE_TABS[0].key)
   const isListBuy = tabSelect === INSURANCE_TABS[0].key
+  const isLoggedIn = authStoreModel.isLoggedIn
 
   useEffect(()=> {
     if (key){
@@ -129,74 +131,87 @@ const ManageInsuranceListScreen: FC<Props> = observer((props: any) => {
   }, [insuranceStore.isLoadingMore])
 
   return (
-    <Box flex="1" bg="lightBlue">
-      <AppHeader
-        style={styles.header}
-        headerTx={"header.manageInsuranceList"}
-        renderRightIcon={<ManageInsuranceHelp />}
-      />
-      <ManageInsuranceTab onChangeTab={onChangeTab} tabSelect={tabSelect} />
-      <Box flex={1} bg="white" pt='1'>
-        {/*<HStack alignItems="center" mt="4" mb="4">*/}
-        {/*  <HStack*/}
-        {/*    flex="1"*/}
-        {/*    height={s(40)}*/}
-        {/*    bg="#F3F6FD"*/}
-        {/*    borderRadius="16"*/}
-        {/*    ml={s(16)}*/}
-        {/*    alignItems="center"*/}
-        {/*    px={s(8)}*/}
-        {/*  >*/}
-        {/*    <SearchNormalSvg />*/}
-        {/*    <Input*/}
-        {/*      variant="outline"*/}
-        {/*      borderWidth={0}*/}
-        {/*      flex="1"*/}
-        {/*      placeholder="Hợp đồng bảo hiểm / số hợp đồng"*/}
-        {/*      placeholderTextColor="lighterGray"*/}
-        {/*      fontWeight="400"*/}
-        {/*      px="0"*/}
-        {/*      mx={s(16)}*/}
-        {/*      color="black"*/}
-        {/*      selectionColor="primary"*/}
-        {/*      _focus={{ bg: "white" }}*/}
-        {/*      onChangeText={onDebouncedSearch}*/}
-        {/*    />*/}
-        {/*  </HStack>*/}
-        {/*  <Pressable*/}
-        {/*    onPress={showFilter}*/}
-        {/*    height={s(40)}*/}
-        {/*    width={s(40)}*/}
-        {/*    alignItems="center"*/}
-        {/*    justifyContent="center"*/}
-        {/*    bg="#F1F5F9"*/}
-        {/*    mr="4"*/}
-        {/*    ml="2"*/}
-        {/*    borderRadius={8}*/}
-        {/*  >*/}
-        {/*    <FilterInsuranceSvg />*/}
-        {/*  </Pressable>*/}
-        {/*</HStack>*/}
-        <SectionList
-          sections={data}
-          keyExtractor={(_, index) => index.toString()}
-          renderItem={renderItem}
-          renderSectionHeader={renderSectionHeader}
-          stickySectionHeadersEnabled
-          refreshControl={
-            <RefreshControl
-              refreshing={insuranceStore.isRefreshing}
-              onRefresh={_onRefresh}
-              colors={[color.primary]}
-              tintColor={color.primary}
+    <>
+      {isLoggedIn ?
+        <Box flex="1" bg="lightBlue">
+          <AppHeader
+            style={styles.header}
+            headerTx={"header.manageInsuranceList"}
+            renderRightIcon={<ManageInsuranceHelp />}
+          />
+
+          <ManageInsuranceTab onChangeTab={onChangeTab} tabSelect={tabSelect} />
+          <Box flex={1} bg="white" pt='1'>
+            {/*<HStack alignItems="center" mt="4" mb="4">*/}
+            {/*  <HStack*/}
+            {/*    flex="1"*/}
+            {/*    height={s(40)}*/}
+            {/*    bg="#F3F6FD"*/}
+            {/*    borderRadius="16"*/}
+            {/*    ml={s(16)}*/}
+            {/*    alignItems="center"*/}
+            {/*    px={s(8)}*/}
+            {/*  >*/}
+            {/*    <SearchNormalSvg />*/}
+            {/*    <Input*/}
+            {/*      variant="outline"*/}
+            {/*      borderWidth={0}*/}
+            {/*      flex="1"*/}
+            {/*      placeholder="Hợp đồng bảo hiểm / số hợp đồng"*/}
+            {/*      placeholderTextColor="lighterGray"*/}
+            {/*      fontWeight="400"*/}
+            {/*      px="0"*/}
+            {/*      mx={s(16)}*/}
+            {/*      color="black"*/}
+            {/*      selectionColor="primary"*/}
+            {/*      _focus={{ bg: "white" }}*/}
+            {/*      onChangeText={onDebouncedSearch}*/}
+            {/*    />*/}
+            {/*  </HStack>*/}
+            {/*  <Pressable*/}
+            {/*    onPress={showFilter}*/}
+            {/*    height={s(40)}*/}
+            {/*    width={s(40)}*/}
+            {/*    alignItems="center"*/}
+            {/*    justifyContent="center"*/}
+            {/*    bg="#F1F5F9"*/}
+            {/*    mr="4"*/}
+            {/*    ml="2"*/}
+            {/*    borderRadius={8}*/}
+            {/*  >*/}
+            {/*    <FilterInsuranceSvg />*/}
+            {/*  </Pressable>*/}
+            {/*</HStack>*/}
+            <SectionList
+              sections={data}
+              keyExtractor={(_, index) => index.toString()}
+              renderItem={renderItem}
+              renderSectionHeader={renderSectionHeader}
+              stickySectionHeadersEnabled
+              refreshControl={
+                <RefreshControl
+                  refreshing={insuranceStore.isRefreshing}
+                  onRefresh={_onRefresh}
+                  colors={[color.primary]}
+                  tintColor={color.primary}
+                />
+              }
+              onEndReachedThreshold={0.4}
+              onEndReached={_onLoadMore}
+              ListFooterComponent={ListFooterComponent}
             />
-          }
-          onEndReachedThreshold={0.4}
-          onEndReached={_onLoadMore}
-          ListFooterComponent={ListFooterComponent}
-        />
-      </Box>
-    </Box>
+          </Box>
+        </Box> :
+        <>
+          <AppHeader
+            style={styles.header}
+            headerTx={"header.manageInsuranceList"}
+            renderRightIcon={<ManageInsuranceHelp />}
+          />
+          <SettingAuthScreen />
+        </>
+      }
+    </>
   )
 })
 

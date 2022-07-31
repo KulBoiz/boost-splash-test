@@ -14,6 +14,7 @@ import FormItemPicker from "../../../components/form-item-picker"
 import { ROW } from "../../../styles/common-style"
 
 interface Props{
+  editable: boolean
   control: Control
   setValue: UseFormSetValue<FieldValues>
   errors: FieldErrors<FieldValues>
@@ -29,7 +30,7 @@ const formatData = (array) => {
 
 const IdentifyForm = React.memo((props: Props) => {
   const {locationStore} = useStores()
-  const {control, setValue, errors, clearErrors } = props
+  const {control, setValue, errors, clearErrors, editable } = props
   const [city, setCity] = useState()
   const [code, setCode] = useState()
 
@@ -44,7 +45,7 @@ const IdentifyForm = React.memo((props: Props) => {
   },[])
 
   const handleSelectState = (state) => {
-    clearErrors("province")
+    clearErrors("placeOfIssue")
   }
 
   const onChangeSearchState = (value) => {
@@ -56,12 +57,12 @@ const IdentifyForm = React.memo((props: Props) => {
     <View style={styles.container}>
       <FormInput
         {...{
-          name: "id",
-          labelTx: "label.fullName",
-          placeholderTx: "placeholder.insurance.fullName",
+          name: "idNumber",
+          label: "Số CMND / CCCD / Hộ chiếu",
+          placeholder: "Số CMND / CCCD / Hộ chiếu",
           control,
-          error: errors?.fullName?.message,
-          editable: false,
+          error: errors?.idNumber?.message,
+          editable: editable,
         }}
       />
       <View style={ROW}>
@@ -69,24 +70,26 @@ const IdentifyForm = React.memo((props: Props) => {
           {...{
             style:{flex:1},
             clearErrors,
-            name: "dateOfBirth",
+            name: "issuedOn",
             labelTx: "placeholder.insurance.dateOfBirth",
             placeholderTx: "placeholder.insurance.dateOfBirth",
             setValue: setValue,
             control,
-            error: errors?.dateOfBirth?.message,
+            error: errors?.issuedOn?.message,
+            disable: !editable
           }}
         />
 
         <FormItemPicker
           {...{
             style:{flex:1, marginLeft: 15},
-            name: "province",
-            label: "Tỉnh / TP trực thuộc",
-            placeholder: "Tỉnh / TP trực thuộc",
+            name: "placeOfIssue",
+            label: "Nơi cấp",
+            placeholder: "Nơi cấp",
             control,
+            disable: !editable,
             setValue,
-            error: errors?.province?.message,
+            error: errors?.placeOfIssue?.message,
             data: city,
             handleSelect: handleSelectState,
             onChangeSearchText: onChangeSearchState,

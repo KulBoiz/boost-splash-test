@@ -39,23 +39,23 @@ const BuySuccess = React.memo((props: Props) => {
   const [reload, setReload] = useState(true)
   const [status, setStatus] = useState(respondTransaction?.status)
 
-  useEffect(() => {
-    if (time > 0 && respondTransaction?.status === STATUS.PENDING) {
-      setTimeout(() => {
-        setTime(time - 1)
-      }, 1000);
-    }
-
-    if (time === 0 && reload) {
-      productStore.getTransactionInsurance(productDetail?.id).then((res) => {
-        const transaction = res?.data?.data?.find(item => item?.id === transaction?.id);
-        setStatus(transaction?.status)
-        setReload(false)
-      }).catch(() => {
-        setReload(false)
-      })
-    }
-  }, [time])
+  // useEffect(() => {
+  //   if (time > 0 && respondTransaction?.status === STATUS.PENDING) {
+  //     setTimeout(() => {
+  //       setTime(time - 1)
+  //     }, 1000);
+  //   }
+  //
+  //   if (time === 0 && reload) {
+  //     productStore.getTransactionInsurance(productDetail?.id).then((res) => {
+  //       const transaction = res?.data?.data?.find(item => item?.id === transaction?.id);
+  //       setStatus(transaction?.status)
+  //       setReload(false)
+  //     }).catch(() => {
+  //       setReload(false)
+  //     })
+  //   }
+  // }, [time])
 
   const goHome = () => {
     goBack()
@@ -68,7 +68,8 @@ const BuySuccess = React.memo((props: Props) => {
         <View style={styles.success}>
           {status === STATUS.SUCCEEDED && <SuccessInsuranceSvg />}
           <AppText value={'Mua bảo hiểm'} style={[FONT_MEDIUM_14, styles.buyText]} />
-          <AppText value={`${MAPPING_STATUS[status] ?? 'Chờ xác nhận'}${time > 0  && status === STATUS.PENDING  ? `(${time})` : ''}`} style={styles.successText} />
+          <AppText value={`${MAPPING_STATUS[status] ?? 'Chờ xác nhận'}`} style={styles.successText} />
+          {/*${time > 0  && status === STATUS.PENDING  ? `(${time})` : ''}*/}
         </View>
       </View>
 
