@@ -63,7 +63,6 @@ const ManageInsuranceDetailScreen: FC<Props> = observer((props: any) => {
   const getUser = (fullName) => {
     return data?.transaction?.customers?.find(item => item.fullName.toLowerCase() === fullName.toLowerCase())
   }
-
   return (
     <Box flex="1" bg="lightBlue">
       <AppHeader
@@ -176,79 +175,12 @@ const ManageInsuranceDetailScreen: FC<Props> = observer((props: any) => {
              index: 4,
            })}
           </Box>
-
-          {/* <Box bg="white" borderRadius="8" mt="4">
-           <Pressable
-            //  flexDirection="row"
-            //  py={vs(12)}
-            //  px={s(12)}
-             alignItems="center"
-             onPress={() => setCollapsed(!collapsed)}
-           >
-             <Text
-               fontWeight="500"
-               color="primary"
-               fontSize="12"
-               lineHeight="17"
-               flex="1"
-               text={"Quyền lợi bảo hiểm"}
-               mr="3"
-               numberOfLines={1}
-             />
-             <Box style={!collapsed && { transform: [{ rotate: "180deg" }] }}>
-               <ChevronDownPrimarySvg />
-             </Box>
-           </Pressable>
-           <Collapsible collapsed={collapsed}>
-             <Box px="4" pb="3">
-               <Box height="1.0" bg="iron" mb="3" opacity={0.5} />
-               <Text text="Số tiền bảo hiểm:" />
-               <ReactNativeText>
-                 <Text size="regular12" color="grayChateau" text="- Chương trình" />
-                 <Text fontSize="12" fontWeight="700" color="orange" text=" Đồng: 25 triệu " />
-                 <Text size="regular12" color="grayChateau" text="đồng/người" />
-               </ReactNativeText>
-               <ReactNativeText>
-                 <Text size="regular12" color="grayChateau" text="- Chương trình" />
-                 <Text fontSize="12" fontWeight="700" color="orange" text=" Bạc: 50 triệu  " />
-                 <Text size="regular12" color="grayChateau" text="đồng/người" />
-               </ReactNativeText>
-               <ReactNativeText>
-                 <Text size="regular12" color="grayChateau" text="- Chương trình" />
-                 <Text fontSize="12" fontWeight="700" color="orange" text=" Vàng: 100 triệu  " />
-                 <Text size="regular12" color="grayChateau" text="đồng/người" />
-               </ReactNativeText>
-               <ReactNativeText>
-                 <Text size="regular12" color="grayChateau" text="- Chương trình" />
-                 <Text
-                   fontSize="12"
-                   fontWeight="700"
-                   color="orange"
-                   text=" Bạch Kim: 200 triệu  "
-                 />
-                 <Text size="regular12" color="grayChateau" text="đồng/người" />
-               </ReactNativeText>
-               <Row>
-                 <Box flex="1">
-                   <ReactNativeText>
-                     <Text size="regular12" color="grayChateau" text="- Chương trình" />
-                     <Text
-                       fontSize="12"
-                       fontWeight="700"
-                       color="orange"
-                       text=" Kim Cương: 500 triệu "
-                     />
-                     <Text size="regular12" color="grayChateau" text="đồng/người" />
-                   </ReactNativeText>
-                 </Box>
-                 <BenefitInsuranceSvg />
-               </Row>
-             </Box>
-           </Collapsible>
-          </Box> */}
-          <Button my="6" onPress={onRequest}>
-            Yêu cầu bồi thường bảo hiểm
-          </Button>
+          {
+            (moment(data?.meta?.time?.startTime) <= moment(new Date())) &&
+            <Button my="6" onPress={onRequest}>
+              Yêu cầu bồi thường bảo hiểm
+            </Button>
+          }
         </Box>
       </ScrollView>
       <PopupHospitalList visible={popupHospitalListVisible} onClose={hidePopupHospital} />
