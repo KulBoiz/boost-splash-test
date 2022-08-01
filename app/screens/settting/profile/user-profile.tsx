@@ -45,7 +45,7 @@ const UserProfile = React.memo((props: Props) => {
   const a = userAuth(authStoreModel?.user)
   const b = userInfo(watch())
   const isUpdate = _.isEqual(a, b)
-  
+
   useEffect(() => {
     // eslint-disable-next-line array-callback-return
     Object.entries(user).map((e: any)=>{
