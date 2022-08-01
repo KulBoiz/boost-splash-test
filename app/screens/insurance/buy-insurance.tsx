@@ -39,7 +39,7 @@ const BuyInsurance = observer((props: Props) => {
     navigation.dispatch(StackActions.push(ScreenNames.INSURANCE_SCREEN, { id: 1 }))
   }
 
-  if (productDetail && productDetail?.source) {
+  if (productDetail && productDetail?.source && !productDetail?.isFina) {
     return (
       <View style={{ position: "relative" }}>
         <View style={{ height: "100%" }}>
