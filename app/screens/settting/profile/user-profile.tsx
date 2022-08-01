@@ -13,8 +13,9 @@ import IdentifyForm from "./identify-form"
 import { ALIGN_CENTER, MARGIN_TOP_8, ROW, SPACE_BETWEEN } from "../../../styles/common-style"
 import AppButton from "../../../components/app-button/AppButton"
 import { EditSvg } from "../../../assets/svgs"
-import isEqual from 'lodash'
+import _ from 'lodash'
 import { useStores } from "../../../models"
+import { userAuth, userInfo } from "../constants"
 
 interface Props{}
 
@@ -41,7 +42,12 @@ const UserProfile = React.memo((props: Props) => {
     reValidateMode: "onChange",
   })
 
+  const a = userAuth(authStoreModel?.user)
+  const b = userInfo(watch())
+  const isUpdate = _.isEqual(a, b)
+  
   useEffect(() => {
+    // eslint-disable-next-line array-callback-return
     Object.entries(user).map((e: any)=>{
       if(e[0] === 'emails'){
         setValue('email', e[1][0].email)
@@ -56,9 +62,31 @@ const UserProfile = React.memo((props: Props) => {
     })
     // eslint-disable-next-line array-callback-return
     Object.entries(identification).map((e: any)=>{
+      if(e[0] === 'idNumber'){
+        return false
+      }
       setValue(e[0], e[1])
     })
   },[])
+
+  const updateUserInfo = async (data)=> {
+    const body = {
+      fullName: data.fullName,
+      idNumber: data.idNumber,
+      gender: data.gender,
+      tels: [{ tel: data.tel}],
+      emails: [{ email: data.email }],
+      birthday: data?.birthday,
+      identification: {
+        issuedOn: data.issuedOn,
+        placeOfIssue: data.placeOfIssue,
+      }
+    }
+    authStoreModel.updateInfoUser(body).then(() => {
+      setIsEdit(false)
+      authStoreModel.getFullInfoUser(authStoreModel?.userId)
+    })
+  }
 
   return (
     <View style={styles.container}>
@@ -78,7 +106,7 @@ const UserProfile = React.memo((props: Props) => {
       </View>
       {isEdit &&
         <View style={styles.btnContainer}>
-          <AppButton title={'Cập nhật'} onPress={()=> {}}/>
+          <AppButton title={'Cập nhật'} onPress={handleSubmit(updateUserInfo)} disable={isUpdate}/>
         </View>
       }
 

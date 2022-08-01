@@ -37,7 +37,6 @@ const InsuranceItem = React.memo((props: Props) => {
           navigate(ScreenNames.INSURANCE_SCREEN)
       }
     })
-
   }
 
   const renderSvg = () => {

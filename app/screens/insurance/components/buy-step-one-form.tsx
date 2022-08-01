@@ -311,7 +311,7 @@ const BuyStepOneForm = React.memo((props: Props) => {
       }
 
       <HomeInsurance productDetail={productDetail} />
-        <BottomView height={s(140)}/>
+        <BottomView height={s(200)}/>
       </KeyboardAwareScrollView>
       <CalculateMoney
         insurance={{

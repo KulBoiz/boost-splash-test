@@ -109,9 +109,20 @@ export const getClaimStatus = (status) => {
     case CLAIM_INSURANCE_STATUS.CONSULTED:
       return { label: "Tạo hồ sơ", color: 'slateblue' }
     case CLAIM_INSURANCE_STATUS.DONE:
-      return {label: "Tạo hồ sơ claim", color: 'coral' }
+      return {label: "Hoàn thành", color: 'coral' }
     case CLAIM_INSURANCE_STATUS.CANCEL:
       return {label: "Không đủ điều kiện", color: 'red' }
     default: return {label: 'Ghi nhận', color: 'green' }
   }
+}
+
+export const getTimeLeft = (countdown, countdownType) => {
+  if (countdownType === 'month'){
+    return 60 * 60 * 24 * countdown * 1000
+  } if (countdownType === 'day'){
+    return 60 * 60 * countdown * 1000
+  } if (countdownType === 'minute'){
+    return 60 * countdown * 1000
+  }
+  return 0
 }
