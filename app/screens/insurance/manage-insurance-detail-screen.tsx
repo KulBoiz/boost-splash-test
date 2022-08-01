@@ -63,6 +63,7 @@ const ManageInsuranceDetailScreen: FC<Props> = observer((props: any) => {
   const getUser = (fullName) => {
     return data?.transaction?.customers?.find(item => item.fullName.toLowerCase() === fullName.toLowerCase())
   }
+
   return (
     <Box flex="1" bg="lightBlue">
       <AppHeader
@@ -71,7 +72,11 @@ const ManageInsuranceDetailScreen: FC<Props> = observer((props: any) => {
         renderRightIcon={<ManageInsuranceHelp />}
       />
       <ScrollView>
-        <ValidityCheck endDate={data?.meta?.time?.endTime ?? new Date()} startDate={data?.meta?.time?.startTime ?? new Date()}/>
+        <ValidityCheck
+          endDate={data?.meta?.time?.endTime ?? new Date()}
+          startDate={data?.meta?.time?.startTime ?? new Date()}
+          config={data?.product?.insuranceConfig}
+        />
         <Box mt="6" px="4">
           <Row alignItems="center">
             <FileDocSvg />

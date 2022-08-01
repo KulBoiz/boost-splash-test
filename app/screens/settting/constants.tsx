@@ -63,3 +63,33 @@ export const SETTING_LIST = [
     active: false,
   },
 ]
+
+export const userInfo = (user) => {
+  return {
+    fullName: user.fullName,
+    idNumber: +user.idNumber,
+    gender: user.gender,
+    tel: user.tel,
+    email: user.email,
+    birthday: user?.birthday,
+    identification: {
+      issuedOn: user.issuedOn,
+      placeOfIssue: user.placeOfIssue,
+    }
+  }
+}
+
+export const userAuth = (user) => {
+  return {
+    fullName: user.fullName,
+    idNumber: +user.idNumber,
+    gender: user.gender,
+    tel: user.tels[0].tel,
+    email: user.emails[0].email,
+    birthday: user?.birthday,
+    identification: {
+      issuedOn: user?.identification?.issuedOn,
+      placeOfIssue: user?.identification?.placeOfIssue,
+    }
+  }
+}

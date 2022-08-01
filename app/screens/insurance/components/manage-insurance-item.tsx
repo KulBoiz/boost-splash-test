@@ -6,7 +6,7 @@ import { FastImage } from "../../../components/fast-image/fast-image"
 import moment from "moment"
 import { status } from "./validity-check"
 import { color } from "../../../theme"
-import { getClaimStatus } from "../constants"
+import { getClaimStatus, getTimeLeft } from "../constants"
 
 interface Props {
   item: any
@@ -16,17 +16,17 @@ interface Props {
 
 const ManageInsuranceItem = React.memo(({ item, index, onPress }: Props) => {
   const data = item?.product
-  const date = 60 * 60 * 24 * 30
   const endDate = item?.meta?.time?.endTime
   const type = 'claim_insurance'
   const isClaim = item?.type === type
   const userName = item?.user?.fullName ?? item?.user?.firstName + ' ' + item?.user?.lastName ?? ''
+  const config = item?.product?.insuranceConfig
 
   const checkStatus = React.useCallback(() => {
-    if (Number(moment(endDate).format('x')) > date * 1000){
+    if ((Number(moment(endDate).format('x')) - +moment(new Date()).format('x')) > getTimeLeft(config?.countdown, config?.typeCountdown)){
       return status.effective
     }
-    if (Number(moment(endDate).format('x')) < date * 1000 && moment().diff(moment(endDate), 'second') !== 0){
+    if ((Number(moment(endDate).format('x')) - +moment(new Date()).format('x')) < getTimeLeft(config?.countdown, config?.typeCountdown) && moment().diff(moment(endDate), 'second') !== 0){
       return status.almostExpired
     }
     return status.expire
@@ -89,14 +89,6 @@ const ManageInsuranceItem = React.memo(({ item, index, onPress }: Props) => {
           textTransform="capitalize"
           text={userName}
         />
-        {/*{item?.meta?.name && <Text*/}
-        {/*  mt="1"*/}
-        {/*  size={"medium12"}*/}
-        {/*  color="#A1A8AB"*/}
-        {/*  lineHeight={17}*/}
-        {/*  textTransform="capitalize"*/}
-        {/*  text={item?.meta?.name ?? ""}*/}
-        {/*/>}*/}
 
       </Box>
 

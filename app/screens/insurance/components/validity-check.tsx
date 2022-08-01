@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from "react"
 import { View, ImageBackground } from "react-native"
 import { AppText } from '../../../components/app-text/AppText';
 import moment, { Moment } from 'moment';
@@ -18,10 +18,12 @@ import Countdown from "./countdown"
 import { FastImage } from "../../../components/fast-image/fast-image"
 import { WarningSvg } from "../../../assets/svgs"
 import { fontFamily } from "../../../constants/font-family"
+import { getTimeLeft } from "../constants"
 
 interface Props{
   startDate?: Moment
   endDate?: Moment
+  config?: any
 }
 export const status = {
   effective: "effective",
@@ -43,15 +45,15 @@ const ExtendButton = ({onPress}: {onPress(): void}) => {
     <AppButton title={'Gia hạn ngay'} onPress={onPress} containerStyle={styles.btn} titleStyle={FONT_BOLD_14}/>
   )
 }
-const ValidityCheck = React.memo(({ startDate, endDate }: Props) => {
-  const date = 60 * 60 * 24 * 30
+const ValidityCheck = React.memo(({ startDate, endDate, config }: Props) => {
+  const [isExpired, setIsExpired] = useState(false)
   const time = moment(endDate).diff(new Date()).toString().slice(0, -3);
 
   const checkStatus = React.useCallback(() => {
-    if (Number(moment(endDate).format('x')) > date * 1000){
+    if ((Number(moment(endDate).format('x')) - +moment(new Date()).format('x')) > getTimeLeft(config?.countdown, config?.typeCountdown)){
       return status.effective
     }
-    if (Number(moment(endDate).format('x')) < date * 1000 && moment().diff(moment(endDate), 'second') !== 0){
+    if ((Number(moment(endDate).format('x')) - +moment(new Date()).format('x') ) < getTimeLeft(config?.countdown, config?.typeCountdown) && moment().diff(moment(endDate), 'second') !== 0){
       return status.almostExpired
     }
     return status.expire
@@ -69,12 +71,15 @@ const ValidityCheck = React.memo(({ startDate, endDate }: Props) => {
   const extendContract = ()=> {
     //
   }
+  const handleExpired = () => {
+    setIsExpired(true)
+  }
   const renderHeader = () => {
     return(
       <View style={[styles.header, {backgroundColor: backgroundColorHeader}]}>
         <FastImage source={image} style={styles.icon}/>
         <AppText color={color.palette.white} value={checkStatus() === status.effective ?
-          'Có hiệu lực': checkStatus() === status.expire ?
+          'Có hiệu lực': (checkStatus() === status.expire || isExpired) ?
           "Hết hiệu lực" : "Gần hết hiệu lực"} style={FONT_MEDIUM_12} />
       </View>
     )
@@ -90,7 +95,7 @@ const ValidityCheck = React.memo(({ startDate, endDate }: Props) => {
         </BackgroundImage>
       )
     }
-    if (checkStatus() === status.expire){
+    if (checkStatus() === status.expire || isExpired){
       return (
         <BackgroundImage type={'small'}>
           <View style={[ROW, ALIGN_CENTER, SPACE_BETWEEN]}>
@@ -101,7 +106,7 @@ const ValidityCheck = React.memo(({ startDate, endDate }: Props) => {
                 <AppText value={' “Gia hạn ngay"'} style={FONT_BOLD_12}/>
               </AppText>
             </View>
-            {/*<ExtendButton onPress={extendContract}/>*/}
+            {/* <ExtendButton onPress={extendContract}/> */}
           </View>
         </BackgroundImage>
       )
@@ -110,8 +115,8 @@ const ValidityCheck = React.memo(({ startDate, endDate }: Props) => {
         <BackgroundImage type={'big'}>
           <AppText value={'Hợp đồng sắp đến hạn'} style={MARGIN_BOTTOM_8}/>
           <View style={[ROW, ALIGN_CENTER, SPACE_BETWEEN]}>
-            <Countdown totalTime={time} />
-            {/*<ExtendButton onPress={extendContract}/>*/}
+            <Countdown totalTime={time} callback={handleExpired}/>
+            {/* <ExtendButton onPress={extendContract}/> */}
           </View>
         </BackgroundImage>
       )
