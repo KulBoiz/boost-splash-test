@@ -92,7 +92,12 @@ const FormCustomer = (props: Props) => {
     if (age < minAge() || age >= 70) {
       Alert.alert("Tuổi chọn không hợp lệ")
     }
-  }, [getValues()?.dateOfBirth, getValues()?.employeeBuy, minAge()])
+  }, [getValues()?.dateOfBirth])
+
+  useEffect(() => {
+    setValue('dateOfBirth', undefined);
+    setValue('relationship', '')
+  }, [getValues()?.employeeBuy, minAge()])
 
   return (
     <>

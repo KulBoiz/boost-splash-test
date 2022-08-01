@@ -34,6 +34,7 @@ const FormUpdateUser = (props: Props) => {
     fullName: Yup.string().required("Vui lòng nhập họ và tên"),
     dateOfBirth: Yup.date()
       .required("Vui lòng nhập ngày sinh"),
+    idNumber: Yup.string().required("Vui lòng nhập"),
     gender: Yup.string().required("Vui lòng chọn giới tính"),
     tel: Yup.string().required("Vui lòng nhập số điện thoại"),
     email: Yup.string().required("Vui lòng nhập số email"),
@@ -128,7 +129,7 @@ const FormUpdateUser = (props: Props) => {
               control,
               keyboardType: "number-pad",
               style: { marginTop: 6 },
-              error: undefined,
+              error: errors?.idNumber?.message,
             }}
           />
           <Row>

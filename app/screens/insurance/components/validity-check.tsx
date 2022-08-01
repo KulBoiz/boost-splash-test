@@ -1,5 +1,5 @@
 import React, { useState } from "react"
-import { View, ImageBackground } from "react-native"
+import { View, ImageBackground, ViewStyle } from "react-native"
 import { AppText } from '../../../components/app-text/AppText';
 import moment, { Moment } from 'moment';
 import { s, ScaledSheet } from "react-native-size-matters"
@@ -31,10 +31,10 @@ export const status = {
   almostExpired: "almost_expired"
 }
 
-const BackgroundImage = ({ type, children }: {type: 'small'| 'big', children: React.ReactNode}) => {
+const BackgroundImage = ({ type, children, style }: {type: 'small'| 'big', children: React.ReactNode, style?: ViewStyle | any}) => {
   return (
     <View style={type === 'small' ? styles.smallContainer : styles.bigContainer}>
-      <ImageBackground source={images.insurance_detail} style={styles.background}>
+      <ImageBackground source={images.insurance_detail} style={[styles.background, style]}>
         {children}
       </ImageBackground>
     </View>
@@ -53,7 +53,7 @@ const ValidityCheck = React.memo(({ startDate, endDate, config }: Props) => {
     if ((Number(moment(endDate).format('x')) - +moment(new Date()).format('x')) > getTimeLeft(config?.countdown, config?.typeCountdown)){
       return status.effective
     }
-    if ((Number(moment(endDate).format('x')) - +moment(new Date()).format('x') ) < getTimeLeft(config?.countdown, config?.typeCountdown) && moment().diff(moment(endDate), 'second') !== 0){
+    if ((Number(moment(endDate).format('x')) - +moment(new Date()).format('x')) < getTimeLeft(config?.countdown, config?.typeCountdown) && moment().diff(moment(endDate), 'second') !== 0){
       return status.almostExpired
     }
     return status.expire
@@ -97,7 +97,7 @@ const ValidityCheck = React.memo(({ startDate, endDate, config }: Props) => {
     }
     if (checkStatus() === status.expire || isExpired){
       return (
-        <BackgroundImage type={'small'}>
+        <BackgroundImage type={'small'} style={ALIGN_CENTER}>
           <View style={[ROW, ALIGN_CENTER, SPACE_BETWEEN]}>
             <View style={[ROW, ALIGN_CENTER]}>
               <WarningSvg style={{marginRight: s(8)}}/>
@@ -112,7 +112,7 @@ const ValidityCheck = React.memo(({ startDate, endDate, config }: Props) => {
       )
     }if (checkStatus() === status.almostExpired){
       return (
-        <BackgroundImage type={'big'}>
+        <BackgroundImage type={'big'} style={ALIGN_CENTER}>
           <AppText value={'Hợp đồng sắp đến hạn'} style={MARGIN_BOTTOM_8}/>
           <View style={[ROW, ALIGN_CENTER, SPACE_BETWEEN]}>
             <Countdown totalTime={time} callback={handleExpired}/>

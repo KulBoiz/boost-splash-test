@@ -76,21 +76,23 @@ const ManageInsuranceDetailScreen: FC<Props> = observer((props: any) => {
           startDate={data?.meta?.time?.startTime ?? new Date()}
           config={data?.product?.insuranceConfig}
         />
-        <Box mt="6" px="4">
-          <Row alignItems="center">
-            <FileDocSvg />
-            <Text mx="1" fontSize="12" fontWeight="500" flex="1" text="Xem / tải giấy chứng nhận" />
-            <Text
-              onPress={showPopupHospital}
-              suppressHighlighting
-              fontSize="12"
-              fontWeight="500"
-              color="primary"
-              text="Bệnh viện bảo lãnh"
-              mr="1"
-            />
-            <ListHospitalSvg />
-          </Row>
+        <Box
+          // mt="6"
+          px="4">
+          {/* <Row alignItems="center"> */}
+          {/*  <FileDocSvg /> */}
+          {/*  <Text mx="1" fontSize="12" fontWeight="500" flex="1" text="Xem / tải giấy chứng nhận" /> */}
+          {/*  <Text */}
+          {/*    onPress={showPopupHospital} */}
+          {/*    suppressHighlighting */}
+          {/*    fontSize="12" */}
+          {/*    fontWeight="500" */}
+          {/*    color="primary" */}
+          {/*    text="Bệnh viện bảo lãnh" */}
+          {/*    mr="1" */}
+          {/*  /> */}
+          {/*  <ListHospitalSvg /> */}
+          {/* </Row> */}
 
           <Box bg="white" borderRadius="8" py="3" px="4" mt="4">
             <Text

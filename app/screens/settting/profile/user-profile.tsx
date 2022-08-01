@@ -50,10 +50,10 @@ const UserProfile = React.memo((props: Props) => {
     // eslint-disable-next-line array-callback-return
     Object.entries(user).map((e: any)=>{
       if(e[0] === 'emails'){
-        setValue('email', e[1][0].email)
+        setValue('email', e[1][0]?.email)
       }
       if(e[0] === 'tels'){
-        setValue('tel', e[1][0].tel)
+        setValue('tel', e[1][0]?.tel)
       }
       if(e[0] === 'idNumber'){
         setValue('idNumber', e[1].toString())
