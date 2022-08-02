@@ -86,18 +86,14 @@ const FormCustomer = (props: Props) => {
     return employeeBuy === 'staff' ? 18 : 1
   }
 
-  useEffect(() => {
-    const age = checkAge(getValues())
+  // ẩn chức năng check ngày sinh user liên tục
+  // useEffect(() => {
+  //   const age = checkAge(getValues())
 
-    if (age < minAge() || age >= 70) {
-      Alert.alert("Tuổi chọn không hợp lệ")
-    }
-  }, [getValues()?.dateOfBirth])
-
-  useEffect(() => {
-    setValue('dateOfBirth', undefined);
-    setValue('relationship', '')
-  }, [getValues()?.employeeBuy, minAge()])
+  //   if (age < minAge() || age >= 70) {
+  //     Alert.alert("Tuổi chọn không hợp lệ")
+  //   }
+  // }, [getValues()?.dateOfBirth])
 
   return (
     <>
@@ -115,7 +111,9 @@ const FormCustomer = (props: Props) => {
               control,
               setValue: (key, value) => {
                 setValue("employeeBuy", value)
-                setValue("package", undefined)
+                setValue("package", '')
+                  // ẩn chức năng reset ngày sinh khi thay đổi gói
+                // setValue("dateOfBirth", '')
                 setPackages(
                   value === "staff" ? listPackageStaff : listPackageRelative,
                 )
@@ -146,7 +144,7 @@ const FormCustomer = (props: Props) => {
               editable: !isStaff
             }}
           />
-          {getValues().employeeBuy &&
+          {/* {getValues().employeeBuy && */}
             <Row>
               <FormDatePicker
                 {...{
@@ -176,7 +174,7 @@ const FormCustomer = (props: Props) => {
                 }}
               />
             </Row>
-          }
+          {/* } */}
           <FormInput
             {...{
               name: "idNumber",
