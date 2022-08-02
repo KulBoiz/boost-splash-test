@@ -26,7 +26,8 @@ const ManageInsuranceItem = React.memo(({ item, index, onPress }: Props) => {
     if ((Number(moment(endDate).format('x')) - +moment(new Date()).format('x')) > getTimeLeft(config?.countdown, config?.typeCountdown)){
       return status.effective
     }
-    if ((Number(moment(endDate).format('x')) - +moment(new Date()).format('x')) < getTimeLeft(config?.countdown, config?.typeCountdown) && moment().diff(moment(endDate), 'second') !== 0){
+    if ((Number(moment(endDate).format('x')) - +moment(new Date()).format('x')) < getTimeLeft(config?.countdown, config?.typeCountdown)
+      && (Number(moment(endDate).format('x')) - +moment(new Date()).format('x')) !== 0){
       return status.almostExpired
     }
     return status.expire
