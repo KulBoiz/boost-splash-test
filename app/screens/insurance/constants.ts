@@ -118,11 +118,11 @@ export const getClaimStatus = (status) => {
 
 export const getTimeLeft = (countdown, countdownType) => {
   if (countdownType === 'month'){
-    return 60 * 60 * 24 * countdown * 1000
+    return 60 * 60 * 24 * 30 * +countdown * 1000
   } if (countdownType === 'day'){
-    return 60 * 60 * countdown * 1000
+    return 60 * 60 * 24 * +countdown * 1000
   } if (countdownType === 'minute'){
-    return 60 * countdown * 1000
+    return 60 * 60 * +countdown * 1000
   }
   return 0
 }
