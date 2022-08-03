@@ -27,11 +27,11 @@ const ManageInsuranceItem = React.memo(({ item, index, onPress }: Props) => {
       return status.effective
     }
     if ((Number(moment(endDate).format('x')) - +moment(new Date()).format('x')) < getTimeLeft(config?.countdown, config?.typeCountdown)
-      && (Number(moment(endDate).format('x')) - +moment(new Date()).format('x')) !== 0){
+      && (Number(moment(endDate).format('x')) - +moment(new Date()).format('x')) > 0){
       return status.almostExpired
     }
     return status.expire
-  },[])
+  },[config])
 
   const backgroundColor = checkStatus() === status.effective ?
     color.palette.lightGreen: checkStatus() === status.expire ?

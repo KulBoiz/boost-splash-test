@@ -27,7 +27,7 @@ const ManageInsuranceListScreen: FC<Props> = observer((props: any) => {
   const [tabSelect, setTabSelect] = useState(key ?? INSURANCE_TABS[0].key)
   const isListBuy = tabSelect === INSURANCE_TABS[0].key
   const isLoggedIn = authStoreModel.isLoggedIn
-
+  
   useEffect(()=> {
     if (key){
       onChangeTab(key)
@@ -142,46 +142,46 @@ const ManageInsuranceListScreen: FC<Props> = observer((props: any) => {
 
           <ManageInsuranceTab onChangeTab={onChangeTab} tabSelect={tabSelect} />
           <Box flex={1} bg="white" pt='1'>
-            {/*<HStack alignItems="center" mt="4" mb="4">*/}
-            {/*  <HStack*/}
-            {/*    flex="1"*/}
-            {/*    height={s(40)}*/}
-            {/*    bg="#F3F6FD"*/}
-            {/*    borderRadius="16"*/}
-            {/*    ml={s(16)}*/}
-            {/*    alignItems="center"*/}
-            {/*    px={s(8)}*/}
-            {/*  >*/}
-            {/*    <SearchNormalSvg />*/}
-            {/*    <Input*/}
-            {/*      variant="outline"*/}
-            {/*      borderWidth={0}*/}
-            {/*      flex="1"*/}
-            {/*      placeholder="Hợp đồng bảo hiểm / số hợp đồng"*/}
-            {/*      placeholderTextColor="lighterGray"*/}
-            {/*      fontWeight="400"*/}
-            {/*      px="0"*/}
-            {/*      mx={s(16)}*/}
-            {/*      color="black"*/}
-            {/*      selectionColor="primary"*/}
-            {/*      _focus={{ bg: "white" }}*/}
-            {/*      onChangeText={onDebouncedSearch}*/}
-            {/*    />*/}
-            {/*  </HStack>*/}
-            {/*  <Pressable*/}
-            {/*    onPress={showFilter}*/}
-            {/*    height={s(40)}*/}
-            {/*    width={s(40)}*/}
-            {/*    alignItems="center"*/}
-            {/*    justifyContent="center"*/}
-            {/*    bg="#F1F5F9"*/}
-            {/*    mr="4"*/}
-            {/*    ml="2"*/}
-            {/*    borderRadius={8}*/}
-            {/*  >*/}
-            {/*    <FilterInsuranceSvg />*/}
-            {/*  </Pressable>*/}
-            {/*</HStack>*/}
+            {/* <HStack alignItems="center" mt="4" mb="4"> */}
+            {/*  <HStack */}
+            {/*    flex="1" */}
+            {/*    height={s(40)} */}
+            {/*    bg="#F3F6FD" */}
+            {/*    borderRadius="16" */}
+            {/*    ml={s(16)} */}
+            {/*    alignItems="center" */}
+            {/*    px={s(8)} */}
+            {/*  > */}
+            {/*    <SearchNormalSvg /> */}
+            {/*    <Input */}
+            {/*      variant="outline" */}
+            {/*      borderWidth={0} */}
+            {/*      flex="1" */}
+            {/*      placeholder="Hợp đồng bảo hiểm / số hợp đồng" */}
+            {/*      placeholderTextColor="lighterGray" */}
+            {/*      fontWeight="400" */}
+            {/*      px="0" */}
+            {/*      mx={s(16)} */}
+            {/*      color="black" */}
+            {/*      selectionColor="primary" */}
+            {/*      _focus={{ bg: "white" }} */}
+            {/*      onChangeText={onDebouncedSearch} */}
+            {/*    /> */}
+            {/*  </HStack> */}
+            {/*  <Pressable */}
+            {/*    onPress={showFilter} */}
+            {/*    height={s(40)} */}
+            {/*    width={s(40)} */}
+            {/*    alignItems="center" */}
+            {/*    justifyContent="center" */}
+            {/*    bg="#F1F5F9" */}
+            {/*    mr="4" */}
+            {/*    ml="2" */}
+            {/*    borderRadius={8} */}
+            {/*  > */}
+            {/*    <FilterInsuranceSvg /> */}
+            {/*  </Pressable> */}
+            {/* </HStack> */}
             <SectionList
               sections={data}
               keyExtractor={(_, index) => index.toString()}
@@ -196,7 +196,7 @@ const ManageInsuranceListScreen: FC<Props> = observer((props: any) => {
                   tintColor={color.primary}
                 />
               }
-              onEndReachedThreshold={0.4}
+              onEndReachedThreshold={0.2}
               onEndReached={_onLoadMore}
               ListFooterComponent={ListFooterComponent}
             />

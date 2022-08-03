@@ -1,6 +1,7 @@
 import { flow, Instance, SnapshotOut, types } from "mobx-state-tree"
 import { BaseApi } from "../../services/api/base-api"
 import { withEnvironment } from "../extensions/with-environment"
+import { unionBy } from "../../utils/lodash-utils"
 
 /**
  * Model description here for TypeScript hints.
@@ -48,6 +49,9 @@ export const InsuranceStoreModel = types
       pagingParams?: PagingParamsType,
       isRefresh = false,
     ) {
+      if (self.listBuy.length === self.listBuyTotal){
+        return
+      }
       if (isRefresh || pagingParams?.page === 1) {
         self.listBuy = []
       }
@@ -89,9 +93,13 @@ export const InsuranceStoreModel = types
 
       if (result.kind === "ok") {
         self.listBuyTotal = result.data.total
-        self.listBuy = data
         self.isRefreshing = false
         self.isLoadingMore = false
+        if (isRefresh || pagingParams?.page === 1) {
+          self.listBuy = data
+        } else {
+          self.listBuy = unionBy(self.listBuy, data, "id")
+        }
       }
       else{
         self.isRefreshing = false
@@ -105,6 +113,9 @@ export const InsuranceStoreModel = types
       pagingParams?: PagingParamsType,
       isRefresh = false,
     ) {
+      if (self.listClaimTotal === self.listClaim.length){
+        return
+      }
       if (isRefresh || pagingParams?.page === 1) {
       self.listClaim = []
     }
@@ -149,6 +160,11 @@ export const InsuranceStoreModel = types
         self.listClaim = data
         self.isRefreshing = false
         self.isLoadingMore = false
+        if (isRefresh || pagingParams?.page === 1) {
+          self.listClaim = data
+        } else {
+          self.listClaim = unionBy(self.listClaim, data, "id")
+        }
       }
       else{
         self.isRefreshing = false

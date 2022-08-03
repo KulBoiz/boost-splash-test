@@ -54,11 +54,11 @@ const ValidityCheck = React.memo(({ startDate, endDate, config }: Props) => {
       return status.effective
     }
     if ((Number(moment(endDate).format('x')) - +moment(new Date()).format('x')) < getTimeLeft(config?.countdown, config?.typeCountdown)
-      && (Number(moment(endDate).format('x')) - +moment(new Date()).format('x')) !== 0){
+      && (Number(moment(endDate).format('x')) - +moment(new Date()).format('x')) > 0){
       return status.almostExpired
     }
     return status.expire
-  },[])
+  },[config])
 
   const backgroundColorHeader = checkStatus() === status.effective ?
     color.palette.green: (checkStatus() === status.expire || isExpired) ?
