@@ -53,18 +53,19 @@ const ValidityCheck = React.memo(({ startDate, endDate, config }: Props) => {
     if ((Number(moment(endDate).format('x')) - +moment(new Date()).format('x')) > getTimeLeft(config?.countdown, config?.typeCountdown)){
       return status.effective
     }
-    if ((Number(moment(endDate).format('x')) - +moment(new Date()).format('x')) < getTimeLeft(config?.countdown, config?.typeCountdown) && moment().diff(moment(endDate), 'second') !== 0){
+    if ((Number(moment(endDate).format('x')) - +moment(new Date()).format('x')) < getTimeLeft(config?.countdown, config?.typeCountdown)
+      && (Number(moment(endDate).format('x')) - +moment(new Date()).format('x')) !== 0){
       return status.almostExpired
     }
     return status.expire
   },[])
 
   const backgroundColorHeader = checkStatus() === status.effective ?
-    color.palette.green: checkStatus() === status.expire ?
+    color.palette.green: (checkStatus() === status.expire || isExpired) ?
       color.palette.angry : color.palette.orange
 
   const image = checkStatus() === status.effective ?
-    images.circle_tick: checkStatus() === status.expire ?
+    images.circle_tick: (checkStatus() === status.expire || isExpired) ?
       images.circle_x : images.circle_clock
 
 
@@ -110,7 +111,8 @@ const ValidityCheck = React.memo(({ startDate, endDate, config }: Props) => {
           </View>
         </BackgroundImage>
       )
-    }if (checkStatus() === status.almostExpired){
+    }
+    if (checkStatus() === status.almostExpired){
       return (
         <BackgroundImage type={'big'} style={ALIGN_CENTER}>
           <AppText value={'Hợp đồng sắp đến hạn'} style={MARGIN_BOTTOM_8}/>

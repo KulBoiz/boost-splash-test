@@ -10,11 +10,12 @@ interface Props{
   onChange(event: any, selectedDate: any): void
   date: any
   closeModal(): void
-  isMaximumDate: boolean
+  isMaximumDate?: boolean
+  isMinimumDate?: boolean
 }
 
 const ModalDatePicker = React.memo((props: Props) => {
-  const {visible, onChange, date,closeModal, isMaximumDate = true} = props
+  const {visible, onChange, date,closeModal, isMaximumDate = true, isMinimumDate = false} = props
   return (
       <Modal
         isVisible={visible}
@@ -32,6 +33,7 @@ const ModalDatePicker = React.memo((props: Props) => {
             onChange={onChange}
             themeVariant="light"
             maximumDate={isMaximumDate ? new Date() : undefined}
+            minimumDate={isMinimumDate ? new Date() : undefined}
           />
         </View>
 

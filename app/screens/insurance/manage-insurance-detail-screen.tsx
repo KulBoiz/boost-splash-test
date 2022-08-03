@@ -179,6 +179,7 @@ const ManageInsuranceDetailScreen: FC<Props> = observer((props: any) => {
           </Box>
           {
             (moment(data?.meta?.time?.startTime) <= moment(new Date())) &&
+            ((Number(moment(data?.meta?.time?.startTime).format('x')) - +moment(new Date()).format('x')) !== 0) &&
             <Button my="6" onPress={onRequest}>
               Yêu cầu bồi thường bảo hiểm
             </Button>

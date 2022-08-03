@@ -24,6 +24,7 @@ interface Props {
   placeholderTx: string
   name: FieldPath<FieldValues>
   isMaximumDate?: boolean
+  isMinimumDate?: boolean
   clearErrors?: UseFormClearErrors<FieldValues>;
   disable?: boolean
 }
@@ -37,6 +38,7 @@ const DatePicker = React.memo((props: Props) => {
     label,
     name,
     isMaximumDate = true,
+    isMinimumDate = false,
     labelTx,
     placeholderTx,
     clearErrors,
@@ -94,6 +96,7 @@ const DatePicker = React.memo((props: Props) => {
               display={"default"}
               onChange={onChange}
               maximumDate={isMaximumDate ? new Date() : undefined}
+              minimumDate={isMinimumDate ? new Date() : undefined}
             />
           )}
         </>
@@ -104,6 +107,7 @@ const DatePicker = React.memo((props: Props) => {
           date={date}
           closeModal={() => setShow(false)}
           isMaximumDate={isMaximumDate}
+          isMinimumDate={isMinimumDate}
         />
       )}
     </Row>

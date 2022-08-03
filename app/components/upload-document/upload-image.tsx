@@ -32,7 +32,7 @@ const UploadImage = observer(({ onUploadSuccess, ...rest }: Props) => {
   }, 50)
 
   const onDeleteFile = (file) => {
-    setFilesUploadError(filter(filesUploadError, (f) => f.uri !== file.uri))
+    setFilesUploadError(filter(filesUploadError, (f) => f.uri !== file?.uri))
   }
 
   const onUpload = async (fileUpload) => {
@@ -51,7 +51,7 @@ const UploadImage = observer(({ onUploadSuccess, ...rest }: Props) => {
       setIsUploading(false)
       __DEV__ && console.log(response)
       if (response.kind === "ok") {
-        const file = response.data[0]
+        const file = response?.data[0]
         onUploadSuccess?.(file)
       } else {
         setFilesUploadError(
@@ -60,9 +60,9 @@ const UploadImage = observer(({ onUploadSuccess, ...rest }: Props) => {
             [
               {
                 ...fileUpload,
-                url: fileUpload.uri,
-                name: fileUpload.fileName,
-                size: fileUpload.fileSize,
+                url: fileUpload?.uri,
+                name: fileUpload?.fileName,
+                size: fileUpload?.fileSize,
               },
             ],
             "uri",
@@ -194,7 +194,7 @@ const UploadImage = observer(({ onUploadSuccess, ...rest }: Props) => {
         onCancel={() => {
           setShowUploadPicker(false)
         }}
-        onSelectImage={(res: any) => onUpload(res.assets[0])}
+        onSelectImage={(res: any) => onUpload(res?.assets[0])}
       />
     </Box>
   )

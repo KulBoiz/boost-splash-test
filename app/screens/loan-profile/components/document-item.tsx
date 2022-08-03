@@ -24,7 +24,6 @@ type Props = IPressableProps & {
 const DocumentItem = observer(
   ({ file = {}, onDelete, onReUpload, uploadError, viewOnly, ...rest }: Props) => {
     const { appStore } = useStores()
-
     const [downloading, setDownloading] = React.useState<boolean>(false)
     const [showConfirmDelete, setShowConfirmDelete] = useState(false)
     const deleteImage = () => {
@@ -33,22 +32,22 @@ const DocumentItem = observer(
     }
 
     const viewFile = async () => {
-      if (file.uri) {
+      if (file?.uri) {
         let uri = file.uri
         if (Platform.OS === "android") {
           uri = uri.replace("file://", "")
         }
         openFile(uri)
       } else {
-        const localPath = FileSystem.cacheDirectory + "/" + replaceAll(file.name, "/", "")
-        const fileExists = find(appStore.filesDownloaded, (f) => f === localPath)
+        const localPath = FileSystem.cacheDirectory + "/" + replaceAll(file?.name, "/", "")
+        const fileExists = find(appStore?.filesDownloaded, (f) => f === localPath)
         if (fileExists) {
           openFile(fileExists)
         } else {
           setDownloading(true)
-          FileSystem.downloadAsync(file.url, localPath)
+          FileSystem.downloadAsync(file?.url, localPath)
             .then(({ uri }) => {
-              appStore.addFileDownloaded(localPath)
+              appStore?.addFileDownloaded(localPath)
               setDownloading(false)
               openFile(uri)
             })
@@ -80,7 +79,7 @@ const DocumentItem = observer(
             fontWeight={400}
             color="#667085"
             lineHeight={18}
-            text={`Size - ${formatSize(file.size)}`}
+            text={`Size - ${formatSize(file?.size)}`}
             mt="1"
           />
           {!!uploadError && (

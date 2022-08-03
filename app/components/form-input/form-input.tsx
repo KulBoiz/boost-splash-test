@@ -3,7 +3,6 @@ import { View, StyleSheet, ViewStyle } from "react-native"
 import { TextField, TextFieldProps } from "../text-field/text-field"
 import { Controller, UseControllerProps } from "react-hook-form"
 import { Control } from "react-hook-form/dist/types/form"
-import { TxKeyPath } from "../../i18n"
 import i18n from "i18n-js"
 
 export interface FormInputProps extends TextFieldProps, UseControllerProps {

@@ -25,7 +25,7 @@ export const SplashScreen: React.FunctionComponent<{ readonly navigation?: any }
   }
 
   const redirectToNextScreen = () => {
-    if (authStoreModel.isFirstTime) {
+    if (authStoreModel?.isFirstTime) {
       setTimeout(() => {
         navigation.navigate(ScreenNames.WELCOME)
       }, 2000)
@@ -39,8 +39,8 @@ export const SplashScreen: React.FunctionComponent<{ readonly navigation?: any }
   const PROGRESS_FUNCTION_STEPS = [refreshToken]
 
   const init = async () => {
-    const percentPerStep = 1 / PROGRESS_FUNCTION_STEPS.length
-    for (let i = 0; i < PROGRESS_FUNCTION_STEPS.length; i++) {
+    const percentPerStep = 1 / PROGRESS_FUNCTION_STEPS?.length
+    for (let i = 0; i < PROGRESS_FUNCTION_STEPS?.length; i++) {
       await PROGRESS_FUNCTION_STEPS[i]()
       setProgress(percentPerStep * i * 100)
     }
