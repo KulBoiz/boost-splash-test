@@ -84,7 +84,7 @@ const CollapsibleClaimUpload = observer(({ data, onDataChange }: Props) => {
   const renderContent = () => {
     return (
       <Box>
-        <Uploa dImage onUploadSuccess={_onUploadFile} />
+        <UploadImage onUploadSuccess={_onUploadFile} />
         <Box pb={s(16)} mx={s(16)}>
           {files?.length > 0
             ? files.map((item, index) => {
