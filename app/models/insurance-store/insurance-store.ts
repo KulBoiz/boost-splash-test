@@ -49,7 +49,7 @@ export const InsuranceStoreModel = types
       pagingParams?: PagingParamsType,
       isRefresh = false,
     ) {
-      if (self.listBuy.length === self.listBuyTotal){
+      if (self.listBuy.length === self.listBuyTotal && pagingParams?.page !== 1){
         return
       }
       if (isRefresh || pagingParams?.page === 1) {
@@ -113,7 +113,7 @@ export const InsuranceStoreModel = types
       pagingParams?: PagingParamsType,
       isRefresh = false,
     ) {
-      if (self.listClaimTotal === self.listClaim.length){
+      if (self.listClaimTotal === self.listClaim.length && pagingParams?.page !== 1){
         return
       }
       if (isRefresh || pagingParams?.page === 1) {
