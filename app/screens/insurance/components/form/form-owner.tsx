@@ -28,8 +28,8 @@ export const validationSchema = Yup.object().shape({
     gender: Yup.string().required("Vui lòng chọn giới tính"),
     idNumber: Yup.string().required("Vui lòng nhập CMND/CCCD/Hộ chiếu"),
     tel: Yup.string().required("Vui lòng nhập số điện thoại"),
-    company: Yup.string().required("Vui lòng nhập công ty"),
-    level: Yup.string().required("Vui lòng nhập chức vụ"),
+    // company: Yup.string().required("Vui lòng nhập công ty"),
+    // level: Yup.string().required("Vui lòng nhập chức vụ"),
     email: Yup.string().trim().required("Vui lòng nhập email").email("Địa chỉ email không hợp lệ"),
   })
 

@@ -41,9 +41,9 @@ const CollapsibleClaimUpload = observer(({ data, onDataChange }: Props) => {
   }
 
   const onDeleteDocument = async (file) => {
-    setFiles(filter(files, (f) => f.id !== file.id))
+    setFiles(filter(files, (f) => f.id !== file?.id))
     if (onDataChange) {
-      onDataChange(filter(files, (f) => f.id !== file.id))
+      onDataChange(filter(files, (f) => f.id !== file?.id))
     }
   }
 
@@ -84,7 +84,7 @@ const CollapsibleClaimUpload = observer(({ data, onDataChange }: Props) => {
   const renderContent = () => {
     return (
       <Box>
-        <UploadImage onUploadSuccess={_onUploadFile} />
+        <Uploa dImage onUploadSuccess={_onUploadFile} />
         <Box pb={s(16)} mx={s(16)}>
           {files?.length > 0
             ? files.map((item, index) => {

@@ -94,6 +94,7 @@ const PopupCreateTransaction = React.memo(({ visible, onClose, onConfirm, data: 
                 ...inputProps,
                 error: errors?.paymentDate?.message,
                 isMaximumDate: false,
+                isMinimumDate: true
               }}
             />
             <HStack mt="6">

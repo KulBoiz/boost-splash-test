@@ -52,7 +52,7 @@ function App() {
   async function onMessageReceived(message) {
     // Do something
     const data = JSON.parse(JSON.stringify(message, null, 2))
-    const noti = data.notification ?? {}
+    const noti = data?.notification ?? {}
     notifee.displayNotification({
       id: data?.messageId ?? Math.random() * 6,
       title: noti?.title ?? "",
