@@ -27,7 +27,7 @@ const ManageInsuranceListScreen: FC<Props> = observer((props: any) => {
   const [tabSelect, setTabSelect] = useState(key ?? INSURANCE_TABS[0].key)
   const isListBuy = tabSelect === INSURANCE_TABS[0].key
   const isLoggedIn = authStoreModel.isLoggedIn
-  
+
   useEffect(()=> {
     if (key){
       onChangeTab(key)
