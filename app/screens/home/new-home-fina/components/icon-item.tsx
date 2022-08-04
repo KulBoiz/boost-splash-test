@@ -37,7 +37,7 @@ export default IconItem;
 
 const styles = ScaledSheet.create({
   container: {
-    width: '20%',
+    width: '25%',
     alignItems: "center"
   },
   icon :{

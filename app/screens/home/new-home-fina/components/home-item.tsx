@@ -43,7 +43,7 @@ const styles = ScaledSheet.create({
   itemContainer: {
     flexDirection: "row",
     flexWrap: "wrap",
-    paddingHorizontal: '10@ms',
+    paddingHorizontal: '24@ms',
     backgroundColor: color.palette.F9FBFF,
     paddingVertical: '12@s',
     shadowColor: "#000",

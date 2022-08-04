@@ -62,7 +62,7 @@ const styles = ScaledSheet.create({
   },
   secondText: {
     fontSize: '36@ms',
-    fontFamily: fontFamily.mulish.bold,
+    fontFamily: fontFamily.bold,
   },
   btn: {
     backgroundColor: color.palette.orange,

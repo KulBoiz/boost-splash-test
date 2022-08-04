@@ -128,7 +128,7 @@ const styles = ScaledSheet.create({
   },
   textLogin: {
     fontSize: '44@s',
-    fontFamily: fontFamily.mulish.bold,
+    fontFamily: fontFamily.bold,
     marginBottom: '20@s',
   },
   button: {

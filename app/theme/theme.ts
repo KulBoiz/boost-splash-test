@@ -37,11 +37,6 @@ export const theme = extendTheme({
         normal: "SF-Pro-Display-Bold",
       },
     },
-    Mulish: {
-      700: {
-        normal: "Mulish-Bold",
-      },
-    },
   },
   fonts: {
     heading: "SFProDisplay",

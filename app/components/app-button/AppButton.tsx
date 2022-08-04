@@ -87,7 +87,7 @@ const styles = ScaledSheet.create({
     fontSize: "15@s",
     color: color.palette.white,
     fontWeight: "700",
-    fontFamily: fontFamily.mulish.bold,
+    fontFamily: fontFamily.bold,
   },
   upperCase: {
     textTransform: "uppercase",
