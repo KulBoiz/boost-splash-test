@@ -8,6 +8,7 @@ import { AppText } from '../../../../components/app-text/AppText'
 import { color } from '../../../../theme'
 import { fontFamily } from '../../../../constants/font-family'
 import { ROW, MARGIN_TOP_16, MARGIN_BOTTOM_8, CENTER_ELEMENTS } from '../../../../styles/common-style'
+import { FastImage } from '../../../../components/fast-image/fast-image'
 
 const OthersInsurance: FC = () => {
 	const othersInsurance = [
@@ -42,8 +43,6 @@ const OthersInsurance: FC = () => {
 			percent: "7%"
 		},
 	]
-	const lengthElementInRow = 5
-	const widthItem = (width / lengthElementInRow)
 	return (
 		<>
 			<AppText value={"Bảo hiểm khác"} style={styles.title} />
@@ -51,8 +50,8 @@ const OthersInsurance: FC = () => {
 				{othersInsurance.map((insurance, index) => {
 					const label = insurance.label || insurance.name
 					return (
-						<View key={index} style={[MARGIN_TOP_16, MARGIN_BOTTOM_8, CENTER_ELEMENTS, { width: widthItem }]}>
-							<Image source={insurance.icon} style={styles.icon} alt=" " />
+						<View key={index} style={[MARGIN_TOP_16, MARGIN_BOTTOM_8, CENTER_ELEMENTS, {width: "20%" }]}>
+							<FastImage source={insurance.icon} style={styles.icon} />
 							<AppText value={label} style={styles.nameText} />
 							<AppText value={insurance.percent} style={styles.percentText} />
 						</View>
@@ -71,6 +70,8 @@ const styles = ScaledSheet.create({
 		backgroundColor: color.background
 	},
 	icon: {
+		width: "18@s",
+		height: "18@s",
 		marginBottom: "9@s"
 	},
 	nameText: {

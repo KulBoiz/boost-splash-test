@@ -55,15 +55,14 @@ const styles = ScaledSheet.create({
     backgroundColor: color.background,
     borderBottomLeftRadius: '24@s',
     borderBottomRightRadius: '24@s',
-    marginBottom: 0
+    height: isIphoneX() ? "135@s" : "120@s",
   },
   image: {
     width: '100%',
-    height: '240@s',
+    height: isIphoneX() ? "135@s" : "120@s",
     position: "absolute",
     borderBottomLeftRadius: '24@s',
     borderBottomRightRadius: '24@s',
-    zIndex: 1,
   },
   buttonSearch: {
     height: "33@s",
@@ -71,7 +70,6 @@ const styles = ScaledSheet.create({
     justifyContent: "flex-start",
     flexDirection: "row",
     backgroundColor: "rgba(0,0,0,0.23)",
-    zIndex: 70,
     borderRadius: "45@s",
   },
   textButtonSearch: {

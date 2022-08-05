@@ -13,7 +13,7 @@ const OptionsUserInfo = () => {
 				<LogoSvg />
 			</Pressable>
 			<Pressable style={styles.buttonOption}>
-				<View style={styles.bell}> 
+				<View> 
 					<BellSvg />
 				{
 					isNotification && 	<View  style={styles.dot}/>
@@ -36,9 +36,6 @@ const styles = ScaledSheet.create({
 		borderRadius: "17@s",
 		marginLeft: "8@s",
 		...CENTER_ELEMENTS
-	},
-	bell: {
-		position: 'relative'
 	},
 	dot: {
 		position: "absolute",

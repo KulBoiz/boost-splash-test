@@ -41,7 +41,6 @@ const AdsNews = () => {
 		<View style={styles.container}>
 			<AppText value={"Tin tức, Khuyến mãi"} style={styles.title} />
 			<Carousel
-				contentContainerStyle={{ paddingHorizontal: s(-5) }}
 				horizontal
 				data={data}
         sliderWidth={width}
@@ -67,7 +66,7 @@ const styles = ScaledSheet.create({
 		marginTop: "16@s",
 		marginBottom: "12@s",
 		fontFamily: fontFamily.bold,
-		fontSize: "14@s"
+		fontSize: "14@ms"
 	},
 	scrollView: {
 	},
