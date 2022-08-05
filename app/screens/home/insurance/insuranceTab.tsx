@@ -1,33 +1,24 @@
-import { Animated, ScrollView, StyleSheet, Text, View } from 'react-native'
-import React, { useRef } from 'react'
-import { AppText } from '../../../components/app-text/AppText'
-import { ScaledSheet } from 'react-native-size-matters'
+import React from 'react'
+import { ScrollView, View } from 'react-native'
 import { isIphoneX } from 'react-native-iphone-x-helper'
-import { Header } from './header'
-import OthersInsurance from './components/others-Insurance'
+import { ScaledSheet } from 'react-native-size-matters'
 import BottomView from '../../../components/bottom-view'
+import AdsNews from './components/ads-news'
+import OthersInsurance from './components/others-Insurance'
+import { Header } from './header'
 
 const InsuranceTab = () => {
-  const animatedValue = useRef(new Animated.Value(0)).current
-  const lastOffsetY = useRef(0)
-  const scrollDirection = useRef("")
-
-
   return (
     <View style={styles.container}>
-      <Header animatedValue={animatedValue} />
+      <Header />
       <ScrollView
         scrollEnabled
+        showsVerticalScrollIndicator={false}
         contentContainerStyle={styles.scrollView}
-        onScroll={(e) => {
-          const offsetY = e.nativeEvent.contentOffset.y
-          scrollDirection.current = offsetY - lastOffsetY.current > 0 ? "down" : "up"
-          lastOffsetY.current = offsetY
-          animatedValue.setValue(offsetY)
-        }}
         scrollEventThrottle={16}>
-        <View style={[{ height: 1200 }]}>
+        <View style={[{ height: 1000 }]}>
           <OthersInsurance />
+          <AdsNews />
           <BottomView height={100} />
         </View>
       </ScrollView>

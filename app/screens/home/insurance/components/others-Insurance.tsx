@@ -42,10 +42,11 @@ const OthersInsurance: FC = () => {
 			percent: "7%"
 		},
 	]
-	const widthItem = (width / othersInsurance.length)
+	const lengthElementInRow = 5
+	const widthItem = (width / lengthElementInRow)
 	return (
 		<>
-			<AppText value={"Bảo hiểm khác"} style={styles.title}/>
+			<AppText value={"Bảo hiểm khác"} style={styles.title} />
 			<View style={[ROW, styles.container]}>
 				{othersInsurance.map((insurance, index) => {
 					const label = insurance.label || insurance.name
@@ -84,6 +85,6 @@ const styles = ScaledSheet.create({
 		marginBottom: "12@s",
 		marginLeft: "16@s",
 		fontFamily: fontFamily.bold,
-		fontSize: "14@s"
+		fontSize: "14@ms"
 	}
 })

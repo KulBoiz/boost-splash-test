@@ -1,5 +1,5 @@
-import React, { FC, useRef } from "react";
-import { Animated, ScrollView, View } from "react-native";
+import React, { FC } from "react";
+import { Animated } from "react-native";
 import { isIphoneX } from "react-native-iphone-x-helper";
 import { s, ScaledSheet } from "react-native-size-matters";
 import { images } from "../../../assets/images";
@@ -14,11 +14,11 @@ import { UserInfo } from "./components/userInfo";
 const MIN_HEIGHT = isIphoneX() ? s(160) : s(150)
 const MAX_HEIGHT = isIphoneX() ? s(240) : s(220)
 interface HeaderProps {
-  animatedValue: any
+  animatedValue?: any
 }
 export const Header: FC<HeaderProps> = ({ animatedValue }) => {
 
-  const containerMargin = {
+  /* const containerMargin = {
     height: animatedValue.interpolate({
       inputRange: [0, 30],
       outputRange: [MAX_HEIGHT, MIN_HEIGHT],
@@ -31,16 +31,16 @@ export const Header: FC<HeaderProps> = ({ animatedValue }) => {
       outputRange: [s(32), 0],
       extrapolate: 'clamp'
     })
-  }
+  } */
   return (
-    <Animated.View style={[styles.container, containerMargin]}>
-      <Animated.Image source={images.home_finance} style={[styles.image, containerMargin]} />
+    <Animated.View style={styles.container}>
+      <Animated.Image source={images.home_finance} style={[styles.image]} />
       <Button style={styles.buttonSearch} >
         <SearchSvg />
         <AppText value="Tìm kiếm" style={styles.textButtonSearch} />
       </Button>
       <UserInfo />
-      <AccumulatedInfo />
+      {/* <AccumulatedInfo /> */}
     </Animated.View>
   )
 }
@@ -81,5 +81,4 @@ const styles = ScaledSheet.create({
     color: color.palette.white,
     marginLeft: "8@s"
   },
-  ///
 })
