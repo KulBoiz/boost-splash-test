@@ -1,16 +1,16 @@
 import React, { useState } from "react"
 import { View } from "react-native"
 import HomeItem from "./components/home-item"
-import { INSURANCE_PRODUCT, LOAN_PRODUCT } from "./constants"
-import LoanPackage from "./components/loan-package"
-import HomeBanner from "./components/home-banner"
+import { INSURANCE_PRODUCT, LOAN_PRODUCT, TEST_HOME } from "./constants"
 import { ScaledSheet } from "react-native-size-matters"
-import FullScreenModal from "../../components/app-modal/full-screen-modal"
-import { images } from "../../assets/images"
 import i18n from "i18n-js"
-import { navigate } from "../../navigators"
-import { ScreenNames } from "../../navigators/screen-names"
 import { DOMAIN } from "@env"
+import { images } from "../../../assets/images"
+import { ScreenNames } from "../../../navigators/screen-names"
+import { navigate } from "../../../navigators"
+import LoanPackage from "../../new-home/components/loan-package"
+import HomeBanner from "../home-fina/components/home-banner"
+import FullScreenModal from "../../../components/app-modal/full-screen-modal"
 
 interface Props {}
 
@@ -75,6 +75,7 @@ const HomeFinance = React.memo((props: Props) => {
       <HomeItem data={INSURANCE_PRODUCT} label={"Sản phẩm bảo hiểm"} style={styles.itemMargin} />
       <LoanPackage />
       <HomeItem data={SUPPORT_TOOL} label={"Công cụ hỗ trợ"} style={styles.itemMargin} />
+      <HomeItem data={TEST_HOME} label={"Công cụ hỗ trợ"} style={styles.itemMargin} iconShape={'circle'}/>
       <HomeBanner />
       <FullScreenModal
         visible={visible}

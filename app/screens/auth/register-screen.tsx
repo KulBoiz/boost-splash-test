@@ -15,10 +15,10 @@ import { AppText } from "../../components/app-text/AppText"
 import { AuthStackParamList } from "../../navigators/auth-stack"
 import TermCheckbox from "./components/TermCheckbox"
 import RenderAuthStep from "./components/render-step-auth"
-import { fontFamily } from "../../constants/font-family"
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view"
 import i18n from "i18n-js"
 import {get} from 'lodash'
+import { fontFamily } from "../../constants/font-family"
 
 export const RegisterScreen: FC<StackScreenProps<AuthStackParamList, ScreenNames.REGISTER>> = observer(
   ({ navigation }) => {

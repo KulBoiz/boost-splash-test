@@ -28,6 +28,7 @@ export const AppHomeScreen: FC<StackScreenProps<AppStackParamList, ScreenNames.H
 
     return (
       // <HomeScreen navigation={navigation}/>
+      // <NewHome />
        <HomeFina />
     )
   },

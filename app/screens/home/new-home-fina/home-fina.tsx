@@ -1,15 +1,18 @@
 import React, { useState } from "react"
-import { View, StyleSheet } from 'react-native';
+import { View, StyleSheet, ScrollView } from "react-native"
 import TabSelect from "../components/tab-select"
+import HomeFinance from "./home-finance"
+import { color } from "../../../theme"
 
 interface Props{}
 
 const HomeFina = React.memo((props: Props) => {
   const [index, setIndex] = useState(0)
   return (
-    <View style={styles.container}>
+    <ScrollView style={styles.container}>
       <TabSelect {...{index, setIndex}} />
-    </View>
+       <HomeFinance />
+    </ScrollView>
   )
 });
 
@@ -17,7 +20,7 @@ export default HomeFina;
 
 const styles = StyleSheet.create({
     container: {
-      flex:1,
-      paddingTop: 200
+      backgroundColor: color.background,
+      flex:1
     },
 });

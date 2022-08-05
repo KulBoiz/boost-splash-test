@@ -77,3 +77,33 @@ export const INSURANCE_PRODUCT = [
   },
 ]
 
+export const TEST_HOME = [
+  {
+    percent: 8,
+    middleText: 6,
+    title: '50 gói',
+    image: 'https://images.pexels.com/photos/12297336/pexels-photo-12297336.jpeg?auto=compress&cs=tinysrgb&w=600&lazy=load'
+  }, {
+    percent: 12,
+    middleText: 36,
+    title: '30 gói',
+    image: 'https://images.pexels.com/photos/12297336/pexels-photo-12297336.jpeg?auto=compress&cs=tinysrgb&w=600&lazy=load'
+  }, {
+    percent: 15,
+    middleText: 12,
+    title: '45 gói',
+    image: 'https://images.pexels.com/photos/12297336/pexels-photo-12297336.jpeg?auto=compress&cs=tinysrgb&w=600&lazy=load'
+  },
+  {
+    percent: 15,
+    middleText: 24,
+    title: '45 gói',
+    image: 'https://images.pexels.com/photos/12297336/pexels-photo-12297336.jpeg?auto=compress&cs=tinysrgb&w=600&lazy=load'
+  },
+  {
+    percent: 15,
+    middleText: 'Vay siêu tốc',
+    title: '45 gói',
+    image: 'https://images.pexels.com/photos/12297336/pexels-photo-12297336.jpeg?auto=compress&cs=tinysrgb&w=600&lazy=load'
+  },
+]
