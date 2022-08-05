@@ -14,7 +14,6 @@ export const images = {
   home_notarial: require('./home/notarial_records.png'),
   home_planning_check: require('./home/planning_check.png'),
   home_calculate_tool: require('./home/calculate_tool.png'),
-  home_map: require('./home/map.png'),
   home_hotSell: require('./home/hot.png'),
   home_health: require('./home/health.png'),
   home_thieves: require('./home/thieves.png'),

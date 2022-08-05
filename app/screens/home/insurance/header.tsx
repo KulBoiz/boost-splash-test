@@ -15,8 +15,9 @@ const MIN_HEIGHT = isIphoneX() ? s(160) : s(150)
 const MAX_HEIGHT = isIphoneX() ? s(240) : s(220)
 interface HeaderProps {
   animatedValue?: any
+  children?: React.ReactNode
 }
-export const Header: FC<HeaderProps> = ({ animatedValue }) => {
+export const Header: FC<HeaderProps> = ({ animatedValue, children }) => {
 
   /* const containerMargin = {
     height: animatedValue.interpolate({
@@ -40,6 +41,7 @@ export const Header: FC<HeaderProps> = ({ animatedValue }) => {
         <AppText value="Tìm kiếm" style={styles.textButtonSearch} />
       </Button>
       <UserInfo />
+      {children}
       {/* <AccumulatedInfo /> */}
     </Animated.View>
   )
@@ -55,11 +57,11 @@ const styles = ScaledSheet.create({
     backgroundColor: color.background,
     borderBottomLeftRadius: '24@s',
     borderBottomRightRadius: '24@s',
-    height: isIphoneX() ? "135@s" : "120@s",
+    height: isIphoneX() ? "155@s" : "130@s",
   },
   image: {
     width: '100%',
-    height: isIphoneX() ? "135@s" : "120@s",
+    height: isIphoneX() ? "155@s" : "130@s",
     position: "absolute",
     borderBottomLeftRadius: '24@s',
     borderBottomRightRadius: '24@s',
