@@ -9,8 +9,8 @@ import { images } from "../../../assets/images"
 import { ScreenNames } from "../../../navigators/screen-names"
 import { navigate } from "../../../navigators"
 import LoanPackage from "../../new-home/components/loan-package"
-import HomeBanner from "../home-fina/components/home-banner"
 import FullScreenModal from "../../../components/app-modal/full-screen-modal"
+import HomeBanner from "./components/home-banner"
 
 interface Props {}
 

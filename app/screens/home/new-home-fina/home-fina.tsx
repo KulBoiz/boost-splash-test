@@ -3,6 +3,7 @@ import { View, StyleSheet, ScrollView } from "react-native"
 import TabSelect from "../components/tab-select"
 import HomeFinance from "./home-finance"
 import { color } from "../../../theme"
+import BottomView from "../../../components/bottom-view"
 
 interface Props{}
 
@@ -12,6 +13,7 @@ const HomeFina = React.memo((props: Props) => {
     <ScrollView style={styles.container}>
       <TabSelect {...{index, setIndex}} />
        <HomeFinance />
+      <BottomView height={100} />
     </ScrollView>
   )
 });
