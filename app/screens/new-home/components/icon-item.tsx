@@ -8,7 +8,7 @@ import { AppText } from "../../../components/app-text/AppText"
 import { fontFamily } from "../../../constants/font-family"
 
 interface Props{
-  icon:  number | JSX.Element
+  icon:  number | React.ReactNode
   title: string | TxKeyPath
   onPress(): void
 }
@@ -20,13 +20,15 @@ const IconItem = React.memo((props: Props) => {
 
   return (
     <Pressable onPress={onPress} style={styles.container}>
-      {
-        iconType ?
-          <FastImage source={icon} style={styles.icon}/>
-          :
-          {icon}
-      }
+      <>
+        {
+          iconType ?
+            <FastImage source={icon} style={styles.icon}/>
+            :
+            {icon}
+        }
       <AppText value={realTitle} style={styles.text} />
+      </>
     </Pressable>
   )
 });
@@ -35,19 +37,20 @@ export default IconItem;
 
 const styles = ScaledSheet.create({
   container: {
-    width: '25%',
+    width: '20%',
     alignItems: "center"
   },
   icon :{
-    width: '44@s',
-    height: '44@s'
+    width: '35@s',
+    height: '35@s'
   },
   text: {
+    marginTop: '11@s',
     width: '90%',
-    fontSize: '12@ms',
-    lineHeight: '20@ms',
-    fontFamily: fontFamily.regular,
+    fontSize: '11@ms',
+    lineHeight: '13@ms',
+    fontFamily: fontFamily.medium,
     textAlign: "center",
-    color: 'rgba(0, 0, 0, 0.65)'
+    color: 'rgba(0, 0, 0, 0.75)'
   }
 });

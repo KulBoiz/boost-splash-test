@@ -106,7 +106,7 @@ const styles = ScaledSheet.create({
     justifyContent: "flex-end",
   },
   title: {
-    fontFamily: fontFamily.mulish.bold,
+    fontFamily: fontFamily.bold,
     color: color.palette.black,
     fontSize: "16@ms",
     textAlign: "center",

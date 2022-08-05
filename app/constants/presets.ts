@@ -30,7 +30,7 @@ export const presets = {
   /**
    * Large headers.
    */
-  header: { ...BASE, fontSize: ms(44), color: color.lightBlack, fontFamily: 'Mulish-Bold' } as TextStyle,
+  header: { ...BASE, fontSize: ms(44), color: color.lightBlack, fontFamily: 'SF-Pro-Display-Bold' } as TextStyle,
   secondary: { ...BASE, fontSize: ms(18), color: color.lightBlack, lineHeight: s(25), fontFamily: 'SF-Pro-Display-Regular' } as TextStyle,
   boldContent: {...BASE, fontWeight: '700', fontSize: ms(18)} as TextStyle,
   /**
