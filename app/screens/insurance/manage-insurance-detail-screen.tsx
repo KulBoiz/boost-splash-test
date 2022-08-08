@@ -22,7 +22,7 @@ import { BORDER_BOTTOM_0 } from "../../styles/common-style"
 import ManageInsuranceHelp from "./components/manage-insurance-help"
 import PopupHospitalList from "./components/popup-hospital-list"
 import ValidityCheck from "./components/validity-check"
-import { formatDate, numberWithCommas } from "../../constants/variable"
+import { formatDate, getFullName, numberWithCommas } from "../../constants/variable"
 
 interface Props {}
 
@@ -61,7 +61,7 @@ const ManageInsuranceDetailScreen: FC<Props> = observer((props: any) => {
   }, [])
 
   const getUser = (fullName) => {
-    return data?.transaction?.customers?.find(item => item.fullName.toLowerCase() === fullName.toLowerCase())
+    return data?.transaction?.customers?.find(item => item?.fullName?.toLowerCase() === fullName?.toLowerCase())
   }
   return (
     <Box flex="1" bg="lightBlue">
@@ -144,7 +144,7 @@ const ManageInsuranceDetailScreen: FC<Props> = observer((props: any) => {
            {renderItem({
              item: {
                label: "Họ và tên",
-               value: data?.user?.fullName,
+               value: getFullName(data?.user),
              },
              index: 0,
            })}
