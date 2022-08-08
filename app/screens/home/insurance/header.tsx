@@ -35,7 +35,7 @@ export const Header: FC<HeaderProps> = ({ animatedValue, children }) => {
   } */
   return (
     <Animated.View style={styles.container}>
-      <Animated.Image source={images.home_finance} style={[styles.image]} />
+      <Animated.Image source={images.home_finance} style={styles.image} />
       <Button style={styles.buttonSearch} >
         <SearchSvg />
         <AppText value="Tìm kiếm" style={styles.textButtonSearch} />
@@ -54,10 +54,8 @@ const styles = ScaledSheet.create({
     top: 0,
     left: 0,
     right: 0,
-    backgroundColor: color.background,
     borderBottomLeftRadius: '24@s',
     borderBottomRightRadius: '24@s',
-    height: isIphoneX() ? "155@s" : "130@s",
   },
   image: {
     width: '100%',

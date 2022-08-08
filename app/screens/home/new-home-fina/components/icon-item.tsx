@@ -43,7 +43,6 @@ const IconItem = React.memo((props: Props) => {
           <View style={ALIGN_CENTER}>
             <>
               {percent && <View style={[ROW, ALIGN_CENTER, MARGIN_BOTTOM_8]}>
-                <DiscountSvg style={styles.discount} />
                 <AppText value={`${percent}%`} fontSize={ms(11)} color={color.palette.orange} />
               </View>}
               <View style={styles.wrapIcon}>

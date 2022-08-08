@@ -39,7 +39,14 @@ export const InsuranceStoreModel = types
     }),
     buyInsurance: flow(function* buyInsurance(data) {
       const api = new BaseApi(self.environment.api)
-      const result = yield api.post("/transactions/public/insurance-multiple", data)
+      const result = yield api.post("transactions/public/insurance-multiple", data)
+
+      return result
+    }),
+
+    filterInsurance: flow(function* filterInsurance() {
+      const api = new BaseApi(self.environment.api)
+      const result = yield api.get(`products/public/organization/insurances/insurances`)
 
       return result
     }),

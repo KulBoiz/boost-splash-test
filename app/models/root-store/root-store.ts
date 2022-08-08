@@ -17,6 +17,7 @@ import { BankerStoreModel } from "../banker-store/banker-store"
 import { CommentStoreModel } from "../comment-store/comment-store"
 import { NoteStoreModel } from "../note-store/note-store"
 import { UploadStoreModel } from "../upload-store/upload-store"
+import { HomeStoreModel } from "../home-store/home-store"
 
 /**
  * A RootStore model.
@@ -41,6 +42,7 @@ export const RootStoreModel = types.model("RootStore").props({
   commentStore: types.optional(CommentStoreModel, {} as any),
   noteStore: types.optional(NoteStoreModel, {} as any),
   uploadStore: types.optional(UploadStoreModel, {} as any),
+  homeStore: types.optional(HomeStoreModel, {} as any),
 })
 
 /**
@@ -66,6 +68,7 @@ export interface RootStore extends Instance<typeof RootStoreModel> {
   commentStore: any
   noteStore: any
   uploadStore: any
+  homeStore: any
 }
 
 /**

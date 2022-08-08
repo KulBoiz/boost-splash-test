@@ -1,8 +1,6 @@
-import { StyleSheet, View } from 'react-native'
+import { View } from 'react-native'
 import React, { FC, } from 'react'
 import { images } from '../../../../assets/images'
-import { width } from '../../../../constants/variable'
-import { Image } from 'native-base'
 import { ScaledSheet } from 'react-native-size-matters'
 import { AppText } from '../../../../components/app-text/AppText'
 import { color } from '../../../../theme'
@@ -50,7 +48,7 @@ const OthersInsurance: FC = () => {
 				{othersInsurance.map((insurance, index) => {
 					const label = insurance.label || insurance.name
 					return (
-						<View key={index} style={[MARGIN_TOP_16, MARGIN_BOTTOM_8, CENTER_ELEMENTS, {width: "20%" }]}>
+						<View key={index.toString()} style={[MARGIN_TOP_16, MARGIN_BOTTOM_8, CENTER_ELEMENTS, {width: "20%" }]}>
 							<FastImage source={insurance.icon} style={styles.icon} />
 							<AppText value={label} style={styles.nameText} />
 							<AppText value={insurance.percent} style={styles.percentText} />
@@ -75,7 +73,7 @@ const styles = ScaledSheet.create({
 		marginBottom: "9@s"
 	},
 	nameText: {
-		marginBottom: "4@s"
+		marginBottom: "4@s",
 	},
 	percentText: {
 		color: color.palette.blue,
@@ -85,7 +83,7 @@ const styles = ScaledSheet.create({
 		marginTop: "16@s",
 		marginBottom: "12@s",
 		marginLeft: "16@s",
-		fontFamily: fontFamily.bold,
+		fontFamily: fontFamily.semiBold,
 		fontSize: "14@ms"
 	}
 })

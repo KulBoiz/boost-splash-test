@@ -40,7 +40,7 @@ export default HomeItem;
 const styles = ScaledSheet.create({
   container: {},
   label: {
-    fontSize: '16@ms',
+    fontSize: '14@ms',
     fontFamily: fontFamily.semiBold,
     marginLeft: '24@ms',
     marginBottom: '12@s',

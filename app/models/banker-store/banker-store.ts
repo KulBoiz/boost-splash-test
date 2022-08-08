@@ -40,8 +40,6 @@ export const BankerStoreModel = types
       return new BaseApi(self.environment.api)
     },
   })) // eslint-disable-line @typescript-eslint/no-unused-vars
-
-  .actions((self) => ({}))
   .actions((self) => ({
     getTotal: flow(function* getTotal(
     ) {
