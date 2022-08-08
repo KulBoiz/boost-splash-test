@@ -340,7 +340,6 @@ export const LoanStoreModel = types
       const oldData: any = [...self.products]
       if (result) {
         const newData: any = oldData.concat(data)
-        console.log("newData", newData)
         self.page += 1
         self.products = newData
         return {
