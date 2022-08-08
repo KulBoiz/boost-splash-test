@@ -41,6 +41,7 @@ const AdsNews = () => {
 		<View style={styles.container}>
 			<AppText value={"Tin tức, Khuyến mãi"} style={styles.title} />
 			<Carousel
+				key={(e, i)=> i.toString()}
 				horizontal
 				data={data}
         sliderWidth={width}

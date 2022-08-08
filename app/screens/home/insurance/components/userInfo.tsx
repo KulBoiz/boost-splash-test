@@ -13,12 +13,16 @@ import { ScreenNames } from '../../../../navigators/screen-names'
 import { ROW } from '../../../../styles/common-style'
 import { color } from '../../../../theme'
 import OptionsUserInfo from './optionsUserInfo'
+import { getFullName } from "../../../../constants/variable"
 
 export const UserInfo = observer(() => {
   const { authStoreModel } = useStores()
   const isLogin = authStoreModel?.isLoggedIn
 
   const avatar = get(authStoreModel?.user, "avatar")
+  const user = get(authStoreModel, "user")
+  const name = getFullName(user)
+
   const onPress = () => {
     if (!isLogin) {
       navigate(ScreenNames.AUTH)
@@ -33,7 +37,7 @@ export const UserInfo = observer(() => {
           </Pressable>
           <View style={{ marginLeft: 8 }}>
             <AppText style={[styles.textHello, { marginBottom: 4 }]} value={"Xin chào!"} />
-            <AppText style={[styles.textHello, styles.textName]} value={"Trần Đức Hiếu!"} />
+            <AppText style={[styles.textHello, styles.textName]} value={name} />
           </View>
         </View>
         <OptionsUserInfo />
@@ -56,7 +60,7 @@ const styles = ScaledSheet.create({
     height: "40@s",
     borderRadius: "20@s",
   },
-  // Text 
+  // Text
   textHello: {
     fontSize: "12@ms",
     lineHeight: "14@ms",

@@ -11,10 +11,12 @@ import { navigate } from "../../../navigators"
 import LoanPackage from "../../new-home/components/loan-package"
 import FullScreenModal from "../../../components/app-modal/full-screen-modal"
 import HomeBanner from "./components/home-banner"
+import { color } from "../../../theme"
+import BottomView from '../../../components/bottom-view'
 
 interface Props {}
 
-const HomeFinance = React.memo((props: Props) => {
+const FinanceTab = React.memo((props: Props) => {
   const [visible, setVisible] = useState(false)
   const [link, setLink] = useState("")
 
@@ -77,6 +79,7 @@ const HomeFinance = React.memo((props: Props) => {
       <HomeItem data={SUPPORT_TOOL} label={"Công cụ hỗ trợ"} style={styles.itemMargin} />
       <HomeItem data={TEST_HOME} label={"Công cụ hỗ trợ"} style={styles.itemMargin} iconShape={'circle'}/>
       <HomeBanner />
+      <BottomView height={100} />
       <FullScreenModal
         visible={visible}
         closeModal={() => setVisible(false)}
@@ -87,10 +90,13 @@ const HomeFinance = React.memo((props: Props) => {
   )
 })
 
-export default HomeFinance
+export default FinanceTab
 
 const styles = ScaledSheet.create({
-  container: { flex: 1 },
+  container: {
+    flex: 1,
+    backgroundColor: color.background
+  },
   itemMargin: {
     marginVertical: "24@s",
   },

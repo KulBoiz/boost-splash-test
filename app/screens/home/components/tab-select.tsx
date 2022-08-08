@@ -35,13 +35,13 @@ const TabSelect = React.memo((props: Props) => {
         return (
           <>
             {isSelect ?
-              <Pressable key={e.index} style={styles.itemContainer} onPress={()=> setIndex(e.index)}>
+              <Pressable key={e.index.toString()} style={styles.itemContainer} onPress={()=> setIndex(e.index)}>
                 <LinearGradient colors={['#074ED7', '#3E7AFE']} style={styles.linear}>
                   <AppText value={e.label} color={color.palette.white} fontSize={ms(14)} fontFamily={fontFamily.bold}/>
                 </LinearGradient>
               </Pressable>
               :
-              <Pressable key={e.index} style={styles.itemContainer} onPress={()=> setIndex(e.index)}>
+              <Pressable key={e.index.toString()} style={styles.itemContainer} onPress={()=> setIndex(e.index)}>
                 <AppText value={e.label} color={color.palette.BABABA} fontSize={ms(14)} fontFamily={fontFamily.semiBold}/>
               </Pressable>
             }

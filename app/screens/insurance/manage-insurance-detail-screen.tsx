@@ -32,7 +32,6 @@ const ManageInsuranceDetailScreen: FC<Props> = observer((props: any) => {
   const isListBuy = props?.route?.params?.isListBuy
 
   const data = isListBuy ? insuranceStore.listBuy[index] : insuranceStore.listClaim[index]
-
   useEffect(()=> {
     insuranceStore.getListHospital(data?.product?.id)
   },[])
