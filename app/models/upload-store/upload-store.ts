@@ -17,7 +17,6 @@ export const UploadStoreModel = types
       const uploadApi = new UploadApi(self.environment.api)
       const result = yield uploadApi.uploadFile(body)
       const data = result.data
-
       if (result.kind !== "ok") {
         return result
       }

@@ -194,7 +194,7 @@ const UploadImage = observer(({ onUploadSuccess, ...rest }: Props) => {
         onCancel={() => {
           setShowUploadPicker(false)
         }}
-        onSelectImage={(res: any) => onUpload(res?.assets[0])}
+        onSelectImage={(res: any) => onUpload(res)}
       />
     </Box>
   )
