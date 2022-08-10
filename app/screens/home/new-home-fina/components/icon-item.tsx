@@ -12,7 +12,7 @@ import { color } from "../../../../theme"
 
 
 interface Props{
-  icon:  number | React.ReactNode | string
+  icon:  number | string
   title: string | TxKeyPath
   onPress(): void
   percent?: number
@@ -23,7 +23,6 @@ interface Props{
 const IconItem = React.memo((props: Props) => {
   const {icon, title, onPress, iconShape = 'custom', middleText, percent} = props
   const realTitle = i18n.t(title).includes('missing') ? title : translate(title)
-  const iconType = typeof icon === 'number' || typeof icon === "string"
   const isStringIcon = typeof icon === "string"
   const isStringMiddleText = typeof middleText === "string"
 
@@ -31,12 +30,7 @@ const IconItem = React.memo((props: Props) => {
     <Pressable onPress={onPress} style={styles.container}>
       {iconShape === 'custom' ?
       <>
-        {
-          iconType ?
-            <FastImage source={isStringIcon ? {uri: icon} : icon} style={styles.icon}/>
-            :
-            {icon}
-        }
+      <FastImage source={isStringIcon ? {uri: icon} : icon} style={styles.icon}/>
       <AppText value={realTitle} style={styles.text} />
       </>
         :
@@ -46,12 +40,7 @@ const IconItem = React.memo((props: Props) => {
                 <AppText value={`${percent}%`} fontSize={ms(11)} color={color.palette.orange} />
               </View>}
               <View style={styles.wrapIcon}>
-                {
-                  iconType ?
-                    <FastImage source={isStringIcon ? {uri: icon} : icon} style={styles.circleIcon}/>
-                    :
-                    {icon}
-                }
+                <FastImage source={isStringIcon ? {uri: icon} : icon} style={styles.circleIcon}/>
                 {middleText &&
                   <View style={styles.wrapMiddleText}>
                     <AppText
@@ -109,11 +98,12 @@ const styles = ScaledSheet.create({
   circleIcon: {
     width: '36@s',
     height: '36@s',
-    borderRadius: '18@s'
+    borderRadius: '18@s',
+    backgroundColor: color.palette.lightBlack
   },
   icon :{
     width: '35@s',
-    height: '35@s'
+    height: '35@s',
   },
   textCircle: {
     marginTop: '8@s',

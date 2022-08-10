@@ -14,11 +14,12 @@ import { NavigatorParamList } from "../../navigators"
 import { ScreenNames } from "../../navigators/screen-names"
 import { useStores } from "../../models";
 import SettingAuthScreen from "../../components/app-view-no-auth";
+import { AppStackParamList } from "../../navigators/app-stack"
 
 interface Props { }
 
 const FinanceScreen = React.memo((props: Props) => {
-  const route = useRoute<RouteProp<NavigatorParamList, ScreenNames.FINANCE>>()
+  const route = useRoute<RouteProp<AppStackParamList, ScreenNames.SCHEDULE>>()
   const param = route?.params?.index ?? 0
   const [index, setIndex] = React.useState(param);
   // @ts-ignore
@@ -48,7 +49,7 @@ const FinanceScreen = React.memo((props: Props) => {
   );
   return (
     <View style={styles.container}>
-      <AppHeader headerTx={"header.finance"} isBlue />
+      <AppHeader headerTx={"header.finance"} isBlue hideBack/>
       <TabView
         navigationState={{ index, routes }}
         renderScene={renderScene}

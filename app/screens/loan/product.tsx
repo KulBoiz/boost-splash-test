@@ -10,6 +10,7 @@ import { useStores } from "../../models"
 import { observer } from "mobx-react-lite"
 
 interface Props{}
+
 const Product = observer((props: Props) => {
   // @ts-ignore
   const {loanStore} = useStores()

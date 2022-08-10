@@ -22,9 +22,10 @@ const HomeItem = React.memo((props: Props) => {
       <View style={styles.itemContainer}>
         {data.map((e, i)=> {
           return <IconItem
-            icon={e.image}
-            title={e.title}
-            key={i.toString()} onPress={e.onPress}
+            icon={e?.image}
+            title={e?.title?.toString()}
+            key={e?.title?.toString() + i.toString()}
+            onPress={e.onPress}
             percent={e?.percent}
             iconShape={iconShape}
             middleText={e?.middleText}

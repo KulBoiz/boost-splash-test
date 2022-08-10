@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Alert, ScrollView, View } from "react-native"
+import { Alert, ScrollView, View, Linking, Platform } from "react-native"
 import { ScaledSheet } from "react-native-size-matters"
 import { color } from "../../theme"
 import AppHeader from "../../components/app-header/AppHeader"
@@ -17,6 +17,11 @@ import { navigate, NavigatorParamList } from "../../navigators"
 import { ScreenNames } from "../../navigators/screen-names"
 import CollapsibleClaimUpload from './components/collapsible-claim-upload';
 import { RouteProp, useRoute } from "@react-navigation/native"
+import { AppText } from "../../components/app-text/AppText"
+import { fontFamily } from "../../constants/font-family"
+import * as FileSystem from 'expo-file-system';
+import { openFile } from "../../utils/file"
+import { find } from "../../utils/lodash-utils"
 
 export const USER_RELATIONSHIP = {
   FATHER: 'father',
@@ -34,7 +39,7 @@ interface Props { }
 
 const ClaimInsuranceDetailScreen = React.memo((props: Props) => {
   const {params: {productId, index}} = useRoute<RouteProp<NavigatorParamList, ScreenNames.CLAIM_INSURANCE>>()
-  const { loanStore, authStoreModel, insuranceStore} = useStores()
+  const { loanStore, authStoreModel, insuranceStore, appStore} = useStores()
   const id = insuranceStore?.listBuy[index]?.id
   const metadata = {...insuranceStore?.listBuy[index]?.meta, dealId: id}
 
@@ -61,9 +66,30 @@ const ClaimInsuranceDetailScreen = React.memo((props: Props) => {
   })
   const [checkboxState, setCheckboxState] = useState<boolean>(false)
   const [images, setImages] = useState<any[]>([])
+  const link = 'https://docs.google.com/document/d/1sVP1xparV8EFhp0ziCeKAFj-LiYKvgjh/edit?usp=sharing&ouid=106731466672436210626&rtpof=true&sd=true'
+  const downloadLink = 'https://drive.google.com/uc?id=1sVP1xparV8EFhp0ziCeKAFj-LiYKvgjh&export=download'
+
   const onDataChange = (e: any) => {
     setImages(e)
   }
+
+  const download = () => {
+    FileSystem.downloadAsync(
+      link,
+      FileSystem.documentDirectory + '/docx'
+    )
+      .then(({ uri }) => {
+        let path = uri
+        if (Platform.OS === "android") {
+          path = uri.replace("file://", "")
+        }
+        openFile(path)
+      })
+      .catch(error => {
+        console.error(error);
+      });
+  }
+
   const sendRequest = async (data) => {
     const send = await loanStore.createRequestCounselling(
       data.email,
@@ -88,6 +114,13 @@ const ClaimInsuranceDetailScreen = React.memo((props: Props) => {
     <>
       <AppHeader headerText={'Claim Bảo Hiểm'} isBlue />
       <ScrollView style={styles.container}>
+        <AppText
+          value={'Tải xuống giấy yêu cầu trả tiền bảo hiểm'}
+          // onPress={download}
+          onPress={()=> Linking.openURL(downloadLink)}
+          underline
+          style={styles.downloadText}
+        />
         <View style={styles.body}>
           <FormInput
             {...{
@@ -170,6 +203,13 @@ const styles = ScaledSheet.create({
   container: {
     flex: 1,
     backgroundColor: color.background,
+  },
+  downloadText: {
+    marginTop: '16@s',
+    marginHorizontal: '16@s',
+    color: color.palette.blue,
+    fontFamily: fontFamily.semiBold,
+    fontSize: '16@ms'
   },
   banner: {
     borderRadius: "8@s",

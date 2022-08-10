@@ -39,6 +39,8 @@ export default HomeFina;
 const styles = ScaledSheet.create({
   container: {
     flex: 1,
+    backgroundColor: color.background
+
   },
   scrollView: {
     marginTop: isIphoneX() ? "175@s" : "155@s",

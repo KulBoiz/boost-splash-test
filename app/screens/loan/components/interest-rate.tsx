@@ -1,26 +1,32 @@
 import React from 'react';
-import { View, ViewStyle } from "react-native"
+import { View } from "react-native"
 import { AppText } from "../../../components/app-text/AppText"
 import { ScaledSheet } from "react-native-size-matters"
 import { fontFamily } from "../../../constants/font-family"
+import { color } from "../../../theme"
+import { ALIGN_CENTER } from "../../../styles/common-style"
 
 interface Props{
-  style?: ViewStyle | any
-  title: string
-  content: string
-  isInterestRate?: boolean
-  contentColor?: string
+  interestRate: string | number
+  month?: string | number
+  endow: string | number
 }
 
-const InterestRate = React.memo(({ style, title, content, isInterestRate = false, contentColor }: Props) => {
+const InterestRate = React.memo(({ interestRate, endow, month = 12 }: Props) => {
   return(
-    <View style={style}>
-      <AppText value={title} style={styles.title}/>
-      <View style={styles.row}>
-        <AppText value={isInterestRate ? `${content}%` : content} style={[styles.content, {color: contentColor}]}/>
-        <AppText value={isInterestRate ? "(12 Tháng)" : 'Tháng'} style={styles.month} color={contentColor}/>
+      <View style={styles.container}>
+        <View style={ALIGN_CENTER}>
+          <AppText value={'LÃI SUẤT'} style={styles.month}/>
+          <AppText value={` ${interestRate}%`} style={styles.endow}/>
+          <AppText value={`(${month} THÁNG)`} style={styles.month}/>
+        </View>
+        <View style={styles.separate}/>
+        <View style={ALIGN_CENTER}>
+          <AppText value={'ƯU ĐÃI'} style={styles.month}/>
+          <AppText value={endow} style={styles.endow}/>
+          <AppText value={'THÁNG'} style={styles.month}/>
+        </View>
       </View>
-    </View>
   )
 })
 
@@ -30,24 +36,26 @@ export default InterestRate;
 
 
 const styles = ScaledSheet.create({
-  container: {},
-  title: {
-    fontSize: '10@ms',
-    color: "#AEAEB2",
-    marginBottom: '7@s'
-  },
-  row:{
+  container:{
+    backgroundColor: color.palette.lightBlue,
     flexDirection: 'row',
-    alignItems: "flex-end"
+    alignItems: "center",
+    justifyContent: "center",
+    paddingVertical: '8@s'
   },
-  content: {
-    marginRight: '4@ms',
-    fontSize: '24@ms',
-    color: '#292D32',
-    fontFamily: fontFamily.bold
+  separate: {
+    width: 1,
+    height: '28@s',
+    backgroundColor: '#DDD9D9',
+    marginHorizontal: '60@s',
   },
+  endow: {
+    fontSize: '17@ms',
+    fontFamily: fontFamily.bold,
+    lineHeight: '24@ms'
+  } ,
   month: {
-    fontSize: '12@s',
-    fontFamily: fontFamily.light
+    fontSize: '8.5@ms'
   }
+
 });

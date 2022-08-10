@@ -26,7 +26,7 @@ const BankInfo = React.memo((props: BankInfoProps) => {
         <FastImage source={{uri:  imageUrl}} style={styles.bankIcon} resizeMode={'contain'}/>
       </View>
 
-      <View style={[styles.body, !hasBorder && {backgroundColor: color.palette.lightBlue}]}>
+      <View style={styles.body}>
         <View style={styles.headerContent}>
           <AppText value={item?.name} style={styles.name}/>
           {outstandingAdvantages &&
@@ -36,13 +36,7 @@ const BankInfo = React.memo((props: BankInfoProps) => {
             </View>
           }
         </View>
-
-        <View style={[styles.row, styles.interestRateContainer]}>
-          <InterestRate title={'Lãi suất'} content={item?.info?.preferentialRate} isInterestRate/>
-          <View style={styles.separate}/>
-          <InterestRate title={'Ưu đãi'} content={item?.info?.preferentialTime} />
-        </View>
-
+        <InterestRate interestRate={item?.info?.preferentialRate} endow={item?.info?.preferentialTime} month={12}/>
         <View style={styles.contentContainer}>
           <AppText value={item?.advantages}/>
         </View>
@@ -90,7 +84,7 @@ const styles = ScaledSheet.create({
     color: color.lightBlack
   },
   body: {
-    paddingHorizontal: '16@ms',
+    // paddingHorizontal: '16@ms',
     paddingBottom: '16@s',
     borderBottomLeftRadius: '8@s',
     borderBottomRightRadius: '8@s',

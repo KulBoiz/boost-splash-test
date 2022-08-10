@@ -6,10 +6,13 @@ import BottomView from '../../../components/bottom-view'
 import AdsNews from '../insurance/components/ads-news'
 import OthersInsurance from '../insurance/components/others-Insurance'
 import { color } from "../../../theme"
+import HomeItem from "./components/home-item"
+import { INSURANCE_PRODUCT } from "./constants"
 
 const InsuranceTab = () => {
   return (
     <View style={styles.container}>
+      <HomeItem data={INSURANCE_PRODUCT} label={"Sản phẩm bảo hiểm"} style={styles.itemMargin} />
       <OthersInsurance />
       <AdsNews />
       <BottomView height={100} />
@@ -26,5 +29,8 @@ const styles = ScaledSheet.create({
   },
   scrollView: {
     marginTop: isIphoneX() ? "155@s" : "130@s",
+  },
+  itemMargin: {
+    marginVertical: "24@s",
   },
 })
