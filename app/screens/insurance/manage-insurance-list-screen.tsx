@@ -51,7 +51,7 @@ const ManageInsuranceListScreen: FC<Props> = observer((props: any) => {
     const dataGroup = groupBy(
       map(isListBuy ? insuranceStore.listBuy : insuranceStore.listClaim, (item) => ({
         ...item,
-        dateGroup: moment(item.createdAt).format("MM/YYYY"),
+        dateGroup: moment(item?.createdAt).format("MM/YYYY"),
       })),
       "dateGroup",
     )

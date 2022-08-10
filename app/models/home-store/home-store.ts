@@ -22,8 +22,10 @@ export const HomeStoreModel = types
   .actions((self) => ({
     getVehicle: flow(function* getVehicle() {
       const result = yield self.api.get('product-details/public/home-app')
-      const data = result?.data?.data
+      const data = result?.data
       if (result.kind === "ok") {
+        self.vehicle = data.vehicle
+        self.real_estate = data.real_estate
         return data
       } else {
         return result

@@ -107,3 +107,17 @@ export const TEST_HOME = [
     image: 'https://images.pexels.com/photos/12297336/pexels-photo-12297336.jpeg?auto=compress&cs=tinysrgb&w=600&lazy=load'
   },
 ]
+
+export const formatHomeData = (arr) => {
+  if (arr?.length > 0){
+    return arr.map((e)=>{
+      return {
+        middleText: e?.time ? Number(e?.time) : '',
+        title: e?.total,
+        percent: e?.min,
+      }
+    })
+  }
+  return []
+
+}

@@ -26,6 +26,7 @@ const DocumentItem = observer(
     const { appStore } = useStores()
     const [downloading, setDownloading] = React.useState<boolean>(false)
     const [showConfirmDelete, setShowConfirmDelete] = useState(false)
+
     const deleteImage = () => {
       setShowConfirmDelete(false)
       onDelete?.(file)

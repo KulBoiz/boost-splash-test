@@ -70,6 +70,7 @@ export const InsuranceStoreModel = types
       const api = new BaseApi(self.environment.api)
       const result = yield api.get("deals", {
         filter: {
+          order: ['createdAt desc'],
           where: {
             type: "insurances",
             category: params?.category || undefined,

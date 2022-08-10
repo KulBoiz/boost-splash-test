@@ -24,7 +24,8 @@ const HomeItem = React.memo((props: Props) => {
           return <IconItem
             icon={e?.image}
             title={e?.title?.toString()}
-            key={i.toString()} onPress={e.onPress}
+            key={e?.title?.toString() + i.toString()}
+            onPress={e.onPress}
             percent={e?.percent}
             iconShape={iconShape}
             middleText={e?.middleText}

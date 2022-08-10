@@ -1,7 +1,7 @@
 import React, { useState } from "react"
 import { View } from "react-native"
 import HomeItem from "./components/home-item"
-import { INSURANCE_PRODUCT, LOAN_PRODUCT, TEST_HOME } from "./constants"
+import { formatHomeData, INSURANCE_PRODUCT, LOAN_PRODUCT, TEST_HOME } from "./constants"
 import { ScaledSheet } from "react-native-size-matters"
 import i18n from "i18n-js"
 import { DOMAIN } from "@env"
@@ -13,10 +13,12 @@ import FullScreenModal from "../../../components/app-modal/full-screen-modal"
 import HomeBanner from "./components/home-banner"
 import { color } from "../../../theme"
 import BottomView from '../../../components/bottom-view'
+import { useStores } from "../../../models"
 
 interface Props {}
 
 const FinanceTab = React.memo((props: Props) => {
+  const {homeStore} = useStores()
   const [visible, setVisible] = useState(false)
   const [link, setLink] = useState("")
 
@@ -32,15 +34,12 @@ const FinanceTab = React.memo((props: Props) => {
     {
       image: images.home_ability_to_borrow,
       title: i18n.t("home.abilityToBorrow"),
-      onPress: () => {
-        setLink(DOMAIN + "/cong-cu-tinh")
-        setVisible(true)
-      },
+      onPress: () => {navigate(ScreenNames.CHAT)},
     },
     {
       image: images.home_real_estate,
       title: i18n.t("home.real_estate"),
-      onPress: () => navigate(ScreenNames.REQUEST_COUNSELLING),
+      onPress: () => {navigate(ScreenNames.CHAT)},
     },
     {
       image: images.home_introduce_borrowers,
@@ -73,13 +72,13 @@ const FinanceTab = React.memo((props: Props) => {
 
   return (
     <View style={styles.container}>
-      <HomeItem data={LOAN_PRODUCT} label={"Sản phẩm vay"} style={styles.itemMargin} />
-      <HomeItem data={INSURANCE_PRODUCT} label={"Sản phẩm bảo hiểm"} style={styles.itemMargin} />
-      <LoanPackage />
-      <HomeItem data={SUPPORT_TOOL} label={"Công cụ hỗ trợ"} style={styles.itemMargin} />
-      <HomeItem data={TEST_HOME} label={"Công cụ hỗ trợ"} style={styles.itemMargin} iconShape={'circle'}/>
+      {!!homeStore.vehicle?.length && <HomeItem data={formatHomeData(homeStore.vehicle)} label={"Vay mua xe"} style={styles.itemMargin} iconShape={'circle'}/>}
+      {!!homeStore.real_estate?.length && <HomeItem data={formatHomeData(homeStore.real_estate)} label={"Vay mua nhà dự án"} style={styles.itemMargin} iconShape={'circle'}/>}
+
+      {/* <LoanPackage /> */}
+      <HomeItem data={SUPPORT_TOOL} label={"Công cụ bán hàng"} style={styles.itemMargin} />
       <HomeBanner />
-      <BottomView height={100} />
+      <BottomView height={200} />
       <FullScreenModal
         visible={visible}
         closeModal={() => setVisible(false)}

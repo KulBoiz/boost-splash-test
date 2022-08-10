@@ -4,7 +4,7 @@ import React from "react"
 import { BottomTabBar, createBottomTabNavigator } from "@react-navigation/bottom-tabs"
 import { View } from "react-native"
 import { isIphoneX } from "react-native-iphone-x-helper"
-import { ScaledSheet, vs } from "react-native-size-matters"
+import { s, ScaledSheet, vs } from "react-native-size-matters"
 import SettingScreen from "../screens/settting/setting-screen"
 import {
   AccountHomeActiveSvg,
@@ -25,6 +25,8 @@ import { useStores } from "../models"
 import { ROLE } from "../models/auth-store"
 import InDeveloping from "../components/in-developing"
 import RequestCounselling from "../screens/loan/request-counselling"
+import { TabBarAdvancedButton } from "../components/bottom-tab-bar/TabBarAdvancedButton"
+import { TabBarButton } from "../components/bottom-tab-bar/TabBarButton"
 
 
 export type AppStackParamList = {
@@ -78,7 +80,6 @@ export const AppStack = () => {
         options={(props) => {
           return {
             tabBarIcon: ({ focused }) => (
-              // eslint-disable-next-line react/jsx-no-undef
               focused ? <ChatHomeActiveSvg /> : <ChatHomeInactiveSvg />
             ),
             title: i18n.t('bottom_bar.chat'),
@@ -93,7 +94,7 @@ export const AppStack = () => {
       //   options={(props) => {
       //     return {
       //       tabBarButton: (props) => (
-      //         <TabBarAdvancedButton
+      //         <TabBarButton
       //           bgColor={'#FFFFFF'}
       //           {...props}
       //         />
@@ -101,13 +102,13 @@ export const AppStack = () => {
       //       tabBarVisible: getTabBarVisibility(props.route),
       //     }
       //   }}
-      //   component={HomeScreen}
+      //   component={RequestCounselling}
       // />
         <Tab.Screen
           name={ScreenNames.PLUS}
           options={(props) => {
             return {
-            tabBarIcon: () => <PlusBottomSvg/>,
+            tabBarIcon: () => <PlusBottomSvg width={46} height={46} style={{marginBottom: s(20)}}/>,
             title: i18n.t('bottom_bar.create'),
             tabBarStyle: { display: 'none' },
           }
@@ -121,7 +122,6 @@ export const AppStack = () => {
           options={(props) => {
             return {
               tabBarIcon: ({ focused }) => (
-                // eslint-disable-next-line react/jsx-no-undef
                 focused ? <FileHomeActiveSvg /> : <FileHomeInactiveSvg />
               ),
               title: i18n.t('bottom_bar.management'),
@@ -136,7 +136,6 @@ export const AppStack = () => {
         options={(props) => {
           return {
             tabBarIcon: ({ focused }) => (
-              // eslint-disable-next-line react/jsx-no-undef
               focused ? <AccountHomeActiveSvg /> : <AccountHomeInactiveSvg />
             ),
             title: i18n.t('bottom_bar.setting'),
@@ -151,12 +150,12 @@ export const AppStack = () => {
 }
 
 const styles = ScaledSheet.create({
-
   navigatorContainer: {
     position: 'absolute',
     bottom: 0,
     left: 0,
     right: 0,
+    elevation: 30,
     shadowColor: "#000",
     shadowOffset: {
       width: 0,
@@ -168,7 +167,7 @@ const styles = ScaledSheet.create({
   navigator: {
     borderTopWidth: 0,
     backgroundColor: 'transparent',
-    elevation: 30
+
   },
   itemStyle: { backgroundColor: 'white', height: isAndroid ? '57@ms' : isIphoneX() ? '55@ms' : '50@ms', paddingVertical: '7@vs' },
   xFillLine: {
