@@ -26,11 +26,7 @@ const LoanDetailItem = React.memo(({ item }: Props) => {
         </View>
       }
       <FastImage source={{uri:  imageUrl}} style={styles.bankIcon}/>
-      <View style={[styles.row,styles.wrapInterest]}>
-        <InterestRate style={styles.interestItem} title={'Lãi suất'} content={item?.info?.preferentialRate} isInterestRate contentColor={color.palette.blue} />
-        <View style={styles.separate}/>
-        <InterestRate style={styles.interestItem} title={'Ưu đãi'} content={item?.info?.preferentialTime} contentColor={color.palette.blue} />
-      </View>
+      <InterestRate interestRate={item?.info?.preferentialRate} endow={item?.info?.preferentialTime} month={12}/>
     </View>
   )
 });

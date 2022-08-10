@@ -27,12 +27,13 @@ import InDeveloping from "../components/in-developing"
 import RequestCounselling from "../screens/loan/request-counselling"
 import { TabBarAdvancedButton } from "../components/bottom-tab-bar/TabBarAdvancedButton"
 import { TabBarButton } from "../components/bottom-tab-bar/TabBarButton"
+import FinanceScreen from "../screens/loan/finance-screen"
 
 
 export type AppStackParamList = {
   [ScreenNames.HOME]: undefined;
   [ScreenNames.CHAT]: undefined;
-  [ScreenNames.SCHEDULE]: undefined;
+  [ScreenNames.SCHEDULE]: { index?: number };
   [ScreenNames.SETTING]: undefined;
   [ScreenNames.PLUS]: undefined;
 }
@@ -128,7 +129,7 @@ export const AppStack = () => {
               tabBarVisible: getTabBarVisibility(props.route),
             }
           }}
-          component={InDeveloping}
+          component={FinanceScreen}
         />
       }
       <Tab.Screen
