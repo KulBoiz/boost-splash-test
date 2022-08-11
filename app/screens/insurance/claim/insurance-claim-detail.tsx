@@ -43,7 +43,7 @@ const InsuranceClaimDetail = React.memo((props: Props) => {
             <InsuranceInfo {...{ item, deal }} />
             <BuyerInfo {...{ item, deal }} />
             <BeneficiaryInfo {...{ item, deal }} />
-            <CollapsibleClaimUpload data={item?.images ?? []} />
+            <CollapsibleClaimUpload data={item?.images ?? []} canEdit={false} />
             <View style={MARGIN_TOP_16}>
               <Note id={item?.id} />
             </View>
