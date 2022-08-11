@@ -19,10 +19,10 @@ import UploadImage from "../../../components/upload-document/upload-image"
 interface Props {
   onDataChange?(e: any): void
   data: any
-
+  canEdit?:boolean
 }
 
-const CollapsibleClaimUpload = observer(({ data, onDataChange }: Props) => {
+const CollapsibleClaimUpload = observer(({ data, onDataChange, canEdit = true }: Props) => {
   const [activeSections, setActiveSections] = useState<number[]>([])
   const [files, setFiles] = useState<any>([])
 
@@ -84,11 +84,11 @@ const CollapsibleClaimUpload = observer(({ data, onDataChange }: Props) => {
   const renderContent = () => {
     return (
       <Box>
-        <UploadImage onUploadSuccess={_onUploadFile} />
+        {canEdit && <UploadImage onUploadSuccess={_onUploadFile} />}
         <Box pb={s(16)} mx={s(16)}>
           {files?.length > 0
             ? files.map((item, index) => {
-                return <DocumentItem key={index} file={item} onDelete={onDeleteDocument} />
+                return <DocumentItem key={index} file={item} onDelete={onDeleteDocument} canEdit={canEdit}/>
               })
             : null}
         </Box>
