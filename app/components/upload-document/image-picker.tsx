@@ -1,6 +1,6 @@
 /* eslint-disable react-native/split-platform-components */
 import React, { useEffect } from "react"
-import { Platform, View, ActionSheetIOS } from "react-native"
+import { Platform, ActionSheetIOS } from "react-native"
 import {
   Asset,
   ImagePickerResponse,
@@ -11,6 +11,8 @@ import { s, ms } from "react-native-size-matters"
 import { PERMISSIONS, check, RESULTS, request } from "react-native-permissions"
 import { Box, Modal, Pressable } from "native-base"
 import { Text } from "../text/text"
+import * as DocumentPicker from 'expo-document-picker';
+
 interface ImagePickerProps {
   visible: boolean
   onCancel: () => void
@@ -34,6 +36,27 @@ const ImagePickerModal: React.FC<ImagePickerProps> = React.memo(
       } catch (error) {
         await Promise.reject(error)
       }
+    }
+
+    const _pickDocument = () => {
+      onCancel?.()
+      DocumentPicker.getDocumentAsync({ type: "*/*", copyToCacheDirectory: true }).then(response => {
+        if (response.type === 'success') {
+          const { name, size, uri } = response;
+          const nameParts = name.split('.');
+          const fileType = nameParts[nameParts.length - 1];
+          const fileToUpload = {
+            name: name ?? response?.name,
+            fileName: name ?? response?.name,
+            size: size,
+            uri: uri,
+            type: "application/" + fileType
+          };
+          if (fileToUpload){
+            onSelectImage(fileToUpload);
+          }
+        }
+      });
     }
     const _selectFile = () => {
       onCancel?.()
@@ -59,7 +82,7 @@ const ImagePickerModal: React.FC<ImagePickerProps> = React.memo(
                 return
               }
               // @ts-ignore
-              onSelectImage(res)
+              onSelectImage(res.assets[0])
             }
           },
         )
@@ -88,7 +111,7 @@ const ImagePickerModal: React.FC<ImagePickerProps> = React.memo(
             return
           }
           // @ts-ignore
-          onSelectImage(res)
+          onSelectImage(res.assets[0])
           // }
         }
       }, 500)
@@ -97,17 +120,20 @@ const ImagePickerModal: React.FC<ImagePickerProps> = React.memo(
     const showActionSheetIos = () => {
       ActionSheetIOS.showActionSheetWithOptions(
         {
-          options: ["Chụp ảnh", "Upload ảnh", "Hủy"],
-          cancelButtonIndex: 2,
+          options: ["Upload file", "Chụp ảnh", "Upload ảnh", "Hủy"],
+          cancelButtonIndex: 3,
           userInterfaceStyle: "light",
         },
         (index) => {
           onCancel?.()
           switch (index) {
             case 0:
-              _selectCamera()
+              _pickDocument()
               break
             case 1:
+              _selectCamera()
+              break
+            case 2:
               _selectFile()
               break
 
@@ -132,6 +158,16 @@ const ImagePickerModal: React.FC<ImagePickerProps> = React.memo(
         <Box width="full" height="full" bg="transparent" p={s(12)} safeAreaBottom>
           <Pressable flex="1" onPress={onCancel} />
           <Box bg="white" borderRadius="8">
+            <Pressable
+              onPress={_pickDocument}
+              borderBottomWidth={0.5}
+              borderBottomColor="BABABA"
+              height="55px"
+              alignItems="center"
+              justifyContent="center"
+            >
+              <Text text="Upload file" color="blue" fontWeight="500" fontSize={ms(15)} />
+            </Pressable>
             <Pressable
               onPress={_selectCamera}
               borderBottomWidth={0.5}
