@@ -24,6 +24,7 @@ const BankInfo = React.memo((props: BankInfoProps) => {
     <View style={[styles.container, hasBorder && [styles.border, {borderColor: backgroundColor ?? color.lightBlack}]]}>
       <View style={[styles.header, {backgroundColor: backgroundColor ?? '#005992'}]}>
         <FastImage source={{uri:  imageUrl}} style={styles.bankIcon} resizeMode={'contain'}/>
+        <AppText value={'Xem chi tiết'} color={color.text}/>
       </View>
 
       <View style={styles.body}>
@@ -70,12 +71,13 @@ const styles = ScaledSheet.create({
   },
 
   header: {
+    flexDirection: 'row',
     borderTopRightRadius: '8@s',
     borderTopLeftRadius: '8@s',
-    paddingHorizontal: '16@s',
+    paddingHorizontal: '12@s',
     paddingVertical: '8@s',
-    alignItems: 'flex-start',
-    justifyContent:'center'
+    alignItems: 'center',
+    justifyContent:'space-between'
   },
   name: {
     lineHeight: '16@s',
