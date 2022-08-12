@@ -16,26 +16,24 @@ interface Props{}
 
 const LoanDetail : React.FC<Props> = observer(() => {
   const { loanStore } = useStores()
-  const [loading, setLoading] = useState<boolean>(true)
   const item = loanStore.productDetail
-
-  useEffect(()=> {
-    setTimeout(()=>setLoading(false), 1000)
-  },[])
 
   return (
     <View style={styles.container}>
       <AppHeader headerText={'Chi tiết gói vay'} isBlue/>
-      {loading ?
+      {loanStore.loading ?
         <ActivityIndicator style={styles.loading} />
         :
         item ?
         <ScrollView style={styles.body}>
-          <LoanDetailItem item={item} />
+          <LoanDetailItem />
           <ProductInfo item={item} />
           <CollapsibleRequestProfile />
-          <AppButton tx={'auth.registerNow'} onPress={() => navigate(ScreenNames.REGISTER_LOAN)}
-                     containerStyle={styles.btn} />
+          <AppButton
+            tx={'auth.registerNow'}
+            onPress={() => navigate(ScreenNames.REGISTER_LOAN)}
+            containerStyle={styles.btn}
+          />
           <View style={{ height: 100 }} />
         </ScrollView>
         : <></>

@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Image, TouchableOpacity } from "react-native"
+import { View, Image, TouchableOpacity, Pressable } from "react-native"
 import { ms, ScaledSheet } from "react-native-size-matters"
 import FastImage from "react-native-fast-image"
 import { BlueTickSvg, StarSvg, TickSvg } from "../../../assets/svgs"
@@ -11,6 +11,7 @@ import { truncateString } from "../../../constants/variable"
 import { ALIGN_CENTER, MARGIN_BOTTOM_8, ROW } from "../../../styles/common-style"
 import { navigate } from "../../../navigators"
 import { ScreenNames } from "../../../navigators/screen-names"
+import { useStores } from "../../../models"
 
 interface BankInfoProps{
   item: any
@@ -18,14 +19,20 @@ interface BankInfoProps{
 }
 
 const BankInfo = React.memo((props: BankInfoProps) => {
+  const {loanStore} = useStores()
   const {item, hasBorder} = props
   const imageUrl = item?.org?.image?.url
   const backgroundColor = item?.org?.backgroundColor
   const outstandingAdvantages = item?.outstandingAdvantages
   const advantages = item?.advantages?.split("\n")
-
+  const handlePress = () => {
+    navigate(ScreenNames.LOAN_DETAIL)
+    loanStore.getProductDetail(item?.id)
+  }
   return (
-    <View style={[styles.container, [styles.border, {borderColor: backgroundColor ?? color.lightBlack}]]}>
+    <Pressable
+      style={[styles.container, [styles.border, {borderColor: backgroundColor ?? color.lightBlack}]]}
+      onPress={handlePress}>
       <View style={[styles.header, {backgroundColor: backgroundColor ?? '#005992'}]}>
          <FastImage source={{uri:  imageUrl}} style={styles.bankIcon} resizeMode={'contain'}/>
       </View>
@@ -49,7 +56,7 @@ const BankInfo = React.memo((props: BankInfoProps) => {
               return(
                   <View key={id.toString()} style={[ROW, ALIGN_CENTER, !isLastItem && MARGIN_BOTTOM_8]}>
                     <BlueTickSvg style={{marginRight: ms(5)}}/>
-                    <AppText value={val} fontSize={ms(12)}/>
+                    <AppText value={truncateString(val, 45)} fontSize={ms(12)}/>
                   </View>
                 )
               }) :
@@ -60,7 +67,7 @@ const BankInfo = React.memo((props: BankInfoProps) => {
           <AppText value={'Yêu cầu tư vấn'} fontSize={ms(14)} color={color.primary}/>
         </TouchableOpacity>
       </View>
-    </View>
+    </Pressable>
   )
 });
 
