@@ -227,6 +227,13 @@ export const AuthStoreModel = types
         return result
     }),
 
+    deleteUser: flow(function* deleteUser() {
+      const authApi = new BaseApi(self.environment.api)
+      const userId = self.userId
+      const result = yield authApi.put(`users/${userId}`,{status: 'inactive'})
+      return result
+    }),
+
     isExpired: () => {
       if (!self.expiresIn || !self.token) {
         return true

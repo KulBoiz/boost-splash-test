@@ -19,9 +19,11 @@ import { StackActions, useIsFocused } from "@react-navigation/native"
 import { presets } from "../../constants/presets"
 
 const errorContent = "Sai thông tin tài khoản hoặc mật khẩu.\nVui lòng kiểm tra lại."
+const error = "Taì khoản của bạn đã bị vô hiệu hóa.\nVui lòng liên hệ support@fina.com.vn để được hỗ trợ."
 
 export const LoginScreen: FC<StackScreenProps<AuthStackParamList, ScreenNames.LOGIN>> = observer(
   ({ navigation }) => {
+    const [errorMessage, setErrorMessage] = useState(errorContent)
     const validationSchema = Yup.object().shape({
       email: Yup.string().trim().required("Vui lòng nhập email hoặc số điện thoại"),
       password: Yup.string().required("Vui lòng nhập mật khẩu").trim(),
@@ -49,15 +51,19 @@ export const LoginScreen: FC<StackScreenProps<AuthStackParamList, ScreenNames.LO
       const auth = await authStoreModel.login(data.email, data.password)
       if (auth.kind === "ok") {
         navigation.dispatch(StackActions.push(ScreenNames.APP))
+        await authStoreModel.getFullInfoUser(auth?.data?.user?.id)
         setLoading(false)
+        return
       }
-      else {
+      if (auth?.error?.message === 'user inactive'){
+        setErrorMessage(error)
         setVisible(true)
         setLoading(false)
       }
-
-      if (auth?.data?.user?.id) {
-        await authStoreModel.getFullInfoUser(auth?.data?.user?.id)
+      else {
+        setErrorMessage(errorContent)
+        setVisible(true)
+        setLoading(false)
       }
     }
 
@@ -126,7 +132,7 @@ export const LoginScreen: FC<StackScreenProps<AuthStackParamList, ScreenNames.LO
             action={"register"}
           />
         </View>
-        <AppModal {...{ visible, closeModal, content: errorContent }} />
+        <AppModal {...{ visible, closeModal, content: errorMessage }} />
       </Pressable>
     )
   },
