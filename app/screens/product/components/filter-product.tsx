@@ -5,7 +5,10 @@ import { ms, ScaledSheet } from "react-native-size-matters"
 import { color } from "../../../theme"
 import { fontFamily } from "../../../constants/font-family"
 
-interface Props{}
+interface Props{
+  defaultId?: any
+  data?: any
+}
 const FAKE_DATA = [
   {
     title: '12'
@@ -20,9 +23,11 @@ const FAKE_DATA = [
 ]
 
 const FilterProduct = React.memo((props: Props) => {
-  const [id, setId] = useState(0)
+  const { defaultId, data} = props
+  const [id, setId] = useState(defaultId ?? 0)
+
   return (
-    <ScrollView style={styles.container}>
+    <ScrollView style={styles.container} horizontal>
       {FAKE_DATA.map((val,index)=> {
         const isSelect = id === index
         return (
@@ -50,7 +55,10 @@ const styles = ScaledSheet.create({
     container: {},
   box: {
     width: '75@s',
-    paddingVertical: '10@s',
+    height: '35@s',
     alignItems: "center",
+    justifyContent: "center",
+    marginHorizontal: '2@s',
+    paddingBottom: '5@s'
   }
 });
