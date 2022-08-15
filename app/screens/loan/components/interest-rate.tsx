@@ -10,11 +10,12 @@ interface Props{
   interestRate: string | number
   month?: string | number
   endow: string | number
+  border?: boolean
 }
 
-const InterestRate = React.memo(({ interestRate, endow, month = 12 }: Props) => {
+const InterestRate = React.memo(({ interestRate, endow, month = 12, border = false }: Props) => {
   return(
-      <View style={styles.container}>
+      <View style={[styles.container, border && styles.borderBottom]}>
         <View style={ALIGN_CENTER}>
           <AppText value={'LÃI SUẤT'} style={styles.month}/>
           <AppText value={` ${interestRate}%`} style={styles.endow}/>
@@ -42,6 +43,10 @@ const styles = ScaledSheet.create({
     alignItems: "center",
     justifyContent: "center",
     paddingVertical: '8@s'
+  },
+  borderBottom: {
+    borderBottomLeftRadius: '8@s',
+    borderBottomRightRadius: '8@s',
   },
   separate: {
     width: 1,

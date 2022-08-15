@@ -1,13 +1,17 @@
 import React from 'react';
-import { View } from "react-native"
-import { ScaledSheet } from "react-native-size-matters"
+import { View, Image, TouchableOpacity, Pressable } from "react-native"
+import { ms, ScaledSheet } from "react-native-size-matters"
 import FastImage from "react-native-fast-image"
-import { StarSvg } from "../../../assets/svgs"
+import { BlueTickSvg, StarSvg, TickSvg } from "../../../assets/svgs"
 import { AppText } from "../../../components/app-text/AppText"
 import { fontFamily } from "../../../constants/font-family"
 import { color } from "../../../theme"
 import InterestRate from "./interest-rate"
-import BottomBankInfo from "./bottom-bank-info"
+import { truncateString } from "../../../constants/variable"
+import { ALIGN_CENTER, MARGIN_BOTTOM_8, ROW } from "../../../styles/common-style"
+import { navigate } from "../../../navigators"
+import { ScreenNames } from "../../../navigators/screen-names"
+import { useStores } from "../../../models"
 
 interface BankInfoProps{
   item: any
@@ -15,20 +19,27 @@ interface BankInfoProps{
 }
 
 const BankInfo = React.memo((props: BankInfoProps) => {
+  const {loanStore} = useStores()
   const {item, hasBorder} = props
   const imageUrl = item?.org?.image?.url
   const backgroundColor = item?.org?.backgroundColor
   const outstandingAdvantages = item?.outstandingAdvantages
-
+  const advantages = item?.advantages?.split("\n")
+  const handlePress = () => {
+    navigate(ScreenNames.LOAN_DETAIL)
+    loanStore.getProductDetail(item?.id)
+  }
   return (
-    <View style={[styles.container, hasBorder && [styles.border, {borderColor: backgroundColor ?? color.lightBlack}]]}>
+    <Pressable
+      style={[styles.container, [styles.border, {borderColor: backgroundColor ?? color.lightBlack}]]}
+      onPress={handlePress}>
       <View style={[styles.header, {backgroundColor: backgroundColor ?? '#005992'}]}>
-        <FastImage source={{uri:  imageUrl}} style={styles.bankIcon} resizeMode={'contain'}/>
+         <FastImage source={{uri:  imageUrl}} style={styles.bankIcon} resizeMode={'contain'}/>
       </View>
 
       <View style={styles.body}>
         <View style={styles.headerContent}>
-          <AppText value={item?.name} style={styles.name}/>
+          <AppText value={truncateString(item?.name, 25)} style={styles.name}/>
           {outstandingAdvantages &&
             <View style={styles.row}>
               <StarSvg />
@@ -37,12 +48,26 @@ const BankInfo = React.memo((props: BankInfoProps) => {
           }
         </View>
         <InterestRate interestRate={item?.info?.preferentialRate} endow={item?.info?.preferentialTime} month={12}/>
+
         <View style={styles.contentContainer}>
-          <AppText value={item?.advantages}/>
+          {
+            advantages?.length ? advantages.map((val, id) => {
+              const isLastItem = advantages?.length - 1 === id
+              return(
+                  <View key={id.toString()} style={[ROW, ALIGN_CENTER, !isLastItem && MARGIN_BOTTOM_8]}>
+                    <BlueTickSvg style={{marginRight: ms(5)}}/>
+                    <AppText value={truncateString(val, 45)} fontSize={ms(12)}/>
+                  </View>
+                )
+              }) :
+                <AppText value={item?.advantages}/>
+          }
         </View>
-        <BottomBankInfo  id={item?.id} />
+        <TouchableOpacity style={styles.button} onPress={() => navigate(ScreenNames.REQUEST_COUNSELLING)}>
+          <AppText value={'Yêu cầu tư vấn'} fontSize={ms(14)} color={color.primary}/>
+        </TouchableOpacity>
       </View>
-    </View>
+    </Pressable>
   )
 });
 
@@ -52,14 +77,15 @@ BankInfo.displayName = 'BankInfo'
 const styles = ScaledSheet.create({
   container: {
     borderRadius: '8@s',
-    backgroundColor: color.palette.white
+    backgroundColor: color.palette.white,
+    marginBottom: '12@s'
   },
   border: {
     borderWidth: 1
   },
   bankIcon: {
     width: '80@s',
-    height:'25@s'
+    height:'30@s'
   },
   row: {
     flexDirection: 'row',
@@ -72,38 +98,28 @@ const styles = ScaledSheet.create({
   header: {
     borderTopRightRadius: '8@s',
     borderTopLeftRadius: '8@s',
-    paddingHorizontal: '16@s',
-    paddingVertical: '8@s',
-    alignItems: 'flex-start',
-    justifyContent:'center'
+    paddingRight: '12@s',
+    paddingVertical: '4@s',
   },
   name: {
     lineHeight: '16@s',
-    fontWeight: '500',
+    fontFamily: fontFamily.semiBold,
     fontSize: '12@ms',
     color: color.lightBlack
   },
   body: {
-    // paddingHorizontal: '16@ms',
-    paddingBottom: '16@s',
+    paddingBottom: '12@s',
     borderBottomLeftRadius: '8@s',
     borderBottomRightRadius: '8@s',
-    marginBottom: '16@s'
   },
   headerContent: {
-    paddingVertical: '16@s',
-    borderBottomWidth: 1,
-    borderBottomColor: '#DDD9D9'
+    flexDirection: 'row',
+    alignItems: "center",
+    justifyContent: "space-between",
+    padding: '12@s',
   },
   contentContainer: {
-
-  },
-  separate: {
-    width: 1,
-    height: '25@s',
-    backgroundColor: '#DDD9D9',
-    marginLeft: '30@s',
-    marginRight: '25@s'
+    padding: '12@s'
   },
   outstandingAdvantages: {
     lineHeight: '16@s',
@@ -111,5 +127,12 @@ const styles = ScaledSheet.create({
     fontSize: '12@ms',
     fontFamily: fontFamily.regular,
     color: color.palette.orange
+  },
+  button: {
+    backgroundColor: '#E4EDFF',
+    alignItems: "center",
+    borderRadius: '4@s',
+    paddingVertical: '8@s',
+    marginHorizontal: '12@s'
   }
 });

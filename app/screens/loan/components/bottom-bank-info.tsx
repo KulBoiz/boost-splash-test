@@ -27,6 +27,7 @@ const BottomBankInfo = React.memo(({ id }: Props) => {
     })
   }
 
+
   return (
     <View style={styles.container}>
       <Pressable style={styles.row} onPress={handlePress}>

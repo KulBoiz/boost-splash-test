@@ -46,6 +46,7 @@ export const LoanStoreModel = types
   .extend(withEnvironment)
   .extend(withRootStore)
   .props({
+    loading: types.optional(types.boolean, false),
     id: types.optional(types.string, ""),
     records: types.frozen([]),
     totalRecord: types.optional(types.number, 0),
@@ -351,15 +352,19 @@ export const LoanStoreModel = types
     }),
 
     getProductDetail: flow(function* getProductDetail(id: string) {
+      self.loading = true
       self.productDetail = {}
 
       const loanApi = new LoanApi(self.environment.api)
       const result = yield loanApi.getProductDetail(id)
       if (result.kind !== "ok") {
+        self.loading = false
+        self.productDetail = {}
         return result
       }
       const data = result.data
       if (data) {
+        self.loading = false
         self.productDetail = data
         return {
           kind: "ok",
