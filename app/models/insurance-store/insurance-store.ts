@@ -217,6 +217,21 @@ export const InsuranceStoreModel = types
       return result
     }),
 
+    getCategoryInsurance:  flow(function* get() {
+      const api = new BaseApi(self.environment.api)
+      const result = yield api.get("categories", {
+        filter: {
+          where: {
+            type: 'insurance_products'
+          },
+          limit: 100,
+        },
+        page: 1,
+      })
+      
+      return result
+    }),
+
   })) // eslint-disable-line @typescript-eslint/no-unused-vars
 
 type InsuranceStoreType = Instance<typeof InsuranceStoreModel>
