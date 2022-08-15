@@ -31,6 +31,7 @@ import InsuranceRequestClaimSuccessScreen from "../screens/insurance/insurance-r
 import ManageInsuranceDetailScreen from "../screens/insurance/manage-insurance-detail-screen"
 import ClaimInsuranceDetailScreen from "../screens/insurance/claim-insurance"
 import UserProfile from "../screens/settting/profile/user-profile"
+import InsuranceList from "../screens/new-insurance/insurance-list"
 
 export type NavigatorParamList = {
   [ScreenNames.SPLASH]: undefined
@@ -64,7 +65,8 @@ export type NavigatorParamList = {
   [ScreenNames.MANAGE_INSURANCE_FILTER]: undefined
   [ScreenNames.INSURANCE_REQUEST_CLAIM_SUCCESS_SCREEN]: undefined
   [ScreenNames.MANAGE_INSURANCE_DETAIL_SCREEN]: { index: number, isListBuy: any }
-  [ScreenNames.CLAIM_INSURANCE]: { productId: string, index: string}
+  [ScreenNames.CLAIM_INSURANCE]: { productId: string, index: string }
+  [ScreenNames.INSURANCE_LIST_SCREEN]: { key: string }
 }
 
 // Documentation: https://reactnavigation.org/docs/stack-navigator/
@@ -145,6 +147,10 @@ const RootStack = () => {
       <Stack.Screen
         name={ScreenNames.USER_PROFILE}
         component={UserProfile}
+      />
+      <Stack.Screen
+        name={ScreenNames.INSURANCE_LIST_SCREEN}
+        component={InsuranceList}
       />
     </Stack.Navigator>
   )
