@@ -1,89 +1,66 @@
-import { View } from 'react-native'
-import React, { FC, } from 'react'
-import { images } from '../../../../assets/images'
+import React from 'react'
+import { View, ViewStyle } from 'react-native'
 import { ScaledSheet } from 'react-native-size-matters'
 import { AppText } from '../../../../components/app-text/AppText'
-import { color } from '../../../../theme'
 import { fontFamily } from '../../../../constants/font-family'
-import { ROW, MARGIN_TOP_16, MARGIN_BOTTOM_8, CENTER_ELEMENTS } from '../../../../styles/common-style'
-import { FastImage } from '../../../../components/fast-image/fast-image'
+import { color } from '../../../../theme'
+import IconItem from '../../new-home-fina/components/icon-item'
 
-const OthersInsurance: FC = () => {
-	const othersInsurance = [
-		{
-			name: "hot selling",
-			onPress: () => { },
-			icon: images.home_hotSell,
-			label: "Bán chạy",
-			percent: "7%"
-		},
-		{
-			name: "hot selling",
-			onPress: () => { },
-			icon: images.home_health,
-			label: "Mát cắp",
-			percent: "7%"
-		}, {
-			name: "hot selling",
-			label: "",
-			onPress: () => { },
-			icon: images.home_thieves,
-			percent: "7%"
-		}, {
-			name: "hot selling",
-			onPress: () => { },
-			icon: images.home_realEstate,
-			percent: "7%"
-		}, {
-			name: "hot selling",
-			onPress: () => { },
-			icon: images.home_hotSell,
-			percent: "7%"
-		},
-	]
-	return (
-		<>
-			<AppText value={"Bảo hiểm khác"} style={styles.title} />
-			<View style={[ROW, styles.container]}>
-				{othersInsurance.map((insurance, index) => {
-					const label = insurance.label || insurance.name
-					return (
-						<View key={index.toString()} style={[MARGIN_TOP_16, MARGIN_BOTTOM_8, CENTER_ELEMENTS, {width: "20%" }]}>
-							<FastImage source={insurance.icon} style={styles.icon} />
-							<AppText value={label} style={styles.nameText} />
-							<AppText value={insurance.percent} style={styles.percentText} />
-						</View>
-					)
-				})}
-			</View>
-		</>
-	)
+interface Props{
+  data: any[]
+  title: string
+  iconShape?: 'circle' | 'custom'
+  style?: ViewStyle | any
 }
+
+const OthersInsurance = React.memo((props: Props) => {
+  const {data, title, style, iconShape} = props
+  return (
+    <View style={[styles.container, style]}>
+    <AppText value={title} style={styles.label}/>
+    <View style={styles.itemContainer}>
+      {data.map((e, i)=> {
+        return <IconItem
+          icon={e?.icon?.url}
+          title={e?.name}
+          key={e?.title?.toString() + i.toString()}
+          onPress={e.onPress}
+          percent={e?.percent}
+          iconShape={iconShape}
+          middleText={e?.middleText}
+        />
+      })}
+    </View>
+  </View>
+  )
+})
 
 export default OthersInsurance
 
 const styles = ScaledSheet.create({
-	container: {
-		justifyContent: "center",
-		backgroundColor: color.background
-	},
-	icon: {
-		width: "18@s",
-		height: "18@s",
-		marginBottom: "9@s"
-	},
-	nameText: {
-		marginBottom: "4@s",
-	},
-	percentText: {
-		color: color.palette.blue,
-		fontFamily: fontFamily.semiBold
-	},
-	title: {
-		marginTop: "16@s",
-		marginBottom: "12@s",
-		marginLeft: "16@s",
-		fontFamily: fontFamily.semiBold,
-		fontSize: "14@ms"
-	}
+  container: {},
+  label: {
+    fontSize: '14@ms',
+    fontFamily: fontFamily.semiBold,
+    marginLeft: '24@ms',
+    marginBottom: '12@s',
+    color: 'rgba(0, 0, 0, 0.85)',
+    marginTop: '12@s',
+  },
+  itemContainer: {
+    flexDirection: "row",
+    flexWrap: "wrap",
+    paddingHorizontal: '12@ms',
+    backgroundColor: color.palette.F9FBFF,
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: 3,
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 3.84,
+
+    elevation: 5,
+  }
 })
+
