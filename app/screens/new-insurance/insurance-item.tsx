@@ -24,14 +24,14 @@ const InsuranceItem = React.memo((props: InsuranceItemProps) => {
   const { insuranceStore, productStore } = useStores()
 
   const handlePress = () => {
-      if (insuranceStore.isFirstTime) {
-        navigate(ScreenNames.INTRODUCE_SCREEN)
-      } else {
-        productStore.getDetail(item?.id).then(() => {
-          navigate(ScreenNames.INSURANCE_SCREEN)
-        })
-        productStore.getTransactionInsurance(item?.id)
-      }
+    if (insuranceStore.isFirstTime) {
+      navigate(ScreenNames.INTRODUCE_SCREEN)
+    } else {
+      productStore.getDetail(item?.id).then(() => {
+        navigate(ScreenNames.INSURANCE_SCREEN)
+      })
+      productStore.getTransactionInsurance(item?.id)
+    }
   }
 
   const tagsStyles = {
@@ -55,7 +55,7 @@ const InsuranceItem = React.memo((props: InsuranceItemProps) => {
         <View style={[ROW, ALIGN_CENTER]} >
           <FastImage source={imageUrl ? { uri: imageUrl } : images.avatarDefault} style={styles.bankIcon} resizeMode={'contain'} />
           <View>
-            <AppText value={'Bảo hiểm'} fontSize={ms(11)} />
+            <AppText value={'Bảo hiểm'} fontSize={ms(11)} style={{ opacity: 0.5 }} />
             <AppText value={truncateString(item?.name, 22)} fontSize={ms(14)} fontFamily={fontFamily.bold} color={color.primary} />
           </View>
         </View>
@@ -64,10 +64,10 @@ const InsuranceItem = React.memo((props: InsuranceItemProps) => {
 
       <View style={styles.body}>
         {
-          item?.highlights ? item?.highlights?.map((val, id) => {
+          item?.highlights && item?.highlights?.map((val, id) => {
             const isLastItem = item?.highlights?.length - 1 === id
             return (
-              <View key={id.toString()} style={[ROW, ALIGN_CENTER, !isLastItem && MARGIN_BOTTOM_8]}>
+              <View key={id.toString()} style={[ROW, ALIGN_CENTER, !isLastItem && MARGIN_BOTTOM_8, { paddingRight: ms(8) }]}>
                 <BlueTickSvg style={{ marginRight: ms(5) }} />
                 <RenderHtml
                   contentWidth={width}
@@ -76,8 +76,7 @@ const InsuranceItem = React.memo((props: InsuranceItemProps) => {
                 />
               </View>
             )
-          }) :
-            <AppText value={item?.advantages} />
+          })
         }
       </View>
     </Pressable>
@@ -126,8 +125,8 @@ const styles = ScaledSheet.create({
     flexDirection: "row",
     alignItems: "center",
     justifyContent: 'space-between',
-    borderBottomWidth: 1,
-    borderBottomColor: color.palette.BABABA,
+    borderBottomWidth: 0.5,
+    borderBottomColor: "#d9d9d9",
     paddingBottom: '20@s'
   },
   body: {
