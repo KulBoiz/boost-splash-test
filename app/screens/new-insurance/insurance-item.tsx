@@ -1,59 +1,74 @@
 import React from 'react';
-import { View, Pressable } from "react-native"
-import { ms, ScaledSheet } from "react-native-size-matters"
-import FastImage from "react-native-fast-image"
+import { Pressable, View } from "react-native";
+import FastImage from "react-native-fast-image";
+import RenderHtml from 'react-native-render-html';
+import { ms, ScaledSheet } from "react-native-size-matters";
+import { images } from "../../assets/images";
+import { BlueTickSvg } from "../../assets/svgs";
 import { AppText } from '../../components/app-text/AppText';
-import { truncateString } from '../../constants/variable';
-import { BlueTickSvg } from "../../assets/svgs"
-import { ALIGN_CENTER, MARGIN_BOTTOM_8, ROW } from "../../styles/common-style"
-import { color } from "../../theme"
-import { fontFamily } from "../../constants/font-family"
-import { images } from "../../assets/images"
+import { fontFamily } from "../../constants/font-family";
+import { width } from '../../constants/variable';
+import { ALIGN_CENTER, MARGIN_BOTTOM_8, ROW } from "../../styles/common-style";
+import { color } from "../../theme";
 
-interface InsuranceItemProps{
+interface InsuranceItemProps {
   item: any
 }
-const content = "Bảo vệ bạn trước rủi ro tai nạn 27/4\nGiá tối thiểu chỉ 230 đồng/ngày và 84.000 đồng/ năm\nNhận hoa hồng tới 34% Phí bảo hiểm ( NO VAT)"
-
 
 const InsuranceItem = React.memo((props: InsuranceItemProps) => {
+  const { item } = props
+  const imageUrl = item?.info?.image?.url
   const {item} = props
-  // const imageUrl = item?.org?.image?.url
-  // const advantages = item?.advantages?.split("\n")
-  const productContent = content.split("\n")
 
   const handlePress = () => {
     // navigate(ScreenNames.LOAN_DETAIL)
   }
+
+  const tagsStyles = {
+    body: {
+      whiteSpace: 'normal',
+    },
+    a: {
+      color: 'green'
+    },
+    p: {
+      margin: 0,
+      padding: 0
+    }
+  };
+
   return (
     <Pressable
       style={[styles.container, styles.border]}
       onPress={handlePress}>
       <View style={styles.header}>
-          <View style={[ROW, ALIGN_CENTER]} >
-            {/* <FastImage source={{uri:  imageUrl}} style={styles.bankIcon} resizeMode={'contain'}/> */}
-            <FastImage source={images.avatarDefault} style={styles.bankIcon}/>
-            <View>
-              <AppText value={'Bảo hiểm'} fontSize={ms(11)} />
-              <AppText value={'Tai nạn cá nhân'} fontSize={ms(14)} fontFamily={fontFamily.bold} color={color.primary}/>
-            </View>
+        <View style={[ROW, ALIGN_CENTER]} >
+          <FastImage source={imageUrl ? { uri: imageUrl } : images.avatarDefault} style={styles.bankIcon} resizeMode={'contain'} />
+          <View>
+            <AppText value={'Bảo hiểm'} fontSize={ms(11)} />
+            <AppText value={item?.name} fontSize={ms(14)} fontFamily={fontFamily.bold} color={color.primary} />
           </View>
-          <FastImage source={images.arrow_right} style={styles.rightIcon}/>
+        </View>
+        <FastImage source={images.arrowLeft} style={styles.rightIcon} />
       </View>
 
       <View style={styles.body}>
-          {
-            productContent?.length ? productContent.map((val, id) => {
-              const isLastItem = productContent?.length - 1 === id
-              return(
-                  <View key={id.toString()} style={[ROW, ALIGN_CENTER, !isLastItem && MARGIN_BOTTOM_8]}>
-                    <BlueTickSvg style={{marginRight: ms(5)}}/>
-                    <AppText value={truncateString(val, 45)} fontSize={ms(12)}/>
-                  </View>
-                )
-              }) :
-                <AppText value={item?.advantages}/>
-          }
+        {
+          item?.highlights ? item?.highlights?.map((val, id) => {
+            const isLastItem = item?.highlights?.length - 1 === id
+            return (
+              <View key={id.toString()} style={[ROW, ALIGN_CENTER, !isLastItem && MARGIN_BOTTOM_8]}>
+                <BlueTickSvg style={{ marginRight: ms(5) }} />
+                <RenderHtml
+                  contentWidth={width}
+                  source={{ html: `${val?.highlightItem}` }}
+                  tagsStyles={tagsStyles}
+                />
+              </View>
+            )
+          }) :
+            <AppText value={item?.advantages} />
+        }
       </View>
     </Pressable>
   )
@@ -71,15 +86,24 @@ const styles = ScaledSheet.create({
   },
   border: {
     borderWidth: 1,
-    borderColor: color.palette.lightBlack
+    borderColor: color.palette.BABABA,
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: 1,
+    },
+    shadowOpacity: 0.22,
+    shadowRadius: 2.22,
+    elevation: 3,
   },
   rightIcon: {
     width: '16@s',
-    height:'16@s',
+    height: '16@s',
+    transform: [{ rotate: '180deg' }]
   },
   bankIcon: {
     width: '64@s',
-    height:'24@s',
+    height: '24@s',
     marginRight: '16@s'
   },
   row: {
@@ -90,7 +114,7 @@ const styles = ScaledSheet.create({
     borderTopRightRadius: '8@s',
     borderTopLeftRadius: '8@s',
     flexDirection: "row",
-    alignItems:"center",
+    alignItems: "center",
     justifyContent: 'space-between',
     borderBottomWidth: 1,
     borderBottomColor: color.palette.BABABA,

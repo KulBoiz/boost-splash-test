@@ -3,7 +3,7 @@ import { Api } from "./api"
 import { getGeneralApiProblem } from "./api-problem"
 import { API_ENDPOINT } from "@env"
 
-const API_PAGE_SIZE = 10
+const API_PAGE_SIZE = 20
 
 export class ProductApi {
 
