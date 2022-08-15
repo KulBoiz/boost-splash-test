@@ -17,6 +17,7 @@ const InsuranceList = React.memo((props: any) => {
   const [insurances, setInsurances] = useState([])
   const { insuranceStore, productStore } = useStores()
   const key = props?.route?.params?.key
+  const name = props?.route?.params?.name
 
   const paramsFilter = {
     categoryId: key
@@ -61,7 +62,7 @@ const renderItem = React.useCallback(({ item }) => {
 
 return (
   <View style={styles.container}>
-    <AppHeader headerText='Danh sách bảo hiểm' isBlue />
+    <AppHeader headerText={name} isBlue />
 
     <MenuFilter
       filterData={[{
