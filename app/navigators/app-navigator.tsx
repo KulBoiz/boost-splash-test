@@ -42,7 +42,7 @@ export type NavigatorParamList = {
   [ScreenNames.REQUEST_COUNSELLING]: undefined
   [ScreenNames.NOTICE]: undefined
   [ScreenNames.USER_PROFILE]: undefined
-  [ScreenNames.LOAN_PRODUCT]: undefined
+  [ScreenNames.LOAN_PRODUCT]: {header?: string, key?: string}
   [ScreenNames.LOAN_DETAIL]: undefined
   [ScreenNames.REGISTER_LOAN]: undefined
   [ScreenNames.PROFILE_DETAIL]: undefined

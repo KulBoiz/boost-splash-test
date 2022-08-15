@@ -75,8 +75,8 @@ const FinanceTab = React.memo((props: Props) => {
 
   return (
     <View style={styles.container}>
-      {!!homeStore.vehicle?.length && <HomeItem data={formatHomeData(homeStore.vehicle)} label={"Vay mua xe"} style={styles.itemMargin} iconShape={'circle'}/>}
-      {!!homeStore.real_estate?.length && <HomeItem data={formatHomeData(homeStore.real_estate)} label={"Vay mua nhà dự án"} style={styles.itemMargin} iconShape={'circle'}/>}
+      {!!homeStore.vehicle?.length && <HomeItem data={formatHomeData(homeStore.vehicle)} header='Vay mua xe' label={"Vay mua xe"} style={styles.itemMargin} iconShape={'circle'}/>}
+      {!!homeStore.real_estate?.length && <HomeItem data={formatHomeData(homeStore.real_estate)} header={'Vay mua nhà dự án'} label={"Vay mua nhà dự án"} style={styles.itemMargin} iconShape={'circle'}/>}
 
       <HomeItem data={SUPPORT_TOOL} label={"Công cụ bán hàng"} style={styles.itemMargin} />
       <HomeBanner />

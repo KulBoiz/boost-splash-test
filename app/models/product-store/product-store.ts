@@ -70,7 +70,7 @@ export const ProductStoreModel = types
         },
         page: 1
       })
-      const data = result?.data
+      const data = result?.data?.data
       if (data) {
         self.products = data
         return {
