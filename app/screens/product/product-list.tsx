@@ -14,6 +14,7 @@ const ProductList = React.memo((props: Props) => {
   return (
     <View style={styles.container}>
       <AppHeader headerText={''} isBlue/>
+
       <FlatList data={[]} renderItem={renderItem} />
     </View>
   )

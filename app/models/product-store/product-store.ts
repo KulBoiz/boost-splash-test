@@ -47,6 +47,19 @@ export const ProductStoreModel = types
       }
     }),
 
+    getProductFilter: flow(function* getProductFilter(type,time) {
+      const result = yield self.api.get(`app/home/${type}/${time}`)
+      const data = result?.data
+      console.log(data)
+      if (data) {
+        self.products = data
+        return {
+          kind: "ok",
+          data,
+        }
+      }
+    }),
+
     getProducts: flow(function* getProducts(type,time) {
       const result = yield self.api.get(`product-details/app/home/${type}/${time}`)
       const data = result?.data

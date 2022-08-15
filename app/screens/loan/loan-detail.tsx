@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react"
+import React, { useEffect, useRef, useState } from "react"
 import { ActivityIndicator, ScrollView, View } from "react-native"
 import { observer } from "mobx-react-lite"
 import AppHeader from "../../components/app-header/AppHeader"
@@ -11,12 +11,20 @@ import CollapsibleRequestProfile from "./components/collapsible-request-profile"
 import { ScreenNames } from "../../navigators/screen-names"
 import { navigate } from "../../navigators"
 import { useStores } from "../../models"
+import { ALIGN_CENTER, ROW, SPACE_BETWEEN } from "../../styles/common-style"
+import RegisterLoanModalize from "../product/components/register-loan-modalize"
+import { Modalize } from "react-native-modalize"
 
 interface Props{}
 
 const LoanDetail : React.FC<Props> = observer(() => {
   const { loanStore } = useStores()
   const item = loanStore.productDetail
+  const ref = useRef<Modalize>(null)
+
+  const openModal = () => {
+    ref.current.open()
+  }
 
   return (
     <View style={styles.container}>
@@ -29,15 +37,26 @@ const LoanDetail : React.FC<Props> = observer(() => {
           <LoanDetailItem />
           <ProductInfo item={item} />
           <CollapsibleRequestProfile />
-          <AppButton
-            tx={'auth.registerNow'}
-            onPress={() => navigate(ScreenNames.REGISTER_LOAN)}
-            containerStyle={styles.btn}
-          />
+          <View style={[ROW, ALIGN_CENTER, SPACE_BETWEEN]}>
+            <AppButton
+              title={'Tính lãi khoản vay'}
+              onPress={() => {
+                //
+              }}
+              containerStyle={[styles.btn, {backgroundColor: color.palette.blue}]}
+            />
+            <AppButton
+              title={'Đăng ký gói vay'}
+              onPress={openModal}
+              containerStyle={styles.btn}
+            />
+          </View>
           <View style={{ height: 100 }} />
         </ScrollView>
         : <></>
       }
+      <RegisterLoanModalize  modalizeRef={ref}/>
+
     </View>
   )
 });
@@ -55,7 +74,7 @@ const styles = ScaledSheet.create({
   },
   btn: {
     backgroundColor: color.palette.orange,
-    alignSelf: "center"
+    width: '48%'
   },
   loading: {
       marginTop: '20@s'

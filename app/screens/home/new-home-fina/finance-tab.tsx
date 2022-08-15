@@ -1,14 +1,13 @@
-import React, { useState } from "react"
+import React, { useEffect, useState } from "react"
 import { View } from "react-native"
 import HomeItem from "./components/home-item"
-import { formatHomeData, INSURANCE_PRODUCT, LOAN_PRODUCT, TEST_HOME } from "./constants"
+import { formatHomeData } from "./constants"
 import { ScaledSheet } from "react-native-size-matters"
 import i18n from "i18n-js"
 import { DOMAIN } from "@env"
 import { images } from "../../../assets/images"
 import { ScreenNames } from "../../../navigators/screen-names"
 import { navigate } from "../../../navigators"
-import LoanPackage from "../../new-home/components/loan-package"
 import FullScreenModal from "../../../components/app-modal/full-screen-modal"
 import HomeBanner from "./components/home-banner"
 import { color } from "../../../theme"
@@ -18,9 +17,13 @@ import { useStores } from "../../../models"
 interface Props {}
 
 const FinanceTab = React.memo((props: Props) => {
-  const {homeStore} = useStores()
+  const {homeStore, productStore} = useStores()
   const [visible, setVisible] = useState(false)
   const [link, setLink] = useState("")
+
+  useEffect(()=> {
+    productStore.getProductFilter('real_estate', 12)
+  },[])
 
   const SUPPORT_TOOL = [
     {
@@ -75,7 +78,6 @@ const FinanceTab = React.memo((props: Props) => {
       {!!homeStore.vehicle?.length && <HomeItem data={formatHomeData(homeStore.vehicle)} label={"Vay mua xe"} style={styles.itemMargin} iconShape={'circle'}/>}
       {!!homeStore.real_estate?.length && <HomeItem data={formatHomeData(homeStore.real_estate)} label={"Vay mua nhà dự án"} style={styles.itemMargin} iconShape={'circle'}/>}
 
-      {/* <LoanPackage /> */}
       <HomeItem data={SUPPORT_TOOL} label={"Công cụ bán hàng"} style={styles.itemMargin} />
       <HomeBanner />
       <BottomView height={200} />
