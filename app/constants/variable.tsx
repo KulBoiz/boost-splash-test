@@ -48,7 +48,7 @@ export function formatDateTime(date: string | Date) {
 
 export function getFullName(user: any) {
   if  (!user) return '_'
-  return user?.fullName ?? user?.firstName + ' ' + user?.lastName
+  return user?.fullName ?? (user?.firstName ?? '') + ' ' + (user?.lastName ?? '')
 }
 
 export function verticalScale(num: number){

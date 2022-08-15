@@ -18,6 +18,8 @@ interface InsuranceItemProps {
 const InsuranceItem = React.memo((props: InsuranceItemProps) => {
   const { item } = props
   const imageUrl = item?.info?.image?.url
+  const {item} = props
+
   const handlePress = () => {
     // navigate(ScreenNames.LOAN_DETAIL)
   }

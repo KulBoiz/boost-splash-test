@@ -9,6 +9,8 @@ import { fontFamily } from "../../../../constants/font-family"
 import { ALIGN_CENTER, MARGIN_BOTTOM_8, ROW } from "../../../../styles/common-style"
 import { DiscountSvg } from "../../../../assets/svgs"
 import { color } from "../../../../theme"
+import { navigate } from "../../../../navigators"
+import { ScreenNames } from "../../../../navigators/screen-names"
 
 
 interface Props{
@@ -18,16 +20,26 @@ interface Props{
   percent?: number
   iconShape?: 'circle' | 'custom'
   middleText?: string | number
+  header?: string
 }
 
 const IconItem = React.memo((props: Props) => {
-  const {icon, title, onPress, iconShape = 'custom', middleText, percent} = props
+  const {icon, title, onPress, iconShape = 'custom', middleText, percent, header} = props
   const realTitle = i18n.t(title).includes('missing') ? title : translate(title)
   const isStringIcon = typeof icon === "string"
   const isStringMiddleText = typeof middleText === "string"
 
+  const handlePress = () => {
+    if (iconShape === 'custom'){
+      onPress()
+    }
+    else{
+      navigate(ScreenNames.LOAN_PRODUCT, {header, key: middleText})
+    }
+  }
+
   return (
-    <Pressable onPress={onPress} style={styles.container}>
+    <Pressable onPress={handlePress} style={styles.container}>
       {iconShape === 'custom' ?
       <>
       <FastImage source={isStringIcon ? {uri: icon} : icon} style={styles.icon}/>

@@ -32,6 +32,7 @@ import ManageInsuranceDetailScreen from "../screens/insurance/manage-insurance-d
 import ClaimInsuranceDetailScreen from "../screens/insurance/claim-insurance"
 import UserProfile from "../screens/settting/profile/user-profile"
 import InsuranceList from "../screens/new-insurance/insurance-list"
+import ProductList from "../screens/product/product-list"
 
 export type NavigatorParamList = {
   [ScreenNames.SPLASH]: undefined
@@ -42,6 +43,7 @@ export type NavigatorParamList = {
   [ScreenNames.REQUEST_COUNSELLING]: undefined
   [ScreenNames.NOTICE]: undefined
   [ScreenNames.USER_PROFILE]: undefined
+  [ScreenNames.LOAN_PRODUCT]: {header?: string, key?: string}
   [ScreenNames.LOAN_DETAIL]: undefined
   [ScreenNames.REGISTER_LOAN]: undefined
   [ScreenNames.PROFILE_DETAIL]: undefined
@@ -100,6 +102,7 @@ const RootStack = () => {
       <Stack.Screen name={ScreenNames.REQUEST_COUNSELLING} component={RequestCounselling} />
       <Stack.Screen name={ScreenNames.NOTICE} component={NoticeScreen} />
       <Stack.Screen name={ScreenNames.LOAN_DETAIL} component={LoanDetail} />
+      <Stack.Screen name={ScreenNames.LOAN_PRODUCT} component={ProductList} />
       <Stack.Screen name={ScreenNames.REGISTER_LOAN} component={RegisterLoan} />
       <Stack.Screen name={ScreenNames.PROFILE_DETAIL} component={ProfileDetail} />
       <Stack.Screen name={ScreenNames.FINANCE} component={FinanceScreen} />

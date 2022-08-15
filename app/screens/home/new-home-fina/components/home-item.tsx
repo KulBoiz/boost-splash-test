@@ -12,10 +12,11 @@ interface Props{
   data: any[]
   style?: ViewStyle | any
   iconShape?: 'circle' | 'custom'
+  header?: string
 }
 
 const HomeItem = React.memo((props: Props) => {
-  const {label, style, data, iconShape} = props
+  const {label, style, data, iconShape, header} = props
   return (
     <View style={[styles.container, style]}>
       <AppText value={label} style={styles.label}/>
@@ -29,6 +30,7 @@ const HomeItem = React.memo((props: Props) => {
             percent={e?.percent}
             iconShape={iconShape}
             middleText={e?.middleText}
+            header={header}
           />
         })}
       </View>
