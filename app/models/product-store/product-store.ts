@@ -61,9 +61,16 @@ export const ProductStoreModel = types
     }),
 
     getProducts: flow(function* getProducts(type,time) {
-      const result = yield self.api.get(`product-details/app/home/${type}/${time}`)
+      const result = yield self.api.get(`product-details/app/home/${type}/${time}`, {
+        filter: {
+          limit: 20,
+          include: [
+            { relation: 'product'},
+          ]
+        },
+        page: 1
+      })
       const data = result?.data
-      console.log(data)
       if (data) {
         self.products = data
         return {

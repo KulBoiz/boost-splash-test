@@ -18,7 +18,7 @@ const content = "Bảo vệ bạn trước rủi ro tai nạn 27/4\nGiá tối t
 
 const InsuranceItem = React.memo((props: InsuranceItemProps) => {
   const {item} = props
-  const imageUrl = item?.org?.image?.url
+  // const imageUrl = item?.org?.image?.url
   // const advantages = item?.advantages?.split("\n")
   const productContent = content.split("\n")
 

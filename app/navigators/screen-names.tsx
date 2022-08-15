@@ -47,4 +47,5 @@ export enum ScreenNames {
   MANAGE_INSURANCE_DETAIL_SCREEN = "ManageInsuranceDetailScreen",
   CLAIM_INSURANCE = "ClaimInsurance",
   USER_PROFILE = "UserProfile",
+  LOAN_PRODUCT = "LoanProduct",
 }

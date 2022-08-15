@@ -28,22 +28,27 @@ export const UserInfo = observer(() => {
       navigate(ScreenNames.AUTH)
     } else navigate(ScreenNames.SETTING)
   }
-  return (<>
-    <View style={styles.container}>
-      <View style={[ROW, { alignItems: "center", justifyContent: "space-between" }]}>
-        <View style={[ROW, { alignItems: "center" }]}>
-          <Pressable onPress={onPress}>
-            <FastImage source={avatar ? { uri: avatar } : images.fina_logo} style={styles.avatar} />
-          </Pressable>
-          <View style={{ marginLeft: 8 }}>
-            <AppText style={[styles.textHello, { marginBottom: 4 }]} value={"Xin chào!"} />
-            <AppText style={[styles.textHello, styles.textName]} value={name} />
+
+  return (
+    <>
+      <View style={styles.container}>
+        <View style={[ROW, { alignItems: "center", justifyContent: "space-between" }]}>
+          <View style={[ROW, { alignItems: "center" }]}>
+            <Pressable onPress={onPress}>
+              <FastImage source={avatar ? { uri: avatar } : images.fina_logo} style={styles.avatar} />
+            </Pressable>
+            {!!Object.keys(user)?.length &&
+              <View style={{ marginLeft: 8 }}>
+                <AppText style={[styles.textHello, { marginBottom: 4 }]} value={"Xin chào!"} />
+                <AppText style={[styles.textHello, styles.textName]} value={name ?? 'Khách'} />
+              </View>
+            }
+
           </View>
+          <OptionsUserInfo />
         </View>
-        <OptionsUserInfo />
       </View>
-    </View>
-  </>
+    </>
   )
 })
 

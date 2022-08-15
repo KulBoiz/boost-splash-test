@@ -22,7 +22,7 @@ const FinanceTab = React.memo((props: Props) => {
   const [link, setLink] = useState("")
 
   useEffect(()=> {
-    productStore.getProductFilter('real_estate', 12)
+    productStore.getProducts('real_estate', 12)
   },[])
 
   const SUPPORT_TOOL = [

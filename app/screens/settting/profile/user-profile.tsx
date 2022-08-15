@@ -49,10 +49,10 @@ const UserProfile = React.memo((props: Props) => {
   useEffect(() => {
     // eslint-disable-next-line array-callback-return
     Object.entries(user).map((e: any)=>{
-      if(e[0] === 'emails'){
+      if(e[0] === 'emails' && e[1][0]?.email){
         setValue('email', e[1][0]?.email)
       }
-      if(e[0] === 'tels'){
+      if(e[0] === 'tels' && e[1][0]?.tel){
         setValue('tel', e[1][0]?.tel)
       }
       if(e[0] === 'idNumber'){
