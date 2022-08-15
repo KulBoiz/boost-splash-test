@@ -18,8 +18,8 @@ interface Props{
 const OthersInsurance = React.memo((props: Props) => {
 	const { data, title, style, iconShape } = props
 	
-	const onPress = (key: string) => {
-		navigate(ScreenNames.INSURANCE_LIST_SCREEN, { key: key })
+	const onPress = (e: any) => {
+		navigate(ScreenNames.INSURANCE_LIST_SCREEN, { key: e?.key, name: e?.name })
 	}
 
   return (
@@ -31,7 +31,7 @@ const OthersInsurance = React.memo((props: Props) => {
           icon={e?.icon?.url}
           title={e?.name}
           key={e?.title?.toString() + i.toString()}
-          onPress={() => onPress(e?.id)}
+          onPress={() => onPress(e)}
           percent={e?.percent}
           iconShape={iconShape}
           middleText={e?.middleText}

@@ -68,7 +68,7 @@ export type NavigatorParamList = {
   [ScreenNames.INSURANCE_REQUEST_CLAIM_SUCCESS_SCREEN]: undefined
   [ScreenNames.MANAGE_INSURANCE_DETAIL_SCREEN]: { index: number, isListBuy: any }
   [ScreenNames.CLAIM_INSURANCE]: { productId: string, index: string }
-  [ScreenNames.INSURANCE_LIST_SCREEN]: { key: string }
+  [ScreenNames.INSURANCE_LIST_SCREEN]: { key: string, name: string}
 }
 
 // Documentation: https://reactnavigation.org/docs/stack-navigator/

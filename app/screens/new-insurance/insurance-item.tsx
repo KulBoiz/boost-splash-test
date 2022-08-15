@@ -7,7 +7,10 @@ import { images } from "../../assets/images";
 import { BlueTickSvg } from "../../assets/svgs";
 import { AppText } from '../../components/app-text/AppText';
 import { fontFamily } from "../../constants/font-family";
-import { width } from '../../constants/variable';
+import { truncateString, width } from '../../constants/variable';
+import { useStores } from '../../models';
+import { navigate } from '../../navigators';
+import { ScreenNames } from '../../navigators/screen-names';
 import { ALIGN_CENTER, MARGIN_BOTTOM_8, ROW } from "../../styles/common-style";
 import { color } from "../../theme";
 
@@ -18,10 +21,17 @@ interface InsuranceItemProps {
 const InsuranceItem = React.memo((props: InsuranceItemProps) => {
   const { item } = props
   const imageUrl = item?.info?.image?.url
-  const {item} = props
+  const { insuranceStore, productStore } = useStores()
 
   const handlePress = () => {
-    // navigate(ScreenNames.LOAN_DETAIL)
+      if (insuranceStore.isFirstTime) {
+        navigate(ScreenNames.INTRODUCE_SCREEN)
+      } else {
+        productStore.getDetail(item?.id).then(() => {
+          navigate(ScreenNames.INSURANCE_SCREEN)
+        })
+        productStore.getTransactionInsurance(item?.id)
+      }
   }
 
   const tagsStyles = {
@@ -46,7 +56,7 @@ const InsuranceItem = React.memo((props: InsuranceItemProps) => {
           <FastImage source={imageUrl ? { uri: imageUrl } : images.avatarDefault} style={styles.bankIcon} resizeMode={'contain'} />
           <View>
             <AppText value={'Bảo hiểm'} fontSize={ms(11)} />
-            <AppText value={item?.name} fontSize={ms(14)} fontFamily={fontFamily.bold} color={color.primary} />
+            <AppText value={truncateString(item?.name, 22)} fontSize={ms(14)} fontFamily={fontFamily.bold} color={color.primary} />
           </View>
         </View>
         <FastImage source={images.arrowLeft} style={styles.rightIcon} />
