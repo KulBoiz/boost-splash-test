@@ -99,6 +99,7 @@ export { default as OrangePlusSvg } from "./orange_plus.svg"
 export { default as ListHospitalSvg } from "./list_hospital.svg"
 export { default as WarningSvg } from "./warning.svg"
 export { default as BlueTickSvg } from "./blue_tick.svg"
+export { default as NoDataSvg } from "./no-data.svg"
 
 // home
 export { default as AccountHomeActiveSvg } from "./account-home-active.svg"
