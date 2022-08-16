@@ -21,8 +21,6 @@ const InsuranceList = React.memo((props: any) => {
   const key = props?.route?.params?.key
   const name = props?.route?.params?.name
 
-  console.log('props?.route?.params', props?.route?.params);
-
   const paramsFilter = {
     categoryId: key
   }

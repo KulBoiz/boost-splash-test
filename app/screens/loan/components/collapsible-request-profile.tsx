@@ -8,9 +8,12 @@ import { AppText } from "../../../components/app-text/AppText"
 import { REQUEST_PROFILE } from "../constants"
 import { color } from "../../../theme"
 import { fontFamily } from "../../../constants/font-family"
-interface Props {}
+interface Props {
+  data?: any
+}
 
 const CollapsibleRequestProfile = React.memo((props: Props) => {
+  const { data } = props
   const [activeSections, setActiveSections] = useState<number[]>([]);
   const _handleSections = (index: number[]) => {
     setActiveSections(index);
@@ -31,14 +34,14 @@ const CollapsibleRequestProfile = React.memo((props: Props) => {
   const renderContent = () => {
     return (
       <View style={styles.contentContainer}>
-        {REQUEST_PROFILE.map((value, index)=> {
+        {data && data?.map((value, index)=> {
           return(
             <View key={index.toString()} style={styles.wrapContent}>
-              <AppText value={value.title} style={styles.title} capitalize/>
-              {value.content.map((content,id)=> (
+              <AppText value={value.name} style={styles.title} capitalize/>
+              {value.documentTemplateDetails.map((content,id)=> (
                 <View key={id.toString()} style={styles.wrapContentItem}>
                   <View style={styles.circle}/>
-                  <AppText value={content} style={styles.content}/>
+                  <AppText value={content?.document?.name} style={styles.content}/>
                 </View>
               ))}
             </View>

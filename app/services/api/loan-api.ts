@@ -2,6 +2,7 @@ import { ApiResponse } from "apisauce"
 import { Api } from "./api"
 import { getGeneralApiProblem } from "./api-problem"
 import {API_ENDPOINT} from "@env"
+import { BaseApi } from "./base-api"
 
 // const API_PAGE_SIZE = 50
 
@@ -222,7 +223,23 @@ export class LoanApi {
         const problem = getGeneralApiProblem(response)
         if (problem) return problem
       }
+
       const data = response.data
+      if (response.data?.documentTemplateId) {
+        const responseDocumentTemplate: any = await this.api.apisauce.get(`${API_ENDPOINT}/document-template-details/templates?documentTemplateId=${response.data?.documentTemplateId}`, {
+          filter: {
+            limit: 50,
+            skip: 0,
+            where: {
+              documentTemplateId: response.data?.documentTemplateId
+            }
+          },
+          page: 1
+        })
+
+        return { kind: "ok", data: {...data, responseDocumentTemplate: responseDocumentTemplate?.data?.data} }
+      }
+
       return { kind: "ok", data }
     } catch (e) {
       return { kind: "bad-data", e }
