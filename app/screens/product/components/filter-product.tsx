@@ -4,40 +4,40 @@ import { AppText } from "../../../components/app-text/AppText"
 import { ms, ScaledSheet } from "react-native-size-matters"
 import { color } from "../../../theme"
 import { fontFamily } from "../../../constants/font-family"
+import { useStores } from "../../../models"
 
 interface Props{
-  defaultId?: any
-  data?: any
+  defaultKey: string | number
+  setKey(e: any): void
+  type?: 'vehicle' | 'real_estate' | 'project_house'
 }
-const FAKE_DATA = [
-  {
-    title: '12'
-  },{
-    title: '24'
-  },{
-    title: '36'
-  },{
-    title: '48'
-  },
-
-]
+const getArray = (arr)=> {
+  return arr.map(val => val?.time) ?? [];
+}
 
 const FilterProduct = React.memo((props: Props) => {
-  const { defaultId, data} = props
-  const [id, setId] = useState(defaultId ?? 0)
+  const {homeStore, productStore} = useStores()
+  const {type, setKey, defaultKey} = props
+
+  const setKeySelect = (keys) => {
+    productStore.getProducts(keys, {page: 1, limit: 20})
+    setKey(keys)
+  }
+  const data = type === 'vehicle' ? homeStore.vehicle :
+    type === 'real_estate' ? homeStore.real_estate : homeStore.projectHouse
 
   return (
-    <ScrollView style={styles.container} horizontal>
-      {FAKE_DATA.map((val,index)=> {
-        const isSelect = id === index
+    <ScrollView style={styles.container} horizontal showsHorizontalScrollIndicator={false}>
+      {getArray(data).map((val,index)=> {
+        const isSelect = defaultKey?.toString() === val?.toString()
         return (
           <Pressable
             key={index.toString()}
-            onPress={()=> setId(index)}
+            onPress={()=> setKeySelect(val)}
             style={[styles.box, {backgroundColor: isSelect ? color.palette.orange : '#FAFAFA'}]}
           >
             <AppText
-              value={`${val.title} tháng`}
+              value={`${val} tháng`}
               fontSize={ms(10)}
               color={isSelect ? color.palette.white : '#788198'}
               fontFamily={isSelect ? fontFamily.bold : fontFamily.medium}
@@ -52,13 +52,12 @@ const FilterProduct = React.memo((props: Props) => {
 export default FilterProduct;
 
 const styles = ScaledSheet.create({
-    container: {},
+  container: {},
   box: {
-    width: '75@s',
+    paddingHorizontal: '12@s',
     height: '35@s',
     alignItems: "center",
     justifyContent: "center",
     marginHorizontal: '2@s',
-    paddingBottom: '5@s'
   }
 });

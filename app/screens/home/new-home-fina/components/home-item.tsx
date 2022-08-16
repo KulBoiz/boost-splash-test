@@ -13,10 +13,11 @@ interface Props{
   style?: ViewStyle | any
   iconShape?: 'circle' | 'custom'
   header?: string
+  type?: 'vehicle' | 'real_estate' | 'project_house'
 }
 
 const HomeItem = React.memo((props: Props) => {
-  const {label, style, data, iconShape, header} = props
+  const {label, style, data, iconShape, header, type} = props
   return (
     <View style={[styles.container, style]}>
       <AppText value={label} style={styles.label}/>
@@ -31,6 +32,7 @@ const HomeItem = React.memo((props: Props) => {
             iconShape={iconShape}
             middleText={e?.middleText}
             header={header}
+            type={type}
           />
         })}
       </View>
@@ -54,14 +56,5 @@ const styles = ScaledSheet.create({
     flexWrap: "wrap",
     paddingHorizontal: '12@ms',
     backgroundColor: color.palette.F9FBFF,
-    shadowColor: "#000",
-    shadowOffset: {
-      width: 0,
-      height: 3,
-    },
-    shadowOpacity: 0.25,
-    shadowRadius: 3.84,
-
-    elevation: 5,
   }
 });

@@ -1,32 +1,56 @@
-import React from 'react';
-import { View, FlatList } from "react-native"
+import React, { useEffect, useState } from "react"
+import { View, FlatList, ActivityIndicator } from "react-native"
 import AppHeader from "../../components/app-header/AppHeader"
 import BankInfo from "../loan/components/bank-info"
 import FilterProduct from "./components/filter-product"
 import { useStores } from "../../models"
 import { ScaledSheet } from "react-native-size-matters"
 import BottomView from "../../components/bottom-view"
+import { color } from "../../theme"
+import { MARGIN_BOTTOM_24 } from "../../styles/common-style"
+import { observer } from "mobx-react-lite"
 
-const ProductList = React.memo((props: any) => {
+const ProductList = observer((props: any) => {
    const header = props?.route?.params?.header
    const key = props?.route?.params?.key
+   const type = props?.route?.params?.type
    const {productStore} = useStores()
    const data = productStore.products
 
-  const renderItem = React.useCallback(({item}) => {
+  const [keySearch, setKeySearch] = useState(key ?? '')
+
+  const renderItem = ({item}) => {
     return <BankInfo item={item} />
+  }
+
+  console.log(data)
+
+  useEffect(()=> {
+      productStore.getProducts(keySearch, { page: 1, limit: 20 })
   },[])
+
+  const loadMore = () => {
+     productStore.getProducts(keySearch,
+       { page: productStore?.pagingProduct?.page + 1, limit: 20 },
+       undefined,
+       false
+     )
+  }
 
   return (
     <View style={styles.container}>
       <AppHeader headerText={header} isBlue/>
-      <FilterProduct defaultId={Number(key)}/>
+      <FilterProduct defaultKey={keySearch} type={type} setKey={setKeySearch}/>
       <FlatList
         data={data}
+        keyExtractor={(e,i)=> i.toString()}
         renderItem={renderItem}
         contentContainerStyle={styles.contentStyle}
         ListFooterComponent={<BottomView height={50} />}
+        onEndReached={loadMore}
+        onEndReachedThreshold={0.2}
       />
+      {productStore?.isLoadMore && <ActivityIndicator color={color.primary} style={MARGIN_BOTTOM_24}/>}
     </View>
   )
 });
@@ -34,9 +58,7 @@ const ProductList = React.memo((props: any) => {
 export default ProductList;
 
 const styles = ScaledSheet.create({
-    container: {
-      flex:1
-    },
+    container: {},
   contentStyle: {
       marginVertical: '24@s',
       paddingHorizontal: '16@s',

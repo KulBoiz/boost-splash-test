@@ -79,7 +79,7 @@ const styles = ScaledSheet.create({
   linear: {
     width: '100%',
     alignItems: "center",
-    borderRadius: '20@s',
-    paddingVertical: '12@s'
+    borderRadius: '15@s',
+    paddingVertical: '8@s'
   },
 });
