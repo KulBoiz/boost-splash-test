@@ -20,7 +20,7 @@ const FilterProduct = React.memo((props: Props) => {
   const {type, setKey, defaultKey} = props
 
   const setKeySelect = (keys) => {
-    productStore.getProducts(keys, {page: 1, limit: 20})
+    productStore.getProducts(keys, {page: 1, limit: 20}, true)
     setKey(keys)
   }
   const data = type === 'vehicle' ? homeStore.vehicle :

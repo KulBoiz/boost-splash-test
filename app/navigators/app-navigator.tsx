@@ -33,6 +33,7 @@ import ClaimInsuranceDetailScreen from "../screens/insurance/claim-insurance"
 import UserProfile from "../screens/settting/profile/user-profile"
 import InsuranceList from "../screens/new-insurance/insurance-list"
 import ProductList from "../screens/product/product-list"
+import SuccessScreen from "../components/success-screen"
 
 export type NavigatorParamList = {
   [ScreenNames.SPLASH]: undefined
@@ -40,6 +41,7 @@ export type NavigatorParamList = {
   [ScreenNames.AGENT]: undefined
   [ScreenNames.AUTH]: undefined
   [ScreenNames.APP]: undefined
+  [ScreenNames.SUCCESS_SCREEN]: undefined
   [ScreenNames.REQUEST_COUNSELLING]: undefined
   [ScreenNames.NOTICE]: undefined
   [ScreenNames.USER_PROFILE]: undefined
@@ -154,6 +156,10 @@ const RootStack = () => {
       <Stack.Screen
         name={ScreenNames.INSURANCE_LIST_SCREEN}
         component={InsuranceList}
+      />
+      <Stack.Screen
+        name={ScreenNames.SUCCESS_SCREEN}
+        component={SuccessScreen}
       />
     </Stack.Navigator>
   )

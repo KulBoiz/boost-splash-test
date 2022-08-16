@@ -93,6 +93,7 @@ export const ProductStoreModel = types
         filter: {
           include: [
             { relation: 'product'},
+            { relation: 'org'},
           ],
           limit: pagingParams?.limit,
           skip: (pagingParams?.page - 1) * pagingParams?.limit,
