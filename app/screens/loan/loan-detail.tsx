@@ -11,7 +11,7 @@ import CollapsibleRequestProfile from "./components/collapsible-request-profile"
 import { ScreenNames } from "../../navigators/screen-names"
 import { navigate } from "../../navigators"
 import { useStores } from "../../models"
-import { ALIGN_CENTER, ROW, SPACE_BETWEEN } from "../../styles/common-style"
+import { ALIGN_CENTER, MARGIN_TOP_16, ROW, SPACE_BETWEEN } from "../../styles/common-style"
 import RegisterLoanModalize from "../product/components/register-loan-modalize"
 import { Modalize } from "react-native-modalize"
 
@@ -36,8 +36,8 @@ const LoanDetail : React.FC<Props> = observer(() => {
         <ScrollView style={styles.body}>
           <LoanDetailItem />
           <ProductInfo item={item} />
-          <CollapsibleRequestProfile />
-          <View style={[ROW, ALIGN_CENTER, SPACE_BETWEEN]}>
+            {item?.documentTemplateId && <CollapsibleRequestProfile  data={item?.responseDocumentTemplate}/>}
+          <View style={[ROW, ALIGN_CENTER, SPACE_BETWEEN, !item?.documentTemplateId && MARGIN_TOP_16]}>
             <AppButton
               title={'Tính lãi khoản vay'}
               onPress={() => {

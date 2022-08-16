@@ -27,8 +27,8 @@ const InsuranceTab = () => {
   return (
     <View style={styles.container}>
       {/* <HomeItem data={INSURANCE_PRODUCT} label={"Sản phẩm bảo hiểm"} style={styles.itemMargin} /> */}
-      <OthersInsurance data={mapInsurance('real_estate') || []} title={"Bảo con người"} />
-      <OthersInsurance data={mapInsurance('vehicle') || []} title={"Bảo phương tiện"} />
+      <OthersInsurance data={mapInsurance('real_estate') || []} title={"Bảo hiểm con người"} showAction={true} />
+      <OthersInsurance data={mapInsurance('vehicle') || []} title={"Bảo hiểm tài sản"} />
       <AdsNews />
       <BottomView height={100} />
     </View>
