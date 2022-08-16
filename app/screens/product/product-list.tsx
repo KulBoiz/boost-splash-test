@@ -7,7 +7,7 @@ import { useStores } from "../../models"
 import { ScaledSheet } from "react-native-size-matters"
 import BottomView from "../../components/bottom-view"
 import { color } from "../../theme"
-import { MARGIN_BOTTOM_24 } from "../../styles/common-style"
+import { MARGIN_BOTTOM_24, MARGIN_TOP_16 } from "../../styles/common-style"
 import { observer } from "mobx-react-lite"
 
 const ProductList = observer((props: any) => {
@@ -26,14 +26,14 @@ const ProductList = observer((props: any) => {
   console.log(data)
 
   useEffect(()=> {
-      productStore.getProducts(keySearch, { page: 1, limit: 20 })
+      productStore.getProducts(keySearch, { page: 1, limit: 20 }, true)
   },[])
 
   const loadMore = () => {
      productStore.getProducts(keySearch,
        { page: productStore?.pagingProduct?.page + 1, limit: 20 },
        undefined,
-       false
+       true
      )
   }
 
@@ -41,16 +41,21 @@ const ProductList = observer((props: any) => {
     <View style={styles.container}>
       <AppHeader headerText={header} isBlue/>
       <FilterProduct defaultKey={keySearch} type={type} setKey={setKeySearch}/>
-      <FlatList
-        data={data}
-        keyExtractor={(e,i)=> i.toString()}
-        renderItem={renderItem}
-        contentContainerStyle={styles.contentStyle}
-        ListFooterComponent={<BottomView height={50} />}
-        onEndReached={loadMore}
-        onEndReachedThreshold={0.2}
-      />
-      {productStore?.isLoadMore && <ActivityIndicator color={color.primary} style={MARGIN_BOTTOM_24}/>}
+      {productStore?.isRefreshing ?
+        <ActivityIndicator color={color.primary} style={MARGIN_TOP_16} /> :
+        <>
+          <FlatList
+            data={data}
+            keyExtractor={(e,i)=> i.toString()}
+            renderItem={renderItem}
+            contentContainerStyle={styles.contentStyle}
+            ListFooterComponent={<BottomView height={50} />}
+            onEndReached={loadMore}
+            onEndReachedThreshold={0.2}
+          />
+         {productStore?.isLoadMore && <ActivityIndicator color={color.primary} style={MARGIN_BOTTOM_24}/>}
+        </>
+      }
     </View>
   )
 });

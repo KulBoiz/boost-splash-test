@@ -13,6 +13,8 @@ import { AppText } from "../../../components/app-text/AppText"
 import { fontFamily } from "../../../constants/font-family"
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view"
 import { useStores } from "../../../models"
+import { navigate } from "../../../navigators"
+import { ScreenNames } from "../../../navigators/screen-names"
 
 interface Props{
   modalizeRef: Ref<any>
@@ -48,7 +50,7 @@ const RegisterLoanModalize = React.memo(({ modalizeRef }: Props) => {
       data.note,
     )
     if (send.kind === 'ok') {
-      // to do
+      navigate(ScreenNames.SUCCESS_SCREEN)
     }
     else Alert.alert('Something went wrong')
   }
