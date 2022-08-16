@@ -21,9 +21,7 @@ const FinanceTab = React.memo((props: Props) => {
   const [visible, setVisible] = useState(false)
   const [link, setLink] = useState("")
 
-  useEffect(()=> {
-    productStore.getProducts('real_estate', 12)
-  },[])
+
 
   const SUPPORT_TOOL = [
     {
@@ -75,14 +73,35 @@ const FinanceTab = React.memo((props: Props) => {
 
   return (
     <View style={styles.container}>
-      {!!homeStore.real_estate?.length && <HomeItem data={formatHomeData(homeStore.real_estate)} header={'Vay mua nhà dự án'} label={"Vay mua nhà dự án"} style={styles.itemMargin} iconShape={'circle'} />}
-      
-      
-
-      {!!homeStore.vehicle?.length && <HomeItem data={formatHomeData(homeStore.vehicle)} header='Vay mua xe' label={"Vay mua xe"} style={styles.itemMargin} iconShape={'circle'}/>}
-
       <HomeItem data={SUPPORT_TOOL} label={"Công cụ bán hàng"} style={styles.itemMargin} />
       <HomeBanner />
+      {!!homeStore.real_estate?.length &&
+        <HomeItem
+          data={formatHomeData(homeStore.real_estate)}
+          header={'Vay mua nhà có sổ'}
+          label={"Vay mua nhà có sổ"}
+          style={styles.itemMargin}
+          iconShape={'circle'}
+          type={'real_estate'}
+        />
+      }
+      {!!homeStore.vehicle?.length &&
+        <HomeItem
+          data={formatHomeData(homeStore.vehicle)}
+          header='Vay mua xe' label={"Vay mua xe"}
+          style={styles.itemMargin}
+          iconShape={'circle'}
+          type={'vehicle'}
+        />
+      }
+      {/* {!!homeStore.projectHouse?.length && */}
+      {/*  <HomeItem */}
+      {/*    data={formatHomeData(homeStore.projectHouse)} */}
+      {/*    header='Vay mua nhà dự án' label={"Vay mua nhà dự án"} */}
+      {/*    style={styles.itemMargin} */}
+      {/*    iconShape={'circle'} */}
+      {/*  /> */}
+      {/* } */}
       <BottomView height={200} />
       <FullScreenModal
         visible={visible}

@@ -21,10 +21,11 @@ interface Props{
   iconShape?: 'circle' | 'custom'
   middleText?: string | number
   header?: string
+  type?: 'vehicle' | 'real_estate' | 'project_house'
 }
 
 const IconItem = React.memo((props: Props) => {
-  const {icon, title, onPress, iconShape = 'custom', middleText, percent, header} = props
+  const {icon, title, onPress, iconShape = 'custom', middleText, percent, header, type = 'vehicle'} = props
   const realTitle = i18n.t(title).includes('missing') ? title : translate(title)
   const isStringIcon = typeof icon === "string"
   const isStringMiddleText = typeof middleText === "string"
@@ -34,7 +35,7 @@ const IconItem = React.memo((props: Props) => {
       onPress()
     }
     else{
-      navigate(ScreenNames.LOAN_PRODUCT, {header, key: middleText})
+      navigate(ScreenNames.LOAN_PRODUCT, {header, key: middleText, type})
     }
   }
 

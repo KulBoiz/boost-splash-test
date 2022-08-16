@@ -4,20 +4,35 @@ import { QuestionGroupApi } from "../../services/api/question-group-api"
 import { withEnvironment } from "../extensions/with-environment"
 import { withRootStore } from "../extensions/with-root-store"
 import { BaseApi } from "../../services/api/base-api"
+import { unionBy } from "../../utils/lodash-utils"
 
 /**
  * Model description here for TypeScript hints.
  */
+const PagingParamsModel = types.optional(
+  types.model({
+    page: 1,
+    limit: 20,
+  }),
+  {},
+)
+
+type PagingParamsType = Instance<typeof PagingParamsModel>
+
 export const ProductStoreModel = types
   .model("ProductStore")
   .extend(withEnvironment)
   .extend(withRootStore)
   .props({
+    pagingProduct: PagingParamsModel,
     products: types.frozen([]),
+    totalProduct: types.frozen(0),
     records: types.frozen([]),
     productDetail: types.frozen({}),
     questionGroups: types.frozen([]),
     transactionInsurance: types.frozen({}),
+    isLoadingMore: false,
+    isRefreshing: false
   })
   .views((self) => ({
     get api() {
@@ -50,7 +65,6 @@ export const ProductStoreModel = types
     getProductFilter: flow(function* getProductFilter(type,time) {
       const result = yield self.api.get(`app/home/${type}/${time}`)
       const data = result?.data
-      console.log(data)
       if (data) {
         self.products = data
         return {
@@ -60,23 +74,49 @@ export const ProductStoreModel = types
       }
     }),
 
-    getProducts: flow(function* getProducts(type,time) {
-      const result = yield self.api.get(`product-details/app/home/${type}/${time}`, {
+    getProducts: flow(function* getProducts(
+      time,
+      pagingParams?: PagingParamsType,
+      isRefresh = false,
+      isLoading = false,
+    ) {
+      if (isRefresh) {
+        self.isRefreshing = true
+      }
+      if (isLoading) {
+        self.isLoadingMore = true
+      }
+      if (self.products.length === self.totalProduct && pagingParams?.page !== 1){
+        return
+      }
+      const result = yield self.api.get(`product-details/app/home/real_estate/${time}`, {
         filter: {
-          limit: 20,
           include: [
             { relation: 'product'},
-          ]
+          ],
+          limit: pagingParams?.limit,
+          skip: (pagingParams?.page - 1) * pagingParams?.limit,
         },
-        page: 1
+        page: pagingParams?.page ?? 1,
       })
+
       const data = result?.data?.data
-      if (data) {
-        self.products = data
-        return {
-          kind: "ok",
-          data,
+
+      if (result?.data) {
+        self.totalProduct = result?.data?.total
+        self.isRefreshing = false
+        self.isLoadingMore = false
+        if (pagingParams?.page === 1) {
+          self.products = data
+        } else {
+          self.products = unionBy(self.products, data, "id")
         }
+      }
+      else {
+        self.totalProduct = 0
+        self.products = []
+        self.isRefreshing = false
+        self.isLoadingMore = false
       }
     }),
 

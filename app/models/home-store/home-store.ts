@@ -31,6 +31,7 @@ export const HomeStoreModel = types
         return result
       }
     }),
+
     getProjectHouse: flow(function* getProjectHouse() {
       const result = yield self.api.get('projects/public')
       const data = result?.data?.data

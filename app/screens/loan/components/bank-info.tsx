@@ -25,6 +25,7 @@ const BankInfo = React.memo((props: BankInfoProps) => {
   const backgroundColor = item?.org?.backgroundColor
   const outstandingAdvantages = item?.outstandingAdvantages
   const advantages = item?.advantages?.split("\n")
+
   const handlePress = () => {
     navigate(ScreenNames.LOAN_DETAIL)
     loanStore.getProductDetail(item?.id)
