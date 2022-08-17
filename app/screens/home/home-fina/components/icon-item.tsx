@@ -34,8 +34,10 @@ const IconItem = React.memo((props: Props) => {
     if (iconShape === 'custom'){
       onPress()
     }
-    else{
-      navigate(ScreenNames.LOAN_PRODUCT, {header, key: middleText, type})
+    else {
+      if (type !== 'project_house') {
+        navigate(ScreenNames.LOAN_PRODUCT, {header, key: middleText, type})
+      }
     }
   }
 
@@ -117,12 +119,13 @@ const styles = ScaledSheet.create({
   },
   textCircle: {
     marginTop: '8@s',
-    width: '90%',
+    width: '60@s',
     fontSize: '9@ms',
     lineHeight: '11@ms',
     fontFamily: fontFamily.medium,
     textAlign: "center",
-    color: '#788198'
+    color: '#788198',
+    flexWrap: 'wrap'
   },
   text: {
     marginTop: '11@s',

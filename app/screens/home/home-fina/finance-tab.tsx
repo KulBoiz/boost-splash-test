@@ -1,4 +1,4 @@
-import React, { useState } from "react"
+import React, { useEffect, useState } from "react"
 import { View } from "react-native"
 import HomeItem from "./components/home-item"
 import { formatHomeData } from "./constants"
@@ -13,13 +13,42 @@ import HomeBanner from "./components/home-banner"
 import { color } from "../../../theme"
 import BottomView from '../../../components/bottom-view'
 import { useStores } from "../../../models"
+import ProjectItem from "./components/project-item"
 
-interface Props {}
+interface Props { }
 
 const FinanceTab = React.memo((props: Props) => {
-  const {homeStore} = useStores()
+  const { homeStore, productStore } = useStores()
   const [visible, setVisible] = useState(false)
+  const [projects, setProjects] = useState([])
   const [link, setLink] = useState("")
+
+  useEffect(() => {
+    const params = {
+      filter: {
+        limit: 20,
+        skip: 0,
+        where: {
+          active: true,
+          indexPrioritized: { inq: GetIndexPrioritized() },
+        }
+      },
+      page: 1
+    }
+    homeStore.getProjectHouse(params).then((res) => {
+      setProjects(res)
+    })
+  }, [])
+
+  const GetIndexPrioritized = () => {
+    const indexPrioritized: number[] = [];
+  
+    for(let i = 1; i <= 10; i++) {
+      indexPrioritized.push(i);
+    }
+  
+    return indexPrioritized;
+  };
 
   const SUPPORT_TOOL = [
     {
@@ -33,12 +62,12 @@ const FinanceTab = React.memo((props: Props) => {
     {
       image: images.home_ability_to_borrow,
       title: i18n.t("home.abilityToBorrow"),
-      onPress: () => {navigate(ScreenNames.CHAT)},
+      onPress: () => { navigate(ScreenNames.CHAT) },
     },
     {
       image: images.home_real_estate,
       title: i18n.t("home.real_estate"),
-      onPress: () => {navigate(ScreenNames.CHAT)},
+      onPress: () => { navigate(ScreenNames.CHAT) },
     },
     {
       image: images.home_introduce_borrowers,
@@ -76,8 +105,18 @@ const FinanceTab = React.memo((props: Props) => {
           iconShape={'circle'}
           type={'real_estate'}
         />
-        }
-       {homeStore?.vehicle?.length > 0 &&
+      }
+      
+      <ProjectItem
+        data={projects}
+        header={'Vay mua nhà dự án'}
+        label={"Vay mua nhà dự án"}
+        style={styles.itemMargin}
+        iconShape={'circle'}
+        type={'project_house'}
+      />
+
+      {!!homeStore.vehicle?.length &&
         <HomeItem
           data={formatHomeData(homeStore.vehicle)}
           header='Vay mua xe'

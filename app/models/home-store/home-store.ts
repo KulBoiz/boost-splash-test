@@ -33,8 +33,8 @@ export const HomeStoreModel = types
       }
     }),
 
-    getProjectHouse: flow(function* getProjectHouse() {
-      const result = yield self.api.get('projects/public')
+    getProjectHouse: flow(function* getProjectHouse(params) {
+      const result = yield self.api.get('projects/public', params)
       const data = result?.data?.data
       if (result.kind === "ok") {
         self.projectHouse = data
