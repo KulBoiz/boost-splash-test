@@ -8,31 +8,31 @@ import SettingAuthScreen from "../../components/app-view-no-auth"
 import { AppText } from "../../components/app-text/AppText"
 import { width } from "../../constants/variable"
 import { useStores } from "../../models"
-import { navigate, NavigatorParamList } from "../../navigators"
+import {  NavigatorParamList } from "../../navigators"
 import { ScreenNames } from "../../navigators/screen-names"
 import { FONT_MEDIUM_14 } from "../../styles/common-style"
 import { color } from "../../theme"
-import BuyInsurance from "./buy-insurance"
-import BuyRecords from "./components/buy-records"
+import ProjectList from "./project-list"
+import BuyInsurance from "../insurance/buy-insurance"
 
 interface Props { }
 
-const InsuranceScreen = React.memo((props: Props) => {
-  const route = useRoute<RouteProp<NavigatorParamList, ScreenNames.INSURANCE_SCREEN>>()
+const ProjectTab = React.memo((props: Props) => {
+  const route = useRoute<RouteProp<NavigatorParamList, ScreenNames.PROJECT_TAB>>()
   const id = route?.params?.id
   const navigation = useNavigation()
   const [index, setIndex] = React.useState(id ?? 0);
 
   const [routes] = React.useState([
-    { key: 'first', title: 'Mua BH' },
-    { key: 'second', title: 'Giao dịch' },
+    { key: 'first', title: 'Thông tin' },
+    { key: 'second', title: 'Sản phẩm' },
   ]);
 
   const { authStoreModel } = useStores();
 
   const renderScene = SceneMap({
     first: !authStoreModel?.isLoggedIn ? SettingAuthScreen : BuyInsurance,
-    second: !authStoreModel?.isLoggedIn ? SettingAuthScreen : BuyRecords,
+    second: !authStoreModel?.isLoggedIn ? SettingAuthScreen : ProjectList,
   });
 
   const renderTabBar = props => (
@@ -55,7 +55,7 @@ const InsuranceScreen = React.memo((props: Props) => {
 
   return (
     <View style={styles.container}>
-      <AppHeader headerTx={"header.insurance"} isBlue onLeftPress={() => navigate(ScreenNames.HOME)} renderRightIcon={renderRightIcon()} />
+      <AppHeader headerText={"Vay mua nhà dự án"} isBlue renderRightIcon={renderRightIcon()} />
       <TabView
         navigationState={{ index, routes }}
         renderScene={renderScene}
@@ -69,7 +69,7 @@ const InsuranceScreen = React.memo((props: Props) => {
   )
 });
 
-export default InsuranceScreen;
+export default ProjectTab;
 
 const styles = ScaledSheet.create({
   container: { backgroundColor: color.palette.blue, flex: 1 },

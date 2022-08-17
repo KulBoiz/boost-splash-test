@@ -50,5 +50,6 @@ export enum ScreenNames {
   USER_PROFILE = "UserProfile",
   INSURANCE_LIST_SCREEN = "InsuranceListScreen",
   LOAN_PRODUCT = "LoanProduct",
+  PROJECT_TAB = "ProjectTab",
   SUCCESS_SCREEN = "SuccessScreen"
 }
