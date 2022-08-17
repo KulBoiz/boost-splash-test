@@ -38,6 +38,10 @@ const IconItem = React.memo((props: Props) => {
       if (type !== 'project_house') {
         navigate(ScreenNames.LOAN_PRODUCT, {header, key: middleText, type})
       }
+      else {
+        navigate(ScreenNames.PROJECT_TAB, {id: 1})
+
+      }
     }
   }
 
