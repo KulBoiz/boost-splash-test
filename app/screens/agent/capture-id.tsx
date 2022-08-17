@@ -99,7 +99,6 @@ const CaptureId = React.memo((props: Props) => {
 
   const navigateToPhotoPicker = useCallback(() => {
     const onConfirm = (photoSelected: any) => {
-      console.log("select photo", photoSelected)
       setPhoto(photoSelected)
     }
     navigate(ScreenNames.PHOTO_PICKER, {

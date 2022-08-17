@@ -8,6 +8,7 @@ export enum ScreenNames {
   REGISTER_PHONE = "RegisterPhone",
   NOTICE = "Notice",
   WELCOME = "Welcome",
+  MANAGEMENT = "Management",
   HOME = "Home",
   OTP = "Otp",
   SETTING = "Setting",

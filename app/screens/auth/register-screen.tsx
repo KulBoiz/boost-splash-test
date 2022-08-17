@@ -46,7 +46,6 @@ export const RegisterScreen: FC<StackScreenProps<AuthStackParamList, ScreenNames
 
     const _handleRegister = async (data) => {
       const register = await authStoreModel.register(data.fullName, data.password, data.passwordConfirm)
-      console.log('register', register)
       if (register.kind !== 'ok') {
         Alert.alert(register?.error?.message ?? 'Something went wrong')
       }

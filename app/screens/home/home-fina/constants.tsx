@@ -1,33 +1,9 @@
-import { images } from "../../assets/images"
 import i18n from "i18n-js"
-import { navigate } from "../../navigators";
-import { ScreenNames } from "../../navigators/screen-names";
-import { isAndroid } from "../../constants/variable"
 import { s } from "react-native-size-matters"
-
-export const getFeatureViewAnimation = (animatedValue, outputX: number) => {
-  const TRANSLATE_X_INPUT_RANGE = [0, 90];
-  const TRANSLATE_Y_INPUT = isAndroid ? s(15) : s(6);
-  const translateY = {
-    translateY: animatedValue.interpolate({
-      inputRange: [0, 90],
-      outputRange: [0, TRANSLATE_Y_INPUT],
-      extrapolate: 'clamp',
-    }),
-  };
-  return {
-    transform: [
-      {
-        translateX: animatedValue.interpolate({
-          inputRange: TRANSLATE_X_INPUT_RANGE,
-          outputRange: [0, outputX],
-          extrapolate: 'clamp',
-        }),
-      },
-      translateY,
-    ],
-  };
-};
+import { isAndroid } from "../../../constants/variable";
+import { images } from "../../../assets/images"
+import { ScreenNames } from "../../../navigators/screen-names"
+import { navigate } from "../../../navigators"
 
 export const HEADER  = [
   {
@@ -101,3 +77,46 @@ export const INSURANCE_PRODUCT = [
   },
 ]
 
+export const TEST_HOME = [
+  {
+    percent: 8,
+    middleText: 6,
+    title: '50 gói',
+    image: 'https://images.pexels.com/photos/12297336/pexels-photo-12297336.jpeg?auto=compress&cs=tinysrgb&w=600&lazy=load'
+  }, {
+    percent: 12,
+    middleText: 36,
+    title: '30 gói',
+    image: 'https://images.pexels.com/photos/12297336/pexels-photo-12297336.jpeg?auto=compress&cs=tinysrgb&w=600&lazy=load'
+  }, {
+    percent: 15,
+    middleText: 12,
+    title: '45 gói',
+    image: 'https://images.pexels.com/photos/12297336/pexels-photo-12297336.jpeg?auto=compress&cs=tinysrgb&w=600&lazy=load'
+  },
+  {
+    percent: 15,
+    middleText: 24,
+    title: '45 gói',
+    image: 'https://images.pexels.com/photos/12297336/pexels-photo-12297336.jpeg?auto=compress&cs=tinysrgb&w=600&lazy=load'
+  },
+  {
+    percent: 15,
+    middleText: 'Vay siêu tốc',
+    title: '45 gói',
+    image: 'https://images.pexels.com/photos/12297336/pexels-photo-12297336.jpeg?auto=compress&cs=tinysrgb&w=600&lazy=load'
+  },
+]
+
+export const formatHomeData = (arr) => {
+  if (arr?.length > 0){
+    return arr.map((e)=>{
+      return {
+        middleText: e?.time ? Number(e?.time) : '',
+        title: e?.total,
+        percent: e?.min,
+      }
+    })
+  }
+  return []
+}

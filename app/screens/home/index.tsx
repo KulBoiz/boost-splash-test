@@ -8,9 +8,7 @@ import { ROLE } from "../../models/auth-store"
 import { AppStackParamList } from "../../navigators/app-stack"
 import { ScreenNames } from "../../navigators/screen-names"
 import { BankHomeScreen } from "./home-banker/home-screen"
-import { HomeScreen } from "./home-fina/home-screen"
-import NewHome from "../new-home"
-import HomeFina from "./new-home-fina/home-fina"
+import HomeFina from "./home-fina/home-fina"
 
 export const AppHomeScreen: FC<StackScreenProps<AppStackParamList, ScreenNames.HOME>> = observer(
   ({ navigation }) => {
@@ -18,7 +16,6 @@ export const AppHomeScreen: FC<StackScreenProps<AppStackParamList, ScreenNames.H
       BackHandler.addEventListener('hardwareBackPress', () => true);
       return () => BackHandler.removeEventListener('hardwareBackPress', () => true);
     });
-    // @ts-ignore
     const { authStoreModel } = useStores()
     const { role } = authStoreModel
 
@@ -27,8 +24,6 @@ export const AppHomeScreen: FC<StackScreenProps<AppStackParamList, ScreenNames.H
     }
 
     return (
-      // <HomeScreen navigation={navigation}/>
-      // <NewHome />
        <HomeFina />
     )
   },

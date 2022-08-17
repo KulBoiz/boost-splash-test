@@ -1,7 +1,7 @@
 import React from "react"
 import { Linking, Platform, Pressable, View } from "react-native"
 import { AppText } from "../../../components/app-text/AppText"
-import { s, ScaledSheet } from "react-native-size-matters"
+import { ms, s, ScaledSheet } from "react-native-size-matters"
 import { ClockSvg, PhoneSvg } from "../../../assets/svgs"
 import { color } from "../../../theme"
 import moment from "moment"
@@ -11,6 +11,9 @@ import { ScreenNames } from "../../../navigators/screen-names"
 import { mappingStatus } from "../constants"
 import { useStores } from "../../../models"
 import { observer } from "mobx-react-lite"
+import { ALIGN_CENTER, ROW, SPACE_BETWEEN } from "../../../styles/common-style"
+import RenderStatus from "../../../components/status/render-status"
+import { fontFamily } from "../../../constants/font-family"
 
 const fullName = (user) => {
   if (!user) return ""
@@ -27,7 +30,6 @@ const ShortStatus = observer(({ item }: Props) => {
   if (!item) {
     return <></>
   }
-  // @ts-ignore
   const { loanStore } = useStores()
   const status = item?.status
   const name = fullName(item?.user)
@@ -58,34 +60,31 @@ const ShortStatus = observer(({ item }: Props) => {
         navigate(ScreenNames.PROFILE_DETAIL)
       }}
     >
-      <View style={[styles.row, styles.itemContainer]}>
-        <AppText tx={"loan.customerName"} capitalize style={styles.title} />
-        <AppText value={`${name} - ${formatPhone}`} />
-      </View>
-      <View style={[styles.row, styles.itemContainer]}>
-        <AppText tx={"loan.status"} capitalize style={styles.title} />
-        <View style={styles.wrapSpace}>
-          <AppText
-            value={mappingStatus(status, item)?.status}
-            color={mappingStatus(status, item)?.color}
-          />
+      <View style={styles.header}>
+        <View style={[ROW, SPACE_BETWEEN]}>
+          <AppText value={name} style={styles.name} />
+          <RenderStatus
+            status={mappingStatus(status, item)?.status}
+            statusColor={mappingStatus(status, item)?.color}
+            backgroundColor={mappingStatus(status, item)?.background}/>
         </View>
+        <AppText value={`${formatPhone}`} fontSize={ms(10)} color={color.primary} fontFamily={fontFamily.semiBold} />
       </View>
-      <View style={[styles.row, styles.itemContainer]}>
-        <AppText tx={"loan.financialSpecialist"} capitalize style={styles.title} />
 
-        {!!fullName(assignee) && (
-          <View style={styles.wrapSpace}>
-            <Pressable style={styles.row} onPress={_handleCall}>
-              <AppText value={fullName(assignee)} style={styles.text} />
-              <PhoneSvg />
-            </Pressable>
-            <View style={styles.row}>
-              <ClockSvg />
-              <AppText value={moment(item?.createdAt).fromNow()} style={styles.time} />
+      <View style={styles.body}>
+        <View style={[ROW, SPACE_BETWEEN]}>
+          <AppText tx={"loan.financialSpecialist"} capitalize style={styles.title} />
+          <AppText value={"Thời gian cập nhật"} style={styles.title} />
+        </View>
+        <View style={[ROW, SPACE_BETWEEN]}>
+          <Pressable style={[ROW, ALIGN_CENTER]} onPress={_handleCall}>
+            <AppText value={fullName(assignee)} capitalize style={styles.title} />
+            <View style={styles.wrapPhone}>
+              <PhoneSvg width={s(9)} height={s(9)}/>
             </View>
-          </View>
-        )}
+          </Pressable>
+          <AppText value={moment(item?.createdAt).format('HH:mm-DD/MM/YYYY')} style={styles.text} />
+        </View>
       </View>
     </Pressable>
   )
@@ -96,55 +95,38 @@ ShortStatus.displayName = "ShortStatus"
 
 const styles = ScaledSheet.create({
   container: {
-    paddingVertical: "16@s",
-    borderBottomWidth: 1,
-    borderBottomColor: color.palette.whiteDarker,
-  },
-  itemContainer: {
+    padding: "12@s",
+    borderWidth: 1,
+    borderColor: '#DADADA',
+    borderRadius: '8@s',
     marginBottom: "12@s",
   },
-  row: {
-    flexDirection: "row",
-    alignItems: "center",
+  header: {
+    borderBottomWidth: 1,
+    borderBottomColor: '#D9D9D9',
+    paddingBottom: '8@s'
+  },
+  body: {
+    paddingTop: '12@s'
+  },
+  name: {
+    fontSize: "12@ms",
+    fontFamily: fontFamily.bold
   },
   title: {
     color: "#AAADB7",
-    fontSize: "12@ms",
-    width: "115@ms",
-  },
-  boxArrow: {
-    marginBottom: "8@s",
-    backgroundColor: color.palette.white,
-    width: "16@s",
-    height: "16@s",
-    borderRadius: "4@s",
-    alignItems: "center",
-    justifyContent: "center",
-    paddingLeft: "2@ms",
-    shadowColor: color.palette.blue,
-    shadowOffset: {
-      width: 0,
-      height: 12,
-    },
-    shadowOpacity: 0.8,
-    shadowRadius: 16.0,
-
-    elevation: 12,
-  },
-  wrapSpace: {
-    flex: 1,
-    flexDirection: "row",
-    justifyContent: "space-between",
-    alignItems: "center",
+    fontSize: "11@ms",
   },
   text: {
-    fontSize: "12@ms",
-    color: color.palette.black,
-    marginRight: "10@ms",
+    fontSize: '10@ms'
   },
-  time: {
-    fontSize: "12@ms",
-    color: "#AEAEB2",
-    marginLeft: "6@ms",
-  },
+  wrapPhone: {
+    width: '16@s',
+    height: '16@s',
+    borderRadius: '8@s',
+    marginLeft: '4@s',
+    backgroundColor: color.palette.lighterGrey,
+    alignItems: "center",
+    justifyContent: "center"
+  }
 })

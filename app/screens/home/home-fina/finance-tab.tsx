@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react"
+import React, { useState } from "react"
 import { View } from "react-native"
 import HomeItem from "./components/home-item"
 import { formatHomeData } from "./constants"
@@ -17,11 +17,9 @@ import { useStores } from "../../../models"
 interface Props {}
 
 const FinanceTab = React.memo((props: Props) => {
-  const {homeStore, productStore} = useStores()
+  const {homeStore} = useStores()
   const [visible, setVisible] = useState(false)
   const [link, setLink] = useState("")
-
-
 
   const SUPPORT_TOOL = [
     {
@@ -55,12 +53,6 @@ const FinanceTab = React.memo((props: Props) => {
         setVisible(true)
       },
     },
-    // {
-    //   image: images.home_records,
-    //   title: i18n.t("home.recordManagement"),
-    //   onPress: () => navigate(ScreenNames.FINANCE, { index: 2 }),
-    // },
-
     {
       image: images.home_planning_check,
       title: i18n.t("home.map"),
@@ -75,7 +67,7 @@ const FinanceTab = React.memo((props: Props) => {
     <View style={styles.container}>
       <HomeItem data={SUPPORT_TOOL} label={"Công cụ bán hàng"} style={styles.itemMargin} />
       <HomeBanner />
-      {!!homeStore.real_estate?.length &&
+        {homeStore?.real_estate?.length > 0 &&
         <HomeItem
           data={formatHomeData(homeStore.real_estate)}
           header={'Vay mua nhà có sổ'}
@@ -84,16 +76,17 @@ const FinanceTab = React.memo((props: Props) => {
           iconShape={'circle'}
           type={'real_estate'}
         />
-      }
-      {!!homeStore.vehicle?.length &&
+        }
+       {homeStore?.vehicle?.length > 0 &&
         <HomeItem
           data={formatHomeData(homeStore.vehicle)}
-          header='Vay mua xe' label={"Vay mua xe"}
+          header='Vay mua xe'
+          label={"Vay mua xe"}
           style={styles.itemMargin}
           iconShape={'circle'}
           type={'vehicle'}
         />
-      }
+       }
       {/* {!!homeStore.projectHouse?.length && */}
       {/*  <HomeItem */}
       {/*    data={formatHomeData(homeStore.projectHouse)} */}

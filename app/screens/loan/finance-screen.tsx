@@ -49,7 +49,7 @@ const FinanceScreen = React.memo((props: Props) => {
   );
   return (
     <View style={styles.container}>
-      <AppHeader headerTx={"header.finance"} isBlue hideBack/>
+      {/* <AppHeader headerTx={"header.finance"} isBlue hideBack/> */}
       <TabView
         navigationState={{ index, routes }}
         renderScene={renderScene}
