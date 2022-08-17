@@ -11,6 +11,7 @@ import Document from "./document"
 import Note from "../../../components/note/note"
 import { Box } from "native-base"
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view"
+import InfoBox from "../../../components/info-box"
 
 interface Props {}
 
@@ -53,31 +54,28 @@ const Info = observer((props: Props) => {
         extraScrollHeight={20}
         contentContainerStyle={styles.container}
       >
-        <View style={styles.content}>
-          <AppText style={styles.title} value={"Khách hàng"} />
-          <View style={styles.contentItem}>
-            <ItemView
-              style={styles.item}
-              title={"loan.infoLoan.profile.fullName"}
-              content={truncateString(name(), 20)}
-            />
-            <ItemView
-              style={styles.item}
-              title={"loan.infoLoan.profile.sex"}
-              content={checkGender()}
-            />
-            <ItemView
-              style={styles.item}
-              title={"loan.infoLoan.profile.phone"}
-              content={user?.tels?.[0]?.tel}
-            />
-            <ItemView
-              style={styles.item}
-              title={"loan.infoLoan.profile.email"}
-              content={user?.emails?.[0]?.email}
-            />
-          </View>
-        </View>
+        <InfoBox title={"Khách hàng"} style={styles.itemContainer}>
+          <ItemView
+            style={styles.item}
+            title={"loan.infoLoan.profile.fullName"}
+            content={truncateString(name(), 20)}
+          />
+          <ItemView
+            style={styles.item}
+            title={"loan.infoLoan.profile.sex"}
+            content={checkGender()}
+          />
+          <ItemView
+            style={styles.item}
+            title={"loan.infoLoan.profile.phone"}
+            content={user?.tels?.[0]?.tel}
+          />
+          <ItemView
+            style={styles.item}
+            title={"loan.infoLoan.profile.email"}
+            content={user?.emails?.[0]?.email}
+          />
+        </InfoBox>
 
         {loanDetail?.id && <Document loanDetail={loanDetail} files={files} templates={templates} />}
 
@@ -103,6 +101,9 @@ const styles = ScaledSheet.create({
     paddingRight: "16@s",
     paddingBottom: "16@s",
   },
+  itemContainer: {
+    backgroundColor: color.background
+  },
   content: {
     marginBottom: "16@s",
   },
@@ -118,6 +119,6 @@ const styles = ScaledSheet.create({
     padding: "16@s",
   },
   item: {
-    padding: "8@s",
+    paddingVertical: "8@s",
   },
 })

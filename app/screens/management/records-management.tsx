@@ -1,7 +1,7 @@
 import React, { useCallback, useEffect, useState } from "react"
 import { View, FlatList, ActivityIndicator } from "react-native"
 import { color } from "../../theme"
-import ShortStatus from "./components/short-status"
+import RequestCounsellingStatus from "./components/request-counselling-status"
 import { ScaledSheet } from "react-native-size-matters"
 import { useStores } from "../../models"
 import { AppText } from "../../components/app-text/AppText"
@@ -9,6 +9,7 @@ import { fontFamily } from "../../constants/font-family"
 import { FONT_BOLD_12, MARGIN_BOTTOM_16 } from "../../styles/common-style"
 import { observer } from "mobx-react-lite"
 import { LoadingComponent } from "../../components/loading"
+import LoanProfileStatus from "./components/loan-profile-status"
 
 interface Props {}
 const RecordsManagement = observer((props: Props) => {
@@ -27,7 +28,8 @@ const RecordsManagement = observer((props: Props) => {
   }, [])
 
   const renderItem = useCallback(({ item }) => {
-    return <ShortStatus item={item} />
+    // return <RequestCounsellingStatus item={item} />
+    return <LoanProfileStatus item={item} />
   }, [])
 
   if (loading) {
@@ -44,6 +46,7 @@ const RecordsManagement = observer((props: Props) => {
         keyExtractor={(e, i) => i.toString()}
         renderItem={renderItem}
         style={styles.flatList}
+        contentContainerStyle={styles.contentContainer}
         onEndReached={() => {
           setLoadMore(true)
           loanStore.loadMoreRecords().then(() => {
@@ -74,4 +77,7 @@ const styles = ScaledSheet.create({
   flatList: {
     paddingHorizontal: "16@ms",
   },
+  contentContainer: {
+    paddingBottom: '70@s'
+  }
 })

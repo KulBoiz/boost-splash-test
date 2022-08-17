@@ -8,7 +8,7 @@ import moment from "moment"
 import { hidePhoneNumber } from "../../../constants/variable"
 import { navigate } from "../../../navigators"
 import { ScreenNames } from "../../../navigators/screen-names"
-import { mappingStatus } from "../constants"
+import { mappingStatus } from "../../loan/constants"
 import { useStores } from "../../../models"
 import { observer } from "mobx-react-lite"
 import { ALIGN_CENTER, ROW, SPACE_BETWEEN } from "../../../styles/common-style"
@@ -26,7 +26,7 @@ interface Props {
   item: any
 }
 
-const ShortStatus = observer(({ item }: Props) => {
+const RequestCounsellingStatus = observer(({ item }: Props) => {
   if (!item) {
     return <></>
   }
@@ -77,21 +77,22 @@ const ShortStatus = observer(({ item }: Props) => {
           <AppText value={"Thời gian cập nhật"} style={styles.title} />
         </View>
         <View style={[ROW, SPACE_BETWEEN]}>
-          <Pressable style={[ROW, ALIGN_CENTER]} onPress={_handleCall}>
+          {fullName(assignee) ? <Pressable style={[ROW, ALIGN_CENTER]} onPress={_handleCall}>
             <AppText value={fullName(assignee)} capitalize style={styles.title} />
             <View style={styles.wrapPhone}>
               <PhoneSvg width={s(9)} height={s(9)}/>
             </View>
-          </Pressable>
-          <AppText value={moment(item?.createdAt).format('HH:mm-DD/MM/YYYY')} style={styles.text} />
+          </Pressable> : <View />}
+
+          <AppText value={moment(item?.updatedAt).format('HH:mm-DD/MM/YYYY')} style={styles.text} />
         </View>
       </View>
     </Pressable>
   )
 })
 
-export default ShortStatus
-ShortStatus.displayName = "ShortStatus"
+export default RequestCounsellingStatus
+RequestCounsellingStatus.displayName = "RequestCounsellingStatus"
 
 const styles = ScaledSheet.create({
   container: {
