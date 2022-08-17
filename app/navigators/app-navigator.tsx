@@ -34,6 +34,7 @@ import UserProfile from "../screens/settting/profile/user-profile"
 import InsuranceList from "../screens/new-insurance/insurance-list"
 import ProductList from "../screens/product/product-list"
 import SuccessScreen from "../components/success-screen"
+import ProjectTab from "../screens/product/project-tab"
 
 export type NavigatorParamList = {
   [ScreenNames.SPLASH]: undefined
@@ -53,6 +54,7 @@ export type NavigatorParamList = {
   [ScreenNames.TERM_AND_POLICY]: { id: number }
   [ScreenNames.INSURANCE_SCREEN]: { id?: number }
   [ScreenNames.INSURANCE_PACKAGE]: undefined
+  [ScreenNames.PROJECT_TAB]: { id: number }
   [ScreenNames.INSURANCE_CLAIM_DETAIL]: { index: number }
   [ScreenNames.INTRODUCE_SCREEN]: undefined
   [ScreenNames.BANNER_DETAIL]: { url: string }
@@ -160,6 +162,10 @@ const RootStack = () => {
       <Stack.Screen
         name={ScreenNames.SUCCESS_SCREEN}
         component={SuccessScreen}
+      />
+      <Stack.Screen
+        name={ScreenNames.PROJECT_TAB}
+        component={ProjectTab}
       />
     </Stack.Navigator>
   )

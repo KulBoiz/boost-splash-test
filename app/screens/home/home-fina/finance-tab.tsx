@@ -42,11 +42,11 @@ const FinanceTab = React.memo((props: Props) => {
 
   const GetIndexPrioritized = () => {
     const indexPrioritized: number[] = [];
-  
+
     for(let i = 1; i <= 10; i++) {
       indexPrioritized.push(i);
     }
-  
+
     return indexPrioritized;
   };
 
@@ -106,7 +106,7 @@ const FinanceTab = React.memo((props: Props) => {
           type={'real_estate'}
         />
       }
-      
+
       <ProjectItem
         data={projects}
         header={'Vay mua nhà dự án'}
@@ -126,14 +126,7 @@ const FinanceTab = React.memo((props: Props) => {
           type={'vehicle'}
         />
        }
-      {/* {!!homeStore.projectHouse?.length && */}
-      {/*  <HomeItem */}
-      {/*    data={formatHomeData(homeStore.projectHouse)} */}
-      {/*    header='Vay mua nhà dự án' label={"Vay mua nhà dự án"} */}
-      {/*    style={styles.itemMargin} */}
-      {/*    iconShape={'circle'} */}
-      {/*  /> */}
-      {/* } */}
+
       <BottomView height={200} />
       <FullScreenModal
         visible={visible}
