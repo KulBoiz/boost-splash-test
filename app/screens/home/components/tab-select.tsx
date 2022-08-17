@@ -5,6 +5,7 @@ import { ms, ScaledSheet } from "react-native-size-matters"
 import { color } from "../../../theme"
 import { fontFamily } from "../../../constants/font-family"
 import { LinearGradient } from 'expo-linear-gradient';
+import { isIos } from "../../../constants/variable"
 
 interface Props{
   index: number
@@ -79,7 +80,7 @@ const styles = ScaledSheet.create({
   linear: {
     width: '100%',
     alignItems: "center",
-    borderRadius: '15@s',
+    borderRadius: isIos ? '15@s' : '20@s',
     paddingVertical: '8@s'
   },
 });

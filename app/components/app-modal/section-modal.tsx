@@ -20,9 +20,9 @@ const AppSectionModal = React.memo((props: Props) => {
       <Modal
         isVisible={visible}
         style={styles.container}
-        animationIn="fadeIn"
-      animationOut="fadeOut"
-      swipeDirection={['up', 'left', 'right', 'down']}
+        animationIn="slideInUp"
+        animationOut="slideOutDown"
+        swipeDirection={['up', 'left', 'right', 'down']}
       >
         <View style={styles.body}>
           <View style={styles.headerContainer}>

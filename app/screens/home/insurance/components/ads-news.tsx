@@ -27,7 +27,6 @@ const data = [
 	},
 ]
 const _renderItem = ({ item }) => {
-	console.log(item)
 	return (
 		<View style={styles.item}>
 			<FastImage source={{ uri: item.image }} style={styles.image} />

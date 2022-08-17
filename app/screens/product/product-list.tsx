@@ -23,8 +23,6 @@ const ProductList = observer((props: any) => {
     return <BankInfo item={item} />
   }
 
-  console.log(data)
-
   useEffect(()=> {
       productStore.getProducts(keySearch, { page: 1, limit: 20 }, true)
   },[])

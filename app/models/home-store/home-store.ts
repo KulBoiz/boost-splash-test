@@ -28,7 +28,8 @@ export const HomeStoreModel = types
         self.real_estate = data.real_estate
         return data
       } else {
-        return result
+        self.vehicle = []
+        self.real_estate = []
       }
     }),
 

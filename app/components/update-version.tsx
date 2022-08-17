@@ -23,7 +23,6 @@ const UpdateVersion = React.memo((props: Props) => {
 
  useEffect(()=> {
    if (version !== 0 && VERSION < version) {
-     console.log('hahaahahj')
      setVisible(true)
    }
  }, [version])
