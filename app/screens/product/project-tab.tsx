@@ -13,7 +13,7 @@ import { ScreenNames } from "../../navigators/screen-names"
 import { FONT_MEDIUM_14 } from "../../styles/common-style"
 import { color } from "../../theme"
 import ProjectList from "./project-list"
-import BuyInsurance from "../insurance/buy-insurance"
+import LoanProcess from "./loan-process"
 
 interface Props { }
 
@@ -31,7 +31,7 @@ const ProjectTab = React.memo((props: Props) => {
   const { authStoreModel } = useStores();
 
   const renderScene = SceneMap({
-    first: !authStoreModel?.isLoggedIn ? SettingAuthScreen : BuyInsurance,
+    first: !authStoreModel?.isLoggedIn ? SettingAuthScreen : LoanProcess,
     second: !authStoreModel?.isLoggedIn ? SettingAuthScreen : ProjectList,
   });
 
@@ -72,7 +72,7 @@ const ProjectTab = React.memo((props: Props) => {
 export default ProjectTab;
 
 const styles = ScaledSheet.create({
-  container: { backgroundColor: color.palette.blue, flex: 1 },
+  container: { backgroundColor: color.palette.white, flex: 1 },
   tab: { backgroundColor: 'white', borderTopLeftRadius: '8@s', borderTopRightRadius: '8@s'},
   indicatorStyle: { backgroundColor: color.palette.blue},
   wrapRightIcon: {

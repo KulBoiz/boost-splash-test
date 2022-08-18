@@ -4,7 +4,7 @@ import AppHeader from "../../components/app-header/AppHeader"
 import BankInfo from "../loan/components/bank-info"
 import FilterProduct from "./components/filter-product"
 import { useStores } from "../../models"
-import { ScaledSheet } from "react-native-size-matters"
+import { s, ScaledSheet } from "react-native-size-matters"
 import BottomView from "../../components/bottom-view"
 import { color } from "../../theme"
 import { MARGIN_BOTTOM_24, MARGIN_TOP_16 } from "../../styles/common-style"
@@ -38,7 +38,9 @@ const ProductList = observer((props: any) => {
   return (
     <View style={styles.container}>
       <AppHeader headerText={header} isBlue/>
-      <FilterProduct defaultKey={keySearch} type={type} setKey={setKeySearch}/>
+      <View>
+        <FilterProduct defaultKey={keySearch} type={type} setKey={setKeySearch}/>
+      </View>
       {productStore?.isRefreshing ?
         <ActivityIndicator color={color.primary} style={MARGIN_TOP_16} /> :
         <>
@@ -47,7 +49,7 @@ const ProductList = observer((props: any) => {
             keyExtractor={(e,i)=> i.toString()}
             renderItem={renderItem}
             contentContainerStyle={styles.contentStyle}
-            ListFooterComponent={<BottomView height={50} />}
+            ListFooterComponent={<BottomView height={s(150)} />}
             onEndReached={loadMore}
             onEndReachedThreshold={0.2}
           />
@@ -61,7 +63,7 @@ const ProductList = observer((props: any) => {
 export default ProductList;
 
 const styles = ScaledSheet.create({
-    container: {},
+  container: {backgroundColor: color.background, flex:1},
   contentStyle: {
       marginVertical: '24@s',
       paddingHorizontal: '16@s',

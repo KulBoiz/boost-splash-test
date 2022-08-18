@@ -32,7 +32,9 @@ const BankInfo = React.memo((props: BankInfoProps) => {
   }
   return (
     <Pressable
-      style={[styles.container, [styles.border, {borderColor: backgroundColor ?? color.lightBlack}]]}
+      style={[styles.container, [styles.border,
+        // {borderColor: backgroundColor ?? color.palette.iron }
+      ]]}
       onPress={handlePress}>
       <View style={[styles.header, {backgroundColor: backgroundColor ?? '#005992'}]}>
          <FastImage source={{uri:  imageUrl}} style={styles.bankIcon} resizeMode={'contain'}/>
@@ -44,7 +46,7 @@ const BankInfo = React.memo((props: BankInfoProps) => {
           {outstandingAdvantages &&
             <View style={styles.row}>
               <StarSvg />
-              <AppText value={outstandingAdvantages} style={styles.outstandingAdvantages}/>
+              <AppText value={truncateString(outstandingAdvantages, 25)} style={styles.outstandingAdvantages}/>
             </View>
           }
         </View>
@@ -82,11 +84,13 @@ const styles = ScaledSheet.create({
     marginBottom: '12@s'
   },
   border: {
-    borderWidth: 1
+    borderWidth: 1,
+    borderColor: color.palette.iron
   },
   bankIcon: {
     width: '80@s',
-    height:'30@s'
+    height:'30@s',
+    marginLeft: '5@s'
   },
   row: {
     flexDirection: 'row',
