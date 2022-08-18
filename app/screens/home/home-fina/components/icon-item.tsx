@@ -32,18 +32,15 @@ const IconItem = React.memo((props: Props) => {
   const isStringMiddleText = typeof middleText === "string"
 
   const handlePress = () => {
-    if (iconShape === 'custom'){
+    if (type !== 'project_house') {
+      navigate(ScreenNames.LOAN_PRODUCT, {header, key: middleText, type})
+    } else {
       onPress()
     }
-    else {
-      if (type !== 'project_house') {
-        navigate(ScreenNames.LOAN_PRODUCT, {header, key: middleText, type})
-      }
-      else {
-        navigate(ScreenNames.PROJECT_TAB, {id: 1})
 
-      }
-    }
+    // if (iconShape === 'custom'){
+    //   onPress()
+    // }
   }
 
   return (

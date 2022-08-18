@@ -5,6 +5,8 @@ import { ScaledSheet } from "react-native-size-matters"
 import { fontFamily } from "../../../../constants/font-family"
 import { AppText } from "../../../../components/app-text/AppText"
 import { color } from "../../../../theme"
+import { ScreenNames } from '../../../../navigators/screen-names';
+import { navigate } from '../../../../navigators';
 
 
 interface Props{
@@ -20,7 +22,7 @@ const ProjectItem = React.memo((props: Props) => {
   const { label, style, data, header, type } = props
   
   const onPress = (e) => {
-   //
+   navigate(ScreenNames.PROJECT_TAB, {header,key: e, id: 1})
   }
 
   return (

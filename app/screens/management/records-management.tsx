@@ -9,7 +9,7 @@ import { fontFamily } from "../../constants/font-family"
 import { FONT_BOLD_12, MARGIN_BOTTOM_16 } from "../../styles/common-style"
 import { observer } from "mobx-react-lite"
 import { LoadingComponent } from "../../components/loading"
-import LoanProfileStatus from "./components/loan-profile-status"
+// import LoanProfileStatus from "./components/loan-profile-status"
 
 interface Props {}
 const RecordsManagement = observer((props: Props) => {
@@ -28,8 +28,12 @@ const RecordsManagement = observer((props: Props) => {
   }, [])
 
   const renderItem = useCallback(({ item }) => {
+    return <RequestCounsellingStatus item={item} />
+    // if (item?.status === "consulted") {
+    //   return <LoanProfileStatus item={item} />
+    // }
+    
     // return <RequestCounsellingStatus item={item} />
-    return <LoanProfileStatus item={item} />
   }, [])
 
   if (loading) {
