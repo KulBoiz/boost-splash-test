@@ -1,19 +1,18 @@
-import React from "react"
-import { Linking, Platform, Pressable, View } from "react-native"
-import { AppText } from "../../../components/app-text/AppText"
-import { ms, s, ScaledSheet } from "react-native-size-matters"
-import { ClockSvg, PhoneSvg } from "../../../assets/svgs"
-import { color } from "../../../theme"
-import moment from "moment"
-import { hidePhoneNumber, numberWithCommas } from "../../../constants/variable"
-import { navigate } from "../../../navigators"
-import { ScreenNames } from "../../../navigators/screen-names"
-import { mappingStatus } from "../../loan/constants"
-import { useStores } from "../../../models"
 import { observer } from "mobx-react-lite"
-import { ALIGN_CENTER, ROW, SPACE_BETWEEN } from "../../../styles/common-style"
+import moment from "moment"
+import React from "react"
+import { Pressable, View } from "react-native"
+import { ms, ScaledSheet } from "react-native-size-matters"
+import { AppText } from "../../../components/app-text/AppText"
 import RenderStatus from "../../../components/status/render-status"
 import { fontFamily } from "../../../constants/font-family"
+import { numberWithCommas } from "../../../constants/variable"
+import { useStores } from "../../../models"
+import { navigate } from "../../../navigators"
+import { ScreenNames } from "../../../navigators/screen-names"
+import { ROW, SPACE_BETWEEN } from "../../../styles/common-style"
+import { color } from "../../../theme"
+import { mappingStatus } from "../../loan/constants"
 
 const fullName = (user) => {
   if (!user) return ""
@@ -42,7 +41,6 @@ const LoanProfileStatus = observer(({ item }: Props) => {
   const { loanStore } = useStores()
   const status = item?.status
   const name = fullName(item?.user)
-  const assignee = item?.assignee
 
   return (
     <Pressable

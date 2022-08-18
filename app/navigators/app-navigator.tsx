@@ -54,7 +54,7 @@ export type NavigatorParamList = {
   [ScreenNames.TERM_AND_POLICY]: { id: number }
   [ScreenNames.INSURANCE_SCREEN]: { id?: number }
   [ScreenNames.INSURANCE_PACKAGE]: undefined
-  [ScreenNames.PROJECT_TAB]: { id: number }
+  [ScreenNames.PROJECT_TAB]: { header?: string, key?: any, id: number }
   [ScreenNames.INSURANCE_CLAIM_DETAIL]: { index: number }
   [ScreenNames.INTRODUCE_SCREEN]: undefined
   [ScreenNames.BANNER_DETAIL]: { url: string }
