@@ -62,6 +62,24 @@ export const ProductStoreModel = types
       }
     }),
 
+    getProductByProject: flow(function* get(params?: string) {
+      const api = new BaseApi(self.environment.api)
+      const result = yield api.get('product-details/app/project/public', params)
+      const data = result?.data
+
+      if (result.kind !== "ok") {
+        return data
+      }
+
+      if (data) {
+        return {
+          kind: "ok",
+          data,
+        }
+      }
+    }),
+
+
     getProductFilter: flow(function* getProductFilter(type,time) {
       const result = yield self.api.get(`app/home/${type}/${time}`)
       const data = result?.data
