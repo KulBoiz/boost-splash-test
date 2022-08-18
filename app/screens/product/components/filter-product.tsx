@@ -1,5 +1,5 @@
 import React, { useState } from "react"
-import { Pressable, ScrollView } from "react-native"
+import { FlatList, Pressable, ScrollView } from "react-native"
 import { AppText } from "../../../components/app-text/AppText"
 import { ms, ScaledSheet } from "react-native-size-matters"
 import { color } from "../../../theme"
@@ -16,48 +16,89 @@ const getArray = (arr)=> {
 }
 
 const FilterProduct = React.memo((props: Props) => {
+  const [ref, setRef] = useState(null);
   const {homeStore, productStore} = useStores()
   const {type, setKey, defaultKey} = props
 
-  const setKeySelect = (keys) => {
-    productStore.getProducts(keys, {page: 1, limit: 20}, true)
-    setKey(keys)
-  }
   const data = type === 'vehicle' ? homeStore.vehicle :
     type === 'real_estate' ? homeStore.real_estate : homeStore.projectHouse
 
+  const initialIndex = getArray(data).findIndex(e=> e.toString() === defaultKey.toString())
+
+  const setKeySelect = (keys, index) => {
+    // @ts-ignore
+    ref?.scrollToIndex({animated: true, index: index})
+    productStore.getProducts(keys, {page: 1, limit: 20}, true)
+    setKey(keys)
+  }
+
+  const renderItem = ({item, index}) => {
+    const isSelect = defaultKey?.toString() === item?.toString()
+      return(
+        <Pressable
+        onPress={()=> setKeySelect(item, index)}
+        style={[styles.box, {borderBottomColor: isSelect ?color.primary: color.palette.iron, borderBottomWidth:isSelect ? 2 : 1 }]}
+      >
+        <AppText
+          value={`${item} THÁNG`}
+          fontSize={ms(12)}
+          color={isSelect ? color.palette.blue : '#788198'}
+          fontFamily={isSelect ? fontFamily.bold : fontFamily.medium}
+        />
+      </Pressable>
+    )
+  }
   return (
-    <ScrollView style={styles.container} horizontal showsHorizontalScrollIndicator={false}>
-      {getArray(data).map((val,index)=> {
-        const isSelect = defaultKey?.toString() === val?.toString()
-        return (
-          <Pressable
-            key={index.toString()}
-            onPress={()=> setKeySelect(val)}
-            style={[styles.box, {backgroundColor: isSelect ? color.palette.orange : '#FAFAFA'}]}
-          >
-            <AppText
-              value={`${val} tháng`}
-              fontSize={ms(10)}
-              color={isSelect ? color.palette.white : '#788198'}
-              fontFamily={isSelect ? fontFamily.bold : fontFamily.medium}
-            />
-          </Pressable>
-        )
-      })}
-    </ScrollView>
+    // <ScrollView contentContainerStyle={styles.container} horizontal showsHorizontalScrollIndicator={false}>
+    //   {getArray(data).map((val,index)=> {
+    //     const isSelect = defaultKey?.toString() === val?.toString()
+    //     return (
+    //       <Pressable
+    //         key={index.toString()}
+    //         onPress={()=> setKeySelect(val)}
+    //         style={[styles.box, {borderBottomColor: isSelect ?color.primary: color.palette.iron, borderBottomWidth:isSelect ? 2 : 1 }]}
+    //       >
+    //         <AppText
+    //           value={`${val} THÁNG`}
+    //           fontSize={ms(12)}
+    //           color={isSelect ? color.palette.blue : '#788198'}
+    //           fontFamily={isSelect ? fontFamily.bold : fontFamily.medium}
+    //         />
+    //       </Pressable>
+    //     )
+    //   })}
+    // </ScrollView>
+    <>
+    {!!data &&
+      <FlatList
+        ref={(ref) => {
+          // @ts-ignore
+          setRef(ref);
+        }}
+        keyExtractor={(e, i)=> i.toString()}
+        data={getArray(data)}
+        renderItem={renderItem}
+        horizontal
+        initialScrollIndex={initialIndex}
+        showsHorizontalScrollIndicator={false}
+        bounces={false}
+      />
+    }
+    </>
   )
 });
 
 export default FilterProduct;
 
 const styles = ScaledSheet.create({
-  container: {},
+  container: {
+    alignItems: "center",
+  },
   box: {
     paddingHorizontal: '12@s',
-    height: '35@s',
+    paddingVertical: '8@s',
     alignItems: "center",
     justifyContent: "center",
-    marginHorizontal: '2@s',
+    backgroundColor: color.background,
   }
 });

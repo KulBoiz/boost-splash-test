@@ -11,6 +11,7 @@ import { DiscountSvg } from "../../../../assets/svgs"
 import { color } from "../../../../theme"
 import { navigate } from "../../../../navigators"
 import { ScreenNames } from "../../../../navigators/screen-names"
+import { isAndroid } from "../../../../constants/variable"
 
 
 interface Props{
@@ -55,7 +56,7 @@ const IconItem = React.memo((props: Props) => {
               {!!percent && <View style={[ROW, ALIGN_CENTER, MARGIN_BOTTOM_8]}>
                 <AppText value={`${percent}%`} fontSize={ms(11)} color={color.palette.orange} />
               </View>}
-              <View style={styles.wrapIcon}>
+              <View style={[styles.wrapIcon, styles.month]}>
                 <FastImage source={isStringIcon ? {uri: icon} : icon} style={styles.circleIcon}/>
                 {!!middleText &&
                   <View style={styles.wrapMiddleText}>
@@ -71,6 +72,7 @@ const IconItem = React.memo((props: Props) => {
                         value={'tháng'}
                         color={color.text}
                         fontSize={ms(9)}
+                        style={styles.month}
                     /> }
                   </View>
                 }
@@ -142,5 +144,8 @@ const styles = ScaledSheet.create({
   },
   discount: {
     marginRight: '2@s'
+  },
+  month: {
+    marginTop: isAndroid ? '-8@s' : 0
   }
 });

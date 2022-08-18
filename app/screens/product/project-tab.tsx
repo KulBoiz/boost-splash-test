@@ -11,6 +11,7 @@ import { ScreenNames } from "../../navigators/screen-names"
 import { FONT_MEDIUM_14 } from "../../styles/common-style"
 import { color } from "../../theme"
 import ProjectList from "./project-list"
+import LoanProcess from "./loan-process"
 
 interface Props { }
 
@@ -26,7 +27,7 @@ const ProjectTab = React.memo((props: Props) => {
   ]);
 
   const renderScene = SceneMap({
-    first: () => <></>,
+    first: LoanProcess,
     second: () => <ProjectList data={[key]} />,
   });
 

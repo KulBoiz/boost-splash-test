@@ -27,15 +27,13 @@ const FinanceScreen = React.memo((props: Props) => {
 
 
   const [routes] = React.useState([
-    { key: 'first', title: 'Giới thiệu ' },
-    { key: 'second', title: 'Sản phẩm' },
-    { key: 'third', title: 'Quản lí hồ sơ' },
+    { key: 'first', title: 'Bản thân' },
+    { key: 'second', title: 'Cộng tác viên' },
   ]);
 
   const renderScene = SceneMap({
     first: Introduce,
-    second: Product,
-    third: !authStoreModel?.isLoggedIn ? SettingAuthScreen : RecordsManagement,
+    second: !authStoreModel?.isLoggedIn ? SettingAuthScreen : RecordsManagement,
   });
 
   const renderTabBar = props => (
