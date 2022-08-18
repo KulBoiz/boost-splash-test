@@ -22,7 +22,7 @@ const UserAvatar: FC<Props> = observer(({ style }: Props) => {
 
   const onSelectImage = useCallback(async (res) => {
     await setLoading(true)
-    const uploadAvatar = await authStoreModel.uploadAvatar(res.assets[0])
+    const uploadAvatar = await authStoreModel.uploadAvatar(res)
     await setLoading(false)
     if (uploadAvatar.kind === "ok") {
       await authStoreModel.updateUserAvatar()

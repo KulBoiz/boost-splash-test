@@ -14,6 +14,7 @@ import { FONT_MEDIUM_14 } from "../../styles/common-style"
 import { color } from "../../theme"
 import BuyInsurance from "./buy-insurance"
 import BuyRecords from "./components/buy-records"
+import Information from "./information"
 
 interface Props { }
 
@@ -24,15 +25,17 @@ const InsuranceScreen = React.memo((props: Props) => {
   const [index, setIndex] = React.useState(id ?? 0);
 
   const [routes] = React.useState([
-    { key: 'first', title: 'Mua BH' },
-    { key: 'second', title: 'Giao dịch' },
+    { key: 'first', title: 'Thông tin' },
+    { key: 'second', title: 'Mua BH' },
+    { key: 'third', title: 'Giao dịch' },
   ]);
 
   const { authStoreModel } = useStores();
 
   const renderScene = SceneMap({
-    first: !authStoreModel?.isLoggedIn ? SettingAuthScreen : BuyInsurance,
-    second: !authStoreModel?.isLoggedIn ? SettingAuthScreen : BuyRecords,
+    first: !authStoreModel?.isLoggedIn ? SettingAuthScreen : Information,
+    second: !authStoreModel?.isLoggedIn ? SettingAuthScreen : BuyInsurance,
+    third: !authStoreModel?.isLoggedIn ? SettingAuthScreen : BuyRecords,
   });
 
   const renderTabBar = props => (
