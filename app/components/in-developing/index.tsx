@@ -8,16 +8,19 @@ import { color } from "../../theme"
 import { fontFamily } from "../../constants/font-family"
 import { FONT_REGULAR_12 } from "../../styles/common-style"
 
-interface Props{}
+interface Props {
+  notShowHeader?: boolean
+}
 
 const InDeveloping = React.memo((props: Props) => {
+  const { notShowHeader = false } = props
   return (
     <View style={styles.container}>
-      <AppHeader headerText={'Thông báo'}/>
+      {!notShowHeader && <AppHeader headerText={'Thông báo'} />}
       <View style={styles.body}>
         <InDevelopingSvg />
-        <AppText value={'Tính năng này đang phát triển'} style={styles.title}/>
-        <AppText value={'Xin quý khách vui lòng quay lại sau'} style={FONT_REGULAR_12}/>
+        <AppText value={'Tính năng này đang phát triển'} style={styles.title} />
+        <AppText value={'Xin quý khách vui lòng quay lại sau'} style={FONT_REGULAR_12} />
       </View>
     </View>
   )
@@ -35,7 +38,7 @@ const styles = ScaledSheet.create({
     alignItems: "center",
     justifyContent: "center"
   },
-  title:{
+  title: {
     fontSize: '18@ms',
     fontFamily: fontFamily.bold,
     marginBottom: '8@s',

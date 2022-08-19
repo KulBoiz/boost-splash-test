@@ -217,6 +217,55 @@ export const mappingStatus = (value, doc) => {
 		return {status, color, background};
 };
 
+export const TASK_FILTER = [
+  {
+    // icon: images.house,
+    title: 'Tất cả',
+    key: 0
+  },
+  {
+    // icon: images.house,
+    title: 'Ghi nhận',
+    key: 1,
+    status: TASK_STATUSES.CREATED,
+  },{
+    // icon: images.car,
+    title: 'Thu thập thông tin',
+    key: 2,
+    status: TASK_STATUSES.ASSIGNED,
+  },{
+    // icon: images.coin,
+    title: 'Đã gửi thư chào tín dụng',
+    key: 3,
+    status: TASK_STATUSES.CONSULTED,
+    statusAssign: TASK_STATUSES_ASSIGNED.NOT_PROCESSING
+  },{
+    // icon: images.cube,
+    title: 'Chờ đối tác phản hồi',
+    key: 4,
+    status: TASK_STATUSES.CONSULTED,
+    statusAssign: TASK_STATUSES_ASSIGNED.WAITING_FOR_BANK_APPROVAL
+  },{
+    // icon: images.cube,
+    title: 'Có đối tác phản hồi',
+    key: 5,
+    status: TASK_STATUSES.CONSULTED,
+    statusAssign: TASK_STATUSES_ASSIGNED.WAITING_FOR_BANK_PROCESS
+  },{
+    // icon: images.cube,
+    title: 'Quá thời hạn phản hồi',
+    key: 6,
+    status: TASK_STATUSES.CONSULTED,
+    statusAssign: TASK_STATUSES_ASSIGNED.OVERDUE_FOR_BANK_RESPONSE
+  },{
+    // icon: images.cube,
+    title: 'Tạo hồ sơ vay',
+    key: 7,
+    status: TASK_STATUSES.CONSULTED,
+    statusAssign: TASK_STATUSES_ASSIGNED.CREATE_PROFILE
+  },
+]
+
 export const isTaskCreateProfile = (task) => {
   const { status, statusAssign } = task
 
