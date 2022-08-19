@@ -222,13 +222,18 @@ export const LoanStoreModel = types
       }
     }),
 
-    getRecords: flow(function* getRecords() {
+    getRecords: flow(function* getRecords(query) {
       self.records = []
       self.totalRecord = 0
 
-      const param = {
+      let param = {
         page: 1,
-        filter: filter,
+        filter,
+      }
+
+      if (query) param = {
+        page: 1,
+        filter: { ...filter, where: { ...filter.where, ...query } },
       }
 
       const loanApi = new LoanApi(self.environment.api)
@@ -250,7 +255,7 @@ export const LoanStoreModel = types
       }
     }),
 
-    loadMoreRecords: flow(function* loadMoreRecords() {
+    loadMoreRecords: flow(function* loadMoreRecords(query) {
       if (self.total < self.records.length) {
         return { kind: "end" }
       }
@@ -259,9 +264,14 @@ export const LoanStoreModel = types
       const nextPage = self.page + 1
       self.page = nextPage
 
-      const param = {
+      let param = {
         page: nextPage,
         filter: { ...filter, skip: self.limit * (self.page - 1) },
+      }
+
+      if (query) param = {
+        page: nextPage,
+        filter: { ...filter, skip: self.limit * (self.page - 1), where: { ...filter.where, ...query } },
       }
 
       const result = yield loanApi.loadMoreRecords(param)
@@ -417,7 +427,7 @@ export const LoanStoreModel = types
   }))
 
 type LoanStoreType = Instance<typeof LoanStoreModel>
-export interface LoanStore extends LoanStoreType {}
+export interface LoanStore extends LoanStoreType { }
 type LoanStoreSnapshotType = SnapshotOut<typeof LoanStoreModel>
-export interface LoanStoreSnapshot extends LoanStoreSnapshotType {}
+export interface LoanStoreSnapshot extends LoanStoreSnapshotType { }
 export const createLoanStoreDefaultModel = () => types.optional(LoanStoreModel, {})

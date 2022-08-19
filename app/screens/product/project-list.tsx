@@ -17,7 +17,9 @@ const ProjectList = observer((props: any) => {
   useEffect(() => {
     const params = {
       filter: {
-        ids: data?.map(el => el?.id),
+        where: {
+          ids: data?.map(el => el?.id),
+        },
         limit: 50,
         skip: 0
       },

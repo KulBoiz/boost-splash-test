@@ -6,7 +6,7 @@ import { ScaledSheet } from "react-native-size-matters"
 import { color } from "../../../theme"
 
 interface Props {
-  currentSelected: number
+  currentSelected: any
   setCurrentSelected(e: any): void
   filterData: Array<any>
   style?: ViewStyle | any
@@ -36,8 +36,6 @@ const FilterButton = React.memo((props: ButtonProps) => {
 })
 
 const MenuFilter = React.memo((props: Props) => {
-  console.log('props.backgroundColor', props);
-  
   const onPress = (item) => {
     props.setCurrentSelected(item)
   }

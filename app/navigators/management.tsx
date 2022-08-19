@@ -1,27 +1,24 @@
-import { getFocusedRouteNameFromRoute } from "@react-navigation/native"
-import { ScreenNames } from "./screen-names"
-import React from "react"
 import { BottomTabBar, createBottomTabNavigator } from "@react-navigation/bottom-tabs"
+import { getFocusedRouteNameFromRoute } from "@react-navigation/native"
+import React from "react"
 import { View } from "react-native"
 import { isIphoneX } from "react-native-iphone-x-helper"
 import { ScaledSheet, vs } from "react-native-size-matters"
-import SettingScreen from "../screens/settting/setting-screen"
 import {
   AccountHomeActiveSvg,
   AccountHomeInactiveSvg,
   ChatHomeActiveSvg,
   ChatHomeInactiveSvg,
   HomeActiveSVG,
-  HomeInactiveSVG,
+  HomeInactiveSVG
 } from "../assets/svgs"
-import i18n from "i18n-js"
-import { color } from "../theme"
-import { isAndroid } from "../constants/variable"
-import InDeveloping from "../components/in-developing"
-import FinanceScreen from "../screens/loan/finance-screen"
 import AppHeader from "../components/app-header/AppHeader"
-
-
+import InDeveloping from "../components/in-developing"
+import { isAndroid } from "../constants/variable"
+import InsuranceScreen from "../screens/deal/insurance-screen"
+import FinanceScreen from "../screens/loan/finance-screen"
+import { color } from "../theme"
+import { ScreenNames } from "./screen-names"
 
 export type ManagementStackParamList = {
   [ScreenNames.HOME]: undefined;
@@ -41,62 +38,62 @@ export const ManagementStack = () => {
   }
   return (
     <>
-      <AppHeader headerText={'Quản lý chung'} isBlue/>
-    <Tab.Navigator
-      initialRouteName={ScreenNames.HOME}
-      screenOptions={{ headerShown: false, tabBarStyle: styles.navigator, tabBarItemStyle: styles.itemStyle }}
-      tabBar={(props) => (
-        <View style={[styles.navigatorContainer, !isIphoneX() && { height: vs(50) }]}>
-          <BottomTabBar
-            {...props}
-          />
-          {isIphoneX() && (
-            <View style={styles.xFillLine} />
-          )}
-        </View>
-      )}
-    >
-      <Tab.Screen
-        name={ScreenNames.HOME}
-        options={(props) => {
-          return {
-            tabBarIcon: ({ focused }) => (
-              focused ? <HomeActiveSVG /> : <HomeInactiveSVG />
-            ),
-            title: 'Tài chính',
-            tabBarVisible: getTabBarVisibility(props.route),
-          }
-        }}
-        component={FinanceScreen}
-      />
-      <Tab.Screen
-        name={ScreenNames.CHAT}
-        options={(props) => {
-          return {
-            tabBarIcon: ({ focused }) => (
-              focused ? <ChatHomeActiveSvg /> : <ChatHomeInactiveSvg />
-            ),
-            title: 'Bảo hiểm',
-            tabBarVisible: getTabBarVisibility(props.route),
-          }
-        }}
-        component={InDeveloping}
-      />
-      <Tab.Screen
-        name={ScreenNames.SETTING}
-        options={(props) => {
-          return {
-            tabBarIcon: ({ focused }) => (
-              focused ? <AccountHomeActiveSvg /> : <AccountHomeInactiveSvg />
-            ),
-            title: 'Đầu tư',
-            tabBarVisible: getTabBarVisibility(props.route),
+      <AppHeader headerText={'Quản lý chung'} isBlue />
+      <Tab.Navigator
+        initialRouteName={ScreenNames.HOME}
+        screenOptions={{ headerShown: false, tabBarStyle: styles.navigator, tabBarItemStyle: styles.itemStyle }}
+        tabBar={(props) => (
+          <View style={[styles.navigatorContainer, !isIphoneX() && { height: vs(50) }]}>
+            <BottomTabBar
+              {...props}
+            />
+            {isIphoneX() && (
+              <View style={styles.xFillLine} />
+            )}
+          </View>
+        )}
+      >
+        <Tab.Screen
+          name={ScreenNames.HOME}
+          options={(props) => {
+            return {
+              tabBarIcon: ({ focused }) => (
+                focused ? <HomeActiveSVG /> : <HomeInactiveSVG />
+              ),
+              title: 'Tài chính',
+              tabBarVisible: getTabBarVisibility(props.route),
+            }
+          }}
+          component={FinanceScreen}
+        />
+        <Tab.Screen
+          name={ScreenNames.CHAT}
+          options={(props) => {
+            return {
+              tabBarIcon: ({ focused }) => (
+                focused ? <ChatHomeActiveSvg /> : <ChatHomeInactiveSvg />
+              ),
+              title: 'Bảo hiểm',
+              tabBarVisible: getTabBarVisibility(props.route),
+            }
+          }}
+          component={InsuranceScreen}
+        />
+        <Tab.Screen
+          name={ScreenNames.SETTING}
+          options={(props) => {
+            return {
+              tabBarIcon: ({ focused }) => (
+                focused ? <AccountHomeActiveSvg /> : <AccountHomeInactiveSvg />
+              ),
+              title: 'Đầu tư',
+              tabBarVisible: getTabBarVisibility(props.route),
 
-          }
-        }}
-        component={InDeveloping}
-      />
-    </Tab.Navigator>
+            }
+          }}
+          component={() => (<InDeveloping notShowHeader={true} />)}
+        />
+      </Tab.Navigator>
     </>
   )
 }

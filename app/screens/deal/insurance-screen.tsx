@@ -14,7 +14,7 @@ import RecordsManagement from "../management/records-management";
 
 interface Props { }
 
-const FinanceScreen = React.memo((props: Props) => {
+const InsuranceScreen = React.memo((props: Props) => {
   const route = useRoute<RouteProp<AppStackParamList, ScreenNames.SCHEDULE>>()
   const param = route?.params?.index ?? 0
   const [index, setIndex] = React.useState(param);
@@ -53,7 +53,7 @@ const FinanceScreen = React.memo((props: Props) => {
   )
 });
 
-export default FinanceScreen;
+export default InsuranceScreen;
 
 const styles = ScaledSheet.create({
   container: { backgroundColor: color.palette.white, flex: 1 },
