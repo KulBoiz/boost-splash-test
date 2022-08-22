@@ -20,7 +20,7 @@ interface Props{
 
 const ProjectItem = React.memo((props: Props) => {
   const { label, style, data, header, type } = props
-  
+
   const onPress = (e) => {
    navigate(ScreenNames.PROJECT_TAB, {header,key: e, id: 1})
   }
@@ -40,6 +40,7 @@ const ProjectItem = React.memo((props: Props) => {
             middleText={e?.middleText}
             header={header}
             type={type}
+            showPercent={false}
           />
         })}
       </View>
@@ -54,7 +55,7 @@ const styles = ScaledSheet.create({
   label: {
     fontSize: '14@ms',
     fontFamily: fontFamily.semiBold,
-    marginLeft: '24@ms',
+    marginLeft: '16@ms',
     marginBottom: '12@s',
     color: 'rgba(0, 0, 0, 0.85)'
   },

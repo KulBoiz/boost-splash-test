@@ -1,5 +1,5 @@
-import React, { useState } from 'react'
-import { View, ViewStyle } from 'react-native'
+import React, { useEffect, useState } from "react"
+import { DeviceEventEmitter, View, ViewStyle } from "react-native"
 import { s, ScaledSheet } from 'react-native-size-matters'
 import AppButton from '../../../../components/app-button/AppButton'
 import AppSectionModal from '../../../../components/app-modal/section-modal'
@@ -12,6 +12,7 @@ import { color } from '../../../../theme'
 import HomeItem from '../../home-fina/components/home-item'
 import IconItem from '../../home-fina/components/icon-item'
 import { INSURANCE_PRODUCT } from '../../home-fina/constants'
+import UtilityItem from "../../home-fina/components/utility-item"
 
 interface Props {
   data: any[]
@@ -28,6 +29,15 @@ const OthersInsurance = React.memo((props: Props) => {
     setVisible(false)
     navigate(ScreenNames.INSURANCE_LIST_SCREEN, { key: e?.id, name: e?.name })
   }
+
+  useEffect(() => {
+    DeviceEventEmitter.addListener('utilityClose', () => {
+      setVisible(false)
+    });
+    return () => {
+      DeviceEventEmitter.removeAllListeners();
+    };
+  }, []);
 
   const openModal = () => {
     setVisible(true)
@@ -61,18 +71,17 @@ const OthersInsurance = React.memo((props: Props) => {
 
       <AppSectionModal
         visible={visible}
-        closeModal={() => setVisible(false)}>
+        closeModal={() => setVisible(false)}
+        title={'Tiện ích'}
+        hasBorder
+      >
         <View style={styles.comfort}>
           {INSURANCE_PRODUCT?.map((e: any, i) => {
-            return <IconItem
+            return <UtilityItem
               icon={e?.image}
               title={e?.title?.toString()}
               key={e?.title?.toString() + i.toString()}
               onPress={e.onPress}
-              percent={e?.percent}
-              iconShape={iconShape}
-              middleText={e?.middleText}
-              header={''}
             />
           })}
         </View>
@@ -107,6 +116,8 @@ const styles = ScaledSheet.create({
   },
   comfort: {
     width: '100%',
+    flexDirection: 'row',
+    flexWrap: 'wrap'
   }
 })
 

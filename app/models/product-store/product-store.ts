@@ -16,7 +16,6 @@ const PagingParamsModel = types.optional(
   }),
   {},
 )
-
 type PagingParamsType = Instance<typeof PagingParamsModel>
 
 export const ProductStoreModel = types
@@ -93,6 +92,7 @@ export const ProductStoreModel = types
     }),
 
     getProducts: flow(function* getProducts(
+      type,
       time,
       pagingParams?: PagingParamsType,
       isRefresh = false,
@@ -107,7 +107,7 @@ export const ProductStoreModel = types
       if (self.products.length === self.totalProduct && pagingParams?.page !== 1){
         return
       }
-      const result = yield self.api.get(`product-details/app/home/real_estate/${time}`, {
+      const result = yield self.api.get(`product-details/app/home/${type}/${time}`, {
         filter: {
           include: [
             { relation: 'product'},

@@ -24,7 +24,7 @@ const BankInfo = React.memo((props: BankInfoProps) => {
   const imageUrl = item?.org?.image?.url
   const backgroundColor = item?.org?.backgroundColor
   const outstandingAdvantages = item?.outstandingAdvantages
-  const advantages = item?.advantages?.split("\n")
+  const advantages = item?.advantages?.split("\n")?.slice(0,3)
 
   const handlePress = () => {
     navigate(ScreenNames.LOAN_DETAIL)

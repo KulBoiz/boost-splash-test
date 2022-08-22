@@ -47,7 +47,7 @@ const styles = ScaledSheet.create({
   label: {
     fontSize: '14@ms',
     fontFamily: fontFamily.semiBold,
-    marginLeft: '24@ms',
+    marginLeft: '16@ms',
     marginBottom: '12@s',
     color: 'rgba(0, 0, 0, 0.85)'
   },

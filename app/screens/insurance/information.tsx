@@ -1,4 +1,4 @@
-import React, { useCallback, useState } from "react"
+import React from "react"
 import { View, FlatList } from "react-native"
 import { color } from "../../theme"
 import { ScaledSheet } from "react-native-size-matters"
@@ -6,7 +6,6 @@ import { useStores } from "../../models"
 import FastImage from "react-native-fast-image"
 import { AppText } from "../../components/app-text/AppText"
 import RenderHtml from "react-native-render-html"
-import DashedLine from "react-native-dashed-line"
 import { width } from "../../constants/variable"
 import BottomView from "../../components/bottom-view"
 import { FONT_MEDIUM_12 } from "../../styles/common-style"
@@ -15,13 +14,15 @@ import EmptyList from "../../components/empty-list"
 interface Props{}
 
 const InformationItem = ({ item, isLastItem } : any) => {
-  const [itemHeight, setItemHeight] = useState<number>(0)
+  // const [itemHeight, setItemHeight] = useState<number>(0)
 
   return(
-    <View style={styles.itemContainer} onLayout={useCallback((event) => {
-      const { height } = event.nativeEvent.layout;
-      setItemHeight(height)
-    }, [])}>
+    <View style={styles.itemContainer}
+    //       onLayout={useCallback((event) => {
+    //   const { height } = event.nativeEvent.layout;
+    //   setItemHeight(height)
+    // }, [])}
+    >
       <FastImage source={{uri: item?.icon?.url}} style={styles.icon}/>
       {/* {isLastItem && */}
       {/*  <DashedLine axis='vertical' dashLength={4} dashThickness={1} dashGap={5} dashColor='gray' style={[styles.dashLine, { height: itemHeight }]} /> */}
