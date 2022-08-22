@@ -27,7 +27,7 @@ const FilterProduct = React.memo((props: Props) => {
 
   const setKeySelect = (keys, index) => {
     // @ts-ignore
-    ref?.scrollToIndex({animated: true, index: index})
+    // ref?.scrollToIndex({animated: true, index: index})
     productStore.getProducts(type, keys, {page: 1, limit: 20}, true)
     setKey(keys)
   }

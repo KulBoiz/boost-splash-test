@@ -13,8 +13,8 @@ import { ScreenNames } from "../../../../navigators/screen-names"
 import { isAndroid } from "../../../../constants/variable"
 import get from 'lodash'
 
-interface Props{
-  icon:  number | string
+interface Props {
+  icon: number | string
   title: string | TxKeyPath
   onPress(): void
   percent?: number
@@ -23,17 +23,18 @@ interface Props{
   middleText?: string | number
   header?: string
   type?: 'vehicle' | 'real_estate' | 'project_house'
+  showPercentCustom?: boolean
 }
 
 const IconItem = React.memo((props: Props) => {
-  const {icon, title, onPress, iconShape = 'custom', middleText, percent, header, type = 'vehicle', showPercent = true} = props
+  const { icon, title, onPress, iconShape = 'custom', middleText, percent, header, type = 'vehicle', showPercent = true, showPercentCustom = false } = props
   const realTitle = i18n.t(title).includes('missing') ? title : translate(title)
   const isStringIcon = typeof icon === "string"
   const isStringMiddleText = typeof middleText === "string"
 
   const handlePress = () => {
     if (type !== 'project_house' && iconShape !== 'custom') {
-      navigate(ScreenNames.LOAN_PRODUCT, {header, key: middleText, type})
+      navigate(ScreenNames.LOAN_PRODUCT, { header, key: middleText, type })
     } else {
       onPress()
     }
@@ -46,41 +47,44 @@ const IconItem = React.memo((props: Props) => {
   return (
     <Pressable onPress={handlePress} style={styles.container}>
       {iconShape === 'custom' ?
-      <>
-      <FastImage source={isStringIcon ? {uri: icon} : icon} style={styles.icon}/>
-      <AppText value={realTitle} style={styles.text} />
-      </>
+        <>
+          {showPercentCustom && <View style={[ROW, ALIGN_CENTER, MARGIN_BOTTOM_8]}>
+            <AppText value={`${percent ?? '0'}%`} fontSize={ms(11)} color={color.palette.orange} />
+          </View>}
+          <FastImage source={isStringIcon ? { uri: icon } : icon} style={styles.icon} />
+          <AppText value={realTitle} style={styles.text} />
+        </>
         :
-          <View style={ALIGN_CENTER}>
-            <>
-              {showPercent && <View style={[ROW, ALIGN_CENTER, MARGIN_BOTTOM_8]}>
-                <AppText value={`${percent ?? '0'}%`} fontSize={ms(11)} color={color.palette.orange} />
-              </View>}
-              <View style={[styles.wrapIcon, styles.month]}>
-                <FastImage source={isStringIcon ? {uri: icon} : icon} style={styles.circleIcon}/>
-                {!!middleText &&
-                  <View style={styles.wrapMiddleText}>
+        <View style={ALIGN_CENTER}>
+          <>
+            {showPercent && <View style={[ROW, ALIGN_CENTER, MARGIN_BOTTOM_8]}>
+              <AppText value={`${percent ?? '0'}%`} fontSize={ms(11)} color={color.palette.orange} />
+            </View>}
+            <View style={[styles.wrapIcon, styles.month]}>
+              <FastImage source={isStringIcon ? { uri: icon } : icon} style={styles.circleIcon} />
+              {!!middleText &&
+                <View style={styles.wrapMiddleText}>
+                  <AppText
+                    value={middleText}
+                    fontSize={isStringMiddleText ? ms(9) : ms(16)}
+                    color={color.text}
+                    fontFamily={isStringMiddleText ? fontFamily.medium : fontFamily.bold}
+                    center
+                  />
+                  {!isStringMiddleText &&
                     <AppText
-                      value={middleText}
-                      fontSize={isStringMiddleText ? ms(9) : ms(16)}
+                      value={'tháng'}
                       color={color.text}
-                      fontFamily={isStringMiddleText ? fontFamily.medium : fontFamily.bold}
-                      center
-                    />
-                    {!isStringMiddleText &&
-                      <AppText
-                        value={'tháng'}
-                        color={color.text}
-                        fontSize={ms(9)}
-                        style={styles.month}
-                    /> }
-                  </View>
-                }
-              </View>
-              {!!title && <AppText value={title} style={styles.textCircle} /> }
+                      fontSize={ms(9)}
+                      style={styles.month}
+                    />}
+                </View>
+              }
+            </View>
+            {!!title && <AppText value={title} style={styles.textCircle} />}
 
-                </>
-          </View>
+          </>
+        </View>
       }
     </Pressable>
   )
@@ -117,7 +121,7 @@ const styles = ScaledSheet.create({
     borderRadius: '18@s',
     backgroundColor: color.palette.lightBlack
   },
-  icon :{
+  icon: {
     width: '28@s',
     height: '28@s',
   },

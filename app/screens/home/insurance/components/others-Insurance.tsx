@@ -62,9 +62,10 @@ const OthersInsurance = React.memo((props: Props) => {
             title={e?.name}
             key={e?.title?.toString() + i.toString()}
             onPress={() => onPress(e)}
-            percent={e?.percent}
+            percent={e?.highestInterestRate}
             iconShape={iconShape}
             middleText={e?.middleText}
+            showPercentCustom={true}
           />
         })}
       </View>
@@ -105,7 +106,7 @@ const styles = ScaledSheet.create({
   label: {
     fontSize: '14@ms',
     fontFamily: fontFamily.semiBold,
-    marginLeft: '24@ms',
+    marginLeft: '16@ms',
     color: 'rgba(0, 0, 0, 0.85)',
   },
   itemContainer: {
