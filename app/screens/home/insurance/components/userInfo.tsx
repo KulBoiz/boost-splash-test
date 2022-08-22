@@ -43,7 +43,6 @@ export const UserInfo = observer(() => {
                 <AppText style={[styles.textHello, styles.textName]} value={name ?? 'Khách'} />
               </View>
             }
-
           </View>
           <OptionsUserInfo />
         </View>

@@ -77,8 +77,9 @@ const IconItem = React.memo((props: Props) => {
                   </View>
                 }
               </View>
-              <AppText value={title} style={styles.textCircle} />
-            </>
+              {!!title && <AppText value={title} style={styles.textCircle} /> }
+
+                </>
           </View>
       }
     </Pressable>
