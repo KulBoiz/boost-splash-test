@@ -8,18 +8,12 @@ import { Header } from "../header"
 import { isIphoneX } from "react-native-iphone-x-helper"
 import { s, ScaledSheet } from "react-native-size-matters"
 import InsuranceTab from "./insurance-tab"
-import { useStores } from "../../../models"
 import InDeveloping from "../../../components/in-developing"
 
 interface Props { }
 
 const HomeFina = React.memo((props: Props) => {
-  const {homeStore} = useStores()
   const [index, setIndex] = useState(0)
-
-  useEffect(()=> {
-    homeStore.getHomeData()
-  },[])
 
   return (
     <View style={styles.container}>

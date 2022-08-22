@@ -11,6 +11,7 @@ import { navigate } from "../../../../navigators"
 import { AppText } from "../../../../components/app-text/AppText"
 import { fontFamily } from "../../../../constants/font-family"
 import RenderHtml from 'react-native-render-html';
+import { color } from "../../../../theme"
 
 
 interface Props{
@@ -42,12 +43,13 @@ const HomeBanner = observer((props: Props) => {
       <Pressable style={isBigType ? styles.container : styles.smallContainer} onPress={onPress}>
         <FastImage source={{uri : item?.image}} style={isBigType ? styles.image : styles.smallImage} resizeMode={'stretch'}/>
         <View  style={isBigType && styles.contentContainer}>
-          <AppText value={item?.title} style={isBigType ? styles.title : styles.smallTitle} numberOfLines={2}/>
+          <AppText value={item?.title} style={isBigType ? styles.title : styles.smallTitle} numberOfLines={1}/>
           {isBigType &&
             <RenderHtml
               contentWidth={width}
               baseStyle={styles.html}
-              source={{ html: truncateString(item?.description.trimLeft(), 85)}}
+              // source={{ html: truncateString(item?.description.trimLeft(), 85)}}
+              source={{ html: truncateString(item?.description.trimRight(), 75)}}
             />
         }
         </View>
@@ -82,14 +84,16 @@ export default HomeBanner;
 const styles = ScaledSheet.create({
   container: {
     width: '250@s',
+    marginBottom: 2
   },
   smallContainer: {
     width: '144@s',
   },
   image:{
     width: '250@s',
-    height: '160@s',
-    borderRadius: '8@s'
+    height: '140@s',
+    borderTopRightRadius: '8@s',
+    borderTopLeftRadius: '8@s'
   },
   smallImage:{
     height: "80@s",
@@ -97,10 +101,22 @@ const styles = ScaledSheet.create({
     borderRadius: '8@s'
   },
   contentContainer: {
+    height: '80@s',
     borderBottomLeftRadius: '8@s',
     borderBottomRightRadius: '8@s',
     paddingHorizontal: '10@s',
-    paddingVertical: '8@s'
+    paddingBottom: '4@s',
+    paddingTop: '8@s',
+    backgroundColor: color.background,
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: 1,
+    },
+    shadowOpacity: 0.20,
+    shadowRadius: 1.41,
+
+    elevation: 2,
   },
   title: {
     fontSize: '15@ms',

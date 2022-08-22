@@ -35,6 +35,7 @@ const FinanceTab = React.memo((props: Props) => {
       },
       page: 1
     }
+    homeStore.getHomeData()
     homeStore.getProjectHouse(params).then((res) => {
       setProjects(res)
     })
@@ -110,14 +111,16 @@ const FinanceTab = React.memo((props: Props) => {
         />
       }
 
-      <ProjectItem
-        data={projects}
-        header={'Vay mua nhà dự án'}
-        label={"Vay mua nhà dự án"}
-        style={styles.itemMargin}
-        iconShape={'circle'}
-        type={'project_house'}
-      />
+      {!!homeStore?.projects?.length &&
+        <ProjectItem
+          data={projects}
+          header={'Vay mua nhà dự án'}
+          label={"Vay mua nhà dự án"}
+          style={styles.itemMargin}
+          iconShape={'circle'}
+          type={'project_house'}
+        />
+      }
 
       {!!homeStore.vehicle?.length &&
         <HomeItem
