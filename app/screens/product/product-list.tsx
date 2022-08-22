@@ -9,6 +9,7 @@ import BottomView from "../../components/bottom-view"
 import { color } from "../../theme"
 import { MARGIN_BOTTOM_24, MARGIN_TOP_16 } from "../../styles/common-style"
 import { observer } from "mobx-react-lite"
+import EmptyList from "../../components/empty-list"
 
 const ProductList = observer((props: any) => {
    const header = props?.route?.params?.header
@@ -52,6 +53,7 @@ const ProductList = observer((props: any) => {
             ListFooterComponent={<BottomView height={s(150)} />}
             onEndReached={loadMore}
             onEndReachedThreshold={0.2}
+            ListEmptyComponent={EmptyList}
           />
          {productStore?.isLoadMore && <ActivityIndicator color={color.primary} style={MARGIN_BOTTOM_24}/>}
         </>

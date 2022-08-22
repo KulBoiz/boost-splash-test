@@ -14,6 +14,7 @@ import { s, ScaledSheet } from "react-native-size-matters"
 import { CONTAINER_PADDING } from "../../../styles/common-style"
 import FastImage from 'react-native-fast-image';
 import { color } from '../../../theme';
+import { LoadingComponent } from '../../../components/loading';
 
 
 interface Props {
@@ -26,14 +27,23 @@ const BannerDetail = React.memo((props: Props) => {
   const route = useRoute<RouteProp<NavigatorParamList, ScreenNames.BANNER_DETAIL>>()
   const id = route?.params?.url
   const [data, setData]: any = useState()
+  const [loading, setLoading] =  useState(true)
 
   useEffect(() => {
     if (id) {
+      setLoading(true)
       bannerStore.getPublicBannerDetail(id).then((response) => {
         setData(response?.data)
+        setLoading(false)
+      }).catch(() => {
+        setLoading(false)
       })
     }
   }, [id])
+
+  if (loading) {
+    return <LoadingComponent />
+  }
 
   return (
     <View style={styles.container}>
