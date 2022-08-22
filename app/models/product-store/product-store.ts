@@ -81,7 +81,13 @@ export const ProductStoreModel = types
 
 
     getProductFilter: flow(function* getProductFilter(type,time) {
-      const result = yield self.api.get(`app/home/${type}/${time}`)
+      const result = yield self.api.get(`app/home/${type}/${time}`, {
+        filter: {
+          where: {
+            status: 'approved'
+          }
+        }
+      })
       const data = result?.data
       if (data) {
         self.products = data
@@ -109,6 +115,9 @@ export const ProductStoreModel = types
       }
       const result = yield self.api.get(`product-details/app/home/real_estate/${time}`, {
         filter: {
+          where: {
+            status: 'approved'
+          },
           include: [
             { relation: 'product'},
             { relation: 'org'},

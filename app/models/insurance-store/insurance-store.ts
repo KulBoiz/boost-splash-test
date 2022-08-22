@@ -219,7 +219,7 @@ export const InsuranceStoreModel = types
 
     getCategoryInsurance:  flow(function* get() {
       const api = new BaseApi(self.environment.api)
-      const result = yield api.get("categories", {
+      const result = yield api.get("categories/public", {
         filter: {
           where: {
             type: 'insurance_products'

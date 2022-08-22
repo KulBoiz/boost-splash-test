@@ -1,9 +1,11 @@
 import { observer } from "mobx-react-lite"
-import React, { useEffect } from "react"
+import React, { useEffect, useState } from "react"
 import { ActivityIndicator, FlatList, ScrollView, View } from "react-native"
 import { s, ScaledSheet } from "react-native-size-matters"
 import { AppText } from "../../components/app-text/AppText"
 import BottomView from "../../components/bottom-view"
+import EmptyList from "../../components/empty-list"
+import { LoadingComponent } from "../../components/loading"
 import { fontFamily } from "../../constants/font-family"
 import { useStores } from "../../models"
 import { MARGIN_BOTTOM_24, MARGIN_TOP_16 } from "../../styles/common-style"
@@ -13,8 +15,11 @@ import BankInfo from "../loan/components/bank-info"
 const ProjectList = observer((props: any) => {
   const { data } = props
   const { productStore } = useStores()
+  const [list, setList] = useState([])
+  const [loading, setLoading] = useState(true)
 
   useEffect(() => {
+    setLoading(true)
     const params = {
       filter: {
         where: {
@@ -27,9 +32,12 @@ const ProjectList = observer((props: any) => {
     }
 
     productStore.getProductByProject(params).then((res) => {
-      console.log(res);
+      setList(res?.data?.data)
+      setLoading(false)
+    }).catch(() => {
+      setLoading(false)
     })
-  })
+  }, [])
 
   const renderItem = ({ item }) => {
     return <BankInfo item={item} />
@@ -52,19 +60,18 @@ const ProjectList = observer((props: any) => {
         </View>)}
       </ScrollView>
 
-      {productStore?.isRefreshing ?
-        <ActivityIndicator color={color.primary} style={MARGIN_TOP_16} /> :
+      {loading ? <LoadingComponent /> :
         <>
           <FlatList
-            data={data}
+            data={list}
             keyExtractor={(e, i) => i.toString()}
             renderItem={renderItem}
             contentContainerStyle={styles.contentStyle}
             ListFooterComponent={<BottomView height={50} />}
             onEndReached={loadMore}
             onEndReachedThreshold={0.2}
+            ListEmptyComponent={EmptyList}
           />
-          {productStore?.isLoadMore && <ActivityIndicator color={color.primary} style={MARGIN_BOTTOM_24} />}
         </>
       }
     </View>
