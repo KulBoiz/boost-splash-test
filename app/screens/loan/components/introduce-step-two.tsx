@@ -20,7 +20,7 @@ interface Props{
 
 const IntroduceStepTwo = React.memo(({ preStep }: Props) => {
   const goToFinance = () => {
-    navigate(ScreenNames.FINANCE, {index: 2})
+    navigate(ScreenNames.MANAGEMENT)
   }
   return (
     <View style={[styles.container, CONTAINER_PADDING]}>

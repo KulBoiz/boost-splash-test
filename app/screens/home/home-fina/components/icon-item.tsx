@@ -7,18 +7,18 @@ import { TxKeyPath } from "../../../../i18n"
 import { AppText } from "../../../../components/app-text/AppText"
 import { fontFamily } from "../../../../constants/font-family"
 import { ALIGN_CENTER, MARGIN_BOTTOM_8, ROW } from "../../../../styles/common-style"
-import { DiscountSvg } from "../../../../assets/svgs"
 import { color } from "../../../../theme"
 import { navigate } from "../../../../navigators"
 import { ScreenNames } from "../../../../navigators/screen-names"
 import { isAndroid } from "../../../../constants/variable"
-
+import get from 'lodash'
 
 interface Props{
   icon:  number | string
   title: string | TxKeyPath
   onPress(): void
   percent?: number
+  showPercent?: boolean
   iconShape?: 'circle' | 'custom'
   middleText?: string | number
   header?: string
@@ -26,7 +26,7 @@ interface Props{
 }
 
 const IconItem = React.memo((props: Props) => {
-  const {icon, title, onPress, iconShape = 'custom', middleText, percent, header, type = 'vehicle'} = props
+  const {icon, title, onPress, iconShape = 'custom', middleText, percent, header, type = 'vehicle', showPercent = true} = props
   const realTitle = i18n.t(title).includes('missing') ? title : translate(title)
   const isStringIcon = typeof icon === "string"
   const isStringMiddleText = typeof middleText === "string"
@@ -53,8 +53,8 @@ const IconItem = React.memo((props: Props) => {
         :
           <View style={ALIGN_CENTER}>
             <>
-              {!!percent && <View style={[ROW, ALIGN_CENTER, MARGIN_BOTTOM_8]}>
-                <AppText value={`${percent}%`} fontSize={ms(11)} color={color.palette.orange} />
+              {showPercent && <View style={[ROW, ALIGN_CENTER, MARGIN_BOTTOM_8]}>
+                <AppText value={`${percent ?? '0'}%`} fontSize={ms(11)} color={color.palette.orange} />
               </View>}
               <View style={[styles.wrapIcon, styles.month]}>
                 <FastImage source={isStringIcon ? {uri: icon} : icon} style={styles.circleIcon}/>
@@ -77,8 +77,9 @@ const IconItem = React.memo((props: Props) => {
                   </View>
                 }
               </View>
-              <AppText value={title} style={styles.textCircle} />
-            </>
+              {!!title && <AppText value={title} style={styles.textCircle} /> }
+
+                </>
           </View>
       }
     </Pressable>
@@ -117,8 +118,8 @@ const styles = ScaledSheet.create({
     backgroundColor: color.palette.lightBlack
   },
   icon :{
-    width: '35@s',
-    height: '35@s',
+    width: '28@s',
+    height: '28@s',
   },
   textCircle: {
     marginTop: '8@s',

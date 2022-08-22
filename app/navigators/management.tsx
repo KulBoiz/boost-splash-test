@@ -33,7 +33,7 @@ export const ManagementStack = () => {
 
   const getTabBarVisibility = (route: any) => {
     const routeName = getFocusedRouteNameFromRoute(route) || ""
-    const allowRoute: string[] = ["", ScreenNames.HOME, ScreenNames.CHAT, ScreenNames.SCHEDULE, ScreenNames.SETTING]
+    const allowRoute: string[] = ["", ScreenNames.HOME, ScreenNames.CHAT, ScreenNames.SETTING]
     return allowRoute.includes(routeName)
   }
   return (

@@ -18,7 +18,7 @@ import ProjectItem from "./components/project-item"
 interface Props { }
 
 const FinanceTab = React.memo((props: Props) => {
-  const { homeStore, productStore } = useStores()
+  const { homeStore } = useStores()
   const [visible, setVisible] = useState(false)
   const [projects, setProjects] = useState([])
   const [link, setLink] = useState("")
@@ -62,7 +62,10 @@ const FinanceTab = React.memo((props: Props) => {
     {
       image: images.home_ability_to_borrow,
       title: i18n.t("home.abilityToBorrow"),
-      onPress: () => { navigate(ScreenNames.CHAT) },
+      onPress: () => {
+        setLink(DOMAIN + "/khao-sat-kha-nang-vay")
+        setVisible(true)
+      },
     },
     {
       image: images.home_real_estate,

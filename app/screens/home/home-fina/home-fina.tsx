@@ -1,14 +1,15 @@
 import React, { useEffect, useState } from "react"
-import { View, StyleSheet, ScrollView } from "react-native"
+import { View, ScrollView } from "react-native"
 import TabSelect from "../components/tab-select"
 import FinanceTab from "./finance-tab"
 import { color } from "../../../theme"
 import BottomView from "../../../components/bottom-view"
 import { Header } from "../header"
 import { isIphoneX } from "react-native-iphone-x-helper"
-import { ScaledSheet } from "react-native-size-matters"
+import { s, ScaledSheet } from "react-native-size-matters"
 import InsuranceTab from "./insurance-tab"
 import { useStores } from "../../../models"
+import InDeveloping from "../../../components/in-developing"
 
 interface Props { }
 
@@ -28,6 +29,11 @@ const HomeFina = React.memo((props: Props) => {
       <ScrollView contentContainerStyle={styles.scrollView}>
         {index === 0 && <FinanceTab />}
         {index === 1 && <InsuranceTab />}
+        {index === 2 &&
+          <View style={{flex:1, paddingTop: s(120)}}>
+            <InDeveloping notShowHeader/>
+          </View>
+        }
         <BottomView height={100} />
       </ScrollView>
     </View>

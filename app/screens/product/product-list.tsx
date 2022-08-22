@@ -24,11 +24,11 @@ const ProductList = observer((props: any) => {
   }
 
   useEffect(()=> {
-      productStore.getProducts(keySearch, { page: 1, limit: 20 }, true)
+      productStore.getProducts(type, keySearch, { page: 1, limit: 20 }, true)
   },[])
 
   const loadMore = () => {
-     productStore.getProducts(keySearch,
+     productStore.getProducts(type, keySearch,
        { page: productStore?.pagingProduct?.page + 1, limit: 20 },
        undefined,
        true
