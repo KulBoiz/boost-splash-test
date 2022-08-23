@@ -43,7 +43,6 @@ const IconItem = React.memo((props: Props) => {
     //   onPress()
     // }
   }
-
   return (
     <Pressable onPress={handlePress} style={styles.container}>
       {iconShape === 'custom' ?
@@ -62,7 +61,7 @@ const IconItem = React.memo((props: Props) => {
             </View>}
             <View style={[styles.wrapIcon, styles.month]}>
               <FastImage source={isStringIcon ? { uri: icon } : icon} style={styles.circleIcon} />
-              {!!middleText &&
+              {(!!middleText || middleText?.toString() === '0') &&
                 <View style={styles.wrapMiddleText}>
                   <AppText
                     value={middleText}
@@ -71,7 +70,7 @@ const IconItem = React.memo((props: Props) => {
                     fontFamily={isStringMiddleText ? fontFamily.medium : fontFamily.bold}
                     center
                   />
-                  {!isStringMiddleText &&
+                  {!isStringMiddleText && middleText !== '0' &&
                     <AppText
                       value={'tháng'}
                       color={color.text}
@@ -151,6 +150,7 @@ const styles = ScaledSheet.create({
     marginRight: '2@s'
   },
   month: {
-    marginTop: isAndroid ? '-8@s' : 0
+    marginTop: isAndroid ? '-8@s' : 0,
+    textAlign: "center"
   }
 });
