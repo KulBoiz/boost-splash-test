@@ -28,7 +28,7 @@ export const DealDetailStoreModel = types
       self.dealDetailId = dealDetailId;
     },
     getDeal: flow(function* getDeal(id) {
-      if (!id){
+      if(!id){
         self.deal = {}
         return
       }

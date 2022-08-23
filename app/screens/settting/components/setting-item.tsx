@@ -12,10 +12,11 @@ interface Props {
   title: string
   active: boolean
   onPress?(): void
+  showArrow?: boolean
 }
 
 const SettingItem = React.memo((props: Props) => {
-  const { icon, title, active, onPress } = props
+  const { icon, title, active, onPress, showArrow = true } = props
 
   return (
     <Pressable style={styles.container} onPress={onPress}>
@@ -32,8 +33,9 @@ const SettingItem = React.memo((props: Props) => {
             size={21}
             color={'gray'}
           />}
-
-          <FastImage source={images.arrowLeft} style={[styles.icon, !active && { opacity: 0.5 }]} />
+          {showArrow &&
+            <FastImage source={images.arrowLeft} style={[styles.icon, !active && { opacity: 0.5 }]} />
+          }
         </View>
       </View>
 

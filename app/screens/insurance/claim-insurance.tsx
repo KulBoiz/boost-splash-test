@@ -66,28 +66,10 @@ const ClaimInsuranceDetailScreen = React.memo((props: Props) => {
   })
   const [checkboxState, setCheckboxState] = useState<boolean>(false)
   const [images, setImages] = useState<any[]>([])
-  const link = 'https://docs.google.com/document/d/1sVP1xparV8EFhp0ziCeKAFj-LiYKvgjh/edit?usp=sharing&ouid=106731466672436210626&rtpof=true&sd=true'
-  const downloadLink = 'https://drive.google.com/uc?id=1sVP1xparV8EFhp0ziCeKAFj-LiYKvgjh&export=download'
+  const downloadLink = 'https://drive.google.com/uc?export=download&id=1sVP1xparV8EFhp0ziCeKAFj-LiYKvgjh'
 
   const onDataChange = (e: any) => {
     setImages(e)
-  }
-
-  const download = () => {
-    FileSystem.downloadAsync(
-      link,
-      FileSystem.documentDirectory + '/docx'
-    )
-      .then(({ uri }) => {
-        let path = uri
-        if (Platform.OS === "android") {
-          path = uri.replace("file://", "")
-        }
-        openFile(path)
-      })
-      .catch(error => {
-        console.error(error);
-      });
   }
 
   const sendRequest = async (data) => {

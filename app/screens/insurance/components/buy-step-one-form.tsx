@@ -112,7 +112,7 @@ const BuyStepOneForm = React.memo((props: Props) => {
 
   const renderPrice = (customer, meta) => {
     const price = !checkCTVAndFina() ? meta?.price : meta?.priceRoot
-    
+
     if (checkAge(customer) >= MaxAge) {
       return price * 1.5;
     }
@@ -137,7 +137,7 @@ const BuyStepOneForm = React.memo((props: Props) => {
     const { fullName, dateOfBirth, email, idNumber, gender, tel, company, level } = e
     const userNoPacket = formCustomerData.find(el => !el?.employeeBuy)
 
-    if (formCustomerData?.length > 0 && userNoPacket) {      
+    if (formCustomerData?.length > 0 && userNoPacket) {
       return Alert.alert(`Người hưởng ${userNoPacket?.fullName} - chưa chọn gói bảo hiểm`)
     }
 
@@ -250,7 +250,7 @@ const BuyStepOneForm = React.memo((props: Props) => {
       }} />
 
       <View style={{ alignItems: 'center' }}>
-        <AppText value={"THÔNG TIN NGƯỜI HƯỞNG BẢO HIỂM"} style={[styles.headerText, { paddingLeft: s(15) }]} />
+        <AppText value={"THÔNG TIN NGƯỜI ĐƯỢC BẢO HIỂM"} style={[styles.headerText, { paddingLeft: s(15) }]} />
       </View>
 
       {formCustomerData.map((item, index) => {

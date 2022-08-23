@@ -19,10 +19,11 @@ type Props = IPressableProps & {
   onReUpload?: () => void
   uploadError?: boolean
   viewOnly?: boolean
+  canEdit?: boolean
 }
 
 const DocumentItem = observer(
-  ({ file = {}, onDelete, onReUpload, uploadError, viewOnly, ...rest }: Props) => {
+  ({ file = {}, onDelete, onReUpload, uploadError, viewOnly, canEdit = true, ...rest }: Props) => {
     const { appStore } = useStores()
     const [downloading, setDownloading] = React.useState<boolean>(false)
     const [showConfirmDelete, setShowConfirmDelete] = useState(false)
@@ -110,9 +111,11 @@ const DocumentItem = observer(
                 <DocumentReloadSvg />
               </Pressable>
             ) : null}
-            <Pressable onPress={() => setShowConfirmDelete(true)} pt="1px">
+            {canEdit &&
+              <Pressable onPress={() => setShowConfirmDelete(true)} pt="1px">
               <DeleteDocumentSvg />
             </Pressable>
+            }
           </Row>
         )}
 

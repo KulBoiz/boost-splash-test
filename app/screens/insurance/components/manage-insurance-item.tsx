@@ -7,6 +7,7 @@ import moment from "moment"
 import { status } from "./validity-check"
 import { color } from "../../../theme"
 import { getClaimStatus, getTimeLeft } from "../constants"
+import { getFullName } from "../../../constants/variable"
 
 interface Props {
   item: any
@@ -19,7 +20,6 @@ const ManageInsuranceItem = React.memo(({ item, index, onPress }: Props) => {
   const endDate = item?.meta?.time?.endTime
   const type = 'claim_insurance'
   const isClaim = item?.type === type
-  const userName = item?.user?.fullName ?? item?.user?.firstName + ' ' + item?.user?.lastName ?? ''
   const config = item?.product?.insuranceConfig
 
   const checkStatus = React.useCallback(() => {
@@ -88,7 +88,7 @@ const ManageInsuranceItem = React.memo(({ item, index, onPress }: Props) => {
           color="#A1A8AB"
           lineHeight={17}
           textTransform="capitalize"
-          text={userName}
+          text={getFullName(item?.user)}
         />
 
       </Box>

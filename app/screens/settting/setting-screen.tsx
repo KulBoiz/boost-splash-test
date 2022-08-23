@@ -1,4 +1,4 @@
-import React, { FC } from "react"
+import React, { FC, useState } from "react"
 import { View, ScrollView } from "react-native"
 import { observer } from "mobx-react-lite"
 import AppHeader from "../../components/app-header/AppHeader"
@@ -14,17 +14,25 @@ import SettingAuthScreen from "../../components/app-view-no-auth"
 import { navigate } from "../../navigators"
 import { ROLE } from "../../models/auth-store"
 import { ScaledSheet } from "react-native-size-matters"
+import { RedTrashSvg, TrashSvg } from "../../assets/svgs"
+import ConfirmModal from "../../components/app-modal/confirm-modal"
 
 interface Props {}
 
 const SettingScreen: FC<Props> = observer((props: Props) => {
   const navigation = useNavigation()
   const { authStoreModel } = useStores()
+  const [deleteModal, setDeleteModal] = useState<boolean>(false)
 
   const logout = async () => {
     await authStoreModel.logout()
     navigation.dispatch(StackActions.push(ScreenNames.AUTH))
   }
+
+  const deleteAccount = () => {
+    authStoreModel.deleteUser().then(logout)
+  }
+
   return (
     <View style={styles.container}>
       <AppHeader headerTx={"header.personalSetting"} />
@@ -59,9 +67,26 @@ const SettingScreen: FC<Props> = observer((props: Props) => {
                 onPress={value.onPress}
               />
             })}
+            {authStoreModel?.isLoggedIn &&
+              <SettingItem
+                showArrow={false}
+                active
+                icon={<RedTrashSvg />}
+                title={'Xóa tài khoản'}
+                onPress={() => setDeleteModal(true)}
+              />
+            }
             <View style={styles.logoutBtn}>
               <AppButton title={"Đăng xuất"} onPress={logout} />
             </View>
+            <ConfirmModal
+              visible={deleteModal}
+              closeModal={()=> setDeleteModal(false)}
+              onPress={deleteAccount}
+              content={'Bạn có chắc muốn xóa tài khoản?'}
+              cancelTitle={'Trờ lại'}
+              submitTitle={'Chắc chắn'}
+            />
             <View style={{ height: 100 }} />
           </ScrollView>
         ) : (

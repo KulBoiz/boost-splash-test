@@ -51,16 +51,16 @@ const ManageInsuranceListScreen: FC<Props> = observer((props: any) => {
     const dataGroup = groupBy(
       map(isListBuy ? insuranceStore.listBuy : insuranceStore.listClaim, (item) => ({
         ...item,
-        dateGroup: moment(item?.createdAt).format("MM/YYYY"),
+        dateGroup:isListBuy ? (item?.transaction?.subType) : moment(item.createdAt).format("MM/YYYY"),
       })),
       "dateGroup",
     )
     const sections = Object.keys(dataGroup).map((key) => ({
       data: dataGroup[key],
-      title: `Tháng ${key}`,
+      title: isListBuy ? `${key}` : `Tháng ${key}`,
     }))
     return sections
-  }, [insuranceStore.listBuy, insuranceStore.listClaim])
+  }, [insuranceStore.listBuy, insuranceStore.listClaim, tabSelect])
 
   const _onRefresh = useCallback(() => {
     isListBuy ?
