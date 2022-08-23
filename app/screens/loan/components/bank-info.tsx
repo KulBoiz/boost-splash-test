@@ -42,11 +42,11 @@ const BankInfo = React.memo((props: BankInfoProps) => {
 
       <View style={styles.body}>
         <View style={styles.headerContent}>
-          <AppText value={truncateString(item?.name, 25)} style={styles.name}/>
+          <AppText value={truncateString(item?.name, 20)} style={styles.name}/>
           {outstandingAdvantages &&
             <View style={styles.row}>
               <StarSvg />
-              <AppText value={truncateString(outstandingAdvantages, 25)} style={styles.outstandingAdvantages}/>
+              <AppText value={truncateString(outstandingAdvantages, 20)} style={styles.outstandingAdvantages}/>
             </View>
           }
         </View>

@@ -77,7 +77,7 @@ export const ManagementStack = () => {
               tabBarVisible: getTabBarVisibility(props.route),
             }
           }}
-          component={InsuranceScreen}
+          component={()=><InDeveloping notShowHeader/>}
         />
         <Tab.Screen
           name={ScreenNames.SETTING}
