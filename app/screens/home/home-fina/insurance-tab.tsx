@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { View } from 'react-native'
 import { isIphoneX } from 'react-native-iphone-x-helper'
-import { ScaledSheet } from 'react-native-size-matters'
+import { s, ScaledSheet } from 'react-native-size-matters'
 import BottomView from '../../../components/bottom-view'
 import OthersInsurance from '../insurance/components/others-Insurance'
 import { color } from "../../../theme"
@@ -29,7 +29,7 @@ const InsuranceTab = () => {
       <OthersInsurance data={mapInsurance('real_estate') || []} title={"Bảo hiểm con người"} showAction={true} />
       <OthersInsurance data={mapInsurance('vehicle') || []} title={"Bảo hiểm tài sản"} />
       <HomeBanner type={'small'} label={'Tin tức, khuyến mãi'} style={MARGIN_TOP_16}/>
-      <BottomView height={100} />
+      <BottomView height={s(230)} />
     </View>
   )
 }
@@ -40,7 +40,7 @@ const styles = ScaledSheet.create({
   container: {
     flex: 1,
     backgroundColor: color.palette.white,
-    paddingTop: '16@s'
+    paddingTop: '16@s',
   },
   scrollView: {
     marginTop: isIphoneX() ? "155@s" : "130@s",

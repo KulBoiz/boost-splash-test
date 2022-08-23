@@ -2,7 +2,7 @@ import React from 'react';
 import { Pressable, View } from "react-native";
 import FastImage from "react-native-fast-image";
 import RenderHtml from 'react-native-render-html';
-import { ms, ScaledSheet } from "react-native-size-matters";
+import { ms, s, ScaledSheet } from "react-native-size-matters";
 import { images } from "../../assets/images";
 import { BlueTickSvg } from "../../assets/svgs";
 import { AppText } from '../../components/app-text/AppText';
@@ -37,6 +37,7 @@ const InsuranceItem = React.memo((props: InsuranceItemProps) => {
   const tagsStyles = {
     body: {
       whiteSpace: 'normal',
+      width: '95%',
     },
     a: {
       color: 'green'
@@ -113,7 +114,8 @@ const styles = ScaledSheet.create({
   bankIcon: {
     width: '64@s',
     height: '24@s',
-    marginRight: '16@s'
+    marginRight: '16@s',
+    borderRadius: '4@s'
   },
   row: {
     flexDirection: 'row',
@@ -127,10 +129,10 @@ const styles = ScaledSheet.create({
     justifyContent: 'space-between',
     borderBottomWidth: 0.5,
     borderBottomColor: "#d9d9d9",
-    paddingBottom: '20@s'
+    paddingBottom: '10@s'
   },
   body: {
-    paddingTop: '20@s',
+    paddingTop: '10@s',
     borderBottomLeftRadius: '8@s',
     borderBottomRightRadius: '8@s',
   },
