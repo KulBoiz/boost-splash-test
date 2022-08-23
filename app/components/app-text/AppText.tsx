@@ -16,6 +16,7 @@ export type AppTextProps = {
   tx?: TxKeyPath
   txOptions?: i18n.TranslateOptions
   fontFamily?: FontFamily
+  center?: boolean
 } & TextProps
 
 export type FontFamily =
@@ -45,6 +46,7 @@ export const AppText: React.FC<AppTextProps> = React.memo(
     underline,
     capitalize,
     fontFamily,
+    center,
     ...props
   }) => {
     const i18nText = tx && translate(tx, txOptions)
@@ -61,6 +63,7 @@ export const AppText: React.FC<AppTextProps> = React.memo(
           props.style,
           underline && { textDecorationLine: "underline" },
           capitalize && { textTransform: "capitalize" },
+          center && { textAlign: "center" },
         ])}
       >
         {content || value}

@@ -1,4 +1,6 @@
 import { images } from "../../assets/images"
+import { background } from "native-base/lib/typescript/theme/styled-system"
+import { hexToRgbA } from "../../constants/variable"
 
 export const REQUEST_PROFILE = [
   {
@@ -159,51 +161,110 @@ const TASK_STATUSES_ASSIGNED = {
 export const mappingStatus = (value, doc) => {
   let status = '_';
   let color = 'lime';
+  let background = hexToRgbA('#00ff00', 0.1);
 
 		if (value === TASK_STATUSES.CREATED) {
       status = 'Ghi nhận'
       color = 'lime'
+      background = hexToRgbA('#00ff00', 0.1)
 		}
 
 		if (value === TASK_STATUSES.DONE) {
       status = 'Đóng yêu cầu tư vấn'
       color = 'red'
+      background = hexToRgbA('#ff0000', 0.1)
     }
 
   	if (value === TASK_STATUSES.ASSIGNED) {
       status = 'Thu thập thông tin'
       color = 'green'
+      background = hexToRgbA('#008000', 0.1)
     }
 
     if (value === TASK_STATUSES.CONSULTED) {
       if (doc?.statusAssign === TASK_STATUSES_ASSIGNED.NOT_PROCESSING) {
         status = 'Đã gửi thư chào tín dụng'
         color = 'green'
+        background = hexToRgbA('#008000', 0.1)
+
       }
 
       if (doc?.statusAssign === TASK_STATUSES_ASSIGNED.WAITING_FOR_BANK_APPROVAL) {
         status = 'Chờ đối tác phản hồi'
         color = 'yellow'
+        background = hexToRgbA('#ffff00', 0.1)
       }
 
       if (doc?.statusAssign === TASK_STATUSES_ASSIGNED.WAITING_FOR_BANK_PROCESS) {
         status = 'Có đối tác phản hồi'
         color = 'green'
+        background = hexToRgbA('#008000', 0.1)
       }
 
       if (doc?.statusAssign === TASK_STATUSES_ASSIGNED.OVERDUE_FOR_BANK_RESPONSE) {
         status = 'Quá thời hạn phản hồi'
         color = 'red'
+        background = hexToRgbA('#ff0000', 0.1)
       }
 
       if (doc?.statusAssign === TASK_STATUSES_ASSIGNED.CREATE_PROFILE) {
         status = 'Tạo hồ sơ vay'
         color = 'blue'
+        background = hexToRgbA('#0000ff', 0.1)
       }
     }
 
-		return {status, color};
+		return {status, color, background};
 };
+
+export const TASK_FILTER = [
+  {
+    // icon: images.house,
+    title: 'Tất cả',
+    key: 0
+  },
+  {
+    // icon: images.house,
+    title: 'Ghi nhận',
+    key: 1,
+    status: TASK_STATUSES.CREATED,
+  },{
+    // icon: images.car,
+    title: 'Thu thập thông tin',
+    key: 2,
+    status: TASK_STATUSES.ASSIGNED,
+  },{
+    // icon: images.coin,
+    title: 'Đã gửi thư chào tín dụng',
+    key: 3,
+    status: TASK_STATUSES.CONSULTED,
+    statusAssign: TASK_STATUSES_ASSIGNED.NOT_PROCESSING
+  },{
+    // icon: images.cube,
+    title: 'Chờ đối tác phản hồi',
+    key: 4,
+    status: TASK_STATUSES.CONSULTED,
+    statusAssign: TASK_STATUSES_ASSIGNED.WAITING_FOR_BANK_APPROVAL
+  },{
+    // icon: images.cube,
+    title: 'Có đối tác phản hồi',
+    key: 5,
+    status: TASK_STATUSES.CONSULTED,
+    statusAssign: TASK_STATUSES_ASSIGNED.WAITING_FOR_BANK_PROCESS
+  },{
+    // icon: images.cube,
+    title: 'Quá thời hạn phản hồi',
+    key: 6,
+    status: TASK_STATUSES.CONSULTED,
+    statusAssign: TASK_STATUSES_ASSIGNED.OVERDUE_FOR_BANK_RESPONSE
+  },{
+    // icon: images.cube,
+    title: 'Tạo hồ sơ vay',
+    key: 7,
+    status: TASK_STATUSES.CONSULTED,
+    statusAssign: TASK_STATUSES_ASSIGNED.CREATE_PROFILE
+  },
+]
 
 export const isTaskCreateProfile = (task) => {
   const { status, statusAssign } = task

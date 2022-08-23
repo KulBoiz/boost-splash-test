@@ -163,12 +163,13 @@
       "interestPaymentSchedule": "Lịch trả lãi",
       "asset": "Tài sản"
     },
-    "calculate": "Khả năng\nvay",
-    "introduce": "Giới thiệu khách vay",
+    "real_estate": "Định giá\nBĐS",
+    "calculate_tool": "Tính khoản vay",
+    "abilityToBorrow": "Khả năng\nvay",
+    "introduceBorrowers": "Giới thiệu khách vay",
     "recordManagement": "Quản lý hồ\nsơ vay",
-    "notarialRecord": "Công chứng hồ sơ",
-    "map": "Real map",
-    "currentInvestmentTrends": "xu hướng đầu tư hiện nay"
+    "notarialRecord": "Công chứng",
+    "map": "Kiểm tra\nquy hoạch"
   },
   "insurance": {
     "firstLabel": "Tiết kiệm chi phí",

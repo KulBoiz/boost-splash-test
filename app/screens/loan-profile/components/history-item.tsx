@@ -1,8 +1,7 @@
 import React, { useCallback, useState } from "react"
-import { View, Pressable } from "react-native"
-import { ALIGN_CENTER, ROW, SPACE_BETWEEN } from "../../../styles/common-style"
+import { View } from "react-native"
+import { ALIGN_CENTER, ROW } from "../../../styles/common-style"
 import FastImage from "react-native-fast-image"
-import ItemView from "../../loan/components/item-view"
 import { AppText } from "../../../components/app-text/AppText"
 import { DefaultAvatarSvg, PhoneSvg } from "../../../assets/svgs"
 import { fontFamily } from "../../../constants/font-family"
@@ -44,18 +43,16 @@ interface Props {
   item?: any
   isLastItem: boolean
 }
-
+const RenderCircle = () => {
+  return (
+    <View style={styles.circle}>
+      <View style={styles.smallCircle}/>
+    </View>
+  )
+}
 const HistoryItem = React.memo((props: Props) => {
   const { item, isLastItem } = props
   const [itemHeight, setItemHeight] = useState<number>(0)
-
-  const renderContent = () => {
-    return (
-      <Pressable>
-        <PhoneSvg width={ms(18)} height={ms(18)} />
-      </Pressable>
-    )
-  }
 
   const renderDetail = () => {
     const { type, status } = item
@@ -74,32 +71,36 @@ const HistoryItem = React.memo((props: Props) => {
 
     return "_"
   }
+
   return (
     <View style={styles.container} onLayout={useCallback((event) => {
       const { height } = event.nativeEvent.layout;
       setItemHeight(height)
     }, [])}>
-      <View style={[ROW, SPACE_BETWEEN]}>
-        <View style={ALIGN_CENTER}>
-          {item?.createdBy?.avatar ? <FastImage source={{ uri: item?.createdBy?.avatar }} style={styles.avatar} /> :
-            <DefaultAvatarSvg width={s(48)} height={s(48)} style={styles.avatarContainer} />
-          }
-          {!isLastItem && <DashedLine axis='vertical' dashLength={10} dashThickness={1.5} dashGap={9} dashColor='blue' style={[styles.dashLine, { height: itemHeight }]} />}
+
+        <RenderCircle />
+        <View style={ROW}>
+          <AppText value={item?.createdAt ? moment(item?.createdAt).format("DD/MM/YYYY") : '_'} style={styles.time}/>
+          <View style={styles.separate} />
+          <AppText value={item?.createdAt ? moment(item?.createdAt).format("HH:mm") : '_'} style={styles.time}/>
         </View>
-        <View style={{ flex: 1, marginLeft: 16 }}>
-          <ItemView title={item?.createdBy?.fullName} titleStyle={styles.title} content={renderContent()} />
-
-          <AppText value={item?.createdBy?.type === 'teller' ? 'Nhân viên tài chính' : 'chuyên viên tư vấn FINA'} style={styles.role} capitalize />
-
-          <AppText value={renderDetail()} capitalize />
-
-          <View style={[ROW, styles.timeContainer]}>
-            <AppText value={item?.createdAt ? moment(item?.createdAt).format("DD/MM/YYYY") : '_'} />
-            <View style={styles.separate} />
-            <AppText value={item?.createdAt ? moment(item?.createdAt).format("HH:mm") : '_'} />
-          </View>
-        </View>
+        {!isLastItem && <DashedLine axis='vertical' dashLength={4} dashThickness={1} dashGap={3} dashColor='gray' style={[styles.dashLine, { height: itemHeight + s(10) }]} />}
+      <View style={styles.wrapStatus}>
+        <AppText value={renderDetail()} capitalize />
       </View>
+        <View style={styles.wrapContact}>
+          <View style={[ROW, ALIGN_CENTER]}>
+           {item?.createdBy?.avatar ? <FastImage source={{ uri: item?.createdBy?.avatar }} style={styles.avatar} /> :
+            <DefaultAvatarSvg width={s(34)} height={s(34)} />
+           }
+           <View style={{marginLeft: s(5)}}>
+             <AppText value={item?.createdBy?.fullName} style={styles.title} />
+             <AppText value={item?.createdBy?.type === 'teller' ? 'Nhân viên tài chính' : 'chuyên viên tư vấn FINA'} style={styles.role} capitalize />
+           </View>
+          </View>
+          <PhoneSvg width={ms(18)} height={ms(18)} />
+        </View>
+
     </View>
   )
 });
@@ -107,28 +108,62 @@ const HistoryItem = React.memo((props: Props) => {
 export default HistoryItem;
 
 const styles = ScaledSheet.create({
+  circle: {
+    position: "absolute",
+    left: '-5.5@s',
+    width: '12@s',
+    height: '12@s',
+    borderRadius: '6@s',
+    backgroundColor: color.primary,
+    alignItems: "center",
+    justifyContent: "center"
+  },
+  smallCircle: {
+    width: '4@s',
+    height: '4@s',
+    borderRadius: '2@s',
+    backgroundColor: color.background
+  },
   container: {
-    marginBottom: '24@s'
+    marginBottom: '24@s',
+    paddingLeft: '18@s'
   },
   dashLine: {
-    top: '20@vs',
+    top: '10@vs',
     position: 'absolute',
     zIndex: -1
   },
+  wrapContact:{
+    justifyContent: 'space-between',
+    alignItems: "center",
+    flexDirection: 'row',
+    borderTopRightRadius: '8@s',
+    borderBottomLeftRadius: '8@s',
+    backgroundColor: color.palette.lighterGrey,
+    paddingVertical: '11@s',
+    paddingLeft: '8@s',
+    paddingRight: '20@s'
+  },
+  wrapStatus:{
+    marginVertical: '4@s'
+  },
+  time: {
+    fontSize: '12@ms',
+    fontFamily: fontFamily.semiBold
+  },
   avatar: {
     zIndex: 1,
-    width: '48@s',
-    height: '48@s',
-    borderRadius: '24@s'
+    width: '34@s',
+    height: '34@s',
+    borderRadius: '17@s'
   },
   title: {
     fontSize: '14@ms',
-    fontFamily: fontFamily.semiBold,
+    fontFamily: fontFamily.bold,
     color: color.palette.blue
   },
   role: {
     marginTop: '2@s',
-    marginBottom: '8@s',
     fontSize: '12@s',
     color: color.palette.lightGray,
     fontFamily: fontFamily.light
@@ -140,8 +175,4 @@ const styles = ScaledSheet.create({
     top: '2@s',
     marginHorizontal: '16@s',
   },
-  timeContainer: {
-    marginTop: '2@s'
-  },
-  avatarContainer: {}
 });

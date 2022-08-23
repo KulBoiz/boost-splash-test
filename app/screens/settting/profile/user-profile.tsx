@@ -47,26 +47,30 @@ const UserProfile = React.memo((props: Props) => {
   const isUpdate = _.isEqual(a, b)
 
   useEffect(() => {
-    // eslint-disable-next-line array-callback-return
-    Object.entries(user).map((e: any)=>{
-      if(e[0] === 'emails'){
-        setValue('email', e[1][0]?.email)
+    if (user){
+      // eslint-disable-next-line array-callback-return
+      _.toPairs(user).map((e: any)=>{
+        if(e[0] === 'emails' && _.get(e[1][0], 'email')){
+          setValue('email', _.get(e[1][0], 'email'))
+        }
+        if(e[0] === 'tels' && _.get(e[1][0], 'tel')){
+          setValue('tel', _.get(e[1][0], 'tel'))
+        }
+        if(e[0] === 'idNumber'){
+          setValue('idNumber', e[1].toString())
+        }
+        else setValue(e[0], e[1])
+      })
+      if(identification){
+        // eslint-disable-next-line array-callback-return
+        _.toPairs(identification).map((e: any)=>{
+          if(e[0] === 'idNumber'){
+            return false
+          }
+          setValue(e[0], e[1])
+        })
       }
-      if(e[0] === 'tels'){
-        setValue('tel', e[1][0]?.tel)
-      }
-      if(e[0] === 'idNumber'){
-        setValue('idNumber', e[1].toString())
-      }
-      else setValue(e[0], e[1])
-    })
-    // eslint-disable-next-line array-callback-return
-    Object.entries(identification).map((e: any)=>{
-      if(e[0] === 'idNumber'){
-        return false
-      }
-      setValue(e[0], e[1])
-    })
+    }
   },[])
 
   const updateUserInfo = async (data)=> {

@@ -22,6 +22,7 @@ export const palette = {
   angry: "#dd3333",
   deepPurple: "#5D2555",
   deepGray: "#AAADB7",
+  F9FBFF: '#F9FBFF',
   EEEEEE: "#EEEEEE",
   BABABA: "#BABABA",
   F0F0F0: "#F0F0F0",

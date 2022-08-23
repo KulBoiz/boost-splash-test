@@ -39,7 +39,14 @@ export const InsuranceStoreModel = types
     }),
     buyInsurance: flow(function* buyInsurance(data) {
       const api = new BaseApi(self.environment.api)
-      const result = yield api.post("/transactions/public/insurance-multiple", data)
+      const result = yield api.post("transactions/public/insurance-multiple", data)
+
+      return result
+    }),
+
+    filterInsurance: flow(function* filterInsurance() {
+      const api = new BaseApi(self.environment.api)
+      const result = yield api.get(`products/public/organization/insurances/insurances`)
 
       return result
     }),
@@ -63,6 +70,7 @@ export const InsuranceStoreModel = types
       const api = new BaseApi(self.environment.api)
       const result = yield api.get("deals", {
         filter: {
+          order: ['createdAt desc'],
           where: {
             type: "insurances",
             category: params?.category || undefined,
@@ -206,6 +214,28 @@ export const InsuranceStoreModel = types
         self.isRefreshing = false
         self.isLoadingMore = false
       }
+      return result
+    }),
+
+    getCategoryInsurance:  flow(function* get() {
+      const api = new BaseApi(self.environment.api)
+      const result = yield api.get("categories/public", {
+        filter: {
+          where: {
+            type: 'insurance_products'
+          },
+          limit: 100,
+        },
+        page: 1,
+      })
+      
+      return result
+    }),
+
+    getOrgInsurance:  flow(function* get() {
+      const api = new BaseApi(self.environment.api)
+      const result = yield api.get(`products/public/organization/insurances`)
+      
       return result
     }),
 

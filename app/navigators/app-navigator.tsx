@@ -18,7 +18,7 @@ import InsuranceScreen from "../screens/insurance/insurance-screen"
 import InsurancePackage from "../screens/insurance/insurance-package"
 import InsuranceClaimDetail from "../screens/insurance/claim/insurance-claim-detail"
 import { IntroduceScreen } from "../screens/insurance/introduce/introduce-screen"
-import BannerDetail from "../screens/home/home-fina/banner-detail"
+import BannerDetail from "../screens/home/home-fina/components/banner-detail"
 import { AgentStack } from "./agent-stack"
 import BankerListLoanScreen from "../screens/banker/banker-list-loan-screen"
 import BankerLoanDetailScreen from "../screens/banker/banker-loan-detail-screen"
@@ -31,6 +31,10 @@ import InsuranceRequestClaimSuccessScreen from "../screens/insurance/insurance-r
 import ManageInsuranceDetailScreen from "../screens/insurance/manage-insurance-detail-screen"
 import ClaimInsuranceDetailScreen from "../screens/insurance/claim-insurance"
 import UserProfile from "../screens/settting/profile/user-profile"
+import InsuranceList from "../screens/new-insurance/insurance-list"
+import ProductList from "../screens/product/product-list"
+import SuccessScreen from "../components/success-screen"
+import ProjectTab from "../screens/product/project-tab"
 
 export type NavigatorParamList = {
   [ScreenNames.SPLASH]: undefined
@@ -38,9 +42,11 @@ export type NavigatorParamList = {
   [ScreenNames.AGENT]: undefined
   [ScreenNames.AUTH]: undefined
   [ScreenNames.APP]: undefined
+  [ScreenNames.SUCCESS_SCREEN]: undefined
   [ScreenNames.REQUEST_COUNSELLING]: undefined
   [ScreenNames.NOTICE]: undefined
   [ScreenNames.USER_PROFILE]: undefined
+  [ScreenNames.LOAN_PRODUCT]: {header?: string, key?: string}
   [ScreenNames.LOAN_DETAIL]: undefined
   [ScreenNames.REGISTER_LOAN]: undefined
   [ScreenNames.PROFILE_DETAIL]: undefined
@@ -48,6 +54,7 @@ export type NavigatorParamList = {
   [ScreenNames.TERM_AND_POLICY]: { id: number }
   [ScreenNames.INSURANCE_SCREEN]: { id?: number }
   [ScreenNames.INSURANCE_PACKAGE]: undefined
+  [ScreenNames.PROJECT_TAB]: { header?: string, key?: any, id: number }
   [ScreenNames.INSURANCE_CLAIM_DETAIL]: { index: number }
   [ScreenNames.INTRODUCE_SCREEN]: undefined
   [ScreenNames.BANNER_DETAIL]: { url: string }
@@ -64,7 +71,8 @@ export type NavigatorParamList = {
   [ScreenNames.MANAGE_INSURANCE_FILTER]: undefined
   [ScreenNames.INSURANCE_REQUEST_CLAIM_SUCCESS_SCREEN]: undefined
   [ScreenNames.MANAGE_INSURANCE_DETAIL_SCREEN]: { index: number, isListBuy: any }
-  [ScreenNames.CLAIM_INSURANCE]: { productId: string, index: string}
+  [ScreenNames.CLAIM_INSURANCE]: { productId: string, index: string }
+  [ScreenNames.INSURANCE_LIST_SCREEN]: { key: string, name: string}
 }
 
 // Documentation: https://reactnavigation.org/docs/stack-navigator/
@@ -98,6 +106,7 @@ const RootStack = () => {
       <Stack.Screen name={ScreenNames.REQUEST_COUNSELLING} component={RequestCounselling} />
       <Stack.Screen name={ScreenNames.NOTICE} component={NoticeScreen} />
       <Stack.Screen name={ScreenNames.LOAN_DETAIL} component={LoanDetail} />
+      <Stack.Screen name={ScreenNames.LOAN_PRODUCT} component={ProductList} />
       <Stack.Screen name={ScreenNames.REGISTER_LOAN} component={RegisterLoan} />
       <Stack.Screen name={ScreenNames.PROFILE_DETAIL} component={ProfileDetail} />
       <Stack.Screen name={ScreenNames.FINANCE} component={FinanceScreen} />
@@ -145,6 +154,18 @@ const RootStack = () => {
       <Stack.Screen
         name={ScreenNames.USER_PROFILE}
         component={UserProfile}
+      />
+      <Stack.Screen
+        name={ScreenNames.INSURANCE_LIST_SCREEN}
+        component={InsuranceList}
+      />
+      <Stack.Screen
+        name={ScreenNames.SUCCESS_SCREEN}
+        component={SuccessScreen}
+      />
+      <Stack.Screen
+        name={ScreenNames.PROJECT_TAB}
+        component={ProjectTab}
       />
     </Stack.Navigator>
   )

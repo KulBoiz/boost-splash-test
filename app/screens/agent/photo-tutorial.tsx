@@ -58,7 +58,7 @@ const styles = ScaledSheet.create({
     textAlign: "center",
     marginVertical: "24@s",
     fontSize: "16@ms",
-    fontFamily: fontFamily.mulish.bold,
+    fontFamily: fontFamily.bold,
   },
   wrapBigImage: {
     flexDirection: "row",

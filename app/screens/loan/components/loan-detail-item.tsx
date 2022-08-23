@@ -1,5 +1,5 @@
 import React from 'react';
-import { View } from 'react-native';
+import { View } from "react-native"
 import { AppText } from "../../../components/app-text/AppText"
 import { StarSvg } from "../../../assets/svgs"
 import FastImage from "react-native-fast-image"
@@ -7,29 +7,35 @@ import InterestRate from "./interest-rate"
 import { color } from "../../../theme"
 import { ScaledSheet } from "react-native-size-matters"
 import { fontFamily } from "../../../constants/font-family"
+import { truncateString } from "../../../constants/variable"
+import { useStores } from "../../../models"
 
-interface Props{
-  item: any
-}
+interface Props{}
 
-const LoanDetailItem = React.memo(({ item }: Props) => {
+const LoanDetailItem = React.memo((props: Props) => {
+  const {loanStore} = useStores()
+  const item = loanStore.productDetail
   const imageUrl = item?.org?.image?.url
   const outstandingAdvantages = item?.outstandingAdvantages
+  const backgroundColor = item?.org?.backgroundColor
 
   return (
-    <View style={styles.container}>
-      <AppText value={item?.name} style={styles.name}/>
-      {outstandingAdvantages &&
-        <View style={styles.row}>
-          <StarSvg />
-          <AppText value={outstandingAdvantages} style={styles.outstandingAdvantages}/>
+    <View style={[styles.container, [styles.border, {borderColor: backgroundColor ?? color.lightBlack}]]}>
+      <View style={[styles.header, {backgroundColor: backgroundColor ?? '#005992'}]}>
+        <FastImage source={{uri:  imageUrl}} style={styles.bankIcon} resizeMode={'contain'}/>
+      </View>
+
+      <View style={styles.body}>
+        <View style={styles.headerContent}>
+          <AppText value={truncateString(item?.name, 25)} style={styles.name}/>
+          {outstandingAdvantages &&
+            <View style={styles.row}>
+              <StarSvg />
+              <AppText value={outstandingAdvantages} style={styles.outstandingAdvantages}/>
+            </View>
+          }
         </View>
-      }
-      <FastImage source={{uri:  imageUrl}} style={styles.bankIcon}/>
-      <View style={[styles.row,styles.wrapInterest]}>
-        <InterestRate style={styles.interestItem} title={'Lãi suất'} content={item?.info?.preferentialRate} isInterestRate contentColor={color.palette.blue} />
-        <View style={styles.separate}/>
-        <InterestRate style={styles.interestItem} title={'Ưu đãi'} content={item?.info?.preferentialTime} contentColor={color.palette.blue} />
+        <InterestRate border interestRate={item?.info?.preferentialRate} endow={item?.info?.preferentialTime} month={12}/>
       </View>
     </View>
   )
@@ -39,47 +45,54 @@ export default LoanDetailItem;
 LoanDetailItem.displayName = 'LoanDetailItem'
 
 const styles = ScaledSheet.create({
-    container: {
-      alignItems: "center",
-      marginBottom: '30@s'
-    },
+  container: {
+    borderRadius: '8@s',
+    backgroundColor: color.palette.white,
+    marginBottom: '12@s',
+  },
+  border: {
+    borderWidth: 1
+  },
+  bankIcon: {
+    width: '80@s',
+    height:'30@s'
+  },
   row: {
     flexDirection: 'row',
     alignItems: "center"
   },
+  interestRateContainer: {
+    paddingVertical: '16@s',
+  },
+
+  header: {
+    borderTopRightRadius: '8@s',
+    borderTopLeftRadius: '8@s',
+    paddingRight: '12@s',
+    paddingVertical: '4@s',
+  },
   name: {
-    textAlign: "center",
-    fontFamily: fontFamily.semiBold,
     lineHeight: '16@s',
-    fontWeight: '500',
-    fontSize: '14@ms',
+    fontFamily: fontFamily.semiBold,
+    fontSize: '12@ms',
     color: color.lightBlack
   },
-  bankIcon: {
-    width: '50@s',
-    height:'25@s',
-    marginVertical: '8@s'
+  body: {
+    borderBottomLeftRadius: '8@s',
+    borderBottomRightRadius: '8@s',
   },
+  headerContent: {
+    flexDirection: 'row',
+    alignItems: "center",
+    justifyContent: "space-between",
+    padding: '12@s',
+  },
+
   outstandingAdvantages: {
     lineHeight: '16@s',
     marginLeft: '8@ms',
     fontSize: '12@ms',
     fontFamily: fontFamily.regular,
     color: color.palette.orange
-  },
-  interestItem: {
-    alignItems: "center"
-  },
-  wrapInterest: {
-    borderTopWidth: 1,
-    borderTopColor: '#DDD9D9',
-    paddingTop: '8@s',
-  },
-  separate: {
-    width: 1,
-    height: '25@s',
-    backgroundColor: '#DDD9D9',
-    marginLeft: '30@s',
-    marginRight: '25@s'
   },
 });

@@ -13,9 +13,21 @@ export const isColor = RegExp.prototype.test.bind(/^#([a-fA-F0-9]{6}|[a-fA-F0-9]
 export const truncateString = (str: string, length: number, lastText?: string) => {
   return str && str?.length > length ? str.substring(0, length) + (lastText || "...") : str
 }
+export function hexToRgbA(hex, opacity = 1){
+  let c;
+  if(/^#([A-Fa-f0-9]{3}){1,2}$/.test(hex)){
+    c= hex.substring(1).split('');
+    if(c.length === 3){
+      c = [c[0], c[0], c[1], c[1], c[2], c[2]];
+    }
+    c = '0x' + c.join('');
+    return `rgba(${[(c >> 16) & 255, (c >> 8) & 255, c & 255].join(',')},${opacity})`;
+  }
+  throw new Error('Bad Hex');
+}
 
 export const hidePhoneNumber = (phone: string) => {
-  return `****${phone.slice(-3)}` ?? ''
+  return `${phone.slice(0,3)}****${phone.slice(-3)}` ?? ''
 }
 
 export const capitalizeFirstString = (str: string | TxKeyPath | undefined) => {
@@ -48,7 +60,7 @@ export function formatDateTime(date: string | Date) {
 
 export function getFullName(user: any) {
   if  (!user) return '_'
-  return user?.fullName ?? (user?.firstName + ' ' ?? '') + (user?.lastName ?? '')
+  return user?.fullName ?? (user?.firstName ?? '') + ' ' + (user?.lastName ?? '')
 }
 
 export function verticalScale(num: number){
