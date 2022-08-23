@@ -111,7 +111,7 @@ const FinanceTab = React.memo((props: Props) => {
         />
       }
 
-      {!!homeStore?.projects?.length &&
+      {!!projects?.length &&
         <ProjectItem
           data={projects}
           header={'Vay mua nhà dự án'}

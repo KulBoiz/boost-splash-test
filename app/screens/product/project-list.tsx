@@ -26,7 +26,10 @@ const ProjectList = observer((props: any) => {
           ids: data?.map(el => el?.id),
         },
         limit: 50,
-        skip: 0
+        skip: 0,
+        include: [
+          { relation: 'org' }
+        ],
       },
       page: 1
     }
