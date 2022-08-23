@@ -54,7 +54,7 @@ const BuyStepOneForm = React.memo((props: Props) => {
     return true
   }
 
-  const packages = productDetail?.packages.map((el, index) => ({ ...el, value: index, label: `${el?.name}-${!checkCTVAndFina() ? el?.price : el?.priceRoot} VNĐ` }));
+  const packages = productDetail?.packages.map((el, index) => ({ ...el, value: index, label: `${el?.name}-${!checkCTVAndFina() ? numberWithCommas(el?.price) : numberWithCommas(el?.priceRoot)} VNĐ` }));
   const listPackageStaff = packages.filter(el => el?.objects?.find(e => e === TYPE?.staff));
   const listPackageRelative = packages.filter(el => el?.objects?.find(e => e === TYPE?.relative));
 

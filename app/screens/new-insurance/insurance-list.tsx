@@ -27,7 +27,7 @@ const InsuranceList = React.memo((props: any) => {
 
   useEffect(() => {
     insuranceStore.getOrgInsurance().then((res) => {
-      setMenus(res?.data?.map(el => ({ key: el?.id, title: el?.code })))
+      setMenus(res?.data ? res?.data?.map(el => ({ key: el?.id, title: el?.code })) : [])
       setLoading(false)
     });
 

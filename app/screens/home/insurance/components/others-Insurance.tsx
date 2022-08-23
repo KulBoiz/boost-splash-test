@@ -7,7 +7,7 @@ import { AppText } from '../../../../components/app-text/AppText'
 import { fontFamily } from '../../../../constants/font-family'
 import { navigate } from '../../../../navigators'
 import { ScreenNames } from '../../../../navigators/screen-names'
-import { ROW } from '../../../../styles/common-style'
+import { FONT_REGULAR_12, ROW } from "../../../../styles/common-style"
 import { color } from '../../../../theme'
 import HomeItem from '../../home-fina/components/home-item'
 import IconItem from '../../home-fina/components/icon-item'
@@ -45,13 +45,13 @@ const OthersInsurance = React.memo((props: Props) => {
 
   return (
     <View style={[styles.container, style]}>
-      <View style={[ROW, { alignItems: "center", justifyContent: "space-between", marginBottom: s(12) }]}>
+      <View style={styles.labelContainer}>
         <AppText value={title} style={styles.label} />
-        {showAction && <AppButton
-          title={'Tiện ích'}
+        {showAction && <AppText
+          value={'Công cụ bảo hiểm'}
           onPress={openModal}
-          containerStyle={styles.btn}
-          titleStyle={{ fontSize: s(12), fontFamily: fontFamily.regular, color: color.palette.blue}}
+          style={FONT_REGULAR_12}
+          color={color.palette.blue}
         />}
       </View>
 
@@ -97,16 +97,16 @@ const styles = ScaledSheet.create({
   container: {
     marginTop: '12@s',
   },
-  btn: {
-    width: '50@s',
-    height: '25@s',
-    marginRight: '24@s',
-    backgroundColor: color.palette.white
+  labelContainer: {
+    alignItems: "center",
+    justifyContent: "space-between",
+    marginBottom: '12@s',
+    paddingHorizontal: '16@ms',
+    flexDirection: "row"
   },
   label: {
     fontSize: '14@ms',
     fontFamily: fontFamily.semiBold,
-    marginLeft: '16@ms',
     color: 'rgba(0, 0, 0, 0.85)',
   },
   itemContainer: {

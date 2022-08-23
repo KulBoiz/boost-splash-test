@@ -57,13 +57,16 @@ const BannerDetail = React.memo((props: Props) => {
           </View>
 
           {data?.image && <FastImage source={{ uri: data?.image }} style={styles.image} resizeMode={'stretch'}/>}
-
-          <AppText value={data?.description} />
+          <RenderHtml
+            contentWidth={width}
+            source={{ html: `${data?.description ?? ''}` }}
+          />
+          {/* <AppText value={data?.description} /> */}
         </View>
 
         <RenderHtml
           contentWidth={width}
-          source={{ html: `${data?.content}` }}
+          source={{ html: `${data?.content ?? ''}` }}
         />
       </ScrollView>
     </View>

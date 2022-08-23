@@ -24,7 +24,7 @@ const HomeFina = React.memo((props: Props) => {
         {index === 0 && <FinanceTab />}
         {index === 1 && <InsuranceTab />}
         {index === 2 &&
-          <View style={{flex:1, paddingTop: s(120)}}>
+          <View style={{flex:1, paddingTop: s(100)}}>
             <InDeveloping notShowHeader/>
           </View>
         }

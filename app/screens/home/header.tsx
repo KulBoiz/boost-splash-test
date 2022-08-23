@@ -10,6 +10,7 @@ import { fontFamily } from "../../constants/font-family";
 import { color } from "../../theme";
 import AccumulatedInfo from "./insurance/components/accumulated-info";
 import { UserInfo } from "./insurance/components/userInfo";
+import { isIos } from "../../constants/variable"
 
 const MIN_HEIGHT = isIphoneX() ? s(160) : s(150)
 const MAX_HEIGHT = isIphoneX() ? s(240) : s(220)
@@ -59,7 +60,7 @@ const styles = ScaledSheet.create({
   },
   image: {
     width: '100%',
-    height: isIphoneX() ? "155@s" : "130@s",
+    height: isIphoneX() ? "155@s" : isIos ? "150@vs" : "145@vs",
     position: "absolute",
     borderBottomLeftRadius: '24@s',
     borderBottomRightRadius: '24@s',

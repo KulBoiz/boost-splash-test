@@ -21,12 +21,12 @@ const ProductInfo = React.memo((props: Props) => {
   return (
     <View style={styles.container}>
       <AppText tx={"loan.productInfo"} style={styles.label}/>
-      <ItemView title={'loan.preferentialTime'} content={`${preferentialTime} tháng`} style={styles.itemStyle} contentStyle={styles.content} />
-      <ItemView title={'loan.preferentialInterestRate'} content={`${preferentialRate}%`} style={styles.itemStyle} contentStyle={styles.content} />
-      <ItemView title={'loan.interestRateAfterIncentives'} content={`${info?.afterPreferentialRate}%`} style={styles.itemStyle} contentStyle={styles.content} />
-      <ItemView title={'loan.referenceInterestRate'} content={`${info?.preferentialReference}%`} style={styles.itemStyle} contentStyle={styles.content} />
-      <ItemView title={'loan.amplitude'} content={`${info?.amplitude}%`} style={styles.itemStyle} contentStyle={styles.content} />
-      <ItemView title={'loan.maximumLoanRate'} content={`${maxRate}%`} style={styles.itemStyle} contentStyle={styles.content} />
+      <ItemView title={'loan.preferentialTime'} content={`${preferentialTime ?? ''} tháng`} style={styles.itemStyle} contentStyle={styles.content} />
+      <ItemView title={'loan.preferentialInterestRate'} content={`${preferentialRate ?? ''}%`} style={styles.itemStyle} contentStyle={styles.content} />
+      <ItemView title={'loan.interestRateAfterIncentives'} content={`${info?.afterPreferentialRate ?? ''}%`} style={styles.itemStyle} contentStyle={styles.content} />
+      <ItemView title={'loan.referenceInterestRate'} content={`${info?.preferentialReference ?? ''}%`} style={styles.itemStyle} contentStyle={styles.content} />
+      <ItemView title={'loan.amplitude'} content={`${info?.amplitude ?? ''}%`} style={styles.itemStyle} contentStyle={styles.content} />
+      <ItemView title={'loan.maximumLoanRate'} content={`${maxRate ?? ''}%`} style={styles.itemStyle} contentStyle={styles.content} />
       <ItemView title={'loan.maximumLoanPeriod'} content={`${maxTime ? maxTime + ' năm' : ''} `} style={styles.itemStyle} contentStyle={styles.content} />
       <ItemView title={'loan.minimumLoanPeriod'} content={`${info?.minTime ? info?.minTime + ' tháng' : ''} `} style={styles.itemStyle} contentStyle={styles.content} />
       <ItemView title={'loan.maximumLoanAmount'} content={``} style={styles.itemStyle} contentStyle={styles.content} />
