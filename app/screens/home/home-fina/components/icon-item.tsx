@@ -11,7 +11,6 @@ import { color } from "../../../../theme"
 import { navigate } from "../../../../navigators"
 import { ScreenNames } from "../../../../navigators/screen-names"
 import { isAndroid } from "../../../../constants/variable"
-import get from 'lodash'
 
 interface Props {
   icon: number | string
@@ -38,10 +37,6 @@ const IconItem = React.memo((props: Props) => {
     } else {
       onPress()
     }
-
-    // if (iconShape === 'custom'){
-    //   onPress()
-    // }
   }
   return (
     <Pressable onPress={handlePress} style={styles.container}>
