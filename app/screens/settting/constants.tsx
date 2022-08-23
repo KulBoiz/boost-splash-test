@@ -13,6 +13,7 @@ import {
 import { navigate } from "../../navigators"
 import { ScreenNames } from "../../navigators/screen-names"
 import { ROLE } from "../../models/auth-store"
+import { get } from "lodash"
 
 export const SETTING_LIST = [
   {
@@ -80,12 +81,14 @@ export const userInfo = (user) => {
 }
 
 export const userAuth = (user) => {
+  const email = get(user, 'emails[0].email', '')
+  const tel = get(user, 'tels[0].tel', '')
   return {
     fullName: user.fullName,
     idNumber: +user.idNumber,
     gender: user.gender,
-    tel: user.tels[0].tel,
-    email: user.emails[0].email,
+    tel: tel,
+    email: email,
     birthday: user?.birthday,
     identification: {
       issuedOn: user?.identification?.issuedOn,
@@ -93,3 +96,4 @@ export const userAuth = (user) => {
     }
   }
 }
+
