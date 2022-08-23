@@ -1,4 +1,4 @@
-import React, { useState } from "react"
+import React, { useRef, useState } from "react"
 import { FlatList, Pressable, ScrollView } from "react-native"
 import { AppText } from "../../../components/app-text/AppText"
 import { ms, ScaledSheet } from "react-native-size-matters"
@@ -16,7 +16,7 @@ const getArray = (arr)=> {
 }
 
 const FilterProduct = React.memo((props: Props) => {
-  const [ref, setRef] = useState(null);
+  const flatList = useRef<FlatList>(null);
   const {homeStore, productStore} = useStores()
   const {type, setKey, defaultKey} = props
 
@@ -71,9 +71,12 @@ const FilterProduct = React.memo((props: Props) => {
     <>
     {!!data &&
       <FlatList
-        ref={(ref) => {
-          // @ts-ignore
-          setRef(ref);
+        ref={flatList}
+        onScrollToIndexFailed={info => {
+          const wait = new Promise(resolve => setTimeout(resolve, 300));
+          wait.then(() => {
+            flatList.current?.scrollToIndex({ index: info.index, animated: true });
+          });
         }}
         keyExtractor={(e, i)=> i.toString()}
         data={getArray(data)}

@@ -43,7 +43,7 @@ const HomeBanner = observer((props: Props) => {
       <Pressable style={isBigType ? styles.container : styles.smallContainer} onPress={onPress}>
         <FastImage source={{uri : item?.image}} style={isBigType ? styles.image : styles.smallImage} resizeMode={'stretch'}/>
         <View  style={isBigType && styles.contentContainer}>
-          <AppText value={item?.title} style={isBigType ? styles.title : styles.smallTitle} numberOfLines={1}/>
+          <AppText value={item?.title} style={isBigType ? styles.title : styles.smallTitle} numberOfLines={isBigType ? 1 : 2}/>
           {isBigType &&
             <RenderHtml
               contentWidth={width}
@@ -68,7 +68,7 @@ const HomeBanner = observer((props: Props) => {
         sliderWidth={width}
         itemWidth={isBigType ? width - 100 : width -215}
         loop={isBigType}
-        activeSlideAlignment={!isBigType && "start"}
+        activeSlideAlignment={!isBigType ? "start"  : 'center'}
         inactiveSlideScale={1}
         containerCustomStyle={!isBigType && {marginHorizontal: ms(16)}}
         // autoplay
