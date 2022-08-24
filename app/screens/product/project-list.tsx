@@ -64,18 +64,16 @@ const ProjectList = observer((props: any) => {
       </ScrollView>
 
       {loading ? <LoadingComponent /> :
-        <>
-          <FlatList
-            data={list}
-            keyExtractor={(e, i) => i.toString()}
-            renderItem={renderItem}
-            contentContainerStyle={styles.contentStyle}
-            ListFooterComponent={<BottomView height={50} />}
-            onEndReached={loadMore}
-            onEndReachedThreshold={0.2}
-            ListEmptyComponent={EmptyList}
-          />
-        </>
+        <FlatList
+          data={list}
+          keyExtractor={(e, i) => i.toString()}
+          renderItem={renderItem}
+          contentContainerStyle={styles.contentStyle}
+          ListFooterComponent={<BottomView height={150} />}
+          onEndReached={loadMore}
+          onEndReachedThreshold={0.2}
+          ListEmptyComponent={EmptyList}
+        />
       }
     </View>
   )
@@ -84,7 +82,7 @@ const ProjectList = observer((props: any) => {
 export default ProjectList;
 
 const styles = ScaledSheet.create({
-  container: {},
+  container: {flex:1},
   filter: {
     marginTop: '16@s',
     marginHorizontal: '16@s'

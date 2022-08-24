@@ -2,14 +2,15 @@ import React, { FC } from "react";
 import { Animated } from "react-native";
 import { isIphoneX } from "react-native-iphone-x-helper";
 import { s, ScaledSheet } from "react-native-size-matters";
-import { images } from "../../assets/images";
-import { SearchSvg } from "../../assets/svgs";
-import { Button } from "../../components";
-import { AppText } from "../../components/app-text/AppText";
-import { fontFamily } from "../../constants/font-family";
-import { color } from "../../theme";
-import AccumulatedInfo from "./insurance/components/accumulated-info";
-import { UserInfo } from "./insurance/components/userInfo";
+import { images } from "../../../assets/images";
+import { SearchSvg } from "../../../assets/svgs";
+import { Button } from "../../../components";
+import { AppText } from "../../../components/app-text/AppText";
+import { fontFamily } from "../../../constants/font-family";
+import { color } from "../../../theme";
+import AccumulatedInfo from "./accumulated-info";
+import { UserInfo } from "./userInfo";
+import { isIos } from "../../../constants/variable"
 
 const MIN_HEIGHT = isIphoneX() ? s(160) : s(150)
 const MAX_HEIGHT = isIphoneX() ? s(240) : s(220)
@@ -36,10 +37,10 @@ export const Header: FC<HeaderProps> = ({ animatedValue, children }) => {
   return (
     <Animated.View style={styles.container}>
       <Animated.Image source={images.home_finance} style={styles.image} />
-      <Button style={styles.buttonSearch} >
-        <SearchSvg />
-        <AppText value="Tìm kiếm" style={styles.textButtonSearch} />
-      </Button>
+      {/* <Button style={styles.buttonSearch} > */}
+      {/*  <SearchSvg /> */}
+      {/*  <AppText value="Tìm kiếm" style={styles.textButtonSearch} /> */}
+      {/* </Button> */}
       <UserInfo />
       {children}
       {/* <AccumulatedInfo /> */}
@@ -59,7 +60,8 @@ const styles = ScaledSheet.create({
   },
   image: {
     width: '100%',
-    height: isIphoneX() ? "155@s" : "130@s",
+    // height: isIphoneX() ? "155@s" : isIos ? "150@vs" : "145@vs",
+    height: isIphoneX() ? "120@s" : isIos ? "115@vs" : "110@vs",
     position: "absolute",
     borderBottomLeftRadius: '24@s',
     borderBottomRightRadius: '24@s',

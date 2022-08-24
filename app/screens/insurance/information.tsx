@@ -1,36 +1,35 @@
 import React from "react"
 import { View, FlatList } from "react-native"
 import { color } from "../../theme"
-import { ScaledSheet } from "react-native-size-matters"
+import { s, ScaledSheet } from "react-native-size-matters"
 import { useStores } from "../../models"
 import FastImage from "react-native-fast-image"
 import { AppText } from "../../components/app-text/AppText"
 import RenderHtml from "react-native-render-html"
 import { width } from "../../constants/variable"
 import BottomView from "../../components/bottom-view"
-import { FONT_MEDIUM_12 } from "../../styles/common-style"
+import { ALIGN_CENTER, FONT_MEDIUM_12, ROW } from "../../styles/common-style"
 import EmptyList from "../../components/empty-list"
 
 interface Props{}
+const tagsStyles = {
+  img: {
+    width: '80%',
+  },
 
-const InformationItem = ({ item, isLastItem } : any) => {
-  // const [itemHeight, setItemHeight] = useState<number>(0)
+}
+const InformationItem = ({ item } : any) => {
 
   return(
-    <View style={styles.itemContainer}
-    //       onLayout={useCallback((event) => {
-    //   const { height } = event.nativeEvent.layout;
-    //   setItemHeight(height)
-    // }, [])}
-    >
-      <FastImage source={{uri: item?.icon?.url}} style={styles.icon}/>
-      {/* {isLastItem && */}
-      {/*  <DashedLine axis='vertical' dashLength={4} dashThickness={1} dashGap={5} dashColor='gray' style={[styles.dashLine, { height: itemHeight }]} /> */}
-      {/* } */}
-      <View style={styles.wrapContent}>
+    <View style={styles.itemContainer}>
+      <View style={[ROW, ALIGN_CENTER]}>
+        <FastImage source={{uri: item?.icon?.url}} style={styles.icon}/>
         <AppText value={item?.title} style={FONT_MEDIUM_12}/>
-        <RenderHtml source={{ html: item?.content}} contentWidth={width}/>
       </View>
+        <RenderHtml
+          source={{ html: item?.content}}
+          contentWidth={width - s(32)}
+          tagsStyles={tagsStyles}/>
     </View>
   )
 }
@@ -42,8 +41,7 @@ const Information = React.memo((props: Props) => {
   const content = productDetail?.productContent
 
   const renderItem = ({item, index}) => {
-    const isLastItem = content.lenght === index
-    return <InformationItem item={item} isLastItem={isLastItem}/>
+    return <InformationItem item={item}/>
   }
 
   return (
@@ -68,20 +66,13 @@ const styles = ScaledSheet.create({
     paddingHorizontal: '16@s',
     paddingVertical: '24@s'
   },
-  wrapContent: {
-    width: '85%',
-    marginTop: '2@s'
-  },
   icon: {
     width :'18@s',
     height: '18@s',
     borderRadius: '4@s',
-    marginRight: '20@s',
-    marginLeft: '10@s'
+    marginRight: '10@s',
   },
   itemContainer: {
-    flexDirection: 'row',
-    alignItems: "flex-start",
     marginBottom: '10@s'
   },
   dashLine: {

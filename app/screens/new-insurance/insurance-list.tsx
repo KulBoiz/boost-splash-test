@@ -28,7 +28,7 @@ const InsuranceList = React.memo((props: any) => {
 
   useEffect(() => {
     insuranceStore.getOrgInsurance().then((res) => {
-      setMenus(res?.data?.map(el => ({ key: el?.id, title: el?.code })))
+      setMenus(res?.data ? res?.data?.map(el => ({ key: el?.id, title: el?.code })) : [])
       setLoading(false)
     });
 
@@ -97,13 +97,9 @@ export default InsuranceList;
 
 const styles = ScaledSheet.create({
   body: {
-  //   paddingHorizontal: '18@s',
-  //   backgroundColor: color.palette.F0F0F0,
-  //   paddingBottom: '40@s',
-    // marginBottom: '20@s'
+    flex:1
   },
   container: {
-    // paddingBottom: '40@s',
     flex: 1,
   },
   contentStyle: {
@@ -111,7 +107,6 @@ const styles = ScaledSheet.create({
     paddingHorizontal: '16@s',
 },
   nodata: {
-    marginTop: '50%',
     backgroundColor: color.palette.white,
   }
 });

@@ -4,7 +4,7 @@ import TabSelect from "../components/tab-select"
 import FinanceTab from "./finance-tab"
 import { color } from "../../../theme"
 import BottomView from "../../../components/bottom-view"
-import { Header } from "../header"
+import { Header } from "../components/header"
 import { isIphoneX } from "react-native-iphone-x-helper"
 import { s, ScaledSheet } from "react-native-size-matters"
 import InsuranceTab from "./insurance-tab"
@@ -24,7 +24,7 @@ const HomeFina = React.memo((props: Props) => {
         {index === 0 && <FinanceTab />}
         {index === 1 && <InsuranceTab />}
         {index === 2 &&
-          <View style={{flex:1, paddingTop: s(120)}}>
+          <View style={{flex:1, paddingTop: s(100)}}>
             <InDeveloping notShowHeader/>
           </View>
         }

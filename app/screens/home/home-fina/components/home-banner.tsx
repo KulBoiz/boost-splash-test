@@ -41,7 +41,7 @@ const HomeBanner = observer((props: Props) => {
 
     return (
       <Pressable style={isBigType ? styles.container : styles.smallContainer} onPress={onPress}>
-        <FastImage source={{uri : item?.image}} style={isBigType ? styles.image : styles.smallImage} resizeMode={'stretch'}/>
+        <FastImage source={{uri : item?.image ?? ''}} style={isBigType ? styles.image : styles.smallImage} resizeMode={'stretch'}/>
         <View  style={isBigType && styles.contentContainer}>
           <AppText value={item?.title} style={isBigType ? styles.title : styles.smallTitle} numberOfLines={isBigType ? 1 : 2}/>
           {isBigType &&

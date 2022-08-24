@@ -37,7 +37,6 @@ const InsuranceItem = React.memo((props: InsuranceItemProps) => {
   const tagsStyles = {
     body: {
       whiteSpace: 'normal',
-      width: '95%',
     },
     a: {
       color: 'green'
@@ -68,8 +67,7 @@ const InsuranceItem = React.memo((props: InsuranceItemProps) => {
           item?.highlights && item?.highlights?.map((val, id) => {
             const isLastItem = item?.highlights?.length - 1 === id
             return (
-              <View key={id.toString()} style={[ROW, ALIGN_CENTER, !isLastItem && MARGIN_BOTTOM_8, { paddingRight: ms(8) }]}>
-                <BlueTickSvg style={{ marginRight: ms(5) }} />
+              <View key={id.toString()} style={!isLastItem && MARGIN_BOTTOM_8}>
                 <RenderHtml
                   contentWidth={width}
                   source={{ html: `${val?.highlightItem}` }}

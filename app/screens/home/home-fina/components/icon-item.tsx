@@ -46,7 +46,7 @@ const IconItem = React.memo((props: Props) => {
             <AppText value={`${percent ?? '0'}%`} fontSize={ms(11)} color={color.palette.orange} />
           </View>}
           <FastImage source={isStringIcon ? { uri: icon } : icon} style={styles.icon} />
-          <AppText value={realTitle} style={styles.text} />
+          <AppText value={realTitle} style={styles.text} numberOfLines={2}/>
         </>
         :
         <View style={ALIGN_CENTER}>
@@ -75,7 +75,7 @@ const IconItem = React.memo((props: Props) => {
                 </View>
               }
             </View>
-            {!!title && <AppText value={title} style={styles.textCircle} />}
+            {!!title && <AppText value={title} style={styles.textCircle} numberOfLines={2}/>}
 
           </>
         </View>

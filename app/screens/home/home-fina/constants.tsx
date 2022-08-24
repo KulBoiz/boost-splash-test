@@ -81,7 +81,7 @@ export const formatHomeData = (arr) => {
     return arr.map((e)=>{
       return {
         middleText: e?.time ? Number(e?.time) : '',
-        // title: e?.total,
+        title: e?.total,
         percent: e?.min,
       }
     })

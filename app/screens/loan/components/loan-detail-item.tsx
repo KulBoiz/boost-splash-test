@@ -31,7 +31,7 @@ const LoanDetailItem = React.memo((props: Props) => {
           {outstandingAdvantages &&
             <View style={styles.row}>
               <StarSvg />
-              <AppText value={outstandingAdvantages} style={styles.outstandingAdvantages}/>
+              <AppText value={truncateString(outstandingAdvantages, 25)} style={styles.outstandingAdvantages}/>
             </View>
           }
         </View>
