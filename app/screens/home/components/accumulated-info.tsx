@@ -1,11 +1,11 @@
 import React from 'react'
 import { View } from 'react-native'
 import { s, ScaledSheet } from 'react-native-size-matters'
-import { HeadArrowRight } from '../../../../assets/svgs'
-import { AppText } from '../../../../components/app-text/AppText'
-import { fontFamily } from '../../../../constants/font-family'
-import { ROW, ALIGN_CENTER } from '../../../../styles/common-style'
-import { color } from '../../../../theme'
+import { HeadArrowRight } from '../../../assets/svgs'
+import { AppText } from '../../../components/app-text/AppText'
+import { fontFamily } from '../../../constants/font-family'
+import { ROW, ALIGN_CENTER } from '../../../styles/common-style'
+import { color } from '../../../theme'
 
 const AccumulatedInfo = () => {
   return (

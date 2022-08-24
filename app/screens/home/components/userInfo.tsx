@@ -4,16 +4,16 @@ import React from 'react'
 import { Pressable, TouchableOpacity, View } from 'react-native'
 import FastImage from 'react-native-fast-image'
 import { ScaledSheet } from 'react-native-size-matters'
-import { images } from '../../../../assets/images'
-import { AppText } from '../../../../components/app-text/AppText'
-import { fontFamily } from '../../../../constants/font-family'
-import { useStores } from '../../../../models'
-import { navigate } from '../../../../navigators'
-import { ScreenNames } from '../../../../navigators/screen-names'
-import { ROW } from '../../../../styles/common-style'
-import { color } from '../../../../theme'
+import { images } from '../../../assets/images'
+import { AppText } from '../../../components/app-text/AppText'
+import { fontFamily } from '../../../constants/font-family'
+import { useStores } from '../../../models'
+import { navigate } from '../../../navigators'
+import { ScreenNames } from '../../../navigators/screen-names'
+import { ROW } from '../../../styles/common-style'
+import { color } from '../../../theme'
 import OptionsUserInfo from './optionsUserInfo'
-import { getFullName } from "../../../../constants/variable"
+import { getFullName } from "../../../constants/variable"
 
 export const UserInfo = observer(() => {
   const { authStoreModel } = useStores()
@@ -31,22 +31,21 @@ export const UserInfo = observer(() => {
 
   return (
     <>
-      <View style={styles.container}>
+      <Pressable style={styles.container}onPress={onPress}>
         <View style={[ROW, { alignItems: "center", justifyContent: "space-between" }]}>
           <View style={[ROW, { alignItems: "center" }]}>
-            <Pressable onPress={onPress}>
+            <View>
               <FastImage source={avatar ? { uri: avatar } : images.fina_logo} style={styles.avatar} />
-            </Pressable>
-            {!!Object.keys(user)?.length &&
+            </View>
               <View style={{ marginLeft: 8 }}>
                 <AppText style={[styles.textHello, { marginBottom: 4 }]} value={"Xin chào!"} />
-                <AppText style={[styles.textHello, styles.textName]} value={name ?? 'Khách'} />
+                <AppText style={[styles.textHello, styles.textName]} value={Object.keys(user)?.length ? name : 'Đăng ký/ Đăng nhập'} />
               </View>
-            }
+
           </View>
           <OptionsUserInfo />
         </View>
-      </View>
+      </Pressable>
     </>
   )
 })

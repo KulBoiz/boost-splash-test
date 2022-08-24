@@ -9,10 +9,10 @@ import { navigate } from '../../../../navigators'
 import { ScreenNames } from '../../../../navigators/screen-names'
 import { FONT_REGULAR_12, ROW } from "../../../../styles/common-style"
 import { color } from '../../../../theme'
-import HomeItem from '../../home-fina/components/home-item'
-import IconItem from '../../home-fina/components/icon-item'
-import { INSURANCE_PRODUCT } from '../../home-fina/constants'
-import UtilityItem from "../../home-fina/components/utility-item"
+import HomeItem from './home-item'
+import IconItem from './icon-item'
+import { INSURANCE_PRODUCT } from '../constants'
+import UtilityItem from "./utility-item"
 
 interface Props {
   data: any[]

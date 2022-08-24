@@ -96,13 +96,9 @@ export default InsuranceList;
 
 const styles = ScaledSheet.create({
   body: {
-  //   paddingHorizontal: '18@s',
-  //   backgroundColor: color.palette.F0F0F0,
-  //   paddingBottom: '40@s',
-    // marginBottom: '20@s'
+    flex:1
   },
   container: {
-    // paddingBottom: '40@s',
     flex: 1,
   },
   contentStyle: {
@@ -110,7 +106,6 @@ const styles = ScaledSheet.create({
     paddingHorizontal: '16@s',
 },
   nodata: {
-    marginTop: '50%',
     backgroundColor: color.palette.white,
   }
 });

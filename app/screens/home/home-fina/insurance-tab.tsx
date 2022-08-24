@@ -3,7 +3,7 @@ import { View } from 'react-native'
 import { isIphoneX } from 'react-native-iphone-x-helper'
 import { s, ScaledSheet } from 'react-native-size-matters'
 import BottomView from '../../../components/bottom-view'
-import OthersInsurance from '../insurance/components/others-Insurance'
+import OthersInsurance from './components/others-Insurance'
 import { color } from "../../../theme"
 import { useStores } from '../../../models'
 import HomeBanner from "./components/home-banner"

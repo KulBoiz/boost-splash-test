@@ -1,14 +1,28 @@
 import React from 'react'
-import { Pressable, View } from 'react-native'
+import { Pressable, View, Linking } from 'react-native'
 import { ScaledSheet } from 'react-native-size-matters'
-import { BellSvg, LogoSvg, PhoneHomeSvg } from '../../../../assets/svgs'
-import { CENTER_ELEMENTS, ROW } from '../../../../styles/common-style'
-import { color } from '../../../../theme'
-import { navigate } from "../../../../navigators"
-import { ScreenNames } from "../../../../navigators/screen-names"
+import { BellSvg, PhoneHomeSvg } from '../../../assets/svgs'
+import { CENTER_ELEMENTS, ROW } from '../../../styles/common-style'
+import { color } from '../../../theme'
+import { navigate } from "../../../navigators"
+import { ScreenNames } from "../../../navigators/screen-names"
+import { isAndroid } from "../../../constants/variable"
 
 const OptionsUserInfo = () => {
 	const isNotification = true
+
+	const handleCall = () => {
+		const phoneNumber = '08 5749 8668';
+		let phoneCall = ''
+
+		if (isAndroid) {
+			phoneCall = `tel:+${phoneNumber}`;
+		} else {
+			phoneCall = `telprompt:+${phoneNumber}`;
+		}
+		Linking.openURL(phoneCall);
+	}
+
 	return (
 		<View style={ROW}>
 			{/* <Pressable style={styles.buttonOption}> */}
@@ -22,9 +36,9 @@ const OptionsUserInfo = () => {
 				}
 				</View>
 			</Pressable>
-			{/* <Pressable style={styles.buttonOption}> */}
-			{/*	<PhoneHomeSvg /> */}
-			{/* </Pressable> */}
+			 <Pressable style={styles.buttonOption} onPress={handleCall}>
+				<PhoneHomeSvg />
+			 </Pressable>
 		</View>
 	)
 }
