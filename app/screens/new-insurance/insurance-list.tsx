@@ -22,7 +22,8 @@ const InsuranceList = React.memo((props: any) => {
   const name = props?.route?.params?.name
 
   const paramsFilter = {
-    categoryId: key
+    categoryId: key,
+    isActive: true
   }
 
   useEffect(() => {
