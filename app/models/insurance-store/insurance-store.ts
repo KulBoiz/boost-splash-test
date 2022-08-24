@@ -222,9 +222,11 @@ export const InsuranceStoreModel = types
       const result = yield api.get("categories/public", {
         filter: {
           where: {
-            type: 'insurance_products'
+            type: 'insurance_products',
+            status: 'active'
           },
           limit: 100,
+          fields: ['id', 'icon', 'name', 'name', 'productCategory']
         },
         page: 1,
       })
