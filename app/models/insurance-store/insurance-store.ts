@@ -226,7 +226,7 @@ export const InsuranceStoreModel = types
             status: 'active'
           },
           limit: 100,
-          fields: ['id', 'icon', 'name', 'name', 'productCategory']
+          // fields: ['id', 'icon', 'name', 'name', 'productCategory']
         },
         page: 1,
       })
