@@ -12,13 +12,14 @@ import { color } from "../../theme"
 import MenuFilter from "../loan/components/finance-filter"
 import { TASK_FILTER } from "../loan/constants"
 import RequestCounsellingStatus from "./components/request-counselling-status"
+import { useIsFocused } from "@react-navigation/native"
 // import LoanProfileStatus from "./components/loan-profile-status"
 
 interface Props {
   index?: number
 }
 const RecordsManagement = observer((props: Props) => {
-  // @ts-ignore
+  const isFocused = useIsFocused()
   const { loanStore, authStoreModel } = useStores()
   const data = loanStore?.records ?? []
   const total = loanStore?.totalRecord ?? 0
@@ -41,7 +42,7 @@ const RecordsManagement = observer((props: Props) => {
     loanStore.getRecords(paramTab).then(() => {
       setLoading(false)
     })
-  }, [props?.index])
+  }, [props?.index, isFocused])
 
   const renderItem = useCallback(({ item }) => {
     return <RequestCounsellingStatus item={item} />

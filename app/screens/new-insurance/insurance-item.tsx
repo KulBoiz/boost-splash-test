@@ -44,7 +44,15 @@ const InsuranceItem = React.memo((props: InsuranceItemProps) => {
     p: {
       margin: 0,
       padding: 0
-    }
+    },
+    ul: {
+      margin: 3,
+      padding: 0
+    },
+    li: {
+      marginLeft: 5,
+      padding: 0
+    },
   };
 
   return (
@@ -53,7 +61,7 @@ const InsuranceItem = React.memo((props: InsuranceItemProps) => {
       onPress={handlePress}>
       <View style={styles.header}>
         <View style={[ROW, ALIGN_CENTER]} >
-          <FastImage source={imageUrl ? { uri: imageUrl } : images.avatarDefault} style={styles.bankIcon} />
+          <FastImage source={imageUrl ? { uri: imageUrl } : images.avatarDefault} style={styles.bankIcon} resizeMode={'contain'}/>
           <View>
             <AppText value={'Bảo hiểm'} fontSize={ms(11)} style={{ opacity: 0.5 }} />
             <AppText value={truncateString(item?.name, 22)} fontSize={ms(14)} fontFamily={fontFamily.bold} color={color.primary} />
