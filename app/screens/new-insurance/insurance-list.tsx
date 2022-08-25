@@ -69,7 +69,7 @@ const InsuranceList = React.memo((props: any) => {
 
       <MenuFilter
         filterData={[{
-          title: 'tất cả'
+          title: 'Tất cả'
         }, ...menu]}
         currentSelected={select}
         setCurrentSelected={(value) => { filter(value) }}
@@ -103,7 +103,7 @@ const styles = ScaledSheet.create({
     flex: 1,
   },
   contentStyle: {
-    marginVertical: '24@s',
+    // marginVertical: '24@s',
     paddingHorizontal: '16@s',
 },
   nodata: {

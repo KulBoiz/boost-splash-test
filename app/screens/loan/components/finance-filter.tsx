@@ -4,6 +4,7 @@ import { AppText } from "../../../components/app-text/AppText"
 import FastImage from "react-native-fast-image"
 import { ScaledSheet } from "react-native-size-matters"
 import { color } from "../../../theme"
+import { fontFamily } from "../../../constants/font-family"
 
 interface Props {
   currentSelected: any
@@ -21,6 +22,7 @@ interface ButtonProps {
   notShowIcon?: boolean
   backgroundColor?: string
 }
+
 const FilterButton = React.memo((props: ButtonProps) => {
   return (
     <Pressable onPress={props.onPress}
@@ -30,7 +32,7 @@ const FilterButton = React.memo((props: ButtonProps) => {
       {!props?.notShowIcon && props.icon && <FastImage source={typeof props.icon === 'number' ? props.icon : { uri: props.icon }} style={styles.icon}
         resizeMode={'contain'}
       />}
-      <AppText value={props.title} style={styles.title} color={props.isCurrent ? color.text : color.palette.blue} />
+      <AppText value={props.title} style={styles.title} color={props.isCurrent ? color.text : color.palette.black} />
     </Pressable>
   )
 })
@@ -39,7 +41,7 @@ const MenuFilter = React.memo((props: Props) => {
   const onPress = (item) => {
     props.setCurrentSelected(item)
   }
-  
+
   return (
     <View style={[
       styles.container,
@@ -69,7 +71,7 @@ export default MenuFilter;
 const styles = ScaledSheet.create({
   container: {
     paddingVertical: '16@s',
-    paddingHorizontal: '8@s',
+    paddingHorizontal: '12@s',
     // backgroundColor: color.palette.lightBlue,
   },
   icon: {
@@ -78,22 +80,24 @@ const styles = ScaledSheet.create({
     marginRight: '8@s',
   },
   filterContainer: {
-    marginHorizontal: '8@s',
+    marginHorizontal: '4@s',
     padding: '8@s',
     flexDirection: 'row',
     alignItems: "center",
-    borderRadius: '10@s'
+    borderRadius: '4@s'
   },
   isSelectContainer: {
     backgroundColor: color.palette.blue
   },
   unselectContainer: {
-    borderWidth: 1,
-    borderColor: color.palette.blue,
+    backgroundColor: color.background
+    // borderWidth: 1,
+    // borderColor: color.palette.blue,
   },
   title: {
-    textTransform: "capitalize",
+    // textTransform: "capitalize",
     fontSize: '12@ms',
     paddingHorizontal: '6@ms',
+    fontFamily: fontFamily.medium
   }
 });
