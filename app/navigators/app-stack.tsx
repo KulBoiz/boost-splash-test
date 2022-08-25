@@ -31,7 +31,7 @@ import { ManagementStack } from "./management"
 export type AppStackParamList = {
   [ScreenNames.HOME]: undefined;
   [ScreenNames.CHAT]: undefined;
-  [ScreenNames.MANAGEMENT]: undefined;
+  [ScreenNames.MANAGEMENT]: { index: any };
   [ScreenNames.SETTING]: undefined;
   [ScreenNames.PLUS]: undefined;
 }

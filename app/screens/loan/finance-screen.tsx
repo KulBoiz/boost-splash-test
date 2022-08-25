@@ -15,15 +15,15 @@ import RecordsManagement from "../management/records-management";
 interface Props { }
 
 const FinanceScreen = React.memo((props: Props) => {
-  const route = useRoute<RouteProp<AppStackParamList, ScreenNames.SCHEDULE>>()
-  const param = route?.params?.index ?? 0
+  const route = useRoute<RouteProp<AppStackParamList, ScreenNames.MANAGEMENT>>()
+  const param = route?.params?.index ?? 1
   const [index, setIndex] = React.useState(param);
   // @ts-ignore
   const { authStoreModel } = useStores();
 
   const [routes] = React.useState([
     { key: 'first', title: 'Bản thân' },
-    { key: 'second', title: 'Cộng tác viên' },
+    { key: 'second', title: 'Khách hàng' },
   ]);
 
   const renderScene = SceneMap({
