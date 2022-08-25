@@ -17,11 +17,12 @@ interface ImagePickerProps {
   visible: boolean
   onCancel: () => void
   onSelectImage?: (res: ImagePickerResponse | Asset[]) => void
+  hideUploadFile?: boolean
 }
 const FileSize = 10 * 1024 * 1024
 const message = "Maximum image size should not exceed 10MB"
 const ImagePickerModal: React.FC<ImagePickerProps> = React.memo(
-  ({ visible = false, onCancel, onSelectImage }) => {
+  ({ visible = false, onCancel, onSelectImage, hideUploadFile = false }) => {
     const _checkPermission = async () => {
       try {
         const checkCamera = await check(
@@ -120,13 +121,27 @@ const ImagePickerModal: React.FC<ImagePickerProps> = React.memo(
     const showActionSheetIos = () => {
       ActionSheetIOS.showActionSheetWithOptions(
         {
-          options: ["Upload file", "Chụp ảnh", "Upload ảnh", "Hủy"],
-          cancelButtonIndex: 3,
+          options: hideUploadFile ? ["Chụp ảnh", "Upload ảnh", "Hủy"]
+            : ["Upload file", "Chụp ảnh", "Upload ảnh", "Hủy"],
+          cancelButtonIndex: hideUploadFile ? 2 : 3,
           userInterfaceStyle: "light",
         },
         (index) => {
           onCancel?.()
-          switch (index) {
+          if (hideUploadFile){
+            switch (index) {
+              case 0:
+                _selectCamera()
+                break
+              case 1:
+                _selectFile()
+                break
+              default:
+                break
+            }
+          }
+          else {
+            switch (index) {
             case 0:
               _pickDocument()
               break
@@ -136,10 +151,9 @@ const ImagePickerModal: React.FC<ImagePickerProps> = React.memo(
             case 2:
               _selectFile()
               break
-
             default:
               break
-          }
+          }}
         },
       )
     }
@@ -158,7 +172,7 @@ const ImagePickerModal: React.FC<ImagePickerProps> = React.memo(
         <Box width="full" height="full" bg="transparent" p={s(12)} safeAreaBottom>
           <Pressable flex="1" onPress={onCancel} />
           <Box bg="white" borderRadius="8">
-            <Pressable
+            {!hideUploadFile && <Pressable
               onPress={_pickDocument}
               borderBottomWidth={0.5}
               borderBottomColor="BABABA"
@@ -167,7 +181,7 @@ const ImagePickerModal: React.FC<ImagePickerProps> = React.memo(
               justifyContent="center"
             >
               <Text text="Upload file" color="blue" fontWeight="500" fontSize={ms(15)} />
-            </Pressable>
+            </Pressable>}
             <Pressable
               onPress={_selectCamera}
               borderBottomWidth={0.5}

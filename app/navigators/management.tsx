@@ -8,7 +8,7 @@ import { ScreenNames } from "./screen-names"
 import ManagementTabBar from "../components/bottom-tab-bar/management-tab"
 
 export type ManagementStackParamList = {
-  [ScreenNames.MANAGE_FINANCE]: undefined;
+  [ScreenNames.MANAGE_FINANCE]: { index: any };
   [ScreenNames.MANAGE_INSURANCE]: undefined;
   [ScreenNames.MANAGE_INVEST]: undefined;
 }

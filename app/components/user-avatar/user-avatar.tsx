@@ -39,6 +39,7 @@ const UserAvatar: FC<Props> = observer(({ style }: Props) => {
         )}
       </Pressable>
       <ImagePicker
+        hideUploadFile
         visible={visible}
         onCancel={() => setVisible(false)}
         onSelectImage={onSelectImage}
