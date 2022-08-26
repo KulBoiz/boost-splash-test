@@ -9,6 +9,7 @@ import { color } from "../../theme"
 import { AppText } from "../app-text/AppText"
 import { width } from "../../constants/variable"
 import { fontFamily } from "../../constants/font-family"
+import { HIT_SLOP } from "../../styles/common-style"
 
 const enum tabName {
   finance = 'Tài chính',
@@ -20,8 +21,6 @@ function ManagementTabBar({ state, descriptors, navigation }: any) {
   if (focusedOptions.tabBarVisible === false) {
     return null;
   }
-
-  const title = focusedOptions?.title as string;
 
   const tabbarCustom = [
     {
@@ -49,6 +48,7 @@ function ManagementTabBar({ state, descriptors, navigation }: any) {
       {state.routes.map((route: any, index: number) => {
         const { options } = descriptors[route.key];
         const isFocused = state.index === index;
+
         const onPress = () => {
           const event = navigation.emit({
             type: 'tabPress',
@@ -57,7 +57,7 @@ function ManagementTabBar({ state, descriptors, navigation }: any) {
           });
 
           if (!isFocused && !event.defaultPrevented) {
-              navigation.navigate(route.name);
+            navigation.navigate({ name: route.name, merge: true });
           }
         };
 
@@ -69,7 +69,6 @@ function ManagementTabBar({ state, descriptors, navigation }: any) {
         };
 
         return (
-          <React.Fragment key={index}>
             <TouchableOpacity
               key={index}
               style={styles.wrapIcon}
@@ -82,7 +81,6 @@ function ManagementTabBar({ state, descriptors, navigation }: any) {
               {isFocused ? tabbarCustom[index].iconActive : tabbarCustom[index].icon}
               <AppText style={[styles.text, isFocused ? styles.textActive : null]}>{tabbarCustom[index].title}</AppText>
             </TouchableOpacity>
-          </React.Fragment>
         );
       })}
     </View>
@@ -115,7 +113,7 @@ const styles = ScaledSheet.create({
     paddingBottom: isIphoneX() ? '20@vs' : '5@vs',
     backgroundColor: color.background,
   },
-  wrapIcon: { alignItems: 'center' },
+  wrapIcon: { alignItems: 'center', width: '25%', paddingVertical: 5},
   textActive: {
     color: color.primary,
     fontSize: '10@ms',

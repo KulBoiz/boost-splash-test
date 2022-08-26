@@ -6,6 +6,8 @@ import InDeveloping from "../components/in-developing"
 import FinanceScreen from "../screens/loan/finance-screen"
 import { ScreenNames } from "./screen-names"
 import ManagementTabBar from "../components/bottom-tab-bar/management-tab"
+import { View } from "react-native"
+import { color } from "../theme"
 
 export type ManagementStackParamList = {
   [ScreenNames.MANAGE_FINANCE]: { index: any };
@@ -16,7 +18,7 @@ const Tab = createBottomTabNavigator<ManagementStackParamList>()
 
 export const ManagementStack = () => {
   return (
-    <>
+    <View style={styles.container}>
       <AppHeader headerText={'Quản lý chung'} isBlue />
       <Tab.Navigator
         initialRouteName={ScreenNames.MANAGE_FINANCE}
@@ -36,8 +38,13 @@ export const ManagementStack = () => {
           component={() => (<InDeveloping notShowHeader={true} />)}
         />
       </Tab.Navigator>
-    </>
+    </View>
   )
 }
 
-const styles = ScaledSheet.create({});
+const styles = ScaledSheet.create({
+  container:{
+    flex: 1,
+    backgroundColor: color.background
+  }
+});

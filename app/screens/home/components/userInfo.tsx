@@ -35,7 +35,7 @@ export const UserInfo = observer(() => {
         <View style={[ROW, { alignItems: "center", justifyContent: "space-between" }]}>
           <View style={[ROW, { alignItems: "center" }]}>
             <View>
-              <FastImage source={avatar ? { uri: avatar } : images.fina_logo} style={styles.avatar} />
+              <FastImage source={avatar ? { uri: avatar } : images.avatarDefault} style={styles.avatar} />
             </View>
               <View style={{ marginLeft: 8 }}>
                 <AppText style={[styles.textHello, { marginBottom: 4 }]} value={"Xin chào!"} />

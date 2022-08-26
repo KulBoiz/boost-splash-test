@@ -32,6 +32,7 @@ const utilityAction = ( screen, param?: any ) => {
   DeviceEventEmitter.emit('utilityClose');
   navigate(screen, param)
 }
+
 export const INSURANCE_PRODUCT = [
   // {
   //   image: images.statistical,

@@ -12,6 +12,7 @@ interface Props{
   visible: boolean,
   cancelTitle?: string,
   submitTitle?: string,
+  hideCancel?: boolean,
   title?: string,
   content?:string,
   closeModal(): void
@@ -19,7 +20,7 @@ interface Props{
 }
 
 const ConfirmModal = React.memo((props: Props) => {
-  const {visible, title = '', content = '', closeModal, onPress, cancelTitle = '', submitTitle = ''} = props
+  const {visible, title = '', content = '', closeModal, onPress, cancelTitle = '', submitTitle = '', hideCancel = false} = props
   return (
       <Modal
         isVisible={visible}
@@ -30,9 +31,9 @@ const ConfirmModal = React.memo((props: Props) => {
         <View style={styles.body}>
             <AppText style={styles.title}>{title}</AppText>
            <AppText style={styles.content} value={content} />
-          <View style={styles.btnContainer}>
-            <AppButton title={!!cancelTitle ? cancelTitle : 'Hủy'} onPress={closeModal} titleStyle={styles.cancelText} style={[styles.btn, styles.cancelBtn]}/>
-            <AppButton title={!!submitTitle ? submitTitle :'Đồng ý'} onPress={onPress} titleStyle={FONT_SEMI_BOLD_12} style={[styles.btn, styles.submitBtn]}/>
+          <View style={[styles.btnContainer, {justifyContent: hideCancel ? 'center' : 'space-between'}]}>
+            {!hideCancel && <AppButton title={cancelTitle || 'Hủy'} onPress={closeModal} titleStyle={styles.cancelText} style={[styles.btn, styles.cancelBtn]}/> }
+            <AppButton title={submitTitle || 'Đồng ý'} onPress={onPress} titleStyle={FONT_SEMI_BOLD_12} style={[styles.btn, styles.submitBtn]}/>
           </View>
         </View>
       </Modal>

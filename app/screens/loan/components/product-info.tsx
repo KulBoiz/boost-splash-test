@@ -13,16 +13,16 @@ interface Props{
 const ProductInfo = React.memo((props: Props) => {
   const {item} = props
   const info = item?.info
-  const preferentialRate = info?.preferentialRate
-  const preferentialTime = info?.preferentialTime
+  // const preferentialRate = info?.preferentialRate
+  // const preferentialTime = info?.preferentialTime
   const maxRate = info?.maxRate
   const maxTime = info?.maxTime
 
   return (
     <View style={styles.container}>
       <AppText tx={"loan.productInfo"} style={styles.label}/>
-      <ItemView title={'loan.preferentialTime'} content={`${preferentialTime ?? ''} tháng`} style={styles.itemStyle} contentStyle={styles.content} />
-      <ItemView title={'loan.preferentialInterestRate'} content={`${preferentialRate ?? ''}%`} style={styles.itemStyle} contentStyle={styles.content} />
+      {/* <ItemView title={'loan.preferentialTime'} content={`${preferentialTime ?? ''} tháng`} style={styles.itemStyle} contentStyle={styles.content} /> */}
+      {/* <ItemView title={'loan.preferentialInterestRate'} content={`${preferentialRate ?? ''}%`} style={styles.itemStyle} contentStyle={styles.content} /> */}
       <ItemView title={'loan.interestRateAfterIncentives'} content={`${info?.afterPreferentialRate ?? ''}%`} style={styles.itemStyle} contentStyle={styles.content} />
       <ItemView title={'loan.referenceInterestRate'} content={`${info?.preferentialReference ?? ''}%`} style={styles.itemStyle} contentStyle={styles.content} />
       <ItemView title={'loan.amplitude'} content={`${info?.amplitude ?? ''}%`} style={styles.itemStyle} contentStyle={styles.content} />
