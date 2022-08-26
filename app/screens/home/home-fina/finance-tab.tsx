@@ -14,7 +14,6 @@ import { color } from "../../../theme"
 import BottomView from '../../../components/bottom-view'
 import { useStores } from "../../../models"
 import ProjectItem from "./components/project-item"
-import ConfirmModal from "../../../components/app-modal/confirm-modal"
 
 interface Props { }
 
@@ -133,14 +132,6 @@ const FinanceTab = React.memo((props: Props) => {
           type={'vehicle'}
         />
        }
-       <ConfirmModal
-         visible={true}
-         closeModal={()=> {}}
-         onPress={()=> {}}
-         content={'Sản phẩm hiện đang chưa mở bán,  vui lòng quay lại sau.'}
-         hideCancel
-         submitTitle={'Trờ về'}
-       />
 
       <BottomView height={200} />
       <FullScreenModal

@@ -7,10 +7,9 @@ import { useStores } from "../../../models"
 import { sortBy } from "lodash"
 import moment from "moment"
 
-interface Props { }
+interface Props {}
 
 const History = React.memo((props: Props) => {
-  // @ts-ignore
   const { loanStore } = useStores()
   const { histories = [] } = loanStore
 

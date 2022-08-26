@@ -29,8 +29,8 @@ const ConfirmModal = React.memo((props: Props) => {
         animationOut="fadeOut"
       >
         <View style={styles.body}>
-            <AppText style={styles.title}>{title}</AppText>
-           <AppText style={styles.content} value={content} />
+          <AppText style={styles.title}>{title}</AppText>
+          <AppText style={styles.content} value={content} />
           <View style={[styles.btnContainer, {justifyContent: hideCancel ? 'center' : 'space-between'}]}>
             {!hideCancel && <AppButton title={cancelTitle || 'Hủy'} onPress={closeModal} titleStyle={styles.cancelText} style={[styles.btn, styles.cancelBtn]}/> }
             <AppButton title={submitTitle || 'Đồng ý'} onPress={onPress} titleStyle={FONT_SEMI_BOLD_12} style={[styles.btn, styles.submitBtn]}/>
