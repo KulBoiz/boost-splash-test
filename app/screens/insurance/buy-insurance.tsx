@@ -5,8 +5,10 @@ import { View } from "react-native"
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view"
 import { ScaledSheet } from "react-native-size-matters"
 import WebView from "react-native-webview"
+import ConfirmModal from "../../components/app-modal/confirm-modal"
 import ShareComponent from "../../components/share"
 import { useStores } from "../../models/root-store/root-store-context"
+import { navigate } from "../../navigators"
 import { ScreenNames } from "../../navigators/screen-names"
 import { color } from "../../theme"
 import BuyStepOneForm from "./components/buy-step-one-form"
@@ -37,6 +39,23 @@ const BuyInsurance = observer((props: Props) => {
 
   const nextToScreenBuyRecords = () => {
     navigation.dispatch(StackActions.push(ScreenNames.INSURANCE_SCREEN, { id: 1 }))
+  }
+
+  if (!productDetail?.info?.productUrlOriginal) {
+    return <>
+      <ConfirmModal
+        visible={true}
+        closeModal={() => {
+          navigate(ScreenNames.HOME)
+        }}
+        onPress={() => {
+          navigate(ScreenNames.HOME)
+        }}
+        content={'Sản phẩm hiện đang chưa mở bán,  vui lòng quay lại sau.'}
+        hideCancel
+        submitTitle={'Trờ về'}
+      />
+    </>
   }
 
   if (productDetail && productDetail?.source && !productDetail?.isFina) {
@@ -106,7 +125,7 @@ export default BuyInsurance
 
 const styles = ScaledSheet.create({
   container: {
-    flex:1,
+    flex: 1,
     backgroundColor: color.palette.white,
   },
 })

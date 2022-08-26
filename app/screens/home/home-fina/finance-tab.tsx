@@ -1,20 +1,19 @@
+import { DOMAIN } from "@env"
+import i18n from "i18n-js"
 import React, { useEffect, useState } from "react"
 import { View } from "react-native"
-import HomeItem from "./components/home-item"
-import { formatHomeData } from "./constants"
 import { ScaledSheet } from "react-native-size-matters"
-import i18n from "i18n-js"
-import { DOMAIN } from "@env"
 import { images } from "../../../assets/images"
-import { ScreenNames } from "../../../navigators/screen-names"
-import { navigate } from "../../../navigators"
 import FullScreenModal from "../../../components/app-modal/full-screen-modal"
-import HomeBanner from "./components/home-banner"
-import { color } from "../../../theme"
 import BottomView from '../../../components/bottom-view'
 import { useStores } from "../../../models"
+import { navigate } from "../../../navigators"
+import { ScreenNames } from "../../../navigators/screen-names"
+import { color } from "../../../theme"
+import HomeBanner from "./components/home-banner"
+import HomeItem from "./components/home-item"
 import ProjectItem from "./components/project-item"
-import ConfirmModal from "../../../components/app-modal/confirm-modal"
+import { formatHomeData } from "./constants"
 
 interface Props { }
 
@@ -133,14 +132,6 @@ const FinanceTab = React.memo((props: Props) => {
           type={'vehicle'}
         />
        }
-       <ConfirmModal
-         visible={true}
-         closeModal={()=> {}}
-         onPress={()=> {}}
-         content={'Sản phẩm hiện đang chưa mở bán,  vui lòng quay lại sau.'}
-         hideCancel
-         submitTitle={'Trờ về'}
-       />
 
       <BottomView height={200} />
       <FullScreenModal
