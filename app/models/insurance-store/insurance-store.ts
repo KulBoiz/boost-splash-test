@@ -56,7 +56,7 @@ export const InsuranceStoreModel = types
       pagingParams?: PagingParamsType,
       isRefresh = false,
     ) {
-      if (self.listBuy.length === self.listBuyTotal && pagingParams?.page !== 1){
+      if (self.listBuy.length === self.listBuyTotal && pagingParams?.page !== 1) {
         return
       }
       if (isRefresh || pagingParams?.page === 1) {
@@ -79,14 +79,15 @@ export const InsuranceStoreModel = types
             }
           },
           include: [
-            {relation: "source"},
-            {relation: "user"},
+            { relation: "source" },
+            { relation: "user" },
             { relation: "category" },
-            {relation: "transaction"},
-            {relation: "product",
+            { relation: "transaction" },
+            {
+              relation: "product",
               scope: {
                 include: [
-                  {relation: 'org'}
+                  { relation: 'org' }
                 ]
               }
             }
@@ -97,22 +98,19 @@ export const InsuranceStoreModel = types
         page: pagingParams?.page ?? 1,
       })
 
+      self.isRefreshing = false
+      self.isLoadingMore = false
       const data = result?.data?.data
 
       if (result.kind === "ok") {
         self.listBuyTotal = result.data.total
-        self.isRefreshing = false
-        self.isLoadingMore = false
         if (isRefresh || pagingParams?.page === 1) {
           self.listBuy = data
         } else {
           self.listBuy = unionBy(self.listBuy, data, "id")
         }
       }
-      else{
-        self.isRefreshing = false
-        self.isLoadingMore = false
-      }
+
       return result
     }),
 
@@ -121,12 +119,12 @@ export const InsuranceStoreModel = types
       pagingParams?: PagingParamsType,
       isRefresh = false,
     ) {
-      if (self.listClaimTotal === self.listClaim.length && pagingParams?.page !== 1){
+      if (self.listClaimTotal === self.listClaim.length && pagingParams?.page !== 1) {
         return
       }
       if (isRefresh || pagingParams?.page === 1) {
-      self.listClaim = []
-    }
+        self.listClaim = []
+      }
       if (isRefresh) {
         self.isRefreshing = true
       } else {
@@ -141,16 +139,17 @@ export const InsuranceStoreModel = types
               inq: ["claim_insurance"]
             },
             status: {
-              nin:["deleted"]
+              nin: ["deleted"]
             }
           },
           include: [
-            {relation: "user"},
-            {relation: "product",
+            { relation: "user" },
+            {
+              relation: "product",
               scope: {
                 include: [
-                  {relation: 'org'},
-                  {relation: 'category'}
+                  { relation: 'org' },
+                  { relation: 'category' }
                 ]
               }
             },
@@ -161,23 +160,20 @@ export const InsuranceStoreModel = types
         page: pagingParams?.page ?? 1,
       })
 
+      self.isRefreshing = false
+      self.isLoadingMore = false
       const data = result?.data?.data
 
       if (result.kind === "ok") {
         self.listClaimTotal = result.data.total
         self.listClaim = data
-        self.isRefreshing = false
-        self.isLoadingMore = false
         if (isRefresh || pagingParams?.page === 1) {
           self.listClaim = data
         } else {
           self.listClaim = unionBy(self.listClaim, data, "id")
         }
       }
-      else{
-        self.isRefreshing = false
-        self.isLoadingMore = false
-      }
+
       return result
     }),
 
@@ -198,7 +194,7 @@ export const InsuranceStoreModel = types
             productId: id
           },
           include: [
-            {relation: 'organization'}
+            { relation: 'organization' }
           ]
         }
       })
@@ -210,14 +206,14 @@ export const InsuranceStoreModel = types
         self.isRefreshing = false
         self.isLoadingMore = false
       }
-      else{
+      else {
         self.isRefreshing = false
         self.isLoadingMore = false
       }
       return result
     }),
 
-    getCategoryInsurance:  flow(function* get() {
+    getCategoryInsurance: flow(function* get() {
       const api = new BaseApi(self.environment.api)
       const result = yield api.get("categories/public", {
         filter: {
@@ -229,14 +225,14 @@ export const InsuranceStoreModel = types
         },
         page: 1,
       })
-      
+
       return result
     }),
 
-    getOrgInsurance:  flow(function* get() {
+    getOrgInsurance: flow(function* get() {
       const api = new BaseApi(self.environment.api)
       const result = yield api.get(`products/public/organization/insurances`)
-      
+
       return result
     }),
 
