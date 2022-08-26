@@ -21,6 +21,7 @@ interface Props{
 const IntroduceStepTwo = React.memo(({ preStep }: Props) => {
   const goToFinance = () => {
     navigate(ScreenNames.MANAGEMENT)
+    preStep()
   }
   return (
     <View style={[styles.container, CONTAINER_PADDING]}>

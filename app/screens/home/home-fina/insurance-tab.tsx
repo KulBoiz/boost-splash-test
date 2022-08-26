@@ -8,6 +8,8 @@ import { color } from "../../../theme"
 import { useStores } from '../../../models'
 import HomeBanner from "./components/home-banner"
 import { MARGIN_TOP_16 } from "../../../styles/common-style"
+import HomeItem from "./components/home-item"
+import { INSURANCE_PRODUCT } from "./constants"
 
 const InsuranceTab = () => {
   const { insuranceStore } = useStores();
@@ -26,7 +28,8 @@ const InsuranceTab = () => {
   return (
     <View style={styles.container}>
       {/* <HomeItem data={INSURANCE_PRODUCT} label={"Sản phẩm bảo hiểm"} style={styles.itemMargin} /> */}
-      <OthersInsurance data={mapInsurance('real_estate') || []} title={"Bảo hiểm con người"} showAction={true} />
+      <HomeItem data={INSURANCE_PRODUCT} label={"Công cụ bảo hiểm"} />
+      <OthersInsurance data={mapInsurance('real_estate') || []} title={"Bảo hiểm con người"}/>
       <OthersInsurance data={mapInsurance('vehicle') || []} title={"Bảo hiểm tài sản"} />
       <HomeBanner type={'small'} label={'Tin tức, khuyến mãi'} style={MARGIN_TOP_16}/>
       <BottomView height={s(230)} />

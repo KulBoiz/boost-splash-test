@@ -145,7 +145,7 @@ const styles = ScaledSheet.create({
     marginRight: '2@s'
   },
   month: {
-    marginTop: isAndroid ? '-8@s' : 0,
+    marginTop: isAndroid ? '-10@s' : 0,
     textAlign: "center"
   }
 });

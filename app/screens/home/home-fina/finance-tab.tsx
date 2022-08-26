@@ -14,6 +14,7 @@ import { color } from "../../../theme"
 import BottomView from '../../../components/bottom-view'
 import { useStores } from "../../../models"
 import ProjectItem from "./components/project-item"
+import ConfirmModal from "../../../components/app-modal/confirm-modal"
 
 interface Props { }
 
@@ -68,11 +69,11 @@ const FinanceTab = React.memo((props: Props) => {
         setVisible(true)
       },
     },
-    {
-      image: images.home_real_estate,
-      title: i18n.t("home.real_estate"),
-      onPress: () => { navigate(ScreenNames.CHAT) },
-    },
+    // {
+    //   image: images.home_real_estate,
+    //   title: i18n.t("home.real_estate"),
+    //   onPress: () => { navigate(ScreenNames.CHAT) },
+    // },
     {
       image: images.home_introduce_borrowers,
       title: i18n.t("home.introduceBorrowers"),
@@ -132,6 +133,14 @@ const FinanceTab = React.memo((props: Props) => {
           type={'vehicle'}
         />
        }
+       <ConfirmModal
+         visible={true}
+         closeModal={()=> {}}
+         onPress={()=> {}}
+         content={'Sản phẩm hiện đang chưa mở bán,  vui lòng quay lại sau.'}
+         hideCancel
+         submitTitle={'Trờ về'}
+       />
 
       <BottomView height={200} />
       <FullScreenModal
