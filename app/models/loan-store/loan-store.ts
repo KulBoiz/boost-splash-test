@@ -1,3 +1,4 @@
+import { unionBy } from "lodash"
 import { flow, Instance, SnapshotOut, types } from "mobx-state-tree"
 import { BaseApi } from "../../services/api/base-api"
 // import { CommentApi } from "../../services/api/comment-api"
@@ -243,7 +244,6 @@ export const LoanStoreModel = types
       }
       const data = result?.data?.data
       const total = result?.data?.total
-
       if (data) {
         self.records = data
         self.totalRecord = total
@@ -256,7 +256,7 @@ export const LoanStoreModel = types
     }),
 
     loadMoreRecords: flow(function* loadMoreRecords(query) {
-      if (self.total < self.records.length) {
+      if (self.totalRecord < self.records.length) {
         return { kind: "end" }
       }
 
@@ -281,7 +281,7 @@ export const LoanStoreModel = types
       const data = result?.data?.data
       const oldData: any = [...self.records]
       if (data) {
-        const newData: any = oldData.concat(data)
+        const newData: any = unionBy(oldData, data, "id");
         self.page += 1
         self.records = newData
         return {

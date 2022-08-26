@@ -1,8 +1,9 @@
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs"
 import React from "react"
-import { ScaledSheet} from "react-native-size-matters"
+import { ScaledSheet } from "react-native-size-matters"
 import AppHeader from "../components/app-header/AppHeader"
 import InDeveloping from "../components/in-developing"
+import InsuranceScreen from "../screens/deal/insurance-screen"
 import FinanceScreen from "../screens/loan/finance-screen"
 import { ScreenNames } from "./screen-names"
 import ManagementTabBar from "../components/bottom-tab-bar/management-tab"
@@ -31,7 +32,7 @@ export const ManagementStack = () => {
         />
         <Tab.Screen
           name={ScreenNames.MANAGE_INSURANCE}
-          component={()=><InDeveloping notShowHeader/>}
+          component={InsuranceScreen}
         />
         <Tab.Screen
           name={ScreenNames.MANAGE_INVEST}

@@ -1,63 +1,144 @@
-import { RouteProp, useRoute } from "@react-navigation/native";
-import React from "react";
-import { View } from 'react-native';
+import { Box, Spinner } from "native-base";
+import React, { useCallback, useEffect, useState } from "react";
+import { FlatList, RefreshControl } from 'react-native';
 import { ScaledSheet } from "react-native-size-matters";
-import { SceneMap, TabBar, TabView } from "react-native-tab-view";
 import SettingAuthScreen from "../../components/app-view-no-auth";
-import { width } from "../../constants/variable";
+import EmptyList from "../../components/empty-list";
 import { useStores } from "../../models";
-import { AppStackParamList } from "../../navigators/app-stack";
+import { navigate } from "../../navigators";
 import { ScreenNames } from "../../navigators/screen-names";
-import { FONT_MEDIUM_14 } from "../../styles/common-style";
 import { color } from "../../theme";
-import RecordsManagement from "../management/records-management";
+import ManageInsuranceItem from "../insurance/components/manage-insurance-item";
+import ManageInsuranceTab from "../insurance/components/manage-insurance-tab";
+import { INSURANCE_TABS } from "../insurance/constants";
 
 interface Props { }
 
-const InsuranceScreen = React.memo((props: Props) => {
-  const route = useRoute<RouteProp<AppStackParamList, ScreenNames.SCHEDULE>>()
-  const param = route?.params?.index ?? 0
-  const [index, setIndex] = React.useState(param);
-  // @ts-ignore
-  const { authStoreModel } = useStores();
+const InsuranceScreen = (props: Props) => {
+  const { insuranceStore, authStoreModel } = useStores()
+  const [tabSelect, setTabSelect] = useState("1")
+  const [loading, showLoading] = useState(false)
 
-  const [routes] = React.useState([
-    { key: 'first', title: 'Bản thân' },
-    { key: 'second', title: 'Cộng tác viên' },
-  ]);
+  const isListBuy = tabSelect === INSURANCE_TABS[0].key
+  const isLoggedIn = authStoreModel.isLoggedIn
 
-  const renderScene = SceneMap({
-    first: !authStoreModel?.isLoggedIn ? SettingAuthScreen : () => <RecordsManagement index={index} />,
-    second: !authStoreModel?.isLoggedIn ? SettingAuthScreen : () => <RecordsManagement index={index} />,
-  });
+  useEffect(() => {
+    fetchList()
+  }, [])
 
-  const renderTabBar = props => (
-    <TabBar
-      {...props}
-      inactiveColor={color.palette.lighterGray}
-      labelStyle={[{ color: color.palette.blue, textTransform: 'none' }, FONT_MEDIUM_14]}
-      indicatorStyle={styles.indicatorStyle}
-      style={styles.tab}
-    />
-  );
+  const fetchList = () => {
+    showLoading(true)
+    isListBuy ? insuranceStore.getListBuyInsurance({}, { page: 1, limit: 20 }).then(res => {
+      showLoading(false)
+    })
+      : insuranceStore.getListClaimInsurance({}, { page: 1, limit: 20 }).then(res => {
+        showLoading(false)
+      })
+  }
+
+  const showDetail = useCallback((index) => {
+    if (isListBuy) {
+      navigate(ScreenNames.MANAGE_INSURANCE_DETAIL_SCREEN, { index, isListBuy })
+    }
+    else navigate(ScreenNames.INSURANCE_CLAIM_DETAIL, { index })
+  }, [tabSelect])
+
+  const _onRefresh = useCallback(() => {
+    showLoading(true)
+    isListBuy ?
+      insuranceStore.getListBuyInsurance({}, { page: 1, limit: 20 }, true).then(res => {
+        showLoading(false)
+      })
+      : insuranceStore.getListClaimInsurance({}, { page: 1, limit: 20 }, true).then(res => {
+        showLoading(false)
+      })
+  }, [isListBuy])
+
+  const _onLoadMore = useCallback(() => {
+    if (isListBuy) {
+      if (insuranceStore.listBuy?.length < insuranceStore.listBuyTotal
+        && !insuranceStore.isLoadingMore
+      ) {
+        insuranceStore.getListBuyInsurance(
+          {},
+          { page: insuranceStore?.pagingListBuy?.page + 1, limit: 20 },
+          false
+        ).then(res => {
+          showLoading(false)
+        })
+      }
+    }
+    else {
+      if (insuranceStore.listClaim?.length < insuranceStore.listClaimTotal
+        && !insuranceStore.isLoadingMore
+      ) {
+        insuranceStore.getListClaimInsurance(
+          {},
+          { page: insuranceStore?.pagingListClaim?.page + 1, limit: 20 },
+          false
+        ).then(res => {
+          showLoading(false)
+        })
+      }
+    }
+  }, [insuranceStore.isLoadingMore, insuranceStore.listBuy, insuranceStore.listClaim])
+
+  const onChangeTab = useCallback((key) => {
+    setTabSelect(key)
+    fetchList()
+  }, [tabSelect])
+
+  const renderItem = useCallback(({ item, index }) => {
+    return <ManageInsuranceItem item={item} index={index} onPress={() => showDetail(index)} />
+  }, [tabSelect])
+
+  const ListFooterComponent = useCallback(() => {
+    if (loading) {
+      return <Spinner color="primary" m="4" />
+    }
+    return <Box m="4" />
+  }, [loading])
+
   return (
-    <View style={styles.container}>
-      <TabView
-        navigationState={{ index, routes }}
-        renderScene={renderScene}
-        onIndexChange={setIndex}
-        initialLayout={{ width: width }}
-        renderTabBar={renderTabBar}
-      />
-    </View>
+    <>
+      {isLoggedIn ?
+        <Box flex="1" bg="lightBlue">
+
+          <ManageInsuranceTab onChangeTab={onChangeTab} tabSelect={tabSelect} />
+          <Box flex={1} bg="white" pt='1'>
+
+            <FlatList
+              data={isListBuy ? insuranceStore.listBuy : insuranceStore.listClaim}
+              keyExtractor={(_, index) => index.toString()}
+              renderItem={renderItem}
+              refreshControl={
+                <RefreshControl
+                  refreshing={insuranceStore.isRefreshing}
+                  onRefresh={_onRefresh}
+                  colors={[color.primary]}
+                  tintColor={color.primary}
+                />
+              }
+              onEndReachedThreshold={0.2}
+              onEndReached={_onLoadMore}
+              ListFooterComponent={ListFooterComponent}
+              contentContainerStyle={styles.list}
+              ListEmptyComponent={!loading ? EmptyList : <></>}
+            />
+          </Box>
+        </Box> :
+        <SettingAuthScreen />
+      }
+    </>
   )
-});
+}
 
 export default InsuranceScreen;
 
 const styles = ScaledSheet.create({
   container: { backgroundColor: color.palette.white, flex: 1 },
-  tab: { backgroundColor: 'white', borderTopLeftRadius: '8@s', borderTopRightRadius: '8@s' },
-  indicatorStyle: { backgroundColor: color.palette.blue }
-
+  header: { backgroundColor: "white", borderBottomWidth: 0 },
+  list: {
+    paddingVertical: '16@s'
+  }
 });
