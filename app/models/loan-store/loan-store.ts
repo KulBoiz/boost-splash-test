@@ -282,8 +282,6 @@ export const LoanStoreModel = types
       const oldData: any = [...self.records]
       if (data) {
         const newData: any = unionBy(oldData, data, "id");
-        console.log(newData.length);
-        
         self.page += 1
         self.records = newData
         return {
