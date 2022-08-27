@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react"
 import { TouchableOpacity, View } from "react-native"
 import AppHeader from '../../../components/app-header/AppHeader';
-import { ScaledSheet } from "react-native-size-matters"
+import { ms, ScaledSheet } from "react-native-size-matters"
 import { AppText } from "../../../components/app-text/AppText"
 import { fontFamily } from "../../../constants/font-family"
 import * as Yup from "yup"
@@ -16,6 +16,8 @@ import { EditSvg } from "../../../assets/svgs"
 import _ from 'lodash'
 import { useStores } from "../../../models"
 import { userAuth, userInfo } from "../constants"
+import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view"
+import BottomView from "../../../components/bottom-view"
 
 interface Props{}
 
@@ -95,7 +97,7 @@ const UserProfile = React.memo((props: Props) => {
   return (
     <View style={styles.container}>
       <AppHeader headerText={'Thông tin tài khoản'} isBlue/>
-      <View style={styles.body}>
+      <KeyboardAwareScrollView style={styles.body}>
         <View style={[ROW, SPACE_BETWEEN, ALIGN_CENTER]}>
           <AppText value={'Thông tin cá nhân'} style={styles.label}/>
           {!isEdit &&
@@ -107,7 +109,8 @@ const UserProfile = React.memo((props: Props) => {
         <UserForm {...{control, setValue, clearErrors, editable: isEdit}} errors={{ ...errors }} />
         <AppText value={'CMND/ CCCD/ Hộ chiếu'} style={[styles.label, MARGIN_TOP_8]}/>
         <IdentifyForm {...{control, setValue, clearErrors, editable: isEdit}} errors={{ ...errors }} />
-      </View>
+        <BottomView height={ms(100)} />
+      </KeyboardAwareScrollView>
       {isEdit &&
         <View style={styles.btnContainer}>
           <AppButton title={'Cập nhật'} onPress={handleSubmit(updateUserInfo)} disable={isUpdate}/>

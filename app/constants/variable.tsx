@@ -1,7 +1,11 @@
 import moment, { Moment } from "moment"
 import { Dimensions, Platform } from "react-native"
 import { TxKeyPath } from "../i18n"
-
+const gender = {
+  female : 'female',
+  male: 'male',
+  other: "other"
+}
 export const isIos = Platform.OS === "ios"
 export const isAndroid = Platform.OS === "android"
 
@@ -61,6 +65,16 @@ export function formatDateTime(date: string | Date) {
 export function getFullName(user: any) {
   if  (!user) return '_'
   return user?.fullName ?? (user?.firstName ?? '') + ' ' + (user?.lastName ?? '')
+}
+
+export const getGender = (sex) => {
+  if (sex === gender.male) {
+    return 'Nam'
+  }
+  if (sex === gender.female) {
+    return 'Nữ'
+  }
+  return 'Khác'
 }
 
 export function verticalScale(num: number){
