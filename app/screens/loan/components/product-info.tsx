@@ -5,6 +5,7 @@ import { ScaledSheet } from "react-native-size-matters"
 import { color } from "../../../theme"
 import { AppText } from "../../../components/app-text/AppText"
 import { fontFamily } from "../../../constants/font-family"
+import { numberWithCommas } from "../../../constants/variable"
 
 interface Props{
   item: any
@@ -29,8 +30,8 @@ const ProductInfo = React.memo((props: Props) => {
       <ItemView title={'loan.maximumLoanRate'} content={`${maxRate ?? ''}%`} style={styles.itemStyle} contentStyle={styles.content} />
       <ItemView title={'loan.maximumLoanPeriod'} content={`${maxTime ? maxTime + ' năm' : ''} `} style={styles.itemStyle} contentStyle={styles.content} />
       <ItemView title={'loan.minimumLoanPeriod'} content={`${info?.minTime ? info?.minTime + ' tháng' : ''} `} style={styles.itemStyle} contentStyle={styles.content} />
-      <ItemView title={'loan.maximumLoanAmount'} content={``} style={styles.itemStyle} contentStyle={styles.content} />
-      <ItemView title={'loan.minimumLoanAmount'} content={``} style={styles.itemStyle} contentStyle={styles.content} />
+      <ItemView title={'loan.maximumLoanAmount'} content={`${info?.maxMoney ? numberWithCommas(info?.maxMoney) + ' VND' : ''} `} style={styles.itemStyle} contentStyle={styles.content} />
+      <ItemView title={'loan.minimumLoanAmount'} content={`${info?.minMoney ? numberWithCommas(info?.minMoney) + ' VND' : ''} `} style={styles.itemStyle} contentStyle={styles.content} />
     </View>
   )
 });

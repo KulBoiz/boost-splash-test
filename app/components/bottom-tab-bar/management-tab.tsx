@@ -1,6 +1,7 @@
 /* eslint-disable @typescript-eslint/no-unsafe-call */
 import React from 'react';
-import { TouchableOpacity, View } from 'react-native';
+import { View } from 'react-native';
+import {TouchableOpacity} from 'react-native-gesture-handler'
 import { isIphoneX } from 'react-native-iphone-x-helper';
 import { ScaledSheet } from 'react-native-size-matters';
 import FastImage from "react-native-fast-image"
@@ -71,6 +72,7 @@ function ManagementTabBar({ state, descriptors, navigation }: any) {
         return (
             <TouchableOpacity
               key={index}
+              hitSlop={HIT_SLOP}
               style={styles.wrapIcon}
               accessibilityRole="button"
               accessibilityState={isFocused ? { selected: true } : {}}
@@ -113,7 +115,7 @@ const styles = ScaledSheet.create({
     paddingBottom: isIphoneX() ? '20@vs' : '5@vs',
     backgroundColor: color.background,
   },
-  wrapIcon: { alignItems: 'center', width: '25%', paddingVertical: 5},
+  wrapIcon: { alignItems: 'center'},
   textActive: {
     color: color.primary,
     fontSize: '10@ms',

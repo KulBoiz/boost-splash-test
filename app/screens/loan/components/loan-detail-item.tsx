@@ -1,14 +1,15 @@
 import React from 'react';
 import { View } from "react-native"
 import { AppText } from "../../../components/app-text/AppText"
-import { StarSvg } from "../../../assets/svgs"
+import { BlueTickSvg, StarSvg } from "../../../assets/svgs"
 import FastImage from "react-native-fast-image"
 import InterestRate from "./interest-rate"
 import { color } from "../../../theme"
-import { ScaledSheet } from "react-native-size-matters"
+import { ms, ScaledSheet } from "react-native-size-matters"
 import { fontFamily } from "../../../constants/font-family"
 import { truncateString } from "../../../constants/variable"
 import { useStores } from "../../../models"
+import { ALIGN_CENTER, MARGIN_BOTTOM_8, MARGIN_TOP_8, ROW } from "../../../styles/common-style"
 
 interface Props{}
 
@@ -17,6 +18,7 @@ const LoanDetailItem = React.memo((props: Props) => {
   const item = loanStore.productDetail
   const imageUrl = item?.org?.image?.url
   const outstandingAdvantages = item?.outstandingAdvantages
+  const advantages = item?.advantages?.split("\n")?.slice(0,3)
   const backgroundColor = item?.org?.backgroundColor
 
   return (
@@ -27,15 +29,28 @@ const LoanDetailItem = React.memo((props: Props) => {
 
       <View style={styles.body}>
         <View style={styles.headerContent}>
-          <AppText value={truncateString(item?.name, 25)} style={styles.name}/>
+          <AppText value={item?.name} style={styles.name}/>
+        </View>
+        <InterestRate border interestRate={item?.info?.preferentialRate} endow={item?.info?.preferentialTime} month={12}/>
+        <View style={styles.wrapInfo}>
           {outstandingAdvantages &&
             <View style={styles.row}>
               <StarSvg />
-              <AppText value={truncateString(outstandingAdvantages, 25)} style={styles.outstandingAdvantages}/>
+              <AppText value={outstandingAdvantages} style={styles.outstandingAdvantages}/>
             </View>
           }
+          {
+            advantages?.length ? advantages.map((val, id) => {
+                return(
+                  <View key={id.toString()} style={[ROW, ALIGN_CENTER, MARGIN_TOP_8, {width: '93%'}]}>
+                    <BlueTickSvg style={{marginRight: ms(5)}}/>
+                    <AppText value={val} fontSize={ms(12)}/>
+                  </View>
+                )
+              }) :
+              <AppText value={item?.advantages}/>
+          }
         </View>
-        <InterestRate border interestRate={item?.info?.preferentialRate} endow={item?.info?.preferentialTime} month={12}/>
       </View>
     </View>
   )
@@ -56,6 +71,9 @@ const styles = ScaledSheet.create({
   bankIcon: {
     width: '80@s',
     height:'30@s'
+  },
+  wrapInfo: {
+    padding: '12@s'
   },
   row: {
     flexDirection: 'row',
@@ -82,13 +100,11 @@ const styles = ScaledSheet.create({
     borderBottomRightRadius: '8@s',
   },
   headerContent: {
-    flexDirection: 'row',
-    alignItems: "center",
-    justifyContent: "space-between",
     padding: '12@s',
   },
 
   outstandingAdvantages: {
+    width: '92%',
     lineHeight: '16@s',
     marginLeft: '8@ms',
     fontSize: '12@ms',

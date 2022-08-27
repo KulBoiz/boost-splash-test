@@ -70,6 +70,7 @@ const AppHeader = React.memo((props: AppHeaderProps) => {
           <Text
             style={[styles.title, titleStyle, { color: isBlue ? color.text : color.palette.black }]}
             text={header}
+            numberOfLines={1}
           />
         </View>
       )}

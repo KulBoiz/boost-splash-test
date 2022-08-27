@@ -6,7 +6,7 @@ import { AppText } from "../../../components/app-text/AppText"
 import { DefaultAvatarSvg, PhoneSvg } from "../../../assets/svgs"
 import { fontFamily } from "../../../constants/font-family"
 import { color } from "../../../theme"
-import { ScaledSheet, ms, s } from "react-native-size-matters"
+import { ScaledSheet, s } from "react-native-size-matters"
 import moment from 'moment';
 import DashedLine from "react-native-dashed-line"
 
@@ -88,19 +88,18 @@ const HistoryItem = React.memo((props: Props) => {
       <View style={styles.wrapStatus}>
         <AppText value={renderDetail()} capitalize />
       </View>
-        <View style={styles.wrapContact}>
-          <View style={[ROW, ALIGN_CENTER]}>
-           {item?.createdBy?.avatar ? <FastImage source={{ uri: item?.createdBy?.avatar }} style={styles.avatar} /> :
-            <DefaultAvatarSvg width={s(34)} height={s(34)} />
-           }
-           <View style={{marginLeft: s(5)}}>
-             <AppText value={item?.createdBy?.fullName} style={styles.title} />
-             <AppText value={item?.createdBy?.type === 'teller' ? 'Nhân viên tài chính' : 'chuyên viên tư vấn FINA'} style={styles.role} capitalize />
-           </View>
-          </View>
-          <PhoneSvg width={ms(18)} height={ms(18)} />
+      <View style={styles.wrapContact}>
+        <View style={[ROW, ALIGN_CENTER]}>
+         {item?.createdBy?.avatar ? <FastImage source={{ uri: item?.createdBy?.avatar }} style={styles.avatar} /> :
+          <DefaultAvatarSvg width={s(34)} height={s(34)} />
+         }
+         <View style={{marginLeft: s(5)}}>
+           <AppText value={item?.createdBy?.fullName} style={styles.title} />
+           <AppText value={item?.createdBy?.type === 'teller' ? 'Nhân viên tài chính' : 'Chuyên viên tư vấn FINA'} style={styles.role} capitalize />
+         </View>
         </View>
-
+        {/* <PhoneSvg width={ms(18)} height={ms(18)} /> */}
+      </View>
     </View>
   )
 });
