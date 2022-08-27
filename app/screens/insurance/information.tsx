@@ -18,8 +18,7 @@ const tagsStyles = {
   },
 
 }
-const InformationItem = ({ item } : any) => {
-
+const InformationItem = ({ item }: any) => {
   return(
     <View style={styles.itemContainer}>
       <View style={[ROW, ALIGN_CENTER]}>

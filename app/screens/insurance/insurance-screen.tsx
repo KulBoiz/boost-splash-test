@@ -4,8 +4,8 @@ import { Pressable, View } from "react-native"
 import { ScaledSheet } from "react-native-size-matters"
 import { SceneMap, TabBar, TabView } from "react-native-tab-view"
 import AppHeader from "../../components/app-header/AppHeader"
-import SettingAuthScreen from "../../components/app-view-no-auth"
 import { AppText } from "../../components/app-text/AppText"
+import SettingAuthScreen from "../../components/app-view-no-auth"
 import { width } from "../../constants/variable"
 import { useStores } from "../../models"
 import { navigate, NavigatorParamList } from "../../navigators"
@@ -33,7 +33,7 @@ const InsuranceScreen = React.memo((props: Props) => {
   const { authStoreModel } = useStores();
 
   const renderScene = SceneMap({
-    first: !authStoreModel?.isLoggedIn ? SettingAuthScreen : Information,
+    first: Information,
     second: !authStoreModel?.isLoggedIn ? SettingAuthScreen : BuyInsurance,
     third: !authStoreModel?.isLoggedIn ? SettingAuthScreen : BuyRecords,
   });
@@ -76,8 +76,8 @@ export default InsuranceScreen;
 
 const styles = ScaledSheet.create({
   container: { backgroundColor: color.palette.blue, flex: 1 },
-  tab: { backgroundColor: 'white', borderTopLeftRadius: '8@s', borderTopRightRadius: '8@s'},
-  indicatorStyle: { backgroundColor: color.palette.blue},
+  tab: { backgroundColor: 'white', borderTopLeftRadius: '8@s', borderTopRightRadius: '8@s' },
+  indicatorStyle: { backgroundColor: color.palette.blue },
   wrapRightIcon: {
     width: '18@s',
     height: '18@s',
