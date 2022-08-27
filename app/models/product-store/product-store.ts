@@ -1,10 +1,9 @@
 import { flow, Instance, SnapshotOut, types } from "mobx-state-tree"
+import { BaseApi } from "../../services/api/base-api"
 import { ProductApi } from "../../services/api/product-api"
-import { QuestionGroupApi } from "../../services/api/question-group-api"
+import { unionBy } from "../../utils/lodash-utils"
 import { withEnvironment } from "../extensions/with-environment"
 import { withRootStore } from "../extensions/with-root-store"
-import { BaseApi } from "../../services/api/base-api"
-import { unionBy } from "../../utils/lodash-utils"
 
 /**
  * Model description here for TypeScript hints.
@@ -37,7 +36,7 @@ export const ProductStoreModel = types
     get api() {
       return new BaseApi(self.environment.api)
     },
-  }))  .actions((self) => ({
+  })).actions((self) => ({
     get: flow(function* get(params?: string) {
       self.records = []
 
@@ -79,7 +78,7 @@ export const ProductStoreModel = types
     }),
 
 
-    getProductFilter: flow(function* getProductFilter(type,time) {
+    getProductFilter: flow(function* getProductFilter(type, time) {
       const result = yield self.api.get(`app/home/${type}/${time}`, {
         filter: {
           where: {
@@ -110,7 +109,7 @@ export const ProductStoreModel = types
       if (isLoading) {
         self.isLoadingMore = true
       }
-      if (self.products.length === self.totalProduct && pagingParams?.page !== 1){
+      if (self.products.length === self.totalProduct && pagingParams?.page !== 1) {
         return
       }
       const result = yield self.api.get(`product-details/app/home/${type}/${time}`, {
@@ -119,8 +118,8 @@ export const ProductStoreModel = types
             status: 'approved'
           },
           include: [
-            { relation: 'product'},
-            { relation: 'org'},
+            { relation: 'product' },
+            { relation: 'org' },
           ],
           limit: pagingParams?.limit,
           skip: (pagingParams?.page - 1) * pagingParams?.limit,
@@ -153,15 +152,9 @@ export const ProductStoreModel = types
       self.questionGroups = []
 
       const api = new ProductApi(self.environment.api)
-      const apiQuestion = new QuestionGroupApi(self.environment.api)
       const result = yield api.getDetail(id)
       const data = result?.data
       self.productDetail = data
-
-      if (data?.questionGroupId) {
-        const resultQuestionGroup = yield apiQuestion.getDetail(data?.questionGroupId)
-        self.questionGroups = resultQuestionGroup?.data
-      }
 
       if (result.kind !== "ok") {
         return result
@@ -198,7 +191,7 @@ export const ProductStoreModel = types
   })) // eslint-disable-line @typescript-eslint/no-unused-vars
 
 type ProductStoreType = Instance<typeof ProductStoreModel>
-export interface ProductStore extends ProductStoreType {}
+export interface ProductStore extends ProductStoreType { }
 type ProductStoreSnapshotType = SnapshotOut<typeof ProductStoreModel>
-export interface ProductStoreSnapshot extends ProductStoreSnapshotType {}
+export interface ProductStoreSnapshot extends ProductStoreSnapshotType { }
 export const createProductStoreDefaultModel = () => types.optional(ProductStoreModel, {})

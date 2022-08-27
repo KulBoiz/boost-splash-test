@@ -67,6 +67,11 @@ export const BannerStoreModel = types
         page: 1,
         filter: {
           limit: 20,
+          where: {
+            oldIdDXG: {
+              $not: { $type: "int" }
+            }
+          }
         }
       }
 
