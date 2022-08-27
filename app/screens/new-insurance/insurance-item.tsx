@@ -1,11 +1,12 @@
-import React from 'react';
-import { Pressable, View } from "react-native";
+import React, { useState } from 'react';
+import { Modal, Pressable, View } from "react-native";
 import FastImage from "react-native-fast-image";
 import RenderHtml from 'react-native-render-html';
 import { ms, s, ScaledSheet } from "react-native-size-matters";
 import { images } from "../../assets/images";
 import { BlueTickSvg } from "../../assets/svgs";
 import { AppText } from '../../components/app-text/AppText';
+import { LoadingComponent } from '../../components/loading';
 import { fontFamily } from "../../constants/font-family";
 import { truncateString, width } from '../../constants/variable';
 import { useStores } from '../../models';
@@ -21,16 +22,24 @@ interface InsuranceItemProps {
 const InsuranceItem = React.memo((props: InsuranceItemProps) => {
   const { item } = props
   const imageUrl = item?.info?.image?.url
-  const { insuranceStore, productStore } = useStores()
+  const { insuranceStore, productStore, authStoreModel } = useStores()
+  const [loading, setLoading] = useState(false)
 
   const handlePress = () => {
     if (insuranceStore.isFirstTime) {
       navigate(ScreenNames.INTRODUCE_SCREEN)
     } else {
-      productStore.getDetail(item?.id).then(() => {
+      setLoading(true)
+      productStore.getDetail(item?.id).then((res) => {
         navigate(ScreenNames.INSURANCE_SCREEN)
+        setLoading(false)
+      }).catch(() => {
+        setLoading(false)
       })
-      productStore.getTransactionInsurance(item?.id)
+
+      if (authStoreModel?.user?.id) {
+        productStore.getTransactionInsurance(item?.id)
+      }
     }
   }
 
@@ -61,7 +70,7 @@ const InsuranceItem = React.memo((props: InsuranceItemProps) => {
       onPress={handlePress}>
       <View style={styles.header}>
         <View style={[ROW, ALIGN_CENTER]} >
-          <FastImage source={imageUrl ? { uri: imageUrl } : images.avatarDefault} style={styles.bankIcon} resizeMode={'contain'}/>
+          <FastImage source={imageUrl ? { uri: imageUrl } : images.avatarDefault} style={styles.bankIcon} resizeMode={'contain'} />
           <View>
             <AppText value={'Bảo hiểm'} fontSize={ms(11)} style={{ opacity: 0.5 }} />
             <AppText value={truncateString(item?.name, 22)} fontSize={ms(14)} fontFamily={fontFamily.bold} color={color.primary} />
@@ -86,6 +95,14 @@ const InsuranceItem = React.memo((props: InsuranceItemProps) => {
           })
         }
       </View>
+
+      {loading && <>
+        <Modal
+          visible={true}
+        >
+          <LoadingComponent />
+        </Modal>
+      </>}
     </Pressable>
   )
 });
