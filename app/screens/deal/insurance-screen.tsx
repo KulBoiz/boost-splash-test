@@ -11,6 +11,7 @@ import { color } from "../../theme";
 import ManageInsuranceItem from "../insurance/components/manage-insurance-item";
 import ManageInsuranceTab from "../insurance/components/manage-insurance-tab";
 import { INSURANCE_TABS } from "../insurance/constants";
+import BottomView from "../../components/bottom-view"
 
 interface Props { }
 
@@ -96,17 +97,15 @@ const InsuranceScreen = (props: Props) => {
     if (loading) {
       return <Spinner color="primary" m="4" />
     }
-    return <Box m="4" />
+    return <BottomView height={100} />
   }, [loading])
 
   return (
     <>
       {isLoggedIn ?
         <Box flex="1" bg="lightBlue">
-
           <ManageInsuranceTab onChangeTab={onChangeTab} tabSelect={tabSelect} />
           <Box flex={1} bg="white" pt='1'>
-
             <FlatList
               data={isListBuy ? insuranceStore.listBuy : insuranceStore.listClaim}
               keyExtractor={(_, index) => index.toString()}

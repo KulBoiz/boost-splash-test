@@ -14,7 +14,7 @@ import HomeBanner from "./components/home-banner"
 import HomeItem from "./components/home-item"
 import ProjectItem from "./components/project-item"
 import { formatHomeData } from "./constants"
-import { MARGIN_BOTTOM_24 } from "../../../styles/common-style"
+import { MARGIN_BOTTOM_16, MARGIN_BOTTOM_24 } from "../../../styles/common-style"
 
 interface Props { }
 
@@ -99,9 +99,8 @@ const FinanceTab = React.memo((props: Props) => {
 
   return (
     <View style={styles.container}>
-      <HomeItem data={SUPPORT_TOOL} label={"Công cụ bán hàng"} style={MARGIN_BOTTOM_24} />
-      <HomeBanner />
-        {homeStore?.real_estate?.length > 0 &&
+      <HomeItem data={SUPPORT_TOOL} label={"Công cụ bán hàng"} />
+      {homeStore?.real_estate?.length > 0 &&
         <HomeItem
           data={formatHomeData(homeStore.real_estate)}
           header={'Vay mua nhà có sổ'}
@@ -128,11 +127,12 @@ const FinanceTab = React.memo((props: Props) => {
           data={formatHomeData(homeStore.vehicle)}
           header='Vay mua xe'
           label={"Vay mua xe"}
-          style={styles.itemMargin}
+          style={[styles.itemMargin, MARGIN_BOTTOM_16]}
           iconShape={'circle'}
           type={'vehicle'}
         />
        }
+      <HomeBanner type={'small'} label={'Tin tức'}/>
 
       <BottomView height={200} />
       <FullScreenModal
@@ -153,6 +153,6 @@ const styles = ScaledSheet.create({
     backgroundColor: color.background
   },
   itemMargin: {
-    marginTop: "24@s",
+    marginTop: "16@s",
   },
 })

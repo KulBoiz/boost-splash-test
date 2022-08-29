@@ -12,6 +12,7 @@ import { ScreenNames } from "../../navigators/screen-names"
 import { CENTER_ELEMENTS, PARENT, ROW } from "../../styles/common-style"
 import { color } from "../../theme"
 import NoticeItem, { STATUS } from "./components/NoticeItem"
+import EmptyList from "../../components/empty-list"
 
 const MENU = [
   { value: '', label: 'Tất cả' },
@@ -122,7 +123,7 @@ const NoticeScreen = observer((props: Props) => {
     const nextDetail = () => {
       const key = KEY_NOTIFICATION[item?.code]
       notificationModel.readNotifications(item)
-      
+
       if (!key) return ''
 
       if (key === 'YCTV') {
@@ -174,6 +175,7 @@ const NoticeScreen = observer((props: Props) => {
             keyExtractor={(e, i) => i.toString()}
             data={dataSources}
             renderItem={renderItem}
+            ListEmptyComponent={<EmptyList text={'Chưa có thông báo nào'}/>}
             onEndReached={() => {
               notificationModel.loadMoreNotifications({
                 where: {

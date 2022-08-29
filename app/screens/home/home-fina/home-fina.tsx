@@ -43,6 +43,6 @@ const styles = ScaledSheet.create({
 
   },
   scrollView: {
-    marginTop: isIphoneX() ? "175@s" : "155@s",
+    marginTop: isIphoneX() ? "150@s" : "140@s",
   },
 });

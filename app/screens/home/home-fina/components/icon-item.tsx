@@ -90,7 +90,7 @@ const styles = ScaledSheet.create({
   container: {
     width: '20%',
     alignItems: "center",
-    marginVertical: '12@s'
+    marginVertical: '8@s'
   },
   wrapIcon: {
     width: '40@s',
