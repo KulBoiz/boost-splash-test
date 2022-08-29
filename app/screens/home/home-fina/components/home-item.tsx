@@ -52,6 +52,7 @@ const styles = ScaledSheet.create({
     color: 'rgba(0, 0, 0, 0.85)'
   },
   itemContainer: {
+    paddingVertical: '8@s',
     alignItems: "flex-start",
     flexDirection: "row",
     flexWrap: "wrap",

@@ -60,7 +60,7 @@ const InsuranceTab = () => {
         </>
       }
       <HomeBanner type={'small'} label={'Tin tức, khuyến mãi'} style={MARGIN_TOP_16} />
-      <BottomView height={s(230)} />
+      <BottomView height={s(130)} />
       <FullScreenModal
         visible={visible}
         closeModal={() => setVisible(false)}
@@ -77,7 +77,7 @@ const styles = ScaledSheet.create({
   container: {
     flex: 1,
     backgroundColor: color.palette.white,
-    paddingTop: '16@s',
+    // paddingTop: '16@s',
   },
   scrollView: {
     marginTop: isIphoneX() ? "155@s" : "130@s",

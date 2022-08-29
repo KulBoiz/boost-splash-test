@@ -48,7 +48,7 @@ const BannerDetail = React.memo((props: Props) => {
   return (
     <View style={styles.container}>
       <AppHeader headerText={''}/>
-      <ScrollView >
+      <ScrollView contentContainerStyle={styles.webContainer}>
         <View>
           <AppText value={data?.title || ''} style={styles.title} />
           <View style={styles.time}>
@@ -80,6 +80,9 @@ const styles = ScaledSheet.create({
     flex: 1,
     paddingHorizontal: 8,
     backgroundColor: color.palette.white,
+  },
+  webContainer: {
+    paddingVertical: '8@s'
   },
   title: {
     fontSize: '16@s',
