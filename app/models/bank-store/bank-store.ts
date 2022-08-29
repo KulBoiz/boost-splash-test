@@ -35,11 +35,11 @@ export const BankStoreModel = types
           ]
         }
       }
-      const result = yield api.get(pathStore, param)
+      const result = yield api.get(`${pathStore}/public/suggestion`, param)
       if (result.kind !== "ok") {
         return result
       }
-      const data = result?.data?.data
+      const data = result?.data
       if (data) {
         self.banks = data
         return {
