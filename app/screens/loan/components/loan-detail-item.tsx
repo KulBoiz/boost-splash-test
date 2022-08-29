@@ -42,8 +42,8 @@ const LoanDetailItem = React.memo((props: Props) => {
           {
             advantages?.length ? advantages.map((val, id) => {
                 return(
-                  <View key={id.toString()} style={[ROW, ALIGN_CENTER, MARGIN_TOP_8, {width: '93%'}]}>
-                    <BlueTickSvg style={{marginRight: ms(5)}}/>
+                  <View key={id.toString()} style={[ROW, MARGIN_TOP_8, {width: '93%'}]}>
+                    <BlueTickSvg style={styles.tick}/>
                     <AppText value={val} fontSize={ms(12)}/>
                   </View>
                 )
@@ -102,7 +102,10 @@ const styles = ScaledSheet.create({
   headerContent: {
     padding: '12@s',
   },
-
+  tick: {
+    marginRight: '5@ms',
+    marginTop: '1@ms'
+  },
   outstandingAdvantages: {
     width: '92%',
     lineHeight: '16@s',

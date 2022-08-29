@@ -52,16 +52,18 @@ const ProjectList = observer((props: any) => {
 
   return (
     <View style={styles.container}>
-      <ScrollView style={styles.filter} horizontal showsHorizontalScrollIndicator={false}>
-        {data?.map((el, index) => <View key={index.toString()} style={styles.textFilter}>
-          <AppText
-            value={`${el?.name} tháng`}
-            fontSize={s(10)}
-            fontFamily={fontFamily.medium}
-            color={color.palette.BABABA}
-          />
-        </View>)}
-      </ScrollView>
+      <View>
+        <ScrollView style={styles.filter} horizontal showsHorizontalScrollIndicator={false}>
+          {data?.map((el, index) => <View key={index.toString()} style={styles.textFilter}>
+            <AppText
+              value={`${el?.name} tháng`}
+              fontSize={s(10)}
+              fontFamily={fontFamily.medium}
+              color={color.palette.BABABA}
+            />
+          </View>)}
+        </ScrollView>
+      </View>
 
       {loading ? <LoadingComponent /> :
         <FlatList
@@ -95,7 +97,6 @@ const styles = ScaledSheet.create({
     paddingVertical: '4@s',
   },
   contentStyle: {
-    marginVertical: '24@s',
-    paddingHorizontal: '16@s',
+    padding: '16@s',
   }
 });
