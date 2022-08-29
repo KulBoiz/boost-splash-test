@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react"
+import React, { useState } from "react"
 import { View, ScrollView } from "react-native"
 import TabSelect from "../components/tab-select"
 import FinanceTab from "./finance-tab"

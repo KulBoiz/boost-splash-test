@@ -38,13 +38,13 @@ const LoanDetail : React.FC<Props> = observer(() => {
           <ProductInfo item={item} />
             {item?.documentTemplateId && <CollapsibleRequestProfile  data={item?.responseDocumentTemplate}/>}
           <View style={[ROW, ALIGN_CENTER, SPACE_BETWEEN, !item?.documentTemplateId && MARGIN_TOP_16]}>
-            <AppButton
-              title={'Tính lãi khoản vay'}
-              onPress={() => {
-                //
-              }}
-              containerStyle={[styles.btn, {backgroundColor: color.palette.blue}]}
-            />
+            {/* <AppButton */}
+            {/*  title={'Tính lãi khoản vay'} */}
+            {/*  onPress={() => { */}
+            {/*    // */}
+            {/*  }} */}
+            {/*  containerStyle={[styles.btn, {backgroundColor: color.palette.blue}]} */}
+            {/* /> */}
             <AppButton
               title={'Đăng ký gói vay'}
               onPress={openModal}
@@ -74,7 +74,7 @@ const styles = ScaledSheet.create({
   },
   btn: {
     backgroundColor: color.palette.orange,
-    width: '48%'
+    // width: '48%'
   },
   loading: {
       marginTop: '20@s'

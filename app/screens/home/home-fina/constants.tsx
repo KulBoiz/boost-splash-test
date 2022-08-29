@@ -29,7 +29,7 @@ export const HEADER  = [
   },
 ]
 const utilityAction = ( screen, param?: any ) => {
-  DeviceEventEmitter.emit('utilityClose');
+  // DeviceEventEmitter.emit('utilityClose');
   navigate(screen, param)
 }
 

@@ -3,46 +3,64 @@ import React, { useMemo } from "react"
 import { View } from 'react-native';
 import {TouchableOpacity} from 'react-native-gesture-handler'
 import { isIphoneX } from 'react-native-iphone-x-helper';
-import { ScaledSheet } from 'react-native-size-matters';
+import { s, ScaledSheet } from "react-native-size-matters"
 import FastImage from "react-native-fast-image"
 import { images } from "../../assets/images"
 import { color } from "../../theme"
 import { AppText } from "../app-text/AppText"
-import { width } from "../../constants/variable"
+import { isIos, width } from "../../constants/variable"
 import { fontFamily } from "../../constants/font-family"
 import { HIT_SLOP } from "../../styles/common-style"
+import i18n from "i18n-js"
+import { PlusBottomSvg } from "../../assets/svgs"
 
-const enum tabName {
-  finance = 'Tài chính',
-  insurance = 'Bảo hiểm',
-  invest = 'Đầu tư'
+const tabName = {
+  home : i18n.t('bottom_bar.home'),
+  chat : i18n.t('bottom_bar.chat'),
+  request : i18n.t('bottom_bar.create'),
+  manage : i18n.t('bottom_bar.management'),
+  profile : i18n.t('bottom_bar.setting'),
 }
-function ManagementTabBar({ state, descriptors, navigation }: any) {
+function AppTabBar({ state, descriptors, navigation }: any) {
   const focusedOptions = descriptors[state.routes[state.index].key].options;
   if (focusedOptions.tabBarVisible === false) {
     return null;
   }
 
-  const tabBarCustom = useMemo(() => ([
+  const tabBarCustom = useMemo(()=> ([
     {
       index: 0,
-      title: tabName.finance,
-      icon: <FastImage source={images.management_finance} style={styles.icon} tintColor={color.palette.grayChateau}/>,
-      iconActive: <FastImage source={images.management_finance} style={styles.icon} tintColor={color.primary}/>,
+      title: tabName.home,
+      icon: <FastImage source={images.app_home} style={styles.icon} tintColor={color.palette.grayChateau}/>,
+      iconActive: <FastImage source={images.app_home} style={styles.icon} tintColor={color.primary}/>,
     },
     {
       index: 1,
-      title: tabName.insurance,
-      icon: <FastImage source={images.management_insurance} style={styles.icon} tintColor={color.palette.grayChateau}/>,
-      iconActive: <FastImage source={images.management_insurance} style={styles.icon} tintColor={color.primary}/>,
+      title: tabName.chat,
+      icon: <FastImage source={images.app_chat} style={styles.icon} tintColor={color.palette.grayChateau}/>,
+      iconActive: <FastImage source={images.app_chat} style={styles.icon} tintColor={color.primary}/>,
     },
     {
       index: 2,
-      title: tabName.invest,
-      icon: <FastImage source={images.management_invest} style={styles.icon} tintColor={color.palette.grayChateau}/>,
-      iconActive: <FastImage source={images.management_invest} style={styles.icon} tintColor={color.primary}/>,
+      title: tabName.request,
+      icon: <FastImage source={images.app_request} style={styles.iconPlus} />,
+      iconActive: <FastImage source={images.app_request} style={styles.iconPlus} />,
+      // icon : <PlusBottomSvg width={46} height={46} style={styles.iconPlus} />,
+      // iconActive : <PlusBottomSvg width={46} height={46} style={styles.iconPlus} />
     },
-  ]), [])
+    {
+      index: 3,
+      title: tabName.manage,
+      icon: <FastImage source={images.app_manage} style={styles.icon} tintColor={color.palette.grayChateau}/>,
+      iconActive: <FastImage source={images.app_manage} style={styles.icon} tintColor={color.primary}/>,
+    },
+    {
+      index: 4,
+      title: tabName.profile,
+      icon: <FastImage source={images.app_profile} style={styles.icon} tintColor={color.palette.grayChateau}/>,
+      iconActive: <FastImage source={images.app_profile} style={styles.icon} tintColor={color.primary}/>,
+    },
+  ]),[])
 
   return (
     <View style={styles.wrap}>
@@ -81,7 +99,7 @@ function ManagementTabBar({ state, descriptors, navigation }: any) {
               onPress={onPress}
               onLongPress={onLongPress}>
               {isFocused ? tabBarCustom[index].iconActive : tabBarCustom[index].icon}
-              <AppText style={[styles.text, isFocused ? styles.textActive : null]}>{tabBarCustom[index].title}</AppText>
+              <AppText style={[styles.text, isFocused ? styles.textActive : null, index === 2 && styles.middleText]}>{tabBarCustom[index].title}</AppText>
             </TouchableOpacity>
         );
       })}
@@ -89,12 +107,17 @@ function ManagementTabBar({ state, descriptors, navigation }: any) {
   );
 }
 
-export default ManagementTabBar;
+export default AppTabBar;
 
 const styles = ScaledSheet.create({
   icon: {
-    width: '18@s',
-    height: '18@s'
+    width: '24@ms',
+    height: '24@ms'
+  },
+  iconPlus: {
+    width: '44@ms',
+    height: '44@ms',
+    marginBottom: isIos ? '40%' : '25%',
   },
   wrap: {
     borderTopRightRadius: '20@s',
@@ -118,13 +141,16 @@ const styles = ScaledSheet.create({
   wrapIcon: { alignItems: 'center'},
   textActive: {
     color: color.primary,
-    fontSize: '10@ms',
-    fontFamily: fontFamily.semiBold,
+    fontSize: '12@ms',
+    fontFamily: fontFamily.bold,
   },
   text: {
     marginTop: 5,
     color: color.palette.grayChateau,
-    fontSize: '10@ms',
-    fontFamily: fontFamily.medium
+    fontSize: '12@ms',
+    fontFamily: fontFamily.medium,
   },
+  middleText :{
+    bottom: isIos ? '23%' : '18%',
+  }
 });

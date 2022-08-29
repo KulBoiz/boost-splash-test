@@ -1,5 +1,5 @@
 import React, { ErrorInfo } from "react"
-import { TextStyle, View, ViewStyle, ScrollView, ImageStyle } from "react-native"
+import { ImageStyle, ScrollView, TextStyle, View, ViewStyle } from "react-native"
 import { color } from "../../theme"
 import { Button, Icon, Text } from "../../components"
 
@@ -60,6 +60,7 @@ const ICON: ImageStyle = {
 export interface ErrorComponentProps {
   error: Error
   errorInfo: ErrorInfo
+
   onReset(): void
 }
 

@@ -11,4 +11,5 @@ declare module '@env' {
   export const VERSION: number;
   export const PLAY_STORE: string;
   export const APP_STORE: string;
+  export const INSURANCE_HANDBOOK: string;
 }

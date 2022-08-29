@@ -139,5 +139,5 @@ const styles = ScaledSheet.create({
     borderRadius: '4@s',
     paddingVertical: '8@s',
     marginHorizontal: '12@s'
-  }
+  },
 });

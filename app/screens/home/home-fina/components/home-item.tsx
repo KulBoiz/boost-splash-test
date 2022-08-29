@@ -26,7 +26,7 @@ const HomeItem = React.memo((props: Props) => {
           return <IconItem
             icon={e?.image}
             title={e?.title?.toString()}
-            key={e?.title?.toString() + i.toString()}
+            key={`${e?.title?.toString() ?? ''}${i.toString()}`}
             onPress={e?.onPress}
             percent={e?.percent}
             iconShape={iconShape}
@@ -55,7 +55,7 @@ const styles = ScaledSheet.create({
     alignItems: "flex-start",
     flexDirection: "row",
     flexWrap: "wrap",
-    paddingHorizontal: '12@ms',
+    paddingHorizontal: '8@ms',
     backgroundColor: color.palette.F9FBFF,
   }
 });

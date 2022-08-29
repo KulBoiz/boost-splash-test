@@ -9,10 +9,16 @@ import { useStores } from '../../../models'
 import HomeBanner from "./components/home-banner"
 import { MARGIN_TOP_16 } from "../../../styles/common-style"
 import HomeItem from "./components/home-item"
-import { INSURANCE_PRODUCT } from "./constants"
+import { images } from "../../../assets/images"
+import { ScreenNames } from "../../../navigators/screen-names"
+import { navigate } from "../../../navigators"
+import FullScreenModal from "../../../components/app-modal/full-screen-modal"
+import { DOMAIN, INSURANCE_HANDBOOK } from "@env"
 
 const InsuranceTab = () => {
   const { insuranceStore } = useStores();
+  const [link, setLink] = useState("")
+  const [visible, setVisible] = useState(false)
   const [othersInsurance, setOthersInsurance] = useState([])
 
   useEffect(() => {
@@ -24,6 +30,24 @@ const InsuranceTab = () => {
   const mapInsurance = (type) => {
     return othersInsurance?.filter((el: any) => el?.productCategory === type)
   }
+
+  const INSURANCE_PRODUCT = [
+    {
+      image: images.claim,
+      title: 'Yêu cầu\nbồi thường',
+      onPress: () =>  {
+        navigate(ScreenNames.MANAGE_INSURANCE_LIST, {key : "2"})
+      }
+    },
+    {
+      image: images.insurance_handbook,
+      title: 'Sổ tay\nFINA CARE',
+      onPress: () =>  {
+        setLink(INSURANCE_HANDBOOK)
+        setVisible(true)
+      }
+    },
+  ]
 
   return (
     <View style={styles.container}>
@@ -37,6 +61,12 @@ const InsuranceTab = () => {
       }
       <HomeBanner type={'small'} label={'Tin tức, khuyến mãi'} style={MARGIN_TOP_16} />
       <BottomView height={s(230)} />
+      <FullScreenModal
+        visible={visible}
+        closeModal={() => setVisible(false)}
+        animationType={"slideVertical"}
+        url={link}
+      />
     </View>
   )
 }

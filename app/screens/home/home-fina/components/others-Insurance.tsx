@@ -95,7 +95,7 @@ export default OthersInsurance
 
 const styles = ScaledSheet.create({
   container: {
-    marginTop: '12@s',
+    marginTop: '16@s',
   },
   labelContainer: {
     alignItems: "center",
@@ -112,11 +112,10 @@ const styles = ScaledSheet.create({
   itemContainer: {
     flexDirection: "row",
     flexWrap: "wrap",
-    paddingHorizontal: '12@ms',
+    paddingHorizontal: '8@ms',
     backgroundColor: color.palette.F9FBFF,
   },
   comfort: {
-    width: '100%',
     flexDirection: 'row',
     flexWrap: 'wrap'
   }

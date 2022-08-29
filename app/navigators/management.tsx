@@ -9,6 +9,7 @@ import { ScreenNames } from "./screen-names"
 import ManagementTabBar from "../components/bottom-tab-bar/management-tab"
 import { View } from "react-native"
 import { color } from "../theme"
+import { navigate } from "./navigation-utilities"
 
 export type ManagementStackParamList = {
   [ScreenNames.MANAGE_FINANCE]: { index: any };
@@ -20,7 +21,7 @@ const Tab = createBottomTabNavigator<ManagementStackParamList>()
 export const ManagementStack = () => {
   return (
     <View style={styles.container}>
-      <AppHeader headerText={'Quản lý chung'} isBlue />
+      <AppHeader headerText={'Quản lý chung'} isBlue onLeftPress={()=> navigate(ScreenNames.HOME)}/>
       <Tab.Navigator
         initialRouteName={ScreenNames.MANAGE_FINANCE}
         screenOptions={{ headerShown: false }}

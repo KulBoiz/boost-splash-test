@@ -15,7 +15,7 @@ const BeneficiaryInfo = React.memo(({ item, deal }: Props) => {
   const user = deal?.user
   return (
     <View style={styles.container}>
-      <InfoBox title={'Thông tin người thụ hưởng bảo hiểm'}>
+      <InfoBox title={'Thông tin người được bảo hiểm'}>
         <ItemView title={'Họ và tên:'} content={getFullName(user)} style={styles.item}/>
         <ItemView title={'Ngày sinh:'} content={user?.birthday ? moment(user?.birthday).format('DD/MM/YYYY') : '_'} style={styles.item}/>
         <ItemView title={'Giới tính:'} content={getGender(user?.gender)} style={styles.item}/>

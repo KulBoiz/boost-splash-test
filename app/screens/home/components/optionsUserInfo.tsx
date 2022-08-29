@@ -36,9 +36,9 @@ const OptionsUserInfo = () => {
 				}
 				</View>
 			</Pressable>
-			 <Pressable style={styles.buttonOption} onPress={handleCall}>
-				<PhoneHomeSvg />
-			 </Pressable>
+			 {/* <Pressable style={styles.buttonOption} onPress={handleCall}> */}
+				{/* <PhoneHomeSvg /> */}
+			 {/* </Pressable> */}
 		</View>
 	)
 }
