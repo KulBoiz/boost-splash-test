@@ -63,7 +63,7 @@ const styles = ScaledSheet.create({
     paddingVertical: '8@s',
     flexDirection: "row",
     flexWrap: "wrap",
-    paddingHorizontal: '12@ms',
+    paddingHorizontal: '16@ms',
     backgroundColor: color.palette.F9FBFF,
   }
 });

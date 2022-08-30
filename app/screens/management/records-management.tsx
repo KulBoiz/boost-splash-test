@@ -93,14 +93,12 @@ const RecordsManagement = observer((props: Props) => {
                   statusAssign: select?.statusAssign,
                   ...paramTab
                 }).then(() => {
-                  setLoading(false)
                   setLoadMore(false)
                 }).catch(() => {
-                  setLoading(false)
                   setLoadMore(false)
                 })
               }}
-              onEndReachedThreshold={0.5}
+              onEndReachedThreshold={0.2}
             />}
           {loadMore && <LoadingComponent />}
         </>

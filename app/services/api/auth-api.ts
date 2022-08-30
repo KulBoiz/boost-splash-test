@@ -152,6 +152,21 @@ export class AuthApi {
     }
   }
 
+  async getVcf(id:string): Promise<any> {
+    try {
+      const response: ApiResponse<any> = await this.api.apisauce.get(`${API_ENDPOINT}/users/${id}/card`, {
+      })
+      if (!response.ok) {
+        const problem = getGeneralApiProblem(response)
+        if (problem) return problem
+      }
+      const data = response
+      return { kind: "ok", data }
+    } catch (e) {
+      return { kind: "bad-data", e }
+    }
+  }
+
   async refreshToken(refreshToken): Promise<any> {
     const response: ApiResponse<any> = await this.api.apisauce.post(`${API_ENDPOINT}/refresh`, {
       refresh_token: refreshToken,

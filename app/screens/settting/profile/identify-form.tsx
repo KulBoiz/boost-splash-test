@@ -11,7 +11,8 @@ import { FieldErrors } from "react-hook-form/dist/types/errors"
 import FormDatePicker from "../../../components/form-date-time"
 import { useStores } from "../../../models"
 import FormItemPicker from "../../../components/form-item-picker"
-import { ROW } from "../../../styles/common-style"
+import { MARGIN_TOP_8, ROW } from "../../../styles/common-style"
+import CitizenIdentification from "../advance-information/citizen-identification"
 
 interface Props{
   editable: boolean
@@ -29,8 +30,9 @@ const formatData = (array) => {
 }
 
 const IdentifyForm = React.memo((props: Props) => {
-  const {locationStore} = useStores()
+  const {locationStore, authStoreModel} = useStores()
   const {control, setValue, errors, clearErrors, editable } = props
+  const identification = authStoreModel?.user?.identification
   const [city, setCity] = useState()
   const [code, setCode] = useState()
 
@@ -97,6 +99,11 @@ const IdentifyForm = React.memo((props: Props) => {
         />
       </View>
 
+      <CitizenIdentification
+        style={MARGIN_TOP_8}
+        backImage={identification?.backSidePhoto?.url}
+        frontImage={identification?.frontPhoto?.url}
+      />
     </View>
   )
 });
