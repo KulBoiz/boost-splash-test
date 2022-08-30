@@ -65,7 +65,7 @@ const FinanceTab = React.memo((props: Props) => {
       image: images.home_ability_to_borrow,
       title: i18n.t("home.abilityToBorrow"),
       onPress: () => {
-        setLink(DOMAIN + "/khao-sat-kha-nang-vay")
+        setLink(DOMAIN + "/calculators-toolkit/calculating-loan-capacity")
         setVisible(true)
       },
     },
@@ -83,7 +83,7 @@ const FinanceTab = React.memo((props: Props) => {
       image: images.home_calculate_tool,
       title: i18n.t("home.calculate_tool"),
       onPress: () => {
-        setLink(DOMAIN + "/cong-cu-tinh")
+        setLink(DOMAIN + "/calculators-toolkit/loan-calculator")
         setVisible(true)
       },
     },

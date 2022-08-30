@@ -56,7 +56,7 @@ const styles = ScaledSheet.create({
     alignItems: "flex-start",
     flexDirection: "row",
     flexWrap: "wrap",
-    paddingHorizontal: '8@ms',
+    paddingHorizontal: '16@ms',
     backgroundColor: color.palette.F9FBFF,
   }
 });

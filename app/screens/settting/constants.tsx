@@ -38,12 +38,14 @@ export const SETTING_LIST = [
   //   title: 'Tài liệu của tôi',
   //   onPress: () => {},
   //   active: false,
-  // },{
-  //   icon: <SimCardSvg />,
-  //   title: 'Thông tin nâng cao',
-  //   onPress: () => {},
-  //   active: false,
-  // },{
+  // },
+  {
+    icon: <SimCardSvg />,
+    title: 'Thông tin nâng cao',
+    onPress: () => navigate(ScreenNames.ADVANCE_INFORMATION),
+    active: true,
+  },
+  // {
   //   icon: <ElementSvg />,
   //   title: 'Cơ cấu tổ chức',
   //   onPress: () => {},

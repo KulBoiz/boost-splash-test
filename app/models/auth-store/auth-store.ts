@@ -7,8 +7,6 @@ import AsyncStorage from "@react-native-async-storage/async-storage"
 import { UploadApi } from "../../services/api/upload-api"
 import { isAndroid } from "../../constants/variable"
 import { BaseApi } from "../../services/api/base-api"
-import { AgentApi } from "../../services/api/agent-api"
-
 
 export const ROLE = {
   CTV: 'Cộng tác viên',
@@ -28,6 +26,7 @@ export const AuthStoreModel = types
   .props({
     isFirstTime: types.optional(types.boolean, true),
     user: types.frozen({}),
+    vcf: types.frozen(''),
     userId: types.frozen(''),
     autoRefreshTokenTimeout: types.optional(types.number, 0),
     token: types.maybeNull(types.string),
@@ -302,9 +301,18 @@ export const AuthStoreModel = types
       }
     }),
 
+    getVcf: flow(function* getVcf() {
+      const authApi = new AuthApi(self.environment.api)
+      const result = yield authApi.getVcf(self.userId)
+      if (result.kind === "ok") {
+        self.vcf = result.data.data
+      }
+    }),
+
 
     logout: () => {
       self.userId = ''
+      self.vcf = ''
       self.user = {}
       self.token = null
       self.refreshToken = null

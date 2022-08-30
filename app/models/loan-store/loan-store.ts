@@ -256,7 +256,7 @@ export const LoanStoreModel = types
     }),
 
     loadMoreRecords: flow(function* loadMoreRecords(query) {
-      if (self.totalRecord < self.records.length) {
+      if (self.totalRecord < self.records.length || self.totalRecord === self.records.length) {
         return { kind: "end" }
       }
 

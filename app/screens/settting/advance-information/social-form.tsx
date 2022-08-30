@@ -19,61 +19,69 @@ interface Props{
   clearErrors: UseFormClearErrors<FieldValues>
 }
 
-const UserForm = React.memo((props: Props) => {
+const SocialForm = React.memo((props: Props) => {
   const {control, setValue, errors, clearErrors, editable } = props
   return (
     <View style={styles.container}>
-      <Vcf />
       <FormInput
         {...{
-          name: "fullName",
-          labelTx: "label.fullName",
-          placeholderTx: "placeholder.insurance.fullName",
+          name: "facebook",
+          label: "Facebook",
+          placeholder: "Facebook",
           control,
-          error: errors?.fullName?.message,
+          error: errors?.facebook?.message,
           editable: editable,
         }}
       />
 
       <FormInput
         {...{
-          name: "email",
-          labelTx: "label.email",
-          placeholderTx: "placeholder.email",
+          name: "zalo",
+          label: "Zalo",
+          placeholder: "Zalo",
           control,
-          error: errors?.email?.message,
+          error: errors?.zalo?.message,
           editable: editable,
         }}
       />
 
       <FormInput
         {...{
-          name: "tel",
-          labelTx: "label.phoneNumber",
-          placeholderTx: "placeholder.phoneNumber",
+          name: "linkedIn",
+          label: "LinkedIn",
+          placeholder: "LinkedIn",
           control,
-          error: errors?.tel?.message,
+          error: errors?.linkedIn?.message,
+          editable: editable,
+        }}
+      />
+      <FormInput
+        {...{
+          name: "twitter",
+          label: "Twitter",
+          placeholder: "Twitter",
+          control,
+          error: errors?.twitter?.message,
+          editable: editable,
+        }}
+      />
+      <FormInput
+        {...{
+          name: "telegram",
+          label: "Telegram",
+          placeholder: "Telegram",
+          control,
+          error: errors?.telegram?.message,
           editable: editable,
         }}
       />
 
-      <FormDatePicker
-        {...{
-          clearErrors,
-          name: "birthday",
-          labelTx: "placeholder.insurance.dateOfBirth",
-          placeholderTx: "placeholder.insurance.dateOfBirth",
-          setValue: setValue,
-          control,
-          disable: !editable,
-          error: errors?.birthday?.message,
-        }}
-      />
+
     </View>
   )
 });
 
-export default UserForm;
+export default SocialForm;
 
 const styles = StyleSheet.create({
     container: {},

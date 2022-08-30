@@ -4,7 +4,7 @@ import { DarkTheme, DefaultTheme, NavigationContainer } from "@react-navigation/
 import { createNativeStackNavigator } from "@react-navigation/native-stack"
 import { navigationRef } from "./navigation-utilities"
 import { ScreenNames } from "./screen-names"
-import { SplashScreen, WelcomeScreen, PhotoPickerScreen } from "../screens"
+import { PhotoPickerScreen, SplashScreen, WelcomeScreen } from "../screens"
 import { AppStack } from "./app-stack"
 import { AuthStack } from "./auth-stack"
 import NoticeScreen from "../screens/notice/notice-screen"
@@ -35,45 +35,8 @@ import InsuranceList from "../screens/new-insurance/insurance-list"
 import ProductList from "../screens/product/product-list"
 import SuccessScreen from "../components/success-screen"
 import ProjectTab from "../screens/product/project-tab"
-
-export type NavigatorParamList = {
-  [ScreenNames.SPLASH]: undefined
-  [ScreenNames.WELCOME]: undefined
-  [ScreenNames.AGENT]: undefined
-  [ScreenNames.AUTH]: undefined
-  [ScreenNames.APP]: undefined
-  [ScreenNames.SUCCESS_SCREEN]: undefined
-  [ScreenNames.REQUEST_COUNSELLING]: undefined
-  [ScreenNames.NOTICE]: undefined
-  [ScreenNames.USER_PROFILE]: undefined
-  [ScreenNames.LOAN_PRODUCT]: {header?: string, key?: string}
-  [ScreenNames.LOAN_DETAIL]: undefined
-  [ScreenNames.REGISTER_LOAN]: undefined
-  [ScreenNames.PROFILE_DETAIL]: undefined
-  [ScreenNames.FINANCE]: { index: number }
-  [ScreenNames.TERM_AND_POLICY]: { id: number }
-  [ScreenNames.INSURANCE_SCREEN]: { id?: number }
-  [ScreenNames.INSURANCE_PACKAGE]: undefined
-  [ScreenNames.PROJECT_TAB]: { header?: string, key?: any, id: number }
-  [ScreenNames.INSURANCE_CLAIM_DETAIL]: { index: number }
-  [ScreenNames.INTRODUCE_SCREEN]: undefined
-  [ScreenNames.BANNER_DETAIL]: { url: string }
-  [ScreenNames.BANNER_DETAIL]: { url: string }
-  [ScreenNames.PHOTO_PICKER]: {
-    onConfirm?: (photo) => void
-  }
-  [ScreenNames.BANKER_LIST_REQUEST_SCREEN]: undefined
-  [ScreenNames.BANKER_REQUEST_DETAIL_SCREEN]: { data: any }
-  [ScreenNames.BANKER_LIST_LOAN_SCREEN]: undefined
-  [ScreenNames.BANKER_LOAN_DETAIL_SCREEN]: { tab: any, index: number }
-  [ScreenNames.IN_DEVELOPING]: undefined
-  [ScreenNames.MANAGE_INSURANCE_LIST]: { key?: string }
-  [ScreenNames.MANAGE_INSURANCE_FILTER]: undefined
-  [ScreenNames.INSURANCE_REQUEST_CLAIM_SUCCESS_SCREEN]: undefined
-  [ScreenNames.MANAGE_INSURANCE_DETAIL_SCREEN]: { index: number, isListBuy: any }
-  [ScreenNames.CLAIM_INSURANCE]: { productId: string, index: string }
-  [ScreenNames.INSURANCE_LIST_SCREEN]: { key: string, name: string}
-}
+import AdvanceInformation from "../screens/settting/advance-information"
+import { NavigatorParamList } from "./params-list"
 
 // Documentation: https://reactnavigation.org/docs/stack-navigator/
 const Stack = createNativeStackNavigator<NavigatorParamList>()
@@ -98,6 +61,7 @@ const RootStack = () => {
         options={{ gestureEnabled: false }}
       />
       <Stack.Screen name={ScreenNames.AUTH} component={AuthStack} />
+      <Stack.Screen name={ScreenNames.ADVANCE_INFORMATION} component={AdvanceInformation} />
       <Stack.Screen
         name={ScreenNames.APP}
         component={AppStack}
@@ -118,60 +82,25 @@ const RootStack = () => {
       <Stack.Screen name={ScreenNames.BANNER_DETAIL} component={BannerDetail} />
       <Stack.Screen name={ScreenNames.PHOTO_PICKER} component={PhotoPickerScreen} />
       <Stack.Screen name={ScreenNames.IN_DEVELOPING} component={InDeveloping} />
-      <Stack.Screen
-        name={ScreenNames.BANKER_LIST_REQUEST_SCREEN}
-        component={BankerListRequestScreen}
-      />
-      <Stack.Screen
-        name={ScreenNames.BANKER_REQUEST_DETAIL_SCREEN}
-        component={BankerRequestDetailScreen}
-      />
+      <Stack.Screen name={ScreenNames.BANKER_LIST_REQUEST_SCREEN} component={BankerListRequestScreen} />
+      <Stack.Screen name={ScreenNames.BANKER_REQUEST_DETAIL_SCREEN} component={BankerRequestDetailScreen} />
       <Stack.Screen name={ScreenNames.BANKER_LIST_LOAN_SCREEN} component={BankerListLoanScreen} />
-      <Stack.Screen
-        name={ScreenNames.BANKER_LOAN_DETAIL_SCREEN}
-        component={BankerLoanDetailScreen}
-      />
-      <Stack.Screen
-        name={ScreenNames.MANAGE_INSURANCE_LIST}
-        component={ManageInsuranceListScreen}
-      />
-      <Stack.Screen
-        name={ScreenNames.MANAGE_INSURANCE_FILTER}
-        component={ManageInsuranceFilerScreen}
-      />
-      <Stack.Screen
-        name={ScreenNames.INSURANCE_REQUEST_CLAIM_SUCCESS_SCREEN}
-        component={InsuranceRequestClaimSuccessScreen}
-      />
-      <Stack.Screen
-        name={ScreenNames.MANAGE_INSURANCE_DETAIL_SCREEN}
-        component={ManageInsuranceDetailScreen}
-      />
-      <Stack.Screen
-        name={ScreenNames.CLAIM_INSURANCE}
-        component={ClaimInsuranceDetailScreen}
-      />
-      <Stack.Screen
-        name={ScreenNames.USER_PROFILE}
-        component={UserProfile}
-      />
-      <Stack.Screen
-        name={ScreenNames.INSURANCE_LIST_SCREEN}
-        component={InsuranceList}
-      />
-      <Stack.Screen
-        name={ScreenNames.SUCCESS_SCREEN}
-        component={SuccessScreen}
-      />
-      <Stack.Screen
-        name={ScreenNames.PROJECT_TAB}
-        component={ProjectTab}
-      />
+      <Stack.Screen name={ScreenNames.BANKER_LOAN_DETAIL_SCREEN} component={BankerLoanDetailScreen} />
+      <Stack.Screen name={ScreenNames.MANAGE_INSURANCE_LIST} component={ManageInsuranceListScreen} />
+      <Stack.Screen name={ScreenNames.MANAGE_INSURANCE_FILTER} component={ManageInsuranceFilerScreen} />
+      <Stack.Screen name={ScreenNames.INSURANCE_REQUEST_CLAIM_SUCCESS_SCREEN} component={InsuranceRequestClaimSuccessScreen} />
+      <Stack.Screen name={ScreenNames.MANAGE_INSURANCE_DETAIL_SCREEN} component={ManageInsuranceDetailScreen} />
+      <Stack.Screen name={ScreenNames.CLAIM_INSURANCE} component={ClaimInsuranceDetailScreen} />
+      <Stack.Screen name={ScreenNames.USER_PROFILE} component={UserProfile} />
+      <Stack.Screen name={ScreenNames.INSURANCE_LIST_SCREEN} component={InsuranceList} />
+      <Stack.Screen name={ScreenNames.SUCCESS_SCREEN} component={SuccessScreen} />
+      <Stack.Screen name={ScreenNames.PROJECT_TAB} component={ProjectTab} />
     </Stack.Navigator>
   )
 }
 
-interface NavigationProps extends Partial<React.ComponentProps<typeof NavigationContainer>> {}
+interface NavigationProps extends Partial<React.ComponentProps<typeof NavigationContainer>> {
+}
 
 export const AppNavigator = (props: NavigationProps) => {
   const colorScheme = useColorScheme()
