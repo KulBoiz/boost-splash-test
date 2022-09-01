@@ -7,7 +7,8 @@ import moment from "moment"
 import { status } from "./validity-check"
 import { color } from "../../../theme"
 import { getClaimStatus, getTimeLeft } from "../constants"
-import { getFullName } from "../../../constants/variable"
+import { getFullName, isIos } from "../../../constants/variable"
+import { isIphoneX } from "react-native-iphone-x-helper"
 
 interface Props {
   item: any
@@ -48,7 +49,7 @@ const ManageInsuranceItem = React.memo(({ item, index, onPress }: Props) => {
   return (
     <Pressable
       onPress={() => onPress?.(item)}
-      height={vs(74)}
+      height={isIphoneX() ? vs(80) :  isIos ?  vs(100) : vs(80)}
       borderRadius={8}
       bg="white"
       mx={s(16)}

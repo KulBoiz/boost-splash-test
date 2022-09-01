@@ -8,33 +8,39 @@ import { AppText } from "../../components/app-text/AppText"
 import SettingAuthScreen from "../../components/app-view-no-auth"
 import { width } from "../../constants/variable"
 import { useStores } from "../../models"
-import { navigate, NavigatorParamList } from "../../navigators"
+import { navigate } from "../../navigators"
 import { ScreenNames } from "../../navigators/screen-names"
 import { FONT_MEDIUM_14 } from "../../styles/common-style"
 import { color } from "../../theme"
 import BuyInsurance from "./buy-insurance"
 import BuyRecords from "./components/buy-records"
 import Information from "./information"
+import { NavigatorParamList } from "../../navigators/params-list"
 
-interface Props { }
+interface Props {
+}
 
 const InsuranceScreen = React.memo((props: Props) => {
   const route = useRoute<RouteProp<NavigatorParamList, ScreenNames.INSURANCE_SCREEN>>()
   const id = route?.params?.id
   const navigation = useNavigation()
-  const [index, setIndex] = React.useState(id ?? 0);
+  const [index, setIndex] = React.useState(id ?? 0)
 
   const [routes] = React.useState([
-    { key: 'first', title: 'Thông tin' },
-    { key: 'second', title: 'Mua BH' },
-    { key: 'third', title: 'Giao dịch' },
-  ]);
+    { key: "first", title: "Thông tin" },
+    { key: "second", title: "Mua BH" },
+    { key: "third", title: "Giao dịch" },
+  ])
 
-  const { authStoreModel } = useStores();
+  const { authStoreModel } = useStores()
+
+  const Insurance = () => (
+    <BuyInsurance index={index ?? 0} />
+  )
 
   const renderScene = SceneMap({
     first: Information,
-    second: !authStoreModel?.isLoggedIn ? SettingAuthScreen : BuyInsurance,
+    second: !authStoreModel?.isLoggedIn ? SettingAuthScreen : Insurance,
     third: !authStoreModel?.isLoggedIn ? SettingAuthScreen : BuyRecords,
   });
 
@@ -42,23 +48,25 @@ const InsuranceScreen = React.memo((props: Props) => {
     <TabBar
       {...props}
       inactiveColor={color.palette.lighterGray}
-      labelStyle={[{ color: color.palette.blue, textTransform: 'none' }, FONT_MEDIUM_14]}
+      labelStyle={[{ color: color.palette.blue, textTransform: "none" }, FONT_MEDIUM_14]}
       indicatorStyle={styles.indicatorStyle}
       style={styles.tab}
     />
-  );
+  )
 
   const renderRightIcon = () => {
     return (
-      <Pressable style={styles.wrapRightIcon} onPress={() => navigation.dispatch(StackActions.push(ScreenNames.INTRODUCE_SCREEN))}>
-        <AppText value={'i'} />
+      <Pressable style={styles.wrapRightIcon}
+                 onPress={() => navigation.dispatch(StackActions.push(ScreenNames.INTRODUCE_SCREEN))}>
+        <AppText value={"i"} />
       </Pressable>
     )
   }
 
   return (
     <View style={styles.container}>
-      <AppHeader headerTx={"header.insurance"} isBlue onLeftPress={() => navigate(ScreenNames.HOME)} renderRightIcon={renderRightIcon()} />
+      <AppHeader headerTx={"header.insurance"} isBlue onLeftPress={() => navigate(ScreenNames.HOME)}
+                 renderRightIcon={renderRightIcon()} />
       <TabView
         navigationState={{ index, routes }}
         renderScene={renderScene}
@@ -70,22 +78,22 @@ const InsuranceScreen = React.memo((props: Props) => {
       />
     </View>
   )
-});
+})
 
-export default InsuranceScreen;
+export default InsuranceScreen
 
 const styles = ScaledSheet.create({
   container: { backgroundColor: color.palette.blue, flex: 1 },
-  tab: { backgroundColor: 'white', borderTopLeftRadius: '8@s', borderTopRightRadius: '8@s' },
+  tab: { backgroundColor: "white", borderTopLeftRadius: "8@s", borderTopRightRadius: "8@s" },
   indicatorStyle: { backgroundColor: color.palette.blue },
   wrapRightIcon: {
-    width: '18@s',
-    height: '18@s',
-    borderRadius: '6@s',
+    width: "18@s",
+    height: "18@s",
+    borderRadius: "6@s",
     alignItems: "center",
     justifyContent: "center",
-    backgroundColor: color.background
+    backgroundColor: color.background,
   },
-});
+})
 
 

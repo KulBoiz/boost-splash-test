@@ -15,9 +15,11 @@ import BuyStepOneForm from "./components/buy-step-one-form"
 import BuyStepThree from "./components/buy-step-three"
 import BuyStepTwo from "./components/buy-step-two"
 
-interface Props { }
+interface Props {
+  index: number
+}
 
-const BuyInsurance = observer((props: Props) => {
+const BuyInsurance = observer(({ index }: Props) => {
   // @ts-ignore
   const { productStore } = useStores()
   const { productDetail, questionGroups } = productStore
@@ -41,7 +43,7 @@ const BuyInsurance = observer((props: Props) => {
     navigation.dispatch(StackActions.push(ScreenNames.INSURANCE_SCREEN, { id: 1 }))
   }
 
-  if (!productDetail?.info?.productUrlOriginal) {
+  if (!productDetail?.info?.productUrlOriginal && index === 1) {
     return <>
       <ConfirmModal
         visible={true}

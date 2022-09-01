@@ -9,8 +9,8 @@ import { width } from "../../constants/variable"
 import Term from "./term"
 import Policy from "./policy"
 import { RouteProp, useRoute } from "@react-navigation/native"
-import { NavigatorParamList } from "../../navigators"
 import { ScreenNames } from "../../navigators/screen-names"
+import { NavigatorParamList } from "../../navigators/params-list"
 
 interface Props{}
 

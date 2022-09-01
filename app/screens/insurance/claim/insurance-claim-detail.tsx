@@ -7,12 +7,12 @@ import InsuranceInfo from "./insurance-info"
 import BuyerInfo from "./buyer-info"
 import BeneficiaryInfo from "./beneficiary-info"
 import { RouteProp, useRoute } from "@react-navigation/native"
-import { NavigatorParamList } from "../../../navigators"
 import { ScreenNames } from "../../../navigators/screen-names"
 import { useStores } from "../../../models"
 import { MARGIN_TOP_16 } from "../../../styles/common-style"
 import CollapsibleClaimUpload from "../components/collapsible-claim-upload"
 import Note from "../../../components/note/note"
+import { NavigatorParamList } from "../../../navigators/params-list"
 
 
 interface Props { }
@@ -21,7 +21,6 @@ const InsuranceClaimDetail = React.memo((props: Props) => {
   const { params: { index } } = useRoute<RouteProp<NavigatorParamList, ScreenNames.INSURANCE_CLAIM_DETAIL>>()
   const { insuranceStore, dealDetailStoreModel } = useStores()
   const [loading, setLoading] = useState<boolean>(true)
-  const [files, setFiles] = useState([])
   const item = insuranceStore?.listClaim[index]
   const header = item?.product?.name ?? ''
   const deal = dealDetailStoreModel.deal

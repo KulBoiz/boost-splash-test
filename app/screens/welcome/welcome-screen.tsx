@@ -15,8 +15,8 @@ import { useFocusEffect } from "@react-navigation/native"
 import FifthScreen from "./fifth-screen"
 import { width } from "../../constants/variable"
 import Carousel from 'react-native-snap-carousel';
-import { NavigatorParamList } from "../../navigators"
 import { FONT_MEDIUM_14 } from "../../styles/common-style"
+import { NavigatorParamList } from "../../navigators/params-list"
 
 const SLIDER_DATA = [0,1,2]
 export const WelcomeScreen: FC<StackScreenProps<NavigatorParamList, ScreenNames.WELCOME>> = observer(
