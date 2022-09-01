@@ -77,6 +77,7 @@ const BuyInsurance = observer(({ index }: Props) => {
         return (
           <BuyStepOneForm
             {...{
+              index: index,
               onPress: stepOneForm,
               productDetail,
               questionGroups,

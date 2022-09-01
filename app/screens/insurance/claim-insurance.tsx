@@ -63,6 +63,7 @@ const ClaimInsuranceDetailScreen = React.memo((props: Props) => {
     resolver: yupResolver(validationSchema),
     reValidateMode: "onChange",
   })
+  const [loading, setLoading] = useState<boolean>(false)
   const [checkboxState, setCheckboxState] = useState<boolean>(false)
   const [images, setImages] = useState<any[]>([])
   const downloadLink = 'https://drive.google.com/uc?export=download&id=1sVP1xparV8EFhp0ziCeKAFj-LiYKvgjh'
@@ -72,6 +73,7 @@ const ClaimInsuranceDetailScreen = React.memo((props: Props) => {
   }
 
   const sendRequest = async (data) => {
+    setLoading(true)
     const send = await loanStore.createRequestCounselling(
       data.email,
       data.fullName,
@@ -85,7 +87,8 @@ const ClaimInsuranceDetailScreen = React.memo((props: Props) => {
     if (send.kind === "ok") {
       // todo
       navigate(ScreenNames.INSURANCE_REQUEST_CLAIM_SUCCESS_SCREEN)
-    } else Alert.alert("Something went wrong")
+    } else {Alert.alert("Something went wrong")}
+    setLoading(false)
   }
   if (!authStoreModel.isLoggedIn) {
     return <AppViewNoAuth />
@@ -169,8 +172,9 @@ const ClaimInsuranceDetailScreen = React.memo((props: Props) => {
 
         <View style={styles.wrapBtn}>
           <AppButton
+            loading={loading}
             tx={"common.sentInformation"}
-            disable={!checkboxState}
+            disable={!checkboxState || loading}
             onPress={handleSubmit(sendRequest)}
           />
         </View>

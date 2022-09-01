@@ -11,12 +11,14 @@ import { ScreenNames } from "../../navigators/screen-names";
 import { FONT_MEDIUM_14 } from "../../styles/common-style";
 import { color } from "../../theme";
 import RecordsManagement from "../management/records-management";
+import { observer } from "mobx-react-lite"
 
 interface Props { }
 
-const FinanceScreen = React.memo((props: Props) => {
+const FinanceScreen = observer((props: Props) => {
+  const {appStore} = useStores()
   const route = useRoute<RouteProp<AppStackParamList, ScreenNames.MANAGEMENT>>()
-  const param = route?.params?.index ?? 1
+  const param = appStore.financeIndex
   const [index, setIndex] = React.useState(param);
   // @ts-ignore
   const { authStoreModel } = useStores();

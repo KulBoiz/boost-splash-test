@@ -1,5 +1,5 @@
 import React, { FC } from "react";
-import { Animated } from "react-native";
+import { Animated, StatusBar } from "react-native"
 import { isIphoneX } from "react-native-iphone-x-helper";
 import { s, ScaledSheet } from "react-native-size-matters";
 import { images } from "../../../assets/images";
@@ -36,6 +36,10 @@ export const Header: FC<HeaderProps> = ({ animatedValue, children }) => {
   } */
   return (
     <Animated.View style={styles.container}>
+      <StatusBar
+        backgroundColor={'#2766D8'}
+        barStyle={"light-content"}
+      />
       <Animated.Image source={images.home_finance} style={styles.image} />
       {/* <Button style={styles.buttonSearch} > */}
       {/*  <SearchSvg /> */}
