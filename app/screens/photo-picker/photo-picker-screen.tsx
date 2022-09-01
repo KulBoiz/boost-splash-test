@@ -12,7 +12,6 @@ import { observer } from "mobx-react-lite"
 import { ScreenNames } from "../../navigators/screen-names"
 import { ScaledSheet } from "react-native-size-matters"
 import { color } from "../../theme"
-import { NavigatorParamList } from "../../navigators"
 import AppHeader from "../../components/app-header/AppHeader"
 import { useStores } from "../../models"
 import { translate } from "../../i18n"
@@ -23,6 +22,7 @@ import { width } from "../../constants/variable"
 import { SelectedPhotoSvg } from "../../assets/svgs"
 import AppButton from "../../components/app-button/AppButton"
 import { fontFamily } from "../../constants/font-family"
+import { NavigatorParamList } from "../../navigators/params-list"
 
 export const PhotoPickerScreen: FC<
   StackScreenProps<NavigatorParamList, ScreenNames.PHOTO_PICKER>

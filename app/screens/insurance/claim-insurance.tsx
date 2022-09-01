@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Alert, ScrollView, View, Linking, Platform } from "react-native"
+import { Alert, ScrollView, View, Linking } from "react-native"
 import { ScaledSheet } from "react-native-size-matters"
 import { color } from "../../theme"
 import AppHeader from "../../components/app-header/AppHeader"
@@ -13,15 +13,14 @@ import FormInput from '../../components/form-input/form-input';
 import TermCheckbox from '../auth/components/TermCheckbox';
 import AppButton from '../../components/app-button/AppButton';
 import FormItemPicker from '../../components/form-item-picker';
-import { navigate, NavigatorParamList } from "../../navigators"
+import { navigate } from "../../navigators"
 import { ScreenNames } from "../../navigators/screen-names"
 import CollapsibleClaimUpload from './components/collapsible-claim-upload';
 import { RouteProp, useRoute } from "@react-navigation/native"
 import { AppText } from "../../components/app-text/AppText"
 import { fontFamily } from "../../constants/font-family"
-import * as FileSystem from 'expo-file-system';
-import { openFile } from "../../utils/file"
-import { find } from "../../utils/lodash-utils"
+import { NavigatorParamList } from "../../navigators/params-list"
+
 
 export const USER_RELATIONSHIP = {
   FATHER: 'father',

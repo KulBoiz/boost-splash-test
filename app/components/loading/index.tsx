@@ -16,7 +16,7 @@ export function LoadingComponent(props: Props) {
       <LottieView
         source={animations.loading}
         autoPlay
-        style={style}
+        style={[styles.loading, style]}
         loop
       />
     </View>
@@ -27,6 +27,11 @@ export function LoadingComponent(props: Props) {
 const styles = ScaledSheet.create({
   container: {
     flex:1,
-    backgroundColor: color.background
+    backgroundColor: color.background,
+    alignItems: "center",
+    justifyContent: "center"
+  },
+  loading: {
+    width: '50%'
   }
 })

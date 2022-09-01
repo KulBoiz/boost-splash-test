@@ -1,9 +1,7 @@
 import React, { useEffect, useState } from 'react';
-import { View, StyleSheet, ScrollView } from 'react-native';
-import WebView from "react-native-webview"
+import { View, ScrollView } from 'react-native';
 import AppHeader from "../../../../components/app-header/AppHeader"
 import { RouteProp, useRoute } from "@react-navigation/native"
-import { NavigatorParamList } from "../../../../navigators"
 import { ScreenNames } from "../../../../navigators/screen-names"
 import { AppText } from '../../../../components/app-text/AppText';
 import { useStores } from '../../../../models';
@@ -11,10 +9,10 @@ import moment from 'moment';
 import RenderHtml from 'react-native-render-html';
 import { width } from "../../../../constants/variable";
 import { s, ScaledSheet } from "react-native-size-matters"
-import { CONTAINER_PADDING } from "../../../../styles/common-style"
 import FastImage from 'react-native-fast-image';
 import { color } from '../../../../theme';
 import { LoadingComponent } from '../../../../components/loading';
+import { NavigatorParamList } from "../../../../navigators/params-list"
 
 
 interface Props {

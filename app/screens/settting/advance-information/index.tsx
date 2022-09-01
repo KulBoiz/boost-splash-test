@@ -45,9 +45,9 @@ const AdvanceInformation = React.memo((props: Props) => {
   },[])
 
   return (
-    <ScrollView style={styles.container}>
+    <View style={styles.container}>
       <AppHeader headerText={"Thông tin nâng cao"} isBlue/>
-      <View style={styles.body}>
+      <ScrollView style={styles.body}>
         <ReferralCode refCode={refCode} />
         <SocialForm
           editable={true}
@@ -56,8 +56,8 @@ const AdvanceInformation = React.memo((props: Props) => {
           errors={{ ...errors }}
           clearErrors={clearErrors}
         />
-      </View>
-    </ScrollView>
+      </ScrollView>
+    </View>
   )
 })
 

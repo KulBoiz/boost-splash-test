@@ -4,14 +4,13 @@ import { Pressable, View } from "react-native"
 import { ScaledSheet } from "react-native-size-matters"
 import { SceneMap, TabBar, TabView } from "react-native-tab-view"
 import AppHeader from "../../components/app-header/AppHeader"
-import { AppText } from "../../components/app-text/AppText"
 import { width } from "../../constants/variable"
-import { NavigatorParamList } from "../../navigators"
 import { ScreenNames } from "../../navigators/screen-names"
 import { FONT_MEDIUM_14 } from "../../styles/common-style"
 import { color } from "../../theme"
 import ProjectList from "./project-list"
 import LoanProcess from "./loan-process"
+import { NavigatorParamList } from "../../navigators/params-list"
 
 interface Props { }
 
