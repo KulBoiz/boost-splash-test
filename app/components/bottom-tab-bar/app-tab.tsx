@@ -1,9 +1,9 @@
 /* eslint-disable @typescript-eslint/no-unsafe-call */
 import React, { useMemo } from "react"
-import { View } from 'react-native';
-import {TouchableOpacity} from 'react-native-gesture-handler'
-import { isIphoneX } from 'react-native-iphone-x-helper';
-import { s, ScaledSheet } from "react-native-size-matters"
+import { View } from "react-native"
+import { TouchableOpacity } from "react-native-gesture-handler"
+import { isIphoneX } from "react-native-iphone-x-helper"
+import { ScaledSheet } from "react-native-size-matters"
 import FastImage from "react-native-fast-image"
 import { images } from "../../assets/images"
 import { color } from "../../theme"
@@ -12,116 +12,159 @@ import { isIos, width } from "../../constants/variable"
 import { fontFamily } from "../../constants/font-family"
 import { HIT_SLOP } from "../../styles/common-style"
 import i18n from "i18n-js"
-import { PlusBottomSvg } from "../../assets/svgs"
+import { useStores } from "../../models"
+import { ROLE } from "../../models/auth-store"
 
 const tabName = {
-  home : i18n.t('bottom_bar.home'),
-  chat : i18n.t('bottom_bar.chat'),
-  request : i18n.t('bottom_bar.create'),
-  manage : i18n.t('bottom_bar.management'),
-  profile : i18n.t('bottom_bar.setting'),
+  home: i18n.t("bottom_bar.home"),
+  chat: i18n.t("bottom_bar.chat"),
+  request: i18n.t("bottom_bar.create"),
+  manage: i18n.t("bottom_bar.management"),
+  profile: i18n.t("bottom_bar.setting"),
 }
+
 function AppTabBar({ state, descriptors, navigation }: any) {
-  const focusedOptions = descriptors[state.routes[state.index].key].options;
+  const { authStoreModel } = useStores()
+  const { role } = authStoreModel
+  const focusedOptions = descriptors[state.routes[state.index].key].options
   if (focusedOptions.tabBarVisible === false) {
-    return null;
+    return null
   }
 
-  const tabBarCustom = useMemo(()=> ([
+  const tabBarCustom = useMemo(() => ([
     {
       index: 0,
       title: tabName.home,
-      icon: <FastImage source={images.app_home} style={styles.icon} tintColor={color.palette.grayChateau}/>,
-      iconActive: <FastImage source={images.app_home} style={styles.icon} tintColor={color.primary}/>,
+      icon: <FastImage source={images.app_home} style={styles.icon} tintColor={color.palette.grayChateau} />,
+      iconActive: <FastImage source={images.app_home} style={styles.icon} tintColor={color.primary} />,
     },
     {
       index: 1,
       title: tabName.chat,
-      icon: <FastImage source={images.app_chat} style={styles.icon} tintColor={color.palette.grayChateau}/>,
-      iconActive: <FastImage source={images.app_chat} style={styles.icon} tintColor={color.primary}/>,
+      icon: <FastImage source={images.app_chat} style={styles.icon} tintColor={color.palette.grayChateau} />,
+      iconActive: <FastImage source={images.app_chat} style={styles.icon} tintColor={color.primary} />,
     },
     {
       index: 2,
       title: tabName.request,
       icon: <FastImage source={images.app_request} style={styles.iconPlus} />,
       iconActive: <FastImage source={images.app_request} style={styles.iconPlus} />,
-      // icon : <PlusBottomSvg width={46} height={46} style={styles.iconPlus} />,
-      // iconActive : <PlusBottomSvg width={46} height={46} style={styles.iconPlus} />
     },
     {
       index: 3,
       title: tabName.manage,
-      icon: <FastImage source={images.app_manage} style={styles.icon} tintColor={color.palette.grayChateau}/>,
-      iconActive: <FastImage source={images.app_manage} style={styles.icon} tintColor={color.primary}/>,
+      icon: <FastImage source={images.app_manage} style={styles.icon} tintColor={color.palette.grayChateau} />,
+      iconActive: <FastImage source={images.app_manage} style={styles.icon} tintColor={color.primary} />,
     },
     {
       index: 4,
       title: tabName.profile,
-      icon: <FastImage source={images.app_profile} style={styles.icon} tintColor={color.palette.grayChateau}/>,
-      iconActive: <FastImage source={images.app_profile} style={styles.icon} tintColor={color.primary}/>,
+      icon: <FastImage source={images.app_profile} style={styles.icon} tintColor={color.palette.grayChateau} />,
+      iconActive: <FastImage source={images.app_profile} style={styles.icon} tintColor={color.primary} />,
     },
-  ]),[])
+  ]), [])
+
+  const tabBarBankerCustom = useMemo(() => ([
+    {
+      index: 0,
+      title: tabName.home,
+      icon: <FastImage source={images.app_home} style={styles.icon} tintColor={color.palette.grayChateau} />,
+      iconActive: <FastImage source={images.app_home} style={styles.icon} tintColor={color.primary} />,
+    },
+    {
+      index: 1,
+      title: tabName.chat,
+      icon: <FastImage source={images.app_chat} style={styles.icon} tintColor={color.palette.grayChateau} />,
+      iconActive: <FastImage source={images.app_chat} style={styles.icon} tintColor={color.primary} />,
+    },
+    {
+      index: 2,
+      title: tabName.profile,
+      icon: <FastImage source={images.app_profile} style={styles.icon} tintColor={color.palette.grayChateau} />,
+      iconActive: <FastImage source={images.app_profile} style={styles.icon} tintColor={color.primary} />,
+    },
+  ]), [])
 
   return (
     <View style={styles.wrap}>
       {state.routes.map((route: any, index: number) => {
-        const { options } = descriptors[route.key];
-        const isFocused = state.index === index;
+        const { options } = descriptors[route.key]
+        const isFocused = state.index === index
 
         const onPress = () => {
           const event = navigation.emit({
-            type: 'tabPress',
+            type: "tabPress",
             target: route.key,
             canPreventDefault: true,
-          });
+          })
 
           if (!isFocused && !event.defaultPrevented) {
-            navigation.navigate({ name: route.name, merge: true });
+            navigation.navigate({ name: route.name, merge: true })
           }
-        };
+        }
 
         const onLongPress = () => {
           navigation.emit({
-            type: 'tabLongPress',
+            type: "tabLongPress",
             target: route.key,
-          });
-        };
-
+          })
+        }
         return (
-            <TouchableOpacity
-              key={index}
-              hitSlop={HIT_SLOP}
-              style={styles.wrapIcon}
-              accessibilityRole="button"
-              accessibilityState={isFocused ? { selected: true } : {}}
-              accessibilityLabel={options.tabBarAccessibilityLabel}
-              testID={options.tabBarTestID}
-              onPress={onPress}
-              onLongPress={onLongPress}>
-              {isFocused ? tabBarCustom[index].iconActive : tabBarCustom[index].icon}
-              <AppText style={[styles.text, isFocused ? styles.textActive : null, index === 2 && styles.middleText]}>{tabBarCustom[index].title}</AppText>
-            </TouchableOpacity>
-        );
+          <>
+            {role !== ROLE.BANK ?
+              <TouchableOpacity
+                key={index}
+                hitSlop={HIT_SLOP}
+                style={styles.wrapIcon}
+                accessibilityRole="button"
+                accessibilityState={isFocused ? { selected: true } : {}}
+                accessibilityLabel={options.tabBarAccessibilityLabel}
+                testID={options.tabBarTestID}
+                onPress={onPress}
+                onLongPress={onLongPress}>
+                {isFocused ? tabBarCustom[index].iconActive : tabBarCustom[index].icon}
+                <AppText
+                  style={[styles.text, isFocused ? styles.textActive : null, index === 2 && styles.middleText]}>{tabBarCustom[index].title}</AppText>
+              </TouchableOpacity>
+              :
+              <TouchableOpacity
+                key={index}
+                hitSlop={HIT_SLOP}
+                style={styles.wrapIcon}
+                accessibilityRole="button"
+                accessibilityState={isFocused ? { selected: true } : {}}
+                accessibilityLabel={options.tabBarAccessibilityLabel}
+                testID={options.tabBarTestID}
+                onPress={onPress}
+                onLongPress={onLongPress}>
+                {isFocused ? tabBarBankerCustom[index].iconActive : tabBarBankerCustom[index].icon}
+                <AppText
+                  style={[styles.text, isFocused ? styles.textActive : null]}>{tabBarBankerCustom[index].title}</AppText>
+              </TouchableOpacity>
+            }
+          </>
+
+        )
       })}
     </View>
-  );
+  )
 }
 
-export default AppTabBar;
+export default AppTabBar
 
 const styles = ScaledSheet.create({
   icon: {
-    width: '24@ms',
-    height: '24@ms'
+    width: "24@ms",
+    height: "24@ms",
   },
   iconPlus: {
-    width: '44@ms',
-    height: '44@ms',
-    marginBottom: isIos ? '40%' : '25%',
+    width: "44@ms",
+    height: "44@ms",
+    marginBottom: isIos ? "40%" : "25%",
   },
   wrap: {
-    borderTopRightRadius: '20@s',
-    borderTopLeftRadius: '20@s',
+    borderTopRightRadius: "20@s",
+    borderTopLeftRadius: "20@s",
     elevation: 30,
     shadowColor: "#000",
     shadowOffset: {
@@ -130,27 +173,27 @@ const styles = ScaledSheet.create({
     },
     shadowOpacity: 0.3,
     shadowRadius: 2.22,
-    flexDirection: 'row',
-    height: isIphoneX() ? '80@s' : '60@s',
-    alignItems: 'center',
+    flexDirection: "row",
+    height: isIphoneX() ? "80@s" : "60@s",
+    alignItems: "center",
     width: width,
-    justifyContent: 'space-around',
-    paddingBottom: isIphoneX() ? '20@vs' : '5@vs',
+    justifyContent: "space-around",
+    paddingBottom: isIphoneX() ? "20@vs" : "5@vs",
     backgroundColor: color.background,
   },
-  wrapIcon: { alignItems: 'center'},
+  wrapIcon: { alignItems: "center" },
   textActive: {
     color: color.primary,
-    fontSize: '12@ms',
+    fontSize: "12@ms",
     fontFamily: fontFamily.bold,
   },
   text: {
     marginTop: 5,
     color: color.palette.grayChateau,
-    fontSize: '12@ms',
+    fontSize: "12@ms",
     fontFamily: fontFamily.medium,
   },
-  middleText :{
-    bottom: isIos ? '23%' : '18%',
-  }
-});
+  middleText: {
+    bottom: isIos ? "23%" : "18%",
+  },
+})

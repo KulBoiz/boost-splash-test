@@ -75,8 +75,6 @@ const SocialForm = React.memo((props: Props) => {
           editable: editable,
         }}
       />
-
-
     </View>
   )
 });

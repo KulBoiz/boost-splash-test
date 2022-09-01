@@ -10,6 +10,7 @@ export const AppStoreModel = types
   .extend(withEnvironment)
   .props({
     filesDownloaded: types.optional(types.frozen(), []),
+    financeIndex: types.optional(types.number, 0)
   })
   .views((self) => ({})) // eslint-disable-line @typescript-eslint/no-unused-vars
   .actions((self) => ({
@@ -20,6 +21,9 @@ export const AppStoreModel = types
         self.filesDownloaded = files.concat([filePath])
       }
     }),
+    setFinanceIndex : (index: 0 | 1) => {
+      self.financeIndex = index
+    },
   })) // eslint-disable-line @typescript-eslint/no-unused-vars
 /**
  * Un-comment the following to omit model attributes from your snapshots (and from async storage).

@@ -12,13 +12,16 @@ import { useStores } from "../../../models"
 import i18n from "i18n-js"
 import AppViewNoAuth from "../../../components/app-view-no-auth"
 import TermCheckbox from "../../auth/components/TermCheckbox"
+import { get } from 'lodash'
 
 interface Props {
   nextStep(): void
 }
 
 const IntroduceStepOne = observer(({ nextStep }: Props) => {
-  const { loanStore, authStoreModel } = useStores()
+  const { loanStore, authStoreModel, appStore} = useStores()
+  const [loading, setLoading] = useState(false)
+
   const validationSchema = Yup.object().shape({
     fullName: Yup.string().trim().required(i18n.t("errors.requireFullName")),
     email: Yup.string()
@@ -41,7 +44,18 @@ const IntroduceStepOne = observer(({ nextStep }: Props) => {
   })
   const [checkboxState, setCheckboxState] = useState<boolean>(false)
 
+  const checkTab = (data) => {
+    const email = get(authStoreModel.user, 'emails[0].email')
+    const phone = get(authStoreModel.user, 'tels[0].tel')
+    if (email === data?.email || phone === data?.phone){
+      appStore.setFinanceIndex(0)
+    }
+    else appStore.setFinanceIndex(1)
+  }
+
   const sendRequest = async (data) => {
+    checkTab(data)
+    setLoading(true)
     if (authStoreModel.token) {
       const send = await loanStore.requestCounselling(
         data.fullName,
@@ -63,7 +77,9 @@ const IntroduceStepOne = observer(({ nextStep }: Props) => {
         nextStep()
       } else Alert.alert("Something went wrong")
     }
+    setLoading(false)
   }
+
   if (!authStoreModel.isLoggedIn) {
     return <AppViewNoAuth />
   }
@@ -113,12 +129,13 @@ const IntroduceStepOne = observer(({ nextStep }: Props) => {
             control,
           }}
         />
-        {/*<AppText tx={"guide.enterKeyword"} style={presets.note} />*/}
+        {/* <AppText tx={"guide.enterKeyword"} style={presets.note} /> */}
         <TermCheckbox checkboxState={checkboxState} setCheckboxState={setCheckboxState} />
         <View style={styles.wrapBtn}>
           <AppButton
+            loading={loading}
             tx={"common.sentInformation"}
-            disable={!checkboxState}
+            disable={!checkboxState || loading}
             onPress={handleSubmit(sendRequest)}
           />
         </View>

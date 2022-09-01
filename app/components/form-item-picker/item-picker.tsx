@@ -48,8 +48,8 @@ const ItemPicker = React.memo((props: Props) => {
   const [modal, setModal] = useState<boolean>(false)
 
   const handleSelectOption = (val) => {
-    setTitle(val.label)
     setValue(name, val.value)
+    setTitle(val.label)
     if (clearErrors) {
       clearErrors(name)
     }
@@ -60,7 +60,8 @@ const ItemPicker = React.memo((props: Props) => {
   useEffect(() => {
     if (!value) {
       setTitle("")
-    } else {
+    }
+    if (value || value?.toString() === '0'){
       const t = data?.find(d => d?.value === value)?.label || value || ''
       setTitle(t)
     }
