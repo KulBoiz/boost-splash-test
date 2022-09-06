@@ -8,9 +8,11 @@
 //
 // It's easier just to leave it here.
 import App from "./app/app.tsx"
-import { AppRegistry } from "react-native"
+import { AppRegistry, Text } from "react-native"
 import { name as appName } from './app.json'
 
+Text.defaultProps = Text.defaultProps || {};
+Text.defaultProps.allowFontScaling = false;
 
 AppRegistry.registerComponent(appName, () => App)
 export default App

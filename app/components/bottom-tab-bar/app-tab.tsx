@@ -139,7 +139,11 @@ function AppTabBar({ state, descriptors, navigation }: any) {
                 onLongPress={onLongPress}>
                 {isFocused ? tabBarBankerCustom[index].iconActive : tabBarBankerCustom[index].icon}
                 <AppText
-                  style={[styles.text, isFocused ? styles.textActive : null]}>{tabBarBankerCustom[index].title}</AppText>
+                  style={[styles.text, isFocused ? styles.textActive : null]}
+                  fontFamily={fontFamily.medium}
+                >
+                  {tabBarBankerCustom[index].title}
+                </AppText>
               </TouchableOpacity>
             }
           </>
@@ -176,24 +180,22 @@ const styles = ScaledSheet.create({
     flexDirection: "row",
     height: isIphoneX() ? "80@s" : "60@s",
     alignItems: "center",
-    width: width,
+    // justifyContent: "space-evenly",
     justifyContent: "space-around",
     paddingBottom: isIphoneX() ? "20@vs" : "5@vs",
     backgroundColor: color.background,
   },
-  wrapIcon: { alignItems: "center" },
+  wrapIcon: { alignItems: "center"},
   textActive: {
     color: color.primary,
-    fontSize: "12@ms",
-    fontFamily: fontFamily.bold,
+    fontSize: "10@ms",
   },
   text: {
     marginTop: 5,
     color: color.palette.grayChateau,
-    fontSize: "12@ms",
-    fontFamily: fontFamily.medium,
+    fontSize: "10@ms",
   },
   middleText: {
-    bottom: isIos ? "23%" : "18%",
+    bottom: isIos ? "22.5%" : "18%",
   },
 })
