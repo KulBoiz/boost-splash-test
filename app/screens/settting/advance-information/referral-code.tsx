@@ -14,7 +14,7 @@ interface Props {
 }
 
 const ReferralCode = React.memo(({ refCode }: Props) => {
-  const linkRef = `${DOMAIN}users/signup?refcode=${refCode}`
+  const linkRef = `${DOMAIN}users/signup?refCode=${refCode}`
 
   const copyToClipboard = () => {
     Clipboard.setString(linkRef)

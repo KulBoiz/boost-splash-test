@@ -43,22 +43,22 @@ const BuyInsurance = observer(({ index }: Props) => {
     navigation.dispatch(StackActions.push(ScreenNames.INSURANCE_SCREEN, { id: 1 }))
   }
 
-  if (!productDetail?.info?.productUrlOriginal && index === 1) {
-    return <>
-      <ConfirmModal
-        visible={true}
-        closeModal={() => {
-          navigate(ScreenNames.HOME)
-        }}
-        onPress={() => {
-          navigate(ScreenNames.HOME)
-        }}
-        content={'Sản phẩm hiện đang chưa mở bán,  vui lòng quay lại sau.'}
-        hideCancel
-        submitTitle={'Trờ về'}
-      />
-    </>
-  }
+  // if (!productDetail?.info?.productUrlOriginal && index === 1) {
+  //   return <>
+  //     <ConfirmModal
+  //       visible={true}
+  //       closeModal={() => {
+  //         navigate(ScreenNames.HOME)
+  //       }}
+  //       onPress={() => {
+  //         navigate(ScreenNames.HOME)
+  //       }}
+  //       content={'Sản phẩm hiện đang chưa mở bán,  vui lòng quay lại sau.'}
+  //       hideCancel
+  //       submitTitle={'Trờ về'}
+  //     />
+  //   </>
+  // }
 
   if (productDetail && productDetail?.source && !productDetail?.isFina) {
     return (
