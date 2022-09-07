@@ -36,8 +36,8 @@ const ManageInsuranceDetailScreen: FC<Props> = observer((props: any) => {
     insuranceStore.getListHospital(data?.product?.id)
   },[])
 
-  const startDate = data?.meta?.time?.startTime ?? moment(data?.meta?.time?.endTime).subtract(1, 'years')
-  const endDate = data?.meta?.time?.endTime ?? moment(data?.meta?.time?.startTime).add(1, 'years')
+  const startDate = data?.meta?.time?.startTime
+  const endDate = data?.meta?.time?.endTime
 
   const [collapsed, setCollapsed] = useState(true)
   const [popupHospitalListVisible, setPopupHospitalListVisible] = useState(false)
