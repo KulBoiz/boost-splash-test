@@ -23,10 +23,11 @@ interface Props {
   header?: string
   type?: 'vehicle' | 'real_estate' | 'project_house'
   showPercentCustom?: boolean
+  showPackage?: boolean
 }
 
 const IconItem = React.memo((props: Props) => {
-  const { icon, title, onPress, iconShape = 'custom', middleText, percent, header, type = 'vehicle', showPercent = true, showPercentCustom = false } = props
+  const { icon, title, onPress, iconShape = 'custom', middleText, percent, header, type = 'vehicle', showPercent = true, showPercentCustom = false, showPackage = false } = props
   const realTitle = i18n.t(title).includes('missing') ? title : translate(title)
   const isStringIcon = typeof icon === "string"
   const isStringMiddleText = typeof middleText === "string"
@@ -75,7 +76,7 @@ const IconItem = React.memo((props: Props) => {
                 </View>
               }
             </View>
-            {!!title && <AppText value={title} style={styles.textCircle} numberOfLines={2}/>}
+            {!!title && <AppText value={`${title}${showPackage ? ' gói' : ''}`} style={styles.textCircle} numberOfLines={2}/>}
 
           </>
         </View>

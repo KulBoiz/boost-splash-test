@@ -1,5 +1,5 @@
 import React, { useCallback } from "react"
-import { View, FlatList } from "react-native"
+import { FlatList, View } from "react-native"
 import HistoryItem from "./history-item"
 import { ScaledSheet } from "react-native-size-matters"
 import { color } from "../../../theme"
@@ -7,7 +7,8 @@ import { useStores } from "../../../models"
 import { sortBy } from "lodash"
 import moment from "moment"
 
-interface Props {}
+interface Props {
+}
 
 const History = React.memo((props: Props) => {
   const { loanStore } = useStores()
@@ -22,21 +23,23 @@ const History = React.memo((props: Props) => {
     <View style={styles.container}>
       {
         histories?.length > 0 &&
-        <FlatList data={sortBy(histories, function (o) { return moment(o.createdAt); }).reverse()} renderItem={renderItem} style={styles.flatList} />
+        <FlatList data={sortBy(histories, function(o) {
+          return moment(o.createdAt)
+        }).reverse()} renderItem={renderItem} contentContainerStyle={styles.flatList} />
       }
     </View>
   )
-});
+})
 
-export default History;
+export default History
 
 const styles = ScaledSheet.create({
   container: {
-    paddingHorizontal: '16@ms'
+    paddingHorizontal: "16@ms",
   },
   flatList: {
-    padding: '16@s',
+    padding: "16@s",
     backgroundColor: color.background,
-    borderRadius: '8@s'
-  }
-});
+    borderRadius: "8@s",
+  },
+})

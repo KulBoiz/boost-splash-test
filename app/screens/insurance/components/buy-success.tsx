@@ -7,9 +7,10 @@ import { color } from "../../../theme"
 import { FONT_MEDIUM_14 } from "../../../styles/common-style"
 import { fontFamily } from "../../../constants/font-family"
 import AppButton from "../../../components/app-button/AppButton"
-import { goBack } from "../../../navigators"
+import { goBack, navigate } from "../../../navigators"
 import { useStores } from '../../../models';
 import AppHeader from "../../../components/app-header/AppHeader"
+import { ScreenNames } from "../../../navigators/screen-names"
 
 interface Props {
   onPress(): void,
@@ -60,6 +61,9 @@ const BuySuccess = React.memo((props: Props) => {
   const goHome = () => {
     goBack()
   }
+  const goToManage = () => {
+    navigate(ScreenNames.MANAGE_INSURANCE_LIST, {key : "1"})
+  }
 
   return (
     <View style={styles.container}>
@@ -69,13 +73,13 @@ const BuySuccess = React.memo((props: Props) => {
           {status === STATUS.SUCCEEDED && <SuccessInsuranceSvg />}
           <AppText value={'Mua bảo hiểm'} style={[FONT_MEDIUM_14, styles.buyText]} />
           <AppText value={`${MAPPING_STATUS[status] ?? 'Chờ xác nhận'}`} style={styles.successText} />
-          {/*${time > 0  && status === STATUS.PENDING  ? `(${time})` : ''}*/}
+          {/* ${time > 0  && status === STATUS.PENDING  ? `(${time})` : ''} */}
         </View>
       </View>
 
         <View style={styles.wrapButton}>
           <AppText value={'Trở về trang chủ'} style={styles.homeText} onPress={goHome}/>
-          <AppButton title={'Trở về danh sách bảo hiểm'} onPress={goHome}  />
+          <AppButton title={'Hồ sơ bảo hiểm'} onPress={goToManage}  />
         </View>
     </View>
   )

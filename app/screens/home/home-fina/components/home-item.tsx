@@ -14,10 +14,11 @@ interface Props{
   iconShape?: 'circle' | 'custom'
   header?: string
   type?: 'vehicle' | 'real_estate' | 'project_house'
+  showPackage?:boolean
 }
 
 const HomeItem = React.memo((props: Props) => {
-  const {label, style, data = [], iconShape, header, type} = props
+  const {label, style, data = [], iconShape, header, type, showPackage = false} = props
   return (
     <View style={[styles.container, style]}>
       <AppText value={label} style={styles.label}/>
@@ -33,6 +34,7 @@ const HomeItem = React.memo((props: Props) => {
             middleText={e?.middleText}
             header={header}
             type={type}
+            showPackage={showPackage}
           />
         })}
       </View>

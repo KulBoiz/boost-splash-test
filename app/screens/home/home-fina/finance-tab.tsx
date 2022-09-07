@@ -108,6 +108,7 @@ const FinanceTab = React.memo((props: Props) => {
           style={styles.itemMargin}
           iconShape={'circle'}
           type={'real_estate'}
+          showPackage
         />
       }
 
@@ -130,6 +131,7 @@ const FinanceTab = React.memo((props: Props) => {
           style={[styles.itemMargin, MARGIN_BOTTOM_16]}
           iconShape={'circle'}
           type={'vehicle'}
+          showPackage
         />
        }
       <HomeBanner type={'small'} label={'Tin tức'}/>

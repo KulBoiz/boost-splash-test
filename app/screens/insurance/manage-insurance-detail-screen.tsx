@@ -36,8 +36,8 @@ const ManageInsuranceDetailScreen: FC<Props> = observer((props: any) => {
     insuranceStore.getListHospital(data?.product?.id)
   },[])
 
-  const startDate = data?.meta?.time?.startTime ?? moment(data?.meta?.time?.endTime).subtract(1, 'years')
-  const endDate = data?.meta?.time?.endTime ?? moment(data?.meta?.time?.startTime).add(1, 'years')
+  const startDate = data?.meta?.time?.startTime
+  const endDate = data?.meta?.time?.endTime
 
   const [collapsed, setCollapsed] = useState(true)
   const [popupHospitalListVisible, setPopupHospitalListVisible] = useState(false)
@@ -125,10 +125,17 @@ const ManageInsuranceDetailScreen: FC<Props> = observer((props: any) => {
             })}
             {renderItem({
               item: {
+                label: "Gói bảo hiểm",
+                value: data?.meta?.label ?? '_',
+              },
+              index: 3,
+            })}
+            {renderItem({
+              item: {
                 label: "Số tiền bảo hiểm",
                 value: `${numberWithCommas(data?.meta?.amount) ?? '0'} vnđ`,
               },
-              index: 3,
+              index: 4,
             })}
           </Box>
           <Box bg="white" borderRadius="8" py="3" px="4" mt="4">

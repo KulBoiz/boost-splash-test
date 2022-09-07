@@ -9,6 +9,7 @@ import { color } from "../../../theme"
 import { ScaledSheet, s } from "react-native-size-matters"
 import moment from 'moment';
 import DashedLine from "react-native-dashed-line"
+import { isAndroid, isIos } from "../../../constants/variable"
 
 const TYPE = {
   TASK: 'task',
@@ -115,7 +116,7 @@ const styles = ScaledSheet.create({
     borderRadius: '6@s',
     backgroundColor: color.primary,
     alignItems: "center",
-    justifyContent: "center"
+    justifyContent: "center",
   },
   smallCircle: {
     width: '4@s',
