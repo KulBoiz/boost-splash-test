@@ -49,7 +49,7 @@ const Document = React.memo((props: Props) => {
           <ItemView
             style={styles.item}
             title={"loan.infoLoan.info.time"}
-            content={loanDetail?.timeLoan ? `${loanDetail?.timeLoan} Năm` : ""}
+            content={loanDetail?.timeLoan ? `${loanDetail?.timeLoan} tháng` : ""}
           />
         </View>
       </View>

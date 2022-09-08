@@ -11,7 +11,7 @@ interface Props{
   respondTransaction,
 }
 
-const BuyStepTwo = React.memo((props: Props) => {
+const BuyStepThree = React.memo((props: Props) => {
   return (
     <View style={styles.container}>
       <BuySuccess {...props}/>
@@ -19,7 +19,7 @@ const BuyStepTwo = React.memo((props: Props) => {
   )
 });
 
-export default BuyStepTwo;
+export default BuyStepThree;
 
 const styles = ScaledSheet.create({
   container: {flex:1},
