@@ -2,13 +2,10 @@ import { StackActions, useNavigation } from "@react-navigation/native"
 import { observer } from "mobx-react-lite"
 import React, { useRef, useState } from "react"
 import { View } from "react-native"
-import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view"
 import { ScaledSheet } from "react-native-size-matters"
 import WebView from "react-native-webview"
-import ConfirmModal from "../../components/app-modal/confirm-modal"
 import ShareComponent from "../../components/share"
 import { useStores } from "../../models/root-store/root-store-context"
-import { navigate } from "../../navigators"
 import { ScreenNames } from "../../navigators/screen-names"
 import { color } from "../../theme"
 import BuyStepOneForm from "./components/buy-step-one-form"
@@ -20,7 +17,6 @@ interface Props {
 }
 
 const BuyInsurance = observer(({ index }: Props) => {
-  // @ts-ignore
   const { productStore } = useStores()
   const { productDetail, questionGroups } = productStore
   const ref = useRef(null)
@@ -108,6 +104,7 @@ const BuyInsurance = observer(({ index }: Props) => {
       default: return (
         <BuyStepOneForm
           {...{
+            index: index,
             onPress: stepOneForm,
             productDetail,
             questionGroups,
