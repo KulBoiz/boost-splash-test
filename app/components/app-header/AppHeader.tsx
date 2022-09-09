@@ -27,6 +27,7 @@ const AppHeader = React.memo((props: AppHeaderProps) => {
     style,
     titleStyle,
     isBlue = false,
+    showBorderWidth = true
   } = props
 
   const header = headerText || (headerTx && translate(headerTx)) || ""
@@ -36,6 +37,7 @@ const AppHeader = React.memo((props: AppHeaderProps) => {
       style={[
         styles.container,
         { backgroundColor: isBlue ? color.palette.blue : color.background },
+        { borderBottomWidth: showBorderWidth ? 1 : 0},
         style,
       ]}
     >
@@ -98,7 +100,6 @@ const styles = ScaledSheet.create({
     paddingRight: "16@s",
     alignItems: "flex-end",
     paddingBottom: "16@s",
-    borderBottomWidth: 1,
     borderBottomColor: color.palette.line,
   },
   titleView: {

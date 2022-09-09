@@ -1,28 +1,29 @@
 import React from 'react';
-import { View, StyleSheet, ScrollView } from "react-native"
+import { StyleSheet, ScrollView } from "react-native"
 import { StackedBarChart } from "react-native-chart-kit"
-import { width } from "../../constants/variable"
+import { width } from "../../../constants/variable"
+import { color } from "../../../theme"
 
 interface Props{}
 
 const data = {
-  labels: ["Test1", "Test2","Test1", "Test2","Test1", "Test2","Test1", "Test2","Test1", "Test2","Test1", "Test2"],
+  labels: ["1991", "1992","1993", "1994","1995", "1996","1997", "1998","1999", "2000","2001", "2002"],
   legend: ["L1", "L2", "L3"],
   data: [
-    [60, 60, 90],
-    [30, 30, 60],
-    [60, 60, 60],
-    [30, 30, 60],
-    [60, 60, 90],
-    [30, 30, 60],
-    [60, 60, 60],
-    [30, 30, 60],
-    [60, 60, 90],
-    [30, 30, 60],
-    [60, 60, 60],
-    [30, 30, 60],
+    [60, 90],
+    [30, 60],
+    [60, 60],
+    [30, 60],
+    [60, 90],
+    [30, 60],
+    [60, 60],
+    [30, 60],
+    [60, 90],
+    [30, 60],
+    [60, 60],
+    [30, 60],
   ],
-  barColors: ["#dfe4ea", "#ced6e0", "#a4b0be"]
+  barColors: ["#6E94F2", "#83D7AE"]
 };
 
 const chartConfigs = [
@@ -36,7 +37,7 @@ const chartConfigs = [
 
 const StackedBar = React.memo((props: Props) => {
   return (
-    <ScrollView style={styles.container} horizontal>
+    <ScrollView style={styles.container} horizontal showsHorizontalScrollIndicator={false}>
       {chartConfigs.map((chartConfig, index) => {
         const labelStyle = {
           color: chartConfig.color(),
@@ -46,7 +47,6 @@ const StackedBar = React.memo((props: Props) => {
         }
         const graphStyle = {
           marginVertical: 8,
-          paddingHorizontal: 20
         }
         return(
           <StackedBarChart
@@ -56,13 +56,13 @@ const StackedBar = React.memo((props: Props) => {
             width={width*3}
             height={320}
             chartConfig={{
-              backgroundColor: '#1cc910',
-              backgroundGradientFrom: '#eff3ff',
-              backgroundGradientTo: '#efefef',
+              backgroundColor: color.background,
+              backgroundGradientFrom: color.background,
+              backgroundGradientTo: color.background,
               decimalPlaces: 2,
               color: (opacity = 1) => `rgba(0, 0, 0, ${opacity})`,
               style: {
-                borderRadius: 16,
+                // borderRadius: 16,
               },
             }}
             hideLegend={false}
