@@ -112,7 +112,7 @@ export const ProductStoreModel = types
       if (self.products.length === self.totalProduct && pagingParams?.page !== 1) {
         return
       }
-      const result = yield self.api.get(`product-details/app/home/${type}/${time}`, {
+      const result = yield self.api.get(`product-details/app/home-filter/${type}/${time}`, {
         filter: {
           where: {
             status: 'approved'

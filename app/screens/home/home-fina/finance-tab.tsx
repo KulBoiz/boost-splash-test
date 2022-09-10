@@ -14,7 +14,6 @@ import HomeBanner from "./components/home-banner"
 import HomeItem from "./components/home-item"
 import ProjectItem from "./components/project-item"
 import { formatHomeData } from "./constants"
-import { MARGIN_BOTTOM_16, MARGIN_BOTTOM_24 } from "../../../styles/common-style"
 
 interface Props { }
 
@@ -45,7 +44,7 @@ const FinanceTab = React.memo((props: Props) => {
   const GetIndexPrioritized = () => {
     const indexPrioritized: number[] = [];
 
-    for(let i = 1; i <= 10; i++) {
+    for (let i = 1; i <= 10; i++) {
       indexPrioritized.push(i);
     }
 
@@ -100,7 +99,7 @@ const FinanceTab = React.memo((props: Props) => {
   return (
     <View style={styles.container}>
       <HomeItem data={SUPPORT_TOOL} label={"Công cụ bán hàng"} />
-      {homeStore?.real_estate?.length > 0 &&
+      {/* {homeStore?.real_estate?.length > 0 &&
         <HomeItem
           data={formatHomeData(homeStore.real_estate)}
           header={'Vay mua nhà có sổ'}
@@ -110,6 +109,22 @@ const FinanceTab = React.memo((props: Props) => {
           type={'real_estate'}
           showPackage
         />
+      } */}
+
+      {
+        homeStore?.dataHome && 
+        homeStore?.dataHome?.map((el, index) => (
+          <HomeItem
+            key={index.toString()}
+            data={formatHomeData(el?.format)}
+            header={el?.name}
+            label={el?.name}
+            style={styles.itemMargin}
+            iconShape={'circle'}
+            type={el?.id}
+            showPackage
+          />
+        ))
       }
 
       {!!projects?.length &&
@@ -117,13 +132,13 @@ const FinanceTab = React.memo((props: Props) => {
           data={projects}
           header={'Vay mua nhà dự án'}
           label={"Vay mua nhà dự án"}
-          style={styles.itemMargin}
+          style={styles.itemMarginProject}
           iconShape={'circle'}
           type={'project_house'}
         />
       }
 
-      {!!homeStore.vehicle?.length &&
+      {/* {!!homeStore.vehicle?.length &&
         <HomeItem
           data={formatHomeData(homeStore.vehicle)}
           header='Vay mua xe'
@@ -133,8 +148,8 @@ const FinanceTab = React.memo((props: Props) => {
           type={'vehicle'}
           showPackage
         />
-       }
-      <HomeBanner type={'small'} label={'Tin tức'}/>
+       } */}
+      <HomeBanner type={'small'} label={'Tin tức'} />
 
       <BottomView height={200} />
       <FullScreenModal
@@ -157,4 +172,8 @@ const styles = ScaledSheet.create({
   itemMargin: {
     marginTop: "16@s",
   },
+  itemMarginProject: {
+    marginTop: "16@s",
+    marginBottom: "16@s"
+  }
 })

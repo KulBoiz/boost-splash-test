@@ -9,10 +9,10 @@ import { useStores } from "../../../models"
 interface Props{
   defaultKey: string | number
   setKey(e: any): void
-  type?: 'vehicle' | 'real_estate' | 'project_house'
+  type?: any
 }
 const getArray = (arr)=> {
-  return arr.map(val => val?.time) ?? [];
+  return arr.map(val => val?.value) ?? [];
 }
 
 const FilterProduct = React.memo((props: Props) => {
@@ -20,8 +20,10 @@ const FilterProduct = React.memo((props: Props) => {
   const {homeStore, productStore} = useStores()
   const {type, setKey, defaultKey} = props
 
-  const data = type === 'vehicle' ? homeStore.vehicle :
-    type === 'real_estate' ? homeStore.real_estate : homeStore.projectHouse
+  // const data = type === 'vehicle' ? homeStore.vehicle :
+  //   type === 'real_estate' ? homeStore.real_estate : homeStore.projectHouse
+
+  const data = homeStore?.dataHome?.find(el => el?.id === type)?.format || []
 
   const initialIndex = getArray(data).findIndex(e=> e.toString() === defaultKey.toString())
 

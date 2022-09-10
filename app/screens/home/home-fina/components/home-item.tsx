@@ -13,12 +13,13 @@ interface Props{
   style?: ViewStyle | any
   iconShape?: 'circle' | 'custom'
   header?: string
-  type?: 'vehicle' | 'real_estate' | 'project_house'
+  type?: any
   showPackage?:boolean
 }
 
 const HomeItem = React.memo((props: Props) => {
-  const {label, style, data = [], iconShape, header, type, showPackage = false} = props
+  const { label, style, data = [], iconShape, header, type, showPackage = false } = props
+
   return (
     <View style={[styles.container, style]}>
       <AppText value={label} style={styles.label}/>
