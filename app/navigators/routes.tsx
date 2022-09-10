@@ -1,5 +1,5 @@
 import {ScreenNames} from './screen-names';
-import { LoginScreen, SplashScreen, WelcomeScreen } from "../screens"
+import { LoginScreen } from "../screens"
 import OtpScreen from "../screens/auth/otp-screen"
 import RegisterPhoneScreen from "../screens/auth/register-phone-screen"
 import { RegisterScreen } from "../screens/auth/register-screen"
@@ -13,6 +13,9 @@ import CheckInfo from "../screens/agent/check-info"
 import CaptureId from "../screens/agent/capture-id"
 import SignContract from "../screens/agent/sign-contract"
 import ViewContract from "../screens/agent/view-contract"
+import CommissionScreen from "../screens/commission"
+import CommissionList from "../screens/commission/commssion-list"
+import CommissionDetail from "../screens/commission/commission-detail"
 
 export const AuthRoutes = [
 	{
@@ -36,6 +39,19 @@ export const AuthRoutes = [
 	{
 		name: ScreenNames.CHANGE_PASSWORD,
 		component: ChangePassword,
+	},
+];
+
+export const CommissionRoutes = [
+	{
+		name: ScreenNames.COMMISSION_SCREEN,
+		component: CommissionScreen,
+	},{
+		name: ScreenNames.COMMISSION_LIST,
+		component: CommissionList,
+	},{
+		name: ScreenNames.COMMISSION_DETAIL,
+		component: CommissionDetail,
 	},
 ];
 

@@ -30,7 +30,7 @@ const CommissionList = React.memo((props: Props) => {
       <AppHeader headerText={"Danh sách hoa hồng"} isBlue />
       <CommissionCash />
       <FlatList
-        data={[]}
+        data={[0,1,2,3,4]}
         ListEmptyComponent={renderEmpty}
         keyExtractor={(e, i) => i.toString()}
         renderItem={renderItem}
