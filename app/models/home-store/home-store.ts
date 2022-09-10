@@ -9,6 +9,7 @@ export const HomeStoreModel = types
   .model("HomeStore")
   .extend(withEnvironment)
   .props({
+    dataHome: types.optional(types.frozen(), []),
     vehicle: types.optional(types.frozen(), []),
     real_estate: types.optional(types.frozen(), []),
     projectHouse: types.optional(types.frozen(), []),
@@ -33,6 +34,16 @@ export const HomeStoreModel = types
       }
     }),
 
+    getViewHome: flow(function* getViewHome() {
+      const result = yield self.api.get('product-details/public/view-home-app')
+      const data = result?.data
+      
+      if (result.kind === "ok") {
+        self.dataHome = data
+        return data
+      }
+    }),
+
     getProjectHouse: flow(function* getProjectHouse(params) {
       const result = yield self.api.get('projects/public', params)
       const data = result?.data?.data
@@ -48,7 +59,8 @@ export const HomeStoreModel = types
   .actions((self) => ({
     getHomeData: flow(function* getHomeData() {
       self.getVehicle()
-      self.getProjectHouse()
+      self.getViewHome()
+      // self.getProjectHouse()
     })
   }))
 
