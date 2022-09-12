@@ -14,6 +14,7 @@ export const palette = {
   orangeDarker: "#EB9918",
   gray: "#7F8192",
   lightGray: "#AAADB7",
+  yellow: '#FFBB33',
   lighterGray: "#AEAEB2",
   line: "rgba(174, 174, 178, 0.3)",
   lightBlue: "#F3F6FD",

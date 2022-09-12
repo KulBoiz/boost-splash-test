@@ -1,15 +1,16 @@
 import React from "react"
 import { Pressable, View } from "react-native"
 import FastImage from "react-native-fast-image"
-import { images } from "../../../assets/images"
 import { ms, ScaledSheet } from "react-native-size-matters"
 import { AppText } from "../../../components/app-text/AppText"
 import { formatDate, hexToRgbA } from "../../../constants/variable"
-import { ALIGN_CENTER, ROW } from "../../../styles/common-style"
 import { color } from "../../../theme"
 import { fontFamily } from "../../../constants/font-family"
 import { navigate } from "../../../navigators"
 import { ScreenNames } from "../../../navigators/screen-names"
+import RenderStatus from "../../../components/status/render-status"
+import { commissionStatus } from "../constants"
+import { ROW, SPACE_BETWEEN } from "../../../styles/common-style"
 
 interface Props {
   item?: any
@@ -17,23 +18,26 @@ interface Props {
 
 const CommissionItem = React.memo((props: Props) => {
   const {item} = props
-  const date = new Date()
+  const status = item?.status ?? ''
 
   return (
     <Pressable style={styles.container} onPress={()=> navigate(ScreenNames.COMMISSION_DETAIL)}>
-      <View style={[ROW, ALIGN_CENTER]}>
-        <FastImage source={images.commission_checked} style={styles.icon} />
-        <View>
+      <FastImage source={commissionStatus(status)?.icon} style={styles.icon} />
+      <View style={{ flex: 1 }}>
+        <View style={[ROW, SPACE_BETWEEN]}>
           <AppText value={item?.transaction?.code} style={styles.name} />
+          <AppText
+            value={`(${Number((item?.amount || 0) / (item?.transactionDetail?.amount || 0) * 100).toFixed(2)}%) ${item?.amount.toFixed(2)} vnđ`}
+            style={styles.name} />
+        </View>
+        <View style={[ROW, SPACE_BETWEEN]}>
           <AppText value={formatDate(item?.createdAt)} fontSize={ms(11)} fontFamily={fontFamily.semiBold}
                    color={hexToRgbA(color.palette.black, 0.5)} />
-        </View>
-      </View>
-
-      <View>
-        <AppText value={`(${Number((item?.amount || 0) / (item?.transactionDetail?.amount || 0) * 100).toFixed(2)}%) ${item?.amount.toFixed(2)} vnđ`} style={styles.name} />
-        <View style={[styles.statusContainer, { backgroundColor: "coral" }]}>
-          <AppText value={"Chưa đối soát"} color={color.palette.angry} fontSize={ms(12)} />
+          <RenderStatus
+            style={styles.statusContainer}
+            status={commissionStatus(status)?.status}
+            statusColor={commissionStatus(status)?.textColor}
+            backgroundColor={commissionStatus(status)?.background} />
         </View>
       </View>
     </Pressable>
