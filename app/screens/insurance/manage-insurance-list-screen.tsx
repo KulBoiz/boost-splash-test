@@ -133,13 +133,17 @@ const ManageInsuranceListScreen: FC<Props> = observer((props: any) => {
     return <Box m="4" />
   }, [insuranceStore.isLoadingMore])
 
-  const renderEmpty = () => {
+  const renderEmpty = useCallback(() => {
     return (
       <View style={styles.empty}>
         <EmptyList />
       </View>
     )
-  }
+  },[])
+
+  const goHome = useCallback(()=> {
+    navigate(ScreenNames.APP)
+  },[])
 
   return (
     <>
@@ -149,6 +153,7 @@ const ManageInsuranceListScreen: FC<Props> = observer((props: any) => {
             style={styles.header}
             headerTx={"header.manageInsuranceList"}
             renderRightIcon={<ManageInsuranceHelp />}
+            onLeftPress={goHome}
           />
 
           <ManageInsuranceTab onChangeTab={onChangeTab} tabSelect={tabSelect} />
@@ -219,6 +224,7 @@ const ManageInsuranceListScreen: FC<Props> = observer((props: any) => {
             style={styles.header}
             headerTx={"header.manageInsuranceList"}
             renderRightIcon={<ManageInsuranceHelp />}
+            onLeftPress={goHome}
           />
           <SettingAuthScreen />
         </>

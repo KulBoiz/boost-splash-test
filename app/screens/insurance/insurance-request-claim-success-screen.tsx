@@ -3,7 +3,7 @@ import React, { FC } from "react"
 import { StyleSheet } from "react-native"
 import { observer } from "mobx-react-lite"
 import AppHeader from "../../components/app-header/AppHeader"
-import { useNavigation } from "@react-navigation/native"
+import { StackActions, useNavigation } from "@react-navigation/native"
 import { Box, Button } from "native-base"
 import { RequestSuccessSvg } from "../../assets/svgs"
 import { Text } from "../../components"
@@ -14,10 +14,13 @@ interface Props {}
 
 const InsuranceRequestClaimSuccessScreen: FC<Props> = observer((props: Props) => {
   const navigation = useNavigation()
+  const goToListClaim = React.useCallback(() => {
+    navigation.dispatch(StackActions.push(ScreenNames.MANAGE_INSURANCE_LIST, {key: "2"}))
+  },[])
 
-  const goToListClaim = () => {
-    navigate(ScreenNames.MANAGE_INSURANCE_LIST, {key: "2"})
-  }
+  const goHome = React.useCallback(()=> {
+    navigate(ScreenNames.HOME)
+  },[])
 
   return (
     <Box flex="1" bg="lightBlue">
@@ -38,8 +41,8 @@ const InsuranceRequestClaimSuccessScreen: FC<Props> = observer((props: Props) =>
         <Button onPress={goToListClaim}>Theo dõi lịch sử xử lý</Button>
         <Text
           suppressHighlighting
-          onPress={navigation.goBack}
-          text="Trở về"
+          onPress={goHome}
+          text="Trở về trang chủ"
           py="4"
           mb="2"
           textAlign="center"

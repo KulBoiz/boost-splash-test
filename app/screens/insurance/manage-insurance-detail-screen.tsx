@@ -59,9 +59,10 @@ const ManageInsuranceDetailScreen: FC<Props> = observer((props: any) => {
     )
   }, [])
 
-  const getUser = (fullName) => {
+  const getUser = useCallback((fullName) => {
     return data?.transaction?.customers?.find(item => item?.fullName?.toLowerCase() === fullName?.toLowerCase())
-  }
+  },[])
+
   return (
     <Box flex="1" bg="lightBlue">
       <AppHeader
@@ -185,7 +186,7 @@ const ManageInsuranceDetailScreen: FC<Props> = observer((props: any) => {
           </Box>
           {
             (moment(data?.meta?.time?.startTime) <= moment(new Date())) &&
-            ((Number(moment(data?.meta?.time?.endTime).format('x')) - +moment(new Date()).format('x')) > 0) &&
+            ((+moment(data?.meta?.time?.endTime).format('x') - +moment(new Date()).format('x')) > 0) &&
             <Button my="6" onPress={onRequest}>
               Yêu cầu bồi thường bảo hiểm
             </Button>
