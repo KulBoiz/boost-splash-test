@@ -7,9 +7,10 @@ import { color } from "../../../theme"
 import { hexToRgbA, numberWithCommas } from "../../../constants/variable"
 
 interface Props {
+  metadata?: any
 }
 
-const TextView = ({ text }: { text: string}) => {
+const TextView = ({ text }: { text: string }) => {
   return (
     <View style={styles.textContainer}>
       <AppText value={text} style={styles.label} />
@@ -17,27 +18,28 @@ const TextView = ({ text }: { text: string}) => {
   )
 }
 
-const CashView = ({amount}: {amount: number}) => {
-  return(
+const CashView = ({ amount }: { amount: number }) => {
+  return (
     <View style={styles.cashContainer}>
-      <AppText value={`${numberWithCommas(amount)} đ`}/>
+      <AppText value={`${numberWithCommas(amount)} đ`} />
       <AppText value={'Tiền hoa hồng'} style={styles.textCommission} />
     </View>
   )
 }
 
 const CommissionCash = React.memo((props: Props) => {
+  const { metadata } = props
   return (
     <View style={styles.container}>
       <View style={styles.headerContainer}>
-        <TextView text={"CHƯA ĐỐI SOÁT"}/>
+        <TextView text={"CHƯA ĐỐI SOÁT"} />
         <TextView text={"ĐÃ ĐỐI SOÁT"} />
-        <TextView text={"ĐÃ THANH TOÁN"}/>
+        <TextView text={"ĐÃ THANH TOÁN"} />
       </View>
       <View style={styles.body}>
-        <CashView amount={1139812}/>
-        <CashView amount={12412131112}/>
-        <CashView amount={1241234412}/>
+        <CashView amount={metadata?.totalNotForControl.toFixed(2)} />
+        <CashView amount={metadata?.totalForControl.toFixed(2)} />
+        <CashView amount={metadata?.totalPaid.toFixed(2)} />
       </View>
     </View>
   )
@@ -61,7 +63,7 @@ const styles = ScaledSheet.create({
   },
   cashContainer: {
     width: '30%',
-    alignItems:"center",
+    alignItems: "center",
   },
   body: {
     flexDirection: 'row',
