@@ -18,6 +18,7 @@ import { CommentStoreModel } from "../comment-store/comment-store"
 import { NoteStoreModel } from "../note-store/note-store"
 import { UploadStoreModel } from "../upload-store/upload-store"
 import { HomeStoreModel } from "../home-store/home-store"
+import { CommissionStoreModel } from "../commission-store/commission-store"
 
 /**
  * A RootStore model.
@@ -43,6 +44,7 @@ export const RootStoreModel = types.model("RootStore").props({
   noteStore: types.optional(NoteStoreModel, {} as any),
   uploadStore: types.optional(UploadStoreModel, {} as any),
   homeStore: types.optional(HomeStoreModel, {} as any),
+  commissionStore: types.optional(CommissionStoreModel, {} as any),
 })
 
 /**

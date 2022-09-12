@@ -12,10 +12,11 @@ import { navigate } from "../../../navigators"
 import { ScreenNames } from "../../../navigators/screen-names"
 
 interface Props {
+  item?: any
 }
 
 const CommissionItem = React.memo((props: Props) => {
-  const name = "Trần Thị Minh Tuyền"
+  const {item} = props
   const date = new Date()
 
   return (
@@ -23,14 +24,14 @@ const CommissionItem = React.memo((props: Props) => {
       <View style={[ROW, ALIGN_CENTER]}>
         <FastImage source={images.commission_checked} style={styles.icon} />
         <View>
-          <AppText value={name} style={styles.name} />
-          <AppText value={formatDate(date)} fontSize={ms(11)} fontFamily={fontFamily.semiBold}
+          <AppText value={item?.transaction?.code} style={styles.name} />
+          <AppText value={formatDate(item?.createdAt)} fontSize={ms(11)} fontFamily={fontFamily.semiBold}
                    color={hexToRgbA(color.palette.black, 0.5)} />
         </View>
       </View>
 
       <View>
-        <AppText value={name} style={styles.name} />
+        <AppText value={`(${Number((item?.amount || 0) / (item?.transactionDetail?.amount || 0) * 100).toFixed(2)}%) ${item?.amount.toFixed(2)} vnđ`} style={styles.name} />
         <View style={[styles.statusContainer, { backgroundColor: "coral" }]}>
           <AppText value={"Chưa đối soát"} color={color.palette.angry} fontSize={ms(12)} />
         </View>

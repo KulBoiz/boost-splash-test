@@ -1,4 +1,4 @@
-import React from "react"
+import React, { useEffect, useState } from "react"
 import { FlatList, StyleSheet, View } from "react-native"
 import AppHeader from "../../components/app-header/AppHeader"
 import CommissionItem from "./components/commission-item"
@@ -8,14 +8,30 @@ import FastImage from "react-native-fast-image"
 import { images } from "../../assets/images"
 import { ScaledSheet } from "react-native-size-matters"
 import { color } from "../../theme"
+import { useStores } from "../../models"
 
 interface Props {
 }
 
-const CommissionList = React.memo((props: Props) => {
+const type = {
+  loan: 'loan',
+  insurances: 'insurances'
+}
 
-  const renderItem = () => {
-    return <CommissionItem />
+const CommissionList = React.memo((props: Props) => {
+  const { commissionStore, authStoreModel } = useStores()
+  const [commission, setCommission] = useState<any>({})
+
+
+  useEffect(() => {
+    const userId = authStoreModel?.userId
+    commissionStore.getCommission(userId, type.insurances).then(res => {
+      setCommission(res)
+    })
+  }, [])
+
+  const renderItem = ({item, index}) => {
+    return <CommissionItem item={item}/>
   }
   const renderEmpty = () => {
     return (
@@ -28,9 +44,9 @@ const CommissionList = React.memo((props: Props) => {
   return (
     <View style={styles.container}>
       <AppHeader headerText={"Danh sách hoa hồng"} isBlue />
-      <CommissionCash />
+      <CommissionCash  metadata={commission?.metadata}/>
       <FlatList
-        data={[0,1,2,3,4]}
+        data={commission?.data || []}
         ListEmptyComponent={renderEmpty}
         keyExtractor={(e, i) => i.toString()}
         renderItem={renderItem}
