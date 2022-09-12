@@ -62,12 +62,12 @@ export const SETTING_LIST = [
   //   onPress: () => {},
   //   active: false,
   // },
-  {
-    icon: <TransactionSvg />,
-    title: 'Hoa hồng của tôi',
-    onPress: () => navigate(ScreenNames.COMMISSION),
-    active: true,
-  },
+  // {
+  //   icon: <TransactionSvg />,
+  //   title: 'Hoa hồng của tôi',
+  //   onPress: () => navigate(ScreenNames.COMMISSION),
+  //   active: true,
+  // },
   // {
   //   icon: <SettingSvg />,
   //   title: 'Cài đặt',

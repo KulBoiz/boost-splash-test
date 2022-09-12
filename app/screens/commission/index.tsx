@@ -6,6 +6,8 @@ import StackedBarChart from "./chart/stacked-bar-chart"
 import { color } from "../../theme"
 import AppButton from "../../components/app-button/AppButton"
 import { ScaledSheet } from "react-native-size-matters"
+import { ScreenNames } from "../../navigators/screen-names"
+import { navigate } from "../../navigators"
 
 interface Props {
 }
@@ -20,7 +22,7 @@ const CommissionScreen = React.memo((props: Props) => {
         <StackedBarChart />
       </ScrollView>
       <View style={styles.wrapBtn}>
-        <AppButton title={"Danh sách hoa hồng"} colorBtn={color.palette.orange} onPress={()=> {}} />
+        <AppButton title={"Danh sách hoa hồng"} colorBtn={color.palette.orange} onPress={()=> navigate(ScreenNames.COMMISSION_LIST)} />
       </View>
     </View>
   )

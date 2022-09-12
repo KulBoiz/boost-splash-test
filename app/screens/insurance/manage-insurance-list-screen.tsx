@@ -1,6 +1,6 @@
 /* eslint-disable react-native/no-color-literals */
 import React, { FC, useCallback, useEffect, useMemo, useState } from "react"
-import { RefreshControl, StyleSheet } from "react-native"
+import { RefreshControl, StyleSheet, View } from "react-native"
 import { observer } from "mobx-react-lite"
 import AppHeader from "../../components/app-header/AppHeader"
 import { useStores } from "../../models"
@@ -18,6 +18,9 @@ import ManageInsuranceHelp from "./components/manage-insurance-help"
 import { navigate } from "../../navigators"
 import moment from "moment"
 import SettingAuthScreen from "../../components/app-view-no-auth"
+import EmptyList from "../../components/empty-list"
+import FastImage from "react-native-fast-image"
+import { images } from "../../assets/images"
 
 interface Props {}
 
@@ -130,6 +133,14 @@ const ManageInsuranceListScreen: FC<Props> = observer((props: any) => {
     return <Box m="4" />
   }, [insuranceStore.isLoadingMore])
 
+  const renderEmpty = () => {
+    return (
+      <View style={styles.empty}>
+        <EmptyList />
+      </View>
+    )
+  }
+
   return (
     <>
       {isLoggedIn ?
@@ -188,6 +199,7 @@ const ManageInsuranceListScreen: FC<Props> = observer((props: any) => {
               renderItem={renderItem}
               renderSectionHeader={renderSectionHeader}
               stickySectionHeadersEnabled
+              ListEmptyComponent={renderEmpty}
               refreshControl={
                 <RefreshControl
                   refreshing={insuranceStore.isRefreshing}
@@ -218,5 +230,8 @@ const ManageInsuranceListScreen: FC<Props> = observer((props: any) => {
 export default ManageInsuranceListScreen
 
 const styles = StyleSheet.create({
+  empty: {
+    paddingTop: 50
+  },
   header: { backgroundColor: "white", borderBottomWidth: 0 },
 })

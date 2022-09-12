@@ -1,5 +1,5 @@
 import React, { useState } from "react"
-import { View } from "react-native"
+import { Pressable, View } from "react-native"
 import { AppText } from "../../../components/app-text/AppText"
 import AppButton from "../../../components/app-button/AppButton"
 import { ALIGN_CENTER, ROW, SPACE_BETWEEN } from "../../../styles/common-style"
@@ -16,6 +16,11 @@ interface Props {
 const CashInfo = React.memo((props: Props) => {
   const [showCash, setShowCash] = useState<boolean>(true)
   const cash = showCash ? "7,829,292" : "*********"
+
+  function handleShowHide() {
+    setShowCash(!showCash)
+  }
+
   return (
     <View style={styles.container}>
       <View style={[ROW, ALIGN_CENTER, SPACE_BETWEEN]}>
@@ -23,7 +28,9 @@ const CashInfo = React.memo((props: Props) => {
           <AppText value={"Số tiền có thể rút"} color={hexToRgbA(color.palette.white, 0.6)} fontSize={ms(16)} />
           <View style={[ROW, ALIGN_CENTER, {marginTop: ms(4)}]}>
             <AppText value={`${cash} đ`} fontSize={ms(28)} fontFamily={fontFamily.bold} color={color.text}/>
-            <FastImage source={showCash ? images.open_eye : images.close_eye} style={styles.icon} tintColor={color.palette.white} />
+            <Pressable onPress={handleShowHide}>
+              <FastImage source={showCash ? images.open_eye : images.close_eye} style={styles.icon} tintColor={color.palette.white} />
+            </Pressable>
           </View>
         </View>
         <AppButton title={"Rút tiền"} onPress={() => {

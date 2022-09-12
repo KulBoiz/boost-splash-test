@@ -3,13 +3,12 @@ import { View } from "react-native"
 import { ALIGN_CENTER, ROW } from "../../../styles/common-style"
 import FastImage from "react-native-fast-image"
 import { AppText } from "../../../components/app-text/AppText"
-import { DefaultAvatarSvg, PhoneSvg } from "../../../assets/svgs"
+import { DefaultAvatarSvg } from "../../../assets/svgs"
 import { fontFamily } from "../../../constants/font-family"
 import { color } from "../../../theme"
 import { ScaledSheet, s } from "react-native-size-matters"
 import moment from 'moment';
 import DashedLine from "react-native-dashed-line"
-import { isAndroid, isIos } from "../../../constants/variable"
 
 const TYPE = {
   TASK: 'task',
@@ -73,6 +72,8 @@ const HistoryItem = React.memo((props: Props) => {
     return "_"
   }
 
+  const time = item?.createdAt || item?.updatedAt
+
   return (
     <View style={styles.container} onLayout={useCallback((event) => {
       const { height } = event.nativeEvent.layout;
@@ -81,9 +82,9 @@ const HistoryItem = React.memo((props: Props) => {
 
         <RenderCircle />
         <View style={ROW}>
-          <AppText value={item?.createdAt ? moment(item?.createdAt).format("DD/MM/YYYY") : '_'} style={styles.time}/>
+          <AppText value={time ? moment(time).format("DD/MM/YYYY") : '_'} style={styles.time}/>
           <View style={styles.separate} />
-          <AppText value={item?.createdAt ? moment(item?.createdAt).format("HH:mm") : '_'} style={styles.time}/>
+          <AppText value={time ? moment(time).format("HH:mm") : '_'} style={styles.time}/>
         </View>
         {!isLastItem && <DashedLine axis='vertical' dashLength={4} dashThickness={1} dashGap={3} dashColor='gray' style={[styles.dashLine, { height: itemHeight + s(10) }]} />}
       <View style={styles.wrapStatus}>

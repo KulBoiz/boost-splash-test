@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { View } from "react-native"
 import { SuccessInsuranceSvg } from "../../../assets/svgs"
 import { AppText } from "../../../components/app-text/AppText"
@@ -7,7 +7,7 @@ import { color } from "../../../theme"
 import { FONT_MEDIUM_14 } from "../../../styles/common-style"
 import { fontFamily } from "../../../constants/font-family"
 import AppButton from "../../../components/app-button/AppButton"
-import { goBack, navigate } from "../../../navigators"
+import { navigate } from "../../../navigators"
 import { useStores } from '../../../models';
 import AppHeader from "../../../components/app-header/AppHeader"
 import { ScreenNames } from "../../../navigators/screen-names"
@@ -59,7 +59,7 @@ const BuySuccess = React.memo((props: Props) => {
   // }, [time])
 
   const goHome = () => {
-    goBack()
+    navigate(ScreenNames.HOME)
   }
   const goToManage = () => {
     navigate(ScreenNames.MANAGE_INSURANCE_LIST, {key : "1"})

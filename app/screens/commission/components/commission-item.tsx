@@ -1,5 +1,5 @@
 import React from "react"
-import { View } from "react-native"
+import { Pressable, View } from "react-native"
 import FastImage from "react-native-fast-image"
 import { images } from "../../../assets/images"
 import { ms, ScaledSheet } from "react-native-size-matters"
@@ -8,6 +8,8 @@ import { formatDate, hexToRgbA } from "../../../constants/variable"
 import { ALIGN_CENTER, ROW } from "../../../styles/common-style"
 import { color } from "../../../theme"
 import { fontFamily } from "../../../constants/font-family"
+import { navigate } from "../../../navigators"
+import { ScreenNames } from "../../../navigators/screen-names"
 
 interface Props {
 }
@@ -17,7 +19,7 @@ const CommissionItem = React.memo((props: Props) => {
   const date = new Date()
 
   return (
-    <View style={styles.container}>
+    <Pressable style={styles.container} onPress={()=> navigate(ScreenNames.COMMISSION_DETAIL)}>
       <View style={[ROW, ALIGN_CENTER]}>
         <FastImage source={images.commission_checked} style={styles.icon} />
         <View>
@@ -33,7 +35,7 @@ const CommissionItem = React.memo((props: Props) => {
           <AppText value={"Chưa đối soát"} color={color.palette.angry} fontSize={ms(12)} />
         </View>
       </View>
-    </View>
+    </Pressable>
   )
 })
 

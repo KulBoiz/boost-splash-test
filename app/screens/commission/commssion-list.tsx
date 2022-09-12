@@ -34,6 +34,7 @@ const CommissionList = React.memo((props: Props) => {
         ListEmptyComponent={renderEmpty}
         keyExtractor={(e, i) => i.toString()}
         renderItem={renderItem}
+        contentContainerStyle={styles.flatList}
       />
     </View>
   )
@@ -52,5 +53,9 @@ const styles = ScaledSheet.create({
   icon: {
     width: '180@s',
     height: '180@s'
+  },
+  flatList: {
+    paddingVertical: '12@s',
+    paddingHorizontal: '16@s'
   }
 })
