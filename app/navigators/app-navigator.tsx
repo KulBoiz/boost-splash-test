@@ -37,6 +37,7 @@ import SuccessScreen from "../components/success-screen"
 import ProjectTab from "../screens/product/project-tab"
 import AdvanceInformation from "../screens/settting/advance-information"
 import { NavigatorParamList } from "./params-list"
+import { CommissionStack } from "./commission-stack"
 
 // Documentation: https://reactnavigation.org/docs/stack-navigator/
 const Stack = createNativeStackNavigator<NavigatorParamList>()
@@ -61,6 +62,7 @@ const RootStack = () => {
         options={{ gestureEnabled: false }}
       />
       <Stack.Screen name={ScreenNames.AUTH} component={AuthStack} />
+      <Stack.Screen name={ScreenNames.COMMISSION} component={CommissionStack} />
       <Stack.Screen name={ScreenNames.ADVANCE_INFORMATION} component={AdvanceInformation} />
       <Stack.Screen
         name={ScreenNames.APP}

@@ -1,4 +1,3 @@
-
 import React, { useState } from "react"
 import { View, StyleSheet } from 'react-native';
 import AppHeader from "../../components/app-header/AppHeader"
@@ -29,8 +28,8 @@ const RequestCounselling = React.memo((props: Props) => {
   }
   return (
     <View style={styles.container}>
-      <AppHeader headerTx={'header.requestCounselling'} />
-      {renderStep()}
+        <AppHeader headerTx={'header.requestCounselling'} />
+        {renderStep()}
     </View>
   )
 });

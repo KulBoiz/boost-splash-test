@@ -55,12 +55,20 @@ export const SETTING_LIST = [
   //   title: 'Đánh giá',
   //   onPress: () => {},
   //   active: false,
-  // },{
+  // },
+  // {
   //   icon: <TransactionSvg />,
   //   title: 'Giao dịch',
   //   onPress: () => {},
   //   active: false,
-  // },{
+  // },
+  // {
+  //   icon: <TransactionSvg />,
+  //   title: 'Hoa hồng của tôi',
+  //   onPress: () => navigate(ScreenNames.COMMISSION),
+  //   active: true,
+  // },
+  // {
   //   icon: <SettingSvg />,
   //   title: 'Cài đặt',
   //   onPress: () => {},

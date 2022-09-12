@@ -16,6 +16,7 @@ import { ROLE } from "../../models/auth-store"
 import { ScaledSheet } from "react-native-size-matters"
 import { RedTrashSvg, TrashSvg } from "../../assets/svgs"
 import ConfirmModal from "../../components/app-modal/confirm-modal"
+import StackedBar from "../commission/chart/stacked-bar-chart"
 
 interface Props {}
 

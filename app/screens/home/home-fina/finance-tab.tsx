@@ -112,7 +112,7 @@ const FinanceTab = React.memo((props: Props) => {
       } */}
 
       {
-        homeStore?.dataHome && 
+        homeStore?.dataHome &&
         homeStore?.dataHome?.map((el, index) => (
           <HomeItem
             key={index.toString()}
@@ -130,8 +130,8 @@ const FinanceTab = React.memo((props: Props) => {
       {!!projects?.length &&
         <ProjectItem
           data={projects}
-          header={'Vay mua nhà dự án'}
-          label={"Vay mua nhà dự án"}
+          header={'Các dự án nổi bật'}
+          label={"Các dự án nổi bật"}
           style={styles.itemMarginProject}
           iconShape={'circle'}
           type={'project_house'}

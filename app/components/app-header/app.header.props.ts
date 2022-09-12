@@ -51,4 +51,6 @@ export interface AppHeaderProps {
   titleStyle?: StyleProp<TextStyle>
 
   isBlue?: boolean
+
+  showBorderWidth?: boolean
 }
