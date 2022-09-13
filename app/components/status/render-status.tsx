@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, StyleSheet } from 'react-native';
+import { View, StyleSheet, ViewStyle } from "react-native"
 import { AppText } from "../app-text/AppText"
 import { ms, ScaledSheet } from "react-native-size-matters"
 
@@ -7,12 +7,13 @@ interface Props{
   status: string
   statusColor?: string
   backgroundColor?: string
+  style?: ViewStyle | any
 }
 
 const RenderStatus = React.memo((props: Props) => {
-  const {status, statusColor = 'black', backgroundColor = 'transparent'} = props
+  const {status, statusColor = 'black', backgroundColor = 'transparent', style} = props
   return (
-    <View style={[styles.container, {backgroundColor}]}>
+    <View style={[styles.container, {backgroundColor}, style]}>
       <AppText value={status ?? ''} color={statusColor} fontSize={ms(11)}/>
     </View>
   )

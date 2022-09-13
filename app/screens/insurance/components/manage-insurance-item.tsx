@@ -91,7 +91,6 @@ const ManageInsuranceItem = React.memo(({ item, index, onPress }: Props) => {
           textTransform="capitalize"
           text={getFullName(item?.user)}
         />
-
       </Box>
 
        <Box>

@@ -14,7 +14,7 @@ interface Props{
 const BuyerInfo = React.memo(({ item , deal}: Props) => {
   const  user = deal?.source
 
-  console.log(user)
+  if (!user) return <></>
 
   return (
     <View style={styles.container}>
