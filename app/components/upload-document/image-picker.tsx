@@ -51,8 +51,7 @@ const ImagePickerModal: React.FC<ImagePickerProps> = React.memo(
             fileName: name ?? response?.name,
             size: size,
             uri: uri,
-            // type: "application/" + fileType
-            type: fileType
+            type: response?.mimeType ?? fileType
           };
           if (fileToUpload){
             onSelectImage(fileToUpload);
