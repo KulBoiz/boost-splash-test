@@ -134,12 +134,13 @@ const ManageInsuranceListScreen: FC<Props> = observer((props: any) => {
   }, [insuranceStore.isLoadingMore])
 
   const renderEmpty = useCallback(() => {
-    return (
+    if (insuranceStore.isLoadingMore) return  <></>
+      return (
       <View style={styles.empty}>
         <EmptyList />
       </View>
     )
-  },[])
+  },[insuranceStore.isLoadingMore])
 
   const goHome = useCallback(()=> {
     navigate(ScreenNames.APP)
