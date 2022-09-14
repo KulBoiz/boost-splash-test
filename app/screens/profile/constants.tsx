@@ -89,6 +89,77 @@ export const INDIVIDUAL = [
   },
 ]
 
+export const AGENT = [
+  {
+    icon: images.profile_agent,
+    title: 'Đăng ký CTV (Hợp đồng)',
+    onPress: () => {
+      //
+    },
+    active: true,
+  },  {
+    icon: images.profile_commission,
+    title: 'Hoa hồng',
+    onPress: () => {
+      //
+    },
+    active: true,
+  },  {
+    icon: images.profile_update_referral,
+    title: 'Cập nhật người giới thiệu',
+    onPress: () => {
+      //
+    },
+    active: true,
+  },  {
+    icon: images.profile_my_agent,
+    title: 'Cộng tác viên của tôi',
+    onPress: () => {
+      //
+    },
+    active: true,
+  },  {
+    icon: images.profile_guide,
+    title: 'Hướng dẫn',
+    onPress: () => {
+      //
+    },
+    active: true,
+  },  {
+    icon: images.profile_policy,
+    title: 'Chính sách',
+    onPress: () => {
+      //
+    },
+    active: true,
+  },
+]
+
+export const SETTING = [
+  {
+    icon: images.profile_org,
+    title: 'Cơ cấu tổ chức',
+    onPress: () => {
+      //
+    },
+    active: true,
+  },{
+    icon: images.profile_commission,
+    title: 'Đánh giá',
+    onPress: () => {
+      //
+    },
+    active: true,
+  },{
+    icon: images.profile_question,
+    title: 'Câu hỏi thường gặp',
+    onPress: () => {
+      //
+    },
+    active: true,
+  },
+]
+
 export const userInfo = (user) => {
   return {
     fullName: user.fullName,

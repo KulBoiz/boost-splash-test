@@ -12,8 +12,7 @@ import AppTabBar from "../components/bottom-tab-bar/app-tab"
 import { View } from "react-native"
 import { color } from "../theme"
 import { ScaledSheet } from "react-native-size-matters"
-import { TabBarButton } from "../components/bottom-tab-bar/TabBarButton"
-import { PlusBottomSvg } from "../assets/svgs"
+import ProfileScreen from "../screens/profile/profile-screen"
 
 export type AppStackParamList = {
   [ScreenNames.HOME]: undefined;
@@ -65,7 +64,7 @@ export const AppStack = () => {
       }
       <Tab.Screen
         name={ScreenNames.SETTING}
-        component={SettingScreen}
+        component={ProfileScreen}
       />
     </Tab.Navigator>
     </View>
