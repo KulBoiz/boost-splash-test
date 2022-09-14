@@ -14,8 +14,8 @@ import CaptureId from "../screens/agent/capture-id"
 import SignContract from "../screens/agent/sign-contract"
 import ViewContract from "../screens/agent/view-contract"
 import CommissionScreen from "../screens/commission"
-import CommissionList from "../screens/commission/commssion-list"
 import CommissionDetail from "../screens/commission/commission-detail"
+import CommissionTab from "../screens/commission/commission-tab"
 
 export const AuthRoutes = [
 	{
@@ -48,7 +48,7 @@ export const CommissionRoutes = [
 		component: CommissionScreen,
 	},{
 		name: ScreenNames.COMMISSION_LIST,
-		component: CommissionList,
+		component: CommissionTab,
 	},{
 		name: ScreenNames.COMMISSION_DETAIL,
 		component: CommissionDetail,
