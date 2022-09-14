@@ -1,4 +1,4 @@
-import React from "react"
+import React, { useCallback } from "react"
 import { Pressable, View } from "react-native"
 import FastImage from "react-native-fast-image"
 import { ms, ScaledSheet } from "react-native-size-matters"
@@ -20,8 +20,12 @@ const CommissionItem = React.memo((props: Props) => {
   const {item} = props
   const status = item?.status ?? ''
 
+  const goToDetail = useCallback(()=> {
+    navigate(ScreenNames.COMMISSION_DETAIL, {id: item?.id})
+  },[])
+
   return (
-    <Pressable style={styles.container} onPress={()=> navigate(ScreenNames.COMMISSION_DETAIL)}>
+    <Pressable style={styles.container} onPress={goToDetail}>
       <FastImage source={commissionStatus(status)?.icon} style={styles.icon} />
       <View style={{ flex: 1 }}>
         <View style={[ROW, SPACE_BETWEEN]}>

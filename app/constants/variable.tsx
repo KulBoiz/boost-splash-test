@@ -67,6 +67,16 @@ export function getFullName(user: any) {
   return user?.fullName ?? (user?.firstName ?? '') + ' ' + (user?.lastName ?? '')
 }
 
+export function getPhone(user: any) {
+  if  (!user?.tels[0]) return '_'
+  return user?.tels[0]?.tel ?? '_'
+}
+
+export function getEmail(user: any) {
+  if  (!user?.emails[0]) return '_'
+  return user?.emails[0]?.email ?? '_'
+}
+
 export const getGender = (sex) => {
   if (sex === gender.male) {
     return 'Nam'

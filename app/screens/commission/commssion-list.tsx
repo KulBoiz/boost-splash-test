@@ -1,5 +1,5 @@
-import React, { useEffect, useState } from "react"
-import { FlatList, StyleSheet, View } from "react-native"
+import React, { useCallback, useEffect, useState } from "react"
+import { FlatList, View } from "react-native"
 import AppHeader from "../../components/app-header/AppHeader"
 import CommissionItem from "./components/commission-item"
 import CommissionCash from "./components/commission-cash"
@@ -11,6 +11,7 @@ import { color } from "../../theme"
 import { useStores } from "../../models"
 
 interface Props {
+  index: number
 }
 
 const type = {
@@ -18,37 +19,37 @@ const type = {
   insurances: 'insurances'
 }
 
-const CommissionList = React.memo((props: Props) => {
+const CommissionList = React.memo(({ index }: Props) => {
   const { commissionStore, authStoreModel } = useStores()
   const [commission, setCommission] = useState<any>({})
-
+  const userId = authStoreModel?.userId
 
   useEffect(() => {
-    const userId = authStoreModel?.userId
-    commissionStore.getCommission(userId, type.insurances).then(res => {
+    commissionStore.getCommission(userId, index === 0 ? type.insurances : type.loan).then(res => {
       setCommission(res)
     })
+  }, [index])
+
+  const renderItem = useCallback(({item}) => {
+    return <CommissionItem item={item} />
   }, [])
 
-  const renderItem = ({item, index}) => {
-    return <CommissionItem item={item}/>
-  }
-  const renderEmpty = () => {
+  const renderEmpty = useCallback(() => {
     return (
       <View style={styles.empty}>
         <EmptyList emptyIcon={<FastImage source={images.commission_empty} style={styles.icon}/>} />
       </View>
     )
-  }
+  }, [])
 
   return (
     <View style={styles.container}>
-      <AppHeader headerText={"Danh sách hoa hồng"} isBlue />
-      <CommissionCash  metadata={commission?.metadata}/>
+      <CommissionCash metadata={commission?.metadata}/>
       <FlatList
+        key={index}
         data={commission?.data || []}
         ListEmptyComponent={renderEmpty}
-        keyExtractor={(e, i) => i.toString()}
+        keyExtractor={(e, i) => `${index}${i.toString()}`}
         renderItem={renderItem}
         contentContainerStyle={styles.flatList}
       />

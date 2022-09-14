@@ -6,7 +6,7 @@ import { createNativeStackNavigator } from "@react-navigation/native-stack"
 export type CommissionStackParamList = {
   [ScreenNames.COMMISSION_SCREEN]: undefined;
   [ScreenNames.COMMISSION_LIST]: undefined;
-  [ScreenNames.COMMISSION_DETAIL]: undefined;
+  [ScreenNames.COMMISSION_DETAIL]: { id: string };
 }
 
 const Stack = createNativeStackNavigator<CommissionStackParamList>()

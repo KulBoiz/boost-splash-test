@@ -7,7 +7,7 @@ import i18n from "i18n-js"
 interface Props {
   style?: ViewStyle | any
   title: string
-  content: string | JSX.Element
+  content: string | JSX.Element | React.ReactNode
   titleStyle?: TextStyle | any
   contentStyle?: TextStyle | any
 }
@@ -40,6 +40,7 @@ const styles = ScaledSheet.create({
     justifyContent: "space-between"
   },
   title: {
+    marginRight: '5@s',
     fontSize: '12@ms',
     color: '#AAADB7'
   },

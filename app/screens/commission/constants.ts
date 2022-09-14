@@ -44,3 +44,23 @@ export const commissionStatus = (value) => {
     }
     return {status, textColor, background, icon};
 }
+
+export const COMMISSION_TYPES = {
+  LOAN: 'loan',
+  INSURANCES: 'insurances',
+};
+
+export const COMMISSION_ROLE_SPECIFY = {
+  PERSONAL: 'personal',
+  AGENT: 'agent',
+};
+
+export const COMMISSION_ROLE_SPECIFY_LABEL_MAPPING = {
+  [COMMISSION_ROLE_SPECIFY.PERSONAL]: 'Cá nhân',
+  [COMMISSION_ROLE_SPECIFY.AGENT]: 'Đại lý',
+};
+
+export const COMMISSION_REASON_SPEND_MAPPING = {
+  [COMMISSION_TYPES.LOAN]: 'Hồ sơ vay',
+  [COMMISSION_TYPES.INSURANCES]: 'Bảo hiểm',
+};

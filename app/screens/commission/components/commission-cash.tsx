@@ -48,7 +48,7 @@ const CommissionCash = React.memo((props: Props) => {
 export default CommissionCash
 
 const styles = ScaledSheet.create({
-  container: {},
+  container: { marginTop : '16@s'},
   headerContainer: {
     backgroundColor: color.palette.orange,
     flexDirection: "row",
