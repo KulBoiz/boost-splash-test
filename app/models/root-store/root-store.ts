@@ -71,6 +71,7 @@ export interface RootStore extends Instance<typeof RootStoreModel> {
   noteStore: any
   uploadStore: any
   homeStore: any
+  commissionStore: any
 }
 
 /**

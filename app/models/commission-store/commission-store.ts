@@ -9,7 +9,7 @@ export const CommissionStoreModel = types
   .model("CommissionStore")
   .extend(withEnvironment)
   .props({
-    commission: types.optional(types.frozen(), {}),
+    // commission: types.optional(types.frozen(), {}),
   })
   .views((self) => ({
     get api() {
@@ -18,36 +18,68 @@ export const CommissionStoreModel = types
   })) // eslint-disable-line @typescript-eslint/no-unused-vars
   .actions((self) => ({
     getCommission: flow(function* getCommission(userId, transactionType?: string) {
-      const result = yield self.api.get('commissions', {
+      const result = yield self.api.get("commissions", {
         filter: {
           limit: 20,
           skip: 0,
           where: {
-            type: 'spend',
+            type: "spend",
             userId,
-            transactionType
+            transactionType,
           },
           include: [
-            { relation: 'user' },
-            { relation: 'transaction' },
-            { relation: 'transactionDetail' },
-          ]
-        }
+            { relation: "user" },
+            { relation: "transaction" },
+            { relation: "transactionDetail" },
+          ],
+        },
       })
       const data = result?.data
-      
+
       if (result.kind === "ok") {
-        self.commission = data
+        // self.commission = data
+        return data
+      }
+    }),
+
+    getCommissionDetail: flow(function* getCommissionDetail(commissionId) {
+      const result = yield self.api.get(`commissions/${commissionId}`, {
+        filter: {
+          include: [
+            {
+              relation: "user", scope: {
+                include: [{ relation: "org" }],
+              },
+            },
+            {
+              relation: "transaction", scope: {
+                include: [
+                  { relation: "partner" },
+                  { relation: "product" },
+                ],
+              },
+            },
+            { relation: "transactionDetail" },
+          ],
+        },
+      })
+      const data = result?.data
+
+      if (result.kind === "ok") {
         return data
       }
     }),
   }))
-  .actions((self) => ({
-
-  }))
+  .actions((self) => ({}))
 
 type CommissionStoreType = Instance<typeof CommissionStoreModel>
-export interface CommissionStore extends CommissionStoreType {}
+
+export interface CommissionStore extends CommissionStoreType {
+}
+
 type CommissionStoreSnapshotType = SnapshotOut<typeof CommissionStoreModel>
-export interface CommissionStoreSnapshot extends CommissionStoreSnapshotType {}
+
+export interface CommissionStoreSnapshot extends CommissionStoreSnapshotType {
+}
+
 export const createCommissionStoreDefaultModel = () => types.optional(CommissionStoreModel, {})
