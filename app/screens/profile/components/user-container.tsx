@@ -4,17 +4,20 @@ import UserAvatar from "../../../components/user-avatar/user-avatar"
 import { ms, ScaledSheet } from "react-native-size-matters"
 import { AppText } from "../../../components/app-text/AppText"
 import { useStores } from "../../../models"
-import { getFullName } from "../../../constants/variable"
+import { getFullName, hexToRgbA } from "../../../constants/variable"
 import { fontFamily } from "../../../constants/font-family"
 import FastImage from "react-native-fast-image"
 import { images } from "../../../assets/images"
+import RenderStatus from "../../../components/status/render-status"
+import { color } from "../../../theme"
+import { MARGIN_BOTTOM_8 } from "../../../styles/common-style"
 
 interface Props {
 }
 
 const UserContainer = React.memo((props: Props) => {
   const {authStoreModel} = useStores()
-  const {user} = authStoreModel
+  const {user, role} = authStoreModel
   const username = getFullName(user)
 
   return (
@@ -23,8 +26,9 @@ const UserContainer = React.memo((props: Props) => {
       <UserAvatar style={styles.avatar} />
       </FastImage>
       <View>
-        <AppText value={username} fontSize={ms(16)} fontFamily={fontFamily.semiBold}/>
+        <AppText value={username} fontSize={ms(16)} fontFamily={fontFamily.semiBold} style={MARGIN_BOTTOM_8}/>
       </View>
+      <RenderStatus status={role} statusColor={color.primary} backgroundColor={hexToRgbA(color.primary, 0.1)}/>
     </View>
   )
 })

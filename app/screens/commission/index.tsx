@@ -1,4 +1,4 @@
-import React from "react"
+import React, { useEffect } from "react"
 import { ScrollView, View } from "react-native"
 import AppHeader from "../../components/app-header/AppHeader"
 import CashInfo from "./components/cash-info"
@@ -8,11 +8,15 @@ import AppButton from "../../components/app-button/AppButton"
 import { ScaledSheet } from "react-native-size-matters"
 import { ScreenNames } from "../../navigators/screen-names"
 import { navigate } from "../../navigators"
+import { COMMISSION_TYPES } from "./constants"
+import { useStores } from "../../models"
 
 interface Props {
 }
 
 const CommissionScreen = React.memo((props: Props) => {
+
+
   return (
     <View style={styles.container}>
       <AppHeader headerText={"Thông tin hoa hồng"} isBlue showBorderWidth={false} />

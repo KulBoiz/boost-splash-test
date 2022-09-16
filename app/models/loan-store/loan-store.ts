@@ -19,19 +19,23 @@ const filter = {
     type: {
       inq: ["INTRODUCE_BUYER", "WANT_TO_BUY", "counselling"],
     },
-    belongOrgType: "sub_org",
+    belongOrgType: "sub_org"
   },
   include: [
     {
       relation: "user",
+      scope: { fields: { id: true, fullName: true, firstName: true, lastName: true, emails: true, tels: true } }
     },
     {
       relation: "assignee",
+      scope: { fields: { id: true, fullName: true, firstName: true, lastName: true, emails: true, tels: true } }
     },
     {
       relation: "product",
+      scope: { fields: { id: true, name: true } }
     },
   ],
+  fields: ['id', 'code', 'productId', 'userId', 'assigneeId', 'updatedAt', 'status', 'statusAssign'],
 }
 
 const filterProduct = {

@@ -40,6 +40,7 @@ export const images = {
 
   profile_fina_icon: require('./profile/fina-icon.png'),
   profile_background: require('./profile/background.png'),
+  profile_community: require('./profile/community.png'),
   profile_social: require('./profile/social-network.png'),
   profile_password: require('./profile/password.png'),
   profile_pin: require('./profile/pin.png'),

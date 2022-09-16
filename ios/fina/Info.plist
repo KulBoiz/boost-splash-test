@@ -45,6 +45,12 @@
 	<string>Để cập nhật ảnh đại diện và hồ sơ, vui lòng cho phép FINA truy cập Thư viện ảnh.</string>
 	<key>UIAppFonts</key>
 	<array/>
+    <key>LSApplicationQueriesSchemes</key>
+    <array>
+        <string>mailto</string>
+        <string>instagram</string>
+        <string>fb</string>
+    </array>
 	<key>UIBackgroundModes</key>
 	<array>
 		<string>fetch</string>

@@ -58,7 +58,6 @@ const SettingScreen: FC<Props> = observer((props: Props) => {
                     navigate(ScreenNames.AGENT, {screen: ScreenNames.VIEW_CONTRACT})
                   }}
                 />
-
               }
               return <SettingItem
                 key={index.toString()}

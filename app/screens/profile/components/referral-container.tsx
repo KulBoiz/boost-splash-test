@@ -1,5 +1,5 @@
-import React from "react"
-import { TextStyle, View, ViewStyle } from "react-native"
+import React, { useCallback } from "react"
+import { Alert, Pressable, View, ViewStyle } from "react-native"
 import FastImage from "react-native-fast-image"
 import { images } from "../../../assets/images"
 import { ms, ScaledSheet } from "react-native-size-matters"
@@ -10,6 +10,8 @@ import { useStores } from "../../../models"
 import { DOMAIN } from "@env"
 import QRCode from "react-native-qrcode-svg"
 import { hexToRgbA } from "../../../constants/variable"
+import Clipboard from "@react-native-clipboard/clipboard"
+import Share from "react-native-share"
 
 interface Props {
 }
@@ -20,17 +22,19 @@ interface ItemProps {
   icon: number
   iconStyle?: ViewStyle | any
   textColor?: string
+
+  onPress?(): void
 }
 
-const Item = React.memo(({ label, value, icon, iconStyle, textColor }: ItemProps) => {
+const Item = React.memo(({ label, value, icon, iconStyle, textColor, onPress }: ItemProps) => {
   return (
-    <View>
+    <Pressable onPress={onPress}>
       <AppText value={label} style={FONT_REGULAR_12} color={color.text} />
       <View style={[ROW, ALIGN_CENTER, SPACE_BETWEEN, styles.itemContainer]}>
-        <AppText value={value} numberOfLines={1} style={[{ flex: 1 },FONT_REGULAR_14]} color={textColor}/>
+        <AppText value={value} numberOfLines={1} style={[{ flex: 1 }, FONT_REGULAR_14]} color={textColor} />
         <FastImage source={icon} style={[styles.icon, iconStyle]} />
       </View>
-    </View>
+    </Pressable>
   )
 })
 
@@ -39,18 +43,42 @@ const ReferralContainer = React.memo((props: Props) => {
   const { user } = authStoreModel
   const { refCode } = user
   const linkRef = `${DOMAIN}users/signup?refCode=${refCode}`
+  const title = 'Chia sẻ mã giới thiệu';
+  const message = '';
 
+  const copyToClipboard = useCallback(() => {
+    Clipboard.setString(linkRef)
+    Alert.alert("Đã copy vào clipboard")
+  }, [])
+
+  const options = {
+    title,
+    subject: title,
+    message: `${message} ${linkRef}`,
+  }
+  const share = useCallback(() => {
+    Share.open(options).then((res) => {
+      // console.log(res)
+    });
+  },[])
 
   return (
     <FastImage style={styles.container} source={images.profile_referral_background}>
       <View style={styles.wrapItem}>
-        <Item label={"Đường dẫn giới thiệu của bạn"}
-              value={linkRef} icon={images.common_share_arrow}
-              textColor={hexToRgbA(color.palette.black, 0.6)
-              }
-              iconStyle={styles.shareArrow} />
-        <Item label={"Mã giới thiệu của bạn"} value={refCode} icon={images.common_copy} textColor={color.primary}/>
+        <Item
+          label={"Đường dẫn giới thiệu của bạn"}
+          value={linkRef} icon={images.common_share_arrow}
+          textColor={hexToRgbA(color.palette.black, 0.6)}
+          onPress={share}
+          iconStyle={styles.shareArrow} />
+        <Item
+          label={"Mã giới thiệu của bạn"}
+          onPress={copyToClipboard}
+          value={refCode}
+          icon={images.common_copy} textColor={color.primary}
+        />
       </View>
+
       <View style={styles.qrContainer}>
         <QRCode
           logo={images.profile_fina_icon}
@@ -58,10 +86,11 @@ const ReferralContainer = React.memo((props: Props) => {
           value={linkRef}
           size={ms(90)}
         />
-        <View style={styles.shareContainer}>
+
+        <Pressable onPress={share} style={styles.shareContainer}>
           <AppText value={"Chia sẻ"} color={color.text} />
           <FastImage source={images.common_share} style={styles.icon} />
-        </View>
+        </Pressable>
       </View>
     </FastImage>
   )
@@ -77,7 +106,7 @@ const styles = ScaledSheet.create({
     padding: "16@s",
     flexDirection: "row",
     justifyContent: "space-between",
-    marginBottom: '24@s'
+    marginBottom: "24@s",
   },
   wrapItem: {
     justifyContent: "space-between",

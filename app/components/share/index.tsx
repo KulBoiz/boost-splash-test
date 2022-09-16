@@ -14,7 +14,7 @@ interface Props {
 const ShareComponent = React.memo((props: Props) => {
   const { url, isIcon = false } = props
 
-  const title = 'Awesome Contents';
+  const title = 'Chia sẻ từ FINA';
   const message = '';
   const options = {
     title,
