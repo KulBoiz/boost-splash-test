@@ -45,7 +45,7 @@ export const INDIVIDUAL = [
     onPress: () => {
       //
     },
-    active: true,
+    active: false,
   },
   {
     icon: images.profile_password,
@@ -53,7 +53,7 @@ export const INDIVIDUAL = [
     onPress: () => {
       //
     },
-    active: true,
+    active: false,
   },
   {
     icon: images.profile_pin,
@@ -61,7 +61,7 @@ export const INDIVIDUAL = [
     onPress: () => {
       //
     },
-    active: true,
+    active: false,
   },
   {
     icon: images.profile_bank,
@@ -69,13 +69,13 @@ export const INDIVIDUAL = [
     onPress: () => {
       //
     },
-    active: true,
+    active: false,
   },
   {
     icon: images.profile_commission,
     title: 'Hoa hồng',
     onPress: () => {
-      //
+      navigate(ScreenNames.COMMISSION)
     },
     active: true,
   },
@@ -85,7 +85,14 @@ export const INDIVIDUAL = [
     onPress: () => {
       //
     },
-    active: true,
+    active: false,
+  }, {
+    icon: images.profile_community,
+    title: 'Cộng đồng FINA',
+    onPress: () => {
+      //
+    },
+    active: false,
   },
 ]
 
@@ -94,44 +101,38 @@ export const AGENT = [
     icon: images.profile_agent,
     title: 'Đăng ký CTV (Hợp đồng)',
     onPress: () => {
-      //
+        navigate(ScreenNames.AGENT)
     },
     active: true,
-  },  {
-    icon: images.profile_commission,
-    title: 'Hoa hồng',
-    onPress: () => {
-      //
-    },
-    active: true,
-  },  {
+  },
+  {
     icon: images.profile_update_referral,
     title: 'Cập nhật người giới thiệu',
     onPress: () => {
       //
     },
-    active: true,
+    active: false,
   },  {
     icon: images.profile_my_agent,
     title: 'Cộng tác viên của tôi',
     onPress: () => {
       //
     },
-    active: true,
+    active: false,
   },  {
     icon: images.profile_guide,
     title: 'Hướng dẫn',
     onPress: () => {
       //
     },
-    active: true,
+    active: false,
   },  {
     icon: images.profile_policy,
     title: 'Chính sách',
     onPress: () => {
       //
     },
-    active: true,
+    active: false,
   },
 ]
 
@@ -142,21 +143,21 @@ export const SETTING = [
     onPress: () => {
       //
     },
-    active: true,
+    active: false,
   },{
     icon: images.profile_commission,
     title: 'Đánh giá',
     onPress: () => {
       //
     },
-    active: true,
+    active: false,
   },{
     icon: images.profile_question,
     title: 'Câu hỏi thường gặp',
     onPress: () => {
       //
     },
-    active: true,
+    active: false,
   },
 ]
 

@@ -7,9 +7,15 @@ import { width } from "../../constants/variable"
 import { FONT_MEDIUM_14 } from "../../styles/common-style"
 import { color } from "../../theme"
 import CommissionList from "./commssion-list"
+import { AppText } from "../../components/app-text/AppText"
 
 interface Props {
 }
+const LazyPlaceholder = ({ route }) => (
+  <View style={styles.scene}>
+    <AppText>Loading {route.title}…</AppText>
+  </View>
+);
 
 const CommissionTab = React.memo((props: Props) => {
   const [index, setIndex] = React.useState( 0)
@@ -19,13 +25,15 @@ const CommissionTab = React.memo((props: Props) => {
     { key: "second", title: "Hồ sơ vay" },
   ])
 
+  const _renderLazyPlaceholder = useCallback(({ route }) => <LazyPlaceholder route={route} />, []);
+
   const InsuranceCommission = useCallback(() => (
-    <CommissionList index={index ?? 0} />
-  ),[index])
+    <CommissionList index={0} />
+  ),[])
 
   const LoanCommission = useCallback(() => (
-    <CommissionList index={index ?? 0} />
-  ),[index])
+    <CommissionList index={1} />
+  ),[])
 
   const renderScene = SceneMap({
     first: InsuranceCommission,
@@ -46,6 +54,8 @@ const CommissionTab = React.memo((props: Props) => {
     <View style={styles.container}>
       <AppHeader headerText={"Danh sách hoa hồng"} isBlue />
       <TabView
+        lazy
+        renderLazyPlaceholder={_renderLazyPlaceholder}
         navigationState={{ index, routes }}
         renderScene={renderScene}
         onIndexChange={(value) => {
@@ -61,8 +71,13 @@ const CommissionTab = React.memo((props: Props) => {
 export default CommissionTab
 
 const styles = ScaledSheet.create({
-  container: { backgroundColor: color.palette.blue, flex: 1 },
-  tab: { backgroundColor: "white", borderTopLeftRadius: "8@s", borderTopRightRadius: "8@s" },
+  container: { backgroundColor: color.palette.white, flex: 1 },
+  scene: {
+    flex: 1,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  tab: { backgroundColor: "white" },
   indicatorStyle: { backgroundColor: color.palette.blue },
   wrapRightIcon: {
     width: "18@s",

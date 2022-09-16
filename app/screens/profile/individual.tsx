@@ -9,9 +9,9 @@ interface Props{}
 const Individual = React.memo((props: Props) => {
   return (
     <View style={styles.container}>
-      {INDIVIDUAL.map(({icon, title, active}, i)=> {
+      {INDIVIDUAL.map(({icon, title, active, onPress}, i)=> {
         return(
-          <ProfileMenu key={i} {...{ icon, title, active }} />
+          <ProfileMenu key={i} {...{ icon, title, active, onPress }} />
         )
       })}
       <Hotline />
