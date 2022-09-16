@@ -1,4 +1,4 @@
-import React, { useState } from "react"
+import React, { useEffect, useState } from "react"
 import { Pressable, View } from "react-native"
 import { AppText } from "../../../components/app-text/AppText"
 import AppButton from "../../../components/app-button/AppButton"
@@ -9,13 +9,21 @@ import { ms, ScaledSheet } from "react-native-size-matters"
 import { color } from "../../../theme"
 import { hexToRgbA } from "../../../constants/variable"
 import { fontFamily } from "../../../constants/font-family"
+import { useStores } from "../../../models"
 
 interface Props {
 }
 
 const CashInfo = React.memo((props: Props) => {
+  const {commissionStore} = useStores()
+  const {amount} = commissionStore
+
+  useEffect(() => {
+    commissionStore.getCommissionAmount()
+  }, [])
+
   const [showCash, setShowCash] = useState<boolean>(true)
-  const cash = showCash ? "7,829,292" : "*********"
+  const cash = showCash ? amount : "*********"
 
   function handleShowHide() {
     setShowCash(!showCash)

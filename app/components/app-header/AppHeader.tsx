@@ -57,7 +57,7 @@ const AppHeader = React.memo((props: AppHeaderProps) => {
             ) : (
               <Button preset="link" onPress={onLeftPress ?? goBack} style={[styles.defaultView, width]} hitSlop={HIT_SLOP}>
                 <FastImage
-                  source={images.arrowLeft}
+                  source={images.common_left_arrow}
                   style={styles.backIcon}
                   tintColor={isBlue ? color.palette.white : ""}
                 />

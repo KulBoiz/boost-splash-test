@@ -20,12 +20,11 @@ const type = {
 }
 
 const CommissionList = React.memo(({ index }: Props) => {
-  const { commissionStore, authStoreModel } = useStores()
+  const { commissionStore } = useStores()
   const [commission, setCommission] = useState<any>({})
-  const userId = authStoreModel?.userId
 
   useEffect(() => {
-    commissionStore.getCommission(userId, index === 0 ? type.insurances : type.loan).then(res => {
+    commissionStore.getCommission(index === 0 ? type.insurances : type.loan).then(res => {
       setCommission(res)
     })
   }, [index])

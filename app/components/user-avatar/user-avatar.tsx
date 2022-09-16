@@ -8,7 +8,6 @@ import { color } from "../../theme"
 import { useStores } from "../../models"
 import { get } from "lodash"
 import ImagePicker from "../upload-document/image-picker"
-import { UploadApi } from "../../services/api/upload-api"
 
 interface Props {
   style?: ViewStyle | any
@@ -37,6 +36,7 @@ const UserAvatar: FC<Props> = observer(({ style }: Props) => {
         ) : (
           <FastImage source={avatar ? { uri: avatar } : images.fina_logo} style={styles.avatar} />
         )}
+        <FastImage source={images.profile_camera_icon} style={styles.icon} />
       </Pressable>
       <ImagePicker
         hideUploadFile
@@ -52,6 +52,13 @@ export default UserAvatar
 
 const styles = ScaledSheet.create({
   container: {},
+  icon: {
+    width: "29@s",
+    height: "29@s",
+    position: "absolute",
+    bottom: 0,
+    right: 0
+  },
   wrapAvatar: {
     backgroundColor: color.background,
     width: "108@s",
