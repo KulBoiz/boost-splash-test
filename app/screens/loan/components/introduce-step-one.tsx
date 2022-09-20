@@ -12,7 +12,7 @@ import { useStores } from "../../../models"
 import i18n from "i18n-js"
 import AppViewNoAuth from "../../../components/app-view-no-auth"
 import TermCheckbox from "../../auth/components/TermCheckbox"
-import { get } from 'lodash'
+import { get, debounce } from 'lodash'
 
 interface Props {
   nextStep(): void
@@ -80,6 +80,11 @@ const IntroduceStepOne = observer(({ nextStep }: Props) => {
     setLoading(false)
   }
 
+  const handlePressDebounced = debounce(sendRequest, 500, {
+    leading: true,
+    trailing: false
+  });
+
   if (!authStoreModel.isLoggedIn) {
     return <AppViewNoAuth />
   }
@@ -136,7 +141,7 @@ const IntroduceStepOne = observer(({ nextStep }: Props) => {
             loading={loading}
             tx={"common.sentInformation"}
             disable={!checkboxState || loading}
-            onPress={handleSubmit(sendRequest)}
+            onPress={handleSubmit(handlePressDebounced)}
           />
         </View>
       </View>

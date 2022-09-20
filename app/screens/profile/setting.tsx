@@ -35,6 +35,10 @@ const Setting = React.memo((props: Props) => {
     setDeleteModal(false)
   },[])
 
+const openModal = useCallback(()=> {
+    setDeleteModal(true)
+  },[])
+
   return (
     <View>
       {SETTING.map(({ icon, title, active }, i) => {
@@ -42,13 +46,14 @@ const Setting = React.memo((props: Props) => {
           <ProfileMenu key={i} {...{ icon, title, active }} />
         )
       })}
+
       <ProfileMenu
         icon={images.profile_delete} title={"Xóa tài khoản"}
         active={true} tintColor={color.palette.angry}
         showArrow={false}
-        onPress={deleteAccount} />
+        onPress={openModal} />
 
-      <Pressable style={styles.signOut}>
+      <Pressable style={styles.signOut} onPress={logout}>
         <SignOutSvg />
         <AppText value={'Đăng xuất'} style={styles.textSignOut}/>
       </Pressable>

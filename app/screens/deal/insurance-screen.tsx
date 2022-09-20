@@ -12,10 +12,12 @@ import ManageInsuranceItem from "../insurance/components/manage-insurance-item";
 import ManageInsuranceTab from "../insurance/components/manage-insurance-tab";
 import { INSURANCE_TABS } from "../insurance/constants";
 import BottomView from "../../components/bottom-view"
+import AppHeader from "../../components/app-header/AppHeader"
+import ManageInsuranceHelp from "../insurance/components/manage-insurance-help"
 
-interface Props { }
+interface Props {}
 
-const InsuranceScreen = (props: Props) => {
+const InsuranceTab = (props: Props) => {
   const { insuranceStore, authStoreModel } = useStores()
   const [tabSelect, setTabSelect] = useState("1")
   const [loading, showLoading] = useState(false)
@@ -126,13 +128,13 @@ const InsuranceScreen = (props: Props) => {
             />
           </Box>
         </Box> :
-        <SettingAuthScreen />
+          <SettingAuthScreen />
       }
     </>
   )
 }
 
-export default InsuranceScreen;
+export default InsuranceTab;
 
 const styles = ScaledSheet.create({
   container: { backgroundColor: color.palette.white, flex: 1 },

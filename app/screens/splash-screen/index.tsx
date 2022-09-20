@@ -50,7 +50,6 @@ export const SplashScreen: React.FunctionComponent<{ readonly navigation?: any }
   useEffect(() => {
     i18n.locale = 'vi';
     moment.locale('vi')
-    loanStore.getProducts()
     init()
   }, [])
 

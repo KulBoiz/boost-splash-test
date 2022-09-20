@@ -10,6 +10,7 @@ import { ScreenNames } from "../../navigators/screen-names"
 import { navigate } from "../../navigators"
 import { COMMISSION_TYPES } from "./constants"
 import { useStores } from "../../models"
+import LineChart from "./chart/line-chart"
 
 interface Props {
 }
@@ -23,7 +24,7 @@ const CommissionScreen = React.memo((props: Props) => {
       <CashInfo />
       <ScrollView style={styles.body}>
         <StackedBarChart />
-        <StackedBarChart />
+         <LineChart />
       </ScrollView>
       <View style={styles.wrapBtn}>
         <AppButton title={"Danh sách hoa hồng"} colorBtn={color.palette.orange} onPress={()=> navigate(ScreenNames.COMMISSION_LIST)} />

@@ -7,21 +7,14 @@ import { color } from "../../../theme"
 interface Props{}
 
 const data = {
-  labels: ["1991", "1992","1993", "1994","1995", "1996","1997", "1998","1999", "2000","2001", "2002"],
-  legend: ["L1", "L2", "L3"],
+  labels: ["2018","2019","2020", "2021","2022"],
+  // legend: ["L1", "L2", "L3"],
   data: [
-    [60, 90],
+    [0, 0],
     [30, 60],
-    [60, 60],
-    [30, 60],
-    [60, 90],
-    [30, 60],
-    [60, 60],
-    [30, 60],
-    [60, 90],
-    [30, 60],
-    [60, 60],
-    [30, 60],
+    [600, 900],
+    [100, 600],
+    [100, 200],
   ],
   barColors: ["#6E94F2", "#83D7AE"]
 };
@@ -53,7 +46,7 @@ const StackedBar = React.memo((props: Props) => {
             key={index}
             style={graphStyle}
             data={data}
-            width={width*3}
+            width={width}
             height={320}
             chartConfig={{
               backgroundColor: color.background,
@@ -62,10 +55,11 @@ const StackedBar = React.memo((props: Props) => {
               decimalPlaces: 2,
               color: (opacity = 1) => `rgba(0, 0, 0, ${opacity})`,
               style: {
+                paddingHorizontal:10
                 // borderRadius: 16,
               },
             }}
-            hideLegend={false}
+            hideLegend={true}
           />
         )
       })}

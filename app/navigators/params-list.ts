@@ -8,6 +8,7 @@ export type NavigatorParamList = {
   [ScreenNames.APP]: undefined
   [ScreenNames.ADVANCE_INFORMATION]: undefined
   [ScreenNames.COMMISSION]: undefined
+  [ScreenNames.MANAGEMENT]: undefined
   [ScreenNames.SUCCESS_SCREEN]: undefined
   [ScreenNames.REQUEST_COUNSELLING]: undefined
   [ScreenNames.NOTICE]: undefined

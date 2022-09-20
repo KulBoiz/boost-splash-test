@@ -1,5 +1,5 @@
 import React, { useCallback, useState } from "react"
-import { View, Pressable, ScrollView } from "react-native"
+import { Pressable, ScrollView, View } from "react-native"
 import { AppText } from "../../components/app-text/AppText"
 import { FONT_MEDIUM_14 } from "../../styles/common-style"
 import { color } from "../../theme"
@@ -12,14 +12,19 @@ import Individual from "./individual"
 import Agent from "./agent"
 import Setting from "./setting"
 import BottomView from "../../components/bottom-view"
+import { useStores } from "../../models"
+import SettingAuthScreen from "../../components/app-view-no-auth"
 
-interface Props{}
+interface Props {
+}
+
 const MENU = [
   { key: "first", title: "Cá nhân" },
   { key: "second", title: "Cộng tác viên" },
   { key: "third", title: "Cài đặt chung" },
 ]
 const ProfileScreen = React.memo((props: Props) => {
+  const { authStoreModel } = useStores()
   const [index, setIndex] = useState(0)
 
   const _handleChangeIndex = useCallback((value) => {
@@ -49,34 +54,39 @@ const ProfileScreen = React.memo((props: Props) => {
   return (
     <View style={styles.container}>
       <AppHeader headerText={"Tài khoản cá nhân"} showBorderWidth={false} />
-      <FastImage source={images.profile_background} style={styles.imageBackground}/>
-      <ScrollView>
-        <UserContainer />
-        <View style={styles.body}>
-         <>
-           {_renderTabBar()}
-           {index === 0 && <Individual/>}
-           {index === 1 && <Agent/>}
-           {index === 2 && <Setting/>}
-         </>
-        </View>
-        <BottomView height={50}/>
-      </ScrollView>
+      {authStoreModel?.isLoggedIn ? <>
+          <FastImage source={images.profile_background} style={styles.imageBackground} />
+          <ScrollView>
+            <UserContainer />
+            <View style={styles.body}>
+              <>
+                {_renderTabBar()}
+                {index === 0 && <Individual />}
+                {index === 1 && <Agent />}
+                {index === 2 && <Setting />}
+              </>
+            </View>
+            <BottomView height={50} />
+          </ScrollView>
+        </> :
+        <SettingAuthScreen />
+      }
+
     </View>
   )
-});
+})
 
-export default ProfileScreen;
+export default ProfileScreen
 
 const styles = ScaledSheet.create({
-    container: {flex:1, backgroundColor: color.background},
+  container: { flex: 1, backgroundColor: color.background },
   imageBackground: {
-    width: '230@s',
-    height: '230@s',
+    width: "230@s",
+    height: "230@s",
     position: "absolute",
     top: 0,
     right: 0,
-    opacity: 0.03
+    opacity: 0.03,
   },
   body: {
     flex: 1,
@@ -89,7 +99,7 @@ const styles = ScaledSheet.create({
     alignItems: "center",
     paddingHorizontal: "8@s",
     borderRadius: "4@s",
-    marginBottom: '16@s'
+    marginBottom: "16@s",
   },
   tabItemSelect: {
     flex: 1,
@@ -105,4 +115,4 @@ const styles = ScaledSheet.create({
     paddingHorizontal: "8@s",
     paddingVertical: "4@s",
   },
-});
+})

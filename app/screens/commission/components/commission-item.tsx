@@ -3,7 +3,7 @@ import { Pressable, View } from "react-native"
 import FastImage from "react-native-fast-image"
 import { ms, ScaledSheet } from "react-native-size-matters"
 import { AppText } from "../../../components/app-text/AppText"
-import { formatDate, hexToRgbA } from "../../../constants/variable"
+import { formatDate, hexToRgbA, numberWithCommas } from "../../../constants/variable"
 import { color } from "../../../theme"
 import { fontFamily } from "../../../constants/font-family"
 import { navigate } from "../../../navigators"
@@ -31,7 +31,7 @@ const CommissionItem = React.memo((props: Props) => {
         <View style={[ROW, SPACE_BETWEEN]}>
           <AppText value={item?.transaction?.code} style={styles.name} />
           <AppText
-            value={`(${Number((item?.amount || 0) / (item?.transactionDetail?.amount || 0) * 100).toFixed(2)}%) ${item?.amount.toFixed(2)} vnđ`}
+            value={`(${Number((item?.amount || 0) / (item?.transactionDetail?.amount || 0) * 100).toFixed(2)}%) ${numberWithCommas(item?.amount)} vnđ`}
             style={styles.name} />
         </View>
         <View style={[ROW, SPACE_BETWEEN]}>

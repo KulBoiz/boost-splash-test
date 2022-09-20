@@ -1,6 +1,5 @@
 import React, { useCallback, useEffect, useState } from "react"
-import { FlatList, View } from "react-native"
-import AppHeader from "../../components/app-header/AppHeader"
+import { FlatList, RefreshControl, View } from "react-native"
 import CommissionItem from "./components/commission-item"
 import CommissionCash from "./components/commission-cash"
 import EmptyList from "../../components/empty-list"
@@ -22,11 +21,18 @@ const type = {
 const CommissionList = React.memo(({ index }: Props) => {
   const { commissionStore } = useStores()
   const [commission, setCommission] = useState<any>({})
+  const [loading, setLoading] = useState(false)
 
   useEffect(() => {
+    getListCommission()
+  }, [index])
+
+  const getListCommission = useCallback(()=> {
+    setLoading(true)
     commissionStore.getCommission(index === 0 ? type.insurances : type.loan).then(res => {
       setCommission(res)
-    })
+      setLoading(false)
+    }).catch(res=>setLoading(false))
   }, [index])
 
   const renderItem = useCallback(({item}) => {
@@ -41,6 +47,12 @@ const CommissionList = React.memo(({ index }: Props) => {
     )
   }, [])
 
+  const onLoadMore = useCallback(()=> {
+    commissionStore.loadMoreCommission(index === 0 ? type.insurances : type.loan).then(res => {
+      setCommission([...commission, res])
+    })
+  },[])
+
   return (
     <View style={styles.container}>
       <CommissionCash metadata={commission?.metadata}/>
@@ -51,6 +63,16 @@ const CommissionList = React.memo(({ index }: Props) => {
         keyExtractor={(e, i) => `${index}${i.toString()}`}
         renderItem={renderItem}
         contentContainerStyle={styles.flatList}
+        refreshControl={
+          <RefreshControl
+            refreshing={loading}
+            onRefresh={getListCommission}
+            colors={[color.primary]}
+            tintColor={color.primary}
+          />
+        }
+        // onEndReached={onLoadMore}
+        // onEndReachedThreshold={0.2}
       />
     </View>
   )
