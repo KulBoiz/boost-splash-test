@@ -3,13 +3,13 @@ import React from "react"
 import { ScaledSheet } from "react-native-size-matters"
 import AppHeader from "../components/app-header/AppHeader"
 import InDeveloping from "../components/in-developing"
-import InsuranceScreen from "../screens/deal/insurance-screen"
 import FinanceScreen from "../screens/loan/finance-screen"
 import { ScreenNames } from "./screen-names"
 import ManagementTabBar from "../components/bottom-tab-bar/management-tab"
 import { View } from "react-native"
 import { color } from "../theme"
 import { navigate } from "./navigation-utilities"
+import InsuranceTab from "../screens/deal/insurance-screen"
 
 export type ManagementStackParamList = {
   [ScreenNames.MANAGE_FINANCE]: { index: any };
@@ -33,7 +33,7 @@ export const ManagementStack = () => {
         />
         <Tab.Screen
           name={ScreenNames.MANAGE_INSURANCE}
-          component={InsuranceScreen}
+          component={InsuranceTab}
         />
         <Tab.Screen
           name={ScreenNames.MANAGE_INVEST}

@@ -12,17 +12,20 @@ import { color } from "../../../theme"
 import { CheckProfileNoteSvg } from "../../../assets/svgs"
 import { ScaledSheet } from "react-native-size-matters"
 import { ScreenNames } from "../../../navigators/screen-names"
-import { navigate } from "../../../navigators"
+import { StackActions, useNavigation } from "@react-navigation/native"
 
 interface Props{
   preStep(): void
 }
 
 const IntroduceStepTwo = React.memo(({ preStep }: Props) => {
+  const navigation = useNavigation()
+
   const goToFinance = () => {
-    navigate(ScreenNames.MANAGEMENT)
+    navigation.dispatch(StackActions.push(ScreenNames.MANAGEMENT))
     preStep()
   }
+
   return (
     <View style={[styles.container, CONTAINER_PADDING]}>
         <View style={styles.item}>

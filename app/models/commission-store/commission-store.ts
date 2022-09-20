@@ -2,6 +2,7 @@ import { flow, Instance, SnapshotOut, types } from "mobx-state-tree"
 import { BaseApi } from "../../services/api/base-api"
 import { withEnvironment } from "../extensions/with-environment"
 import { withRootStore } from "../extensions/with-root-store"
+import { LoanApi } from "../../services/api/loan-api"
 
 /**
  * Model description here for TypeScript hints.
@@ -12,7 +13,11 @@ export const CommissionStoreModel = types
   .extend(withRootStore)
   .props({
     // commission: types.optional(types.frozen(), {}),
-    amount: types.optional(types.number, 0)
+    limit: types.optional(types.number, 20),
+    totalLoan: types.optional(types.number, 0),
+    totalInsurance: types.optional(types.number, 0),
+    amount: types.optional(types.number, 0),
+    page: types.optional(types.number, 1)
   })
   .views((self) => ({
     get api() {
@@ -25,6 +30,7 @@ export const CommissionStoreModel = types
   .actions((self) => ({
 
     getCommission: flow(function* getCommission(transactionType?: string) {
+      self.page = 1
       const userId = self.userId()
       const result = yield self.api.get("commissions", {
         filter: {
@@ -47,6 +53,41 @@ export const CommissionStoreModel = types
       if (result.kind === "ok") {
         // self.commission = data
         return data
+      }
+    }),
+
+    loadMoreCommission: flow(function* loadMoreCommission(transactionType?: string) {
+      const userId = self.userId()
+      self.page = self.page + 1
+
+      const result = yield self.api.get("commissions", {
+       page: self.page,
+       filter: {
+        limit: 20,
+         skip: self.limit * (self.page - 1),
+         where: {
+              type: "spend",
+              userId,
+              transactionType,
+            },
+            include: [
+              { relation: "user" },
+              { relation: "transaction" },
+              { relation: "transactionDetail" },
+            ],
+          },
+      })
+
+      if (result.kind !== "ok") {
+        return result
+      }
+
+      const data = result?.data?.data ?? []
+      if (result) {
+        return {
+          kind: "ok",
+          data,
+        }
       }
     }),
 

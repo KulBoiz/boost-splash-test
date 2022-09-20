@@ -304,7 +304,7 @@ const BuyStepOneForm = React.memo((props: Props) => {
           <View style={styles.wrapPlus} rounded="full">
             <AddIcon color="white" />
           </View>
-          <AppText color="white" style={{ fontFamily: fontFamily.medium }} value={"Thêm người hưởng bảo hiểm"} />
+          <AppText color="white" style={{ fontFamily: fontFamily.medium }} value={"Thêm người được bảo hiểm"} />
         </Pressable>
 
         {

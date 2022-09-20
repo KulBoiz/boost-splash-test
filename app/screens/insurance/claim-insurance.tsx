@@ -20,6 +20,7 @@ import { RouteProp, useRoute } from "@react-navigation/native"
 import { AppText } from "../../components/app-text/AppText"
 import { fontFamily } from "../../constants/font-family"
 import { NavigatorParamList } from "../../navigators/params-list"
+import { debounce } from "lodash"
 
 
 export const USER_RELATIONSHIP = {
@@ -93,6 +94,11 @@ const ClaimInsuranceDetailScreen = React.memo((props: Props) => {
   if (!authStoreModel.isLoggedIn) {
     return <AppViewNoAuth />
   }
+
+  const handlePressDebounced = debounce(sendRequest, 500, {
+    leading: true,
+    trailing: false
+  });
 
   return (
     <>
@@ -175,7 +181,7 @@ const ClaimInsuranceDetailScreen = React.memo((props: Props) => {
             loading={loading}
             tx={"common.sentInformation"}
             disable={!checkboxState || loading}
-            onPress={handleSubmit(sendRequest)}
+            onPress={handleSubmit(handlePressDebounced)}
           />
         </View>
     </>

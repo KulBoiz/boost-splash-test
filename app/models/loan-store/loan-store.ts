@@ -42,6 +42,7 @@ const filterProduct = {
   limit: 20,
   where: { status: "approved" },
   include: [{ relation: "product" }, { relation: "org" }],
+  fields: ["code", "name", "slug", "categoryId", "productId", "orgId", "documentTemplateId", "info", "status"]
 }
 
 const path = "tasks"
@@ -424,7 +425,6 @@ export const LoanStoreModel = types
   })) // eslint-disable-line @typescript-eslint/no-unused-vars
   .actions((self) => ({
     getAllData: () => {
-      self.getRecords()
       self.getProducts()
     },
   }))
