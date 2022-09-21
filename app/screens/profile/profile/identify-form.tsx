@@ -1,20 +1,16 @@
 import React, { useEffect, useState } from "react"
-import { View, StyleSheet } from 'react-native';
+import { StyleSheet, View } from "react-native"
 import FormInput from "../../../components/form-input/form-input"
-import {
-  Control,
-  UseFormClearErrors,
-  UseFormSetValue,
-} from "react-hook-form/dist/types/form"
+import { Control, UseFormClearErrors, UseFormSetValue } from "react-hook-form/dist/types/form"
 import { FieldValues } from "react-hook-form/dist/types/fields"
 import { FieldErrors } from "react-hook-form/dist/types/errors"
 import FormDatePicker from "../../../components/form-date-time"
 import { useStores } from "../../../models"
 import FormItemPicker from "../../../components/form-item-picker"
 import { MARGIN_TOP_8, ROW } from "../../../styles/common-style"
-import CitizenIdentification from "../advance-information/citizen-identification"
+import CitizenIdentification from "../../settting/advance-information/citizen-identification"
 
-interface Props{
+interface Props {
   editable: boolean
   control: Control
   setValue: UseFormSetValue<FieldValues>
@@ -30,13 +26,13 @@ const formatData = (array) => {
 }
 
 const IdentifyForm = React.memo((props: Props) => {
-  const {locationStore, authStoreModel} = useStores()
-  const {control, setValue, errors, clearErrors, editable } = props
+  const { locationStore, authStoreModel } = useStores()
+  const { control, setValue, errors, clearErrors, editable } = props
   const identification = authStoreModel?.user?.identification
   const [city, setCity] = useState()
   const [code, setCode] = useState()
 
-  useEffect(()=> {
+  useEffect(() => {
     locationStore.get("country", "VN").then((res) => {
       const idCountry = res?.data?.data?.[0]?.id
       setCode(idCountry)
@@ -44,7 +40,7 @@ const IdentifyForm = React.memo((props: Props) => {
         setCity(formatData(state.data?.data))
       })
     })
-  },[])
+  }, [])
 
   const handleSelectState = (state) => {
     clearErrors("placeOfIssue")
@@ -70,7 +66,7 @@ const IdentifyForm = React.memo((props: Props) => {
       <View style={ROW}>
         <FormDatePicker
           {...{
-            style:{flex:1},
+            style: { flex: 1 },
             clearErrors,
             name: "issuedOn",
             label: "Ngày cấp",
@@ -78,13 +74,13 @@ const IdentifyForm = React.memo((props: Props) => {
             setValue: setValue,
             control,
             error: errors?.issuedOn?.message,
-            disable: !editable
+            disable: !editable,
           }}
         />
 
         <FormItemPicker
           {...{
-            style:{flex:1, marginLeft: 15},
+            style: { flex: 1, marginLeft: 15 },
             name: "placeOfIssue",
             label: "Nơi cấp",
             placeholder: "Nơi cấp",
@@ -98,18 +94,19 @@ const IdentifyForm = React.memo((props: Props) => {
           }}
         />
       </View>
+      {(identification?.backSidePhoto?.url && identification?.frontPhoto?.url) &&
+        <CitizenIdentification
+          style={MARGIN_TOP_8}
+          backImage={identification?.backSidePhoto?.url}
+          frontImage={identification?.frontPhoto?.url}
+        />}
 
-      <CitizenIdentification
-        style={MARGIN_TOP_8}
-        backImage={identification?.backSidePhoto?.url}
-        frontImage={identification?.frontPhoto?.url}
-      />
     </View>
   )
-});
+})
 
-export default IdentifyForm;
+export default IdentifyForm
 
 const styles = StyleSheet.create({
   container: {},
-});
+})

@@ -30,7 +30,7 @@ import ManageInsuranceFilerScreen from "../screens/insurance/manage-insurance-fi
 import InsuranceRequestClaimSuccessScreen from "../screens/insurance/insurance-request-claim-success-screen"
 import ManageInsuranceDetailScreen from "../screens/insurance/manage-insurance-detail-screen"
 import ClaimInsuranceDetailScreen from "../screens/insurance/claim-insurance"
-import UserProfile from "../screens/settting/profile/user-profile"
+import UserProfile from "../screens/profile/profile/user-profile"
 import InsuranceList from "../screens/new-insurance/insurance-list"
 import ProductList from "../screens/product/product-list"
 import SuccessScreen from "../components/success-screen"
