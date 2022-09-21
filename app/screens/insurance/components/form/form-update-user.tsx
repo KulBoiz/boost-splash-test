@@ -17,6 +17,7 @@ import { navigate } from "../../../../navigators"
 import { ScreenNames } from "../../../../navigators/screen-names"
 import { MARGIN_BOTTOM_8, MARGIN_TOP_8 } from "../../../../styles/common-style"
 import { color } from "../../../../theme"
+import BottomView from "../../../../components/bottom-view"
 // identification
 interface Props {
   onSubmit?: (data) => void
@@ -176,9 +177,10 @@ const FormUpdateUser = (props: Props) => {
               autoCapitalize: "none",
               control,
               style: { marginTop: 6 },
-              error: undefined
+              error: errors?.email?.message
             }}
           />
+          <BottomView height={20} />
         </KeyboardAwareScrollView>
         <Row style={{ justifyContent: 'space-between', flexDirection: 'row' }}>
           <Pressable
