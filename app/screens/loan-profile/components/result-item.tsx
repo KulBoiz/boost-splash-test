@@ -9,6 +9,7 @@ import ResultItemDetail from './result-item-detail';
 // import { mappingStatus } from "../../loan/constants"
 import { DefaultAvatarSvg } from '../../../assets/svgs';
 import { observer } from 'mobx-react-lite';
+import FastImage from "react-native-fast-image"
 
 interface Props {
   item: any,
@@ -67,7 +68,6 @@ const ResultItem = observer((props: Props) => {
   const mappingStatus = () => {
     return STATUS_DEAL[status]
   }
-
   return (
     <View style={[styles.content, dealDetailId !== item?.id && { alignItems: 'center' }]}>
       <TouchableOpacity
@@ -79,11 +79,15 @@ const ResultItem = observer((props: Props) => {
         }}
         hitSlop={HIT_SLOP}
       >
-        {item?.partner?.avatar?.url ?
-          <Image
-            style={[styles.image, dealDetailId === item?.id && { marginTop: 8 }]}
-            source={{ uri: item?.partner?.avatar?.url }}
-          /> :
+        {item?.partner?.image?.url ?
+          <View style={[styles.imageContainer, {backgroundColor: item?.partner?.backgroundColor}]}>
+            <FastImage
+              style={[styles.image, dealDetailId === item?.id && { marginTop: 8 }]}
+              source={{ uri: item?.partner?.image?.url }}
+              resizeMode={'contain'}
+            />
+          </View>
+           :
           <DefaultAvatarSvg width={s(64)} height={s(64)} />
         }
       </TouchableOpacity>
@@ -116,14 +120,19 @@ const styles = ScaledSheet.create({
     marginBottom: '16@s',
     flexDirection: 'row',
   },
-  image: {
+  imageContainer:{
     width: '64@s',
     height: '64@s',
-    resizeMode: 'cover',
     borderRadius: '32@s',
-    zIndex: 10,
     borderColor: color.palette.EEEEEE,
     borderWidth: 1,
+    zIndex: 10,
+    alignItems: "center",
+    justifyContent: "center"
+  },
+  image: {
+    width: '50@s',
+    height: '50@s',
   },
   contentItem: {
     marginLeft: '-32@s',

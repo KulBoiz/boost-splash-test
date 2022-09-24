@@ -58,7 +58,7 @@ const styles = ScaledSheet.create({
   },
   title: {
     fontSize: '16@s',
-    fontFamily: fontFamily.medium
+    fontFamily: fontFamily.medium,
   },
   body: {
     backgroundColor: color.background,

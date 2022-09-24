@@ -58,8 +58,13 @@ export function formatDate(date: Moment | Date) {
 }
 
 export function formatDateTime(date: string | Date) {
-  if  (!date) return ''
-  return moment(date).format('DD/MM/YYYY HH:mm');
+  if  (!date) return '_'
+  return moment(date).format('DD/MM/YYYY, HH:mm');
+}
+
+export function formatTimeDate(date: string | Date) {
+  if  (!date) return '_'
+  return moment(date).format('HH:mm DD/MM/YYYY [(Giờ VN)]');
 }
 
 export function getFullName(user: any) {

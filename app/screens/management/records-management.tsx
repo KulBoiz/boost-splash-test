@@ -49,7 +49,7 @@ const RecordsManagement = React.memo((props: Props) => {
     // if (item?.status === "consulted") {
     //   return <LoanProfileStatus item={item} />
     // }
-  }, [])
+  }, [data])
 
   return (
     <View style={styles.container}>

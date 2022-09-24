@@ -9,7 +9,7 @@ import {
 import { FieldValues } from "react-hook-form/dist/types/fields"
 import { FieldErrors } from "react-hook-form/dist/types/errors"
 import FormDatePicker from "../../../components/form-date-time"
-import Vcf from "../advance-information/vcf"
+import Vcf from "./vcf"
 
 interface Props{
   editable: boolean

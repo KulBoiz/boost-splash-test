@@ -8,7 +8,7 @@ import FormDatePicker from "../../../components/form-date-time"
 import { useStores } from "../../../models"
 import FormItemPicker from "../../../components/form-item-picker"
 import { MARGIN_TOP_8, ROW } from "../../../styles/common-style"
-import CitizenIdentification from "../../settting/advance-information/citizen-identification"
+import CitizenIdentification from "../advance-information/citizen-identification"
 
 interface Props {
   editable: boolean

@@ -15,9 +15,9 @@ import AppButton from "../../../components/app-button/AppButton"
 import { EditSvg } from "../../../assets/svgs"
 import _ from 'lodash'
 import { useStores } from "../../../models"
-import { userAuth, userInfo } from "../../settting/constants"
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view"
 import BottomView from "../../../components/bottom-view"
+import { userAuth, userInfo } from "../constants"
 
 interface Props{}
 

@@ -1,6 +1,5 @@
 import React from "react"
 import { StyleSheet, Text, TextProps } from "react-native"
-import type { FontWeight } from "react-native-svg"
 import { ms } from "react-native-size-matters"
 import { color } from "../../theme"
 import { translate, TxKeyPath } from "../../i18n"
@@ -10,13 +9,13 @@ export type AppTextProps = {
   value?: string | number | TxKeyPath
   fontSize?: number
   color?: string
-  fontWeight?: FontWeight | any
   underline?: boolean
   capitalize?: boolean
   tx?: TxKeyPath
   txOptions?: i18n.TranslateOptions
   fontFamily?: FontFamily
   center?: boolean
+  textAlign?: "center" | "left" | "right"
 } & TextProps
 
 export type FontFamily =
@@ -36,19 +35,19 @@ const defaultProps: Partial<AppTextProps> = {
 // eslint-disable-next-line react/display-name
 export const AppText: React.FC<AppTextProps> = React.memo(
   ({
-    tx,
-    txOptions,
-    children,
-    color,
-    value,
-    fontWeight,
-    fontSize,
-    underline,
-    capitalize,
-    fontFamily,
-    center,
-    ...props
-  }) => {
+     tx,
+     txOptions,
+     children,
+     color,
+     value,
+     textAlign,
+     fontSize,
+     underline,
+     capitalize,
+     fontFamily,
+     center,
+     ...props
+   }) => {
     const i18nText = tx && translate(tx, txOptions)
     const content = i18nText || children
     return (
@@ -64,6 +63,7 @@ export const AppText: React.FC<AppTextProps> = React.memo(
           underline && { textDecorationLine: "underline" },
           capitalize && { textTransform: "capitalize" },
           center && { textAlign: "center" },
+          textAlign && { textAlign },
         ])}
       >
         {content || value}

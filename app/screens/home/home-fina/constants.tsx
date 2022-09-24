@@ -89,3 +89,19 @@ export const formatHomeData = (arr) => {
   }
   return []
 }
+
+export const TEST_INVEST = [
+  {
+    title: 'Vinacapital',
+    image: 'https://images.pexels.com/photos/11719040/pexels-photo-11719040.jpeg?auto=compress&cs=tinysrgb&w=600&lazy=load',
+    percent: 10,
+    status: 'up'
+  },
+  {
+    title: 'PVCD Capital',
+    image: 'https://images.pexels.com/photos/11719040/pexels-photo-11719040.jpeg?auto=compress&cs=tinysrgb&w=600&lazy=load',
+    percent: 2,
+    status: 'down'
+  },
+
+]
