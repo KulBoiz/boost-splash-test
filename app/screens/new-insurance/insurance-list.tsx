@@ -74,7 +74,7 @@ const InsuranceList = React.memo((props: any) => {
         currentSelected={select}
         setCurrentSelected={(value) => { filter(value) }}
         notShowIcon={true}
-        backgroundColor={color.palette.F0F0F0}
+        backgroundColor={color.palette.offWhite}
       />
 
       {!loading ?
@@ -101,6 +101,7 @@ const styles = ScaledSheet.create({
   },
   container: {
     flex: 1,
+    backgroundColor: color.palette.offWhite
   },
   contentStyle: {
     // marginVertical: '24@s',

@@ -4,6 +4,7 @@ export const images = {
   common_copy: require('./commons/copy.png'),
   common_share_arrow: require('./commons/share-arrow.png'),
   common_share: require('./commons/share.png'),
+  common_share_blue: require('./commons/share-blue.png'),
 
   app_home: require('./bottom-bar/home.png'),
   app_chat: require('./bottom-bar/chat.png'),
@@ -17,6 +18,7 @@ export const images = {
   commission_cancel: require('./commission/cancel.png'),
   commission_empty: require('./commission/empty.png'),
 
+  home_arrow_up: require('./home/arrow-up.png'),
   home_finance: require('./home/home-finance.png'),
   financeHeader: require('./home/finance.png'),
   insuranceHeader: require('./home/insurance.png'),

@@ -4,7 +4,6 @@ import QRCode from "react-native-qrcode-svg"
 import { s, ScaledSheet } from "react-native-size-matters"
 import { useStores } from "../../../models"
 import { getFullName } from "../../../constants/variable"
-import AppButton from "../../../components/app-button/AppButton"
 import * as FileSystem from 'expo-file-system';
 import * as MediaLibrary from 'expo-media-library';
 import { observer } from "mobx-react-lite"
@@ -15,12 +14,10 @@ interface Props {
 const Vcf = observer((props: Props) => {
   const { authStoreModel } = useStores()
   useEffect(() => {
-    if (authStoreModel?.vcf) {
-      return
-    }
     authStoreModel.getVcf()
-  }, [])
-  const vcf = authStoreModel.vcf
+  }, [authStoreModel?.user])
+
+  const vcf = authStoreModel?.vcf
   const result = vcf.replace(/X-SOCIALPROFILE;CHARSET=UTF-8;/g, `X-SOCIALPROFILE;${getFullName(authStoreModel?.user)}`)
   const url = "data:text/x-vcard;charset=utf-8," + encodeURIComponent(result)
 

@@ -82,6 +82,8 @@ export { default as WarningSvg } from "./warning.svg"
 export { default as BlueTickSvg } from "./blue_tick.svg"
 export { default as NoDataSvg } from "./no-data.svg"
 export { default as LoanSuccessSvg } from "./loan_success.svg"
+export { default as CautionSvg } from "./caution.svg"
+export { default as InvestSuccessSvg } from "./invest-success.svg"
 
 // home
 export { default as AuthSvg } from "./auth.svg"

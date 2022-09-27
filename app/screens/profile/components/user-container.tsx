@@ -11,11 +11,12 @@ import { images } from "../../../assets/images"
 import RenderStatus from "../../../components/status/render-status"
 import { color } from "../../../theme"
 import { MARGIN_BOTTOM_8 } from "../../../styles/common-style"
+import { observer } from "mobx-react-lite"
 
 interface Props {
 }
 
-const UserContainer = React.memo((props: Props) => {
+const UserContainer = observer((props: Props) => {
   const {authStoreModel} = useStores()
   const {user, role} = authStoreModel
   const username = getFullName(user)

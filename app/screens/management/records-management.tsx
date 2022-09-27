@@ -49,8 +49,7 @@ const RecordsManagement = React.memo((props: Props) => {
     // if (item?.status === "consulted") {
     //   return <LoanProfileStatus item={item} />
     // }
-  }, [])
-
+  }, [data])
   return (
     <View style={styles.container}>
       <MenuFilter
@@ -87,7 +86,11 @@ const RecordsManagement = React.memo((props: Props) => {
             refreshControl={
               <RefreshControl
                 refreshing={loading}
-                onRefresh={()=>loanStore.getRecords(paramTab).then(() => {
+                onRefresh={()=>loanStore.getRecords({
+                  status: select?.status,
+                  statusAssign: select?.statusAssign,
+                  ...paramTab,
+                }).then(() => {
                   setLoading(false)
                 })}
                 colors={[color.primary]}

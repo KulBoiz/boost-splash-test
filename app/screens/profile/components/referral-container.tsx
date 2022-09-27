@@ -1,4 +1,4 @@
-import React, { useCallback } from "react"
+import React, { useCallback, useRef } from "react"
 import { Alert, Pressable, View, ViewStyle } from "react-native"
 import FastImage from "react-native-fast-image"
 import { images } from "../../../assets/images"
@@ -12,6 +12,9 @@ import QRCode from "react-native-qrcode-svg"
 import { hexToRgbA } from "../../../constants/variable"
 import Clipboard from "@react-native-clipboard/clipboard"
 import Share from "react-native-share"
+import * as MediaLibrary from "expo-media-library"
+import * as FileSystem from "expo-file-system"
+import { find } from "../../../utils/lodash-utils"
 
 interface Props {
 }
@@ -39,15 +42,16 @@ const Item = React.memo(({ label, value, icon, iconStyle, textColor, onPress }: 
 })
 
 const ReferralContainer = React.memo((props: Props) => {
-  const { authStoreModel } = useStores()
+  let ref = useRef<any>(null).current
+  const { authStoreModel, appStore } = useStores()
   const { user } = authStoreModel
   const { refCode } = user
   const linkRef = `${DOMAIN}users/signup?refCode=${refCode}`
-  const title = 'Chia sẻ mã giới thiệu';
-  const message = '';
+  const title = "Chia sẻ mã giới thiệu"
+  const message = ""
 
   const copyToClipboard = useCallback(() => {
-    Clipboard.setString(linkRef)
+    Clipboard.setString(refCode)
     Alert.alert("Đã copy vào clipboard")
   }, [])
 
@@ -59,8 +63,27 @@ const ReferralContainer = React.memo((props: Props) => {
   const share = useCallback(() => {
     Share.open(options).then((res) => {
       // console.log(res)
-    });
-  },[])
+    })
+  }, [])
+
+  const shareQr = useCallback(async () => {
+    const fileUri = FileSystem.cacheDirectory + `${refCode}.png`
+    const fileExists = find(appStore?.filesDownloaded, (f) => f === fileUri)
+    if (fileExists) {
+      Share.open({ ...options, url: fileUri, message: linkRef })
+      return
+    }
+    ref.toDataURL(async e => {
+      await FileSystem.writeAsStringAsync(fileUri, e, { encoding: FileSystem.EncodingType.Base64 })
+    })
+    await MediaLibrary.requestPermissionsAsync()
+    const asset = await MediaLibrary.createAssetAsync(fileUri)
+    await MediaLibrary.createAlbumAsync("QR", asset, false)
+      .then((e) => {
+        appStore?.addFileDownloaded(fileUri)
+        Share.open({ ...options, url: fileUri, message: linkRef })
+      })
+  }, [])
 
   return (
     <FastImage style={styles.container} source={images.profile_referral_background}>
@@ -85,9 +108,10 @@ const ReferralContainer = React.memo((props: Props) => {
           logoSize={ms(20)}
           value={linkRef}
           size={ms(90)}
+          getRef={(c) => (ref = c)}
         />
 
-        <Pressable onPress={share} style={styles.shareContainer}>
+        <Pressable onPress={shareQr} style={styles.shareContainer}>
           <AppText value={"Chia sẻ"} color={color.text} />
           <FastImage source={images.common_share} style={styles.icon} />
         </Pressable>
@@ -139,5 +163,6 @@ const styles = ScaledSheet.create({
   shareContainer: {
     marginTop: "4@s",
     flexDirection: "row",
+    alignItems: "center"
   },
 })

@@ -10,6 +10,7 @@ import { View } from "react-native"
 import { color } from "../theme"
 import { navigate } from "./navigation-utilities"
 import InsuranceTab from "../screens/deal/insurance-screen"
+import InvestManagement from "../screens/management/invest/invest-management"
 
 export type ManagementStackParamList = {
   [ScreenNames.MANAGE_FINANCE]: { index: any };
@@ -37,7 +38,7 @@ export const ManagementStack = () => {
         />
         <Tab.Screen
           name={ScreenNames.MANAGE_INVEST}
-          component={() => (<InDeveloping notShowHeader={true} />)}
+          component={InvestManagement}
         />
       </Tab.Navigator>
     </View>
