@@ -22,6 +22,8 @@ import MarketPurchase from "../screens/invest/market/market-purchase"
 import MarketBuy from "../screens/invest/market/market-buy"
 import PurchaseInfo from "../screens/invest/market/components/purchase-info"
 import InvestSuccess from "../screens/invest/invest-success"
+import MarketSale from "../screens/invest/market/market-sale"
+import ConfirmSale from "../screens/invest/market/confirm-sale"
 
 export const AuthRoutes = [
   {
@@ -77,6 +79,12 @@ export const InvestRoutes = [
   },{
     name: ScreenNames.INVEST_SUCCESS,
     component: InvestSuccess,
+  },{
+    name: ScreenNames.SALE_BONDS,
+    component: MarketSale,
+  },{
+    name: ScreenNames.CONFIRM_SALE,
+    component: ConfirmSale,
   },
 ]
 

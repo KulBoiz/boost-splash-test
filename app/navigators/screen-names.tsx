@@ -14,6 +14,8 @@ export enum ScreenNames {
   MARKET_LIST = 'MarketList',
   MARKET_DETAIL='MarketDetail',
   BUY_BONDS ='BuyBonds',
+  SALE_BONDS ='SaleBonds',
+  CONFIRM_SALE ='ConfirmSale',
   PURCHASE_BONDS='PurchaseBonds',
   INVEST_OTP = 'InvestOtp',
   INVEST_SUCCESS='InvestSuccess',

@@ -39,6 +39,8 @@ import { NavigatorParamList } from "./params-list"
 import { CommissionStack } from "./commission-stack"
 import { ManagementStack } from "./management"
 import { InvestStack } from "./invest-stack"
+import MarketSale from "../screens/invest/market/market-sale"
+import ConfirmSale from "../screens/invest/market/confirm-sale"
 
 // Documentation: https://reactnavigation.org/docs/stack-navigator/
 const Stack = createNativeStackNavigator<NavigatorParamList>()
@@ -69,6 +71,8 @@ const RootStack = () => {
       />
       <Stack.Screen name={ScreenNames.AUTH} component={AuthStack} />
       <Stack.Screen name={ScreenNames.COMMISSION} component={CommissionStack} />
+      <Stack.Screen name={ScreenNames.SALE_BONDS} component={MarketSale} />
+      <Stack.Screen name={ScreenNames.CONFIRM_SALE} component={ConfirmSale} />
       <Stack.Screen name={ScreenNames.MANAGEMENT} component={ManagementStack} />
       <Stack.Screen
         name={ScreenNames.APP}

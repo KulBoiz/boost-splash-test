@@ -66,6 +66,8 @@ export const images = {
   management_finance: require('./management/finance.png'),
   management_insurance: require('./management/insurance.png'),
   management_invest: require('./management/invest.png'),
+  invest_background: require('./invest/invest-background.png'),
+
   insurance_extension: require('./utilities/insurance_extension.png'),
   claim: require('./utilities/claim.jpg'),
   hospital: require('./utilities/hospital.png'),
