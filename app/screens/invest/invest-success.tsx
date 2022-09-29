@@ -11,6 +11,7 @@ import AppButton from "../../components/app-button/AppButton"
 import { fontFamily } from "../../constants/font-family"
 import { navigate } from "../../navigators"
 import { ScreenNames } from "../../navigators/screen-names"
+import { useStores } from "../../models"
 
 interface Props {
 }
@@ -31,6 +32,9 @@ const RightContent = React.memo(({ content, note }: RightContentProps) => {
 const GMT = "Giờ VN"
 
 const InvestSuccess = React.memo((props: Props) => {
+  const {investStore} = useStores()
+  const {buyInfo} = investStore
+
   const buyMore = useCallback(() => {
     navigate(ScreenNames.MARKET_LIST)
   }, [])
@@ -45,7 +49,7 @@ const InvestSuccess = React.memo((props: Props) => {
         <InvestSuccessSvg style={styles.icon} />
         <AppText value={"Đăng ký đầu tư định kỳ thành công"} fontFamily={fontFamily.bold} fontSize={ms(18)}
                  style={MARGIN_BOTTOM_8} />
-        <AppText value={"Cảm ơn Quý khách đã đầu tư vào chứng chỉ\nquỹ của VINACAPITAL"} style={FONT_REGULAR_14}
+        <AppText value={"Cảm ơn Quý khách đã đầu tư"} style={FONT_REGULAR_14}
                  color={color.palette.grayChateau} textAlign={"center"} />
 
         <View style={styles.itemContainer}>
@@ -57,8 +61,8 @@ const InvestSuccess = React.memo((props: Props) => {
                     style={styles.item} />
           <ItemView title={"Phiên giao dịch"} content={<RightContent content={formatDateTime(new Date())} note={GMT} />}
                     style={styles.item} />
-          <ItemView title={"Chương trình"} content={<RightContent content={"Fina Sip"} />} style={styles.item} />
-          <ItemView title={"Số tiền mua"} content={<RightContent content={`${numberWithCommas(100000)}vnđ`} />} />
+          <ItemView title={"Chương trình"} content={<RightContent content={buyInfo?.program} />} style={styles.item} />
+          <ItemView title={"Số tiền mua"} content={<RightContent content={`${numberWithCommas(buyInfo?.amount)} vnđ`} />} />
         </View>
       </View>
 

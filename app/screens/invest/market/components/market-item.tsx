@@ -1,7 +1,7 @@
-import React, { useCallback } from "react"
+import React, { useCallback, useMemo } from "react"
 import { Pressable, View } from "react-native"
 import { AppText } from "../../../../components/app-text/AppText"
-import { numberWithCommas } from "../../../../constants/variable"
+import { getMoneyLabel, numberWithCommas, truncateString } from "../../../../constants/variable"
 import AppButton from "../../../../components/app-button/AppButton"
 import { ms, ScaledSheet } from "react-native-size-matters"
 import { FONT_SEMI_BOLD_12, MARGIN_BOTTOM_4 } from "../../../../styles/common-style"
@@ -10,33 +10,49 @@ import { color } from "../../../../theme"
 import moment from "moment"
 import { navigate } from "../../../../navigators"
 import { ScreenNames } from "../../../../navigators/screen-names"
+import { useStores } from "../../../../models"
 
 interface Props {
+  item: any
 }
 
-const percent = 8.3
-const MarketItem = React.memo((props: Props) => {
+const MarketItem = React.memo(({ item }: Props) => {
+  const {investStore} = useStores()
+  const money = item?.info?.parValueShares * item?.info?.totalReleaseVolume
+
+  const maxInterest = useMemo(()=> {
+    return item?.info?.interestRate
+      .filter((e) => e?.rate)
+      .reduce((previousValue, nextValue) =>
+        previousValue?.rate > nextValue?.rate ? previousValue : nextValue,
+      );
+  },[item])
+
   const watchDetail = useCallback(() => {
-    navigate(ScreenNames.MARKET_DETAIL)
+    navigate(ScreenNames.MARKET_DETAIL, {slug: item?.slug})
   }, [])
 
-  const handleBuy = useCallback(() => {
+  const handleBuy = useCallback(async () => {
+    await investStore.getBondsDetail(item?.slug)
     navigate(ScreenNames.BUY_BONDS)
   }, [])
 
   return (
     <Pressable onPress={watchDetail} style={styles.container}>
       <View style={styles.firstContainer}>
-        <AppText value={"TVPF"} fontFamily={fontFamily.semiBold} color={color.primary} style={MARGIN_BOTTOM_4}/>
+        <AppText value={truncateString(item?.name, 10)} fontFamily={fontFamily.semiBold} color={color.primary} style={MARGIN_BOTTOM_4}/>
         <AppText value={"Quỹ trái phiếu"} color={color.palette.green}/>
       </View>
       <View style={styles.secondContainer}>
-        <AppText value={numberWithCommas(20123123)} fontSize={ms(14)} style={MARGIN_BOTTOM_4}/>
-        <AppText value={`Cập nhật ngày ${moment(new Date()).format("DD/MM")}`}
+        <AppText value={getMoneyLabel(money)} fontSize={ms(14)} style={MARGIN_BOTTOM_4}/>
+        <AppText value={`Cập nhật ngày ${moment(item?.updatedAt).format("DD/MM")}`}
                  fontSize={ms(10)}
                  color={color.palette.grayChateau} />
       </View>
-      <AppText value={`${percent}%`} color={color.palette.green} />
+      <View>
+        <AppText value={`${maxInterest?.rate}%`} style={FONT_SEMI_BOLD_12} color={color.palette.green} textAlign={'right'}/>
+        <AppText value={`${maxInterest?.time} tháng`} color={color.palette.orange} style={FONT_SEMI_BOLD_12}/>
+      </View>
       <AppButton onPress={handleBuy} title={"MUA"} containerStyle={styles.btn} titleStyle={FONT_SEMI_BOLD_12} />
     </Pressable>
   )

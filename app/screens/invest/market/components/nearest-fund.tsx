@@ -6,7 +6,9 @@ import { FONT_BOLD_12, FONT_BOLD_14, FONT_MEDIUM_12, MARGIN_BOTTOM_4 } from "../
 import { ScaledSheet } from "react-native-size-matters"
 import { numberWithCommas } from "../../../../constants/variable"
 
-interface Props{}
+interface Props{
+  data: any
+}
 interface NavItemProps{
   title: string
   amount: number
@@ -21,7 +23,7 @@ const NavItem = React.memo(({ title, amount }: NavItemProps)=> {
   )
 })
 
-const NearestFund = React.memo((props: Props) => {
+const NearestFund = React.memo(({ data }: Props) => {
 
   return (
     <View style={MARKET_CONTAINER}>

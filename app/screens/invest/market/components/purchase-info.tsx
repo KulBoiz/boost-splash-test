@@ -9,6 +9,7 @@ import { color } from "../../../../theme"
 import { CautionSvg } from "../../../../assets/svgs"
 
 interface Props {
+  buyInfo: any
 }
 
 interface RightContentProps {
@@ -29,13 +30,13 @@ const firstCaution = "Quý khách vui lòng chuyển khoản theo thông tin chu
 const secondCaution = "Sau khi chuyển khoản thành công, nhấn nút\n"
 const thirdCaution = '“Xác nhận thanh toán"'
 
-const PurchaseInfo = React.memo((props: Props) => {
+const PurchaseInfo = React.memo(({ buyInfo }: Props) => {
   return (
     <View style={styles.container}>
       <View style={styles.body}>
-        <ItemView title={"Số tiền đầu tư"} content={<RightContent content={"100,000 vnđ"} />} style={styles.item} />
+        <ItemView title={"Số tiền đầu tư"} content={<RightContent content={`${numberWithCommas(buyInfo?.amount)} vnđ`} />} style={styles.item} />
         <ItemView title={"Số lượng ước tính"}
-                  content={<RightContent content={numberWithCommas(3.21)} note={"Chứng chỉ"} />} style={styles.item} />
+                  content={<RightContent content={numberWithCommas(buyInfo?.estimatedQuantity)} note={"Chứng chỉ"} />} style={styles.item} />
         <ItemView title={"Ngày đặt lệnh"} content={<RightContent content={formatDateTime(new Date())} note={GMT} />}
                   style={styles.item} />
         <ItemView title={"Sổ lệnh đóng"} content={<RightContent content={formatDateTime(new Date())} note={GMT} />}
@@ -43,7 +44,7 @@ const PurchaseInfo = React.memo((props: Props) => {
         <ItemView title={"Phiên khớp lệnh"} content={<RightContent content={formatDateTime(new Date())} note={GMT} />}
                   style={styles.item} />
         <ItemView title={"Phí mua"} content={<RightContent content={"0%"} />} style={styles.item} />
-        <ItemView title={"Chương trình"} content={<RightContent content={"Fina Sip"} />} />
+        <ItemView title={"Chương trình"} content={<RightContent content={`${buyInfo?.program}`} />} />
       </View>
       <View style={styles.cautionContainer}>
         <CautionSvg style={styles.icon} />

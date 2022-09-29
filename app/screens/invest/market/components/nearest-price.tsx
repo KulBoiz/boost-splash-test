@@ -10,9 +10,11 @@ import MarketCountdown from "../../components/market-countdown"
 import moment from "moment"
 import { MARGIN_BOTTOM_4, MARGIN_BOTTOM_8 } from "../../../../styles/common-style"
 
-interface Props{}
+interface Props{
+  data: any
+}
 
-const NearestPrice = React.memo((props: Props) => {
+const NearestPrice = React.memo(({ data }: Props) => {
   const endDate = moment(new Date()).add('hour', 2)
   const totalTime = moment(endDate).diff(new Date()).toString().slice(0, -3);
 
@@ -20,7 +22,7 @@ const NearestPrice = React.memo((props: Props) => {
     <View style={[MARKET_CONTAINER, styles.container]}>
       <View>
         <AppText value={'Giá gần nhất'} fontSize={ms(14)} color={color.palette.osloGray} style={MARGIN_BOTTOM_4}/>
-        <AppText value={numberWithCommas(2000000.00)} fontFamily={fontFamily.bold} fontSize={ms(30)} color={color.primary}/>
+        <AppText value={numberWithCommas(data?.info?.parValueShares)} fontFamily={fontFamily.bold} fontSize={ms(30)} color={color.primary}/>
         <AppText value={'Quỹ trái phiếu'} fontFamily={fontFamily.semiBold} color={color.palette.green}/>
       </View>
 

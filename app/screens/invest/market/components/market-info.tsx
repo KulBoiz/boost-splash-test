@@ -6,7 +6,9 @@ import { numberWithCommas } from "../../../../constants/variable"
 import { FONT_MEDIUM_12, MARGIN_BOTTOM_4 } from "../../../../styles/common-style"
 import { color } from "../../../../theme"
 
-interface Props{}
+interface Props{
+  data: any
+}
 interface ItemProps{
   title: string
   content: string
@@ -22,14 +24,14 @@ const Item = React.memo(({title, content, style}: ItemProps)=> {
     </View>
   )
 })
-const MarketInfo = React.memo((props: Props) => {
+const MarketInfo = React.memo(({ data }: Props) => {
   return (
     <View style={styles.container}>
       <AppText value={testTitle} fontSize={ms(16)}/>
       <View style={styles.body}>
-        <Item title={'Tên quỹ đầu tư'} content={'QUY DAU TU TRAI PHIEU BAO THINH FINACAPITAL'} style={styles.itemMargin}/>
-        <Item title={'Tổ chức phát hành'} content={'VINA Capital'}  style={styles.itemMargin}/>
-        <Item title={'Giá gần nhất'} content={numberWithCommas(223213.123)}  style={styles.itemMargin}/>
+        <Item title={'Tên quỹ đầu tư'} content={data?.name} style={styles.itemMargin}/>
+        <Item title={'Tổ chức phát hành'} content={data?.org?.name}  style={styles.itemMargin}/>
+        <Item title={'Giá gần nhất'} content={numberWithCommas(data?.info?.parValueShares)}  style={styles.itemMargin}/>
         <Item title={'Tài sản đầu tư'} content={'Trái phiếu, Công cụ có thu nhập ổn định'}  style={styles.itemMargin}/>
         <Item title={'Phí chuyển đổi'} content={'0%'} />
       </View>

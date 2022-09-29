@@ -96,3 +96,18 @@ export function verticalScale(num: number){
   return height * num
 }
 
+
+export function getMoneyLabel(money){
+  const oneMilion = 1000 * 1000;
+  const oneBillion = 1000 * 1000 * 1000;
+  const numberLength = money.toString().length;
+  const billionText = 'tỷ';
+  const millionText = 'triệu';
+  if (numberLength >= 10) {
+    return `${numberWithCommas(money / oneBillion)} ${billionText}`;
+  }
+  if (numberLength < 10 && numberLength >= 7) {
+    return `${numberWithCommas(money / oneMilion)} ${millionText}`;
+  }
+  return '';
+}
