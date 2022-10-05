@@ -6,7 +6,6 @@ import {
   FONT_BOLD_14,
   FONT_REGULAR_12,
   MARGIN_BOTTOM_16,
-  MARGIN_TOP_8,
   ROW,
   SPACE_BETWEEN,
 } from "../../../../styles/common-style"
@@ -80,7 +79,7 @@ const PropertyInfo = React.memo((props: Props) => {
             donut
             showGradient
             sectionAutoFocus
-            radius={ms(80)}
+            radius={ms(75)}
             innerRadius={ms(60)}
             innerCircleColor={"#143B82"}
           />
@@ -96,7 +95,7 @@ const PropertyInfo = React.memo((props: Props) => {
         </View>
       </FastImage>
 
-      <FlatList keyExtractor={(e, i) => i.toString()} data={[0, 1]} renderItem={renderItem}
+      <FlatList keyExtractor={(e, i) => i.toString()} data={[0]} renderItem={renderItem}
                 contentContainerStyle={styles.flatList} />
     </View>
   )

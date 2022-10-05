@@ -33,8 +33,8 @@ const MarketSaleForm = React.memo((props: Props) => {
       <FormInput
         {...{
           name: "amount",
-          label: "* Số lượng CQQ cần bán",
-          placeholder: "* Số lượng CQQ cần bán",
+          label: "Số lượng CQQ cần bán",
+          placeholder: "Số lượng CQQ cần bán",
           keyboardType: "number-pad",
           control,
           error: errors?.amount?.message,
@@ -64,12 +64,12 @@ const MarketSaleForm = React.memo((props: Props) => {
       </View>
       <FormInput
         {...{
-          name: "amount",
-          label: "* Số lượng CQQ cần bán",
-          placeholder: "* Số lượng CQQ cần bán",
+          name: "purchaseFee",
+          label: "Giá trị tương ứng",
+          placeholder: "Giá trị tương ứng",
           keyboardType: "number-pad",
           control,
-          error: errors?.amount?.message,
+          error: errors?.purchaseFee?.message,
         }}
       />
     </View>

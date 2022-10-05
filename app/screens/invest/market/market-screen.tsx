@@ -1,7 +1,7 @@
 import React, { useCallback, useEffect, useState } from "react"
 import { FlatList, View } from "react-native"
 import AppHeader from "../../../components/app-header/AppHeader"
-import MarketItem from "./components/market-item"
+import BondsItem from "./components/bonds-item"
 import { AppText } from "../../../components/app-text/AppText"
 import { ScaledSheet } from "react-native-size-matters"
 import { color } from "../../../theme"
@@ -17,7 +17,7 @@ interface Props {
 
 const MarketScreen = observer((props: Props) => {
   const { investStore } = useStores()
-  const [bonds, setBonds] = useState([])
+  const [bonds, setBonds] = useState<Array<any>>([])
 
   useEffect(() => {
     investStore.getBonds({}, { page: 1 })
@@ -27,17 +27,16 @@ const MarketScreen = observer((props: Props) => {
   }, [])
 
   const renderItem = useCallback(({item}) => {
-    return <MarketItem item={item}/>
-  }, [])
+    return <BondsItem item={item}/>
+  }, [bonds])
 
   const loadMore = useCallback(async () => {
     if (bonds.length === investStore?.totalBonds) return
     investStore.getBonds({}, { page: investStore?.pagingParamsBonds?.page + 1})
       .then(res => {
-        const data = bonds.concat(res)
-        setBonds(data)
+        setBonds([...bonds, ...res])
       })
-  }, [])
+  }, [bonds])
 
   return (
     <View style={styles.container}>
@@ -49,7 +48,7 @@ const MarketScreen = observer((props: Props) => {
         <SearchBar placeholder={"Nhập tên công ty quản lỹ quỹ"} />
         <View style={styles.descriptionContainer}>
           <AppText value={"Sản phẩm"} style={styles.description} />
-          <AppText value={"NAV/CCQ"} style={styles.description} />
+          {/* <AppText value={"NAV/CCQ"} style={styles.description} /> */}
         </View>
 
         <FlatList

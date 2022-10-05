@@ -25,7 +25,7 @@ import { truncateString } from "../../../constants/variable"
 interface Props {
 }
 
-const MarketDetail = React.memo((props: any) => {
+const FundDetail = React.memo((props: any) => {
   const { params: { slug } } = useRoute<RouteProp<InvestStackParamList, ScreenNames.MARKET_DETAIL>>()
   const { investStore } = useStores()
   const [index, setIndex] = React.useState(0)
@@ -125,7 +125,7 @@ const MarketDetail = React.memo((props: any) => {
   )
 })
 
-export default MarketDetail
+export default FundDetail
 
 const styles = ScaledSheet.create({
   container: { flex: 1, backgroundColor: color.background },

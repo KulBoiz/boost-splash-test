@@ -94,6 +94,14 @@ const FinanceTab = React.memo((props: Props) => {
         setVisible(true)
       },
     },
+    {
+      image: images.home_calculate_tool,
+      title: 'Bộ công cụ tính toán',
+      onPress: () => {
+        setLink(DOMAIN + "/calculators-toolkit")
+        setVisible(true)
+      },
+    },
   ]
 
   return (

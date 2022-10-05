@@ -24,7 +24,7 @@ export const InvestStoreModel = types
     totalBonds: types.optional(types.number, 0),
     pagingParamsBonds: PagingParamsModel,
     bondsDetail: types.frozen({}),
-    buyInfo: types.frozen({})
+    buyInfo: types.frozen({}),
   })
   .views((self) => ({
     get api() {
@@ -38,10 +38,52 @@ export const InvestStoreModel = types
     setBuyInfo: (info: any) => {
       self.buyInfo = info
     },
+
+    getOutstandingBonds: flow(function* getOutstandingBonds() {
+      const result = yield self.api.get("products/public-bond", {
+        filter: {
+          where: {
+            type: "bonds",
+            isOutstanding: true,
+          },
+          include: [
+            { relation: "org" },
+          ],
+          limit: 10,
+          skip: 0,
+        },
+        page: 1,
+      })
+      const data = result?.data
+      if (result.kind === "ok") {
+        return data?.data
+      }
+    }),
+
+    getOutstandingFund: flow(function* getOutstandingFund() {
+      const result = yield self.api.get("products/public-fund", {
+        filter: {
+          where: {
+            isOutstanding: true,
+          },
+          include: [
+            { relation: "org" },
+          ],
+          limit: 10,
+          skip: 0,
+        },
+        page: 1,
+      })
+      const data = result?.data
+      if (result.kind === "ok") {
+        return data?.data
+      }
+    }),
+
     getBonds: flow(function* getBonds(
       params?: any,
       pagingParams?: PagingParamsType,
-      ) {
+    ) {
 
       const _pagingParams: any = {
         ...self.pagingParamsBonds,
@@ -76,10 +118,10 @@ export const InvestStoreModel = types
       self.bondsDetail = {}
       const result = yield self.api.get(`products/public/by-slug/${slug}`, {
         filter: {
-            include: [
-              { relation: "org" },
-              { relation: "category" },
-            ],
+          include: [
+            { relation: "org" },
+            { relation: "category" },
+          ],
         },
       })
       const data = result?.data

@@ -48,7 +48,6 @@ const MarketBuy = observer((props: Props) => {
       amount: data?.amount,
       estimatedQuantity: data?.estimatedQuantity
     }
-    console.log(param)
     investStore.setBuyInfo(param)
     navigate(ScreenNames.PURCHASE_BONDS)
   }, [watch])

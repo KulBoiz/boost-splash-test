@@ -16,7 +16,7 @@ interface Props {
   item: any
 }
 
-const MarketItem = React.memo(({ item }: Props) => {
+const BondsItem = React.memo(({ item }: Props) => {
   const {investStore} = useStores()
   const money = item?.info?.parValueShares * item?.info?.totalReleaseVolume
 
@@ -29,7 +29,7 @@ const MarketItem = React.memo(({ item }: Props) => {
   },[item])
 
   const watchDetail = useCallback(() => {
-    navigate(ScreenNames.MARKET_DETAIL, {slug: item?.slug})
+    navigate(ScreenNames.BONDS_DETAIL, {slug: item?.slug})
   }, [])
 
   const handleBuy = useCallback(async () => {
@@ -41,7 +41,7 @@ const MarketItem = React.memo(({ item }: Props) => {
     <Pressable onPress={watchDetail} style={styles.container}>
       <View style={styles.firstContainer}>
         <AppText value={truncateString(item?.name, 10)} fontFamily={fontFamily.semiBold} color={color.primary} style={MARGIN_BOTTOM_4}/>
-        <AppText value={"Quỹ trái phiếu"} color={color.palette.green}/>
+        <AppText value={"Trái phiếu"} color={color.palette.green}/>
       </View>
       <View style={styles.secondContainer}>
         <AppText value={getMoneyLabel(money)} fontSize={ms(14)} style={MARGIN_BOTTOM_4}/>
@@ -58,7 +58,7 @@ const MarketItem = React.memo(({ item }: Props) => {
   )
 })
 
-export default MarketItem
+export default BondsItem
 
 const styles = ScaledSheet.create({
   container: {

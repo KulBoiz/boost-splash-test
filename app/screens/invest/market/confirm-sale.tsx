@@ -1,4 +1,4 @@
-import React from "react"
+import React, { useCallback } from "react"
 import { View, ViewStyle } from "react-native"
 import AppHeader from "../../../components/app-header/AppHeader"
 import { FONT_MEDIUM_12, FONT_REGULAR_12, MARGIN_BOTTOM_4, ROW, SPACE_BETWEEN } from "../../../styles/common-style"
@@ -9,6 +9,8 @@ import { color } from "../../../theme"
 import { formatDateTime, hexToRgbA, numberWithCommas } from "../../../constants/variable"
 import ItemView from "../../loan/components/item-view"
 import DualButton from "../../../components/app-button/dual-button"
+import { goBack, navigate } from "../../../navigators"
+import { ScreenNames } from "../../../navigators/screen-names"
 
 interface Props {
 }
@@ -47,6 +49,10 @@ const note = "Thời hạn thanh toán sau phiên khớp lệnh là từ 2-4 ng�
 const GMT = "Giờ VN"
 
 const ConfirmSale = React.memo((props: Props) => {
+  const rightPress= useCallback(()=> {
+    navigate(ScreenNames.APP)
+  },[])
+
   return (
     <View style={styles.container}>
       <AppHeader headerText={"Xác nhận lệnh bán"} isBlue />
@@ -74,7 +80,7 @@ const ConfirmSale = React.memo((props: Props) => {
       </View>
 
       <View style={styles.btnContainer}>
-        <DualButton leftTitle={'Quay lại'} rightTitle={'Xác nhận'} />
+        <DualButton leftTitle={'Quay lại'} rightTitle={'Xác nhận'} leftPress={goBack} rightPress={rightPress}/>
       </View>
     </View>
   )
