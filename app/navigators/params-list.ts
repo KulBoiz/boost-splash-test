@@ -14,6 +14,7 @@ export type NavigatorParamList = {
   [ScreenNames.REQUEST_COUNSELLING]: undefined
 
   [ScreenNames.MARKET_LIST]: undefined;
+  [ScreenNames.INVEST_OTP]: undefined;
   [ScreenNames.BONDS_DETAIL]: { slug: string };
   [ScreenNames.FUND_DETAIL]: { slug: string };
   [ScreenNames.BUY_BONDS]: undefined;

@@ -1,19 +1,16 @@
-import React, { useMemo } from "react"
+import React from "react"
 import { View, ViewStyle } from "react-native"
 import { AppText } from "../../../../components/app-text/AppText"
-import { ms, ScaledSheet } from "react-native-size-matters"
-import { formatDate, numberWithCommas } from "../../../../constants/variable"
+import { ScaledSheet } from "react-native-size-matters"
+import { formatDate, getMoneyLabel, numberWithCommas } from "../../../../constants/variable"
 import {
-  FONT_BOLD_14,
-  FONT_MEDIUM_12,
+  FONT_BOLD_12,
+  FONT_MEDIUM_12, FONT_SEMI_BOLD_12,
   MARGIN_BOTTOM_4,
-  MARGIN_BOTTOM_8,
-  MARGIN_TOP_16,
   ROW,
   SPACE_BETWEEN,
 } from "../../../../styles/common-style"
 import { color } from "../../../../theme"
-import { fontFamily } from "../../../../constants/font-family"
 
 interface Props {
   data: any
@@ -22,70 +19,62 @@ interface Props {
 interface ItemProps {
   title: string
   content: string
+  contentColor?: string
   style?: ViewStyle | any
 }
 
-interface ItemVerticalProps {
+interface NavItemProps {
   title: string
-  content: string
-  textAlign?: "left" | "right"
+  amount: any
 }
 
+const NavItem = React.memo(({ title, amount }: NavItemProps) => {
+  return (
+    <View style={styles.item}>
+      <AppText value={title} style={[FONT_MEDIUM_12, MARGIN_BOTTOM_4]} />
+      <AppText value={amount} style={FONT_BOLD_12} />
+    </View>
+  )
+})
 
-const Item = React.memo(({ title, content, style }: ItemProps) => {
+const Item = React.memo(({ title, content, style, contentColor }: ItemProps) => {
   return (
     <View style={[ROW, SPACE_BETWEEN, style]}>
-      <AppText value={title} style={[FONT_MEDIUM_12, MARGIN_BOTTOM_4]} color={color.primary} />
-      <AppText value={content} style={FONT_MEDIUM_12} />
+      <AppText value={title} style={[FONT_MEDIUM_12, MARGIN_BOTTOM_4]} color={color.palette.deepGray} />
+      <AppText value={content} style={FONT_SEMI_BOLD_12} color={contentColor ?? color.palette.black}/>
     </View>
   )
 })
-
-const ItemVertical = React.memo(({ title, content, textAlign = "left" }: ItemVerticalProps) => {
-  return (
-    <View>
-      <AppText value={title} fontSize={ms(11)} color={color.text} style={MARGIN_BOTTOM_4} textAlign={textAlign} />
-      <AppText value={content} fontSize={ms(11)} color={color.text} fontFamily={fontFamily.bold}
-               textAlign={textAlign} />
-    </View>
-  )
-})
-
 
 const BondsInfo = React.memo(({ data }: Props) => {
-  const maxInterest = useMemo(() => {
-    return data?.info?.interestRate
-      .filter((e) => e?.rate)
-      .reduce((previousValue, nextValue) =>
-        previousValue?.rate > nextValue?.rate ? previousValue : nextValue,
-      )
-  }, [data])
+  const org = data?.org
+  const info = data?.info
+  const { interestPeriod, maturityDate, parValueShares, totalReleaseVolume, releaseDate, tax } = info;
+  const totalPar = totalReleaseVolume * parValueShares
+  const haveInterestPeriod = interestPeriod ? `${interestPeriod} tháng` : 'Nhận lãi cuối kì'
+  const interests = info?.interestRate?.filter(e => e?.rate) || [];
+  const maxInterest = interests.length ? interests.reduce((a, b) => a.rate > b.rate ? a : b) : 0;
+
   return (
     <View style={styles.container}>
-      <View style={styles.infoContainer}>
-        <View style={[ROW, SPACE_BETWEEN, MARGIN_BOTTOM_8]}>
-          <ItemVertical title={"Mã sản phẩm"} content={"Quỹ trái phiếu"} />
-          <ItemVertical title={"Tên TCPH:"} content={numberWithCommas(data?.org?.name)} textAlign={"right"} />
-        </View>
-        <View style={[ROW, SPACE_BETWEEN]}>
-          <ItemVertical title={"Mã trái phiếu:"} content={data?.productCodeOfTheInvestor} />
-          <ItemVertical title={"Ngày đáo hạn:"} content={formatDate(data?.info?.maturityDate)} textAlign={"right"} />
-        </View>
-
+      <View style={styles.itemContainer}>
+        <NavItem title={"Mã sản phẩm"} amount={data?.sku} />
+        <NavItem title={"Mã trái phiếu"} amount={data?.productCodeOfTheInvestor} />
+        <NavItem title={"Tên TCPH"} amount={org?.name} />
+        <NavItem title={"Ngày đáo hạn"} amount={formatDate(maturityDate)} />
       </View>
+
       <View style={styles.body}>
         <Item title={"Kì hạn trái phiếu:"} content={`${maxInterest?.time} tháng`} style={styles.itemMargin} />
-        <Item title={"Mệnh giá:"} content={`${numberWithCommas(data?.info?.parValueShares)} VNĐ/trái phiếu`}
+        <Item title={"Tổng mệnh giá phát hành:"} content={getMoneyLabel(totalPar)} style={styles.itemMargin} />
+        <Item title={"Mệnh giá:"} content={`${numberWithCommas(parValueShares)} VNĐ/trái phiếu`}
               style={styles.itemMargin} />
-        <Item title={"Khối lượng chào bán:"} content={`${numberWithCommas(data?.info?.totalReleaseVolume)} trái phiếu`}
+        <Item title={"Khối lượng chào bán:"} content={`${numberWithCommas(totalReleaseVolume)} trái phiếu`}
               style={styles.itemMargin} />
-        <Item title={"Lãi suất:"} content={`${maxInterest?.rate}%/ năm`} style={styles.itemMargin} />
-        <Item title={"Kỳ trả lãi:"} content={`${maxInterest?.time} tháng`} style={styles.itemMargin} />
-        <Item title={"Ngày phát hành:"} content={formatDate(data?.info?.releaseDate)} style={styles.itemMargin} />
-        <Item title={"Phí giao dịch:"} content={"0"} />
+        <Item title={"Lãi suất:"} content={`${maxInterest?.rate}%/ năm`} style={styles.itemMargin} contentColor={color.palette.green} />
+        <Item title={"Kỳ trả lãi:"} content={haveInterestPeriod} style={styles.itemMargin} contentColor={color.palette.orange} />
+        <Item title={"Ngày phát hành:"} content={formatDate(releaseDate)} />
       </View>
-      <AppText value={'Thông tin doanh nghiệp'} fontSize={ms(20)} color={color.primary} style={MARGIN_TOP_16}/>
-      <AppText value={data?.org?.name} style={FONT_BOLD_14}/>
     </View>
   )
 })
@@ -96,18 +85,25 @@ const styles = ScaledSheet.create({
   container: {
     padding: "16@s",
   },
-  infoContainer: {
-    backgroundColor: color.palette.navi,
-    paddingVertical: "20@s",
-    paddingHorizontal: "16@s",
-    borderRadius: "4@s",
-    justifyContent: "space-between",
+  itemContainer: {
+    flexDirection: "row",
+    alignItems: "center",
+    marginTop: '12@s'
+  },
+  item: {
+    flex: 1,
+    alignItems: "center",
+    backgroundColor: "#F5F5F5",
+    marginHorizontal: "2@s",
+    paddingVertical: "16@s",
+    borderRadius: "8@s",
   },
   body: {
-    backgroundColor: "#EEF3FF",
     padding: "12@s",
     borderRadius: "8@s",
     marginTop: "16@s",
+    borderWidth: 1,
+    borderColor: color.primary
   },
   itemMargin: {
     marginBottom: "12@s",

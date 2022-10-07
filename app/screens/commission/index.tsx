@@ -1,33 +1,58 @@
-import React, { useEffect } from "react"
+import React, { useEffect, useState } from "react"
 import { ScrollView, View } from "react-native"
 import AppHeader from "../../components/app-header/AppHeader"
 import CashInfo from "./components/cash-info"
-import StackedBarChart from "./chart/stacked-bar-chart"
 import { color } from "../../theme"
 import AppButton from "../../components/app-button/AppButton"
 import { ScaledSheet } from "react-native-size-matters"
 import { ScreenNames } from "../../navigators/screen-names"
 import { navigate } from "../../navigators"
-import { COMMISSION_TYPES } from "./constants"
 import { useStores } from "../../models"
 import LineChart from "./chart/line-chart"
+import { getMonthName } from "../../constants/variable"
+import BarChart from "./chart/bar-chart"
 
 interface Props {
 }
 
-const CommissionScreen = React.memo((props: Props) => {
+const currentYear = (new Date()).getFullYear()
+const currentMonth = (new Date()).getMonth() + 1
 
+const years = Array.from({ length: 5 }, (_, i) => currentYear + (i * -1))
+const months = Array.from({ length: 5 }, (_, i) => `${getMonthName(currentMonth + (i * -1))}`)
+const chartData = (data: Array<any>) => data.map(({ amount }) => {
+  return amount
+})
+
+const CommissionScreen = React.memo((props: Props) => {
+  const { commissionStore } = useStores()
+  const [type, setType] = useState<"months" | "years">("years")
+  const [response, setResponse] = useState<any>()
+
+  useEffect(() => {
+    commissionStore.getChartData().then(res => {
+      setResponse(res)
+    })
+  }, [])
+
+  const data = {
+    labels: type === "years" ? years : months,
+    datasets:
+      [{
+        data: type === "years" ? chartData(response?.byYear?.data ?? []) : chartData(response?.byMonth?.data ?? []),
+      }],
+  }
 
   return (
     <View style={styles.container}>
       <AppHeader headerText={"Thông tin hoa hồng"} isBlue showBorderWidth={false} />
       <CashInfo />
       <ScrollView style={styles.body}>
-        <StackedBarChart />
-         <LineChart />
+         <BarChart data={data}/>
       </ScrollView>
       <View style={styles.wrapBtn}>
-        <AppButton title={"Danh sách hoa hồng"} colorBtn={color.palette.orange} onPress={()=> navigate(ScreenNames.COMMISSION_LIST)} />
+        <AppButton title={"Danh sách hoa hồng"} colorBtn={color.palette.orange}
+                   onPress={() => navigate(ScreenNames.COMMISSION_LIST)} />
       </View>
     </View>
   )
@@ -46,7 +71,7 @@ const styles = ScaledSheet.create({
     paddingBottom: "30@s",
   },
   wrapBtn: {
-    paddingBottom: '24@s',
-    paddingHorizontal: '16@s'
-  }
+    paddingBottom: "24@s",
+    paddingHorizontal: "16@s",
+  },
 })

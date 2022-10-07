@@ -18,6 +18,7 @@ export const images = {
   commission_cancel: require('./commission/cancel.png'),
   commission_empty: require('./commission/empty.png'),
 
+  bonds_background : require('./invest/bonds-background.png'),
   home_arrow_up: require('./home/arrow-up.png'),
   home_finance: require('./home/home-finance.png'),
   financeHeader: require('./home/finance.png'),

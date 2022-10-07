@@ -21,14 +21,14 @@ interface Props {
 }
 
 const InvestItem = React.memo((props: Props) => {
-  const { investStore } = useStores()
-  const { icon, title, percent, status, slug, type = 'bonds' } = props
+  const { icon, title, percent, status, slug, type = "bonds" } = props
   const isUp = status === "up"
 
-  const handlePress = useCallback(async () => {
-    await investStore?.setStack(false, slug)
-    navigate(type === "bonds" ? (ScreenNames.BONDS_DETAIL, { slug }) : (ScreenNames.FUND_DETAIL, { slug }))
-  }, [])
+  const handlePress = useCallback( () => {
+    type === "bonds" ?
+    navigate( ScreenNames.BONDS_DETAIL, { slug }) :
+    navigate(ScreenNames.FUND_DETAIL, { slug })
+  }, [type])
 
   return (
     <Pressable onPress={handlePress} style={styles.container}>

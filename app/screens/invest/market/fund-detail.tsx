@@ -21,6 +21,7 @@ import { fontFamily } from "../../../constants/font-family"
 import { get } from "lodash"
 import EmptyList from "../../../components/empty-list"
 import { truncateString } from "../../../constants/variable"
+import FundChart from "./components/fund-chart"
 
 interface Props {
 }
@@ -34,7 +35,6 @@ const FundDetail = React.memo((props: any) => {
 
   useEffect(() => {
     investStore.getBondsDetail(slug).then(res => {
-        console.log(res)
         setLoading(false)
         setData(res)
       },
@@ -109,6 +109,7 @@ const FundDetail = React.memo((props: any) => {
           {Object.keys(data)?.length ? <ScrollView>
             <MarketChange />
             <NearestFund data={data} />
+            <FundChart data={data}/>
             <NearestPrice data={data} />
             {_renderTabBar()}
             <View style={styles.body}>

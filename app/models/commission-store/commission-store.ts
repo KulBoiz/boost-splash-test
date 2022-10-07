@@ -28,6 +28,24 @@ export const CommissionStoreModel = types
     }
   })) // eslint-disable-line @typescript-eslint/no-unused-vars
   .actions((self) => ({
+    getChartData: flow(function* getChartData(totalYear?: number, totalMonth?: number) {
+      const userId = self.userId()
+      const result = yield self.api.get("commissions/by-state", {
+        filter: {
+          where: {
+            totalYear,
+            totalMonth,
+            userId,
+            type: 'spend'
+          }},
+      })
+      const data = result?.data
+
+      if (result.kind === "ok") {
+        // self.commission = data
+        return data
+      }
+    }),
 
     getCommission: flow(function* getCommission(transactionType?: string) {
       self.page = 1

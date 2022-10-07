@@ -1,7 +1,7 @@
 import React, { useCallback, useMemo } from "react"
 import { Pressable, View } from "react-native"
 import { AppText } from "../../../../components/app-text/AppText"
-import { getMoneyLabel, numberWithCommas, truncateString } from "../../../../constants/variable"
+import { getMoneyLabel, truncateString } from "../../../../constants/variable"
 import AppButton from "../../../../components/app-button/AppButton"
 import { ms, ScaledSheet } from "react-native-size-matters"
 import { FONT_SEMI_BOLD_12, MARGIN_BOTTOM_4 } from "../../../../styles/common-style"

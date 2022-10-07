@@ -5,6 +5,7 @@ import { ms, ScaledSheet } from "react-native-size-matters"
 import { numberWithCommas } from "../../../../constants/variable"
 import { FONT_MEDIUM_12, MARGIN_BOTTOM_4 } from "../../../../styles/common-style"
 import { color } from "../../../../theme"
+import { get, last } from "lodash"
 
 interface Props{
   data: any
@@ -25,13 +26,16 @@ const Item = React.memo(({title, content, style}: ItemProps)=> {
   )
 })
 const MarketInfo = React.memo(({ data }: Props) => {
+  const {priceUpdateHistories} = data?.info
+  const currentNav = get(last(priceUpdateHistories), 'price')
+
   return (
     <View style={styles.container}>
       <AppText value={testTitle} fontSize={ms(16)}/>
       <View style={styles.body}>
         <Item title={'Tên quỹ đầu tư'} content={data?.name} style={styles.itemMargin}/>
         <Item title={'Tổ chức phát hành'} content={data?.org?.name}  style={styles.itemMargin}/>
-        <Item title={'Giá gần nhất'} content={numberWithCommas(data?.info?.parValueShares)}  style={styles.itemMargin}/>
+        <Item title={'Giá gần nhất'} content={numberWithCommas(currentNav)}  style={styles.itemMargin}/>
         <Item title={'Tài sản đầu tư'} content={'Trái phiếu, Công cụ có thu nhập ổn định'}  style={styles.itemMargin}/>
         <Item title={'Phí chuyển đổi'} content={'0%'} />
       </View>

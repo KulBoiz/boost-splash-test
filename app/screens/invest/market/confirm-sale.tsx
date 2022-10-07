@@ -50,7 +50,7 @@ const GMT = "Giờ VN"
 
 const ConfirmSale = React.memo((props: Props) => {
   const rightPress= useCallback(()=> {
-    navigate(ScreenNames.APP)
+    navigate(ScreenNames.INVEST_OTP)
   },[])
 
   return (
