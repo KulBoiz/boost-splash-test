@@ -2,7 +2,7 @@ import React, { useCallback } from "react"
 import { ScrollView, View } from "react-native"
 import AppHeader from "../../../components/app-header/AppHeader"
 import FundInfo from "./components/fund-info"
-import MarketTariff from "./components/market-tariff"
+import FundTariff from "./components/fund-tariff"
 import MarketBuyForm from "./components/market-buy-form"
 import * as Yup from "yup"
 import i18n from "i18n-js"
@@ -59,7 +59,7 @@ const MarketBuy = observer((props: Props) => {
         <ScrollView contentContainerStyle={styles.body}>
           <FundInfo />
           <MarketBuyForm  {...{ control, errors: { ...errors }, setValue, watch, clearErrors }} />
-          <MarketTariff />
+          <FundTariff />
           <View style={styles.wrapBtn}>
             <AppButton title={"Đặt lệnh mua"} onPress={handleSubmit(handleBuy)} />
           </View>
