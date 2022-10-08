@@ -15,7 +15,6 @@ interface ItemProps{
   content: string
   style?: ViewStyle | any
 }
-const testTitle = 'TVPF là quỹ đầu tư trái phiếu với chiến lược đầu tư trung và dài hạn (1-2 năm) để mang lại lợi nhuận ổn định'
 
 const Item = React.memo(({title, content, style}: ItemProps)=> {
   return(
@@ -26,18 +25,18 @@ const Item = React.memo(({title, content, style}: ItemProps)=> {
   )
 })
 const MarketInfo = React.memo(({ data }: Props) => {
-  const {priceUpdateHistories} = data?.info
+  const {priceUpdateHistories, conversionFee} = data?.info
   const currentNav = get(last(priceUpdateHistories), 'price')
 
   return (
     <View style={styles.container}>
-      <AppText value={testTitle} fontSize={ms(16)}/>
+      {/* <AppText value={testTitle} fontSize={ms(16)}/> */}
       <View style={styles.body}>
         <Item title={'Tên quỹ đầu tư'} content={data?.name} style={styles.itemMargin}/>
         <Item title={'Tổ chức phát hành'} content={data?.org?.name}  style={styles.itemMargin}/>
         <Item title={'Giá gần nhất'} content={numberWithCommas(currentNav)}  style={styles.itemMargin}/>
         <Item title={'Tài sản đầu tư'} content={'Trái phiếu, Công cụ có thu nhập ổn định'}  style={styles.itemMargin}/>
-        <Item title={'Phí chuyển đổi'} content={'0%'} />
+        <Item title={'Phí chuyển đổi'} content={conversionFee ? `${conversionFee}%` : '0%'} />
       </View>
     </View>
   )
@@ -51,7 +50,7 @@ const styles = ScaledSheet.create({
     backgroundColor: '#EEF3FF',
     padding: '12@s',
     borderRadius: '8@s',
-    marginTop: '16@s'
+    // marginTop: '16@s'
   },
   itemMargin: {
       marginBottom: '12@s'

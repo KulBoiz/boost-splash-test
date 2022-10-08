@@ -1,6 +1,5 @@
 import React from 'react';
 import { View, StyleSheet } from 'react-native';
-import FormItemPicker from "../../../../components/form-item-picker"
 import FormInput from "../../../../components/form-input/form-input"
 import { Control, UseFormClearErrors, UseFormSetValue, UseFormWatch } from "react-hook-form/dist/types/form"
 import { FieldErrors } from "react-hook-form/dist/types/errors"

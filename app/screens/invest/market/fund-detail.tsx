@@ -9,7 +9,7 @@ import { FONT_MEDIUM_12, MARGIN_TOP_16 } from "../../../styles/common-style"
 import MarketInfo from "./components/market-info"
 import { ms, ScaledSheet } from "react-native-size-matters"
 import { AppText } from "../../../components/app-text/AppText"
-import MarketTariff from "./components/market-tariff"
+import FundTariff from "./components/fund-tariff"
 import MarketHistory from "./components/market-history"
 import AppButton from "../../../components/app-button/AppButton"
 import { navigate } from "../../../navigators"
@@ -22,6 +22,7 @@ import { get } from "lodash"
 import EmptyList from "../../../components/empty-list"
 import { truncateString } from "../../../constants/variable"
 import FundChart from "./components/fund-chart"
+import FundInfoDetail from "./components/fund-info-detail"
 
 interface Props {
 }
@@ -78,11 +79,11 @@ const FundDetail = React.memo((props: any) => {
       case 0:
         return <MarketInfo data={data} />
       case 1:
-        return <MarketTariff />
+        return <FundTariff data={data}/>
       case 2:
         return <MarketHistory />
       case 3:
-        return <MarketInfo data={data} />
+        return <FundInfoDetail data={data} />
       case 4:
         return <MarketInfo data={data} />
     }
@@ -107,7 +108,7 @@ const FundDetail = React.memo((props: any) => {
       {loading ? <ActivityIndicator color={color.primary} style={MARGIN_TOP_16}/> :
         <>
           {Object.keys(data)?.length ? <ScrollView>
-            <MarketChange />
+            {/* <MarketChange /> */}
             <NearestFund data={data} />
             <FundChart data={data}/>
             <NearestPrice data={data} />

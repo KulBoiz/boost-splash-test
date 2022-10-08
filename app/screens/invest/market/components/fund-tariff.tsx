@@ -13,6 +13,7 @@ import {
 } from "../../../../styles/common-style"
 
 interface Props {
+  data: any
 }
 interface ItemProps {
   leftText: string
@@ -52,23 +53,30 @@ const Item = React.memo(({leftText, rightText, style}: ItemProps)=> {
   )
 })
 
-const MarketTariff = React.memo((props: Props) => {
+const FundTariff = React.memo(({ data }: Props) => {
+  const {holdingTimeSettings, investmentMoneySettings} = data?.info
+
   return (
     <View style={styles.container}>
-      <Container leftText={'Giá trị mua'} rightText={'Phí mua'}>
-        <Item leftText={'< 100,000,000'} rightText={'0'} style={MARGIN_BOTTOM_8}/>
-        <Item leftText={'>= 100,000,000'} rightText={'0'}/>
-      </Container>
-      <Container leftText={'Thời gian nắm giữ'} rightText={'Phí bán'}>
-        <Item leftText={'< 12 tháng'} rightText={'2'} style={MARGIN_BOTTOM_8}/>
-        <Item leftText={'12 - 24 tháng'} rightText={'0.5'} style={MARGIN_BOTTOM_8}/>
-        <Item leftText={'>= 24 tháng'} rightText={'0'}/>
-      </Container>
+      {investmentMoneySettings &&
+        <Container leftText={'Giá trị mua'} rightText={'Phí mua'}>
+          {investmentMoneySettings?.map((val)=> (
+              <Item key={val?.fee} leftText={`${val?.investmentMoney}`} rightText={`${val?.fee ?? ''}`} style={MARGIN_BOTTOM_8}/>
+            ))}
+        </Container>
+      }
+      {holdingTimeSettings &&
+        <Container leftText={'Thời gian nắm giữ'} rightText={'Phí bán'}>
+          {holdingTimeSettings?.map((val)=> (
+              <Item key={val?.fee} leftText={`${val?.holdingTime} tháng`} rightText={`${val?.fee ?? ''}`} style={MARGIN_BOTTOM_8}/>
+            ))}
+        </Container>
+      }
     </View>
   )
 })
 
-export default MarketTariff
+export default FundTariff
 
 const styles = ScaledSheet.create({
   container: {},
