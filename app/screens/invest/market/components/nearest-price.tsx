@@ -1,7 +1,7 @@
 import React from 'react';
 import { View, StyleSheet } from 'react-native';
 import { AppText } from "../../../../components/app-text/AppText"
-import { numberWithCommas } from "../../../../constants/variable"
+import { formatTimeDate, numberWithCommas } from "../../../../constants/variable"
 import { MARKET_CONTAINER } from "../../styles"
 import { fontFamily } from "../../../../constants/font-family"
 import { color } from "../../../../theme"
@@ -16,8 +16,8 @@ interface Props{
 }
 
 const NearestPrice = React.memo(({ data }: Props) => {
-  const {priceUpdateHistories} = data?.info
-  const endDate = moment(new Date()).add('hour', 2)
+  const {priceUpdateHistories, orderAndTransferMoneyToBuyDate} = data?.info
+  const endDate = moment(orderAndTransferMoneyToBuyDate)
   const totalTime = moment(endDate).diff(new Date()).toString().slice(0, -3);
   const currentNav = get(last(priceUpdateHistories), 'price')
 
@@ -31,7 +31,7 @@ const NearestPrice = React.memo(({ data }: Props) => {
 
       <View>
         <AppText value={'Thời hạn đặt mua'} fontFamily={fontFamily.bold} fontSize={ms(11)} textAlign={"right"}/>
-        <AppText value={'15:40 03/08/2022 (Giờ VN)'} fontSize={ms(11)} textAlign={"right"} style={MARGIN_BOTTOM_8}/>
+        <AppText value={formatTimeDate(orderAndTransferMoneyToBuyDate)} fontSize={ms(11)} textAlign={"right"} style={MARGIN_BOTTOM_8}/>
         <MarketCountdown totalTime={+totalTime}/>
       </View>
     </View>
