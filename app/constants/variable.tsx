@@ -57,6 +57,12 @@ export function formatDate(date: Moment | Date) {
   return moment(date).format('DD/MM/YYYY');
 }
 
+export function getMonthName(monthNumber) {
+  const date = new Date();
+  date.setMonth(monthNumber - 1);
+
+  return date.toLocaleString('en-US', { month: 'short' });
+}
 export function formatDateTime(date: string | Date) {
   if  (!date) return '_'
   return moment(date).format('DD/MM/YYYY, HH:mm');
@@ -96,3 +102,18 @@ export function verticalScale(num: number){
   return height * num
 }
 
+
+export function getMoneyLabel(money){
+  const oneMillion = 1000 * 1000;
+  const oneBillion = 1000 * 1000 * 1000;
+  const numberLength = money.toString().length;
+  const billionText = 'tỷ';
+  const millionText = 'triệu';
+  if (numberLength >= 10) {
+    return `${numberWithCommas(money / oneBillion)} ${billionText}`;
+  }
+  if (numberLength < 10 && numberLength >= 7) {
+    return `${numberWithCommas(money / oneMillion)} ${millionText}`;
+  }
+  return '';
+}

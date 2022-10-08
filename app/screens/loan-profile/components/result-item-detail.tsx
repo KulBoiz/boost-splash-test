@@ -37,7 +37,7 @@ const ResultItemDetail = React.memo((props: Props) => {
         </View>
         <View style={styles.item}>
           <AppText style={styles.label} value={'Thời hạn vay:'} />
-          <AppText style={styles.value} value={item?.info?.borrowTime ? `${item?.info?.borrowTime} Năm` : ''} />
+          <AppText style={styles.value} value={item?.info?.borrowTime ? `${item?.info?.borrowTime} tháng` : ''} />
         </View>
         <View style={styles.item}>
           <AppText style={styles.label} value={'Ngày phê duyệt:'} />

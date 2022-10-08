@@ -17,11 +17,13 @@ import CommissionScreen from "../screens/commission"
 import CommissionDetail from "../screens/commission/commission-detail"
 import CommissionTab from "../screens/commission/commission-tab"
 import MarketScreen from "../screens/invest/market/market-screen"
-import MarketDetail from "../screens/invest/market/market-detail"
+import BondsDetail from "../screens/invest/market/bonds-detail"
 import MarketPurchase from "../screens/invest/market/market-purchase"
 import MarketBuy from "../screens/invest/market/market-buy"
 import PurchaseInfo from "../screens/invest/market/components/purchase-info"
 import InvestSuccess from "../screens/invest/invest-success"
+import MarketSale from "../screens/invest/market/market-sale"
+import ConfirmSale from "../screens/invest/market/confirm-sale"
 
 export const AuthRoutes = [
   {
@@ -67,7 +69,7 @@ export const InvestRoutes = [
     component: MarketScreen,
   }, {
     name: ScreenNames.MARKET_DETAIL,
-    component: MarketDetail,
+    component: BondsDetail,
   }, {
     name: ScreenNames.PURCHASE_BONDS,
     component: MarketPurchase,
@@ -77,7 +79,7 @@ export const InvestRoutes = [
   },{
     name: ScreenNames.INVEST_SUCCESS,
     component: InvestSuccess,
-  },
+  }
 ]
 
 export const AgentRoutes = [

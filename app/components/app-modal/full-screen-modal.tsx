@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useCallback } from "react"
 import { TouchableOpacity, View } from "react-native"
 import Modal from "react-native-modal"
 import { ScaledSheet } from "react-native-size-matters"
@@ -7,6 +7,7 @@ import { CancelSvg } from "../../assets/svgs"
 import WebView from 'react-native-webview';
 import { HIT_SLOP } from '../../styles/common-style';
 import { isIphoneX } from 'react-native-iphone-x-helper';
+import { LoadingComponent } from "../loading"
 
 interface Props{
   visible: boolean
@@ -18,6 +19,15 @@ interface Props{
 
 const FullScreenModal = React.memo((props: Props) => {
   const {visible, closeModal, children, animationType, url = '' } = props
+
+  const Loading = useCallback(()=> {
+    return (
+      <View style={styles.loadingContainer}>
+        <LoadingComponent />
+      </View>
+    )
+  },[])
+
   return (
     <Modal
       isVisible={visible}
@@ -32,8 +42,11 @@ const FullScreenModal = React.memo((props: Props) => {
           </TouchableOpacity>
         </View>
         {children}
-        {url !== '' && <WebView
+        {url !== '' &&
+          <WebView
             source={{uri: url}}
+            startInLoadingState={true}
+            renderLoading={Loading}
           />}
       </View>
     </Modal>
@@ -45,6 +58,9 @@ export default FullScreenModal;
 const styles = ScaledSheet.create({
   container: {
     position: 'relative', margin: 0
+  },
+  loadingContainer: {
+    marginBottom: '100%'
   },
   headerContainer: {
     flexDirection: 'row',
@@ -59,7 +75,5 @@ const styles = ScaledSheet.create({
   body: {
     flex:1,
     backgroundColor:color.background,
-    // borderRadius: '8@s',
-    // padding: '24@ms',
   },
 });

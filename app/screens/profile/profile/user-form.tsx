@@ -23,7 +23,7 @@ const UserForm = React.memo((props: Props) => {
   const {control, setValue, errors, clearErrors, editable } = props
   return (
     <View style={styles.container}>
-      <Vcf />
+      {/* <Vcf /> */}
       <FormInput
         {...{
           name: "fullName",

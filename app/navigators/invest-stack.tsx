@@ -1,11 +1,13 @@
 import { ScreenNames } from "./screen-names"
-import { CommissionRoutes, InvestRoutes } from "./routes"
+import { InvestRoutes } from "./routes"
 import React from "react"
 import { createNativeStackNavigator } from "@react-navigation/native-stack"
+import { observer } from "mobx-react-lite"
+import { useStores } from "../models"
 
 export type InvestStackParamList = {
   [ScreenNames.MARKET_LIST]: undefined;
-  [ScreenNames.MARKET_DETAIL]: undefined;
+  [ScreenNames.MARKET_DETAIL]: { slug: string };
   [ScreenNames.BUY_BONDS]: undefined;
   [ScreenNames.PURCHASE_BONDS]: undefined;
 }
@@ -13,13 +15,16 @@ export type InvestStackParamList = {
 const Stack = createNativeStackNavigator<InvestStackParamList>()
 
 
-export const InvestStack = () => {
+export const InvestStack = observer(() => {
+  const {investStore} = useStores()
+  const {investStack} = investStore
+
   return (
     <Stack.Navigator
       screenOptions={{
         headerShown: false,
       }}
-      initialRouteName={ScreenNames.MARKET_LIST}
+      initialRouteName={investStack.isList ? ScreenNames.MARKET_LIST : ScreenNames.MARKET_DETAIL}
     >
       {
         InvestRoutes.map(({name, component}) => (
@@ -28,4 +33,4 @@ export const InvestStack = () => {
       }
     </Stack.Navigator>
   )
-}
+})

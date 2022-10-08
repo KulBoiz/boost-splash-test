@@ -6,18 +6,19 @@ import { color } from "../../../theme"
 import { useStores } from "../../../models"
 import { sortBy } from "lodash"
 import moment from "moment"
+import { observer } from "mobx-react-lite"
 
 interface Props {
 }
 
-const History = React.memo((props: Props) => {
+const History = observer((props: Props) => {
   const { loanStore } = useStores()
   const { histories = [] } = loanStore
 
   const renderItem = useCallback(({ item, index }) => {
     const isLastItem = index + 1 === histories?.length
     return <HistoryItem item={item} isLastItem={isLastItem} />
-  }, [histories?.length])
+  }, [histories])
 
   return (
     <View style={styles.container}>

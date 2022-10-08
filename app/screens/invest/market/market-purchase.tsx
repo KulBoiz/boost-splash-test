@@ -12,6 +12,7 @@ import PurchaseTab from "./components/purchase-tab"
 import AppButton from "../../../components/app-button/AppButton"
 import { navigate } from "../../../navigators"
 import { ScreenNames } from "../../../navigators/screen-names"
+import { useStores } from "../../../models"
 
 interface Props {
 }
@@ -33,7 +34,8 @@ const Item = React.memo(({ title, content, textAlign = "left" }: ItemProps) => {
 })
 
 const MarketPurchase = React.memo((props: Props) => {
-
+  const {investStore} = useStores()
+  const {bondsDetail, buyInfo} = investStore
   const handlePurchase = useCallback(()=> {
     navigate(ScreenNames.INVEST_SUCCESS)
   },[])
@@ -43,10 +45,10 @@ const MarketPurchase = React.memo((props: Props) => {
       <AppHeader headerText={"Thanh toán lệnh mua"} isBlue />
       <ScrollView contentContainerStyle={styles.body}>
         <View style={styles.infoContainer}>
-          <Item title={"TVPF"} content={"Quỹ trái phiếu"} />
-          <Item title={"Giá gần nhất"} content={numberWithCommas(23900.83)} textAlign={"right"} />
+          <Item title={bondsDetail?.name} content={"Quỹ trái phiếu"} />
+          <Item title={"Giá gần nhất"} content={numberWithCommas(bondsDetail?.info?.parValueShares)} textAlign={"right"} />
         </View>
-        <PurchaseInfo />
+        <PurchaseInfo buyInfo={buyInfo}/>
         <PurchaseTab />
         <View style={styles.wrapBtn}>
           <AppButton title={'Xác nhận thanh toán'} onPress={handlePurchase}/>

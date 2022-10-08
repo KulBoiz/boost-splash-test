@@ -7,11 +7,14 @@ import { width } from "../../../constants/variable"
 import { ScaledSheet } from "react-native-size-matters"
 import PropertyTab from "./property-tab"
 import TransactionTab from "./transaction-tab"
+import { useStores } from "../../../models"
+import SettingAuthScreen from "../../../components/app-view-no-auth"
 
 interface Props {
 }
 
 const InvestManagement = React.memo((props: Props) => {
+  const { authStoreModel } = useStores()
   const [index, setIndex] = React.useState(0)
 
   const [routes] = React.useState([
@@ -36,15 +39,18 @@ const InvestManagement = React.memo((props: Props) => {
 
   return (
     <View style={styles.container}>
-      <TabView
-        navigationState={{ index, routes }}
-        renderScene={renderScene}
-        onIndexChange={(value) => {
-          setIndex(value)
-        }}
-        initialLayout={{ width: width }}
-        renderTabBar={renderTabBar}
-      />
+      {authStoreModel?.isLoggedIn ? <TabView
+          navigationState={{ index, routes }}
+          renderScene={renderScene}
+          onIndexChange={(value) => {
+            setIndex(value)
+          }}
+          initialLayout={{ width: width }}
+          renderTabBar={renderTabBar}
+        /> :
+        <SettingAuthScreen />
+      }
+
     </View>
   )
 })
@@ -53,10 +59,10 @@ export default InvestManagement
 
 const styles = ScaledSheet.create({
   container: {
-    flex:1,
-    backgroundColor: color.background
+    flex: 1,
+    backgroundColor: color.background,
   },
-  tab: { backgroundColor: color.background},
+  tab: { backgroundColor: color.background },
   indicatorStyle: { backgroundColor: color.palette.blue },
   wrapRightIcon: {
     width: "18@s",

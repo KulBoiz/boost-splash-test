@@ -12,6 +12,17 @@ export type NavigatorParamList = {
   [ScreenNames.MANAGEMENT]: undefined
   [ScreenNames.SUCCESS_SCREEN]: undefined
   [ScreenNames.REQUEST_COUNSELLING]: undefined
+
+  [ScreenNames.MARKET_LIST]: undefined;
+  [ScreenNames.INVEST_OTP]: undefined;
+  [ScreenNames.BONDS_DETAIL]: { slug: string };
+  [ScreenNames.FUND_DETAIL]: { slug: string };
+  [ScreenNames.BUY_BONDS]: undefined;
+  [ScreenNames.PURCHASE_BONDS]: undefined;
+  [ScreenNames.SALE_BONDS]: undefined
+  [ScreenNames.CONFIRM_SALE]: undefined
+  [ScreenNames.INVEST_SUCCESS]: undefined
+
   [ScreenNames.NOTICE]: undefined
   [ScreenNames.USER_PROFILE]: undefined
   [ScreenNames.LOAN_PRODUCT]: {header?: string, key?: string}

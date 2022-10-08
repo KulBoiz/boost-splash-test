@@ -1,3 +1,5 @@
+
+
 import { flow, Instance, SnapshotOut, types } from "mobx-state-tree"
 import { BaseApi } from "../../services/api/base-api"
 import { omitFn, unionBy } from "../../utils/lodash-utils"
@@ -102,7 +104,6 @@ export const BankerStoreModel = types
             status: params?.status || "deal_processing_task",
           },
           limit: pagingParams?.limit,
-          // @ts-ignore
           skip: (pagingParams?.page - 1) * pagingParams?.limit,
         },
         page: pagingParams?.page,

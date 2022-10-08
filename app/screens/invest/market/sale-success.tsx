@@ -11,7 +11,6 @@ import AppButton from "../../components/app-button/AppButton"
 import { fontFamily } from "../../constants/font-family"
 import { navigate } from "../../navigators"
 import { ScreenNames } from "../../navigators/screen-names"
-import { useStores } from "../../models"
 
 interface Props {
 }
@@ -32,9 +31,6 @@ const RightContent = React.memo(({ content, note }: RightContentProps) => {
 const GMT = "Giờ VN"
 
 const InvestSuccess = React.memo((props: Props) => {
-  const {investStore} = useStores()
-  const {buyInfo} = investStore
-
   const buyMore = useCallback(() => {
     navigate(ScreenNames.MARKET_LIST)
   }, [])
@@ -47,22 +43,18 @@ const InvestSuccess = React.memo((props: Props) => {
     <View style={styles.container}>
       <View style={styles.body}>
         <InvestSuccessSvg style={styles.icon} />
-        <AppText value={"Đăng ký đầu tư định kỳ thành công"} fontFamily={fontFamily.bold} fontSize={ms(18)}
+        <AppText value={"Đặt lệnh bán thành công"} fontFamily={fontFamily.bold} fontSize={ms(18)}
                  style={MARGIN_BOTTOM_8} />
-        <AppText value={"Cảm ơn Quý khách đã đầu tư"} style={FONT_REGULAR_14}
+        <AppText value={"Cảm ơn Quý khách đã đặt lệnh bán thành công trên ứng dụng FINA"} style={FONT_REGULAR_14}
                  color={color.palette.grayChateau} textAlign={"center"} />
 
         <View style={styles.itemContainer}>
-          <ItemView title={"Quỹ đầu tư"} content={<RightContent content={"Quỹ đầu tư Trái phiếu FINA"} />}
-                    style={styles.item} />
-          <ItemView title={"Loại lệnh"}
-                    content={<RightContent content={"Mua"} />} style={styles.item} />
           <ItemView title={"Ngày đặt lệnh"} content={<RightContent content={formatDateTime(new Date())} note={GMT} />}
                     style={styles.item} />
           <ItemView title={"Phiên giao dịch"} content={<RightContent content={formatDateTime(new Date())} note={GMT} />}
                     style={styles.item} />
-          <ItemView title={"Chương trình"} content={<RightContent content={buyInfo?.program} />} style={styles.item} />
-          <ItemView title={"Số tiền mua"} content={<RightContent content={`${numberWithCommas(buyInfo?.amount)} vnđ`} />} />
+          <ItemView title={"Phí bán"} content={<RightContent content={`2%`} />} style={styles.item} />
+          <ItemView title={"Số lượng bán"} content={<RightContent content={`4.94`} />} />
         </View>
       </View>
 

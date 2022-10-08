@@ -4,10 +4,11 @@ import { AppText } from "../../../../components/app-text/AppText"
 import { ms, ScaledSheet } from "react-native-size-matters"
 import { color } from "../../../../theme"
 import { fontFamily } from "../../../../constants/font-family"
-import { formatTimeDate, numberWithCommas } from "../../../../constants/variable"
+import { formatTimeDate, numberWithCommas, truncateString } from "../../../../constants/variable"
 import { ALIGN_CENTER, MARGIN_BOTTOM_16, MARGIN_BOTTOM_4, ROW, SPACE_BETWEEN } from "../../../../styles/common-style"
 import MarketCountdown from "../../components/market-countdown"
 import moment from "moment"
+import { useStores } from "../../../../models"
 
 interface Props {
 }
@@ -28,17 +29,19 @@ const Item = React.memo(({ title, content, textAlign = 'left'}: ItemProps) => {
 })
 
 const FundInfo = React.memo((props: Props) => {
+  const {investStore} = useStores()
+  const {bondsDetail} = investStore
   const endDate = moment(new Date()).add("hour", 2)
   const totalTime = moment(endDate).diff(new Date()).toString().slice(0, -3)
 
   return (
     <View style={styles.container}>
       <View style={[ROW, SPACE_BETWEEN, ALIGN_CENTER, MARGIN_BOTTOM_16]}>
-        <Item title={"TVPF"} content={"Quỹ trái phiếu"} />
+        <Item title={truncateString(bondsDetail?.name, 30)} content={"Quỹ trái phiếu"} />
         <Item title={"Thời hạn đặt mua"} content={formatTimeDate(new Date())} textAlign={"right"}/>
       </View>
       <View style={[ROW, SPACE_BETWEEN, ALIGN_CENTER]}>
-        <Item title={"Giá gần nhất"} content={numberWithCommas("13112.12")} />
+        <Item title={"Giá gần nhất"} content={numberWithCommas(bondsDetail?.info?.parValueShares)} />
         <MarketCountdown totalTime={+totalTime} style={styles.timeContainer} />
       </View>
     </View>

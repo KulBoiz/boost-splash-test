@@ -1,25 +1,46 @@
-import React, { useCallback } from "react"
-import { Pressable, ScrollView, View } from "react-native"
+import React, { useCallback, useEffect, useMemo, useState } from "react"
+import { ActivityIndicator, Pressable, ScrollView, View } from "react-native"
 import AppHeader from "../../../components/app-header/AppHeader"
 import MarketChange from "./components/market-change"
 import NearestFund from "./components/nearest-fund"
 import NearestPrice from "./components/nearest-price"
 import { color } from "../../../theme"
-import { FONT_MEDIUM_12 } from "../../../styles/common-style"
+import { FONT_MEDIUM_12, MARGIN_TOP_16 } from "../../../styles/common-style"
 import MarketInfo from "./components/market-info"
-import { ScaledSheet } from "react-native-size-matters"
+import { ms, ScaledSheet } from "react-native-size-matters"
 import { AppText } from "../../../components/app-text/AppText"
-import MarketTariff from "./components/market-tariff"
+import FundTariff from "./components/fund-tariff"
 import MarketHistory from "./components/market-history"
 import AppButton from "../../../components/app-button/AppButton"
 import { navigate } from "../../../navigators"
 import { ScreenNames } from "../../../navigators/screen-names"
+import { useStores } from "../../../models"
+import { RouteProp, useRoute } from "@react-navigation/native"
+import { InvestStackParamList } from "../../../navigators/invest-stack"
+import { fontFamily } from "../../../constants/font-family"
+import { get } from "lodash"
+import EmptyList from "../../../components/empty-list"
+import { truncateString } from "../../../constants/variable"
+import FundChart from "./components/fund-chart"
+import FundInfoDetail from "./components/fund-info-detail"
 
 interface Props {
 }
 
-const MarketDetail = React.memo((props: Props) => {
+const FundDetail = React.memo((props: any) => {
+  const { params: { slug } } = useRoute<RouteProp<InvestStackParamList, ScreenNames.MARKET_DETAIL>>()
+  const { investStore } = useStores()
   const [index, setIndex] = React.useState(0)
+  const [data, setData] = useState({})
+  const [loading, setLoading] = useState<boolean>(true)
+
+  useEffect(() => {
+    investStore.getBondsDetail(slug).then(res => {
+        setLoading(false)
+        setData(res)
+      },
+    )
+  }, [])
 
   const [routes] = React.useState([
     { key: "first", title: "Thông tin" },
@@ -56,43 +77,57 @@ const MarketDetail = React.memo((props: Props) => {
   const renderScreen = useCallback(() => {
     switch (index) {
       case 0:
-        return <MarketInfo />
+        return <MarketInfo data={data} />
       case 1:
-        return <MarketTariff />
+        return <FundTariff data={data}/>
       case 2:
         return <MarketHistory />
       case 3:
-        return <MarketInfo />
+        return <FundInfoDetail data={data} />
       case 4:
-        return <MarketInfo />
+        return <MarketInfo data={data} />
     }
-  }, [index])
+  }, [index, data])
 
   const handleBuy = useCallback(() => {
     navigate(ScreenNames.BUY_BONDS)
   }, [])
 
+  const renderTitle = useMemo(() => {
+    return (
+      <View style={{ flex: 1, alignItems: "center" }}>
+        <AppText value={truncateString(get(data, "name", ""), 30)} fontSize={ms(16)} fontFamily={fontFamily.bold} color={color.text} />
+        <AppText value={get(data, "org.name", "")} color={color.text} />
+      </View>
+    )
+  }, [data])
+
   return (
     <View style={styles.container}>
-      <AppHeader headerText={"TSP"} isBlue />
-      <ScrollView>
-        <MarketChange />
-        <NearestFund />
-        <NearestPrice />
-        {_renderTabBar()}
-        <View style={styles.body}>
-          {renderScreen()}
-        </View>
-        <View style={styles.wrapBtn}>
-          <AppButton title={"Đầu tư ngay"} onPress={handleBuy} />
-        </View>
-      </ScrollView>
-
+      <AppHeader renderTitle={renderTitle} isBlue />
+      {loading ? <ActivityIndicator color={color.primary} style={MARGIN_TOP_16}/> :
+        <>
+          {Object.keys(data)?.length ? <ScrollView>
+            {/* <MarketChange /> */}
+            <NearestFund data={data} />
+            <FundChart data={data}/>
+            <NearestPrice data={data} />
+            {_renderTabBar()}
+            <View style={styles.body}>
+              {renderScreen()}
+            </View>
+            <View style={styles.wrapBtn}>
+              <AppButton title={"Đầu tư ngay"} onPress={handleBuy} />
+            </View>
+          </ScrollView> : <EmptyList />
+          }
+        </>
+      }
     </View>
   )
 })
 
-export default MarketDetail
+export default FundDetail
 
 const styles = ScaledSheet.create({
   container: { flex: 1, backgroundColor: color.background },

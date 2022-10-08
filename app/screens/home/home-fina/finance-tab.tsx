@@ -94,6 +94,22 @@ const FinanceTab = React.memo((props: Props) => {
         setVisible(true)
       },
     },
+    {
+      image: images.home_calculate_tool,
+      title: 'Tính thuế theo lương',
+      onPress: () => {
+        setLink(DOMAIN + "/calculators-toolkit/calculating-tax-by-salaly")
+        setVisible(true)
+      },
+    },
+    {
+      image: images.home_calculate_tool,
+      title: 'Thiết lập ngân sách',
+      onPress: () => {
+        setLink(DOMAIN + "/calculators-toolkit/budget-planner")
+        setVisible(true)
+      },
+    },
   ]
 
   return (

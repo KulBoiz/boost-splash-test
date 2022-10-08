@@ -1,12 +1,11 @@
-import React, { useCallback } from "react"
+import React, { useMemo } from "react"
 import { View, ViewStyle } from "react-native"
 import { ScaledSheet } from "react-native-size-matters"
 import { fontFamily } from "../../../../constants/font-family"
 import { AppText } from "../../../../components/app-text/AppText"
 import { color } from "../../../../theme"
 import InvestItem from "./invest-item"
-import { navigate } from "../../../../navigators"
-import { ScreenNames } from "../../../../navigators/screen-names"
+import { FONT_REGULAR_12 } from "../../../../styles/common-style"
 
 
 interface Props {
@@ -14,28 +13,42 @@ interface Props {
   data: any[]
   style?: ViewStyle | any
   header?: string
+  type?: 'fund' | 'bonds'
+  onPress?(): void
 }
 
 const InvestItemContainer = React.memo((props: Props) => {
-  const { label, style, data = [], header } = props
-
-  const handlePress = useCallback(() => {
-    navigate(ScreenNames.INVEST)
-  }, [])
+  const { label, style, data = [], header, onPress, type = 'bonds' } = props
 
   return (
     <View style={[styles.container, style]}>
-      <AppText value={label} style={styles.label} />
+      <View style={styles.wrapLabel}>
+        <AppText value={label} style={styles.label} />
+        {onPress && <AppText value={"Tất cả"} style={FONT_REGULAR_12} color={color.primary} onPress={onPress} /> }
+      </View>
+
       <View style={styles.itemContainer}>
         {data.map((e, i) => {
+          let maxInterest
+          if (type === 'bonds') {
+          useMemo(() => {
+              maxInterest = e?.info?.interestRate
+                .filter((e) => e?.rate)
+                .reduce((previousValue, nextValue) =>
+                  previousValue?.rate > nextValue?.rate ? previousValue : nextValue,
+                )
+            }, [e])
+          }
+
           return <InvestItem
-            icon={e?.image}
-            status={e?.status}
-            title={e?.title?.toString()}
-            key={`${e?.title?.toString() ?? ""}${i.toString()}`}
-            onPress={handlePress}
-            percent={e?.percent}
-            header={header}
+            icon={e?.org?.image?.url}
+            // status={e?.status}
+            status={"up"}
+            title={e?.name}
+            key={`${e?.id?.toString() ?? ""}${i.toString()}`}
+            percent={maxInterest?.rate}
+            slug={e?.slug}
+            type={type}
           />
         })}
       </View>
@@ -47,11 +60,16 @@ export default InvestItemContainer
 
 const styles = ScaledSheet.create({
   container: {},
+  wrapLabel: {
+    flexDirection: "row",
+    paddingHorizontal: "16@ms",
+    marginBottom: "12@s",
+    alignItems: "center",
+    justifyContent: "space-between",
+  },
   label: {
     fontSize: "14@ms",
     fontFamily: fontFamily.semiBold,
-    marginLeft: "16@ms",
-    marginBottom: "12@s",
     color: "rgba(0, 0, 0, 0.85)",
   },
   itemContainer: {
