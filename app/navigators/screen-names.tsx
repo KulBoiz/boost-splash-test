@@ -11,7 +11,7 @@ export enum ScreenNames {
   COMMISSION_LIST = 'CommissionList',
   COMMISSION_DETAIL = 'CommissionDetail',
   INVEST ='Invest',
-  MARKET_LIST = 'MarketList',
+  INVEST_TAB = 'MarketList',
   FUND_DETAIL = 'FundDetail',
   BONDS_DETAIL='BondsDetail',
   BUY_BONDS ='BuyBonds',

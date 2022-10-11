@@ -16,7 +16,7 @@ import ViewContract from "../screens/agent/view-contract"
 import CommissionScreen from "../screens/commission"
 import CommissionDetail from "../screens/commission/commission-detail"
 import CommissionTab from "../screens/commission/commission-tab"
-import MarketScreen from "../screens/invest/market/market-screen"
+import BondsList from "../screens/invest/market/bonds-list"
 import BondsDetail from "../screens/invest/market/bonds-detail"
 import MarketPurchase from "../screens/invest/market/market-purchase"
 import MarketBuy from "../screens/invest/market/market-buy"
@@ -65,10 +65,10 @@ export const CommissionRoutes = [
 
 export const InvestRoutes = [
   {
-    name: ScreenNames.MARKET_LIST,
-    component: MarketScreen,
+    name: ScreenNames.INVEST_TAB,
+    component: BondsList,
   }, {
-    name: ScreenNames.MARKET_DETAIL,
+    name: ScreenNames.BONDS_DETAIL,
     component: BondsDetail,
   }, {
     name: ScreenNames.PURCHASE_BONDS,

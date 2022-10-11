@@ -32,7 +32,7 @@ const NavItem = React.memo(({ title, amount }: NavItemProps) => {
   return (
     <View style={styles.item}>
       <AppText value={title} style={[FONT_MEDIUM_12, MARGIN_BOTTOM_4]} />
-      <AppText value={amount} style={FONT_BOLD_12} />
+      <AppText value={amount} style={FONT_BOLD_12} numberOfLines={2} textAlign={'center'}/>
     </View>
   )
 })
@@ -41,7 +41,7 @@ const Item = React.memo(({ title, content, style, contentColor }: ItemProps) => 
   return (
     <View style={[ROW, SPACE_BETWEEN, style]}>
       <AppText value={title} style={[FONT_MEDIUM_12, MARGIN_BOTTOM_4]} color={color.palette.deepGray} />
-      <AppText value={content} style={FONT_SEMI_BOLD_12} color={contentColor ?? color.palette.black}/>
+      <AppText value={content} style={FONT_SEMI_BOLD_12} color={contentColor ?? color.palette.black} />
     </View>
   )
 })
@@ -60,8 +60,10 @@ const BondsInfo = React.memo(({ data }: Props) => {
       <View style={styles.itemContainer}>
         <NavItem title={"Mã sản phẩm"} amount={data?.sku} />
         <NavItem title={"Mã trái phiếu"} amount={data?.productCodeOfTheInvestor} />
-        <NavItem title={"Tên TCPH"} amount={org?.name} />
+      </View>
+      <View style={styles.itemContainer}>
         <NavItem title={"Ngày đáo hạn"} amount={formatDate(maturityDate)} />
+        <NavItem title={"Tên TCPH"} amount={org?.name}/>
       </View>
 
       <View style={styles.body}>
@@ -88,14 +90,16 @@ const styles = ScaledSheet.create({
   itemContainer: {
     flexDirection: "row",
     alignItems: "center",
-    marginTop: '12@s'
+    // marginTop: '12@s'
   },
   item: {
     flex: 1,
     alignItems: "center",
+    justifyContent: "center",
     backgroundColor: "#F5F5F5",
-    marginHorizontal: "2@s",
-    paddingVertical: "16@s",
+    margin: "4@s",
+    paddingHorizontal: '8@s',
+    height: '70@s',
     borderRadius: "8@s",
   },
   body: {

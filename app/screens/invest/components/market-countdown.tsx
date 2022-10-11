@@ -12,6 +12,7 @@ interface Props{
 const MarketCountdown = React.memo(({ totalTime, style }: Props) => {
   const [time, setTime] = useState(totalTime);
   useEffect(() => {
+    if(!totalTime) return
     const interval = setInterval(() => {
       setTime((lastTimerCount) => {
         lastTimerCount <= 1 && clearInterval(interval);

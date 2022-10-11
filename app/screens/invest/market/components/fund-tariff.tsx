@@ -54,7 +54,9 @@ const Item = React.memo(({leftText, rightText, style}: ItemProps)=> {
 })
 
 const FundTariff = React.memo(({ data }: Props) => {
-  const {holdingTimeSettings, investmentMoneySettings} = data?.info
+  const info = data?.info
+  const investmentMoneySettings = info?.investmentMoneySettings
+  const holdingTimeSettings = info?.holdingTimeSettings
 
   return (
     <View style={styles.container}>

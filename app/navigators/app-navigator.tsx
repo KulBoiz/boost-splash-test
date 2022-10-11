@@ -41,13 +41,13 @@ import { ManagementStack } from "./management"
 import { InvestStack } from "./invest-stack"
 import MarketSale from "../screens/invest/market/market-sale"
 import ConfirmSale from "../screens/invest/market/confirm-sale"
-import MarketScreen from "../screens/invest/market/market-screen"
 import BondsDetail from "../screens/invest/market/bonds-detail"
 import MarketPurchase from "../screens/invest/market/market-purchase"
 import MarketBuy from "../screens/invest/market/market-buy"
 import InvestSuccess from "../screens/invest/invest-success"
 import FundDetail from "../screens/invest/market/fund-detail"
 import InvestOtp from "../screens/invest/market/invest-otp"
+import InvestTab from "../screens/invest/invest-tab"
 
 // Documentation: https://reactnavigation.org/docs/stack-navigator/
 const Stack = createNativeStackNavigator<NavigatorParamList>()
@@ -79,7 +79,7 @@ const RootStack = () => {
       <Stack.Screen name={ScreenNames.AUTH} component={AuthStack} />
       <Stack.Screen name={ScreenNames.COMMISSION} component={CommissionStack} />
       <Stack.Screen name={ScreenNames.SALE_BONDS} component={MarketSale} />
-      <Stack.Screen name={ScreenNames.MARKET_LIST} component={MarketScreen} />
+      <Stack.Screen name={ScreenNames.INVEST_TAB} component={InvestTab} />
       <Stack.Screen name={ScreenNames.FUND_DETAIL} component={FundDetail} />
       <Stack.Screen name={ScreenNames.INVEST_OTP} component={InvestOtp} />
       <Stack.Screen name={ScreenNames.BONDS_DETAIL} component={BondsDetail} />

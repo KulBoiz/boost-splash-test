@@ -13,7 +13,7 @@ export type NavigatorParamList = {
   [ScreenNames.SUCCESS_SCREEN]: undefined
   [ScreenNames.REQUEST_COUNSELLING]: undefined
 
-  [ScreenNames.MARKET_LIST]: undefined;
+  [ScreenNames.INVEST_TAB]: { index: number };
   [ScreenNames.INVEST_OTP]: undefined;
   [ScreenNames.BONDS_DETAIL]: { slug: string };
   [ScreenNames.FUND_DETAIL]: { slug: string };

@@ -5,6 +5,7 @@ import { useStores } from "../../../models"
 import { navigate } from "../../../navigators"
 import { ScreenNames } from "../../../navigators/screen-names"
 import { MARGIN_BOTTOM_16 } from "../../../styles/common-style"
+import { color } from "../../../theme"
 
 interface Props{}
 
@@ -19,11 +20,11 @@ const InvestTab = React.memo((props: Props) => {
   },[])
 
   const listBonds = useCallback(()=> {
-    navigate(ScreenNames.MARKET_LIST)
+    navigate(ScreenNames.INVEST_TAB, { index: 1})
   },[])
 
   const listFund = useCallback(()=> {
-    navigate(ScreenNames.MARKET_LIST)
+    navigate(ScreenNames.INVEST_TAB, { index: 0})
   },[])
 
   return (

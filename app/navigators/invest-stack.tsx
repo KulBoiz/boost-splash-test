@@ -6,8 +6,8 @@ import { observer } from "mobx-react-lite"
 import { useStores } from "../models"
 
 export type InvestStackParamList = {
-  [ScreenNames.MARKET_LIST]: undefined;
-  [ScreenNames.MARKET_DETAIL]: { slug: string };
+  [ScreenNames.INVEST_TAB]: undefined;
+  [ScreenNames.BONDS_DETAIL]: { slug: string };
   [ScreenNames.BUY_BONDS]: undefined;
   [ScreenNames.PURCHASE_BONDS]: undefined;
 }
@@ -24,7 +24,7 @@ export const InvestStack = observer(() => {
       screenOptions={{
         headerShown: false,
       }}
-      initialRouteName={investStack.isList ? ScreenNames.MARKET_LIST : ScreenNames.MARKET_DETAIL}
+      initialRouteName={investStack.isList ? ScreenNames.INVEST_TAB : ScreenNames.MARKET_DETAIL}
     >
       {
         InvestRoutes.map(({name, component}) => (

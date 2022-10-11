@@ -1,7 +1,6 @@
 import React, { useCallback, useEffect, useMemo, useState } from "react"
 import { ActivityIndicator, Pressable, ScrollView, View } from "react-native"
 import AppHeader from "../../../components/app-header/AppHeader"
-import MarketChange from "./components/market-change"
 import NearestFund from "./components/nearest-fund"
 import NearestPrice from "./components/nearest-price"
 import { color } from "../../../theme"
@@ -16,19 +15,19 @@ import { navigate } from "../../../navigators"
 import { ScreenNames } from "../../../navigators/screen-names"
 import { useStores } from "../../../models"
 import { RouteProp, useRoute } from "@react-navigation/native"
-import { InvestStackParamList } from "../../../navigators/invest-stack"
 import { fontFamily } from "../../../constants/font-family"
 import { get } from "lodash"
 import EmptyList from "../../../components/empty-list"
 import { truncateString } from "../../../constants/variable"
 import FundChart from "./components/fund-chart"
 import FundInfoDetail from "./components/fund-info-detail"
+import { NavigatorParamList } from "../../../navigators/params-list"
 
 interface Props {
 }
 
-const FundDetail = React.memo((props: any) => {
-  const { params: { slug } } = useRoute<RouteProp<InvestStackParamList, ScreenNames.MARKET_DETAIL>>()
+const FundDetail = React.memo((props: Props) => {
+  const { params: { slug } } = useRoute<RouteProp<NavigatorParamList, ScreenNames.FUND_DETAIL>>()
   const { investStore } = useStores()
   const [index, setIndex] = React.useState(0)
   const [data, setData] = useState({})

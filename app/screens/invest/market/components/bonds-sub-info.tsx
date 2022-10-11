@@ -9,6 +9,8 @@ import { color } from "../../../../theme"
 import { fontFamily } from "../../../../constants/font-family"
 import { images } from "../../../../assets/images"
 import AppButton from "../../../../components/app-button/AppButton"
+import { navigate } from "../../../../navigators"
+import { ScreenNames } from "../../../../navigators/screen-names"
 
 interface Props {
   data: any
@@ -40,7 +42,7 @@ const BondsSubInfo = React.memo(({ data }: Props) => {
   const { maturityDate, releaseDate } = info
 
   const handleRequest = useCallback(() => {
-    //
+    navigate(ScreenNames.REQUEST_COUNSELLING)
   }, [])
 
   return (

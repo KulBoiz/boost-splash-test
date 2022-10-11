@@ -22,7 +22,9 @@ export const InvestStoreModel = types
   .props({
     limit: 20,
     totalBonds: types.optional(types.number, 0),
+    totalFund: types.optional(types.number, 0),
     pagingParamsBonds: PagingParamsModel,
+    pagingParamsFund: PagingParamsModel,
     bondsDetail: types.frozen({}),
     buyInfo: types.frozen({}),
   })
@@ -110,6 +112,39 @@ export const InvestStoreModel = types
       if (result.kind === "ok") {
         self.pagingParamsBonds = _pagingParams
         self.totalBonds = data?.total ?? 0
+        return data?.data
+      }
+    }),
+
+    getFund: flow(function* getFund(
+      params?: any,
+      pagingParams?: PagingParamsType,
+    ) {
+
+      const _pagingParams: any = {
+        ...self.pagingParamsFund,
+        ...pagingParams,
+      }
+
+      const userId = self.userId()
+      const result = yield self.api.get("products/public-fund", {
+        page: pagingParams?.page,
+        filter: {
+          limit: self?.limit,
+          skip: (pagingParams?.page - 1) * self?.limit,
+          include: [
+            { relation: "org" },
+          ],
+          where: {
+            _q: params?.search,
+          },
+        },
+      })
+
+      const data = result?.data
+      if (result.kind === "ok") {
+        self.pagingParamsFund = _pagingParams
+        self.totalFund = data?.total ?? 0
         return data?.data
       }
     }),

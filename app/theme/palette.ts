@@ -7,6 +7,7 @@ export const palette = {
   lightOrange: "#FFF7F1",
   navi: '#07224B',
   green: "#52BF50",
+  palegreen: '#2EBD85',
   white: "#ffffff",
   whiteDarker: "#E5E5E5",
   offWhite: "#F9F9F9",
