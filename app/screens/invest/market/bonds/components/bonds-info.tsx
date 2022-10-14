@@ -1,16 +1,17 @@
 import React from "react"
 import { View, ViewStyle } from "react-native"
-import { AppText } from "../../../../components/app-text/AppText"
+import { AppText } from "../../../../../components/app-text/AppText"
 import { ScaledSheet } from "react-native-size-matters"
-import { formatDate, getMoneyLabel, numberWithCommas } from "../../../../constants/variable"
+import { formatDate, getMoneyLabel, hexToRgbA, numberWithCommas } from "../../../../../constants/variable"
 import {
   FONT_BOLD_12,
-  FONT_MEDIUM_12, FONT_SEMI_BOLD_12,
-  MARGIN_BOTTOM_4,
+  FONT_MEDIUM_12, FONT_SEMI_BOLD_12, MARGIN_BOTTOM_16,
+  MARGIN_BOTTOM_4, MARGIN_BOTTOM_8,
   ROW,
   SPACE_BETWEEN,
-} from "../../../../styles/common-style"
-import { color } from "../../../../theme"
+} from "../../../../../styles/common-style"
+import { color } from "../../../../../theme"
+import { presets } from "../../../../../constants/presets"
 
 interface Props {
   data: any
@@ -57,6 +58,7 @@ const BondsInfo = React.memo(({ data }: Props) => {
 
   return (
     <View style={styles.container}>
+      <AppText value={'Thông tin trái phiếu'} style={[presets.label, MARGIN_BOTTOM_8]} color={color.primary}/>
       <View style={styles.itemContainer}>
         <NavItem title={"Mã sản phẩm"} amount={data?.sku} />
         <NavItem title={"Mã trái phiếu"} amount={data?.productCodeOfTheInvestor} />
@@ -86,6 +88,9 @@ export default BondsInfo
 const styles = ScaledSheet.create({
   container: {
     padding: "16@s",
+    borderBottomWidth: 4,
+    borderBottomColor: hexToRgbA(color.palette.D9D9D9, 0.4),
+    marginBottom: '12@s'
   },
   itemContainer: {
     flexDirection: "row",

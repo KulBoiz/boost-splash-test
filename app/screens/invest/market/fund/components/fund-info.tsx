@@ -1,14 +1,14 @@
 import React from "react"
 import { View } from "react-native"
-import { AppText } from "../../../../components/app-text/AppText"
+import { AppText } from "../../../../../components/app-text/AppText"
 import { ms, ScaledSheet } from "react-native-size-matters"
-import { color } from "../../../../theme"
-import { fontFamily } from "../../../../constants/font-family"
-import { formatTimeDate, numberWithCommas, truncateString } from "../../../../constants/variable"
-import { ALIGN_CENTER, MARGIN_BOTTOM_16, MARGIN_BOTTOM_4, ROW, SPACE_BETWEEN } from "../../../../styles/common-style"
-import MarketCountdown from "../../components/market-countdown"
+import { color } from "../../../../../theme"
+import { fontFamily } from "../../../../../constants/font-family"
+import { formatTimeDate, numberWithCommas, truncateString } from "../../../../../constants/variable"
+import { ALIGN_CENTER, MARGIN_BOTTOM_16, MARGIN_BOTTOM_4, ROW, SPACE_BETWEEN } from "../../../../../styles/common-style"
+import MarketCountdown from "../../../components/market-countdown"
 import moment from "moment"
-import { useStores } from "../../../../models"
+import { useStores } from "../../../../../models"
 
 interface Props {
 }

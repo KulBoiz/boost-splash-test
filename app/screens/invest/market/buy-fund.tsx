@@ -1,8 +1,8 @@
 import React, { useCallback } from "react"
 import { ScrollView, View } from "react-native"
 import AppHeader from "../../../components/app-header/AppHeader"
-import FundInfo from "./components/fund-info"
-import FundTariff from "./components/fund-tariff"
+import FundInfo from "./fund/components/fund-info"
+import FundTariff from "./fund/components/fund-tariff"
 import MarketBuyForm from "./components/market-buy-form"
 import * as Yup from "yup"
 import i18n from "i18n-js"
@@ -20,7 +20,7 @@ import EmptyList from "../../../components/empty-list"
 interface Props {
 }
 
-const MarketBuy = observer((props: Props) => {
+const BuyFund = observer((props: Props) => {
   const { investStore } = useStores()
   const validationSchema = Yup.object().shape({
     program: Yup.string().required(i18n.t("errors.requireAddress")),
@@ -59,7 +59,7 @@ const MarketBuy = observer((props: Props) => {
         <ScrollView contentContainerStyle={styles.body}>
           <FundInfo />
           <MarketBuyForm  {...{ control, errors: { ...errors }, setValue, watch, clearErrors }} />
-          <FundTariff />
+          <FundTariff data={investStore.bondsDetail}/>
           <View style={styles.wrapBtn}>
             <AppButton title={"Đặt lệnh mua"} onPress={handleSubmit(handleBuy)} />
           </View>
@@ -70,7 +70,7 @@ const MarketBuy = observer((props: Props) => {
   )
 })
 
-export default MarketBuy
+export default BuyFund
 
 const styles = ScaledSheet.create({
   container: {

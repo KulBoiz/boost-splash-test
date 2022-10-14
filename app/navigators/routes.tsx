@@ -16,14 +16,12 @@ import ViewContract from "../screens/agent/view-contract"
 import CommissionScreen from "../screens/commission"
 import CommissionDetail from "../screens/commission/commission-detail"
 import CommissionTab from "../screens/commission/commission-tab"
-import BondsList from "../screens/invest/market/bonds-list"
-import BondsDetail from "../screens/invest/market/bonds-detail"
+import BondsList from "../screens/invest/market/bonds/bonds-list"
+import BondsDetail from "../screens/invest/market/bonds/bonds-detail"
 import MarketPurchase from "../screens/invest/market/market-purchase"
-import MarketBuy from "../screens/invest/market/market-buy"
-import PurchaseInfo from "../screens/invest/market/components/purchase-info"
+import BuyFund from "../screens/invest/market/buy-fund"
 import InvestSuccess from "../screens/invest/invest-success"
-import MarketSale from "../screens/invest/market/market-sale"
-import ConfirmSale from "../screens/invest/market/confirm-sale"
+import EKYC from "../screens/invest/ekyc/ekyc"
 
 export const AuthRoutes = [
   {
@@ -75,10 +73,19 @@ export const InvestRoutes = [
     component: MarketPurchase,
   }, {
     name: ScreenNames.BUY_BONDS,
-    component: MarketBuy,
+    component: BuyFund,
   },{
     name: ScreenNames.INVEST_SUCCESS,
     component: InvestSuccess,
+  }
+]
+export const EKYCRoutes = [
+  {
+    name: ScreenNames.EKYC_SCREEN,
+    component: EKYC,
+  }, {
+    name: ScreenNames.EKYC_ID,
+    component: BondsDetail,
   }
 ]
 

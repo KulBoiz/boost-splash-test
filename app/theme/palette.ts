@@ -27,6 +27,7 @@ export const palette = {
   F9FBFF: '#F9FBFF',
   EEEEEE: "#EEEEEE",
   BABABA: "#BABABA",
+  D9D9D9: "#D9D9D9",
   F0F0F0: "#F0F0F0",
   grayDarker: "#4F4F4F",
   grayChateau: "#A1A8AB",

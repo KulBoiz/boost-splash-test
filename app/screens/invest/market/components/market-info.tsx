@@ -6,6 +6,7 @@ import { numberWithCommas } from "../../../../constants/variable"
 import { FONT_MEDIUM_12, MARGIN_BOTTOM_4 } from "../../../../styles/common-style"
 import { color } from "../../../../theme"
 import { get, last } from "lodash"
+import { mappingLabelTypeOfFund } from "../constants"
 
 interface Props{
   data: any
@@ -25,17 +26,19 @@ const Item = React.memo(({title, content, style}: ItemProps)=> {
   )
 })
 const MarketInfo = React.memo(({ data }: Props) => {
-  const {priceUpdateHistories, conversionFee} = data?.info
+  const priceUpdateHistories = data?.info?.priceUpdateHistories
+  const conversionFee = data?.info?.conversionFee
   const currentNav = get(last(priceUpdateHistories), 'price')
+  // const program = data?.info?.programList ? data?.info?.programList?.map(e=> e.name).join(', ') : null
 
   return (
     <View style={styles.container}>
-      {/* <AppText value={testTitle} fontSize={ms(16)}/> */}
       <View style={styles.body}>
         <Item title={'Tên quỹ đầu tư'} content={data?.name} style={styles.itemMargin}/>
         <Item title={'Tổ chức phát hành'} content={data?.org?.name}  style={styles.itemMargin}/>
         <Item title={'Giá gần nhất'} content={numberWithCommas(currentNav)}  style={styles.itemMargin}/>
-        <Item title={'Tài sản đầu tư'} content={'Trái phiếu, Công cụ có thu nhập ổn định'}  style={styles.itemMargin}/>
+        <Item title={'Loại đầu tư'} content={mappingLabelTypeOfFund(data?.info?.typeOfFund)}  style={styles.itemMargin}/>
+         {/* {program && <Item title={'Chương trình đầu tư'} content={program}  style={styles.itemMargin}/> } */}
         <Item title={'Phí chuyển đổi'} content={conversionFee ? `${conversionFee}%` : '0%'} />
       </View>
     </View>

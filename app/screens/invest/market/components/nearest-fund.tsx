@@ -26,19 +26,18 @@ const NavItem = React.memo(({ title, amount }: NavItemProps)=> {
 
 const NearestFund = React.memo(({ data }: Props) => {
   const {info} = data
-  const {priceUpdateHistories} = info
-
+  const navMin = info?.navMin
+  const navMax = info?.navMax
+  const priceUpdateHistories = info?.priceUpdateHistories
   const currentNav = get(last(priceUpdateHistories), 'price')
-  const highestNav = get(maxBy(priceUpdateHistories, 'price'), 'price')
-  const lowestNav = get(minBy(priceUpdateHistories, 'price'), 'price')
 
   return (
     <View style={MARKET_CONTAINER}>
       <AppText value={"Giá đơn vị quỹ gần nhất"} style={FONT_BOLD_14}/>
       <View style={styles.itemContainer}>
         <NavItem title={'NAV hiện tại'} amount={numberWithCommas(currentNav)}/>
-        <NavItem title={'NAV cao nhất'} amount={numberWithCommas(highestNav)}/>
-        <NavItem title={'NAV thấp nhất'} amount={numberWithCommas(lowestNav)}/>
+        <NavItem title={'NAV cao nhất'} amount={numberWithCommas(navMax ?? '_')}/>
+        <NavItem title={'NAV thấp nhất'} amount={numberWithCommas(navMin ?? '_')}/>
       </View>
     </View>
   )

@@ -9,8 +9,8 @@ import { FONT_MEDIUM_14 } from "../../styles/common-style"
 import { color } from "../../theme"
 import { observer } from "mobx-react-lite"
 import { AppText } from "../../components/app-text/AppText"
-import BondsList from "./market/bonds-list"
-import FundList from "./market/fund-list"
+import BondsList from "./market/bonds/bonds-list"
+import FundList from "./market/fund/fund-list"
 import AppHeader from "../../components/app-header/AppHeader"
 import { RouteProp, useRoute } from "@react-navigation/native"
 import { NavigatorParamList } from "../../navigators/params-list"
@@ -28,7 +28,6 @@ const LazyPlaceholder = ({ route }) => (
 
 const InvestTab = observer((props: Props) => {
   const { params: { index } } = useRoute<RouteProp<NavigatorParamList, ScreenNames.INVEST_TAB>>()
-  const { authStoreModel } = useStores()
   const [id, setId] = React.useState(index ?? 0)
 
   const [routes] = React.useState([
@@ -39,8 +38,8 @@ const InvestTab = observer((props: Props) => {
   const _renderLazyPlaceholder = useCallback(({ route }) => <LazyPlaceholder route={route} />, [])
 
   const renderScene = SceneMap({
-    first: !authStoreModel?.isLoggedIn ? SettingAuthScreen : FundList,
-    second: !authStoreModel?.isLoggedIn ? SettingAuthScreen : BondsList,
+    first: FundList,
+    second: BondsList,
   })
 
   const renderTabBar = props => (
@@ -83,7 +82,7 @@ const styles = ScaledSheet.create({
     textTransform: 'none'
   },
   container: { backgroundColor: color.palette.lightBlue, flex: 1 },
-  tab: { backgroundColor: color.palette.lightBlue, width: '70%' },
+  tab: { backgroundColor: color.transparent, width: '70%' },
   indicatorStyle: { backgroundColor: color.palette.blue, width: '1@s', height: 5, marginLeft: '18.5%'},
 
 })

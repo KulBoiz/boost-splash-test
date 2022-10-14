@@ -1,7 +1,7 @@
 import React from 'react';
 import { View } from 'react-native';
 import { AppText } from "../../../../components/app-text/AppText"
-import { formatDate } from "../../../../constants/variable"
+import { formatDate, numberWithCommas } from "../../../../constants/variable"
 import {
   FONT_BOLD_14,
   FONT_REGULAR_12,
@@ -12,30 +12,33 @@ import {
 import { color } from "../../../../theme"
 import { ScaledSheet } from "react-native-size-matters"
 
-interface Props{}
+interface Props{
+  data: any
+}
 
 const Item = React.memo(({item}: any)=>{
   return(
     <View style={styles.itemContainer}>
       <View>
         <AppText value={'Tại ngày'} style={[FONT_REGULAR_12, MARGIN_BOTTOM_4]} color={color.palette.grayChateau}/>
-        <AppText value={formatDate(new Date())} style={FONT_REGULAR_12}/>
+        <AppText value={formatDate(item?.updatedAt)} style={FONT_REGULAR_12}/>
       </View>
       <View>
         <AppText value={'NAV/CCQ'} style={[FONT_REGULAR_12, MARGIN_BOTTOM_4]} color={color.palette.grayChateau}/>
-        <AppText value={'20,922.88 vnđ'} style={FONT_REGULAR_12}/>
+        <AppText value={`${numberWithCommas(item?.price)} vnd`} style={FONT_REGULAR_12}/>
       </View>
     </View>
   )
 })
-const MarketHistory = React.memo((props: Props) => {
+const MarketHistory = React.memo(({ data }: Props) => {
+  const history = data?.info?.priceUpdateHistories ?? []
   return (
     <View style={styles.container}>
       <View style={[ROW,SPACE_BETWEEN]}>
         <AppText value={'Danh sách phiên giao dịch'} style={FONT_BOLD_14}/>
-        <AppText value={'Xem thêm'} style={FONT_REGULAR_12} color={color.primary}/>
+        {/* <AppText value={'Xem thêm'} style={FONT_REGULAR_12} color={color.primary}/> */}
       </View>
-      {[0,1].map((item, index)=> {
+      {history.map((item, index)=> {
         return <Item key={index} item={item} />
       })}
     </View>

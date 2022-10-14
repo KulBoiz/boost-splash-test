@@ -1,27 +1,28 @@
 import React, { useCallback, useEffect, useMemo, useState } from "react"
 import { ActivityIndicator, Pressable, ScrollView, View } from "react-native"
-import AppHeader from "../../../components/app-header/AppHeader"
-import NearestFund from "./components/nearest-fund"
-import NearestPrice from "./components/nearest-price"
-import { color } from "../../../theme"
-import { FONT_MEDIUM_12, MARGIN_TOP_16 } from "../../../styles/common-style"
-import MarketInfo from "./components/market-info"
+import AppHeader from "../../../../components/app-header/AppHeader"
+import NearestFund from "../components/nearest-fund"
+import NearestPrice from "../components/nearest-price"
+import { color } from "../../../../theme"
+import { FONT_MEDIUM_12, MARGIN_TOP_16 } from "../../../../styles/common-style"
+import MarketInfo from "../components/market-info"
 import { ms, ScaledSheet } from "react-native-size-matters"
-import { AppText } from "../../../components/app-text/AppText"
+import { AppText } from "../../../../components/app-text/AppText"
 import FundTariff from "./components/fund-tariff"
-import MarketHistory from "./components/market-history"
-import AppButton from "../../../components/app-button/AppButton"
-import { navigate } from "../../../navigators"
-import { ScreenNames } from "../../../navigators/screen-names"
-import { useStores } from "../../../models"
+import AppButton from "../../../../components/app-button/AppButton"
+import { navigate } from "../../../../navigators"
+import { ScreenNames } from "../../../../navigators/screen-names"
+import { useStores } from "../../../../models"
 import { RouteProp, useRoute } from "@react-navigation/native"
-import { fontFamily } from "../../../constants/font-family"
+import { fontFamily } from "../../../../constants/font-family"
 import { get } from "lodash"
-import EmptyList from "../../../components/empty-list"
-import { truncateString } from "../../../constants/variable"
+import EmptyList from "../../../../components/empty-list"
+import { truncateString } from "../../../../constants/variable"
 import FundChart from "./components/fund-chart"
 import FundInfoDetail from "./components/fund-info-detail"
-import { NavigatorParamList } from "../../../navigators/params-list"
+import { NavigatorParamList } from "../../../../navigators/params-list"
+import MarketChange from "../components/market-change"
+import MarketHistory from "../components/market-history"
 
 interface Props {
 }
@@ -34,7 +35,7 @@ const FundDetail = React.memo((props: Props) => {
   const [loading, setLoading] = useState<boolean>(true)
 
   useEffect(() => {
-    investStore.getBondsDetail(slug).then(res => {
+    investStore.getFundDetail(slug).then(res => {
         setLoading(false)
         setData(res)
       },
@@ -46,7 +47,7 @@ const FundDetail = React.memo((props: Props) => {
     { key: "second", title: "Biểu phí" },
     { key: "third", title: "Lịch sử" },
     { key: "fourth", title: "Lịch GD" },
-    { key: "fifth", title: "Tài liệu" },
+    // { key: "fifth", title: "Tài liệu" },
   ])
 
   const _handleChangeIndex = useCallback((value) => {
@@ -78,24 +79,26 @@ const FundDetail = React.memo((props: Props) => {
       case 0:
         return <MarketInfo data={data} />
       case 1:
-        return <FundTariff data={data}/>
+        return <FundTariff data={data} />
       case 2:
-        return <MarketHistory />
+        return <MarketHistory data={data}/>
       case 3:
         return <FundInfoDetail data={data} />
-      case 4:
-        return <MarketInfo data={data} />
     }
+    //   case 4:
+    //     return <MarketInfo data={data} />
+    // }
   }, [index, data])
 
   const handleBuy = useCallback(() => {
-    navigate(ScreenNames.BUY_BONDS)
+    navigate(ScreenNames.BUY_FUND)
   }, [])
 
   const renderTitle = useMemo(() => {
     return (
       <View style={{ flex: 1, alignItems: "center" }}>
-        <AppText value={truncateString(get(data, "name", ""), 30)} fontSize={ms(16)} fontFamily={fontFamily.bold} color={color.text} />
+        <AppText value={truncateString(get(data, "name", ""), 30)} fontSize={ms(16)} fontFamily={fontFamily.bold}
+                 color={color.text} />
         <AppText value={get(data, "org.name", "")} color={color.text} />
       </View>
     )
@@ -104,12 +107,12 @@ const FundDetail = React.memo((props: Props) => {
   return (
     <View style={styles.container}>
       <AppHeader renderTitle={renderTitle} isBlue />
-      {loading ? <ActivityIndicator color={color.primary} style={MARGIN_TOP_16}/> :
+      {loading ? <ActivityIndicator color={color.primary} style={MARGIN_TOP_16} /> :
         <>
-          {Object.keys(data)?.length ? <ScrollView>
-            {/* <MarketChange /> */}
+          {data ? <ScrollView>
+            <MarketChange />
             <NearestFund data={data} />
-            <FundChart data={data}/>
+            <FundChart data={data} />
             <NearestPrice data={data} />
             {_renderTabBar()}
             <View style={styles.body}>

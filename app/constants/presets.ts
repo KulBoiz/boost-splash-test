@@ -27,6 +27,7 @@ export const presets = {
    */
   bold: { fontFamily: 'SF-Pro-Display-Bold' } as TextStyle,
   label: { fontFamily: fontFamily.bold, fontSize: ms(14) } as TextStyle,
+  label_16: { fontFamily: fontFamily.bold, fontSize: ms(16) } as TextStyle,
 
   /**
    * Large headers.

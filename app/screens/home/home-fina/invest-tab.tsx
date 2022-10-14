@@ -29,7 +29,7 @@ const InvestTab = React.memo((props: Props) => {
 
   return (
     <View style={styles.container}>
-      <InvestItemContainer label={'Trái phiếu nổi bật'} data={bonds} onPress={listBonds} style={MARGIN_BOTTOM_16}/>
+      <InvestItemContainer label={'Trái phiếu nổi bật'} data={bonds} onPress={listBonds} style={MARGIN_BOTTOM_16} />
       <InvestItemContainer label={'CCQ nổi bật'} data={funds} type={'fund'} onPress={listFund}/>
     </View>
   )

@@ -28,6 +28,7 @@ interface Props {
   onChangeSearchText?: any
   clearErrors?: UseFormClearErrors<FieldValues>;
   disable?: boolean
+  required?: boolean
 }
 
 const ItemPicker = React.memo((props: Props) => {
@@ -42,6 +43,7 @@ const ItemPicker = React.memo((props: Props) => {
     handleSelect,
     onChangeSearchText,
     clearErrors,
+    required = false,
     disable
   } = props
   const [title, setTitle] = useState<string>("")
@@ -71,6 +73,7 @@ const ItemPicker = React.memo((props: Props) => {
     <Row alignItems="center" style={styles.container}>
       <Box flex={1}>
         <TextField
+          required={required}
           label={label}
           placeholder={placeholder}
           value={truncateString(title, 35)}

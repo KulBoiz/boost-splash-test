@@ -165,6 +165,16 @@ export const InvestStoreModel = types
         return data
       }
     }),
+
+    getFundDetail: flow(function* getFundDetail(slug: string) {
+      self.bondsDetail = {}
+      const result = yield self.api.get(`products/public/by-slug/${slug}?filter=${JSON.stringify({ include: [{ relation: "org" }] })}`)
+      const data = result?.data
+      if (result.kind === "ok") {
+        self.bondsDetail = data
+        return data
+      }
+    }),
   })) // eslint-disable-line @typescript-eslint/no-unused-vars
 
 type InvestStoreType = Instance<typeof InvestStoreModel>
