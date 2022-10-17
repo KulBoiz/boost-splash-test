@@ -22,7 +22,9 @@ export const InvestStoreModel = types
   .props({
     limit: 20,
     totalBonds: types.optional(types.number, 0),
+    totalFund: types.optional(types.number, 0),
     pagingParamsBonds: PagingParamsModel,
+    pagingParamsFund: PagingParamsModel,
     bondsDetail: types.frozen({}),
     buyInfo: types.frozen({}),
   })
@@ -114,6 +116,39 @@ export const InvestStoreModel = types
       }
     }),
 
+    getFund: flow(function* getFund(
+      params?: any,
+      pagingParams?: PagingParamsType,
+    ) {
+
+      const _pagingParams: any = {
+        ...self.pagingParamsFund,
+        ...pagingParams,
+      }
+
+      const userId = self.userId()
+      const result = yield self.api.get("products/public-fund", {
+        page: pagingParams?.page,
+        filter: {
+          limit: self?.limit,
+          skip: (pagingParams?.page - 1) * self?.limit,
+          include: [
+            { relation: "org" },
+          ],
+          where: {
+            _q: params?.search,
+          },
+        },
+      })
+
+      const data = result?.data
+      if (result.kind === "ok") {
+        self.pagingParamsFund = _pagingParams
+        self.totalFund = data?.total ?? 0
+        return data?.data
+      }
+    }),
+
     getBondsDetail: flow(function* getBondsDetail(slug: string) {
       self.bondsDetail = {}
       const result = yield self.api.get(`products/public/by-slug/${slug}`, {
@@ -124,6 +159,16 @@ export const InvestStoreModel = types
           ],
         },
       })
+      const data = result?.data
+      if (result.kind === "ok") {
+        self.bondsDetail = data
+        return data
+      }
+    }),
+
+    getFundDetail: flow(function* getFundDetail(slug: string) {
+      self.bondsDetail = {}
+      const result = yield self.api.get(`products/public/by-slug/${slug}?filter=${JSON.stringify({ include: [{ relation: "org" }] })}`)
       const data = result?.data
       if (result.kind === "ok") {
         self.bondsDetail = data

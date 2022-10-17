@@ -1,13 +1,13 @@
 import React from "react"
 import { View } from "react-native"
 import { LineChart } from "react-native-gifted-charts"
-import { AppText } from "../../../../components/app-text/AppText"
-import { formatDate, hexToRgbA, numberWithCommas, width } from "../../../../constants/variable"
-import { color } from "../../../../theme"
-import { presets } from "../../../../constants/presets"
+import { AppText } from "../../../../../components/app-text/AppText"
+import { formatDate, hexToRgbA, numberWithCommas, width } from "../../../../../constants/variable"
+import { color } from "../../../../../theme"
+import { presets } from "../../../../../constants/presets"
 import { get, maxBy } from "lodash"
 import { s, ScaledSheet } from "react-native-size-matters"
-import { ALIGN_CENTER, FONT_BOLD_12, MARGIN_BOTTOM_16 } from "../../../../styles/common-style"
+import { ALIGN_CENTER, FONT_BOLD_12, MARGIN_BOTTOM_16 } from "../../../../../styles/common-style"
 
 interface Props {
   data: any
@@ -70,7 +70,7 @@ const ptData2 = [
 ]
 
 const FundChart = React.memo(({ data }: Props) => {
-  const {priceUpdateHistories} = data?.info
+  const priceUpdateHistories = data?.info?.priceUpdateHistories
   const highestNav = get(maxBy(priceUpdateHistories, 'price'), 'price', 0) + 5000
 
   const chartData = priceUpdateHistories ? priceUpdateHistories?.map((e, index)=> {

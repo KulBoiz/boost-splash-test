@@ -1,23 +1,22 @@
 import React, { useCallback, useEffect, useMemo, useState } from "react"
 import { ActivityIndicator, ScrollView, View } from "react-native"
-import AppHeader from "../../../components/app-header/AppHeader"
-import { color } from "../../../theme"
-import { MARGIN_TOP_16 } from "../../../styles/common-style"
+import AppHeader from "../../../../components/app-header/AppHeader"
+import { color } from "../../../../theme"
+import { MARGIN_TOP_16 } from "../../../../styles/common-style"
 import { ms, ScaledSheet } from "react-native-size-matters"
-import { AppText } from "../../../components/app-text/AppText"
-import AppButton from "../../../components/app-button/AppButton"
-import { navigate } from "../../../navigators"
-import { ScreenNames } from "../../../navigators/screen-names"
-import { useStores } from "../../../models"
+import { AppText } from "../../../../components/app-text/AppText"
+import AppButton from "../../../../components/app-button/AppButton"
+import { navigate } from "../../../../navigators"
+import { ScreenNames } from "../../../../navigators/screen-names"
+import { useStores } from "../../../../models"
 import { RouteProp, useRoute } from "@react-navigation/native"
-import { InvestStackParamList } from "../../../navigators/invest-stack"
-import { fontFamily } from "../../../constants/font-family"
+import { fontFamily } from "../../../../constants/font-family"
 import { get } from "lodash"
-import EmptyList from "../../../components/empty-list"
-import { truncateString } from "../../../constants/variable"
+import EmptyList from "../../../../components/empty-list"
+import { truncateString } from "../../../../constants/variable"
 import BondsInfo from "./components/bonds-info"
 import BondsSubInfo from "./components/bonds-sub-info"
-import { NavigatorParamList } from "../../../navigators/params-list"
+import { NavigatorParamList } from "../../../../navigators/params-list"
 
 interface Props {
 }
@@ -25,7 +24,6 @@ interface Props {
 const BondsDetail = React.memo((props: any) => {
   const { params: { slug } } = useRoute<RouteProp<NavigatorParamList, ScreenNames.BONDS_DETAIL>>()
   const { investStore } = useStores()
-  const [index, setIndex] = React.useState(0)
   const [data, setData] = useState({})
   const [loading, setLoading] = useState<boolean>(true)
 
@@ -56,7 +54,7 @@ const BondsDetail = React.memo((props: any) => {
       <AppHeader renderTitle={renderTitle} isBlue />
       {loading ? <ActivityIndicator color={color.primary} style={MARGIN_TOP_16} /> :
         <>
-          {Object.keys(data)?.length ?
+          {Object?.keys(data)?.length ?
             <View style={{flex:1}}>
               <ScrollView>
                 <BondsInfo data={data} />

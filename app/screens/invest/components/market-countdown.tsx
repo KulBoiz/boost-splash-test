@@ -12,6 +12,7 @@ interface Props{
 const MarketCountdown = React.memo(({ totalTime, style }: Props) => {
   const [time, setTime] = useState(totalTime);
   useEffect(() => {
+    if(!totalTime) return
     const interval = setInterval(() => {
       setTime((lastTimerCount) => {
         lastTimerCount <= 1 && clearInterval(interval);
@@ -19,7 +20,7 @@ const MarketCountdown = React.memo(({ totalTime, style }: Props) => {
       });
     }, 1000);
     return () => clearInterval(interval);
-  }, []);
+  }, [totalTime]);
 
   useEffect(() => {
     setTime(totalTime);
@@ -29,7 +30,7 @@ const MarketCountdown = React.memo(({ totalTime, style }: Props) => {
     return {
       seconds: String(time % 60).padStart(2, '0'),
       minutes: String(parseInt(String(time / 60), 10) % 60).padStart(2, '0'),
-      hours: String(parseInt(String((time % (3600 * 24)) / 3600), 10)).padStart(2, '0'),
+      hours: String(parseInt((time / 3600).toString(), 10)).padStart(2, '0'),
     };
   }, [time])
 

@@ -23,25 +23,31 @@ const InvestOtp = React.memo(({ tel = 123451252 }: Props) => {
   return (
     <View style={styles.container}>
       <AppHeader headerText={"Xác thực OTP"} />
-      <AppText value={"Mã OTP đã được gửi qua số điện thoại"} />
-      <View style={[ROW, ALIGN_CENTER, SPACE_BETWEEN]}>
-        <AppText value={tel} fontSize={ms(18)} fontFamily={fontFamily.bold} />
-        <AppText value={"Đổi số điện thoại"} style={FONT_BOLD_12} color={color.primary} underline />
+      <View style={{flex:1}}>
+        <AppText value={"Mã OTP đã được gửi qua số điện thoại"} />
+        <View style={[ROW, ALIGN_CENTER, SPACE_BETWEEN]}>
+          <AppText value={tel} fontSize={ms(18)} fontFamily={fontFamily.bold} />
+          <AppText value={"Đổi số điện thoại"} style={FONT_BOLD_12} color={color.primary} underline />
+        </View>
+        <OtpField {...{ value, setValue }} />
+        <AppText style={FONT_REGULAR_12}>
+          Không nhận được mã xác thực? <AppText value={"Gửi lại mã"} underline style={FONT_BOLD_12}
+                                                color={color.palette.orange} />
+        </AppText>
       </View>
-      <OtpField {...{ value, setValue }} />
-      <AppText style={FONT_REGULAR_12}>
-        Không nhận được mã xác thực? <AppText value={"Gửi lại mã"} underline style={FONT_BOLD_12}
-                                              color={color.palette.orange} />
-      </AppText>
+
       <View>
         <AppButton title={"Xác nhận"} onPress={handleConfirm} />
       </View>
     </View>
-  ) 
+  )
 })
 
 export default InvestOtp
 
 const styles = StyleSheet.create({
-  container: {},
+  container: {
+    backgroundColor: color.background,
+    flex:1
+  },
 })

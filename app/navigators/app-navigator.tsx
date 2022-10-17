@@ -41,13 +41,16 @@ import { ManagementStack } from "./management"
 import { InvestStack } from "./invest-stack"
 import MarketSale from "../screens/invest/market/market-sale"
 import ConfirmSale from "../screens/invest/market/confirm-sale"
-import MarketScreen from "../screens/invest/market/market-screen"
-import BondsDetail from "../screens/invest/market/bonds-detail"
+import BondsDetail from "../screens/invest/market/bonds/bonds-detail"
 import MarketPurchase from "../screens/invest/market/market-purchase"
-import MarketBuy from "../screens/invest/market/market-buy"
+import BuyFund from "../screens/invest/market/buy-fund"
 import InvestSuccess from "../screens/invest/invest-success"
-import FundDetail from "../screens/invest/market/fund-detail"
+import FundDetail from "../screens/invest/market/fund/fund-detail"
 import InvestOtp from "../screens/invest/market/invest-otp"
+import InvestTab from "../screens/invest/invest-tab"
+import { EKYCStack } from "./ekyc-stack"
+import BuyBonds from "../screens/invest/market/bonds/buy-bonds"
+import PurchaseBonds from "../screens/invest/market/bonds/purchase-bonds"
 
 // Documentation: https://reactnavigation.org/docs/stack-navigator/
 const Stack = createNativeStackNavigator<NavigatorParamList>()
@@ -72,6 +75,11 @@ const RootStack = () => {
         options={{ gestureEnabled: false }}
       />
       <Stack.Screen
+        name={ScreenNames.EKYC}
+        component={EKYCStack}
+        options={{ gestureEnabled: false }}
+      />
+      <Stack.Screen
         name={ScreenNames.AGENT}
         component={AgentStack}
         options={{ gestureEnabled: false }}
@@ -79,12 +87,14 @@ const RootStack = () => {
       <Stack.Screen name={ScreenNames.AUTH} component={AuthStack} />
       <Stack.Screen name={ScreenNames.COMMISSION} component={CommissionStack} />
       <Stack.Screen name={ScreenNames.SALE_BONDS} component={MarketSale} />
-      <Stack.Screen name={ScreenNames.MARKET_LIST} component={MarketScreen} />
+      <Stack.Screen name={ScreenNames.INVEST_TAB} component={InvestTab} />
       <Stack.Screen name={ScreenNames.FUND_DETAIL} component={FundDetail} />
       <Stack.Screen name={ScreenNames.INVEST_OTP} component={InvestOtp} />
       <Stack.Screen name={ScreenNames.BONDS_DETAIL} component={BondsDetail} />
-      <Stack.Screen name={ScreenNames.PURCHASE_BONDS} component={MarketPurchase} />
-      <Stack.Screen name={ScreenNames.BUY_BONDS} component={MarketBuy} />
+      <Stack.Screen name={ScreenNames.PURCHASE_BONDS} component={PurchaseBonds} />
+      <Stack.Screen name={ScreenNames.PURCHASE_FUND} component={MarketPurchase} />
+      <Stack.Screen name={ScreenNames.BUY_BONDS} component={BuyBonds} />
+      <Stack.Screen name={ScreenNames.BUY_FUND} component={BuyFund} />
       <Stack.Screen name={ScreenNames.INVEST_SUCCESS} component={InvestSuccess} />
       <Stack.Screen name={ScreenNames.CONFIRM_SALE} component={ConfirmSale} />
       <Stack.Screen name={ScreenNames.MANAGEMENT} component={ManagementStack} />

@@ -12,6 +12,7 @@ import { color } from "../../theme"
 import MenuFilter from "../loan/components/finance-filter"
 import { TASK_FILTER } from "../loan/constants"
 import RequestCounsellingStatus from "./components/request-counselling-status"
+import SearchBar from "../../components/search-bar"
 
 // import LoanProfileStatus from "./components/loan-profile-status"
 
@@ -19,11 +20,12 @@ interface Props {
   index?: number
 }
 
-const RecordsManagement = React.memo((props: Props) => {
+const RecordsManagement = observer((props: Props) => {
   const { loanStore, authStoreModel } = useStores()
   const data = loanStore?.records ?? []
   const total = loanStore?.totalRecord ?? 0
   const [select, setSelect] = useState<any>({ title: "Tất cả", key: 0 })
+  const [keyword, setKeyword] = useState<any>('')
   const [loadMore, setLoadMore] = useState<boolean>(false)
   const [loading, setLoading] = useState<boolean>(true)
   const userId = authStoreModel?.userId
@@ -44,12 +46,21 @@ const RecordsManagement = React.memo((props: Props) => {
     })
   }, [props?.index])
 
+  const onChangeSearchText = (value) => {
+    setLoading(true)
+    setKeyword(value)
+    loanStore.getRecords({ ...paramTab, _q: value }).then(() => {
+      setLoading(false)
+    })
+  }
+
   const renderItem = useCallback(({ item }) => {
     return <RequestCounsellingStatus item={item} />
     // if (item?.status === "consulted") {
     //   return <LoanProfileStatus item={item} />
     // }
   }, [data])
+
   return (
     <View style={styles.container}>
       <MenuFilter
@@ -61,6 +72,7 @@ const RecordsManagement = React.memo((props: Props) => {
             status: e?.status,
             statusAssign: e?.statusAssign,
             ...paramTab,
+            _q: keyword
           }).then(() => {
             setLoading(false)
           }).catch(() => {
@@ -70,7 +82,7 @@ const RecordsManagement = React.memo((props: Props) => {
         filterData={TASK_FILTER}
         notShowIcon={true}
       />
-
+      <SearchBar onChangeSearchText={onChangeSearchText}/>
       {loading ? <LoadingComponent /> :
         <>
           <AppText style={styles.text}>

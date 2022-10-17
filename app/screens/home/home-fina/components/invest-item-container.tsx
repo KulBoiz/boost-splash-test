@@ -18,7 +18,7 @@ interface Props {
 }
 
 const InvestItemContainer = React.memo((props: Props) => {
-  const { label, style, data = [], header, onPress, type = 'bonds' } = props
+  const { label, style, data = [], onPress, type = 'bonds' } = props
 
   return (
     <View style={[styles.container, style]}>
@@ -44,7 +44,7 @@ const InvestItemContainer = React.memo((props: Props) => {
             icon={e?.org?.image?.url}
             // status={e?.status}
             status={"up"}
-            title={e?.name}
+            title={type !== 'bonds' ? e?.code : e?.productCodeOfTheInvestor}
             key={`${e?.id?.toString() ?? ""}${i.toString()}`}
             percent={maxInterest?.rate}
             slug={e?.slug}

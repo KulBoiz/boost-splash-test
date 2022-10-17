@@ -23,7 +23,6 @@ interface Props {
 const InvestItem = React.memo((props: Props) => {
   const { icon, title, percent, status, slug, type = "bonds" } = props
   const isUp = status === "up"
-
   const handlePress = useCallback( () => {
     type === "bonds" ?
     navigate( ScreenNames.BONDS_DETAIL, { slug }) :

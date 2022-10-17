@@ -1,7 +1,7 @@
 import React from "react"
 import { View, ViewStyle } from "react-native"
-import { AppText } from "../../../../components/app-text/AppText"
-import { color } from "../../../../theme"
+import { AppText } from "../../../../../components/app-text/AppText"
+import { color } from "../../../../../theme"
 import { ScaledSheet } from "react-native-size-matters"
 import {
   ALIGN_CENTER,
@@ -10,7 +10,7 @@ import {
   MARGIN_BOTTOM_8,
   ROW,
   SPACE_BETWEEN,
-} from "../../../../styles/common-style"
+} from "../../../../../styles/common-style"
 
 interface Props {
   data: any
@@ -54,22 +54,28 @@ const Item = React.memo(({leftText, rightText, style}: ItemProps)=> {
 })
 
 const FundTariff = React.memo(({ data }: Props) => {
-  const {holdingTimeSettings, investmentMoneySettings} = data?.info
+  const info = data?.info
+  const investmentMoneySettings = info?.investmentMoneySettings
+  const holdingTimeSettings = info?.holdingTimeSettings
 
   return (
     <View style={styles.container}>
       {investmentMoneySettings &&
         <Container leftText={'Giá trị mua'} rightText={'Phí mua'}>
           {investmentMoneySettings?.map((val)=> (
-              <Item key={val?.fee} leftText={`${val?.investmentMoney}`} rightText={`${val?.fee ?? ''}`} style={MARGIN_BOTTOM_8}/>
+            Object?.values(val).length ?
+              <Item key={val?.fee} leftText={`${val?.investmentMoney ?? '_'}`} rightText={`${val?.fee ?? ''}`} style={MARGIN_BOTTOM_8}/>
+            : <AppText value={'Không có dữ liệu'} textAlign={'center'}/>
             ))}
         </Container>
       }
       {holdingTimeSettings &&
         <Container leftText={'Thời gian nắm giữ'} rightText={'Phí bán'}>
           {holdingTimeSettings?.map((val)=> (
-              <Item key={val?.fee} leftText={`${val?.holdingTime} tháng`} rightText={`${val?.fee ?? ''}`} style={MARGIN_BOTTOM_8}/>
-            ))}
+            Object?.values(val).length ?
+              <Item key={val?.fee} leftText={`${val?.holdingTime ?? '_'} tháng`} rightText={`${val?.fee ?? ''}`} style={MARGIN_BOTTOM_8}/>
+              : <AppText value={'Không có dữ liệu'} textAlign={'center'}/>
+          ))}
         </Container>
       }
     </View>
@@ -79,7 +85,9 @@ const FundTariff = React.memo(({ data }: Props) => {
 export default FundTariff
 
 const styles = ScaledSheet.create({
-  container: {},
+  container: {
+    marginTop: '8@s'
+  },
   wrapContainer: {
     borderWidth: 1,
     borderColor: color.palette.BABABA,

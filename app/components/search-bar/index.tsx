@@ -22,10 +22,12 @@ const SearchBar = React.memo(({ style, onPress, placeholder = 'Tìm kiếm', onC
 
   return (
     <View style={[styles.container, style]}>
-      <TouchableOpacity onPress={onPress}>
-        <SearchNormalSvg width={s(18)} height={s(18)}/>
-      </TouchableOpacity>
-      <TextInput onChangeText={_search} style={styles.input} placeholder={placeholder} onSubmitEditing={onPress}/>
+      <View style={styles.searchContainer}>
+        <TouchableOpacity onPress={onPress}>
+          <SearchNormalSvg width={s(18)} height={s(18)}/>
+        </TouchableOpacity>
+        <TextInput onChangeText={_search} style={styles.input} placeholder={placeholder} onSubmitEditing={onPress}/>
+      </View>
     </View>
   )
 });
@@ -33,7 +35,11 @@ const SearchBar = React.memo(({ style, onPress, placeholder = 'Tìm kiếm', onC
 export default SearchBar;
 
 const styles = ScaledSheet.create({
-    container: {
+  container: {
+    paddingHorizontal: '16@s',
+    paddingVertical: '8@s'
+  },
+  searchContainer: {
       flexDirection: 'row',
       backgroundColor: color.palette.lightBlue,
       paddingVertical: isAndroid ? '4@ms' :  '12@ms',

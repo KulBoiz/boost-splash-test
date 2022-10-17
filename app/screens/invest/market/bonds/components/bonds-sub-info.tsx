@@ -1,14 +1,23 @@
 import React, { useCallback } from "react"
 import { View, ViewStyle } from "react-native"
-import { AppText } from "../../../../components/app-text/AppText"
+import { AppText } from "../../../../../components/app-text/AppText"
 import { ms, ScaledSheet } from "react-native-size-matters"
-import { formatDate, width } from "../../../../constants/variable"
+import { formatDate, width } from "../../../../../constants/variable"
 import FastImage from "react-native-fast-image"
-import { FONT_MEDIUM_14, MARGIN_BOTTOM_4, MARGIN_BOTTOM_8, ROW } from "../../../../styles/common-style"
-import { color } from "../../../../theme"
-import { fontFamily } from "../../../../constants/font-family"
-import { images } from "../../../../assets/images"
-import AppButton from "../../../../components/app-button/AppButton"
+import {
+  FONT_MEDIUM_12,
+  FONT_MEDIUM_14, FONT_REGULAR_12,
+  FONT_SEMI_BOLD_12,
+  MARGIN_BOTTOM_4,
+  MARGIN_BOTTOM_8, MARGIN_TOP_8,
+  ROW,
+} from "../../../../../styles/common-style"
+import { color } from "../../../../../theme"
+import { fontFamily } from "../../../../../constants/font-family"
+import { images } from "../../../../../assets/images"
+import AppButton from "../../../../../components/app-button/AppButton"
+import { navigate } from "../../../../../navigators"
+import { ScreenNames } from "../../../../../navigators/screen-names"
 
 interface Props {
   data: any
@@ -32,6 +41,15 @@ const ItemVertical = React.memo(({ title, content, textAlign = "left", style }: 
   )
 })
 
+const Item = React.memo(({ title, content, style }: ItemVerticalProps) => {
+  return (
+    <View style={style}>
+      <AppText value={title} color={color.palette.blue} style={FONT_SEMI_BOLD_12} />
+      <AppText value={content} style={FONT_REGULAR_12} />
+    </View>
+  )
+})
+
 
 const BondsSubInfo = React.memo(({ data }: Props) => {
   const org = data?.org
@@ -40,7 +58,7 @@ const BondsSubInfo = React.memo(({ data }: Props) => {
   const { maturityDate, releaseDate } = info
 
   const handleRequest = useCallback(() => {
-    //
+    navigate(ScreenNames.REQUEST_COUNSELLING)
   }, [])
 
   return (
@@ -64,8 +82,11 @@ const BondsSubInfo = React.memo(({ data }: Props) => {
 
       <View style={styles.body}>
         <AppText value={"Thông tin"} style={styles.label} />
-        <AppText value={name} style={[FONT_MEDIUM_14, MARGIN_BOTTOM_8]}/>
         <AppText value={description}/>
+        <View style={styles.orgContainer}>
+          <Item title={'Tổ chức phát hành'} content={name} style={MARGIN_BOTTOM_4}/>
+          <Item title={'Tài sản đầu tư'} content={'Trái phiếu'} style={MARGIN_TOP_8}/>
+        </View>
       </View>
     </View>
   )
@@ -103,4 +124,10 @@ const styles = ScaledSheet.create({
     borderRadius: '4@s',
     marginTop: '4@s'
   },
+  orgContainer: {
+    backgroundColor: color.palette.lightBlue,
+    borderRadius: '8@s',
+    padding: '16@s',
+    marginTop: '16@s'
+  }
 })

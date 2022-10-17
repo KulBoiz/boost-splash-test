@@ -36,7 +36,7 @@ const InvestSuccess = React.memo((props: Props) => {
   const {buyInfo} = investStore
 
   const buyMore = useCallback(() => {
-    navigate(ScreenNames.MARKET_LIST)
+    navigate(ScreenNames.INVEST_TAB)
   }, [])
 
   const complete = useCallback(() => {

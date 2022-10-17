@@ -19,7 +19,9 @@ export interface FormItemPickerProps extends UseControllerProps {
   isMaximumDate?: boolean
   isMinimumDate?: boolean
   clearErrors?: UseFormClearErrors<FieldValues>;
-  disable?: boolean
+  disable?: boolean,
+  required?: boolean,
+
 }
 
 const FormDatePicker = React.memo((props: FormItemPickerProps) => {
@@ -38,6 +40,7 @@ const FormDatePicker = React.memo((props: FormItemPickerProps) => {
     labelTx,
     placeholderTx,
     clearErrors,
+    required,
     disable
   } = props
 
@@ -56,6 +59,7 @@ const FormDatePicker = React.memo((props: FormItemPickerProps) => {
               value,
               errorMessage: error,
               label,
+              required,
               placeholder,
               isMaximumDate,
               isMinimumDate,

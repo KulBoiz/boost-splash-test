@@ -24,7 +24,6 @@ const INPUT: TextStyle = {
   color: color.palette.black,
   fontSize: ms(14),
   backgroundColor: color.background,
-  // height: s(46),
 }
 
 const MULTILINE: TextStyle = {
@@ -52,6 +51,9 @@ const PRESETS: { [name: string]: ViewStyle } = {
 }
 
 export interface TextFieldProps extends TextInputProps {
+
+  required?: boolean
+
   placeholderTx?: TxKeyPath
 
   placeholder?: string
@@ -97,6 +99,7 @@ export function TextField(props: TextFieldProps) {
     errorMessage,
     multiline = false,
     showIcon = false,
+    required = false,
     ...rest
   } = props
   const [showPassword, setShowPassword] = useState<boolean>(true)
@@ -114,7 +117,15 @@ export function TextField(props: TextFieldProps) {
     <View style={containerStyles}>
       <View style={WRAP_INPUT}>
         <TextInput
+          // label={
+          //   <Text style={{backgroundColor: color.background}}>
+          //     {required && <Text color={color.palette.angry}>* </Text> }
+          //     {actualLabel ?? ""}
+          //   </Text>
+          //  }
           label={actualLabel ?? ""}
+          underlineColor='#fff'
+          theme={{colors: {text: color.palette.black, primary: 'transparent'}}}
           mode={"outlined"}
           placeholder={actualPlaceholder ?? ""}
           secureTextEntry={showIcon ? showPassword : false}

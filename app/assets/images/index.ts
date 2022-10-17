@@ -5,6 +5,7 @@ export const images = {
   common_share_arrow: require('./commons/share-arrow.png'),
   common_share: require('./commons/share.png'),
   common_share_blue: require('./commons/share-blue.png'),
+  common_fina_pay: require('./commons/fina-pay.png'),
 
   app_home: require('./bottom-bar/home.png'),
   app_chat: require('./bottom-bar/chat.png'),
@@ -68,6 +69,8 @@ export const images = {
   management_insurance: require('./management/insurance.png'),
   management_invest: require('./management/invest.png'),
   invest_background: require('./invest/invest-background.png'),
+  swap: require('./invest/swap.png'),
+  yellow_caution: require('./invest/caution.png'),
 
   insurance_extension: require('./utilities/insurance_extension.png'),
   claim: require('./utilities/claim.jpg'),

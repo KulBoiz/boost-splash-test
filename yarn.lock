@@ -13813,10 +13813,10 @@ react-native-pager-view@^5.4.15:
   resolved "https://registry.yarnpkg.com/react-native-pager-view/-/react-native-pager-view-5.4.22.tgz#6a987274761f75fa018254756744004e20326d83"
   integrity sha512-9+LjgK+iOiWJJt3Zj7i8Vwarkg9dvVCm8LxrWZFzOzwjtCcQ6K4YrlbPZ5EOb5aFDcMH+eKAty0OQoUIM9n2vA==
 
-react-native-paper@^4.12.1:
-  version "4.12.1"
-  resolved "https://registry.yarnpkg.com/react-native-paper/-/react-native-paper-4.12.1.tgz#9c0c6236f40ab0bf02dd2d42e0264125d2f9d48a"
-  integrity sha512-xvAkwtRatsDcB/eSBUwoThBAT5Yy32SgKwrfHRUXi/9s5lR2SEuPZwmsZyAaq+bsxtAH1CaIT4CDeVLSaArzyg==
+react-native-paper@^4.12.5:
+  version "4.12.5"
+  resolved "https://registry.yarnpkg.com/react-native-paper/-/react-native-paper-4.12.5.tgz#5ea4bbe02d416d17802a199de748700358c11d3a"
+  integrity sha512-gdUtJJf0bw/0xoCE1jR6qCQiQCQZ9ivZh0lbPghFFaGxX88WtTQpusnGON8WhLPeH5odEQ4dTBu99lnIQvSFow==
   dependencies:
     "@callstack/react-theme-provider" "^3.0.7"
     color "^3.1.2"
@@ -13922,7 +13922,7 @@ react-native-svg-transformer@^1.0.0:
     "@svgr/plugin-svgo" "^6.1.2"
     path-dirname "^1.0.2"
 
-react-native-svg@^12.1.0, react-native-svg@^12.4.4:
+react-native-svg@12.4.4, react-native-svg@^12.1.0:
   version "12.4.4"
   resolved "https://registry.yarnpkg.com/react-native-svg/-/react-native-svg-12.4.4.tgz#2ba684eaea9a7402fbbe0ed9737e77284631d00e"
   integrity sha512-LpcNlEVCURexqPAvQ9ne8KrPVfYz0wIDygwud8VMRmXLezysXzyQN/DTsjm1BO9lIfYp55WQsr3u3yW/vk6iiA==

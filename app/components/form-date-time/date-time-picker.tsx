@@ -25,8 +25,9 @@ interface Props {
   name: FieldPath<FieldValues>
   isMaximumDate?: boolean
   isMinimumDate?: boolean
-  clearErrors?: UseFormClearErrors<FieldValues>;
+  clearErrors?: UseFormClearErrors<FieldValues>
   disable?: boolean
+  required?: boolean
 }
 
 const DatePicker = React.memo((props: Props) => {
@@ -39,6 +40,7 @@ const DatePicker = React.memo((props: Props) => {
     name,
     isMaximumDate = true,
     isMinimumDate = false,
+    required = false,
     labelTx,
     placeholderTx,
     clearErrors,
@@ -65,6 +67,7 @@ const DatePicker = React.memo((props: Props) => {
     <Row alignItems="center" style={styles.container}>
       <Box flex={1}>
         <TextField
+          required={required}
           label={label}
           placeholder={placeholder}
           labelTx={labelTx}

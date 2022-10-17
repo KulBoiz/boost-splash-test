@@ -31,6 +31,10 @@ export const PADDING_VERTICAL: ViewStyle = {
 export const PADDING_BOTTOM_24: ViewStyle = {
   paddingBottom: ms(16),
 }
+export const LEFT_INPUT: ViewStyle = {
+  flex: 1,
+ marginRight: ms(5),
+}
 export const HIT_SLOP = {
   top: 20,
   bottom: 20,

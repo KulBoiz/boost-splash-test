@@ -13,7 +13,7 @@ const MarketChange = React.memo((props: Props) => {
     <View style={MARKET_CONTAINER}>
         <View style={[ROW, SPACE_BETWEEN, ALIGN_CENTER, MARGIN_BOTTOM_4]}>
           <AppText value={"Thay đổi so với đầu năm"} style={FONT_BOLD_14}/>
-          <AppText value={"+8%"} style={FONT_BOLD_14} color={color.palette.green}/>
+          <AppText value={"+0%"} style={FONT_BOLD_14} color={color.palette.green}/>
         </View>
       <AppText value={formatDate(new Date())} />
 

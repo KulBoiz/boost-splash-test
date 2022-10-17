@@ -12,13 +12,16 @@ export type NavigatorParamList = {
   [ScreenNames.MANAGEMENT]: undefined
   [ScreenNames.SUCCESS_SCREEN]: undefined
   [ScreenNames.REQUEST_COUNSELLING]: undefined
+  [ScreenNames.EKYC]: undefined
 
-  [ScreenNames.MARKET_LIST]: undefined;
+  [ScreenNames.INVEST_TAB]: { index: number };
   [ScreenNames.INVEST_OTP]: undefined;
   [ScreenNames.BONDS_DETAIL]: { slug: string };
   [ScreenNames.FUND_DETAIL]: { slug: string };
   [ScreenNames.BUY_BONDS]: undefined;
+  [ScreenNames.BUY_FUND]: undefined;
   [ScreenNames.PURCHASE_BONDS]: undefined;
+  [ScreenNames.PURCHASE_FUND]: undefined;
   [ScreenNames.SALE_BONDS]: undefined
   [ScreenNames.CONFIRM_SALE]: undefined
   [ScreenNames.INVEST_SUCCESS]: undefined

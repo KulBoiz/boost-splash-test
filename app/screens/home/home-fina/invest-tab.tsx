@@ -5,6 +5,7 @@ import { useStores } from "../../../models"
 import { navigate } from "../../../navigators"
 import { ScreenNames } from "../../../navigators/screen-names"
 import { MARGIN_BOTTOM_16 } from "../../../styles/common-style"
+import { color } from "../../../theme"
 
 interface Props{}
 
@@ -19,16 +20,16 @@ const InvestTab = React.memo((props: Props) => {
   },[])
 
   const listBonds = useCallback(()=> {
-    navigate(ScreenNames.MARKET_LIST)
+    navigate(ScreenNames.INVEST_TAB, { index: 1})
   },[])
 
   const listFund = useCallback(()=> {
-    navigate(ScreenNames.MARKET_LIST)
+    navigate(ScreenNames.INVEST_TAB, { index: 0})
   },[])
 
   return (
     <View style={styles.container}>
-      <InvestItemContainer label={'Trái phiếu nổi bật'} data={bonds} onPress={listBonds} style={MARGIN_BOTTOM_16}/>
+      <InvestItemContainer label={'Trái phiếu nổi bật'} data={bonds} onPress={listBonds} style={MARGIN_BOTTOM_16} />
       <InvestItemContainer label={'CCQ nổi bật'} data={funds} type={'fund'} onPress={listFund}/>
     </View>
   )

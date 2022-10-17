@@ -10,13 +10,15 @@ import MarketCountdown from "../../components/market-countdown"
 import moment from "moment"
 import { MARGIN_BOTTOM_4, MARGIN_BOTTOM_8 } from "../../../../styles/common-style"
 import { get, last } from "lodash"
+import { mappingLabelTypeOfFund } from "../constants"
 
 interface Props{
   data: any
 }
 
 const NearestPrice = React.memo(({ data }: Props) => {
-  const {priceUpdateHistories, orderAndTransferMoneyToBuyDate} = data?.info
+  const priceUpdateHistories = data?.info?.priceUpdateHistories
+  const orderAndTransferMoneyToBuyDate = data?.info?.orderAndTransferMoneyToBuyDate
   const endDate = moment(orderAndTransferMoneyToBuyDate)
   const totalTime = moment(endDate).diff(new Date()).toString().slice(0, -3);
   const currentNav = get(last(priceUpdateHistories), 'price')
@@ -26,7 +28,7 @@ const NearestPrice = React.memo(({ data }: Props) => {
       <View>
         <AppText value={'Giá gần nhất'} fontSize={ms(14)} color={color.palette.osloGray} style={MARGIN_BOTTOM_4}/>
         <AppText value={numberWithCommas(currentNav)} fontFamily={fontFamily.bold} fontSize={ms(30)} color={color.primary}/>
-        <AppText value={'Quỹ trái phiếu'} fontFamily={fontFamily.semiBold} color={color.palette.green}/>
+        <AppText value={mappingLabelTypeOfFund(data?.info?.typeOfFund)} fontFamily={fontFamily.semiBold} color={color.palette.green}/>
       </View>
 
       <View>

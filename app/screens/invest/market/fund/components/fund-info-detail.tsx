@@ -1,13 +1,14 @@
 import React, { useCallback, useState } from "react"
 import { View } from "react-native"
-import { AppText } from "../../../../components/app-text/AppText"
-import { fontFamily } from "../../../../constants/font-family"
-import { color } from "../../../../theme"
-import { ALIGN_CENTER, ROW } from "../../../../styles/common-style"
+import { AppText } from "../../../../../components/app-text/AppText"
+import { fontFamily } from "../../../../../constants/font-family"
+import { color } from "../../../../../theme"
+import { ALIGN_CENTER, ROW } from "../../../../../styles/common-style"
 import { s, ScaledSheet } from "react-native-size-matters"
-import { formatDate } from "../../../../constants/variable"
+import { formatDate } from "../../../../../constants/variable"
 import DashedLine from "react-native-dashed-line"
 import moment from "moment"
+import { mappingLabelTypeOfFund, ORDER_MATCHING_DAY_MAPPING } from "../../constants"
 
 interface Props {
   data: any
@@ -45,10 +46,12 @@ const Item = React.memo(({ number, value, title, hideDash = false }: ItemProps) 
 })
 
 const FundInfoDetail = React.memo(({ data } : Props) => {
-  const {orderMatchingDate, orderAndTransferMoneyToBuyDate, nextOrderMatchingSession} = data?.info
+  const info = data?.info
+  const {orderAndTransferMoneyToBuyDate, nextOrderMatchingSession} = data?.info
+
   return (
     <View style={styles.container}>
-      <Item number={1} title={'Ngày khớp lệnh'} value={orderMatchingDate} />
+      <Item number={1} title={'Ngày khớp lệnh'} value={info?.orderMatchingDate?.map((item:any) => ORDER_MATCHING_DAY_MAPPING[item]).join(', ') || ''} />
       <Item number={2} title={'Phiên khớp lệnh tiếp theo'} value={formatDate(nextOrderMatchingSession)} />
       <Item number={3} title={'Đặt lệnh & chuyển tiền mua'} value={`Trước ${moment(orderAndTransferMoneyToBuyDate).format('HH:MM, DD/MM/YYYY')}`} hideDash />
     </View>
