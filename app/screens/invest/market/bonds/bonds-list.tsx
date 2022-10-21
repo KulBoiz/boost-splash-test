@@ -32,9 +32,9 @@ const BondsList = observer((props: Props) => {
   const renderHeader = useCallback(() => {
     return (
       <View style={[ROW, SPACE_BETWEEN, MARGIN_TOP_16, styles.header]}>
-        <AppText value={"Tên"} style={{flex:0.6}} color={color.palette.osloGray} />
-        <AppText value={"Tồng GT phát hành"} style={{flex:1}} color={color.palette.osloGray}/>
-        <AppText value={"Biến động"} style={{ width: '27%'}} color={color.palette.osloGray}/>
+        <AppText value={"Mã trái phiếu"} style={{flex:1}} color={color.palette.osloGray} />
+        <AppText value={"Lãi suất"} style={{flex:0.95}} color={color.palette.osloGray}/>
+        <AppText value={"Kì tính lãi"} style={{flex:0.75}} color={color.palette.osloGray}/>
         <AppText value={"Hành động"} style={{ width: s(60)}} color={color.palette.osloGray}/>
       </View>
     )

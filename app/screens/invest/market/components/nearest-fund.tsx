@@ -5,10 +5,11 @@ import { AppText } from "../../../../components/app-text/AppText"
 import { FONT_BOLD_12, FONT_BOLD_14, FONT_MEDIUM_12, MARGIN_BOTTOM_4 } from "../../../../styles/common-style"
 import { ScaledSheet } from "react-native-size-matters"
 import { numberWithCommas } from "../../../../constants/variable"
-import {maxBy, get, minBy, last} from 'lodash'
+import { maxBy, get, minBy, last, head } from "lodash"
 
 interface Props{
   data: any
+  navs: any
 }
 interface NavItemProps{
   title: string
@@ -24,12 +25,11 @@ const NavItem = React.memo(({ title, amount }: NavItemProps)=> {
   )
 })
 
-const NearestFund = React.memo(({ data }: Props) => {
+const NearestFund = React.memo(({ data, navs }: Props) => {
   const {info} = data
   const navMin = info?.navMin
   const navMax = info?.navMax
-  const priceUpdateHistories = info?.priceUpdateHistories
-  const currentNav = get(last(priceUpdateHistories), 'price')
+  const currentNav = get(head(navs), 'nav')
 
   return (
     <View style={MARKET_CONTAINER}>

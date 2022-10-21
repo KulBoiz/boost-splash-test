@@ -1,13 +1,12 @@
 import React, { useCallback, useMemo } from "react"
 import { Pressable, View } from "react-native"
 import { AppText } from "../../../../../components/app-text/AppText"
-import { formatDate, getMoneyLabel, truncateString } from "../../../../../constants/variable"
+import { truncateString } from "../../../../../constants/variable"
 import AppButton from "../../../../../components/app-button/AppButton"
 import { ms, ScaledSheet } from "react-native-size-matters"
-import { FONT_SEMI_BOLD_12, FONT_SEMI_BOLD_14, MARGIN_BOTTOM_4 } from "../../../../../styles/common-style"
+import { FONT_BOLD_14, FONT_SEMI_BOLD_12 } from "../../../../../styles/common-style"
 import { fontFamily } from "../../../../../constants/font-family"
 import { color } from "../../../../../theme"
-import moment from "moment"
 import { navigate } from "../../../../../navigators"
 import { ScreenNames } from "../../../../../navigators/screen-names"
 import { useStores } from "../../../../../models"
@@ -18,7 +17,7 @@ interface Props {
 
 const BondsItem = React.memo(({ item }: Props) => {
   const {investStore} = useStores()
-  const money = item?.info?.parValueShares * item?.info?.totalReleaseVolume
+  // const money = item?.info?.parValueShares * item?.info?.totalReleaseVolume
 
   const maxInterest = useMemo(()=> {
     return item?.info?.interestRate
@@ -33,25 +32,28 @@ const BondsItem = React.memo(({ item }: Props) => {
   }, [])
 
   const handleBuy = useCallback(async () => {
-    await investStore.getBondsDetail(item?.slug)
-    navigate(ScreenNames.BUY_BONDS)
-    // navigate(ScreenNames.EKYC)
+    // await investStore.getBondsDetail(item?.slug)
+    // navigate(ScreenNames.BUY_BONDS)
+    navigate(ScreenNames.EKYC)
   }, [])
 
   return (
     <Pressable onPress={watchDetail} style={styles.container}>
       <View style={styles.firstContainer}>
-        <AppText value={truncateString(item?.productCodeOfTheInvestor, 10)} fontFamily={fontFamily.semiBold} color={color.primary} style={MARGIN_BOTTOM_4}/>
-        <AppText value={"Trái phiếu"} color={color.palette.green}/>
+        <AppText value={truncateString(item?.productCodeOfTheInvestor, 10)} style={FONT_BOLD_14} color={color.primary} />
+        {/* <AppText value={"Trái phiếu"} color={color.palette.green}/> */}
       </View>
       <View style={styles.secondContainer}>
-        <AppText value={getMoneyLabel(money)} fontSize={ms(14)} style={MARGIN_BOTTOM_4}/>
-        <AppText value={`${formatDate(item?.updatedAt)}`}
-                 fontSize={ms(10)}
+        <AppText value={`${maxInterest?.rate}%`} fontSize={ms(16)} fontFamily={fontFamily.bold} color={color.primary} />
+        <AppText value={'năm'}
+                 fontSize={ms(12)}
                  color={color.palette.grayChateau} />
       </View>
-      <View style={[styles.rateContainer, {backgroundColor: color.palette.palegreen}]}>
-        <AppText value={`+${maxInterest?.rate}%`} style={FONT_SEMI_BOLD_14} color={color.palette.white} textAlign={'right'}/>
+      <View style={styles.secondContainer}>
+        <AppText value={maxInterest?.time} fontSize={ms(16)} fontFamily={fontFamily.bold} color={color.palette.orange}/>
+        <AppText value={`tháng`}
+                 fontSize={ms(12)}
+                 color={color.palette.grayChateau} />
       </View>
       <AppButton onPress={handleBuy} title={"MUA"} containerStyle={styles.btn} titleStyle={FONT_SEMI_BOLD_12} />
     </Pressable>
@@ -71,9 +73,11 @@ const styles = ScaledSheet.create({
     justifyContent: 'space-between'
   },
   firstContainer: {
+    flex: 0.7
   },
   secondContainer: {
-
+    flex: 1,
+    alignItems: "center"
   },
   rateContainer: {
     width: '70@s',

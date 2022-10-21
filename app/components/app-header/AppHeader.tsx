@@ -27,6 +27,7 @@ const AppHeader = React.memo((props: AppHeaderProps) => {
     style,
     titleStyle,
     isBlue = false,
+    isBlack = false,
     showBorderWidth = true
   } = props
 
@@ -36,14 +37,14 @@ const AppHeader = React.memo((props: AppHeaderProps) => {
     <View
       style={[
         styles.container,
-        { backgroundColor: isBlue ? color.palette.blue : color.background },
+        { backgroundColor: isBlue ? color.palette.blue : isBlack ? color.palette.black : color.background },
         { borderBottomWidth: showBorderWidth ? 1 : 0},
         style,
       ]}
     >
       <StatusBar
-        backgroundColor={isBlue ? color.palette.blue : color.background}
-        barStyle={isBlue ? "light-content" : "dark-content"}
+        backgroundColor={isBlue ? color.palette.blue : isBlack ? color.palette.black : color.background}
+        barStyle={(isBlue|| isBlack) ? "light-content" : "dark-content"}
       />
       {
         hideBack ?
@@ -59,7 +60,7 @@ const AppHeader = React.memo((props: AppHeaderProps) => {
                 <FastImage
                   source={images.common_left_arrow}
                   style={styles.backIcon}
-                  tintColor={isBlue ? color.palette.white : ""}
+                  tintColor={(isBlue|| isBlack) ? color.palette.white : ""}
                 />
               </Button>
             )}
@@ -70,7 +71,7 @@ const AppHeader = React.memo((props: AppHeaderProps) => {
       {renderTitle || (
         <View style={styles.titleView}>
           <Text
-            style={[styles.title, titleStyle, { color: isBlue ? color.text : color.palette.black }]}
+            style={[styles.title, titleStyle, { color: (isBlue|| isBlack) ? color.text : color.palette.black }]}
             text={header}
             numberOfLines={1}
           />

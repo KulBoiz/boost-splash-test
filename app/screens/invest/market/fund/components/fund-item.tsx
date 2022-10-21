@@ -1,4 +1,4 @@
-import React, { useCallback, useMemo } from "react"
+import React, { useCallback, useEffect, useMemo, useState } from "react"
 import { Pressable, View } from "react-native"
 import { AppText } from "../../../../../components/app-text/AppText"
 import { formatDate, getMoneyLabel, numberWithCommas, truncateString } from "../../../../../constants/variable"
@@ -11,19 +11,23 @@ import moment from "moment"
 import { navigate } from "../../../../../navigators"
 import { ScreenNames } from "../../../../../navigators/screen-names"
 import { useStores } from "../../../../../models"
-import { first, get, last } from "lodash"
+import { first, get, head, last } from "lodash"
 import { mappingLabelTypeOfFund } from "../../constants"
 
 interface Props {
   item: any
 }
 
-const BondsItem = React.memo(({ item }: Props) => {
+const FundItem = React.memo(({ item }: Props) => {
   const {investStore} = useStores()
-  const priceUpdateHistories = item?.info?.priceUpdateHistories
-  const currentNav = get(last(priceUpdateHistories), 'price')
-  const firstNav = get(first(priceUpdateHistories), 'price')
-  const percent =  0
+  const [price, setPrice] = useState([])
+
+  useEffect(()=> {
+    investStore.getCurrentNav(item?.id).then(e=> setPrice(e))
+  },[])
+
+  const currentNav = get(head(price), 'nav')
+  const percent =  item?.info?.volatilityOverTime?.inOneYear
 
   const watchDetail = useCallback(() => {
     navigate(ScreenNames.FUND_DETAIL, {slug: item?.slug})
@@ -54,7 +58,7 @@ const BondsItem = React.memo(({ item }: Props) => {
   )
 })
 
-export default BondsItem
+export default FundItem
 
 const styles = ScaledSheet.create({
   container: {

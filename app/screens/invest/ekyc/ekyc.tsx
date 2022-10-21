@@ -9,9 +9,11 @@ import * as Yup from "yup"
 import i18n from "i18n-js"
 import { useForm } from "react-hook-form"
 import { yupResolver } from "@hookform/resolvers/yup/dist/yup"
-import InformationForm from "./information-form"
-import AddressForm from "./address-form"
+import InformationForm from "./components/information-form"
+import AddressForm from "./components/address-form"
 import { ScrollView } from "native-base"
+import IdInfoForm from "./components/id-info-form"
+import BankForm from "./components/bank-form"
 
 interface Props {
 }
@@ -53,6 +55,8 @@ const EKYC = React.memo((props: Props) => {
         </View>
         <InformationForm {...{ control, errors: { ...errors }, setValue, clearErrors }} />
         <AddressForm {...{ control, errors: { ...errors }, setValue, clearErrors, watch }} />
+        <IdInfoForm {...{ control, errors: { ...errors }, setValue, clearErrors, watch }} />
+        <BankForm {...{ control, errors: { ...errors }, setValue, clearErrors, watch }} />
       </ScrollView>
 
     </View>

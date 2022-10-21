@@ -6,14 +6,16 @@ import { formatDate } from "../../../../constants/variable"
 import { color } from "../../../../theme"
 import { MARKET_CONTAINER } from "../../styles"
 
-interface Props{}
+interface Props{
+  item?: any
+}
 
-const MarketChange = React.memo((props: Props) => {
+const MarketChange = React.memo(({ item }: Props) => {
   return (
     <View style={MARKET_CONTAINER}>
         <View style={[ROW, SPACE_BETWEEN, ALIGN_CENTER, MARGIN_BOTTOM_4]}>
           <AppText value={"Thay đổi so với đầu năm"} style={FONT_BOLD_14}/>
-          <AppText value={"+0%"} style={FONT_BOLD_14} color={color.palette.green}/>
+          <AppText value={`+${item?.info?.volatilityOverTime?.inOneYear ?? 0}%`} style={FONT_BOLD_14} color={color.palette.green}/>
         </View>
       <AppText value={formatDate(new Date())} />
 

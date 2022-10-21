@@ -41,6 +41,39 @@ export const InvestStoreModel = types
       self.buyInfo = info
     },
 
+    getCurrentNav: flow(function* getCurrentNav(productId) {
+      const result = yield self.api.get("navs/public", {
+        filter: {
+          where: {
+            productId
+          },
+          limit: 1,
+          skip: 0,
+          order: ['navDate DESC'],
+        },
+      })
+      const data = result?.data
+      if (result.kind === "ok") {
+        return data?.data
+      }
+    }),
+
+    getNavs: flow(function* getNavs(productId) {
+      const result = yield self.api.get("navs/public", {
+        filter: {
+          where: {
+            productId
+          },
+          order: ['navDate DESC'],
+        },
+      })
+      const data = result?.data
+      if (result.kind === "ok") {
+        return data?.data
+      }
+    }),
+
+
     getOutstandingBonds: flow(function* getOutstandingBonds() {
       const result = yield self.api.get("products/public-bond", {
         filter: {

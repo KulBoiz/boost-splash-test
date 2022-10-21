@@ -1,4 +1,4 @@
-import { extendTheme } from "native-base"
+ import { extendTheme } from "native-base"
 import { s } from "react-native-size-matters"
 import { palette } from "./palette"
 

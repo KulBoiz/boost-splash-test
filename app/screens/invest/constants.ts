@@ -16,7 +16,7 @@ export const PAYMENT_METHOD = [
   },
 ]
 
-const getPaymentLabel = (type) => {
+export const getPaymentLabel = (type) => {
   switch (type){
     case type === PAYMENT_METHOD_TYPE.FINA : {
       return images.common_fina_pay
@@ -26,3 +26,22 @@ const getPaymentLabel = (type) => {
     }
   }
 }
+
+export const IDENTITY_GUIDE = [
+  'Sử dụng giấy tờ gốc, nguyên vẹn và còn hiệu lực,\nkhông sử dụng giấy tờ photo hay scan',
+  'Đảm bảo môi trường chụp đủ ánh sáng để ảnh được rõ nét',
+  'CMND/CCCD/ Hộ chiếu không bị bôi bẩn, nhàu nát, gấp gãy',
+]
+
+export const IDENTITY_GUIDE_IMAGE = [
+  {
+    image: images.identity_hidden,
+    text: 'Không chụp bị\nche khuất'
+  },{
+    image: images.identity_too_dark,
+    text: 'Không chụp\nquá tối'
+  },{
+    image: images.identity_too_light,
+    text: 'Không chụp\nảnh quá sáng'
+  },
+]
