@@ -32,12 +32,14 @@ const FundDetail = React.memo((props: Props) => {
   const { investStore } = useStores()
   const [index, setIndex] = React.useState(0)
   const [data, setData] = useState({})
+  const [navs, setNavs] = useState([])
   const [loading, setLoading] = useState<boolean>(true)
 
   useEffect(() => {
     investStore.getFundDetail(slug).then(res => {
         setLoading(false)
         setData(res)
+        investStore.getNavs(res?.id).then(e=> setNavs(e))
       },
     )
   }, [])
@@ -81,7 +83,7 @@ const FundDetail = React.memo((props: Props) => {
       case 1:
         return <FundTariff data={data} />
       case 2:
-        return <MarketHistory data={data}/>
+        return <MarketHistory data={data} navs={navs}/>
       case 3:
         return <FundInfoDetail data={data} />
     }
@@ -110,10 +112,10 @@ const FundDetail = React.memo((props: Props) => {
       {loading ? <ActivityIndicator color={color.primary} style={MARGIN_TOP_16} /> :
         <>
           {data ? <ScrollView>
-            <MarketChange />
-            <NearestFund data={data} />
-            <FundChart data={data} />
-            <NearestPrice data={data} />
+            <MarketChange item={data}/>
+            <NearestFund data={data} navs={navs}/>
+            {navs&& <FundChart data={data} navs={navs}/>}
+            <NearestPrice data={data} navs={navs}/>
             {_renderTabBar()}
             <View style={styles.body}>
               {renderScreen()}

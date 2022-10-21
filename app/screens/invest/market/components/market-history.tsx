@@ -14,6 +14,7 @@ import { ScaledSheet } from "react-native-size-matters"
 
 interface Props{
   data: any
+  navs: any
 }
 
 const Item = React.memo(({item}: any)=>{
@@ -21,22 +22,22 @@ const Item = React.memo(({item}: any)=>{
     <View style={styles.itemContainer}>
       <View>
         <AppText value={'Tại ngày'} style={[FONT_REGULAR_12, MARGIN_BOTTOM_4]} color={color.palette.grayChateau}/>
-        <AppText value={formatDate(item?.updatedAt)} style={FONT_REGULAR_12}/>
+        <AppText value={formatDate(item?.navDate)} style={FONT_REGULAR_12}/>
       </View>
       <View>
         <AppText value={'NAV/CCQ'} style={[FONT_REGULAR_12, MARGIN_BOTTOM_4]} color={color.palette.grayChateau}/>
-        <AppText value={`${numberWithCommas(item?.price)} vnd`} style={FONT_REGULAR_12}/>
+        <AppText value={`${numberWithCommas(item?.nav)} vnd`} style={FONT_REGULAR_12}/>
       </View>
     </View>
   )
 })
-const MarketHistory = React.memo(({ data }: Props) => {
-  const history = data?.info?.priceUpdateHistories ?? []
+const MarketHistory = React.memo(({ data, navs }: Props) => {
+  const history = navs ?? []
   return (
     <View style={styles.container}>
       <View style={[ROW,SPACE_BETWEEN]}>
         <AppText value={'Danh sách phiên giao dịch'} style={FONT_BOLD_14}/>
-        {/* <AppText value={'Xem thêm'} style={FONT_REGULAR_12} color={color.primary}/> */}
+         <AppText value={'Xem thêm'} style={FONT_REGULAR_12} color={color.primary}/>
       </View>
       {history.map((item, index)=> {
         return <Item key={index} item={item} />

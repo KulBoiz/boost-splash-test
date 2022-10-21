@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react"
+import React, { useCallback, useEffect, useState } from "react"
 import { ScrollView, View } from "react-native"
 import AppHeader from "../../components/app-header/AppHeader"
 import CashInfo from "./components/cash-info"
@@ -11,6 +11,7 @@ import { useStores } from "../../models"
 import LineChart from "./chart/line-chart"
 import { getMonthName } from "../../constants/variable"
 import BarChart from "./chart/bar-chart"
+import moment from "moment"
 
 interface Props {
 }
@@ -23,6 +24,8 @@ const months = Array.from({ length: 5 }, (_, i) => `${getMonthName(currentMonth 
 const chartData = (data: Array<any>) => data.map(({ amount }) => {
   return amount
 })
+const getSumCommission = (array: any) => array?.length ? array.map(item => item.amount).reduce((a, b) => a + b) : 0;
+const getSpecificData = (array: Array<any>, date) => array?.length ? array.filter(item => moment(item?.createdAt).format('YYYY') === date.toString()) : []
 
 const CommissionScreen = React.memo((props: Props) => {
   const { commissionStore } = useStores()
@@ -30,10 +33,15 @@ const CommissionScreen = React.memo((props: Props) => {
   const [response, setResponse] = useState<any>()
 
   useEffect(() => {
-    commissionStore.getChartData().then(res => {
+    commissionStore.getChartData(5,5).then(res => {
       setResponse(res)
     })
   }, [])
+  const getData = useCallback(()=> {
+    return years.map((e)=> (getSpecificData(response?.byYear?.data, e)))
+  },[response])
+
+  console.log('getData', getData())
 
   const data = {
     labels: type === "years" ? years : months,

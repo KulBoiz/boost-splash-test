@@ -94,3 +94,4 @@ export { default as DiscountSvg } from "./discount.svg"
 
 
 export { default as SignOutSvg } from "./sign-out.svg"
+export { default as CaptureButtonSvg } from "./capture-button.svg"

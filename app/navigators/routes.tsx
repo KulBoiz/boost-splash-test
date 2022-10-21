@@ -22,6 +22,10 @@ import MarketPurchase from "../screens/invest/market/market-purchase"
 import BuyFund from "../screens/invest/market/buy-fund"
 import InvestSuccess from "../screens/invest/invest-success"
 import EKYC from "../screens/invest/ekyc/ekyc"
+import EKYCId from "../screens/invest/ekyc/ekyc-id"
+import EKYCPortrait from "../screens/invest/ekyc/ekyc-portrait"
+import UpdateIdentityInformation from "../screens/invest/ekyc/update-identity-information"
+import TradeRegistration from "../screens/invest/ekyc/trade-registration"
 
 export const AuthRoutes = [
   {
@@ -81,12 +85,24 @@ export const InvestRoutes = [
 ]
 export const EKYCRoutes = [
   {
+    name: ScreenNames.EKYC_ID,
+    component: EKYCId,
+  },
+  {
     name: ScreenNames.EKYC_SCREEN,
     component: EKYC,
-  }, {
-    name: ScreenNames.EKYC_ID,
-    component: BondsDetail,
-  }
+  },
+  {
+    name: ScreenNames.EKYC_PORTRAIT,
+    component: EKYCPortrait,
+  },
+  {
+    name: ScreenNames.UPDATE_IDENTITY_INFORMATION,
+    component: UpdateIdentityInformation,
+  },{
+    name: ScreenNames.TRADE_REGISTRATION,
+    component: TradeRegistration,
+  },
 ]
 
 export const AgentRoutes = [

@@ -14,14 +14,14 @@ import { mappingLabelTypeOfFund } from "../constants"
 
 interface Props{
   data: any
+  navs: any
 }
 
-const NearestPrice = React.memo(({ data }: Props) => {
-  const priceUpdateHistories = data?.info?.priceUpdateHistories
+const NearestPrice = React.memo(({ data, navs }: Props) => {
   const orderAndTransferMoneyToBuyDate = data?.info?.orderAndTransferMoneyToBuyDate
   const endDate = moment(orderAndTransferMoneyToBuyDate)
   const totalTime = moment(endDate).diff(new Date()).toString().slice(0, -3);
-  const currentNav = get(last(priceUpdateHistories), 'price')
+  const currentNav = get(navs[0], 'nav')
 
   return (
     <View style={[MARKET_CONTAINER, styles.container]}>

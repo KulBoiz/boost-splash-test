@@ -3,9 +3,13 @@ import { View, StyleSheet } from 'react-native';
 import { Control, UseFormClearErrors, UseFormSetValue } from "react-hook-form/dist/types/form"
 import { FieldErrors } from "react-hook-form/dist/types/errors"
 import { FieldValues } from "react-hook-form/dist/types/fields"
-import FormInput from "../../../components/form-input/form-input"
-import { GENDER } from "../../../constants/gender"
-import FormItemPicker from "../../../components/form-item-picker"
+import FormInput from "../../../../components/form-input/form-input"
+import { GENDER } from "../../../../constants/gender"
+import FormItemPicker from "../../../../components/form-item-picker"
+import { AppText } from "../../../../components/app-text/AppText"
+import { presets } from "../../../../constants/presets"
+import { color } from "../../../../theme"
+import { ScaledSheet } from "react-native-size-matters"
 
 interface Props{
   control: Control
@@ -19,13 +23,16 @@ const IdInfoForm = React.memo((props: Props) => {
 
   return (
     <View style={styles.container}>
+      <AppText value={'Thông tin giấy tờ'} style={presets.label_16} color={color.primary}/>
+
       <FormInput
         {...{
           required: true,
           name: 'fullName',
-          labelTx: 'label.fullName',
-          placeholderTx: 'placeholder.fullName',
+          label: 'Số CMND/CCCD',
+          placeholder: 'Nhập số CMND/CCCD',
           control,
+          keyboardType:"number-pad",
           error: errors?.fullName?.message,
         }}
       />
@@ -33,8 +40,8 @@ const IdInfoForm = React.memo((props: Props) => {
         {...{
           required: true,
           name: "gender",
-          label: "Giới tính",
-          placeholder: "Chọn giới tính",
+          label: "Nơi cấp",
+          placeholder: "Chọn nơi cấp",
           control,
           setValue,
           error: errors?.gender?.message,
@@ -48,6 +55,8 @@ const IdInfoForm = React.memo((props: Props) => {
 
 export default IdInfoForm;
 
-const styles = StyleSheet.create({
-    container: {},
+const styles = ScaledSheet.create({
+  container: {
+    paddingHorizontal: '16@s'
+  },
 });

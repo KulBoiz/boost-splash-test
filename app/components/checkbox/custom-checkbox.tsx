@@ -11,10 +11,11 @@ interface Props{
   isChecked: boolean
   onPress(): void
   text?: string
+  size?: number
 }
 
 const CustomCheckbox = React.memo((props: Props) => {
-  const {isChecked, text, onPress} = props
+  const {isChecked, text, onPress, size} = props
   return (
     <Pressable style={styles.container} onPress={onPress}>
       <View style={[styles.checkbox, isChecked ? styles.checked : styles.unChecked]}>

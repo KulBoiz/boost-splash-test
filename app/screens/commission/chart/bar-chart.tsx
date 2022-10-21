@@ -17,6 +17,7 @@ const chartConfig = {
   backgroundGradientFrom: "#ffffff",
   backgroundGradientTo: "#ffffff",
   color: (opacity = 1) => `rgba(0, 0, 0, ${opacity})`,
+  propsForHorizontalLabels: {x: 65}
 }
 
 const BarChart = React.memo(({ data }: Props) => {

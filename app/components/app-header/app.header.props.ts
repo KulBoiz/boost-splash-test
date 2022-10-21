@@ -52,5 +52,7 @@ export interface AppHeaderProps {
 
   isBlue?: boolean
 
+  isBlack?: boolean
+
   showBorderWidth?: boolean
 }

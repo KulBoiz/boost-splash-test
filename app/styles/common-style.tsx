@@ -58,6 +58,12 @@ export const MARGIN_TOP_24: ViewStyle = {
 export const MARGIN_BOTTOM_4: ViewStyle = {
   marginBottom: s(4),
 }
+export const MARGIN_RIGHT_8: ViewStyle = {
+  marginRight: s(8),
+}
+export const MARGIN_LEFT_8: ViewStyle = {
+  marginLeft: s(8),
+}
 export const MARGIN_BOTTOM_8: ViewStyle = {
   marginBottom: s(8),
 }

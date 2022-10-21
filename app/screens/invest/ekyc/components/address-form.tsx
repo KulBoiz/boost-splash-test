@@ -1,16 +1,16 @@
 import React, { useEffect, useState } from "react"
 import { View } from 'react-native';
-import { AppText } from "../../../components/app-text/AppText"
-import { color } from "../../../theme"
-import FormInput from "../../../components/form-input/form-input"
+import { AppText } from "../../../../components/app-text/AppText"
+import { color } from "../../../../theme"
+import FormInput from "../../../../components/form-input/form-input"
 import { Control, UseFormClearErrors, UseFormSetValue, UseFormWatch } from "react-hook-form/dist/types/form"
 import { FieldErrors } from "react-hook-form/dist/types/errors"
 import { FieldValues } from "react-hook-form/dist/types/fields"
-import FormItemPicker from "../../../components/form-item-picker"
-import { LEFT_INPUT, ROW } from "../../../styles/common-style"
-import { presets } from "../../../constants/presets"
+import FormItemPicker from "../../../../components/form-item-picker"
+import { LEFT_INPUT, ROW } from "../../../../styles/common-style"
+import { presets } from "../../../../constants/presets"
 import { ScaledSheet } from "react-native-size-matters"
-import { useStores } from "../../../models"
+import { useStores } from "../../../../models"
 
 interface Props{
   control: Control

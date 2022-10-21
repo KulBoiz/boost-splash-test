@@ -19,6 +19,10 @@ export const images = {
   commission_cancel: require('./commission/cancel.png'),
   commission_empty: require('./commission/empty.png'),
 
+  identity_hidden : require('./identity/no-hidden.png'),
+  identity_too_dark : require('./identity/no-too-dark.png'),
+  identity_too_light : require('./identity/no-too-light.png'),
+
   bonds_background : require('./invest/bonds-background.png'),
   home_arrow_up: require('./home/arrow-up.png'),
   home_finance: require('./home/home-finance.png'),
