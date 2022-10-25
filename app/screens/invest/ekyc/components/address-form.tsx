@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react"
-import { View } from 'react-native';
+import { View } from "react-native"
 import { AppText } from "../../../../components/app-text/AppText"
 import { color } from "../../../../theme"
 import FormInput from "../../../../components/form-input/form-input"
@@ -12,7 +12,7 @@ import { presets } from "../../../../constants/presets"
 import { ScaledSheet } from "react-native-size-matters"
 import { useStores } from "../../../../models"
 
-interface Props{
+interface Props {
   control: Control
   errors: FieldErrors<FieldValues>
   clearErrors: UseFormClearErrors<FieldValues>
@@ -27,12 +27,13 @@ const formatData = (array) => {
   }))
 }
 const country = [
-  {label: 'Việt Nam', value: 'VN'},
+  { label: "Việt Nam", value: "VN" },
 ]
 const AddressForm = React.memo((props: Props) => {
-  const { locationStore, agentStore } = useStores()
+  const { locationStore, agentStore, authStoreModel } = useStores()
+  const { user } = authStoreModel
 
-  const {control, errors, setValue, clearErrors, watch} = props
+  const { control, errors, setValue, clearErrors, watch } = props
   const [province, setProvince] = useState([])
   const [townDistrict, setTownDistrict] = useState([])
   const [subDistrict, setSubDistrict] = useState([])
@@ -42,9 +43,25 @@ const AddressForm = React.memo((props: Props) => {
     locationStore.get("country", "VN").then((res) => {
       const idCountry = res?.data?.data?.[0]?.id
       setCode(idCountry)
+      setValue("country", "VN")
       locationStore.get("state", undefined, idCountry).then((state) => {
         setProvince(formatData(state.data?.data))
+        user?.stateId && setValue("province", user?.stateId)
       })
+      if (user?.districtId) {
+        locationStore.get("town_district", undefined, user?.stateId).then((res) => {
+          setTownDistrict(formatData(res?.data?.data))
+          setValue("district", user?.districtId)
+        })
+      }
+      if (user?.subDistrictId) {
+        locationStore.get("sub_district", undefined, user?.districtId).then((res) => {
+          setSubDistrict(formatData(res?.data?.data))
+          setValue("commune", user?.subDistrictId)
+        })
+      }
+      setValue("address", user?.address ?? '')
+
     })
   }, [])
 
@@ -95,12 +112,12 @@ const AddressForm = React.memo((props: Props) => {
 
   return (
     <View style={styles.container}>
-      <AppText value={'Địa chỉ'} style={presets.label_16} color={color.primary}/>
+      <AppText value={"Địa chỉ"} style={presets.label_16} color={color.primary} />
       <View style={ROW}>
         <FormItemPicker
           {...{
             required: true,
-            style:LEFT_INPUT,
+            style: LEFT_INPUT,
             name: "country",
             label: "Quốc gia",
             placeholder: "Quốc gia",
@@ -115,7 +132,7 @@ const AddressForm = React.memo((props: Props) => {
         <FormItemPicker
           {...{
             required: true,
-            style: {flex:1},
+            style: { flex: 1 },
             name: "province",
             label: "Tỉnh",
             placeholder: "Tỉnh",
@@ -132,7 +149,7 @@ const AddressForm = React.memo((props: Props) => {
         <FormItemPicker
           {...{
             required: true,
-            style:LEFT_INPUT,
+            style: LEFT_INPUT,
             name: "district",
             label: "Quận/huyện",
             placeholder: "Quận/huyện",
@@ -147,7 +164,7 @@ const AddressForm = React.memo((props: Props) => {
         <FormItemPicker
           {...{
             required: true,
-            style: {flex:1},
+            style: { flex: 1 },
             name: "commune",
             label: "Phường/xã",
             placeholder: "Phường/xã",
@@ -163,21 +180,21 @@ const AddressForm = React.memo((props: Props) => {
       <FormInput
         {...{
           required: true,
-          name: 'address',
-          label: 'Địa chỉ',
-          placeholder: 'Địa chỉ',
+          name: "address",
+          label: "Địa chỉ",
+          placeholder: "Địa chỉ",
           control,
           error: errors?.email?.message,
         }}
       />
     </View>
   )
-});
+})
 
-export default AddressForm;
+export default AddressForm
 
 const styles = ScaledSheet.create({
-    container: {
-      paddingHorizontal: '16@s'
-    },
-});
+  container: {
+    paddingHorizontal: "16@s",
+  },
+})

@@ -1,39 +1,43 @@
-import React, { useCallback, useRef, useState } from "react"
+import React, { FC, useCallback, useRef, useState } from "react"
 import { Platform, View } from "react-native"
 import { Camera, useCameraDevices } from "react-native-vision-camera"
 import AppHeader from "../../../components/app-header/AppHeader"
-import { s, ScaledSheet } from "react-native-size-matters"
+import { ms, s, ScaledSheet } from "react-native-size-matters"
 import { AppText } from "../../../components/app-text/AppText"
-import AppButton from "../../../components/app-button/AppButton"
-import { CaptureButtonSvg, InfoSvg, PhotoSvg, ThunderSvg } from "../../../assets/svgs"
+import { CaptureButtonSvg, PhotoSvg, ThunderSvg } from "../../../assets/svgs"
 import { color } from "../../../theme"
 import { height, width } from "../../../constants/variable"
 import { manipulateAsync, SaveFormat } from "expo-image-manipulator"
 import { ScreenNames } from "../../../navigators/screen-names"
-import { navigate } from "../../../navigators"
+import { goBack, navigate } from "../../../navigators"
 import { RNHoleView } from "react-native-hole-view"
 import { useStores } from "../../../models"
 import { useIsFocused } from "@react-navigation/native"
-import RenderStepAgent from "../../agent/components/render-step"
-import PreviewPhotoId from "../../agent/components/preview-photo-id"
 import ActionItem from "../../agent/components/action-item"
-import { FONT_BOLD_14 } from "../../../styles/common-style"
+import { ALIGN_CENTER, FONT_BOLD_14, MARGIN_TOP_24 } from "../../../styles/common-style"
+import { StackScreenProps } from "@react-navigation/stack"
+import { observer } from "mobx-react-lite"
+import { EKYCStackParamList } from "../../../navigators/ekyc-stack"
+import AppButton from "../../../components/app-button/AppButton"
+import { presets } from "../../../constants/presets"
+import FastImage from "react-native-fast-image"
 
 const frameWidth = width * 0.8
 const frameHeight = width * 0.5
 const frameX = width * 0.1
 const frameY = height * 0.25
-const textColor = '#407BFF'
+const textColor = "#407BFF"
 
-interface Props {}
+interface Props {
+}
 
-const EKYCId = React.memo((props: Props) => {
+const EKYCId: FC<StackScreenProps<EKYCStackParamList, ScreenNames.EKYC_ID>> = observer(({ route }) => {
+  const type = route.params.type
+  const onConfirm = route.params.onConfirm
   const { agentStore } = useStores()
   const isFocused = useIsFocused()
   const cameraRef = useRef<any>(null)
-  const [imageType, setImageType] = React.useState<"front" | "back">("front")
-  const [frontImage, setFrontImage] = React.useState("")
-  const [backImage, setBackImage] = React.useState("")
+  const [image, setImage] = React.useState("")
   const [hasPermission, setHasPermission] = React.useState(false)
   const [flash, setFlash] = useState<"off" | "on">("off")
   const devices = useCameraDevices()
@@ -52,14 +56,9 @@ const EKYCId = React.memo((props: Props) => {
 
   const setPhoto = useCallback(
     async (photo) => {
-      if (imageType === "front") {
-        setFrontImage(photo)
-        setImageType("back")
-      } else {
-        setBackImage(photo)
-      }
+      setImage(photo)
     },
-    [imageType],
+    [image],
   )
 
   const takePhoto = useCallback(async () => {
@@ -78,17 +77,17 @@ const EKYCId = React.memo((props: Props) => {
           crop:
             Platform.OS === "ios"
               ? {
-                  width: imageWidth * 0.8,
-                  height: imageWidth * 0.5,
-                  originX: imageWidth * 0.1,
-                  originY: imageHeight * 0.25,
-                }
+                width: imageWidth * 0.8,
+                height: imageWidth * 0.5,
+                originX: imageWidth * 0.1,
+                originY: imageHeight * 0.25,
+              }
               : {
-                  width: data.width * 0.8,
-                  height: data.width * 0.5,
-                  originX: data.width * 0.1,
-                  originY: imageHeight * 0.25,
-                },
+                width: data.width * 0.8,
+                height: data.width * 0.5,
+                originX: data.width * 0.1,
+                originY: imageHeight * 0.25,
+              },
         },
       ],
       {
@@ -97,7 +96,7 @@ const EKYCId = React.memo((props: Props) => {
       },
     )
     setPhoto(manipResult.uri)
-  }, [imageType, cameraRef, setPhoto])
+  }, [image, cameraRef, setPhoto])
 
   const navigateToPhotoPicker = useCallback(() => {
     const onConfirm = (photoSelected: any) => {
@@ -108,29 +107,23 @@ const EKYCId = React.memo((props: Props) => {
     })
   }, [setPhoto])
 
-  const onReTake = useCallback(
-    (type) => {
-      if (type === "front") {
-        setFrontImage("")
-        setImageType("front")
-      } else {
-        setBackImage("")
-        setImageType(frontImage ? "back" : "front")
-      }
+  const onReTake = useCallback(() => {
+      setImage("")
     },
-    [frontImage],
+    [image],
   )
 
   const onContinue = useCallback(() => {
-    agentStore.uploadFrontImage(frontImage)
-    agentStore.uploadBackImage(backImage)
-    navigate(ScreenNames.CHECK_INFO, {frontImage, backImage})
-  }, [frontImage, backImage])
+    // agentStore.uploadFrontImage(frontImage)
+    onConfirm(image)
+    goBack()
+  }, [image])
 
   return (
     <View style={styles.container}>
       {device != null && hasPermission ? (
-        <Camera
+        image ? <FastImage source={{ uri : image }} style={styles.image}/> :
+          <Camera
           style={styles.camera}
           ref={cameraRef}
           device={device}
@@ -166,7 +159,7 @@ const EKYCId = React.memo((props: Props) => {
 
       <AppHeader isBlack headerText={"Ảnh CMND/CCCD"} showBorderWidth={false} />
       <View style={styles.idContainer}>
-        <AppText value={'MẶT TRƯỚC CMND/ CCCD'} style={FONT_BOLD_14} color={textColor}/>
+        <AppText value={`MẶT ${type === 'front' ? 'TRƯỚC' : 'SAU'} CMND/ CCCD`} style={FONT_BOLD_14} color={textColor} />
       </View>
 
       <View style={{ flex: 1 }} />
@@ -181,12 +174,18 @@ const EKYCId = React.memo((props: Props) => {
       </View>
 
       <View style={styles.btnContainer}>
-        {/* <AppButton */}
-        {/*  disable={!hasPermission} */}
-        {/*  title={frontImage && backImage ? "Tiếp tục" : "Chụp"} */}
-        {/*  onPress={() => (frontImage && backImage ? onContinue() : takePhoto())} */}
-        {/* /> */}
-        <CaptureButtonSvg onPress={takePhoto}/>
+        {image ? <View style={[ALIGN_CENTER, { width: '100%' }]}>
+            <AppText value={"Chụp lại"} underline color={color.primary} style={presets.label_16} onPress={onReTake}/>
+            <AppButton
+              disable={!hasPermission}
+              title={"Xác nhận"}
+              onPress={onContinue}
+              containerStyle={MARGIN_TOP_24}
+            />
+          </View>
+          :
+          <CaptureButtonSvg onPress={takePhoto} />
+        }
       </View>
     </View>
   )
@@ -207,7 +206,7 @@ const styles = ScaledSheet.create({
     left: 0,
     right: 0,
     bottom: 0,
-    backgroundColor: color.palette.black
+    backgroundColor: color.palette.black,
   },
   wrapFrame: {
     position: "absolute",
@@ -262,6 +261,13 @@ const styles = ScaledSheet.create({
     borderBottomColor: color.primary,
     borderRightColor: color.primary,
   },
+  image: {
+    position: 'absolute',
+    marginLeft: ms(frameX-2.5),
+    marginTop: ms(frameY-13),
+    width: frameWidth,
+    height: frameHeight,
+  },
   frame: {
     marginLeft: frameX,
     marginTop: frameY,
@@ -280,7 +286,7 @@ const styles = ScaledSheet.create({
     flexDirection: "row",
     justifyContent: "center",
     paddingHorizontal: "16@ms",
-    paddingTop: '30@s'
+    paddingTop: "30@s",
   },
   wrapAction: {
     backgroundColor: "rgba(0,0,0,0.7)",
@@ -291,7 +297,7 @@ const styles = ScaledSheet.create({
     justifyContent: "space-evenly",
   },
   btnContainer: {
-    alignItems:'center',
+    alignItems: "center",
     paddingVertical: "24@s",
     paddingHorizontal: "16@ms",
   },

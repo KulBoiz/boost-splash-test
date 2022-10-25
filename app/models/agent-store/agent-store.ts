@@ -209,8 +209,8 @@ export const AgentStoreModel = types
       const params = {
         fullName: self.fullName,
         hasVerifyOtp: false,
-        idNumber: self.citizenIdentification,
         identification: {
+          idNumber: self.citizenIdentification,
           frontPhoto: self.frontImage,
           backSidePhoto :self.backImage,
           signature: self.signature,

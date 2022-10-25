@@ -231,6 +231,7 @@ const AgentForm = observer((props: Props) => {
           handleSelect: handleSelectCommune,
         }}
       />
+
       <FormInput
         {...{
           name: "address",

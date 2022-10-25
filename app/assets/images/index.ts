@@ -73,6 +73,7 @@ export const images = {
   management_insurance: require('./management/insurance.png'),
   management_invest: require('./management/invest.png'),
   invest_background: require('./invest/invest-background.png'),
+  invest_home: require('./invest/invest-home.png'),
   swap: require('./invest/swap.png'),
   yellow_caution: require('./invest/caution.png'),
 

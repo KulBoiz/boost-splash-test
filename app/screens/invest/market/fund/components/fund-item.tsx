@@ -27,6 +27,7 @@ const FundItem = React.memo(({ item }: Props) => {
   },[])
 
   const currentNav = get(head(price), 'nav')
+  const currentData = get(head(price), 'navDate')
   const percent =  item?.info?.volatilityOverTime?.inOneYear
 
   const watchDetail = useCallback(() => {
@@ -46,7 +47,7 @@ const FundItem = React.memo(({ item }: Props) => {
       </View>
       <View style={styles.secondContainer}>
         <AppText value={numberWithCommas(currentNav)} fontSize={ms(14)} style={MARGIN_BOTTOM_4} color={'#2EBD85'}/>
-        <AppText value={`${formatDate(item?.updatedAt)}`}
+        <AppText value={`${formatDate(currentData)}`}
                  fontSize={ms(10)}
                  color={color.palette.grayChateau} />
       </View>
@@ -65,7 +66,7 @@ const styles = ScaledSheet.create({
     flex: 1,
     borderBottomWidth: 1,
     borderBottomColor: color.palette.offWhite,
-    paddingVertical: '12@s',
+    paddingVertical: '8@s',
     alignItems: "center",
     flexDirection: "row",
     justifyContent: 'space-between'

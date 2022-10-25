@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from "react"
 import { View, StyleSheet } from 'react-native';
 import { Control, UseFormClearErrors, UseFormSetValue } from "react-hook-form/dist/types/form"
 import { FieldErrors } from "react-hook-form/dist/types/errors"
@@ -10,6 +10,7 @@ import { AppText } from "../../../../components/app-text/AppText"
 import { presets } from "../../../../constants/presets"
 import { color } from "../../../../theme"
 import { ScaledSheet } from "react-native-size-matters"
+import { useStores } from "../../../../models"
 
 interface Props{
   control: Control
@@ -20,6 +21,12 @@ interface Props{
 
 const IdInfoForm = React.memo((props: Props) => {
   const {control, errors, setValue, clearErrors} = props
+  const {authStoreModel} = useStores()
+  const identification = authStoreModel?.user?.identification
+  useEffect(()=> {
+    setValue('iudNumber', identification?.idNumber)
+    setValue('placeOfIssue', identification?.placeOfIssue)
+  },[])
 
   return (
     <View style={styles.container}>
@@ -28,7 +35,7 @@ const IdInfoForm = React.memo((props: Props) => {
       <FormInput
         {...{
           required: true,
-          name: 'fullName',
+          name: 'idNumber',
           label: 'Số CMND/CCCD',
           placeholder: 'Nhập số CMND/CCCD',
           control,
@@ -36,17 +43,14 @@ const IdInfoForm = React.memo((props: Props) => {
           error: errors?.fullName?.message,
         }}
       />
-      <FormItemPicker
+      <FormInput
         {...{
           required: true,
-          name: "gender",
-          label: "Nơi cấp",
-          placeholder: "Chọn nơi cấp",
+          name: 'placeOfIssue',
+          label: 'Nơi cấp',
+          placeholder: 'Nơi cấp',
           control,
-          setValue,
-          error: errors?.gender?.message,
-          data: GENDER,
-          clearErrors
+          error: errors?.placeOfIssue?.message,
         }}
       />
     </View>

@@ -1,5 +1,5 @@
-import React from 'react';
-import { View, StyleSheet } from 'react-native';
+import React, { useEffect } from "react"
+import { View } from "react-native"
 import { Control, UseFormClearErrors, UseFormSetValue } from "react-hook-form/dist/types/form"
 import { FieldErrors } from "react-hook-form/dist/types/errors"
 import { FieldValues } from "react-hook-form/dist/types/fields"
@@ -10,8 +10,9 @@ import { AppText } from "../../../../components/app-text/AppText"
 import { presets } from "../../../../constants/presets"
 import { color } from "../../../../theme"
 import { ScaledSheet } from "react-native-size-matters"
+import { useStores } from "../../../../models"
 
-interface Props{
+interface Props {
   control: Control
   errors: FieldErrors<FieldValues>
   clearErrors: UseFormClearErrors<FieldValues>
@@ -19,11 +20,15 @@ interface Props{
 }
 
 const BankForm = React.memo((props: Props) => {
-  const {control, errors, setValue, clearErrors} = props
+  const { control, errors, setValue, clearErrors } = props
+  const { authStoreModel } = useStores()
+  useEffect(() => {
+
+  }, [])
 
   return (
     <View style={styles.container}>
-      <AppText value={'Thông tin ngân hàng'} style={presets.label_16} color={color.primary}/>
+      <AppText value={"Thông tin ngân hàng"} style={presets.label_16} color={color.primary} />
       <FormItemPicker
         {...{
           required: true,
@@ -34,39 +39,39 @@ const BankForm = React.memo((props: Props) => {
           setValue,
           error: errors?.bank?.message,
           data: GENDER,
-          clearErrors
+          clearErrors,
         }}
       />
       <FormInput
         {...{
           required: true,
-          name: 'bankNumber',
-          label: 'Số tài khoản',
-          placeholder: 'Nhập số tài khoản',
+          name: "bankNumber",
+          label: "Số tài khoản",
+          placeholder: "Nhập số tài khoản",
           control,
-          keyboardType:"number-pad",
+          keyboardType: "number-pad",
           error: errors?.bankNumber?.message,
         }}
       />
       <FormInput
         {...{
           required: true,
-          name: 'bankBranch',
-          label: 'Chi nhánh ngân hàng',
-          placeholder: 'Nhập chi nhánh',
+          name: "bankBranch",
+          label: "Chi nhánh ngân hàng",
+          placeholder: "Nhập chi nhánh",
           control,
-          keyboardType:"number-pad",
+          keyboardType: "number-pad",
           error: errors?.bankBranch?.message,
         }}
       />
     </View>
   )
-});
+})
 
-export default BankForm;
+export default BankForm
 
 const styles = ScaledSheet.create({
   container: {
-    paddingHorizontal: '16@s'
+    paddingHorizontal: "16@s",
   },
-});
+})

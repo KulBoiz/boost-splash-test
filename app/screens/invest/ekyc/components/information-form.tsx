@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from "react"
 import { View } from 'react-native';
 import { AppText } from "../../../../components/app-text/AppText"
 import { color } from "../../../../theme"
@@ -12,6 +12,8 @@ import { GENDER } from "../../../../constants/gender"
 import { LEFT_INPUT, ROW } from "../../../../styles/common-style"
 import { presets } from "../../../../constants/presets"
 import { ScaledSheet } from "react-native-size-matters"
+import { useStores } from "../../../../models"
+import { get } from "lodash"
 
 interface Props{
   control: Control
@@ -22,6 +24,18 @@ interface Props{
 
 const InformationForm = React.memo((props: Props) => {
   const {control, errors, setValue, clearErrors} = props
+  const {authStoreModel} = useStores()
+  const {user} = authStoreModel
+  const email = get(user, 'emails[0].email')
+  const tel = get(user, 'tels[0].tel')
+
+  useEffect(()=> {
+    setValue('fullName', user?.fullName)
+    setValue('birthday', user?.birthday)
+    setValue('email', email)
+    setValue('tel', tel)
+    setValue('gender', user?.gender)
+  },[])
 
   return (
     <View style={styles.container}>
@@ -61,12 +75,12 @@ const InformationForm = React.memo((props: Props) => {
         style={LEFT_INPUT}
         required
         label={'Ngày sinh'}
-        name={'dateOfBirth'}
+        name={'birthday'}
         placeholder={'Chọn ngày sinh'}
         setValue={setValue}
         control={control}
         clearErrors={clearErrors}
-        error={errors?.dateOfBirth?.message}
+        error={errors?.birthday?.message}
       />
       <FormItemPicker
         {...{

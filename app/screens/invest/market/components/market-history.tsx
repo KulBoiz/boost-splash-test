@@ -37,7 +37,7 @@ const MarketHistory = React.memo(({ data, navs }: Props) => {
     <View style={styles.container}>
       <View style={[ROW,SPACE_BETWEEN]}>
         <AppText value={'Danh sách phiên giao dịch'} style={FONT_BOLD_14}/>
-         <AppText value={'Xem thêm'} style={FONT_REGULAR_12} color={color.primary}/>
+         {/* <AppText value={'Xem thêm'} style={FONT_REGULAR_12} color={color.primary}/> */}
       </View>
       {history.map((item, index)=> {
         return <Item key={index} item={item} />

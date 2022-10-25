@@ -10,9 +10,7 @@ export const EkycStoreModel = types
   .model("EkycStore")
   .extend(withEnvironment)
   .extend(withRootStore)
-  .props({
-    
-  })
+  .props({})
   .views((self) => ({
     get api() {
       return new BaseApi(self.environment.api)
@@ -24,17 +22,24 @@ export const EkycStoreModel = types
   .actions((self) => ({
     getIdentityInfo: flow(function* getIdentityInfo(img) {
       const result = yield self.api.post("users/get-personal-info-upload", {
-       img
-      })
+           img,
+        },
+      )
       const data = result?.data
       if (result.kind === "ok") {
-        return data?.data
+        return data
       }
     }),
   })) // eslint-disable-line @typescript-eslint/no-unused-vars
 
 type EkycStoreType = Instance<typeof EkycStoreModel>
-export interface EkycStore extends EkycStoreType {}
+
+export interface EkycStore extends EkycStoreType {
+}
+
 type EkycStoreSnapshotType = SnapshotOut<typeof EkycStoreModel>
-export interface EkycStoreSnapshot extends EkycStoreSnapshotType {}
+
+export interface EkycStoreSnapshot extends EkycStoreSnapshotType {
+}
+
 export const createEkycStoreDefaultModel = () => types.optional(EkycStoreModel, {})

@@ -30,7 +30,6 @@ const TransactionInfo = React.memo((props : Props) => {
   const {investStore} = useStores()
   const {bondsDetail} = investStore
   const info = investStore?.bondsDetail?.info
-  console.log(investStore?.bondsDetail)
   return (
     <View style={styles.container}>
       <AppText value={"Thông tin giao dịch"} style={presets.label} />

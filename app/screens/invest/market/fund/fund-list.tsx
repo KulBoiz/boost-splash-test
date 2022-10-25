@@ -8,7 +8,9 @@ import EmptyList from "../../../../components/empty-list"
 import BottomView from "../../../../components/bottom-view"
 import FundItem from "./components/fund-item"
 import { AppText } from "../../../../components/app-text/AppText"
-import { MARGIN_TOP_16, MARGIN_TOP_8, ROW, SPACE_BETWEEN } from "../../../../styles/common-style"
+import { ROW, SPACE_BETWEEN } from "../../../../styles/common-style"
+import TypeFilter from "../components/type-filter"
+import { FILTER_FUND, TYPE_OF_FUND } from "../constants"
 
 interface Props {
 }
@@ -16,6 +18,7 @@ interface Props {
 const FundList = observer((props: Props) => {
   const { investStore } = useStores()
   const [fund, setFund] = useState<Array<any>>([])
+  const [type, setType] = useState<typeof TYPE_OF_FUND | null>(null)
 
   useEffect(() => {
     investStore.getFund({}, { page: 1 })
@@ -36,24 +39,30 @@ const FundList = observer((props: Props) => {
       })
   }, [fund])
 
+  const data = (type: typeof TYPE_OF_FUND | null) => (
+    type ? fund.filter((el)=> el?.info?.typeOfFund === type) : fund
+  )
+
   const renderHeader = useCallback(() => {
     return (
-      <View style={[ROW, SPACE_BETWEEN, MARGIN_TOP_16, styles.header]}>
-        <AppText value={"Tên"} style={{flex:0.7}} color={color.palette.osloGray} />
-        <AppText value={"Giá gần nhất"} style={{flex:1}} color={color.palette.osloGray}/>
-        <AppText value={"Biến động"} style={{ width: '27%'}} color={color.palette.osloGray}/>
-        <AppText value={"Hành động"} style={{ width: s(60)}} color={color.palette.osloGray}/>
+      <View style={styles.header}>
+        <TypeFilter filterData={FILTER_FUND} onPress={setType} />
+        <View style={[ROW, SPACE_BETWEEN,]}>
+          <AppText value={"Mã CCQ"} style={{flex:0.75}} color={color.palette.osloGray} />
+          <AppText value={"Giá gần nhất"} style={{flex:1}} color={color.palette.osloGray}/>
+          <AppText value={"Biến động"} style={{ width: '27%'}} color={color.palette.osloGray}/>
+          <AppText value={"Hành động"} style={{ width: s(60)}} color={color.palette.osloGray}/>
+        </View>
       </View>
     )
   }, [])
-
   return (
     <View style={styles.container}>
       {renderHeader()}
       <FlatList
         contentContainerStyle={styles.flatList}
         keyExtractor={(e, id) => id.toString()}
-        data={fund}
+        data={data(type)}
         renderItem={renderItem}
         onEndReached={loadMore}
         onEndReachedThreshold={0.2}
@@ -79,7 +88,8 @@ const styles = ScaledSheet.create({
     borderTopRightRadius: '24@s',
     borderTopLeftRadius: '24@s',
     paddingHorizontal: '12@s',
-    paddingBottom: '4@s'
+    paddingBottom: '4@s',
+    marginTop: '12@s'
   },
   flatList: {
     paddingHorizontal: "12@s",

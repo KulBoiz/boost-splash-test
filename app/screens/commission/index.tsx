@@ -41,8 +41,6 @@ const CommissionScreen = React.memo((props: Props) => {
     return years.map((e)=> (getSpecificData(response?.byYear?.data, e)))
   },[response])
 
-  console.log('getData', getData())
-
   const data = {
     labels: type === "years" ? years : months,
     datasets:
