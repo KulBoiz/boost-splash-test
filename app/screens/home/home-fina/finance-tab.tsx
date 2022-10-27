@@ -14,6 +14,7 @@ import HomeBanner from "./components/home-banner"
 import HomeItem from "./components/home-item"
 import ProjectItem from "./components/project-item"
 import { formatHomeData } from "./constants"
+import { gifs } from "../../../assets/gifs"
 
 interface Props { }
 

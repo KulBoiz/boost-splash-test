@@ -1,5 +1,5 @@
-import React, { useCallback } from "react"
-import { ScrollView, View } from "react-native"
+import React, { useCallback, useEffect, useState } from "react"
+import { ActivityIndicator, ScrollView, View } from "react-native"
 import AppHeader from "../../../components/app-header/AppHeader"
 import FundInfo from "./fund/components/fund-info"
 import FundTariff from "./fund/components/fund-tariff"
@@ -16,17 +16,22 @@ import { ScreenNames } from "../../../navigators/screen-names"
 import { observer } from "mobx-react-lite"
 import { useStores } from "../../../models"
 import EmptyList from "../../../components/empty-list"
+import { MARGIN_TOP_24 } from "../../../styles/common-style"
 
 interface Props {
 }
 
 const BuyFund = observer((props: Props) => {
   const { investStore } = useStores()
+  const { bondsDetail } = investStore
+  const [navs, setNavs] = useState([])
+  const [loading, setLoading] = useState<boolean>(true)
+
   const validationSchema = Yup.object().shape({
-    program: Yup.string().required(i18n.t("errors.requireAddress")),
-    amount: Yup.string().required(i18n.t("errors.requirePhone")),
-    estimatedQuantity: Yup.string().required("Chọn địa ngân hàng"),
-    purchaseFee: Yup.string().required("Nhập số tài khoản ngân hàng"),
+    program: Yup.string().required("Chọn chương trình"),
+    amount: Yup.string().required("Nhập số tiền đầu tư"),
+    estimatedQuantity: Yup.string().required("Nhập số lượng"),
+    purchaseFee: Yup.string().required("Nhập số phí"),
   })
 
   const {
@@ -52,19 +57,30 @@ const BuyFund = observer((props: Props) => {
     navigate(ScreenNames.PURCHASE_BONDS)
   }, [watch])
 
+  useEffect(() => {
+    investStore.getFundDetail(investStore?.bondsDetail?.slug).then(res => {
+        setLoading(false)
+        investStore.getNavs(res?.id).then(e=> setNavs(e))
+      },
+    ).catch(()=> setLoading(false))
+  }, [])
+
   return (
     <View style={styles.container}>
       <AppHeader headerText={"Đặt lệnh mua"} isBlue />
-      {Object.keys(investStore.bondsDetail).length ?
-        <ScrollView contentContainerStyle={styles.body}>
-          <FundInfo />
-          <MarketBuyForm  {...{ control, errors: { ...errors }, setValue, watch, clearErrors }} />
-          <FundTariff data={investStore.bondsDetail}/>
-          <View style={styles.wrapBtn}>
-            <AppButton title={"Đặt lệnh mua"} onPress={handleSubmit(handleBuy)} />
-          </View>
-        </ScrollView> :
-        <EmptyList />
+      {loading ? <ActivityIndicator color={color.primary} style={MARGIN_TOP_24}/> : <>
+        {Object.keys(investStore.bondsDetail).length ?
+          <ScrollView contentContainerStyle={styles.body}>
+            <FundInfo navs={navs}/>
+            <MarketBuyForm  {...{ control, errors: { ...errors }, setValue, watch, clearErrors, navs, bondsDetail }} />
+            <FundTariff data={investStore.bondsDetail}/>
+            <View style={styles.wrapBtn}>
+              <AppButton title={"Đặt lệnh mua"} onPress={handleSubmit(handleBuy)} />
+            </View>
+          </ScrollView> :
+          <EmptyList />
+        }
+        </>
       }
     </View>
   )

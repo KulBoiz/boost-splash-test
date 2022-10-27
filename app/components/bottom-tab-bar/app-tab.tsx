@@ -14,6 +14,7 @@ import { HIT_SLOP } from "../../styles/common-style"
 import i18n from "i18n-js"
 import { useStores } from "../../models"
 import { ROLE } from "../../models/auth-store"
+import { gifs } from "../../assets/gifs"
 
 const tabName = {
   home: i18n.t("bottom_bar.home"),

@@ -117,3 +117,10 @@ export function getMoneyLabel(money){
   }
   return '';
 }
+
+export const formatData = (array) => {
+  return array?.map((val) => ({
+    value: val?.id ?? "",
+    label: val?.name?.replace(/\t/g, "") ?? "",
+  }))
+}

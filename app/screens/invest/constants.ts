@@ -16,6 +16,22 @@ export const PAYMENT_METHOD = [
   },
 ]
 
+export enum FUND_PROGRAM {
+  FLEX = 'flex',
+  SIP = 'sip'
+}
+
+export const FUND_PROGRAM_LIST = [
+  {
+    value: FUND_PROGRAM.FLEX,
+    label: 'FINA Flex'
+  },
+  {
+    value: FUND_PROGRAM.SIP,
+    label: 'FINA Sip'
+  },
+]
+
 export const getPaymentLabel = (type) => {
   switch (type){
     case type === PAYMENT_METHOD_TYPE.FINA : {

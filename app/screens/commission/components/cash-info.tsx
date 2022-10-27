@@ -43,7 +43,7 @@ const CashInfo = React.memo((props: Props) => {
         </View>
         <AppButton title={"Rút tiền"} onPress={() => {
           //
-        }} containerStyle={styles.btn}/>
+        }} containerStyle={styles.btn} disable={true}/>
       </View>
     </View>
   )

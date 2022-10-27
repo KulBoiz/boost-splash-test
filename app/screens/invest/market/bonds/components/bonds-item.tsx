@@ -1,7 +1,7 @@
 import React, { useCallback, useMemo } from "react"
 import { Pressable, View } from "react-native"
 import { AppText } from "../../../../../components/app-text/AppText"
-import { truncateString } from "../../../../../constants/variable"
+import { isAndroid, truncateString } from "../../../../../constants/variable"
 import AppButton from "../../../../../components/app-button/AppButton"
 import { ms, ScaledSheet } from "react-native-size-matters"
 import { FONT_BOLD_14, FONT_SEMI_BOLD_12 } from "../../../../../styles/common-style"
@@ -42,12 +42,14 @@ const BondsItem = React.memo(({ item }: Props) => {
         <AppText value={`${maxInterest?.rate}%`} fontSize={ms(16)} fontFamily={fontFamily.bold} color={color.primary} />
         <AppText value={'năm'}
                  fontSize={ms(12)}
+                 style={styles.text}
                  color={color.palette.grayChateau} />
       </View>
       <View style={styles.secondContainer}>
         <AppText value={maxInterest?.time} fontSize={ms(16)} fontFamily={fontFamily.bold} color={color.palette.orange}/>
         <AppText value={`tháng`}
                  fontSize={ms(12)}
+                 style={styles.text}
                  color={color.palette.grayChateau} />
       </View>
       <AppButton onPress={handleBuy} title={"MUA"} containerStyle={styles.btn} titleStyle={FONT_SEMI_BOLD_12} />
@@ -86,4 +88,7 @@ const styles = ScaledSheet.create({
     height: "30@s",
     borderRadius: '4@s'
   },
+  text: {
+    marginTop: isAndroid ? '-4@s' : 0
+  }
 })

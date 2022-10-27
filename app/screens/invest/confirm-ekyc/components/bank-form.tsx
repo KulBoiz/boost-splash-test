@@ -28,6 +28,7 @@ const BankForm = React.memo((props: Props) => {
   const [bankBranch, setBankBranch] = useState([])
 
   useEffect(() => {
+    console.log(1111111)
     bankStore.getBankList()
   }, [])
 

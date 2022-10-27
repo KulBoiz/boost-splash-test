@@ -7,23 +7,22 @@ import DualButton from "../../../../components/app-button/dual-button"
 import { color } from "../../../../theme"
 import SignatureCapture from "react-native-signature-capture"
 import { MARGIN_BOTTOM_24, MARGIN_TOP_16 } from "../../../../styles/common-style"
+import { useStores } from "../../../../models"
+import { Alert } from "react-native"
 
 
 interface Props {
   modalizeRef: Ref<any>
-
+  closeModal(): void
   handleConfirm(): void
 }
 
 const Signature = React.memo((props: Props) => {
-  const { modalizeRef, handleConfirm } = props
+  const { modalizeRef, handleConfirm , closeModal} = props
+  const {ekycStore} = useStores()
   const signRef = useRef(null)
   const [loading, setLoading] = useState<boolean>(false)
   const [checkSign, setCheckSign] = useState<boolean>(false)
-
-  const rightPress = React.useCallback(() => {
-
-  }, [])
 
   const resetSign = React.useCallback(() => {
     setCheckSign(false)
@@ -33,12 +32,13 @@ const Signature = React.memo((props: Props) => {
 
   const _onSaveEvent = React.useCallback((result) => {
     setLoading(true)
-    // agentStore.uploadBase64(result?.encoded).then(() => {
-    //   setLoading(false)
-    // }).catch(() => setLoading(false))
-    // if (setSignature) {
-    //   setSignature(result?.encoded)
-    // }
+    ekycStore.uploadBase64(result?.encoded).then(() => {
+      setLoading(false)
+      handleConfirm()
+    }).catch((err) => {
+      setLoading(false)
+      Alert.alert(err)
+    })
   }, [])
 
   const _onDragEvent = useCallback(() => {
@@ -48,7 +48,7 @@ const Signature = React.memo((props: Props) => {
   const onSubmit = () => {
     // @ts-ignore
     signRef?.current?.saveImage()
-    // closeModal()
+    closeModal()
   }
 
   return (
@@ -75,7 +75,7 @@ const Signature = React.memo((props: Props) => {
       <AppText value={"Ký tên của bạn ở giữa màn hình"} center fontSize={ms(16)} fontFamily={fontFamily.regular}
                textAlign={"center"} />
 
-      <DualButton leftTitle={"Đặt lại"} rightTitle={"Xác nhận"} leftPress={resetSign} rightPress={rightPress}
+      <DualButton leftTitle={"Đặt lại"} rightTitle={"Xác nhận"} leftPress={resetSign} rightPress={onSubmit}
                   style={[MARGIN_BOTTOM_24, MARGIN_TOP_16]} />
     </Modalize>
   )

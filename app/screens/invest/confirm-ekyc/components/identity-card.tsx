@@ -9,7 +9,6 @@ import { fontFamily } from "../../../../constants/font-family"
 import { MARGIN_BOTTOM_16, MARGIN_TOP_24 } from "../../../../styles/common-style"
 import { navigate } from "../../../../navigators"
 import { ScreenNames } from "../../../../navigators/screen-names"
-import { useStores } from "../../../../models"
 
 interface Props {
   images: any
@@ -17,13 +16,11 @@ interface Props {
 }
 
 const IdentityCard = React.memo((props: Props) => {
-  const {ekycStore} = useStores()
   const {images, setImages} = props
 
   const handlePressFront = React.useCallback(() => {
     const onConfirm = (image) => {
       setImages({...images, front: image})
-      ekycStore?.uploadImage('front', image)
     }
     navigate(ScreenNames.EKYC_ID, {type: 'front', onConfirm})
   }, [images])
@@ -31,7 +28,6 @@ const IdentityCard = React.memo((props: Props) => {
   const handlePressBack = React.useCallback(() => {
     const onConfirm = (image) => {
       setImages({...images, back: image})
-      ekycStore?.uploadImage('back', image)
     }
     navigate(ScreenNames.EKYC_ID, {type: 'back', onConfirm})
   }, [images])
@@ -39,7 +35,6 @@ const IdentityCard = React.memo((props: Props) => {
   const handlePressPortrait = React.useCallback(() => {
     const onConfirm = (image) => {
       setImages({...images, portrait: image})
-      ekycStore?.uploadImage('portrait', image)
     }
     navigate(ScreenNames.EKYC_PORTRAIT, {onConfirm})
   }, [images])

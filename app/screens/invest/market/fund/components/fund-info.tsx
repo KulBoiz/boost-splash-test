@@ -9,8 +9,11 @@ import { ALIGN_CENTER, MARGIN_BOTTOM_16, MARGIN_BOTTOM_4, ROW, SPACE_BETWEEN } f
 import MarketCountdown from "../../../components/market-countdown"
 import moment from "moment"
 import { useStores } from "../../../../../models"
+import { get } from "lodash"
+import { mappingLabelTypeOfFund } from "../../constants"
 
 interface Props {
+  navs: any
 }
 
 interface ItemProps {
@@ -28,20 +31,22 @@ const Item = React.memo(({ title, content, textAlign = 'left'}: ItemProps) => {
   )
 })
 
-const FundInfo = React.memo((props: Props) => {
+const FundInfo = React.memo(({ navs }: Props) => {
   const {investStore} = useStores()
   const {bondsDetail} = investStore
-  const endDate = moment(new Date()).add("hour", 2)
+  const orderAndTransferMoneyToBuyDate = bondsDetail?.info?.orderAndTransferMoneyToBuyDate
+  const endDate = moment(orderAndTransferMoneyToBuyDate)
   const totalTime = moment(endDate).diff(new Date()).toString().slice(0, -3)
+  const currentNav = get(navs[0], 'nav')
 
   return (
     <View style={styles.container}>
       <View style={[ROW, SPACE_BETWEEN, ALIGN_CENTER, MARGIN_BOTTOM_16]}>
-        <Item title={truncateString(bondsDetail?.name, 30)} content={"Quỹ trái phiếu"} />
-        <Item title={"Thời hạn đặt mua"} content={formatTimeDate(new Date())} textAlign={"right"}/>
+        <Item title={truncateString(bondsDetail?.name, 30)} content={mappingLabelTypeOfFund(bondsDetail?.info?.typeOfFund)} />
+        <Item title={"Thời hạn đặt mua"} content={formatTimeDate(orderAndTransferMoneyToBuyDate)} textAlign={"right"}/>
       </View>
       <View style={[ROW, SPACE_BETWEEN, ALIGN_CENTER]}>
-        <Item title={"Giá gần nhất"} content={numberWithCommas(bondsDetail?.info?.parValueShares)} />
+        <Item title={"Giá gần nhất"} content={numberWithCommas(currentNav)} />
         <MarketCountdown totalTime={+totalTime} style={styles.timeContainer} />
       </View>
     </View>

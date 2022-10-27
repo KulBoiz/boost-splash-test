@@ -26,6 +26,7 @@ const InformationItem = ({ item }: any) => {
         <AppText value={item?.title} style={FONT_MEDIUM_12}/>
       </View>
         <RenderHtml
+          baseStyle={{backgroundColor: item?.color, borderRadius: 4, paddingHorizontal: 8, marginVertical: 8}}
           source={{ html: item?.content}}
           contentWidth={width - s(32)}
           tagsStyles={tagsStyles}/>

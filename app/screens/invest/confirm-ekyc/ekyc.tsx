@@ -16,18 +16,16 @@ import IdInfoForm from "./components/id-info-form"
 import BankForm from "./components/bank-form"
 import IdentityCard from "./components/identity-card"
 import { useStores } from "../../../models"
-import AppButton from "../../../components/app-button/AppButton"
-import { navigate } from "../../../navigators"
-import { ScreenNames } from "../../../navigators/screen-names"
+import DualButton from "../../../components/app-button/dual-button"
 
 interface Props {
 }
 
 const note = "Để thực hiện tính năng này, quý khách cần xác thực thông tin sau đây"
 
-const EKYC = React.memo((props: Props) => {
-  const {ekycStore} = useStores()
-  const [images, setImages] = useState({front: '', back: '', portrait: ''})
+const ConfirmEKYC = React.memo((props: Props) => {
+  const { ekycStore } = useStores()
+  const [images, setImages] = useState({ front: "", back: "", portrait: "" })
   const validationSchema = Yup.object().shape({
     email: Yup.string()
       .trim()
@@ -39,7 +37,7 @@ const EKYC = React.memo((props: Props) => {
     placeOfIssue: Yup.string().required(i18n.t("errors.gender")),
     address: Yup.string().required(i18n.t("errors.requireAddress")),
     tel: Yup.string().required(i18n.t("errors.requirePhone")),
-    bank: Yup.string().required("Chọn địa ngân hàng"),
+    bankName: Yup.string().required("Chọn địa ngân hàng"),
     bankNumber: Yup.string().required("Nhập số tài khoản ngân hàng"),
     province: Yup.string().required("Chọn tỉnh / thành phố"),
     district: Yup.string().required("Chọn quận / huyện"),
@@ -57,44 +55,29 @@ const EKYC = React.memo((props: Props) => {
     resolver: yupResolver(validationSchema),
     reValidateMode: "onChange",
   })
+  const leftPress = React.useCallback(() => {
+    //
+  },[])
 
-  const handlePress = (data) => {
-    const param = {
-      fullName: data?.fullName,
-      gender: data?.gender,
-      birthday: data?.birthday,
-      address: data?.address,
-      districtId: data?.district,
-      stateId: data?.province,
-      subDistrictId: data?.commune,
-      emails: [{email: data?.email}],
-      tels: [{tel: data?.tel}],
-      identification:{
-        backSidePhoto:ekycStore?.backImage,
-        frontPhoto:ekycStore?.frontImage,
-        idNumber: data?.idNumber,
-        issuedOn: data?.issuedOn,
-        placeOfIssue: data?.placeOfIssue,
-      }
-    }
-    ekycStore.updateUser(param)
-    navigate(ScreenNames.TRADE_REGISTRATION)
+  const rightPress = (data) => {
+    //
   }
 
   return (
     <View style={styles.container}>
-      <AppHeader headerText={"EKYC"} isBlue />
+      <AppHeader headerText={"Xác thực thông tin"} isBlue />
       <ScrollView>
         <View style={styles.noteContainer}>
           <AppText value={note} style={styles.noteText} textAlign={"center"} />
         </View>
-        <IdentityCard {...{images, setImages}}/>
+        <IdentityCard {...{ images, setImages }} />
         <InformationForm {...{ control, errors: { ...errors }, setValue, clearErrors }} />
         <AddressForm {...{ control, errors: { ...errors }, setValue, clearErrors, watch }} />
         <IdInfoForm {...{ control, errors: { ...errors }, setValue, clearErrors, watch }} />
         <BankForm {...{ control, errors: { ...errors }, setValue, clearErrors, watch }} />
         <View style={styles.btnContainer}>
-          <AppButton tx={'common.continue'} onPress={handleSubmit(handlePress)} disable={!isValid}/>
+          <DualButton leftTitle={"Thay đổi thông tin"} rightTitle={"Tiếp tục"} leftPress={leftPress}
+                      rightPress={rightPress} />
         </View>
       </ScrollView>
 
@@ -102,7 +85,7 @@ const EKYC = React.memo((props: Props) => {
   )
 })
 
-export default EKYC
+export default ConfirmEKYC
 
 const styles = ScaledSheet.create({
   container: {
@@ -120,8 +103,8 @@ const styles = ScaledSheet.create({
     paddingHorizontal: "16@s",
   },
   btnContainer: {
-    paddingHorizontal: '16@s',
-    paddingTop: '12@s',
-    paddingBottom:'24@s'
-  }
+    paddingHorizontal: "16@s",
+    paddingTop: "12@s",
+    paddingBottom: "24@s",
+  },
 })

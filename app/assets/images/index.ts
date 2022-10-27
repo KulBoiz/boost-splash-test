@@ -6,6 +6,7 @@ export const images = {
   common_share: require('./commons/share.png'),
   common_share_blue: require('./commons/share-blue.png'),
   common_fina_pay: require('./commons/fina-pay.png'),
+  common_circle_checked: require('./commons/circle-checked.png'),
 
   app_home: require('./bottom-bar/home.png'),
   app_chat: require('./bottom-bar/chat.png'),
@@ -22,6 +23,7 @@ export const images = {
   identity_hidden : require('./identity/no-hidden.png'),
   identity_too_dark : require('./identity/no-too-dark.png'),
   identity_too_light : require('./identity/no-too-light.png'),
+  vinacapital : require('./invest/vinacapital.png'),
 
   bonds_background : require('./invest/bonds-background.png'),
   home_arrow_up: require('./home/arrow-up.png'),
