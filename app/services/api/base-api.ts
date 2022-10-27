@@ -30,12 +30,13 @@ export class BaseApi {
     }
   }
 
-  async post(path: string, body: any): Promise<any> {
+  async post(path: string, body: any, header?: any): Promise<any> {
     try {
       // make the api call
       const response: ApiResponse<any> = await this.api.apisauce.post(
         `${API_ENDPOINT}/${path}`,
         body,
+        header
       )
 
       // the typical ways to die when calling an api

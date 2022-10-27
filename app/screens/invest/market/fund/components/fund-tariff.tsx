@@ -86,7 +86,7 @@ export default FundTariff
 
 const styles = ScaledSheet.create({
   container: {
-    marginTop: '8@s'
+    marginTop: '16@s'
   },
   wrapContainer: {
     borderWidth: 1,

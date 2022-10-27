@@ -12,6 +12,7 @@ import LineChart from "./chart/line-chart"
 import { getMonthName } from "../../constants/variable"
 import BarChart from "./chart/bar-chart"
 import moment from "moment"
+import { COMMISSION_STATUS } from "./constants"
 
 interface Props {
 }
@@ -37,12 +38,12 @@ const CommissionScreen = React.memo((props: Props) => {
       setResponse(res)
     })
   }, [])
-  const getData = useCallback(()=> {
-    return years.map((e)=> (getSpecificData(response?.byYear?.data, e)))
+  const groupDataByYears = useCallback(()=> {
+    return years.map((e)=> (
+      getSpecificData(response?.byYear?.data, e).filter(el=> el.status === COMMISSION_STATUS.NOT_FOR_CONTROL)
+    ))
   },[response])
-
-  console.log('getData', getData())
-
+  console.log(groupDataByYears())
   const data = {
     labels: type === "years" ? years : months,
     datasets:

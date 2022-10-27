@@ -11,10 +11,37 @@ export const TYPE_OF_FUND = {
   IPO: "ipo",
 }
 
+export const FILTER_FUND = [
+  {
+    label: 'Tất cả',
+    value: null
+  },{
+    label: 'Cổ phiếu',
+    value: TYPE_OF_FUND.STOCK
+  },{
+    label: 'Trái phiếu',
+    value: TYPE_OF_FUND.BOND
+  },{
+    label: 'Cân bằng',
+    value: TYPE_OF_FUND.BALANCED
+  },
+]
+export const FILTER_BOND = [
+  {
+    label: 'Tất cả',
+    value: null
+  },
+]
+
+export const verifyTypeMioAuthenticate = {
+  SYNC_EXISTS_ACCOUNT: 'syncExistsAccount',
+  KYC: 'kyc',
+};
+
 export const mappingLabelTypeOfFund = (status) => {
   switch (status) {
     case TYPE_OF_FUND.STOCK:
-      return "Qũy cổ phiếu"
+    return "Quỹ cổ phiếu"
     case TYPE_OF_FUND.BOND:
       return "Quỹ trái phiếu"
     case TYPE_OF_FUND.BALANCED:

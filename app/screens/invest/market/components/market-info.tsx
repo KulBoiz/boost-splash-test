@@ -1,15 +1,16 @@
-import React from 'react';
+import React from "react"
 import { View, ViewStyle } from "react-native"
 import { AppText } from "../../../../components/app-text/AppText"
-import { ms, ScaledSheet } from "react-native-size-matters"
+import { ScaledSheet } from "react-native-size-matters"
 import { numberWithCommas } from "../../../../constants/variable"
 import { FONT_MEDIUM_12, MARGIN_BOTTOM_4 } from "../../../../styles/common-style"
 import { color } from "../../../../theme"
-import { get, last } from "lodash"
+import { get, head } from "lodash"
 import { mappingLabelTypeOfFund } from "../constants"
 
 interface Props{
   data: any
+  navs: any
 }
 interface ItemProps{
   title: string
@@ -25,12 +26,10 @@ const Item = React.memo(({title, content, style}: ItemProps)=> {
     </View>
   )
 })
-const MarketInfo = React.memo(({ data }: Props) => {
-  const priceUpdateHistories = data?.info?.priceUpdateHistories
+const MarketInfo = React.memo(({ data, navs}: Props) => {
   const conversionFee = data?.info?.conversionFee
-  const currentNav = get(last(priceUpdateHistories), 'price')
+  const currentNav = get(head(navs), 'nav')
   // const program = data?.info?.programList ? data?.info?.programList?.map(e=> e.name).join(', ') : null
-
   return (
     <View style={styles.container}>
       <View style={styles.body}>

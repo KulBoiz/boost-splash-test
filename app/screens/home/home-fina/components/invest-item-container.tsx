@@ -46,7 +46,7 @@ const InvestItemContainer = React.memo((props: Props) => {
             status={"up"}
             title={type !== 'bonds' ? e?.code : e?.productCodeOfTheInvestor}
             key={`${e?.id?.toString() ?? ""}${i.toString()}`}
-            percent={maxInterest?.rate}
+            percent={type !== 'bonds' ? e?.info?.volatilityOverTime?.inOneYear: maxInterest?.rate}
             slug={e?.slug}
             type={type}
           />

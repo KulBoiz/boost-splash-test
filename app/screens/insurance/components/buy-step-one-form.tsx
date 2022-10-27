@@ -46,15 +46,10 @@ const BuyStepOneForm = React.memo((props: Props) => {
 
   const checkCTVAndFina = () => {
     const role = authStoreModel?.role
-
-    if (role === ROLE.CTV || role === ROLE.FINA) {
-      return false
-    }
-
-    return true
+    return !(role === ROLE.CTV || role === ROLE.FINA);
   }
 
-  const packages = productDetail?.packages.map((el, index) => ({
+  const packages = productDetail?.packages?.map((el, index) => ({
     ...el,
     value: index,
     label: `${el?.name}-${!checkCTVAndFina() ? numberWithCommas(el?.price) : numberWithCommas(el?.priceRoot)} VNĐ`,

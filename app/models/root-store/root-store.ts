@@ -20,6 +20,7 @@ import { UploadStoreModel } from "../upload-store/upload-store"
 import { HomeStoreModel } from "../home-store/home-store"
 import { CommissionStoreModel } from "../commission-store/commission-store"
 import { InvestStoreModel } from "../invest-store/invest-store"
+import { EkycStoreModel } from "../ekyc-store/ekyc-store"
 
 /**
  * A RootStore model.
@@ -47,6 +48,7 @@ export const RootStoreModel = types.model("RootStore").props({
   homeStore: types.optional(HomeStoreModel, {} as any),
   commissionStore: types.optional(CommissionStoreModel, {} as any),
   investStore: types.optional(InvestStoreModel, {} as any),
+  ekycStore: types.optional(EkycStoreModel, {} as any),
 })
 
 /**
@@ -75,6 +77,7 @@ export interface RootStore extends Instance<typeof RootStoreModel> {
   homeStore: any
   commissionStore: any
   investStore: any
+  ekycStore: any
 }
 
 /**

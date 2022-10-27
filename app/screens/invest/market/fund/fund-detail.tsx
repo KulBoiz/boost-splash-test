@@ -79,7 +79,7 @@ const FundDetail = React.memo((props: Props) => {
   const renderScreen = useCallback(() => {
     switch (index) {
       case 0:
-        return <MarketInfo data={data} />
+        return <MarketInfo data={data} navs={navs}/>
       case 1:
         return <FundTariff data={data} />
       case 2:
@@ -90,7 +90,7 @@ const FundDetail = React.memo((props: Props) => {
     //   case 4:
     //     return <MarketInfo data={data} />
     // }
-  }, [index, data])
+  }, [index, data, navs])
 
   const handleBuy = useCallback(() => {
     navigate(ScreenNames.BUY_FUND)

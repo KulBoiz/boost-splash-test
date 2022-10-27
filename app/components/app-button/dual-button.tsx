@@ -8,8 +8,8 @@ import { fontFamily } from "../../constants/font-family"
 interface Props {
   leftTitle: string
   rightTitle: string
-  leftPress?(): void
-  rightPress?(): void
+  leftPress?(e?: any): void
+  rightPress?(e?: any): void
   style?: ViewStyle | any
 }
 

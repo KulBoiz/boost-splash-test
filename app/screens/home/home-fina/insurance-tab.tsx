@@ -60,7 +60,7 @@ const InsuranceTab = () => {
         </>
       }
       <HomeBanner type={'small'} label={'Tin tức, khuyến mãi'} style={MARGIN_TOP_16} />
-      <BottomView height={s(130)} />
+      <BottomView height={s(200)} />
       <FullScreenModal
         visible={visible}
         closeModal={() => setVisible(false)}

@@ -1,20 +1,26 @@
-import React, { useCallback, useRef } from "react"
+import React, { FC, useCallback, useRef } from "react"
 import { Platform, View } from "react-native"
 import { Camera, useCameraDevices } from "react-native-vision-camera"
 import AppHeader from "../../../components/app-header/AppHeader"
-import { ScaledSheet } from "react-native-size-matters"
+import { ms, ScaledSheet } from "react-native-size-matters"
 import { CaptureButtonSvg, PhotoSvg } from "../../../assets/svgs"
 import { color } from "../../../theme"
 import { height, width } from "../../../constants/variable"
 import { manipulateAsync, SaveFormat } from "expo-image-manipulator"
 import { ScreenNames } from "../../../navigators/screen-names"
-import { navigate } from "../../../navigators"
+import { goBack, navigate } from "../../../navigators"
 import { RNHoleView } from "react-native-hole-view"
 import { useStores } from "../../../models"
 import { useIsFocused } from "@react-navigation/native"
 import ActionItem from "../../agent/components/action-item"
 import { AppText } from "../../../components/app-text/AppText"
-import { FONT_MEDIUM_14 } from "../../../styles/common-style"
+import { ALIGN_CENTER, FONT_MEDIUM_14, MARGIN_TOP_24 } from "../../../styles/common-style"
+import { StackScreenProps } from "@react-navigation/stack"
+import { EKYCStackParamList } from "../../../navigators/ekyc-stack"
+import { observer } from "mobx-react-lite"
+import { presets } from "../../../constants/presets"
+import AppButton from "../../../components/app-button/AppButton"
+import FastImage from "react-native-fast-image"
 
 const frameWidth = width * 0.8
 const frameHeight = height * 0.5
@@ -22,9 +28,8 @@ const frameX = width * 0.1
 const frameY = height * 0.15
 const guide = 'Xin đưa khuôn mặt của bạn vào giữa\nkhung hình và nhấn chụp ảnh.'
 
-interface Props {}
-
-const EKYCPortrait = React.memo((props: Props) => {
+const EKYCPortrait: FC<StackScreenProps<EKYCStackParamList, ScreenNames.EKYC_PORTRAIT>> = observer(({ route }) => {
+  const onConfirm = route.params.onConfirm
   const { agentStore } = useStores()
   const isFocused = useIsFocused()
   const cameraRef = useRef<any>(null)
@@ -101,14 +106,15 @@ const EKYCPortrait = React.memo((props: Props) => {
   )
 
   const onContinue = useCallback(() => {
-    agentStore.uploadFrontImage(image)
-    navigate(ScreenNames.CHECK_INFO, {frontImage: image})
+    onConfirm(image)
+    goBack()
   }, [image])
 
   return (
     <View style={styles.container}>
       {device != null && hasPermission ? (
-        <Camera
+        image ? <FastImage source={{ uri : image }} style={styles.image}/> :
+          <Camera
           style={styles.camera}
           ref={cameraRef}
           device={device}
@@ -150,12 +156,18 @@ const EKYCPortrait = React.memo((props: Props) => {
       </View>
 
       <View style={styles.btnContainer}>
-        {/* <AppButton */}
-        {/*  disable={!hasPermission} */}
-        {/*  title={frontImage && backImage ? "Tiếp tục" : "Chụp"} */}
-        {/*  onPress={() => (frontImage && backImage ? onContinue() : takePhoto())} */}
-        {/* /> */}
-        <CaptureButtonSvg onPress={takePhoto} />
+        {image ? <View style={[ALIGN_CENTER, { width: '100%' }]}>
+            <AppText value={"Chụp lại"} underline color={color.primary} style={presets.label_16} onPress={onReTake}/>
+            <AppButton
+              disable={!hasPermission}
+              title={"Xác nhận"}
+              onPress={onContinue}
+              containerStyle={MARGIN_TOP_24}
+            />
+          </View>
+          :
+          <CaptureButtonSvg onPress={takePhoto} />
+        }
       </View>
     </View>
   )
@@ -169,6 +181,13 @@ const styles = ScaledSheet.create({
   },
   stepContainer: {
     backgroundColor: "transparent",
+  },
+  image: {
+    position: 'absolute',
+    marginLeft: ms(frameX-2.5),
+    marginTop: ms(frameY-8),
+    width: frameWidth,
+    height: frameHeight,
   },
   camera: {
     position: "absolute",

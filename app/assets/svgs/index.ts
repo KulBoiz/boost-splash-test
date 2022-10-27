@@ -85,6 +85,7 @@ export { default as LoanSuccessSvg } from "./loan_success.svg"
 export { default as CautionSvg } from "./caution.svg"
 export { default as InvestSuccessSvg } from "./invest-success.svg"
 export { default as FinaPaySvg } from "./fina-pay.svg"
+export { default as UploadSvg } from "./upload.svg"
 
 // home
 export { default as AuthSvg } from "./auth.svg"

@@ -17,12 +17,12 @@ interface Props {
 }
 
 const CommissionItem = React.memo((props: Props) => {
-  const {item} = props
-  const status = item?.status ?? ''
+  const { item } = props
+  const status = item?.status ?? ""
 
-  const goToDetail = useCallback(()=> {
-    navigate(ScreenNames.COMMISSION_DETAIL, {id: item?.id})
-  },[])
+  const goToDetail = useCallback(() => {
+    navigate(ScreenNames.COMMISSION_DETAIL, { id: item?.id })
+  }, [])
 
   return (
     <Pressable style={styles.container} onPress={goToDetail}>
@@ -31,7 +31,7 @@ const CommissionItem = React.memo((props: Props) => {
         <View style={[ROW, SPACE_BETWEEN]}>
           <AppText value={item?.transaction?.code} style={styles.name} />
           <AppText
-            value={`(${Number((item?.amount || 0) / (item?.transactionDetail?.amount || 0) * 100).toFixed(2)}%) ${numberWithCommas(item?.amount)} vnđ`}
+            value={`(${Number((item?.amount || 0) / (item?.transactionDetail?.amount || 0) * 100).toFixed(2)}%) ${numberWithCommas(item?.amount.toFixed(2))} vnđ`}
             style={styles.name} />
         </View>
         <View style={[ROW, SPACE_BETWEEN]}>
@@ -54,10 +54,10 @@ const styles = ScaledSheet.create({
   container: {
     flexDirection: "row",
     justifyContent: "space-between",
-    padding: '12@s',
+    padding: "12@s",
     backgroundColor: color.background,
-    borderRadius: '12@s',
-    marginBottom: '12@s',
+    borderRadius: "12@s",
+    marginBottom: "12@s",
     shadowColor: "#000",
     shadowOffset: {
       width: 0,

@@ -1,4 +1,4 @@
-import React, { FC } from "react"
+import React, { FC, useState } from "react"
 import { Alert, Keyboard, Pressable, View } from "react-native"
 import { s, ScaledSheet } from "react-native-size-matters"
 import { AppText } from "../../components/app-text/AppText"
@@ -19,6 +19,7 @@ import FormInput from "../../components/form-input/form-input"
 import RenderAuthStep from "./components/render-step-auth"
 import BackButton from "../../components/back-button/back-button"
 import { fontFamily } from "../../constants/font-family"
+import AppModal from "../../components/app-modal/app-modal"
 
 
 
@@ -31,6 +32,8 @@ const RegisterPhoneScreen: FC<StackScreenProps<AuthStackParamList, ScreenNames.R
       // .matches(numberOnly,"Invalid phone number")
   })
     const { authStoreModel } = useStores()
+    const [visible, setVisible] = useState<boolean>(false)
+    const [error, setError] = useState<string>('')
 
   const {control, handleSubmit, formState: { errors } } = useForm({
     delayError: 0,
@@ -47,9 +50,15 @@ const RegisterPhoneScreen: FC<StackScreenProps<AuthStackParamList, ScreenNames.R
       navigation.navigate(ScreenNames.OTP, { phoneNumber: phone ?? '', isRegister: true})
     }
     else {
-      Alert.alert(register?.error?.message)
+      setError(register?.error?.message)
+      setVisible(true)
     }
   }
+
+  const handleClose = React.useCallback(()=> {
+    setVisible(false)
+  },[])
+
   return (
     <Pressable style={styles.container} onPress={Keyboard.dismiss}>
       <BackButton />
@@ -82,6 +91,7 @@ const RegisterPhoneScreen: FC<StackScreenProps<AuthStackParamList, ScreenNames.R
       <View style={styles.wrapBottom}>
         <AppButton tx={'common.continue'} onPress={handleSubmit(_handleContinue)} containerStyle={styles.btn}/>
       </View>
+      <AppModal visible={visible} closeModal={handleClose} content={error} />
     </Pressable>
   )
 });
