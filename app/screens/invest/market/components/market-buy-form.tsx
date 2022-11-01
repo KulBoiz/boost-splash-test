@@ -23,13 +23,10 @@ interface Props {
 
 const MarketBuyForm = React.memo((props: Props) => {
   const { control, errors, setValue, watch, clearErrors, navs, bondsDetail } = props
-  const currentNav = get(navs[0], 'nav')
+  const currentNav = get(navs[0], 'nav', '')
   const nextOrderMatchingSession = bondsDetail?.info?.nextOrderMatchingSession
-
-  useEffect(()=> {
-    setValue('nav', numberWithCommas(currentNav))
-    setValue('orderSession', formatDate(nextOrderMatchingSession))
-  },[])
+  const nav = numberWithCommas(currentNav)
+  const date = formatDate(nextOrderMatchingSession)
 
   return (
     <View style={styles.container}>
@@ -60,8 +57,8 @@ const MarketBuyForm = React.memo((props: Props) => {
           {...{
             style: styles.rowInput,
             name: "estimatedQuantity",
-            label: "Số lượng ước tính",
-            placeholder: "Nhập số lượng",
+            label: "Số CCQ ước tính",
+            placeholder: "Nhập số CCQ",
             keyboardType: "number-pad",
             control,
             error: errors?.estimatedQuantity?.message,
@@ -89,6 +86,7 @@ const MarketBuyForm = React.memo((props: Props) => {
             keyboardType: "number-pad",
             control,
             editable: false,
+            value: nav,
             error: errors?.nav?.message,
           }}
         />
@@ -100,6 +98,7 @@ const MarketBuyForm = React.memo((props: Props) => {
             placeholder: "Phiên khớp lệnh",
             control,
             editable: false,
+            value: date,
             error: errors?.orderSession?.message,
           }}
         />

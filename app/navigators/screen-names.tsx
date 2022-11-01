@@ -16,6 +16,7 @@ export enum ScreenNames {
   EKYC_SCREEN = 'EKYCScreen',
   EKYC_ID = 'EKYCId',
   EKYC_PORTRAIT = 'EKYCPortrait',
+  SYNC_ACCOUNT = 'SyncAccount',
   INVEST ='Invest',
   INVEST_TAB = 'MarketList',
   FUND_DETAIL = 'FundDetail',

@@ -7,14 +7,15 @@ import FastImage from "react-native-fast-image"
 import { images } from "../../../assets/images"
 import { ms, ScaledSheet } from "react-native-size-matters"
 import { color } from "../../../theme"
-import { hexToRgbA } from "../../../constants/variable"
+import { hexToRgbA, numberWithCommas } from "../../../constants/variable"
 import { fontFamily } from "../../../constants/font-family"
 import { useStores } from "../../../models"
+import { observer } from "mobx-react-lite"
 
 interface Props {
 }
 
-const CashInfo = React.memo((props: Props) => {
+const CashInfo = observer((props: Props) => {
   const {commissionStore} = useStores()
   const {amount} = commissionStore
 
@@ -22,8 +23,8 @@ const CashInfo = React.memo((props: Props) => {
     commissionStore.getCommissionAmount()
   }, [])
 
-  const [showCash, setShowCash] = useState<boolean>(true)
-  const cash = showCash ? amount : "*********"
+  const [showCash, setShowCash] = useState<boolean>(false)
+  const cash = showCash ? numberWithCommas(amount.toFixed(2)) : "*********"
 
   function handleShowHide() {
     setShowCash(!showCash)
@@ -35,7 +36,7 @@ const CashInfo = React.memo((props: Props) => {
         <View>
           <AppText value={"Số tiền có thể rút"} color={hexToRgbA(color.palette.white, 0.6)} fontSize={ms(16)} />
           <View style={[ROW, ALIGN_CENTER, {marginTop: ms(4)}]}>
-            <AppText value={`${cash} đ`} fontSize={ms(28)} fontFamily={fontFamily.bold} color={color.text}/>
+            <AppText value={`${cash} đ`} fontSize={ms(24)} fontFamily={fontFamily.bold} color={color.text}/>
             <Pressable onPress={handleShowHide}>
               <FastImage source={showCash ? images.open_eye : images.close_eye} style={styles.icon} tintColor={color.palette.white} />
             </Pressable>

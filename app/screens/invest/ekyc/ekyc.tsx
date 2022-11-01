@@ -19,24 +19,27 @@ import { useStores } from "../../../models"
 import AppButton from "../../../components/app-button/AppButton"
 import { navigate } from "../../../navigators"
 import { ScreenNames } from "../../../navigators/screen-names"
+import SettingAuthScreen from "../../../components/app-view-no-auth"
+import { observer } from "mobx-react-lite"
 
 interface Props {
 }
 
 const note = "Để thực hiện tính năng này, quý khách cần xác thực thông tin sau đây"
 
-const EKYC = React.memo((props: Props) => {
-  const {ekycStore} = useStores()
+const EKYC = observer((props: Props) => {
+  const {ekycStore, authStoreModel} = useStores()
   const [images, setImages] = useState({front: '', back: '', portrait: ''})
+  const [errorText, setErrorText] = useState({identity: '', portrait: ''})
   const validationSchema = Yup.object().shape({
     email: Yup.string()
       .trim()
       .required(i18n.t("errors.requireEmail"))
       .email(i18n.t("errors.invalidEmail")),
-    birthday: Yup.string().required(i18n.t("errors.requireAddress")),
-    gender: Yup.string().required(i18n.t("errors.gender")),
-    idNumber: Yup.string().required(i18n.t("errors.gender")),
-    placeOfIssue: Yup.string().required(i18n.t("errors.gender")),
+    birthday: Yup.string().required(i18n.t("errors.requireDateOfBirth")),
+    gender: Yup.string().required(i18n.t("errors.requireSex")),
+    idNumber: Yup.string().required(i18n.t("errors.requireCitizenIdentification")),
+    placeOfIssue: Yup.string().required(i18n.t("errors.requireIssuedBy")),
     address: Yup.string().required(i18n.t("errors.requireAddress")),
     tel: Yup.string().required(i18n.t("errors.requirePhone")),
     bank: Yup.string().required("Chọn địa ngân hàng"),
@@ -55,10 +58,19 @@ const EKYC = React.memo((props: Props) => {
   } = useForm({
     mode: "all",
     resolver: yupResolver(validationSchema),
-    reValidateMode: "onChange",
+    reValidateMode: "onSubmit",
   })
 
+
   const handlePress = (data) => {
+    if (!(images.front || images.back)){
+      setErrorText({...errorText, identity: 'Vui lòng chụp ảnh CMND/CCCD'})
+      return
+    }
+    if (!images.portrait) {
+      setErrorText({...errorText, portrait: 'Vui lòng chụp ảnh chân dung'})
+      return
+    }
     const param = {
       fullName: data?.fullName,
       gender: data?.gender,
@@ -80,24 +92,28 @@ const EKYC = React.memo((props: Props) => {
     ekycStore.updateUser(param)
     navigate(ScreenNames.TRADE_REGISTRATION)
   }
-
+  console.log(ekycStore?.frontImage)
   return (
     <View style={styles.container}>
       <AppHeader headerText={"EKYC"} isBlue />
-      <ScrollView>
-        <View style={styles.noteContainer}>
-          <AppText value={note} style={styles.noteText} textAlign={"center"} />
-        </View>
-        <IdentityCard {...{images, setImages}}/>
-        <InformationForm {...{ control, errors: { ...errors }, setValue, clearErrors }} />
-        <AddressForm {...{ control, errors: { ...errors }, setValue, clearErrors, watch }} />
-        <IdInfoForm {...{ control, errors: { ...errors }, setValue, clearErrors, watch }} />
-        <BankForm {...{ control, errors: { ...errors }, setValue, clearErrors, watch }} />
-        <View style={styles.btnContainer}>
-          <AppButton tx={'common.continue'} onPress={handleSubmit(handlePress)} disable={!isValid}/>
-        </View>
-      </ScrollView>
-
+      {
+        authStoreModel.isLoggedIn ?
+          <ScrollView>
+            <View style={styles.noteContainer}>
+              <AppText value={note} style={styles.noteText} textAlign={"center"} />
+            </View>
+            <IdentityCard {...{images, setImages, errorText, setErrorText}}/>
+            <InformationForm {...{ control, errors: { ...errors }, setValue, clearErrors }} />
+            <AddressForm {...{ control, errors: { ...errors }, setValue, clearErrors, watch }} />
+            <IdInfoForm {...{ control, errors: { ...errors }, setValue, clearErrors, watch }} />
+            <BankForm {...{ control, errors: { ...errors }, setValue, clearErrors, watch }} />
+            <View style={styles.btnContainer}>
+              <AppButton tx={'common.continue'} onPress={handleSubmit(handlePress)} disable={!isValid}/>
+            </View>
+          </ScrollView>
+          :
+          <SettingAuthScreen />
+      }
     </View>
   )
 })

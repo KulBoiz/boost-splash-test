@@ -2,22 +2,30 @@ import React from 'react';
 import { View } from 'react-native';
 import { ALIGN_CENTER, FONT_BOLD_14, MARGIN_BOTTOM_4, ROW, SPACE_BETWEEN } from "../../../../styles/common-style"
 import { AppText } from "../../../../components/app-text/AppText"
-import { formatDate } from "../../../../constants/variable"
+import { checkVolatility, formatDate } from "../../../../constants/variable"
 import { color } from "../../../../theme"
 import { MARKET_CONTAINER } from "../../styles"
+import { get, head } from "lodash"
 
 interface Props{
   item?: any
+  navs: any
 }
 
-const MarketChange = React.memo(({ item }: Props) => {
+const green = '#049E26'
+
+const MarketChange = React.memo(({ item, navs }: Props) => {
+  const navDate = get(head(navs), 'navDate')
+  const volatility = item?.info?.volatilityOverTime?.inOneYear
+
   return (
     <View style={MARKET_CONTAINER}>
         <View style={[ROW, SPACE_BETWEEN, ALIGN_CENTER, MARGIN_BOTTOM_4]}>
           <AppText value={"Thay đổi so với đầu năm"} style={FONT_BOLD_14}/>
-          <AppText value={`+${item?.info?.volatilityOverTime?.inOneYear ?? 0}%`} style={FONT_BOLD_14} color={color.palette.green}/>
+          <AppText value={`+${volatility ?? 0}%`} style={FONT_BOLD_14}
+                   color={checkVolatility(volatility) ? color.palette.down : green}/>
         </View>
-      <AppText value={formatDate(new Date())} />
+      <AppText value={formatDate(navDate)} />
 
     </View>
   )

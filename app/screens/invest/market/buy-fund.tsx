@@ -54,7 +54,7 @@ const BuyFund = observer((props: Props) => {
       estimatedQuantity: data?.estimatedQuantity
     }
     investStore.setBuyInfo(param)
-    navigate(ScreenNames.PURCHASE_BONDS)
+    navigate(ScreenNames.PURCHASE_FUND)
   }, [watch])
 
   useEffect(() => {

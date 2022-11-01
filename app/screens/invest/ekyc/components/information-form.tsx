@@ -55,8 +55,9 @@ const InformationForm = React.memo((props: Props) => {
           required: true,
           name: 'phoneNumber',
           labelTx: 'label.phoneNumber',
-          placeholderTx: 'placeholder.phoneNumber',
+          placeholderTx: 'placeholder.phone',
           control,
+          keyboardType: 'number-pad',
           error: errors?.phoneNumber?.message,
         }}
       />

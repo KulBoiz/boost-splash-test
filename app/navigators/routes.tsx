@@ -26,15 +26,18 @@ import EKYCId from "../screens/invest/ekyc/ekyc-id"
 import EKYCPortrait from "../screens/invest/ekyc/ekyc-portrait"
 import UpdateIdentityInformation from "../screens/invest/ekyc/update-identity-information"
 import TradeRegistration from "../screens/invest/ekyc/trade-registration"
+import SyncAccount from "../screens/invest/ekyc/sync-account"
 
 export const AuthRoutes = [
   {
     name: ScreenNames.LOGIN,
     component: LoginScreen,
-  }, {
+  },
+  {
     name: ScreenNames.REGISTER,
     component: RegisterScreen,
-  }, {
+  },
+  {
     name: ScreenNames.REGISTER_PHONE,
     component: RegisterPhoneScreen,
   },
@@ -78,10 +81,10 @@ export const InvestRoutes = [
   }, {
     name: ScreenNames.BUY_BONDS,
     component: BuyFund,
-  },{
+  }, {
     name: ScreenNames.INVEST_SUCCESS,
     component: InvestSuccess,
-  }
+  },
 ]
 export const EKYCRoutes = [
   {
@@ -99,9 +102,14 @@ export const EKYCRoutes = [
   {
     name: ScreenNames.UPDATE_IDENTITY_INFORMATION,
     component: UpdateIdentityInformation,
-  },{
+  },
+  {
     name: ScreenNames.TRADE_REGISTRATION,
     component: TradeRegistration,
+  },
+  {
+    name: ScreenNames.SYNC_ACCOUNT,
+    component: SyncAccount,
   },
 ]
 

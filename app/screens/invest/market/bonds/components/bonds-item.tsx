@@ -9,12 +9,14 @@ import { fontFamily } from "../../../../../constants/font-family"
 import { color } from "../../../../../theme"
 import { navigate } from "../../../../../navigators"
 import { ScreenNames } from "../../../../../navigators/screen-names"
+import { useStores } from "../../../../../models"
 
 interface Props {
   item: any
 }
 
 const BondsItem = React.memo(({ item }: Props) => {
+  const {investStore, authStoreModel} = useStores()
   const maxInterest = useMemo(()=> {
     return item?.info?.interestRate
       .filter((e) => e?.rate)
@@ -28,9 +30,8 @@ const BondsItem = React.memo(({ item }: Props) => {
   }, [])
 
   const handleBuy = useCallback(async () => {
-    // await investStore.getBondsDetail(item?.slug)
-    // navigate(ScreenNames.BUY_BONDS)
-    navigate(ScreenNames.EKYC)
+      await investStore.getBondsDetail(item?.slug)
+      navigate(ScreenNames.BUY_BONDS)
   }, [])
 
   return (
@@ -89,6 +90,6 @@ const styles = ScaledSheet.create({
     borderRadius: '4@s'
   },
   text: {
-    marginTop: isAndroid ? '-4@s' : 0
+    marginTop: isAndroid ? '-8@s' : 0
   }
 })

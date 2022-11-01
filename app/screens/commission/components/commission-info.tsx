@@ -11,13 +11,13 @@ interface Props {
 }
 
 const CommissionInfo = React.memo(({ commissionDetail }: Props) => {
-  const percent = `${+((commissionDetail?.amount || 0) / (commissionDetail?.transactionDetail?.amount || 0) * 100).toFixed(2)}`
-  const commission = `${commissionDetail?.amount} vnđ`
+  const percent = `${+((commissionDetail?.amount || 0) / (commissionDetail?.transactionDetail?.amount || 0) * 100).toFixed(2) ?? 0}`
+  const commission = commissionDetail?.amount
 
   return (
     <View style={styles.container}>
       <InfoBox title={"Thông tin hoa hồng"}>
-        <ItemView title={"Hoa hồng nhận được:"} content={numberWithCommas(commission)} style={styles.itemContainer} />
+        <ItemView title={"Hoa hồng nhận được:"} content={`${numberWithCommas(commission)} vnđ`} style={styles.itemContainer} />
         <ItemView title={"Tỷ lệ:"} content={`${percent}%`}/>
       </InfoBox>
     </View>

@@ -42,7 +42,7 @@ export function randomId() {
   return `mantine-${Math.random().toString(36).slice(2, 11)}`;
 }
 
-export function numberWithCommas(x: number | string) {
+export function numberWithCommas(x: number | string | undefined) {
   return x ? x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") : '0';
 }
 
@@ -52,7 +52,7 @@ export function getLastWord(words: string) {
 
 }
 
-export function formatDate(date: Moment | Date) {
+export function formatDate(date: Moment | Date | undefined) {
   if  (!date) return '_'
   return moment(date).format('DD/MM/YYYY');
 }
@@ -123,4 +123,8 @@ export const formatData = (array) => {
     value: val?.id ?? "",
     label: val?.name?.replace(/\t/g, "") ?? "",
   }))
+}
+
+export const checkVolatility = (value: number | string | undefined) => {
+  return value ? value.toString().includes('-') : false
 }
