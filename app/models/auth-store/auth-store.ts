@@ -25,6 +25,7 @@ export const AuthStoreModel = types
   .extend(withEnvironment)
   .props({
     isFirstTime: types.optional(types.boolean, true),
+    investmentNumber: types.optional(types.string, ''),
     user: types.frozen({}),
     vcf: types.frozen(''),
     userId: types.frozen(''),
@@ -55,6 +56,7 @@ export const AuthStoreModel = types
       if (loggedInInfo && loggedInInfo.user) {
         AsyncStorage.setItem("accessToken", loggedInInfo.accessToken)
         self.user = loggedInInfo.user
+        self.investmentNumber = loggedInInfo.user.investmentNumber
         self.userId = loggedInInfo.user.id
         self.token = loggedInInfo.accessToken
         self.refreshToken = loggedInInfo.refreshToken
@@ -312,6 +314,7 @@ export const AuthStoreModel = types
 
     logout: () => {
       self.userId = ''
+      self.investmentNumber = ''
       self.vcf = ''
       self.user = {}
       self.token = null

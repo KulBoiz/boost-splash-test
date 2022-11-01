@@ -47,6 +47,8 @@ export const images = {
   home_thieves: require('./home/thieves.png'),
   home_rentHome: require('./home/rent-home.png'),
   home_realEstate: require('./home/real-estate.png'),
+  home_tax: require('./home/tax.png'),
+  home_budget: require('./home/budget.png'),
 
   profile_fina_icon: require('./profile/fina-icon.png'),
   profile_background: require('./profile/background.png'),

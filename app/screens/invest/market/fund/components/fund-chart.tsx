@@ -41,11 +41,13 @@ const FundChart = observer(({ data, navs }: Props) => {
   const highestNav = get(maxBy(nav, "nav"), "nav", 0) + 5000
 
   const chartData = nav ? nav?.map((e, index) => {
-    if (index === 0) return { value: e?.nav, date: formatDate(e?.navDate), label: formatDate(e?.navDate) }
-    if (index + 1 === navs?.length) return {
+    // if (index === 0) return { value: e?.nav, date: formatDate(e?.navDate), label: formatDate(e?.navDate) }
+    if (index === 0) return { value: e?.nav, date: formatDate(e?.navDate), labelComponent: () => <AppText style={{width: 80, marginLeft: 30}} value={formatDate(e?.navDate)} /> }
+    if (index === nav?.length - 1) return {
       value: e?.nav,
       date: formatDate(e?.navDate),
       label: formatDate(e?.navDate),
+      labelComponent: () => <AppText style={{width: 80, marginLeft: -50}} value={formatDate(e?.navDate)} />
     }
     return { value: e?.nav, date: formatDate(e?.navDate) }
   }) : []
@@ -93,7 +95,8 @@ const FundChart = observer(({ data, navs }: Props) => {
         // data2={ptData2}
         width={width * 0.72}
         hideDataPoints
-        spacing={10}
+        spacing={30}
+        scrollToEnd
         color={hexToRgbA(color.primary, 0.7)}
         // color2={hexToRgbA(color.palette.orange, 0.7)}
         thickness={1.5}
@@ -103,7 +106,6 @@ const FundChart = observer(({ data, navs }: Props) => {
         endOpacity={0.1}
         initialSpacing={0}
         noOfSections={5}
-        // maxValue={highestNav}
         maxValue={highestNav}
         yAxisColor={color.palette.deepGray}
         showXAxisIndices
@@ -116,9 +118,9 @@ const FundChart = observer(({ data, navs }: Props) => {
         hideOrigin
         yAxisTextStyle={{ color: color.palette.lightBlack }}
         yAxisSide="right"
-        // showReferenceLine1
         yAxisLabelWidth={s(45)}
         yAxisLabelContainerStyle={{ paddingLeft: 5 }}
+        // showReferenceLine1
         // referenceLine1Config={{color: color.palette.deepGray, dashWidth: 10, thickness: 2}}
         // referenceLine1Position={highestNav-5000}
         verticalLinesUptoDataPoint

@@ -38,10 +38,10 @@ export const AppStack = () => {
         name={ScreenNames.HOME}
         component={AppHomeScreen}
       />
-      <Tab.Screen
-        name={ScreenNames.CHAT}
-        component={InDeveloping}
-      />
+      {/* <Tab.Screen */}
+      {/*  name={ScreenNames.CHAT} */}
+      {/*  component={InDeveloping} */}
+      {/* /> */}
       {role !== ROLE.BANK &&
         <Tab.Screen
           name={ScreenNames.PLUS}

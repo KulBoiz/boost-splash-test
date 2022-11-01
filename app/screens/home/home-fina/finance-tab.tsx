@@ -96,7 +96,7 @@ const FinanceTab = React.memo((props: Props) => {
       },
     },
     {
-      image: images.home_calculate_tool,
+      image: images.home_tax,
       title: 'Tính thuế theo lương',
       onPress: () => {
         setLink(DOMAIN + "/calculators-toolkit/calculating-tax-by-salaly")
@@ -104,7 +104,7 @@ const FinanceTab = React.memo((props: Props) => {
       },
     },
     {
-      image: images.home_calculate_tool,
+      image: images.home_budget,
       title: 'Thiết lập ngân sách',
       onPress: () => {
         setLink(DOMAIN + "/calculators-toolkit/budget-planner")

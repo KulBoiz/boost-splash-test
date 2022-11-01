@@ -4,7 +4,7 @@ import InvestItemContainer from "./components/invest-item-container"
 import { useStores } from "../../../models"
 import { navigate } from "../../../navigators"
 import { ScreenNames } from "../../../navigators/screen-names"
-import { MARGIN_BOTTOM_16, MARGIN_BOTTOM_4, MARGIN_TOP_16 } from "../../../styles/common-style"
+import { MARGIN_BOTTOM_16, MARGIN_TOP_16 } from "../../../styles/common-style"
 import HomeBanner from "./components/home-banner"
 import FastImage from "react-native-fast-image"
 import { AppText } from "../../../components/app-text/AppText"
@@ -39,14 +39,14 @@ const InvestTab = React.memo((props: Props) => {
   return (
     <View style={styles.container}>
       <FastImage source={images.invest_home} style={styles.image}>
-        <AppText value={"Khảo sát khẩu vị đầu tư"} color={color.text} />
-        <AppText value={"ĐẦU TƯ"} fontSize={ms(25)} color={color.text} fontFamily={fontFamily.bold} />
+        <AppText value={"Bạn muốn quan sát thông tin"} color={color.text} />
+        <AppText value={"thị trường?"} fontSize={ms(20)} color={color.text} fontFamily={fontFamily.semiBold} />
         <AppButton onPress={() => {
-        }} title={"Khảo sát ngay"} disable={true} containerStyle={styles.btn} />
+        }} title={"Xem ngay"} disable={true} containerStyle={styles.btn} />
       </FastImage>
-      <InvestItemContainer label={"Trái phiếu nổi bật"} data={bonds} onPress={listBonds} style={MARGIN_BOTTOM_16} />
-      <InvestItemContainer label={"CCQ nổi bật"} data={funds} type={"fund"} onPress={listFund} />
-      <HomeBanner type={"big"} label={"Tin tức"} style={MARGIN_TOP_16} />
+      {!!bonds?.length && <InvestItemContainer label={"Trái phiếu nổi bật"} data={bonds} onPress={listBonds} style={MARGIN_BOTTOM_16} />}
+      {!!funds?.length && <InvestItemContainer label={"CCQ nổi bật"} data={funds} type={"fund"} onPress={listFund} />}
+      <HomeBanner type={"small"} label={"Tin tức"} style={MARGIN_TOP_16} />
       <BottomView height={s(200)} />
 
     </View>
@@ -69,10 +69,10 @@ const styles = ScaledSheet.create({
     paddingHorizontal: "24@s",
   },
   btn: {
-    flex: 1,
-    width: "50%",
+    height: '35@ms',
+    width: "40%",
     marginTop: "4@s",
-    borderRadius: '4@s',
+    borderRadius: "4@s",
     backgroundColor: color.palette.orange,
   },
 })

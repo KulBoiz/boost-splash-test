@@ -39,26 +39,26 @@ function AppTabBar({ state, descriptors, navigation }: any) {
       icon: <FastImage source={images.app_home} style={styles.icon} tintColor={color.palette.grayChateau} />,
       iconActive: <FastImage source={images.app_home} style={styles.icon} tintColor={color.primary} />,
     },
+    // {
+    //   index: 1,
+    //   title: tabName.chat,
+    //   icon: <FastImage source={images.app_chat} style={styles.icon} tintColor={color.palette.grayChateau} />,
+    //   iconActive: <FastImage source={images.app_chat} style={styles.icon} tintColor={color.primary} />,
+    // },
     {
       index: 1,
-      title: tabName.chat,
-      icon: <FastImage source={images.app_chat} style={styles.icon} tintColor={color.palette.grayChateau} />,
-      iconActive: <FastImage source={images.app_chat} style={styles.icon} tintColor={color.primary} />,
+      title: tabName.request,
+      icon: <FastImage source={images.app_request} style={styles.icon} />,
+      iconActive: <FastImage source={images.app_request} style={styles.icon} />,
     },
     {
       index: 2,
-      title: tabName.request,
-      icon: <FastImage source={images.app_request} style={styles.iconPlus} />,
-      iconActive: <FastImage source={images.app_request} style={styles.iconPlus} />,
-    },
-    {
-      index: 3,
       title: tabName.manage,
       icon: <FastImage source={images.app_manage} style={styles.icon} tintColor={color.palette.grayChateau} />,
       iconActive: <FastImage source={images.app_manage} style={styles.icon} tintColor={color.primary} />,
     },
     {
-      index: 4,
+      index: 3,
       title: tabName.profile,
       icon: <FastImage source={images.app_profile} style={styles.icon} tintColor={color.palette.grayChateau} />,
       iconActive: <FastImage source={images.app_profile} style={styles.icon} tintColor={color.primary} />,
@@ -72,14 +72,14 @@ function AppTabBar({ state, descriptors, navigation }: any) {
       icon: <FastImage source={images.app_home} style={styles.icon} tintColor={color.palette.grayChateau} />,
       iconActive: <FastImage source={images.app_home} style={styles.icon} tintColor={color.primary} />,
     },
+    // {
+    //   index: 1,
+    //   title: tabName.chat,
+    //   icon: <FastImage source={images.app_chat} style={styles.icon} tintColor={color.palette.grayChateau} />,
+    //   iconActive: <FastImage source={images.app_chat} style={styles.icon} tintColor={color.primary} />,
+    // },
     {
       index: 1,
-      title: tabName.chat,
-      icon: <FastImage source={images.app_chat} style={styles.icon} tintColor={color.palette.grayChateau} />,
-      iconActive: <FastImage source={images.app_chat} style={styles.icon} tintColor={color.primary} />,
-    },
-    {
-      index: 2,
       title: tabName.profile,
       icon: <FastImage source={images.app_profile} style={styles.icon} tintColor={color.palette.grayChateau} />,
       iconActive: <FastImage source={images.app_profile} style={styles.icon} tintColor={color.primary} />,
@@ -125,7 +125,8 @@ function AppTabBar({ state, descriptors, navigation }: any) {
                 onLongPress={onLongPress}>
                 {isFocused ? tabBarCustom[index].iconActive : tabBarCustom[index].icon}
                 <AppText
-                  style={[styles.text, isFocused ? styles.textActive : null, index === 2 && styles.middleText]}>{tabBarCustom[index].title}</AppText>
+                  // style={[styles.text, isFocused ? styles.textActive : null, index === 2 && styles.middleText]}>{tabBarCustom[index].title}</AppText>
+                  style={[styles.text, isFocused ? styles.textActive : null]}>{tabBarCustom[index].title}</AppText>
               </TouchableOpacity>
               :
               <TouchableOpacity

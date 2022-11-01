@@ -29,7 +29,7 @@ const CommissionItem = React.memo((props: Props) => {
       <FastImage source={commissionStatus(status)?.icon} style={styles.icon} />
       <View style={{ flex: 1 }}>
         <View style={[ROW, SPACE_BETWEEN]}>
-          <AppText value={item?.transaction?.code} style={styles.name} />
+          <AppText value={item?.transactionDetail?.code} style={styles.name} />
           <AppText
             value={`(${Number((item?.amount || 0) / (item?.transactionDetail?.amount || 0) * 100).toFixed(2)}%) ${numberWithCommas(item?.amount.toFixed(2))} vnđ`}
             style={styles.name} />

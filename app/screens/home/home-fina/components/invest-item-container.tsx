@@ -6,6 +6,7 @@ import { AppText } from "../../../../components/app-text/AppText"
 import { color } from "../../../../theme"
 import InvestItem from "./invest-item"
 import { FONT_REGULAR_12 } from "../../../../styles/common-style"
+import { checkVolatility } from "../../../../constants/variable"
 
 
 interface Props {
@@ -39,14 +40,13 @@ const InvestItemContainer = React.memo((props: Props) => {
                 )
             }, [e])
           }
-
+          const volatility = type !== 'bonds' ? e?.info?.volatilityOverTime?.inOneYear: maxInterest?.rate
           return <InvestItem
             icon={e?.org?.image?.url}
-            // status={e?.status}
-            status={"up"}
+            status={checkVolatility(volatility) ? "down" : "up" }
             title={type !== 'bonds' ? e?.code : e?.productCodeOfTheInvestor}
             key={`${e?.id?.toString() ?? ""}${i.toString()}`}
-            percent={type !== 'bonds' ? e?.info?.volatilityOverTime?.inOneYear: maxInterest?.rate}
+            percent={volatility}
             slug={e?.slug}
             type={type}
           />

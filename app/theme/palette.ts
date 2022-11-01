@@ -22,6 +22,8 @@ export const palette = {
   lightGrey: "#F1F1F1",
   lighterGrey: "#F5F6FA",
   angry: "#dd3333",
+  up: '#2EBD85',
+  down: '#F6465D',
   deepPurple: "#5D2555",
   deepGray: "#AAADB7",
   F9FBFF: '#F9FBFF',

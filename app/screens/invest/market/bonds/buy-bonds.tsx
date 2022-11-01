@@ -66,7 +66,7 @@ const BuyBonds = React.memo((props: Props) => {
           <AppText value={'TỔNG GIÁ TRỊ ĐẦU TƯ'} style={FONT_BOLD_12}/>
           <AppText value={`${truncateString(watch('amount'), 20)} VND`} fontSize={ms(15)} fontFamily={fontFamily.bold} color={color.primary}/>
         </View>
-        <AppButton title={'Đặt lện mua'} onPress={handleBuy} />
+        <AppButton title={'Đặt lệnh mua'} onPress={handleBuy} />
       </View>
     </View>
   )

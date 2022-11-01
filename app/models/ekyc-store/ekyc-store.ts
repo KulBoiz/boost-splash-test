@@ -43,21 +43,24 @@ export const EkycStoreModel = types
       }
     }),
 
-    kycMio: flow(function* kycMio(param) {
-      const result = yield self.api.post("users/mio-kyc", {
-          param,
-        },
-      )
+    checkSyncMio: flow(function* checkSyncMio() {
+      const result = yield self.api.post("users/check-investor-existed-on-mio",{})
       const data = result?.data
       if (result.kind === "ok") {
         return data
       }
     }),
 
-    verifyMioOtp: flow(function* verifyMioOtp(otpCOde) {
-      const userId = self.userId()
+    kycMio: flow(function* kycMio(param) {
+      const result = yield self.api.post("users/mio-kyc", {
+          param,
+        },
+      )
+        return result
+    }),
 
-      const result = yield self.api.post(`users/verify-otp-e-sign-by-mio/${userId}`, {
+    verifyMioOtp: flow(function* verifyMioOtp(otpCOde) {
+      const result = yield self.api.post(`users/verify-otp-e-sign-by-mio`, {
         otpCOde,
         },
       )
@@ -66,15 +69,33 @@ export const EkycStoreModel = types
         return data
       }
     }),
-    resendMioOtp: flow(function* resendMioOtp() {
-      const userId = self.userId()
 
-      const result = yield self.api.get(`/users/resend-otp-e-sign-with-mio/${userId}`)
+    resendMioOtp: flow(function* resendMioOtp() {
+      const result = yield self.api.get(`users/resend-otp-e-sign-with-mio`)
       const data = result?.data
       if (result.kind === "ok") {
         return data
       }
     }),
+
+    verifySyncMioOtp: flow(function* verifySyncMioOtp(otpCOde) {
+      const result = yield self.api.post(`users/verify-otp-e-sign-by-mio`, {
+        otpCOde,
+        },
+      )
+      const data = result?.data
+      if (result.kind === "ok") {
+        return data
+      }
+    }),
+    resendSyncMioOtp: flow(function* resendSyncMioOtp() {
+      const result = yield self.api.get(`users/resend-otp-e-sign-with-mio`)
+      const data = result?.data
+      if (result.kind === "ok") {
+        return data
+      }
+    }),
+
     updateUser: (user) => {
       self.user = user
     },
@@ -96,7 +117,7 @@ export const EkycStoreModel = types
         filename: fileName,
         type: mime.getType(path) ?? "image/jpg",
       }
-      formData.append("identification", file)
+      formData.append(`identification.${type}`, file)
       const result = yield uploadApi.uploadFile(formData)
       const data = result?.data
       if (result.kind !== "ok") {

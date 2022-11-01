@@ -13,49 +13,66 @@ import { useStores } from "../../../../models"
 
 interface Props {
   images: any
+  errorText: any
+
   setImages(e: any): void
+
+  setErrorText(e: any): void
 }
 
 const IdentityCard = React.memo((props: Props) => {
-  const {ekycStore} = useStores()
-  const {images, setImages} = props
+  const { ekycStore } = useStores()
+  const { images, setImages, errorText, setErrorText } = props
 
   const handlePressFront = React.useCallback(() => {
     const onConfirm = (image) => {
-      setImages({...images, front: image})
-      ekycStore?.uploadImage('front', image)
+      setImages({ ...images, front: image })
+      setErrorText({ ...errorText, identity: "" })
+      ekycStore?.uploadImage("front", image)
     }
-    navigate(ScreenNames.EKYC_ID, {type: 'front', onConfirm})
+    navigate(ScreenNames.EKYC_ID, { type: "front", onConfirm })
   }, [images])
 
   const handlePressBack = React.useCallback(() => {
     const onConfirm = (image) => {
-      setImages({...images, back: image})
-      ekycStore?.uploadImage('back', image)
+      setImages({ ...images, back: image })
+      setErrorText({ ...errorText, identity: "" })
+      ekycStore?.uploadImage("back", image)
     }
-    navigate(ScreenNames.EKYC_ID, {type: 'back', onConfirm})
+    navigate(ScreenNames.EKYC_ID, { type: "back", onConfirm })
   }, [images])
 
   const handlePressPortrait = React.useCallback(() => {
     const onConfirm = (image) => {
-      setImages({...images, portrait: image})
-      ekycStore?.uploadImage('portrait', image)
+      setImages({ ...images, portrait: image })
+      setErrorText({ ...errorText, portrait: "" })
+      ekycStore?.uploadImage("portrait", image)
     }
-    navigate(ScreenNames.EKYC_PORTRAIT, {onConfirm})
+    navigate(ScreenNames.EKYC_PORTRAIT, { onConfirm })
   }, [images])
 
   return (
     <View style={styles.container}>
       <AppText style={presets.label_16} value={"Thông tin giấy tờ"} color={color.palette.blue} />
       <AppText fontFamily={fontFamily.bold} value={"Chụp mặt trước, mặt sau CMND/CCCD"} style={styles.subLabel} />
-      <View style={styles.imageContainer}>
-        <ImageContainer text={"Chụp ảnh mặt trước"} onPress={handlePressFront} haveImage={!!images.front} image={images.front}/>
-        <View style={{ width: "3%" }} />
-        <ImageContainer text={"Chụp ảnh mặt sau"} onPress={handlePressBack} haveImage={!!images.back} image={images.back}/>
+      <View>
+        <View style={styles.imageContainer}>
+          <ImageContainer text={"Chụp ảnh mặt trước"} onPress={handlePressFront} haveImage={!!images.front}
+                          image={images.front} />
+          <View style={{ width: "3%" }} />
+          <ImageContainer text={"Chụp ảnh mặt sau"} onPress={handlePressBack} haveImage={!!images.back}
+                          image={images.back} />
+        </View>
+        {!!errorText?.identity && <AppText value={errorText.identity} style={styles.error} />}
       </View>
-      <View style={{ width: "48.5%" }}>
-        <AppText fontFamily={fontFamily.bold} value={"Chụp chân dung"} style={[MARGIN_TOP_24, MARGIN_BOTTOM_16]} />
-        <ImageContainer text={"Chụp ảnh chân dung"} onPress={handlePressPortrait} haveImage={!!images.portrait} image={images.portrait}/>
+      <View>
+
+        <View style={{ width: "48.5%" }}>
+          <AppText fontFamily={fontFamily.bold} value={"Chụp chân dung"} style={[MARGIN_TOP_24, MARGIN_BOTTOM_16]} />
+          <ImageContainer text={"Chụp ảnh chân dung"} onPress={handlePressPortrait} haveImage={!!images.portrait}
+                          image={images.portrait} />
+        </View>
+        {!!errorText?.portrait && <AppText value={errorText.portrait} style={styles.error} />}
       </View>
 
     </View>
@@ -75,5 +92,13 @@ const styles = ScaledSheet.create({
   subLabel: {
     marginTop: "12@s",
     marginBottom: "16@s",
+  },
+  error: {
+    position: "absolute",
+    fontFamily: fontFamily.medium,
+    color: color.palette.angry,
+    fontSize: "12@ms",
+    lineHeight: 14,
+    bottom: '-16@s'
   },
 })

@@ -30,14 +30,17 @@ const TransactionInfo = React.memo((props : Props) => {
   const {investStore} = useStores()
   const {bondsDetail} = investStore
   const info = investStore?.bondsDetail?.info
+  const interests = info?.interestRate?.filter(e => e?.rate) || [];
+  const maxInterest = interests.length ? interests.reduce((a, b) => a.rate > b.rate ? a : b) : 0;
+  
   return (
     <View style={styles.container}>
-      <AppText value={"Thông tin giao dịch"} style={presets.label} />
+      <AppText value={"Thông tin giao dịch"} style={[presets.label, styles.label]} />
       <View style={styles.itemContainer}>
         <Item title={"Tên trái phiếu"} content={bondsDetail?.name} margin />
         <Item title={"Số lượng trái phiếu"} content={""} margin/>
         <Item title={"Kỳ hạn trái phiếu"} content={""} margin/>
-        <Item title={"Lãi suất"} content={""} margin/>
+        <Item title={"Lãi suất"} content={`${maxInterest?.rate}%/ năm`} margin/>
         <Item title={"Phí giao dịch"} content={""} margin/>
         <Item title={"Ngày đầu tư"} content={""} margin/>
         <Item title={"Ngày kết thúc"} content={""} margin/>
@@ -52,6 +55,10 @@ export default TransactionInfo
 
 const styles = ScaledSheet.create({
   container: {},
+  label: {
+    marginTop: '16@s',
+    marginBottom: '12@s'
+  },
   itemContainer: {
     borderRadius: "8@s",
     padding: "16@s",

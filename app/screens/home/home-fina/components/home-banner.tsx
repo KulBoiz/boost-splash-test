@@ -66,7 +66,7 @@ const HomeBanner = observer((props: Props) => {
         data={news}
         renderItem={_renderItem}
         sliderWidth={width}
-        itemWidth={isBigType ? width - 100 : width -215}
+        itemWidth={isBigType ? width - 100 : width - ms(220)}
         loop={isBigType}
         activeSlideAlignment={!isBigType ? "start"  : 'center'}
         inactiveSlideScale={1}
@@ -83,21 +83,21 @@ export default HomeBanner;
 
 const styles = ScaledSheet.create({
   container: {
-    width: '250@s',
+    width: '250@ms',
     marginBottom: 2
   },
   smallContainer: {
-    width: '144@s',
+    width: '138@ms',
   },
   image:{
-    width: '250@s',
-    height: '140@s',
+    width: '250@ms',
+    height: '140@ms',
     borderTopRightRadius: '8@s',
     borderTopLeftRadius: '8@s'
   },
   smallImage:{
-    height: "80@s",
-    width: "144@s",
+    height: "78@ms",
+    width: "138@ms",
     borderRadius: '8@s'
   },
   contentContainer: {
@@ -124,8 +124,8 @@ const styles = ScaledSheet.create({
   },
   smallTitle: {
     fontSize: '12@ms',
-    fontFamily: fontFamily.bold,
-    marginTop: '12@s'
+    fontFamily: fontFamily.regular,
+    marginTop: '8@s'
   },
   description: {
     marginHorizontal: '12@s',

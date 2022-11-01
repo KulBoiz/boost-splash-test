@@ -23,7 +23,7 @@ interface Props {
 
 const BondsDetail = React.memo((props: any) => {
   const { params: { slug } } = useRoute<RouteProp<NavigatorParamList, ScreenNames.BONDS_DETAIL>>()
-  const { investStore } = useStores()
+  const { investStore, authStoreModel } = useStores()
   const [data, setData] = useState({})
   const [loading, setLoading] = useState<boolean>(true)
 
@@ -36,7 +36,7 @@ const BondsDetail = React.memo((props: any) => {
   }, [])
 
   const handleBuy = useCallback(() => {
-    navigate(ScreenNames.BUY_BONDS)
+      navigate(ScreenNames.BUY_BONDS)
   }, [])
 
   const renderTitle = useMemo(() => {

@@ -1,17 +1,16 @@
-import React, { useCallback, useEffect, useMemo, useState } from "react"
+import React, { useCallback, useEffect, useState } from "react"
 import { Pressable, View } from "react-native"
 import { AppText } from "../../../../../components/app-text/AppText"
-import { formatDate, getMoneyLabel, numberWithCommas, truncateString } from "../../../../../constants/variable"
+import { checkVolatility, formatDate, numberWithCommas, truncateString } from "../../../../../constants/variable"
 import AppButton from "../../../../../components/app-button/AppButton"
 import { ms, ScaledSheet } from "react-native-size-matters"
 import { FONT_SEMI_BOLD_12, FONT_SEMI_BOLD_14, MARGIN_BOTTOM_4 } from "../../../../../styles/common-style"
 import { fontFamily } from "../../../../../constants/font-family"
 import { color } from "../../../../../theme"
-import moment from "moment"
 import { navigate } from "../../../../../navigators"
 import { ScreenNames } from "../../../../../navigators/screen-names"
 import { useStores } from "../../../../../models"
-import { first, get, head, last } from "lodash"
+import { get, head } from "lodash"
 import { mappingLabelTypeOfFund } from "../../constants"
 
 interface Props {
@@ -19,40 +18,47 @@ interface Props {
 }
 
 const FundItem = React.memo(({ item }: Props) => {
-  const {investStore} = useStores()
+  const { investStore, authStoreModel } = useStores()
   const [price, setPrice] = useState([])
 
-  useEffect(()=> {
-    investStore.getCurrentNav(item?.id).then(e=> setPrice(e))
-  },[])
+  useEffect(() => {
+    investStore.getCurrentNav(item?.id).then(e => setPrice(e))
+  }, [])
 
-  const currentNav = get(head(price), 'nav')
-  const currentData = get(head(price), 'navDate')
-  const percent =  item?.info?.volatilityOverTime?.inOneYear
+  const currentNav = get(head(price), "nav")
+  const currentData = get(head(price), "navDate")
+  const percent = item?.info?.volatilityOverTime?.inOneYear
 
   const watchDetail = useCallback(() => {
-    navigate(ScreenNames.FUND_DETAIL, {slug: item?.slug})
+    navigate(ScreenNames.FUND_DETAIL, { slug: item?.slug })
   }, [item])
 
   const handleBuy = useCallback(async () => {
-    await investStore.getBondsDetail(item?.slug)
-    navigate(ScreenNames.BUY_FUND)
+    if (authStoreModel?.investmentNumber) {
+      await investStore.getBondsDetail(item?.slug)
+      navigate(ScreenNames.BUY_FUND)
+      return
+    }
+    navigate(ScreenNames.EKYC)
   }, [])
 
   return (
     <Pressable onPress={watchDetail} style={styles.container}>
       <View style={styles.firstContainer}>
-        <AppText value={truncateString(item?.code, 10)} fontFamily={fontFamily.semiBold} color={color.primary} style={MARGIN_BOTTOM_4}/>
-        <AppText value={mappingLabelTypeOfFund(item?.info?.typeOfFund)} color={color.palette.green}/>
+        <AppText value={truncateString(item?.code, 10)} fontFamily={fontFamily.semiBold} color={color.primary}
+                 style={MARGIN_BOTTOM_4} />
+        <AppText value={mappingLabelTypeOfFund(item?.info?.typeOfFund)} color={color.palette.green} />
       </View>
       <View style={styles.secondContainer}>
-        <AppText value={numberWithCommas(currentNav)} fontSize={ms(14)} style={MARGIN_BOTTOM_4} color={'#2EBD85'}/>
+        <AppText value={numberWithCommas(currentNav)} fontSize={ms(14)} style={MARGIN_BOTTOM_4}
+                 color={checkVolatility(percent) ? color.palette.down : color.palette.up} />
         <AppText value={`${formatDate(currentData)}`}
                  fontSize={ms(10)}
                  color={color.palette.grayChateau} />
       </View>
-      <View style={[styles.rateContainer, {backgroundColor: color.palette.palegreen}]}>
-        <AppText value={`+${percent.toFixed(2)}%`} style={FONT_SEMI_BOLD_14} color={color.palette.white} textAlign={'right'}/>
+      <View style={[styles.rateContainer, { backgroundColor: checkVolatility(percent) ? color.palette.down : color.palette.up }]}>
+        <AppText value={`${checkVolatility(percent) ? '-' : '+'}${percent.toFixed(2)}%`} style={FONT_SEMI_BOLD_14} color={color.palette.white}
+                 textAlign={"right"} />
       </View>
       <AppButton onPress={handleBuy} title={"MUA"} containerStyle={styles.btn} titleStyle={FONT_SEMI_BOLD_12} />
     </Pressable>
@@ -66,29 +72,29 @@ const styles = ScaledSheet.create({
     flex: 1,
     borderBottomWidth: 1,
     borderBottomColor: color.palette.offWhite,
-    paddingVertical: '8@s',
+    paddingVertical: "8@s",
     alignItems: "center",
     flexDirection: "row",
-    justifyContent: 'space-between'
+    justifyContent: "space-between",
   },
   firstContainer: {
-    flex: 1
+    flex: 1,
   },
   secondContainer: {
-    flex: 1
+    flex: 1,
 
   },
   rateContainer: {
-    minWidth: '70@s',
-    height: '34@s',
+    minWidth: "70@s",
+    height: "34@s",
     alignItems: "center",
     justifyContent: "center",
-    borderRadius: '4@s',
-    marginRight: '24@s'
+    borderRadius: "4@s",
+    marginRight: "24@s",
   },
   btn: {
     width: "60@s",
     height: "30@s",
-    borderRadius: '4@s'
+    borderRadius: "4@s",
   },
 })

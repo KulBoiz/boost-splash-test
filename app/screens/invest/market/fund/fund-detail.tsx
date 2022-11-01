@@ -29,7 +29,7 @@ interface Props {
 
 const FundDetail = React.memo((props: Props) => {
   const { params: { slug } } = useRoute<RouteProp<NavigatorParamList, ScreenNames.FUND_DETAIL>>()
-  const { investStore } = useStores()
+  const { investStore, authStoreModel } = useStores()
   const [index, setIndex] = React.useState(0)
   const [data, setData] = useState({})
   const [navs, setNavs] = useState([])
@@ -93,7 +93,11 @@ const FundDetail = React.memo((props: Props) => {
   }, [index, data, navs])
 
   const handleBuy = useCallback(() => {
-    navigate(ScreenNames.BUY_FUND)
+    // if (authStoreModel?.investmentNumber){
+      navigate(ScreenNames.BUY_FUND)
+      // return
+    // }
+    // navigate(ScreenNames.EKYC)
   }, [])
 
   const renderTitle = useMemo(() => {
@@ -112,7 +116,7 @@ const FundDetail = React.memo((props: Props) => {
       {loading ? <ActivityIndicator color={color.primary} style={MARGIN_TOP_16} /> :
         <>
           {data ? <ScrollView>
-            <MarketChange item={data}/>
+            <MarketChange item={data} navs={navs}/>
             <NearestFund data={data} navs={navs}/>
             {navs&& <FundChart data={data} navs={navs}/>}
             <NearestPrice data={data} navs={navs}/>

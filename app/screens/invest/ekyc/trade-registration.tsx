@@ -1,5 +1,5 @@
 import React, { useCallback, useRef, useState } from "react"
-import { View } from "react-native"
+import { Alert, View } from "react-native"
 import AppHeader from "../../../components/app-header/AppHeader"
 import { Modalize } from "react-native-modalize"
 import DualButton from "../../../components/app-button/dual-button"
@@ -36,7 +36,12 @@ const TradeRegistration = React.memo((props: Props) => {
       urlSignature: ekycStore.signature?.url
     }
     ekycStore.kycMio(param).then(res=>{
-      navigate(ScreenNames.INVEST_OTP)
+      console.log('res', res)
+      if (!res?.error){
+        navigate(ScreenNames.INVEST_OTP)
+        return
+      }
+      Alert.alert(res?.error?.message)
     })
   },[image])
 
