@@ -1,17 +1,21 @@
 import React from 'react';
-import { Pressable } from "react-native"
+import { Pressable, ViewStyle } from "react-native"
 import { ScaledSheet } from 'react-native-size-matters';
 import { LeftArrowSvg } from "../../assets/svgs"
 import { color } from "../../theme"
 import { useNavigation } from "@react-navigation/native"
 
 interface Props{
+  style?: ViewStyle | any
+  onPress?(): void
 }
 
 const BackButton = React.memo((props: Props) => {
+  const {style, onPress} = props
   const {goBack} = useNavigation()
+
   return (
-    <Pressable style={styles.container} onPress={goBack}>
+    <Pressable style={[styles.container, style]} onPress={onPress ?? goBack}>
       <LeftArrowSvg />
     </Pressable>
   )

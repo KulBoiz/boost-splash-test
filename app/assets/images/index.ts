@@ -7,6 +7,7 @@ export const images = {
   common_share_blue: require('./commons/share-blue.png'),
   common_fina_pay: require('./commons/fina-pay.png'),
   common_circle_checked: require('./commons/circle-checked.png'),
+  common_upload: require('./commons/upload.png'),
 
   app_home: require('./bottom-bar/home.png'),
   app_chat: require('./bottom-bar/chat.png'),

@@ -305,5 +305,8 @@
   "storybook": {
     "placeholder": "Placeholder",
     "field": "Field"
+  },
+  "note" : {
+    "search": "Tìm kiếm chính xác vui lòng thêm dấu \" vào trước và sau từ khoá cần tìm kiếm. Ví dụ: \"Nguyễn Văn A\", \"nguyen van a\" ..."
   }
 }

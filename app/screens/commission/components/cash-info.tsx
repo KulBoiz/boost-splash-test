@@ -36,10 +36,10 @@ const CashInfo = observer((props: Props) => {
         <View>
           <AppText value={"Số tiền có thể rút"} color={hexToRgbA(color.palette.white, 0.6)} fontSize={ms(16)} />
           <View style={[ROW, ALIGN_CENTER, {marginTop: ms(4)}]}>
-            <AppText value={`${cash} đ`} fontSize={ms(24)} fontFamily={fontFamily.bold} color={color.text}/>
             <Pressable onPress={handleShowHide}>
               <FastImage source={showCash ? images.open_eye : images.close_eye} style={styles.icon} tintColor={color.palette.white} />
             </Pressable>
+            <AppText value={`${cash} đ`} fontSize={ms(24)} fontFamily={fontFamily.bold} color={color.text}/>
           </View>
         </View>
         <AppButton title={"Rút tiền"} onPress={() => {
@@ -61,7 +61,7 @@ const styles = ScaledSheet.create({
   icon: {
     width: "16@s",
     height: "16@s",
-    marginLeft: '8@s'
+    marginRight: '8@s'
   },
   btn: {
     backgroundColor: color.palette.orange,

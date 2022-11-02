@@ -19,6 +19,9 @@ import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view
 import i18n from "i18n-js"
 import {get} from 'lodash'
 import { fontFamily } from "../../constants/font-family"
+import { isIos } from "../../constants/variable"
+import BackButton from "../../components/back-button/back-button"
+import { navigate } from "../../navigators"
 
 export const RegisterScreen: FC<StackScreenProps<AuthStackParamList, ScreenNames.REGISTER>> = observer(
   ({ navigation }) => {
@@ -56,9 +59,17 @@ export const RegisterScreen: FC<StackScreenProps<AuthStackParamList, ScreenNames
       }
     },[])
 
+    const pressBack = React.useCallback(()=> {
+      authStoreModel.logout()
+      navigate(ScreenNames.REGISTER_PHONE)
+    },[])
+
     return (
-      <KeyboardAwareScrollView style={styles.container}>
+      <KeyboardAwareScrollView
+        style={styles.container}  enableOnAndroid
+        extraScrollHeight={isIos ? -50 : 10}>
         <View style={styles.body}>
+          <BackButton onPress={pressBack}/>
           <RenderAuthStep currentPosition={2}/>
           <AppText tx={'auth.register'} style={styles.textLogin}/>
           <FormInput
@@ -119,11 +130,13 @@ const styles = ScaledSheet.create({
   container: {
     flex: 1,
     backgroundColor: color.palette.white,
-    paddingHorizontal: "16@ms",
   },
+
   body: {
     flex: 1,
-    paddingTop: '80@vs'
+    paddingTop: '80@vs',
+    paddingHorizontal: "16@ms",
+
   },
   textLogin: {
     fontSize: '44@s',
