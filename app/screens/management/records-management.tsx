@@ -13,6 +13,7 @@ import MenuFilter from "../loan/components/finance-filter"
 import { TASK_FILTER } from "../loan/constants"
 import RequestCounsellingStatus from "./components/request-counselling-status"
 import SearchBar from "../../components/search-bar"
+import i18n from "i18n-js"
 
 // import LoanProfileStatus from "./components/loan-profile-status"
 
@@ -82,7 +83,7 @@ const RecordsManagement = observer((props: Props) => {
         filterData={TASK_FILTER}
         notShowIcon={true}
       />
-      <SearchBar onChangeSearchText={onChangeSearchText}/>
+      <SearchBar onChangeSearchText={onChangeSearchText} note={i18n.t('note.search')}/>
       {loading ? <LoadingComponent /> :
         <>
           <AppText style={styles.text}>

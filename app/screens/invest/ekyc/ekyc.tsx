@@ -92,7 +92,6 @@ const EKYC = observer((props: Props) => {
     ekycStore.updateUser(param)
     navigate(ScreenNames.TRADE_REGISTRATION)
   }
-  console.log(ekycStore?.frontImage)
   return (
     <View style={styles.container}>
       <AppHeader headerText={"EKYC"} isBlue />
