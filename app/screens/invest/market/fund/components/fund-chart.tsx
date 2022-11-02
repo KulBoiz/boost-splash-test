@@ -5,7 +5,7 @@ import { AppText } from "../../../../../components/app-text/AppText"
 import { formatDate, hexToRgbA, numberWithCommas, width } from "../../../../../constants/variable"
 import { color } from "../../../../../theme"
 import { presets } from "../../../../../constants/presets"
-import { get, maxBy } from "lodash"
+import { get, maxBy, minBy } from "lodash"
 import { s, ScaledSheet } from "react-native-size-matters"
 import { ALIGN_CENTER, FONT_BOLD_12, MARGIN_BOTTOM_16 } from "../../../../../styles/common-style"
 import { observer } from "mobx-react-lite"
@@ -17,17 +17,6 @@ interface Props {
   navs: any
 }
 
-const ptData2 = [
-  { value: 130, date: "1 Apr 2022" },
-  { value: 130, date: "2 Apr 2022" },
-  { value: 150, date: "3 Apr 2022" },
-  { value: 120, date: "4 Apr 2022" },
-  { value: 110, date: "5 Apr 2022" },
-  { value: 125, date: "6 Apr 2022" },
-  { value: 160, date: "7 Apr 2022" },
-  { value: 100, date: "8 Apr 2022" },
-]
-
 const FundChart = observer(({ data, navs }: Props) => {
   const firstDay = new Date("1/1/2000")
   firstDay.setFullYear(new Date().getFullYear())
@@ -38,7 +27,8 @@ const FundChart = observer(({ data, navs }: Props) => {
   const priceUpdateHistoriesForTheLastThreeYear = getPriceUpdateHistoriesByTime(navs, getDateInPast({ year: 3 }))
   const [nav, setNav] = useState<any>([])
 
-  const highestNav = get(maxBy(nav, "nav"), "nav", 0) + 5000
+  const highestNav = get(maxBy(nav, "nav"), "nav", 0) + 2000
+  const minNav = get(minBy(nav, "nav"), "nav", 0)
 
   const chartData = nav ? nav?.map((e, index) => {
     // if (index === 0) return { value: e?.nav, date: formatDate(e?.navDate), label: formatDate(e?.navDate) }
@@ -107,6 +97,7 @@ const FundChart = observer(({ data, navs }: Props) => {
         initialSpacing={0}
         noOfSections={5}
         maxValue={highestNav}
+        minValue={minNav}
         yAxisColor={color.palette.deepGray}
         showXAxisIndices
         xAxisIndicesColor={color.palette.deepGray}
@@ -176,6 +167,7 @@ const styles = ScaledSheet.create({
     color: color.palette.lightBlack,
   },
   toolkit: {
+    zIndex:1,
     shadowColor: "#000",
     shadowOffset: {
       width: 0,

@@ -29,7 +29,7 @@ const ViewContract = React.memo((props: Props) => {
 
   return (
     <View style={styles.container}>
-      <AppHeader headerText={'Kí hợp đồng '} isBlue onLeftPress={()=> navigate(ScreenNames.SETTING)}/>
+      <AppHeader headerText={'Kí hợp đồng'} isBlue onLeftPress={()=> navigate(ScreenNames.SETTING)}/>
       <ScrollView style={[CONTAINER_PADDING, PADDING_VERTICAL]}>
         <RenderHtml
           contentWidth={width}
