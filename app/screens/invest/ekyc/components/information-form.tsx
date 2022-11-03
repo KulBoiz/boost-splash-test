@@ -39,7 +39,7 @@ const InformationForm = React.memo((props: Props) => {
 
   return (
     <View style={styles.container}>
-      <AppText value={'Thông tin cá nhân'} style={presets.label_16} color={color.primary}/>
+      <AppText value={'I. Thông tin nhà đầu tư'} style={presets.label} />
       <FormInput
         {...{
           required: true,

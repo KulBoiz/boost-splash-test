@@ -15,6 +15,10 @@ export const images = {
   app_manage: require('./bottom-bar/manage.png'),
   app_profile: require('./bottom-bar/user.png'),
 
+  invest_front: require('./invest/front.png'),
+  invest_back: require('./invest/back.png'),
+  invest_portrait: require('./invest/portrait.png'),
+
   commission_checked: require('./commission/checked.png'),
   commission_unchecked: require('./commission/unchecked.png'),
   commission_paid: require('./commission/paid.png'),

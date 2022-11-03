@@ -24,6 +24,7 @@ const INPUT: TextStyle = {
   color: color.palette.black,
   fontSize: ms(14),
   backgroundColor: color.background,
+  height: s(32)
 }
 
 const MULTILINE: TextStyle = {
@@ -117,13 +118,13 @@ export function TextField(props: TextFieldProps) {
     <View style={containerStyles}>
       <View style={WRAP_INPUT}>
         <TextInput
-          // label={
-          //   <Text style={{backgroundColor: color.background}}>
-          //     {required && <Text color={color.palette.angry}>* </Text> }
-          //     {actualLabel ?? ""}
-          //   </Text>
-          //  }
-          label={actualLabel ?? ""}
+          label={
+            <Text style={{backgroundColor: color.background}}>
+              {required && <Text color={color.palette.angry}>* </Text> }
+              {actualLabel ?? ""}
+            </Text>
+           }
+          // label={actualLabel ?? ""}
           underlineColor='#fff'
           theme={{colors: {text: color.palette.black, primary: 'transparent'}}}
           mode={"outlined"}

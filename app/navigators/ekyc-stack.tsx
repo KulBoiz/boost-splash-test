@@ -6,8 +6,8 @@ import { createNativeStackNavigator } from "@react-navigation/native-stack"
 export type EKYCStackParamList = {
   [ScreenNames.EKYC_SCREEN]: undefined;
   [ScreenNames.SYNC_ACCOUNT]: undefined;
-  [ScreenNames.EKYC_ID]: {type?: 'front' | 'back', onConfirm(image: string): void};
-  [ScreenNames.EKYC_PORTRAIT]: { onConfirm(image: string): void };
+  [ScreenNames.EKYC_ID]: undefined
+  [ScreenNames.EKYC_PORTRAIT]: undefined;
   [ScreenNames.UPDATE_IDENTITY_INFORMATION]: undefined;
   [ScreenNames.TRADE_REGISTRATION]: undefined;
 }

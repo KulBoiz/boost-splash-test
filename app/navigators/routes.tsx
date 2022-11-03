@@ -27,6 +27,7 @@ import EKYCPortrait from "../screens/invest/ekyc/ekyc-portrait"
 import UpdateIdentityInformation from "../screens/invest/ekyc/update-identity-information"
 import TradeRegistration from "../screens/invest/ekyc/trade-registration"
 import SyncAccount from "../screens/invest/ekyc/sync-account"
+import ConfirmEkyc from "../screens/invest/ekyc/confirm-ekyc"
 
 export const AuthRoutes = [
   {
@@ -110,6 +111,9 @@ export const EKYCRoutes = [
   {
     name: ScreenNames.SYNC_ACCOUNT,
     component: SyncAccount,
+  },{
+    name: ScreenNames.CONFIRM_EKYC,
+    component: ConfirmEkyc,
   },
 ]
 

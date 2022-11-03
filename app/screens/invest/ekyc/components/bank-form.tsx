@@ -60,7 +60,18 @@ const BankForm = React.memo((props: Props) => {
 
   return (
     <View style={styles.container}>
-      <AppText value={"Thông tin ngân hàng"} style={presets.label_16} color={color.primary} />
+      <AppText value={"III. Thông tin tài khoản ngân hàng"} style={presets.label}  />
+      <FormInput
+        {...{
+          required: true,
+          name: "bankOwnerName",
+          label: "Tên chủ tài khoản",
+          placeholder: "Nhập tên chủ tài khoản",
+          control,
+          keyboardType: "number-pad",
+          error: errors?.bankOwnerName?.message,
+        }}
+      />
       <FormItemPicker
         {...{
           required: true,
@@ -92,8 +103,8 @@ const BankForm = React.memo((props: Props) => {
           required: true,
           data: listBankBranch(),
           name: "bankBranch",
-          label: "Chi nhánh ngân hàng",
-          placeholder: "Chọn chi nhánh ngân hàng",
+          label: "Chi nhánh",
+          placeholder: "Chọn chi nhánh",
           control,
           setValue,
           error: errors?.bankBranch?.message,
@@ -109,5 +120,6 @@ export default BankForm
 const styles = ScaledSheet.create({
   container: {
     paddingHorizontal: "16@s",
+    marginTop: '16@s',
   },
 })

@@ -32,12 +32,12 @@ interface Props {
 }
 
 const EKYCId: FC<StackScreenProps<EKYCStackParamList, ScreenNames.EKYC_ID>> = observer(({ route }) => {
-  const type = route.params.type
-  const onConfirm = route.params.onConfirm
-  const { agentStore } = useStores()
+  const { ekycStore } = useStores()
   const isFocused = useIsFocused()
   const cameraRef = useRef<any>(null)
-  const [image, setImage] = React.useState("")
+  const [imageType, setImageType] = React.useState<"front" | "back">("front")
+  const [frontImage, setFrontImage] = React.useState("")
+  const [backImage, setBackImage] = React.useState("")
   const [hasPermission, setHasPermission] = React.useState(false)
   const [flash, setFlash] = useState<"off" | "on">("off")
   const devices = useCameraDevices()
@@ -56,9 +56,14 @@ const EKYCId: FC<StackScreenProps<EKYCStackParamList, ScreenNames.EKYC_ID>> = ob
 
   const setPhoto = useCallback(
     async (photo) => {
-      setImage(photo)
+      if (imageType === "front") {
+        setFrontImage(photo)
+        setImageType("back")
+      } else {
+        setBackImage(photo)
+      }
     },
-    [image],
+    [imageType],
   )
 
   const takePhoto = useCallback(async () => {
@@ -96,7 +101,7 @@ const EKYCId: FC<StackScreenProps<EKYCStackParamList, ScreenNames.EKYC_ID>> = ob
       },
     )
     setPhoto(manipResult.uri)
-  }, [image, cameraRef, setPhoto])
+  }, [frontImage, backImage, cameraRef, setPhoto])
 
   const navigateToPhotoPicker = useCallback(() => {
     const onConfirm = (photoSelected: any) => {
@@ -107,32 +112,37 @@ const EKYCId: FC<StackScreenProps<EKYCStackParamList, ScreenNames.EKYC_ID>> = ob
     })
   }, [setPhoto])
 
-  const onReTake = useCallback(() => {
-      setImage("")
+  const onReTake = useCallback(
+    (type) => {
+      if (type === "front") {
+        setFrontImage("")
+      } else {
+        setBackImage("")
+      }
     },
-    [image],
+    [frontImage,backImage],
   )
 
   const onContinue = useCallback(() => {
     // agentStore.uploadFrontImage(frontImage)
-    onConfirm(image)
     goBack()
-  }, [image])
-
+  }, [frontImage, backImage])
+  const checkValidImage = (imageType === "front" && frontImage) || (imageType === "back" && backImage)
   return (
     <View style={styles.container}>
       {device != null && hasPermission ? (
-        image ? <FastImage source={{ uri : image }} style={styles.image}/> :
+        checkValidImage ?
+          <FastImage source={{ uri: imageType === "front" ? frontImage : backImage }} style={styles.image} /> :
           <Camera
-          style={styles.camera}
-          ref={cameraRef}
-          device={device}
-          isActive={isFocused}
-          photo={true}
-          torch={flash}
-          preset="hd-1280x720"
-          orientation="portrait"
-        />
+            style={styles.camera}
+            ref={cameraRef}
+            device={device}
+            isActive={isFocused}
+            photo={true}
+            torch={flash}
+            preset="hd-1280x720"
+            orientation="portrait"
+          />
       ) : (
         <View style={styles.camera} />
       )}
@@ -159,7 +169,8 @@ const EKYCId: FC<StackScreenProps<EKYCStackParamList, ScreenNames.EKYC_ID>> = ob
 
       <AppHeader isBlack headerText={"Ảnh CMND/CCCD"} showBorderWidth={false} />
       <View style={styles.idContainer}>
-        <AppText value={`MẶT ${type === 'front' ? 'TRƯỚC' : 'SAU'} CMND/ CCCD`} style={FONT_BOLD_14} color={textColor} />
+        <AppText value={`MẶT ${imageType === "front" ? "TRƯỚC" : "SAU"} CMND/ CCCD`} style={FONT_BOLD_14}
+                 color={textColor} />
       </View>
 
       <View style={{ flex: 1 }} />
@@ -174,8 +185,8 @@ const EKYCId: FC<StackScreenProps<EKYCStackParamList, ScreenNames.EKYC_ID>> = ob
       </View>
 
       <View style={styles.btnContainer}>
-        {image ? <View style={[ALIGN_CENTER, { width: '100%' }]}>
-            <AppText value={"Chụp lại"} underline color={color.primary} style={presets.label_16} onPress={onReTake}/>
+        {checkValidImage ? <View style={[ALIGN_CENTER, { width: "100%" }]}>
+            <AppText value={"Chụp lại"} underline color={color.primary} style={presets.label_16} onPress={onReTake} />
             <AppButton
               disable={!hasPermission}
               title={"Xác nhận"}
@@ -262,9 +273,9 @@ const styles = ScaledSheet.create({
     borderRightColor: color.primary,
   },
   image: {
-    position: 'absolute',
-    marginLeft: ms(frameX-2.5),
-    marginTop: ms(frameY-13),
+    position: "absolute",
+    marginLeft: ms(frameX - 2.5),
+    marginTop: ms(frameY - 13),
     width: frameWidth,
     height: frameHeight,
   },

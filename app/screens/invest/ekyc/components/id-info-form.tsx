@@ -30,7 +30,7 @@ const IdInfoForm = React.memo((props: Props) => {
 
   return (
     <View style={styles.container}>
-      <AppText value={'Thông tin giấy tờ'} style={presets.label_16} color={color.primary}/>
+      <AppText value={'II. Thông tin giấy tờ'} style={presets.label} />
 
       <FormInput
         {...{
@@ -40,6 +40,16 @@ const IdInfoForm = React.memo((props: Props) => {
           placeholder: 'Nhập số CMND/CCCD',
           control,
           keyboardType:"number-pad",
+          error: errors?.fullName?.message,
+        }}
+      />
+      <FormInput
+        {...{
+          required: true,
+          name: 'dateOfIssue',
+          label: 'Ngày cấp',
+          placeholder: '31/02/2020',
+          control,
           error: errors?.fullName?.message,
         }}
       />
@@ -61,6 +71,7 @@ export default IdInfoForm;
 
 const styles = ScaledSheet.create({
   container: {
-    paddingHorizontal: '16@s'
+    paddingHorizontal: '16@s',
+    marginTop: '12@s'
   },
 });
