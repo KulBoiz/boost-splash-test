@@ -20,8 +20,8 @@ export const SplashScreen: React.FunctionComponent<{ readonly navigation?: any }
 
   const refreshToken = async () => {
     await new Promise(resolve => setTimeout(resolve, 500))
-    await authStoreModel.refreshTheToken()
-    authStoreModel.autoRefreshToken()
+    // await authStoreModel.refreshTheToken()
+    // authStoreModel.autoRefreshToken()
   }
 
   const redirectToNextScreen = () => {

@@ -16,6 +16,8 @@ import { FastImage } from "../../../../components/fast-image/fast-image"
 import { fontFamily } from "../../../../constants/font-family"
 import { ScaledSheet } from "react-native-size-matters"
 import AppButton from "../../../../components/app-button/AppButton"
+import { navigate } from "../../../../navigators"
+import { ScreenNames } from "../../../../navigators/screen-names"
 
 interface Props {
 }
@@ -51,7 +53,7 @@ const ItemImage = React.memo(({ image, text }: ItemImageProps) => {
 
 const IdentityGuide = React.memo((props: Props) => {
   const handlePress = React.useCallback(() => {
-    //
+    navigate(ScreenNames.EKYC_ID)
   }, [])
 
   return (

@@ -14,6 +14,7 @@ export enum ScreenNames {
   UPDATE_IDENTITY_INFORMATION = 'UpdateIdentityInformation',
   EKYC = 'EKYC',
   EKYC_SCREEN = 'EKYCScreen',
+  CONFIRM_EKYC = 'ConfirmEkyc',
   EKYC_ID = 'EKYCId',
   EKYC_PORTRAIT = 'EKYCPortrait',
   SYNC_ACCOUNT = 'SyncAccount',

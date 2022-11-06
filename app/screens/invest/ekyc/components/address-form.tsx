@@ -30,8 +30,8 @@ const country = [
   { label: "Việt Nam", value: "VN" },
 ]
 const AddressForm = React.memo((props: Props) => {
-  const { locationStore, agentStore, authStoreModel } = useStores()
-  const { user } = authStoreModel
+  const { locationStore, agentStore, ekycStore } = useStores()
+  const { user } = ekycStore
 
   const { control, errors, setValue, clearErrors, watch } = props
   const [province, setProvince] = useState([])
@@ -57,14 +57,13 @@ const AddressForm = React.memo((props: Props) => {
       if (user?.subDistrictId) {
         locationStore.get("sub_district", undefined, user?.districtId).then((res) => {
           setSubDistrict(formatData(res?.data?.data))
-          setValue("commune", user?.subDistrictId)
+          // setValue("commune", user?.subDistrictId)
         })
       }
       setValue("address", user?.address ?? '')
 
     })
   }, [])
-
   const handleSelectState = (state) => {
     clearErrors("province")
     setValue("district", "")
@@ -112,12 +111,20 @@ const AddressForm = React.memo((props: Props) => {
 
   return (
     <View style={styles.container}>
-      <AppText value={"Địa chỉ"} style={presets.label_16} color={color.primary} />
-      <View style={ROW}>
+      <AppText value={"IV. Thông tin địa chỉ"} style={presets.label} />
+      <FormInput
+        {...{
+          required: true,
+          name: "address",
+          label: "Địa chỉ thường chú",
+          placeholder: "Địa chỉ",
+          control,
+          error: errors?.email?.message,
+        }}
+      />
         <FormItemPicker
           {...{
             required: true,
-            style: LEFT_INPUT,
             name: "country",
             label: "Quốc gia",
             placeholder: "Quốc gia",
@@ -132,10 +139,9 @@ const AddressForm = React.memo((props: Props) => {
         <FormItemPicker
           {...{
             required: true,
-            style: { flex: 1 },
             name: "province",
-            label: "Tỉnh",
-            placeholder: "Tỉnh",
+            label: "Tỉnh/Thành",
+            placeholder: "Tỉnh/Thành",
             control,
             setValue,
             error: errors?.province?.message,
@@ -144,15 +150,12 @@ const AddressForm = React.memo((props: Props) => {
             onChangeSearchText: onChangeSearchState,
           }}
         />
-      </View>
-      <View style={ROW}>
         <FormItemPicker
           {...{
             required: true,
-            style: LEFT_INPUT,
             name: "district",
-            label: "Quận/huyện",
-            placeholder: "Quận/huyện",
+            label: "Quận/Huyện",
+            placeholder: "Quận/Huyện",
             control,
             setValue,
             error: errors?.district?.message,
@@ -164,10 +167,9 @@ const AddressForm = React.memo((props: Props) => {
         <FormItemPicker
           {...{
             required: true,
-            style: { flex: 1 },
             name: "commune",
-            label: "Phường/xã",
-            placeholder: "Phường/xã",
+            label: "Phường/Xã",
+            placeholder: "Phường/Xã",
             control,
             setValue,
             error: errors?.commune?.message,
@@ -176,17 +178,6 @@ const AddressForm = React.memo((props: Props) => {
             handleSelect: handleSelectCommune,
           }}
         />
-      </View>
-      <FormInput
-        {...{
-          required: true,
-          name: "address",
-          label: "Địa chỉ",
-          placeholder: "Địa chỉ",
-          control,
-          error: errors?.email?.message,
-        }}
-      />
     </View>
   )
 })
@@ -196,5 +187,6 @@ export default AddressForm
 const styles = ScaledSheet.create({
   container: {
     paddingHorizontal: "16@s",
+    marginTop: '16@s',
   },
 })

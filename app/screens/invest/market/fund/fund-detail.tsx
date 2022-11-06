@@ -23,23 +23,25 @@ import FundInfoDetail from "./components/fund-info-detail"
 import { NavigatorParamList } from "../../../../navigators/params-list"
 import MarketChange from "../components/market-change"
 import MarketHistory from "../components/market-history"
+import SignKycModal from "../../ekyc/components/sign-modal"
 
 interface Props {
 }
 
 const FundDetail = React.memo((props: Props) => {
   const { params: { slug } } = useRoute<RouteProp<NavigatorParamList, ScreenNames.FUND_DETAIL>>()
-  const { investStore, authStoreModel } = useStores()
+  const { investStore, authStoreModel, ekycStore } = useStores()
   const [index, setIndex] = React.useState(0)
   const [data, setData] = useState({})
   const [navs, setNavs] = useState([])
   const [loading, setLoading] = useState<boolean>(true)
+  const [visible, setVisible] = useState(false)
 
   useEffect(() => {
     investStore.getFundDetail(slug).then(res => {
         setLoading(false)
         setData(res)
-        investStore.getNavs(res?.id).then(e=> setNavs(e))
+        investStore.getNavs(res?.id).then(e => setNavs(e))
       },
     )
   }, [])
@@ -79,11 +81,11 @@ const FundDetail = React.memo((props: Props) => {
   const renderScreen = useCallback(() => {
     switch (index) {
       case 0:
-        return <MarketInfo data={data} navs={navs}/>
+        return <MarketInfo data={data} navs={navs} />
       case 1:
         return <FundTariff data={data} />
       case 2:
-        return <MarketHistory data={data} navs={navs}/>
+        return <MarketHistory data={data} navs={navs} />
       case 3:
         return <FundInfoDetail data={data} />
     }
@@ -92,12 +94,33 @@ const FundDetail = React.memo((props: Props) => {
     // }
   }, [index, data, navs])
 
-  const handleBuy = useCallback(() => {
-    // if (authStoreModel?.investmentNumber){
+  const closeModal = React.useCallback(() => {
+    setVisible(false)
+  }, [])
+
+  const pressContinue = React.useCallback(() => {
+    setVisible(false)
+    navigate(ScreenNames.TRADE_REGISTRATION)
+  }, [])
+
+  const handleBuy = useCallback(async () => {
+    if (authStoreModel?.investmentNumber) {
+      const contractStatus = await ekycStore.checkContractStatus()
+      const isFullSubmission = contractStatus?.isFullSubmission
+      if (!isFullSubmission) {
+        setVisible(true)
+        return
+      }
       navigate(ScreenNames.BUY_FUND)
-      // return
-    // }
-    // navigate(ScreenNames.EKYC)
+      return
+    }
+    ekycStore.checkSyncMio().then(res => {
+      if (res?.isRegisteredOnMio) {
+        navigate(ScreenNames.SYNC_ACCOUNT)
+        return
+      }
+      navigate(ScreenNames.EKYC)
+    })
   }, [])
 
   const renderTitle = useMemo(() => {
@@ -116,10 +139,10 @@ const FundDetail = React.memo((props: Props) => {
       {loading ? <ActivityIndicator color={color.primary} style={MARGIN_TOP_16} /> :
         <>
           {data ? <ScrollView>
-            <MarketChange item={data} navs={navs}/>
-            <NearestFund data={data} navs={navs}/>
-            {navs&& <FundChart data={data} navs={navs}/>}
-            <NearestPrice data={data} navs={navs}/>
+            <MarketChange item={data} navs={navs} />
+            <NearestFund data={data} navs={navs} />
+            {navs && <FundChart data={data} navs={navs} />}
+            <NearestPrice data={data} navs={navs} />
             {_renderTabBar()}
             <View style={styles.body}>
               {renderScreen()}
@@ -127,6 +150,7 @@ const FundDetail = React.memo((props: Props) => {
             <View style={styles.wrapBtn}>
               <AppButton title={"Đầu tư ngay"} onPress={handleBuy} />
             </View>
+            <SignKycModal visible={visible} closeModal={closeModal} onPress={pressContinue} />
           </ScrollView> : <EmptyList />
           }
         </>

@@ -32,7 +32,7 @@ export const AppStack = () => {
     <Tab.Navigator
       initialRouteName={ScreenNames.HOME}
       screenOptions={{ headerShown: false }}
-      tabBar={(props) => (<AppTabBar {...props} />)}
+      tabBar={props => <AppTabBar {...props} />}
     >
       <Tab.Screen
         name={ScreenNames.HOME}

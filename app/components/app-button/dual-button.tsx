@@ -20,6 +20,7 @@ const DualButton = React.memo((props: Props) => {
       <TouchableOpacity onPress={leftPress} style={[styles.btn, styles.leftBtn]}>
         <AppText value={leftTitle} style={styles.text} color={color.primary} />
       </TouchableOpacity>
+      <View style={{width: '2%'}}/>
       <TouchableOpacity onPress={rightPress} style={[styles.btn, styles.rightBtn]}>
         <AppText value={rightTitle} style={styles.text} color={color.text}/>
       </TouchableOpacity>
@@ -32,7 +33,7 @@ export default DualButton
 const styles = ScaledSheet.create({
   container: {flexDirection: 'row', justifyContent: "space-between"},
   btn: {
-    width: "48%",
+    width: "49%",
     height: '50@s',
     borderRadius: "8@s",
     alignItems: "center",

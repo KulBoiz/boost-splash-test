@@ -1,5 +1,5 @@
 import React, { useState } from "react"
-import { StyleProp, TextInputProps, TextStyle, View, ViewStyle } from "react-native"
+import { Keyboard, StyleProp, TextInputProps, TextStyle, View, ViewStyle } from "react-native"
 import { TextInput } from "react-native-paper"
 import { color, spacing } from "../../theme"
 import { translate, TxKeyPath } from "../../i18n"
@@ -7,6 +7,7 @@ import { Text } from "../text/text"
 import { s, ms } from "react-native-size-matters"
 import { images } from "../../assets/images"
 import { fontFamily } from "../../constants/font-family"
+import { isIos } from "../../constants/variable"
 
 // the base styling for the container
 const CONTAINER: ViewStyle = {
@@ -17,13 +18,20 @@ const WRAP_INPUT: ViewStyle = {
   alignItems: "center",
 }
 
+const ICON: ViewStyle = {
+  marginTop: s(12),
+  // width: s(25),
+  // height: s(18),
+}
+
 // the base styling for the TextInput
 const INPUT: TextStyle = {
   flex: 1,
   fontFamily: fontFamily.medium,
   color: color.palette.black,
-  fontSize: ms(14),
+  fontSize: ms(13),
   backgroundColor: color.background,
+  height: isIos ? s(36) : s(40)
 }
 
 const MULTILINE: TextStyle = {
@@ -109,21 +117,21 @@ export function TextField(props: TextFieldProps) {
   const actualPlaceholder = placeholderTx ? translate(placeholderTx) : placeholder
   const actualLabel = labelTx ? translate(labelTx) : label
 
-  const _handleShowPass = () => {
+  const _handleShowPass = React.useCallback(() => {
     setShowPassword(!showPassword)
-  }
+  },[showPassword])
 
   return (
     <View style={containerStyles}>
       <View style={WRAP_INPUT}>
         <TextInput
-          // label={
-          //   <Text style={{backgroundColor: color.background}}>
-          //     {required && <Text color={color.palette.angry}>* </Text> }
-          //     {actualLabel ?? ""}
-          //   </Text>
-          //  }
-          label={actualLabel ?? ""}
+          label={
+            <Text style={{backgroundColor: color.background}}>
+              {required && <Text color={color.palette.angry}>* </Text> }
+              {actualLabel ?? ""}
+            </Text>
+           }
+          // label={actualLabel ?? ""}
           underlineColor='#fff'
           theme={{colors: {text: color.palette.black, primary: 'transparent'}}}
           mode={"outlined"}
@@ -138,6 +146,7 @@ export function TextField(props: TextFieldProps) {
               <TextInput.Icon
                 name={showPassword ? images.close_eye : images.open_eye}
                 onPress={_handleShowPass}
+                style={ICON}
               />
             )
           }

@@ -3,6 +3,7 @@ import { StyleSheet, View } from "react-native"
 import CustomCheckbox from "../../../../components/checkbox/custom-checkbox"
 import { color } from "../../../../theme"
 import { ScaledSheet } from "react-native-size-matters"
+import RadioButton from "../../../../components/checkbox/radio-button"
 
 interface Props {
 }
@@ -15,7 +16,7 @@ const IdentitySelection = React.memo((props: Props) => {
   return (
     <View style={styles.container}>
       <View style={styles.selectContainer}>
-        <CustomCheckbox isChecked={true} onPress={onPress} text={"Căn cước/ Chứng minh nhân dân"} />
+        <RadioButton isChecked={true} onPress={onPress} text={"Căn cước/ Chứng minh nhân dân"} />
       </View>
     </View>
   )
@@ -25,7 +26,7 @@ export default IdentitySelection
 
 const styles = ScaledSheet.create({
   container: {
-    flex: 0.8,
+    flex: 0.5,
     paddingHorizontal: '16@s'
   },
   selectContainer:{

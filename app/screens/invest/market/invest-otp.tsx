@@ -9,17 +9,27 @@ import { color } from "../../../theme"
 import OtpField from "../../../components/otp-field/otp-field"
 import AppButton from "../../../components/app-button/AppButton"
 import { useStores } from "../../../models"
+import { RouteProp, useRoute } from "@react-navigation/native"
+import { NavigatorParamList } from "../../../navigators/params-list"
+import { ScreenNames } from "../../../navigators/screen-names"
 
 interface Props {
 }
 
 const InvestOtp = React.memo((props: Props) => {
+  const { params: { onSubmit, onResend } } = useRoute<RouteProp<NavigatorParamList, ScreenNames.INVEST_OTP>>()
   const [value, setValue] = useState("")
   const { ekycStore } = useStores()
-  const tel = ekycStore.user?.tels[0].tel
+  const tel = ekycStore.user?.tels?.[0].tel
+
   const handleConfirm = useCallback(() => {
-    //
-  }, [])
+    onSubmit(value)
+  }, [value])
+
+  const handleResend = useCallback(() => {
+    setValue('')
+    onResend()
+  }, [value])
 
   return (
     <View style={styles.container}>
@@ -33,7 +43,8 @@ const InvestOtp = React.memo((props: Props) => {
         <AppText style={FONT_REGULAR_12} textAlign={"center"}>
           Không nhận được mã xác thực?
           <AppText value={"Gửi lại mã"} underline style={FONT_BOLD_12}
-                   color={color.palette.orange} />
+                   color={color.palette.orange}
+                   onPress={handleResend} />
         </AppText>
       </View>
 

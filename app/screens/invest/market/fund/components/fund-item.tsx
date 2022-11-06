@@ -12,14 +12,16 @@ import { ScreenNames } from "../../../../../navigators/screen-names"
 import { useStores } from "../../../../../models"
 import { get, head } from "lodash"
 import { mappingLabelTypeOfFund } from "../../constants"
+import SignKycModal from "../../../ekyc/components/sign-modal"
 
 interface Props {
   item: any
 }
 
 const FundItem = React.memo(({ item }: Props) => {
-  const { investStore, authStoreModel } = useStores()
+  const { investStore, authStoreModel, ekycStore } = useStores()
   const [price, setPrice] = useState([])
+  const [visible, setVisible] = useState(false)
 
   useEffect(() => {
     investStore.getCurrentNav(item?.id).then(e => setPrice(e))
@@ -33,13 +35,35 @@ const FundItem = React.memo(({ item }: Props) => {
     navigate(ScreenNames.FUND_DETAIL, { slug: item?.slug })
   }, [item])
 
+  const closeModal = React.useCallback(() => {
+    setVisible(false)
+  }, [])
+
+  const pressContinue = React.useCallback(() => {
+    setVisible(false)
+    navigate(ScreenNames.TRADE_REGISTRATION)
+  }, [])
+
+
   const handleBuy = useCallback(async () => {
     if (authStoreModel?.investmentNumber) {
+      const contractStatus = await ekycStore.checkContractStatus()
+      const isFullSubmission = contractStatus?.isFullSubmission
+      if (!isFullSubmission) {
+        setVisible(true)
+        return
+      }
       await investStore.getBondsDetail(item?.slug)
       navigate(ScreenNames.BUY_FUND)
       return
     }
-    navigate(ScreenNames.EKYC)
+    ekycStore.checkSyncMio().then(res => {
+      if (res?.isRegisteredOnMio) {
+        navigate(ScreenNames.SYNC_ACCOUNT)
+        return
+      }
+      navigate(ScreenNames.EKYC)
+    })
   }, [])
 
   return (
@@ -56,11 +80,14 @@ const FundItem = React.memo(({ item }: Props) => {
                  fontSize={ms(10)}
                  color={color.palette.grayChateau} />
       </View>
-      <View style={[styles.rateContainer, { backgroundColor: checkVolatility(percent) ? color.palette.down : color.palette.up }]}>
-        <AppText value={`${checkVolatility(percent) ? '-' : '+'}${percent.toFixed(2)}%`} style={FONT_SEMI_BOLD_14} color={color.palette.white}
+      <View
+        style={[styles.rateContainer, { backgroundColor: checkVolatility(percent) ? color.palette.down : color.palette.up }]}>
+        <AppText value={`${checkVolatility(percent) ? "" : "+"}${percent.toFixed(2)}%`} style={FONT_SEMI_BOLD_14}
+                 color={color.palette.white}
                  textAlign={"right"} />
       </View>
       <AppButton onPress={handleBuy} title={"MUA"} containerStyle={styles.btn} titleStyle={FONT_SEMI_BOLD_12} />
+      <SignKycModal visible={visible} closeModal={closeModal} onPress={pressContinue} />
     </Pressable>
   )
 })

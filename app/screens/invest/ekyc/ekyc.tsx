@@ -5,111 +5,57 @@ import AppHeader from "../../../components/app-header/AppHeader"
 import { ScaledSheet } from "react-native-size-matters"
 import { color } from "../../../theme"
 import { fontFamily } from "../../../constants/font-family"
-import * as Yup from "yup"
-import i18n from "i18n-js"
-import { useForm } from "react-hook-form"
-import { yupResolver } from "@hookform/resolvers/yup/dist/yup"
-import InformationForm from "./components/information-form"
-import AddressForm from "./components/address-form"
 import { ScrollView } from "native-base"
-import IdInfoForm from "./components/id-info-form"
-import BankForm from "./components/bank-form"
-import IdentityCard from "./components/identity-card"
-import { useStores } from "../../../models"
 import AppButton from "../../../components/app-button/AppButton"
-import { navigate } from "../../../navigators"
-import { ScreenNames } from "../../../navigators/screen-names"
 import SettingAuthScreen from "../../../components/app-view-no-auth"
 import { observer } from "mobx-react-lite"
+import { useStores } from "../../../models"
+import { goBack, navigate } from "../../../navigators"
+import { ScreenNames } from "../../../navigators/screen-names"
+import { FastImage } from "../../../components/fast-image/fast-image"
+import { images } from "../../../assets/images"
+import { MARGIN_BOTTOM_16, MARGIN_TOP_16, ROW } from "../../../styles/common-style"
 
 interface Props {
 }
 
-const note = "Để thực hiện tính năng này, quý khách cần xác thực thông tin sau đây"
+const note = "Để hoàn tất việc mở tài khoản trên FINA, quý khách vui lòng thực hiện các bước xác thực thông tin bên dưới"
 
 const EKYC = observer((props: Props) => {
-  const {ekycStore, authStoreModel} = useStores()
-  const [images, setImages] = useState({front: '', back: '', portrait: ''})
-  const [errorText, setErrorText] = useState({identity: '', portrait: ''})
-  const validationSchema = Yup.object().shape({
-    email: Yup.string()
-      .trim()
-      .required(i18n.t("errors.requireEmail"))
-      .email(i18n.t("errors.invalidEmail")),
-    birthday: Yup.string().required(i18n.t("errors.requireDateOfBirth")),
-    gender: Yup.string().required(i18n.t("errors.requireSex")),
-    idNumber: Yup.string().required(i18n.t("errors.requireCitizenIdentification")),
-    placeOfIssue: Yup.string().required(i18n.t("errors.requireIssuedBy")),
-    address: Yup.string().required(i18n.t("errors.requireAddress")),
-    tel: Yup.string().required(i18n.t("errors.requirePhone")),
-    bank: Yup.string().required("Chọn địa ngân hàng"),
-    bankNumber: Yup.string().required("Nhập số tài khoản ngân hàng"),
-    province: Yup.string().required("Chọn tỉnh / thành phố"),
-    district: Yup.string().required("Chọn quận / huyện"),
-    commune: Yup.string().required("Chọn phường xã"),
-  })
-  const {
-    control,
-    handleSubmit,
-    formState: { errors, isValid },
-    setValue,
-    watch,
-    clearErrors,
-  } = useForm({
-    mode: "all",
-    resolver: yupResolver(validationSchema),
-    reValidateMode: "onSubmit",
-  })
+  const { authStoreModel } = useStores()
 
+  const handleStart = React.useCallback(() => {
+    navigate(ScreenNames.UPDATE_IDENTITY_INFORMATION)
+  }, [])
 
-  const handlePress = (data) => {
-    if (!(images.front || images.back)){
-      setErrorText({...errorText, identity: 'Vui lòng chụp ảnh CMND/CCCD'})
-      return
-    }
-    if (!images.portrait) {
-      setErrorText({...errorText, portrait: 'Vui lòng chụp ảnh chân dung'})
-      return
-    }
-    const param = {
-      fullName: data?.fullName,
-      gender: data?.gender,
-      birthday: data?.birthday,
-      address: data?.address,
-      districtId: data?.district,
-      stateId: data?.province,
-      subDistrictId: data?.commune,
-      emails: [{email: data?.email}],
-      tels: [{tel: data?.tel}],
-      identification:{
-        backSidePhoto:ekycStore?.backImage,
-        frontPhoto:ekycStore?.frontImage,
-        idNumber: data?.idNumber,
-        issuedOn: data?.issuedOn,
-        placeOfIssue: data?.placeOfIssue,
-      }
-    }
-    ekycStore.updateUser(param)
-    navigate(ScreenNames.TRADE_REGISTRATION)
-  }
+  const handlePress = React.useCallback(() => {
+    goBack()
+  }, [])
+
   return (
     <View style={styles.container}>
       <AppHeader headerText={"EKYC"} isBlue />
       {
         authStoreModel.isLoggedIn ?
-          <ScrollView>
+          <View style={{flex:1}}>
             <View style={styles.noteContainer}>
+              <AppText value={"Xác thực thông tin - eKYC"} style={styles.title} textAlign={"center"} />
               <AppText value={note} style={styles.noteText} textAlign={"center"} />
             </View>
-            <IdentityCard {...{images, setImages, errorText, setErrorText}}/>
-            <InformationForm {...{ control, errors: { ...errors }, setValue, clearErrors }} />
-            <AddressForm {...{ control, errors: { ...errors }, setValue, clearErrors, watch }} />
-            <IdInfoForm {...{ control, errors: { ...errors }, setValue, clearErrors, watch }} />
-            <BankForm {...{ control, errors: { ...errors }, setValue, clearErrors, watch }} />
-            <View style={styles.btnContainer}>
-              <AppButton tx={'common.continue'} onPress={handleSubmit(handlePress)} disable={!isValid}/>
+            <View style={styles.idContainer}>
+              <AppText value={'1. Chụp mặt trước, mặt sau CMND/CCCD'} style={styles.label}/>
+              <View style={[ROW, MARGIN_BOTTOM_16]}>
+                <FastImage source={images.invest_front} style={styles.image}/>
+                <FastImage source={images.invest_back} style={styles.image}/>
+              </View>
+              <AppText value={'2. Chụp ảnh chân dung'} style={styles.label}/>
+              <FastImage source={images.invest_portrait} style={styles.image}/>
             </View>
-          </ScrollView>
+            <View style={styles.btnContainer}>
+              <AppButton title={"Bắt đầu"} onPress={handleStart} />
+              <AppButton title={'Thực hiện sau'} onPress={handlePress} containerStyle={styles.btn} titleStyle={styles.titleStyle}/>
+            </View>
+          </View>
           :
           <SettingAuthScreen />
       }
@@ -124,19 +70,48 @@ const styles = ScaledSheet.create({
     backgroundColor: color.background,
     flex: 1,
   },
+  idContainer:{
+    paddingHorizontal: '16@s',
+    flex:1,
+    marginTop: '24@s'
+  },
+  label: {
+    fontSize: '12@ms',
+    fontFamily: fontFamily.regular,
+    marginBottom: '16@s'
+  },
+  image: {
+    width: '131@s',
+    height: '82@s',
+    borderRadius: '4@s',
+    marginRight: '8@s'
+  },
+  title: {
+    fontSize: "20@ms",
+    fontFamily: fontFamily.bold,
+    marginBottom: "8@s",
+  },
   noteText: {
-    fontSize: "16@ms",
-    fontFamily: fontFamily.medium,
+    fontSize: "14@ms",
+    fontFamily: fontFamily.regular,
+    lineHeight: "21@ms",
   },
   noteContainer: {
-    marginTop: "12@s",
-    backgroundColor: color.palette.offWhite,
+    marginTop: "24@s",
     paddingVertical: "8@s",
     paddingHorizontal: "16@s",
   },
   btnContainer: {
-    paddingHorizontal: '16@s',
-    paddingTop: '12@s',
-    paddingBottom:'24@s'
+    paddingHorizontal: "16@s",
+    paddingTop: "12@s",
+    paddingBottom: "24@s",
+  },
+  btn: {
+    backgroundColor: color.palette.whiteDarker ,
+    marginTop: '16@s'
+  },
+  titleStyle: {
+    color: color.palette.black,
+    fontFamily: fontFamily.regular
   }
 })

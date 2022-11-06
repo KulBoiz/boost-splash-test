@@ -169,7 +169,7 @@ export class AuthApi {
 
   async refreshToken(refreshToken): Promise<any> {
     const response: ApiResponse<any> = await this.api.apisauce.post(`${API_ENDPOINT}/refresh`, {
-      refresh_token: refreshToken,
+      refreshToken,
     })
     if (!response.ok) {
       const problem = getGeneralApiProblem(response)
