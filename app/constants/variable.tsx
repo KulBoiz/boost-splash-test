@@ -128,3 +128,5 @@ export const formatData = (array) => {
 export const checkVolatility = (value: number | string | undefined) => {
   return value ? value.toString().includes('-') : false
 }
+
+export const COMMON_ERROR = 'Có lỗi xảy ra, vui lòng thử lại sau'

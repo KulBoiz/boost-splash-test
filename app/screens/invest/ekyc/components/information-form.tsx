@@ -21,20 +21,26 @@ interface Props{
   clearErrors: UseFormClearErrors<FieldValues>
   setValue: UseFormSetValue<FieldValues>
 }
-
+const convertGender = (gender) => {
+  if (gender === 'nam') {
+    return 'male'
+  }
+  if (gender === 'nữ') {
+    return 'female'
+  }
+  return 'other'
+}
 const InformationForm = React.memo((props: Props) => {
   const {control, errors, setValue, clearErrors} = props
-  const {authStoreModel} = useStores()
-  const {user} = authStoreModel
+  const {ekycStore} = useStores()
+  const {user} = ekycStore
   const email = get(user, 'emails[0].email')
   const tel = get(user, 'tels[0].tel')
 
   useEffect(()=> {
     setValue('fullName', user?.fullName)
     setValue('birthday', user?.birthday)
-    setValue('email', email)
-    setValue('tel', tel)
-    setValue('gender', user?.gender)
+    setValue('gender', convertGender(user?.gender))
   },[])
 
   return (
@@ -47,18 +53,19 @@ const InformationForm = React.memo((props: Props) => {
           labelTx: 'label.fullName',
           placeholderTx: 'placeholder.fullName',
           control,
+          editable: false,
           error: errors?.fullName?.message,
         }}
       />
       <FormInput
         {...{
           required: true,
-          name: 'phoneNumber',
+          name: 'tel',
           labelTx: 'label.phoneNumber',
           placeholderTx: 'placeholder.phone',
           control,
           keyboardType: 'number-pad',
-          error: errors?.phoneNumber?.message,
+          error: errors?.tel?.message,
         }}
       />
       <FormInput
@@ -72,15 +79,14 @@ const InformationForm = React.memo((props: Props) => {
         }}
       />
       <View style={ROW}>
-      <FormDatePicker
+      <FormInput
         style={LEFT_INPUT}
         required
         label={'Ngày sinh'}
         name={'birthday'}
         placeholder={'Chọn ngày sinh'}
-        setValue={setValue}
+        editable={false}
         control={control}
-        clearErrors={clearErrors}
         error={errors?.birthday?.message}
       />
       <FormItemPicker
@@ -90,6 +96,7 @@ const InformationForm = React.memo((props: Props) => {
           name: "gender",
           label: "Giới tính",
           placeholder: "Chọn giới tính",
+          disable: true,
           control,
           setValue,
           error: errors?.gender?.message,

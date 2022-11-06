@@ -5,6 +5,11 @@ export enum PAYMENT_METHOD_TYPE {
   BANK = 'bank'
 }
 
+export const CARD_TYPE = {
+  front: 'chip_id_card_front',
+  back: 'chip_id_card_back'
+}
+
 export const PAYMENT_METHOD = [
   {
     value: PAYMENT_METHOD_TYPE.FINA,

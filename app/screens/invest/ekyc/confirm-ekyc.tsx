@@ -1,5 +1,5 @@
 import React, { useState } from "react"
-import { View } from "react-native"
+import { Alert, View } from "react-native"
 import AppHeader from "../../../components/app-header/AppHeader"
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view"
 import { AppText } from "../../../components/app-text/AppText"
@@ -17,44 +17,94 @@ import DualButton from "../../../components/app-button/dual-button"
 import BankForm from "./components/bank-form"
 import AddressForm from "./components/address-form"
 import RenderFlatStep from "../../../components/render-flat-step"
+import { navigate } from "../../../navigators"
+import { ScreenNames } from "../../../navigators/screen-names"
+import { useStores } from "../../../models"
+import { COMMON_ERROR } from "../../../constants/variable"
+import moment from "moment"
+import SignKycModal from "./components/sign-modal"
 
 interface Props {
 }
 
 const ConfirmEkyc = React.memo((props: Props) => {
+  const { ekycStore, authStoreModel } = useStores()
   const [position, setPosition] = useState(0)
-  const validationSchema = Yup.object().shape({
+  const [visible, setVisible] = useState(false)
+  const firstValidationSchema = Yup.object().shape({
     email: Yup.string()
       .trim()
       .required(i18n.t("errors.requireEmail"))
       .email(i18n.t("errors.invalidEmail")),
-    birthday: Yup.string().required(i18n.t("errors.requireAddress")),
-    gender: Yup.string().required(i18n.t("errors.gender")),
-    idNumber: Yup.string().required(i18n.t("errors.gender")),
-    placeOfIssue: Yup.string().required(i18n.t("errors.gender")),
-    address: Yup.string().required(i18n.t("errors.requireAddress")),
     tel: Yup.string().required(i18n.t("errors.requirePhone")),
-    bankName: Yup.string().required("Chọn địa ngân hàng"),
-    bankNumber: Yup.string().required("Nhập số tài khoản ngân hàng"),
-    province: Yup.string().required("Chọn tỉnh / thành phố"),
-    district: Yup.string().required("Chọn quận / huyện"),
-    commune: Yup.string().required("Chọn phường xã"),
   })
+
+  const secondValidationSchema = Yup.object().shape({
+    bankAccountHolder: Yup.string().required("Nhập tên chủ tài khoản"),
+    bankId: Yup.string().required("Chọn ngân hàng"),
+    bankAccount: Yup.string().required("Nhập số tài khoản"),
+  })
+  const thirdValidationSchema = Yup.object().shape({
+    commune: Yup.string().required("Chọn phường/ xã"),
+  })
+
   const {
     control,
     handleSubmit,
-    formState: { errors, isValid },
+    formState: { errors },
     setValue,
     watch,
     clearErrors,
   } = useForm({
     mode: "all",
-    resolver: yupResolver(validationSchema),
+    resolver: position === 0 ? yupResolver(firstValidationSchema) : position === 1 ? yupResolver(secondValidationSchema) : yupResolver(thirdValidationSchema),
     reValidateMode: "onChange",
   })
-  const handleContinue = React.useCallback(() => {
-    setPosition(position + 1)
+
+
+  const handleContinue = React.useCallback(data => {
+    const param = {
+      address: data.address,
+      avatar: ekycStore.portraitImage?.url,
+      banks: [{bankAccount:data.bankAccount, bankAccountHolder: data.bankAccountHolder, bankId: data.bankId}],
+      birthday: moment(data.birthday, moment.defaultFormat).toDate(),
+      districtId: data.district,
+      emails: [{ email: data.email }],
+      fullName: data.fullName,
+      gender: data.gender,
+      identification: {
+        idNumber: data.idNumber,
+        issuedOn: moment(data.issuedOn),
+        placeOfIssue: data.placeOfIssue,
+        frontPhoto: ekycStore.frontImage,
+        backSidePhoto: ekycStore.backImage,
+      },
+      stateId: data.province,
+      subDistrictId: data.commune,
+      tels: [{ tel: data.tel }],
+    }
+    if (position < 2) {
+      setPosition(position + 1)
+      return
+    }
+    ekycStore.kycMio(param).then((res) => {
+      if (res?.error || res?.kind !== 'ok'){
+        Alert.alert(res?.error?.message ?? COMMON_ERROR)
+        return
+      }
+      setVisible(true)
+    })
   }, [position])
+
+  const handleCancel = React.useCallback(()=> {
+    navigate(ScreenNames.HOME)
+  },[position])
+
+  const pressContinue = React.useCallback(()=> {
+    setVisible(false)
+    navigate(ScreenNames.TRADE_REGISTRATION)
+    authStoreModel.getFullInfoUser(authStoreModel?.userId)
+  },[])
 
   const renderStep = React.useCallback(() => {
     switch (position) {
@@ -75,6 +125,11 @@ const ConfirmEkyc = React.memo((props: Props) => {
     }
   }, [position])
 
+  const closeModal = React.useCallback(()=> {
+    setVisible(false)
+    navigate(ScreenNames.HOME)
+  },[])
+
   return (
     <View style={styles.container}>
       <AppHeader headerText={"EKYC"} isBlue />
@@ -86,7 +141,10 @@ const ConfirmEkyc = React.memo((props: Props) => {
                  style={FONT_REGULAR_14} />
         {renderStep()}
       </KeyboardAwareScrollView>
-      <DualButton leftTitle={"Huỷ"} rightTitle={"Tiếp tục"} style={styles.btn} rightPress={handleContinue} />
+      <DualButton leftTitle={"Huỷ"} rightTitle={"Tiếp tục"} style={styles.btn}
+                  rightPress={handleSubmit(handleContinue)}
+      leftPress={handleCancel}/>
+      <SignKycModal visible={visible} closeModal={closeModal} onPress={pressContinue} />
     </View>
   )
 })

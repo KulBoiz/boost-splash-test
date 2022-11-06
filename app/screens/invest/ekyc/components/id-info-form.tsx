@@ -20,12 +20,14 @@ interface Props{
 }
 
 const IdInfoForm = React.memo((props: Props) => {
-  const {control, errors, setValue, clearErrors} = props
-  const {authStoreModel} = useStores()
-  const identification = authStoreModel?.user?.identification
+  const {control, errors, setValue} = props
+  const {ekycStore} = useStores()
+  const identification = ekycStore.user?.identification
+
   useEffect(()=> {
-    setValue('iudNumber', identification?.idNumber)
+    setValue('idNumber', identification?.idNumber)
     setValue('placeOfIssue', identification?.placeOfIssue)
+    setValue('issuedOn', identification?.issuedOn)
   },[])
 
   return (
@@ -39,18 +41,20 @@ const IdInfoForm = React.memo((props: Props) => {
           label: 'Số CMND/CCCD',
           placeholder: 'Nhập số CMND/CCCD',
           control,
+          editable: false,
           keyboardType:"number-pad",
-          error: errors?.fullName?.message,
+          error: errors?.idNumber?.message,
         }}
       />
       <FormInput
         {...{
           required: true,
-          name: 'dateOfIssue',
+          name: 'issuedOn',
           label: 'Ngày cấp',
           placeholder: '31/02/2020',
           control,
-          error: errors?.fullName?.message,
+          editable: false,
+          error: errors?.issuedOn?.message,
         }}
       />
       <FormInput
@@ -59,6 +63,7 @@ const IdInfoForm = React.memo((props: Props) => {
           name: 'placeOfIssue',
           label: 'Nơi cấp',
           placeholder: 'Nơi cấp',
+          editable: false,
           control,
           error: errors?.placeOfIssue?.message,
         }}

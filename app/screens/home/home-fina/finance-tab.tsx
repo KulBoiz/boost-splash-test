@@ -5,7 +5,7 @@ import { View } from "react-native"
 import { ScaledSheet } from "react-native-size-matters"
 import { images } from "../../../assets/images"
 import FullScreenModal from "../../../components/app-modal/full-screen-modal"
-import BottomView from '../../../components/bottom-view'
+import BottomView from "../../../components/bottom-view"
 import { useStores } from "../../../models"
 import { navigate } from "../../../navigators"
 import { ScreenNames } from "../../../navigators/screen-names"
@@ -14,7 +14,6 @@ import HomeBanner from "./components/home-banner"
 import HomeItem from "./components/home-item"
 import ProjectItem from "./components/project-item"
 import { formatHomeData } from "./constants"
-import { gifs } from "../../../assets/gifs"
 
 interface Props { }
 

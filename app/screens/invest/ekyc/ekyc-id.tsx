@@ -1,15 +1,15 @@
 import React, { FC, useCallback, useRef, useState } from "react"
-import { Platform, View } from "react-native"
+import { Alert, Image, Platform, View } from "react-native"
 import { Camera, useCameraDevices } from "react-native-vision-camera"
 import AppHeader from "../../../components/app-header/AppHeader"
 import { ms, s, ScaledSheet } from "react-native-size-matters"
 import { AppText } from "../../../components/app-text/AppText"
 import { CaptureButtonSvg, PhotoSvg, ThunderSvg } from "../../../assets/svgs"
 import { color } from "../../../theme"
-import { height, width } from "../../../constants/variable"
+import { COMMON_ERROR, height, width } from "../../../constants/variable"
 import { manipulateAsync, SaveFormat } from "expo-image-manipulator"
 import { ScreenNames } from "../../../navigators/screen-names"
-import { goBack, navigate } from "../../../navigators"
+import { navigate } from "../../../navigators"
 import { RNHoleView } from "react-native-hole-view"
 import { useStores } from "../../../models"
 import { useIsFocused } from "@react-navigation/native"
@@ -20,7 +20,8 @@ import { observer } from "mobx-react-lite"
 import { EKYCStackParamList } from "../../../navigators/ekyc-stack"
 import AppButton from "../../../components/app-button/AppButton"
 import { presets } from "../../../constants/presets"
-import FastImage from "react-native-fast-image"
+import { CARD_TYPE } from "../constants"
+import { get } from "lodash"
 
 const frameWidth = width * 0.8
 const frameHeight = width * 0.5
@@ -36,8 +37,8 @@ const EKYCId: FC<StackScreenProps<EKYCStackParamList, ScreenNames.EKYC_ID>> = ob
   const isFocused = useIsFocused()
   const cameraRef = useRef<any>(null)
   const [imageType, setImageType] = React.useState<"front" | "back">("front")
-  const [frontImage, setFrontImage] = React.useState("")
-  const [backImage, setBackImage] = React.useState("")
+  const [frontImage, setFrontImage] = React.useState<string | null>(null)
+  const [backImage, setBackImage] = React.useState<string | null>(null)
   const [hasPermission, setHasPermission] = React.useState(false)
   const [flash, setFlash] = useState<"off" | "on">("off")
   const devices = useCameraDevices()
@@ -58,7 +59,6 @@ const EKYCId: FC<StackScreenProps<EKYCStackParamList, ScreenNames.EKYC_ID>> = ob
     async (photo) => {
       if (imageType === "front") {
         setFrontImage(photo)
-        setImageType("back")
       } else {
         setBackImage(photo)
       }
@@ -113,26 +113,73 @@ const EKYCId: FC<StackScreenProps<EKYCStackParamList, ScreenNames.EKYC_ID>> = ob
   }, [setPhoto])
 
   const onReTake = useCallback(
-    (type) => {
-      if (type === "front") {
-        setFrontImage("")
+    () => {
+      if (imageType === "front") {
+        setFrontImage(null)
       } else {
-        setBackImage("")
+        setBackImage(null)
       }
     },
-    [frontImage,backImage],
+    [frontImage, backImage, imageType],
   )
 
+  const getIdentityInfo = useCallback(() => {
+    ekycStore.getIdentityInfo().then(res => {
+      const type = get(res, "data[0].type")
+      if (res?.length === 2) {
+        const param = {
+          ...res[0], ...res[1], identification: {
+            ...res[0]?.identification, ...res[1]?.identification,
+          },
+        }
+        ekycStore.updateUser(param)
+        navigate(ScreenNames.EKYC_PORTRAIT)
+      }
+      if (type === CARD_TYPE.front) {
+        setBackImage(null)
+        Alert.alert("Ảnh mặt sau không hợp lệ")
+      }
+      if (type === CARD_TYPE.back) {
+        setFrontImage(null)
+        Alert.alert("Ảnh mặt trước không hợp lệ")
+      }
+      if (res?.data?.type === "") {
+        Alert.alert("Ảnh không hợp lệ")
+      }
+    })
+  }, [])
+
   const onContinue = useCallback(() => {
-    // agentStore.uploadFrontImage(frontImage)
-    goBack()
+    if (frontImage && backImage && imageType === "back") {
+      ekycStore.uploadImage("back", backImage).then(() => {
+        getIdentityInfo()
+      }).catch(() => Alert.alert(COMMON_ERROR))
+    }
+    if (frontImage && imageType === "front" && !backImage) {
+      ekycStore.uploadImage("front", frontImage)
+        .then(() => setImageType("back"))
+        .catch(() => Alert.alert(COMMON_ERROR))
+    }
+    if (frontImage && backImage && imageType === "front") {
+      ekycStore.uploadImage("front", frontImage).then(() => {
+        getIdentityInfo()
+      }).catch(() => Alert.alert(COMMON_ERROR))
+    }
   }, [frontImage, backImage])
-  const checkValidImage = (imageType === "front" && frontImage) || (imageType === "back" && backImage)
+
+  const checkValidImage = React.useMemo(() => {
+      if (imageType === "front") {
+        return !!frontImage
+      }
+      return !!backImage
+    }, [imageType, frontImage, backImage])
+
+
   return (
     <View style={styles.container}>
       {device != null && hasPermission ? (
         checkValidImage ?
-          <FastImage source={{ uri: imageType === "front" ? frontImage : backImage }} style={styles.image} /> :
+          <Image source={{ uri: imageType === "front" ? frontImage : backImage }} style={styles.image} /> :
           <Camera
             style={styles.camera}
             ref={cameraRef}
@@ -188,10 +235,11 @@ const EKYCId: FC<StackScreenProps<EKYCStackParamList, ScreenNames.EKYC_ID>> = ob
         {checkValidImage ? <View style={[ALIGN_CENTER, { width: "100%" }]}>
             <AppText value={"Chụp lại"} underline color={color.primary} style={presets.label_16} onPress={onReTake} />
             <AppButton
-              disable={!hasPermission}
+              disable={!hasPermission || ekycStore.loading}
               title={"Xác nhận"}
               onPress={onContinue}
               containerStyle={MARGIN_TOP_24}
+              loading={ekycStore.loading}
             />
           </View>
           :
@@ -275,7 +323,7 @@ const styles = ScaledSheet.create({
   image: {
     position: "absolute",
     marginLeft: ms(frameX - 2.5),
-    marginTop: ms(frameY - 13),
+    marginTop: ms(frameY) - ms(7),
     width: frameWidth,
     height: frameHeight,
   },

@@ -30,8 +30,8 @@ const country = [
   { label: "Việt Nam", value: "VN" },
 ]
 const AddressForm = React.memo((props: Props) => {
-  const { locationStore, agentStore, authStoreModel } = useStores()
-  const { user } = authStoreModel
+  const { locationStore, agentStore, ekycStore } = useStores()
+  const { user } = ekycStore
 
   const { control, errors, setValue, clearErrors, watch } = props
   const [province, setProvince] = useState([])
@@ -57,14 +57,13 @@ const AddressForm = React.memo((props: Props) => {
       if (user?.subDistrictId) {
         locationStore.get("sub_district", undefined, user?.districtId).then((res) => {
           setSubDistrict(formatData(res?.data?.data))
-          setValue("commune", user?.subDistrictId)
+          // setValue("commune", user?.subDistrictId)
         })
       }
       setValue("address", user?.address ?? '')
 
     })
   }, [])
-
   const handleSelectState = (state) => {
     clearErrors("province")
     setValue("district", "")

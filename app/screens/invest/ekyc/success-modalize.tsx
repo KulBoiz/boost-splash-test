@@ -1,18 +1,78 @@
-import React from 'react';
-import { View, StyleSheet } from 'react-native';
+import React, { Ref } from "react"
+import { Modalize } from "react-native-modalize"
+import { AppText } from "../../../components/app-text/AppText"
+import { ms, ScaledSheet } from "react-native-size-matters"
+import { fontFamily } from "../../../constants/font-family"
+import { navigate } from "../../../navigators"
+import { ScreenNames } from "../../../navigators/screen-names"
+import FastImage from "react-native-fast-image"
+import AppButton from "../../../components/app-button/AppButton"
+import { images } from "../../../assets/images"
+import { View } from "react-native"
+import { color } from "../../../theme"
+import { MARGIN_BOTTOM_8 } from "../../../styles/common-style"
 
-interface Props{}
+interface Props {
+  modalizeRef: Ref<any>
 
-const  SuccessModalize = React.memo((props: Props) => {
+  closeModal(): void
+}
+
+const SuccessModalize = React.memo(({ modalizeRef, closeModal }: Props) => {
+  const handlePress = React.useCallback(() => {
+    closeModal()
+    navigate(ScreenNames.HOME)
+  }, [])
+
   return (
-    <View style={styles.container}>
+    <Modalize
+      ref={modalizeRef}
+      modalStyle={styles.modal}
+      handlePosition={"inside"}
+      adjustToContentHeight
+      scrollViewProps={{ showsVerticalScrollIndicator: false }}
+    >
+      <View style={styles.body}>
+        <AppText value={"Thông báo"} center style={styles.title} />
+        <FastImage source={images.invest_success} style={styles.image} />
+        <AppText value={"Hoàn thành quá trình EKYC"} fontSize={ms(14)} fontFamily={fontFamily.medium} />
+        <AppText value={"Cảm ơn quý khách"} fontSize={ms(24)} fontFamily={fontFamily.bold} color={color.primary}
+                 style={MARGIN_BOTTOM_8} />
+        <AppText value={"Nhân viên FINA đã nhận được yêu cầu từ bạn và sẽ phản hồi khi có kết quả EKYC"}
+                 fontSize={ms(14)} color={color.palette.grayChateau} textAlign={"center"} />
+        <View style={{marginBottom: 30}}/>
+        <AppButton title={"Quay lại trang chủ"} onPress={handlePress} containerStyle={styles.btn} />
+      </View>
 
-    </View>
+
+    </Modalize>
   )
-});
+})
 
-export default SuccessModalize;
+export default SuccessModalize
 
-const styles = StyleSheet.create({
-    container: {},
-});
+const styles = ScaledSheet.create({
+  modal: {
+    flex: 1,
+    paddingVertical: "24@s",
+    paddingHorizontal: "16@s",
+  },
+  body: {
+    alignItems: "center",
+    flex: 1,
+  },
+  title: {
+    fontSize: "16@ms",
+    marginBottom: "24@s",
+    fontFamily: fontFamily.bold,
+  },
+  btn: {
+    marginTop: "15@s",
+    marginBottom: "30@s",
+  },
+  image: {
+    width: "141@s",
+    height: "126@s",
+    marginBottom: "40@s",
+  },
+})

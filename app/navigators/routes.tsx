@@ -25,9 +25,9 @@ import EKYC from "../screens/invest/ekyc/ekyc"
 import EKYCId from "../screens/invest/ekyc/ekyc-id"
 import EKYCPortrait from "../screens/invest/ekyc/ekyc-portrait"
 import UpdateIdentityInformation from "../screens/invest/ekyc/update-identity-information"
-import TradeRegistration from "../screens/invest/ekyc/trade-registration"
 import SyncAccount from "../screens/invest/ekyc/sync-account"
 import ConfirmEkyc from "../screens/invest/ekyc/confirm-ekyc"
+import TradeRegistration from "../screens/invest/ekyc/trade-registration"
 
 export const AuthRoutes = [
   {

@@ -1,4 +1,4 @@
-import React from "react"
+import React, { useState } from "react"
 import { View } from "react-native"
 import { AppText } from "../../../components/app-text/AppText"
 import AppHeader from "../../../components/app-header/AppHeader"
@@ -25,8 +25,7 @@ const EKYC = observer((props: Props) => {
   const { authStoreModel } = useStores()
 
   const handleStart = React.useCallback(() => {
-    // navigate(ScreenNames.UPDATE_IDENTITY_INFORMATION)
-    navigate(ScreenNames.CONFIRM_EKYC)
+    navigate(ScreenNames.UPDATE_IDENTITY_INFORMATION)
   }, [])
 
   const handlePress = React.useCallback(() => {

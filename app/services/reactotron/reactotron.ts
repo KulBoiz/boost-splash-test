@@ -7,7 +7,7 @@ import { ReactotronConfig, DEFAULT_REACTOTRON_CONFIG } from "./reactotron-config
 import { mst } from "reactotron-mst"
 import { clear } from "../../utils/storage"
 import { goBack, resetRoot, navigate } from "../../navigators/navigation-utilities"
-import { Platform } from "react-native"
+import { NativeModules, Platform } from "react-native"
 
 // Teach TypeScript about the bad things we want to do.
 declare global {
@@ -68,7 +68,9 @@ export class Reactotron {
   constructor(config: ReactotronConfig = DEFAULT_REACTOTRON_CONFIG) {
     // merge the passed in config with some defaults
     this.config = {
-      host: "localhost",
+      // host: "localhost",
+      // auto connect to reactoron when plugin device
+      host: NativeModules.SourceCode.scriptURL.split('://')[1].split(':')[0],
       useAsyncStorage: true,
       ...config,
       state: {
@@ -116,7 +118,7 @@ export class Reactotron {
       // configure reactotron
       Tron.configure({
         name: this.config.name || require("../../../package.json").name,
-        host: this.config.host,
+        host: this.config.host
       })
 
       // hookup middleware

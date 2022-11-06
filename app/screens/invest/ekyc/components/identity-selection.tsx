@@ -26,7 +26,7 @@ export default IdentitySelection
 
 const styles = ScaledSheet.create({
   container: {
-    flex: 0.8,
+    flex: 0.5,
     paddingHorizontal: '16@s'
   },
   selectContainer:{

@@ -18,6 +18,8 @@ export const images = {
   invest_front: require('./invest/front.png'),
   invest_back: require('./invest/back.png'),
   invest_portrait: require('./invest/portrait.png'),
+  invest_sign: require('./invest/sign-contract.png'),
+  invest_success: require('./invest/kyc-success.png'),
 
   commission_checked: require('./commission/checked.png'),
   commission_unchecked: require('./commission/unchecked.png'),

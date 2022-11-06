@@ -33,7 +33,7 @@ const InvestItem = React.memo((props: Props) => {
     <Pressable onPress={handlePress} style={styles.container}>
       <View style={[styles.wrapStatus, { backgroundColor: isUp ? color.palette.green : color.palette.angry }]}>
         <FastImage source={images.home_arrow_up} style={isUp ? styles.iconArrow : styles.iconArrowDown} />
-        <AppText value={`${percent ?? "0"}%`} fontSize={ms(8)} fontFamily={fontFamily.medium}
+        <AppText value={`${isUp && '+'}${percent ?? "0"}%`} fontSize={ms(8)} fontFamily={fontFamily.medium}
                  color={color.palette.white} />
       </View>
       <View style={styles.circle}>

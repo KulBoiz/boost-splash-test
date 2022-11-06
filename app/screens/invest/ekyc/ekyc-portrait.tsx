@@ -1,14 +1,14 @@
 import React, { FC, useCallback, useRef } from "react"
-import { Platform, View } from "react-native"
+import { Alert, Platform, View,Image } from "react-native"
 import { Camera, useCameraDevices } from "react-native-vision-camera"
 import AppHeader from "../../../components/app-header/AppHeader"
 import { ms, ScaledSheet } from "react-native-size-matters"
 import { CaptureButtonSvg, PhotoSvg } from "../../../assets/svgs"
 import { color } from "../../../theme"
-import { height, width } from "../../../constants/variable"
+import { COMMON_ERROR, height, width } from "../../../constants/variable"
 import { manipulateAsync, SaveFormat } from "expo-image-manipulator"
 import { ScreenNames } from "../../../navigators/screen-names"
-import { goBack, navigate } from "../../../navigators"
+import { navigate } from "../../../navigators"
 import { RNHoleView } from "react-native-hole-view"
 import { useStores } from "../../../models"
 import { useIsFocused } from "@react-navigation/native"
@@ -26,11 +26,10 @@ const frameWidth = width * 0.8
 const frameHeight = height * 0.5
 const frameX = width * 0.1
 const frameY = height * 0.15
-const guide = 'Xin đưa khuôn mặt của bạn vào giữa\nkhung hình và nhấn chụp ảnh.'
+const guide = "Xin đưa khuôn mặt của bạn vào giữa\nkhung hình và nhấn chụp ảnh."
 
 const EKYCPortrait: FC<StackScreenProps<EKYCStackParamList, ScreenNames.EKYC_PORTRAIT>> = observer(({ route }) => {
-  const onConfirm = route.params.onConfirm
-  const { agentStore } = useStores()
+  const { ekycStore } = useStores()
   const isFocused = useIsFocused()
   const cameraRef = useRef<any>(null)
   const [image, setImage] = React.useState("")
@@ -44,7 +43,6 @@ const EKYCPortrait: FC<StackScreenProps<EKYCStackParamList, ScreenNames.EKYC_POR
       setHasPermission(status === "authorized")
     })()
   }, [])
-
 
   const setPhoto = useCallback(
     (photo) => {
@@ -68,17 +66,17 @@ const EKYCPortrait: FC<StackScreenProps<EKYCStackParamList, ScreenNames.EKYC_POR
           crop:
             Platform.OS === "ios"
               ? {
-                  width: imageWidth * 0.8,
-                  height: imageHeight * 0.5,
-                  originX: imageWidth * 0.1,
-                  originY: imageHeight * 0.15,
-                }
+                width: imageWidth * 0.8,
+                height: imageHeight * 0.5,
+                originX: imageWidth * 0.1,
+                originY: imageHeight * 0.15,
+              }
               : {
-                  width: data.width * 0.8,
-                  height: data.height * 0.5,
-                  originX: data.width * 0.1,
-                  originY: imageHeight * 0.15,
-                },
+                width: data.width * 0.8,
+                height: data.height * 0.5,
+                originX: data.width * 0.1,
+                originY: imageHeight * 0.15,
+              },
         },
       ],
       {
@@ -100,29 +98,30 @@ const EKYCPortrait: FC<StackScreenProps<EKYCStackParamList, ScreenNames.EKYC_POR
 
   const onReTake = useCallback(
     () => {
-        setImage("")
+      setImage("")
     },
     [image],
   )
 
   const onContinue = useCallback(() => {
-    onConfirm(image)
-    goBack()
+    ekycStore.uploadImage("portrait", image)
+      .then(() => navigate(ScreenNames.CONFIRM_EKYC))
+      .catch(() => Alert.alert(COMMON_ERROR))
   }, [image])
 
   return (
     <View style={styles.container}>
       {device != null && hasPermission ? (
-        image ? <FastImage source={{ uri : image }} style={styles.image}/> :
+        image ? <Image source={{ uri: image }} style={styles.image} /> :
           <Camera
-          style={styles.camera}
-          ref={cameraRef}
-          device={device}
-          isActive={isFocused}
-          photo={true}
-          preset="hd-1280x720"
-          orientation="portrait"
-        />
+            style={styles.camera}
+            ref={cameraRef}
+            device={device}
+            isActive={isFocused}
+            photo={true}
+            preset="hd-1280x720"
+            orientation="portrait"
+          />
       ) : (
         <View style={styles.camera} />
       )}
@@ -150,19 +149,20 @@ const EKYCPortrait: FC<StackScreenProps<EKYCStackParamList, ScreenNames.EKYC_POR
       <AppHeader isBlack headerText={"Chụp chân dung"} showBorderWidth={false} />
 
       <View style={{ flex: 1 }} />
-      <AppText value={guide} style={FONT_MEDIUM_14} color={color.text} textAlign={'center'}/>
+      <AppText value={guide} style={FONT_MEDIUM_14} color={color.text} textAlign={"center"} />
       <View style={styles.wrapAction}>
         <ActionItem onPress={navigateToPhotoPicker} icon={<PhotoSvg />} text={"Thư viện ảnh"} />
       </View>
 
       <View style={styles.btnContainer}>
-        {image ? <View style={[ALIGN_CENTER, { width: '100%' }]}>
-            <AppText value={"Chụp lại"} underline color={color.primary} style={presets.label_16} onPress={onReTake}/>
+        {image ? <View style={[ALIGN_CENTER, { width: "100%" }]}>
+            <AppText value={"Chụp lại"} underline color={color.primary} style={presets.label_16} onPress={onReTake} />
             <AppButton
-              disable={!hasPermission}
+              disable={!hasPermission || ekycStore.loading}
               title={"Xác nhận"}
               onPress={onContinue}
               containerStyle={MARGIN_TOP_24}
+              loading={ekycStore.loading}
             />
           </View>
           :
@@ -183,9 +183,9 @@ const styles = ScaledSheet.create({
     backgroundColor: "transparent",
   },
   image: {
-    position: 'absolute',
-    marginLeft: ms(frameX-2.5),
-    marginTop: ms(frameY-8),
+    position: "absolute",
+    marginLeft: ms(frameX - 2.5),
+    marginTop: ms(frameY - 8),
     width: frameWidth,
     height: frameHeight,
   },
@@ -195,7 +195,7 @@ const styles = ScaledSheet.create({
     left: 0,
     right: 0,
     bottom: 0,
-    backgroundColor: color.palette.black
+    backgroundColor: color.palette.black,
   },
   wrapFrame: {
     position: "absolute",
@@ -260,7 +260,7 @@ const styles = ScaledSheet.create({
     flexDirection: "row",
     justifyContent: "center",
     paddingHorizontal: "16@ms",
-    paddingTop: '30@s'
+    paddingTop: "30@s",
   },
   wrapAction: {
     backgroundColor: "rgba(0,0,0,0.7)",
@@ -271,7 +271,7 @@ const styles = ScaledSheet.create({
     justifyContent: "space-evenly",
   },
   btnContainer: {
-    alignItems:'center',
+    alignItems: "center",
     paddingVertical: "24@s",
     paddingHorizontal: "16@ms",
   },

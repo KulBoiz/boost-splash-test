@@ -12,6 +12,7 @@ import { color } from "../../../../theme"
 import { ScaledSheet } from "react-native-size-matters"
 import { useStores } from "../../../../models"
 import { formatData } from "../../../../constants/variable"
+import { observer } from "mobx-react-lite"
 
 interface Props {
   control: Control
@@ -22,9 +23,9 @@ interface Props {
 
 }
 
-const BankForm = React.memo((props: Props) => {
+const BankForm = observer((props: Props) => {
   const { control, errors, setValue, clearErrors, watch } = props
-  const { authStoreModel, bankStore } = useStores()
+  const { bankStore } = useStores()
   const [bankBranch, setBankBranch] = useState([])
 
   useEffect(() => {
@@ -64,23 +65,22 @@ const BankForm = React.memo((props: Props) => {
       <FormInput
         {...{
           required: true,
-          name: "bankOwnerName",
+          name: "bankAccountHolder",
           label: "Tên chủ tài khoản",
           placeholder: "Nhập tên chủ tài khoản",
           control,
-          keyboardType: "number-pad",
-          error: errors?.bankOwnerName?.message,
+          error: errors?.bankAccountHolder?.message,
         }}
       />
       <FormItemPicker
         {...{
           required: true,
-          name: "bank",
+          name: "bankId",
           label: "Ngân hàng",
-          placeholder: "Chọn nơi cấp",
+          placeholder: "Chọn ngân hàng",
           control,
           setValue,
-          error: errors?.bank?.message,
+          error: errors?.bankId?.message,
           data: listBank(),
           handleSelect: handleSelectBank,
           onChangeSearchText: onChangeSearchBank,
@@ -90,23 +90,23 @@ const BankForm = React.memo((props: Props) => {
       <FormInput
         {...{
           required: true,
-          name: "bankNumber",
+          name: "bankAccount",
           label: "Số tài khoản",
           placeholder: "Nhập số tài khoản",
           control,
           keyboardType: "number-pad",
-          error: errors?.bankNumber?.message,
+          error: errors?.bankAccount?.message,
         }}
       />
       <FormItemPicker
         {...{
-          required: true,
           data: listBankBranch(),
           name: "bankBranch",
           label: "Chi nhánh",
           placeholder: "Chọn chi nhánh",
           control,
           setValue,
+          clearErrors,
           error: errors?.bankBranch?.message,
           onChangeSearchText: onChangeSearchBankBranch,
         }}
