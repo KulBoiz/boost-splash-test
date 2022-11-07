@@ -87,9 +87,9 @@ export const EkycStoreModel = types
       return result
     }),
 
-    verifySyncMioOtp: flow(function* verifySyncMioOtp(otpCOde) {
+    verifySyncMioOtp: flow(function* verifySyncMioOtp(otpCode) {
       const result = yield self.api.post(`users/verify-otp-sync-account-with-mio`, {
-          otpCOde,
+        otpCode,
         },
       )
       const data = result?.data
@@ -100,13 +100,11 @@ export const EkycStoreModel = types
 
     syncAccount: flow(function* syncAccount(tel, idNumber) {
       const result = yield self.api.post(`users/sync-existing-account-with-mio`, {
-          tel, idNumber,
+          tels: [{tel}], identification: {idNumber},
         },
       )
-      const data = result?.data
-      if (result.kind === "ok") {
-        return data
-      }
+      return result
+
     }),
 
     resendSyncMioOtp: flow(function* resendSyncMioOtp() {

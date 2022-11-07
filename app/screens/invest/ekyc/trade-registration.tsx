@@ -69,7 +69,7 @@ const TradeRegistration = React.memo((props: Props) => {
   },[])
 
   const onResend = useCallback(()=> {
-    ekycStore.resendSignContractOtp()
+    ekycStore.resendSyncMioOtp()
       .then(res=> {
         if (res?.error){
           Alert.alert(res?.error?.message)

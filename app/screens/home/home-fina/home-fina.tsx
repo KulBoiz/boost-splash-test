@@ -24,12 +24,6 @@ const HomeFina = React.memo((props: Props) => {
         {index === 0 && <FinanceTab />}
         {index === 1 && <InsuranceTab />}
         {index === 2 && <InvestTab />}
-        {/* {index === 2 && */}
-        {/*  <View style={{flex:1, paddingTop: s(100)}}> */}
-        {/*    <InDeveloping notShowHeader/> */}
-        {/*  </View> */}
-        {/* } */}
-        {/*  {index === 2 && <SignContract />} */}
       </ScrollView>
     </View>
   )
@@ -41,7 +35,6 @@ const styles = ScaledSheet.create({
   container: {
     flex: 1,
     backgroundColor: color.background,
-
   },
   scrollView: {
     marginTop: isIphoneX() ? "150@s" : "140@s",

@@ -14,7 +14,8 @@ export type NavigatorParamList = {
   [ScreenNames.REQUEST_COUNSELLING]: undefined
   [ScreenNames.EKYC]: undefined
 
-  [ScreenNames.TRADE_REGISTRATION]: { index: number };
+  [ScreenNames.TRADE_REGISTRATION]: undefined;
+  [ScreenNames.SYNC_ACCOUNT]: undefined;
   [ScreenNames.INVEST_TAB]: { index: number };
   [ScreenNames.INVEST_OTP]: { onSubmit(e: any): void, onResend(): void };
   [ScreenNames.BONDS_DETAIL]: { slug: string };
