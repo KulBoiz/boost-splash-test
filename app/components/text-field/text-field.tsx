@@ -31,7 +31,7 @@ const INPUT: TextStyle = {
   color: color.palette.black,
   fontSize: ms(13),
   backgroundColor: color.background,
-  height: isIos ? s(36) : s(40)
+  height: isIos ? s(40) : s(44)
 }
 
 const MULTILINE: TextStyle = {

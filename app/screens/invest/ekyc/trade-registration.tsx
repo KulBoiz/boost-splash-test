@@ -24,13 +24,15 @@ const TradeRegistration = React.memo((props: Props) => {
   const modalizeRef = useRef<Modalize>(null)
   const modalizeSuccessRef = useRef<Modalize>(null)
   const isFocused = useIsFocused()
-  const [contractLink, setContractLink] = useState('')
+  const [contractLink, setContractLink] = useState('https://')
+  const [isSigned,setIsSigned] = useState<boolean | string | number>(false)
 
   useEffect(()=> {
     ekycStore.checkContractStatus().then(res => {
       const isFullSubmission = res?.isFullSubmission
       const contractFileUrl = res?.contractFileUrl
-      if (isFullSubmission){
+      setIsSigned(isFullSubmission)
+      if (contractFileUrl){
         setContractLink(contractFileUrl)
       }
     })
@@ -108,11 +110,11 @@ const TradeRegistration = React.memo((props: Props) => {
               <AppText value={"VINACAPITAL"} style={FONT_BOLD_14} />
             </View>
             <View style={[ROW, ALIGN_CENTER]}>
-              <AppText value={contractLink ? 'Đã ký' : "Chưa ký"} color={contractLink ? color?.palette.green : color.palette.deepGray} />
-              <FastImage source={images.common_circle_checked} style={styles.icon} tintColor={contractLink ? color.palette.green : ''}/>
+              <AppText value={isSigned ? 'Đã ký' : "Chưa ký"} color={isSigned ? color?.palette.green : color.palette.deepGray} />
+              <FastImage source={images.common_circle_checked} style={styles.icon} tintColor={isSigned ? color.palette.green : ''}/>
             </View>
           </View>
-          <AppText value={contractLink ? 'Tải hợp đồng đã ký' : 'XEM GIẤY ĐKGD'} textAlign={"center"} underline color={color.primary} onPress={openLink}/>
+          <AppText value={isSigned ? 'Tải hợp đồng đã ký' : 'XEM GIẤY ĐKGD'} textAlign={"center"} underline color={color.primary} onPress={openLink}/>
 
         </View>
         <View style={{flex:1}} />

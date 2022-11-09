@@ -6,14 +6,12 @@ import FormInput from "../../../../components/form-input/form-input"
 import { Control, UseFormClearErrors, UseFormSetValue } from "react-hook-form/dist/types/form"
 import { FieldErrors } from "react-hook-form/dist/types/errors"
 import { FieldValues } from "react-hook-form/dist/types/fields"
-import FormDatePicker from "../../../../components/form-date-time"
 import FormItemPicker from "../../../../components/form-item-picker"
 import { GENDER } from "../../../../constants/gender"
 import { LEFT_INPUT, ROW } from "../../../../styles/common-style"
 import { presets } from "../../../../constants/presets"
 import { ScaledSheet } from "react-native-size-matters"
 import { useStores } from "../../../../models"
-import { get } from "lodash"
 
 interface Props{
   control: Control
@@ -34,8 +32,6 @@ const InformationForm = React.memo((props: Props) => {
   const {control, errors, setValue, clearErrors} = props
   const {ekycStore} = useStores()
   const {user} = ekycStore
-  const email = get(user, 'emails[0].email')
-  const tel = get(user, 'tels[0].tel')
 
   useEffect(()=> {
     setValue('fullName', user?.fullName)
@@ -96,7 +92,6 @@ const InformationForm = React.memo((props: Props) => {
           name: "gender",
           label: "Giới tính",
           placeholder: "Chọn giới tính",
-          disable: true,
           control,
           setValue,
           error: errors?.gender?.message,

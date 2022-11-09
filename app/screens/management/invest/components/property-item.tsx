@@ -53,11 +53,15 @@ const Item = React.memo(({ title, content, titleStyle, contentStyle, titleColor,
 const PropertyItem = React.memo((props: Props) => {
   const { item } = props
   const [activeSections, setActiveSections] = useState<number[]>([])
+
   const _handleSections = (index: number[]) => {
     setActiveSections(index)
   }
 
   const renderHeader = useCallback((index: number) => {
+    const isOpen = index === activeSections[0]
+    console.log('index', index)
+    console.log('active', activeSections[0])
     return (
       <View style={styles.headerContainer}>
         <View style={[ROW, ALIGN_CENTER]}>
@@ -75,6 +79,7 @@ const PropertyItem = React.memo((props: Props) => {
           <Item title={'Chương trình'} content={'Lời/Lỗ'} />
           <Item title={'Linh hoạt'} content={`(2) 2%`} titleColor={color.palette.black} contentColor={color.palette.green}/>
         </View>
+        {isOpen && <FastImage source={images.arrow_up} style={styles.iconArrow} />}
       </View>
     )
   }, [])
@@ -133,6 +138,12 @@ const styles = ScaledSheet.create({
     borderRadius: "8@s",
     borderWidth: 1,
     borderColor: color.palette.lightGrey,
+  },
+  iconArrow: {
+    width: '16@s',
+    height: '16@s',
+    alignSelf: 'center',
+    transform: [{rotate: '180deg'}]
   },
   header: {
     flex:1,

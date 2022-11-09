@@ -1,7 +1,9 @@
 // Use this import if you want to use "env.js" file
 // const { API_URL } = require("../../config/env")
 // Or just specify it directly like this:
-const API_URL = "http://example.com"
+import { API_ENDPOINT } from "@env"
+
+const API_URL = API_ENDPOINT
 
 /**
  * The options used to configure the API.
@@ -23,5 +25,5 @@ export interface ApiConfig {
  */
 export const DEFAULT_API_CONFIG: ApiConfig = {
   url: API_URL || "https://jsonplaceholder.typicode.com",
-  timeout: 10000,
+  timeout: 20000,
 }

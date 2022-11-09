@@ -67,14 +67,14 @@ const ConfirmEkyc = React.memo((props: Props) => {
       address: data.address,
       avatar: ekycStore.portraitImage?.url,
       banks: [{bankAccount:data.bankAccount, bankAccountHolder: data.bankAccountHolder, bankId: data.bankId}],
-      birthday: moment(data.birthday, moment.defaultFormat).toDate(),
+      birthday: moment(data.birthday).add(1, 'days').toISOString(),
       districtId: data.district,
       emails: [{ email: data.email }],
       fullName: data.fullName,
       gender: data.gender,
       identification: {
         idNumber: data.idNumber,
-        issuedOn: moment(data.issuedOn),
+        issuedOn: moment(data.issuedOn).add(1, 'days').toISOString(),
         placeOfIssue: data.placeOfIssue,
         frontPhoto: ekycStore.frontImage,
         backSidePhoto: ekycStore.backImage,
@@ -83,6 +83,7 @@ const ConfirmEkyc = React.memo((props: Props) => {
       subDistrictId: data.commune,
       tels: [{ tel: data.tel }],
     }
+
     if (position < 2) {
       setPosition(position + 1)
       return

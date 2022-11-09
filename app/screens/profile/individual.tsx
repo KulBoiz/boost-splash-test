@@ -1,12 +1,19 @@
-import React from 'react';
+import React, { useEffect } from "react"
 import { View, StyleSheet } from "react-native"
 import ProfileMenu from "./components/profile-menu"
 import Hotline from "./components/hotline"
 import { INDIVIDUAL } from "./constants"
+import { useStores } from "../../models"
 
 interface Props{}
 
 const Individual = React.memo((props: Props) => {
+  const {authStoreModel} = useStores()
+
+  useEffect(()=> {
+    authStoreModel.getFullInfoUser(authStoreModel?.userId)
+  },[])
+
   return (
     <View style={styles.container}>
       {INDIVIDUAL.map(({icon, title, active, onPress}, i)=> {
