@@ -1,5 +1,5 @@
 import React, { useRef } from "react"
-import { Alert, View } from "react-native"
+import { Alert, DeviceEventEmitter, View } from "react-native"
 import * as Yup from "yup"
 import i18n from "i18n-js"
 import { useForm } from "react-hook-form"
@@ -14,9 +14,9 @@ import DualButton from "../../../components/app-button/dual-button"
 import { navigate } from "../../../navigators"
 import { ScreenNames } from "../../../navigators/screen-names"
 import { useStores } from "../../../models"
-import { COMMON_ERROR } from "../../../constants/variable"
 import { Modalize } from "react-native-modalize"
 import SuccessModalize from "./success-modalize"
+import { COMMON_ERROR, OTP_TIME } from "../../../constants/variable"
 
 interface Props {
 }
@@ -32,7 +32,7 @@ const SyncAccount = React.memo((props: Props) => {
   const {
     control,
     handleSubmit,
-    formState: { errors, isValid },
+    formState: { errors },
   } = useForm({
     mode: "all",
     resolver: yupResolver(validationSchema),
@@ -48,8 +48,8 @@ const SyncAccount = React.memo((props: Props) => {
 
   const onSubmit = React.useCallback((otpCode) => {
     ekycStore.verifySyncMioOtp(otpCode)
-      .then(res=> {
-        if (res?.error){
+      .then(res => {
+        if (res?.error) {
           Alert.alert(res?.error?.message)
           return
         }
@@ -60,11 +60,14 @@ const SyncAccount = React.memo((props: Props) => {
 
   const onResend = React.useCallback(() => {
     ekycStore.resendSignContractOtp()
-      .then(res=> {
-        if (res?.error){
+      .then(res => {
+        if (res?.error) {
           Alert.alert(res?.error?.message)
+          return
         }
-      })  }, [])
+        DeviceEventEmitter.emit('resend')
+      })
+  }, [])
 
   const leftPress = React.useCallback(() => {
     navigate(ScreenNames.HOME)
@@ -77,7 +80,7 @@ const SyncAccount = React.memo((props: Props) => {
           Alert.alert(res?.error?.message ?? COMMON_ERROR)
           return
         }
-        navigate(ScreenNames.INVEST_OTP, { onResend, onSubmit })
+        navigate(ScreenNames.INVEST_OTP, { onResend, onSubmit, phone: data.tel, otpTime: OTP_TIME.SYNC_ACCOUNT })
       })
   }, [])
 
@@ -107,7 +110,7 @@ const SyncAccount = React.memo((props: Props) => {
           }}
         />
       </View>
-      <SuccessModalize type={'sync'} modalizeRef={modalizeSuccessRef} closeModal={onCloseSuccess} />
+      <SuccessModalize type={"sync"} modalizeRef={modalizeSuccessRef} closeModal={onCloseSuccess} />
 
       <DualButton leftTitle={"Hủy bỏ"} rightTitle={"Xác nhận"} leftPress={leftPress}
                   rightPress={handleSubmit(rightPress)} style={styles.btn} />

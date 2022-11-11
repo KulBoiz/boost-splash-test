@@ -1,5 +1,5 @@
 import React, { useCallback, useEffect, useRef, useState } from "react"
-import { Alert, Linking, View } from "react-native"
+import { Alert, DeviceEventEmitter, Linking, View } from "react-native"
 import AppHeader from "../../../components/app-header/AppHeader"
 import { Modalize } from "react-native-modalize"
 import DualButton from "../../../components/app-button/dual-button"
@@ -15,6 +15,7 @@ import { navigate } from "../../../navigators"
 import { ScreenNames } from "../../../navigators/screen-names"
 import SuccessModalize from "./success-modalize"
 import { useIsFocused } from "@react-navigation/native"
+import { OTP_TIME } from "../../../constants/variable"
 
 interface Props {
 }
@@ -75,7 +76,9 @@ const TradeRegistration = React.memo((props: Props) => {
       .then(res=> {
         if (res?.error){
           Alert.alert(res?.error?.message)
+          return
         }
+        DeviceEventEmitter.emit('resend')
       })
   },[])
 
@@ -84,7 +87,7 @@ const TradeRegistration = React.memo((props: Props) => {
 
     ekycStore.signContractMio(urlSignature).then(res => {
       if (!res?.error) {
-        navigate(ScreenNames.INVEST_OTP, {onSubmit, onResend})
+        navigate(ScreenNames.INVEST_OTP, {onSubmit, onResend, otpTime: OTP_TIME.SIGN_CONTRACT})
         return
       }
       Alert.alert(res?.error?.message)
@@ -120,7 +123,7 @@ const TradeRegistration = React.memo((props: Props) => {
         <View style={{flex:1}} />
         <SuccessModalize modalizeRef={modalizeSuccessRef} closeModal={onCloseSuccess} />
         <Signature modalizeRef={modalizeRef} handleConfirm={handleConfirm} closeModal={onClose} />
-        {!contractLink && <DualButton leftTitle={"Lưu và thoát"} rightTitle={"Ký tên"} rightPress={onOpen}
+        {!isSigned && <DualButton leftTitle={"Lưu và thoát"} rightTitle={"Ký tên"} rightPress={onOpen}
                     leftPress={handleCancel} /> }
       </View>
 

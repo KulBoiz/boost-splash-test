@@ -36,6 +36,7 @@ const FundDetail = React.memo((props: Props) => {
   const [navs, setNavs] = useState([])
   const [loading, setLoading] = useState<boolean>(true)
   const [visible, setVisible] = useState(false)
+  const [scrollAble, setScrollAble] = useState(true)
 
   useEffect(() => {
     investStore.getFundDetail(slug).then(res => {
@@ -138,10 +139,10 @@ const FundDetail = React.memo((props: Props) => {
       <AppHeader renderTitle={renderTitle} isBlue />
       {loading ? <ActivityIndicator color={color.primary} style={MARGIN_TOP_16} /> :
         <>
-          {data ? <ScrollView>
+          {data ? <ScrollView scrollEnabled={scrollAble}>
             <MarketChange item={data} navs={navs} />
             <NearestFund data={data} navs={navs} />
-            {navs && <FundChart data={data} navs={navs} />}
+            {navs && <FundChart data={data} navs={navs} setScrollAble={setScrollAble}/>}
             <NearestPrice data={data} navs={navs} />
             {_renderTabBar()}
             <View style={styles.body}>

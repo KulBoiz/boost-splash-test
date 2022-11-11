@@ -93,10 +93,7 @@ export const EkycStoreModel = types
         otpCode,
         },
       )
-      const data = result?.data
-      if (result.kind === "ok") {
-        return data
-      }
+      return result
     }),
 
     syncAccount: flow(function* syncAccount(tel, idNumber) {
@@ -142,7 +139,7 @@ export const EkycStoreModel = types
       const formData = new FormData()
       const file: any = {
         uri: realPath,
-        name: path.substring(path.lastIndexOf("/") + 1, path.length),
+        name: fileName,
         filename: fileName,
         type: mime.getType(path) ?? "image/jpg",
       }

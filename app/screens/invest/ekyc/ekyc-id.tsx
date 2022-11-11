@@ -203,7 +203,7 @@ const EKYCId: FC<StackScreenProps<EKYCStackParamList, ScreenNames.EKYC_ID>> = ob
             isActive={isFocused}
             photo={true}
             torch={flash}
-            preset="hd-1280x720"
+            preset="high"
             orientation="portrait"
           />
       ) : (

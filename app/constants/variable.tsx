@@ -6,6 +6,12 @@ const gender = {
   male: 'male',
   other: "other"
 }
+export const OTP_TIME = {
+  SIGN_CONTRACT : 5 * 60 * 1000 ,
+  SYNC_ACCOUNT : 60 * 1000 + 30 * 1000,
+  SALE : 5 * 60 * 1000,
+}
+
 export const isIos = Platform.OS === "ios"
 export const isAndroid = Platform.OS === "android"
 

@@ -5,7 +5,7 @@ import AppHeader from "../../../components/app-header/AppHeader"
 import { ms, ScaledSheet } from "react-native-size-matters"
 import { CaptureButtonSvg, PhotoSvg } from "../../../assets/svgs"
 import { color } from "../../../theme"
-import { COMMON_ERROR, height, width } from "../../../constants/variable"
+import { COMMON_ERROR, height, isAndroid, width } from "../../../constants/variable"
 import { manipulateAsync, SaveFormat } from "expo-image-manipulator"
 import { ScreenNames } from "../../../navigators/screen-names"
 import { navigate } from "../../../navigators"
@@ -20,7 +20,6 @@ import { EKYCStackParamList } from "../../../navigators/ekyc-stack"
 import { observer } from "mobx-react-lite"
 import { presets } from "../../../constants/presets"
 import AppButton from "../../../components/app-button/AppButton"
-import FastImage from "react-native-fast-image"
 
 const frameWidth = width * 0.8
 const frameHeight = height * 0.5
@@ -32,7 +31,7 @@ const EKYCPortrait: FC<StackScreenProps<EKYCStackParamList, ScreenNames.EKYC_POR
   const { ekycStore } = useStores()
   const isFocused = useIsFocused()
   const cameraRef = useRef<any>(null)
-  const [image, setImage] = React.useState("")
+  const [image, setImage] = React.useState<string| null>(null)
   const [hasPermission, setHasPermission] = React.useState(false)
   const devices = useCameraDevices()
   const device = devices.front
@@ -98,7 +97,7 @@ const EKYCPortrait: FC<StackScreenProps<EKYCStackParamList, ScreenNames.EKYC_POR
 
   const onReTake = useCallback(
     () => {
-      setImage("")
+      setImage(null)
     },
     [image],
   )
@@ -108,7 +107,6 @@ const EKYCPortrait: FC<StackScreenProps<EKYCStackParamList, ScreenNames.EKYC_POR
       .then(() => navigate(ScreenNames.CONFIRM_EKYC))
       .catch(() => Alert.alert(COMMON_ERROR))
   }, [image])
-
   return (
     <View style={styles.container}>
       {device != null && hasPermission ? (
@@ -184,8 +182,8 @@ const styles = ScaledSheet.create({
   },
   image: {
     position: "absolute",
-    marginLeft: ms(frameX - 2.5),
-    marginTop: ms(frameY - 8),
+    marginLeft: frameX - (isAndroid ? ms(0.5) : 0),
+    marginTop: frameY - (isAndroid ? ms(1) : ms(0)),
     width: frameWidth,
     height: frameHeight,
   },

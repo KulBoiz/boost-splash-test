@@ -41,7 +41,6 @@ const IdInfoForm = React.memo((props: Props) => {
           label: 'Số CMND/CCCD',
           placeholder: 'Nhập số CMND/CCCD',
           control,
-          editable: false,
           keyboardType:"number-pad",
           error: errors?.idNumber?.message,
         }}

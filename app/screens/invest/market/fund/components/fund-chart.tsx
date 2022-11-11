@@ -1,13 +1,13 @@
 import React, { useEffect, useState } from "react"
-import { View } from "react-native"
+import { Pressable, View } from "react-native"
 import { LineChart } from "react-native-gifted-charts"
 import { AppText } from "../../../../../components/app-text/AppText"
 import { formatDate, hexToRgbA, numberWithCommas, width } from "../../../../../constants/variable"
 import { color } from "../../../../../theme"
 import { presets } from "../../../../../constants/presets"
-import { get, maxBy, minBy } from "lodash"
-import { s, ScaledSheet } from "react-native-size-matters"
-import { ALIGN_CENTER, FONT_BOLD_12, MARGIN_BOTTOM_16 } from "../../../../../styles/common-style"
+import { get, head, last, maxBy, minBy } from "lodash"
+import { ms, s, ScaledSheet } from "react-native-size-matters"
+import { ALIGN_CENTER, FONT_BOLD_12, MARGIN_BOTTOM_16, ROW, SPACE_BETWEEN } from "../../../../../styles/common-style"
 import { observer } from "mobx-react-lite"
 import { getDateInPast, getPriceUpdateHistoriesByTime, sortNavHistoryByNavDate } from "../../constants"
 import ChartFilter from "./chart-filter"
@@ -15,9 +15,11 @@ import ChartFilter from "./chart-filter"
 interface Props {
   data: any
   navs: any
+
+  setScrollAble(e: boolean): void
 }
 
-const FundChart = observer(({ data, navs }: Props) => {
+const FundChart = observer(({ data, navs, setScrollAble }: Props) => {
   const firstDay = new Date("1/1/2000")
   firstDay.setFullYear(new Date().getFullYear())
 
@@ -27,17 +29,20 @@ const FundChart = observer(({ data, navs }: Props) => {
   const priceUpdateHistoriesForTheLastThreeYear = getPriceUpdateHistoriesByTime(navs, getDateInPast({ year: 3 }))
   const [nav, setNav] = useState<any>([])
 
-  const highestNav = get(maxBy(nav, "nav"), "nav", 0) + 2000
+  const highestNav = get(maxBy(nav, "nav"), "nav", 0) + 1000
   const minNav = get(minBy(nav, "nav"), "nav", 0)
+  const startDate = get(head(nav), "navDate")
+  const endDate = get(last(nav), "navDate")
 
   const chartData = nav ? nav?.map((e, index) => {
-    // if (index === 0) return { value: e?.nav, date: formatDate(e?.navDate), label: formatDate(e?.navDate) }
-    if (index === 0) return { value: e?.nav, date: formatDate(e?.navDate), labelComponent: () => <AppText style={{width: 80, marginLeft: 30}} value={formatDate(e?.navDate)} /> }
+    if (index === 0) return {
+      value: e?.nav, date: formatDate(e?.navDate),
+      // labelComponent: () => <AppText style={{width: 80, marginLeft: s(10)}} value={formatDate(e?.navDate)} />
+    }
     if (index === nav?.length - 1) return {
       value: e?.nav,
       date: formatDate(e?.navDate),
-      label: formatDate(e?.navDate),
-      labelComponent: () => <AppText style={{width: 80, marginLeft: -50}} value={formatDate(e?.navDate)} />
+      // labelComponent: () => <AppText style={{width: 80, marginLeft: s(-60)}} value={formatDate(e?.navDate)} />
     }
     return { value: e?.nav, date: formatDate(e?.navDate) }
   }) : []
@@ -75,7 +80,9 @@ const FundChart = observer(({ data, navs }: Props) => {
   ]
 
   return (
-    <View
+    <Pressable
+      onPressIn={() => setScrollAble(false)}
+      onPressOut={() => setScrollAble(true)}
       style={styles.container}>
       <AppText value={"Biểu đồ tăng trưởng NAV"} style={[presets.label, MARGIN_BOTTOM_16]} />
       <ChartFilter filterData={tabsConfig} onPress={setNav} />
@@ -83,10 +90,15 @@ const FundChart = observer(({ data, navs }: Props) => {
         areaChart
         data={chartData}
         // data2={ptData2}
-        width={width * 0.72}
+        width={width * 0.85}
+        curved
+        adjustToWidth
+        disableScroll
+        // spacing={30}
+        initialSpacing={0}
         hideDataPoints
-        spacing={30}
         scrollToEnd
+        scrollAnimation={false}
         color={hexToRgbA(color.primary, 0.7)}
         // color2={hexToRgbA(color.palette.orange, 0.7)}
         thickness={1.5}
@@ -94,43 +106,55 @@ const FundChart = observer(({ data, navs }: Props) => {
         endFillColor={hexToRgbA(color.background, 0.1)}
         startOpacity={0.2}
         endOpacity={0.1}
-        initialSpacing={0}
-        noOfSections={5}
+        noOfSections={4}
+        stepValue={highestNav / 4}
         maxValue={highestNav}
+        // yAxisOffset={minNav}
         minValue={minNav}
-        yAxisColor={color.palette.deepGray}
         showXAxisIndices
         xAxisIndicesColor={color.palette.deepGray}
         xAxisIndicesHeight={1}
         xAxisIndicesWidth={7}
         yAxisThickness={1}
-        xAxisLabelTextStyle={styles.xLabel}
+        // xAxisLabelTextStyle={styles.xLabel}
+        xAxisColor={color.palette.deepGray}
         hideRules
         hideOrigin
-        yAxisTextStyle={{ color: color.palette.lightBlack }}
+        yAxisColor={color.palette.deepGray}
+        yAxisTextStyle={{
+          color: color.palette.lightBlack,
+          right: s(-70),
+          position: "absolute",
+        }}
         yAxisSide="right"
-        yAxisLabelWidth={s(45)}
-        yAxisLabelContainerStyle={{ paddingLeft: 5 }}
+        yAxisLabelWidth={s(50)}
+        yAxisLabelContainerStyle={{ zIndex: -1 }}
         // showReferenceLine1
         // referenceLine1Config={{color: color.palette.deepGray, dashWidth: 10, thickness: 2}}
         // referenceLine1Position={highestNav-5000}
         verticalLinesUptoDataPoint
-        xAxisColor={color.palette.deepGray}
+        getPointerProps= {(pointerProps)=>{
+          if (pointerProps.pointerIndex > 0){
+            setScrollAble(false)
+            return
+          }
+          setScrollAble(true)
+        }}
         pointerConfig={{
-          pointerStripHeight: 160,
+          // pointerStripHeight: 160,
           pointerStripColor: color.palette.deepGray,
           pointerStripWidth: 2,
           pointerColor: color.primary,
           radius: 4,
-          pointerLabelWidth: 100,
+          pointerLabelWidth: s(100),
           pointerLabelHeight: 90,
-          activatePointersOnLongPress: true,
-          autoAdjustPointerLabelPosition: false,
+          // set to false => can not scroll
+          activatePointersOnLongPress: false,
+          autoAdjustPointerLabelPosition: true,
           pointerLabelComponent: items => {
             return (
-              <View
-                style={styles.toolkit}>
-                <AppText style={{ fontSize: 14, marginBottom: 6, textAlign: "center" }}>
+              <View style={styles.toolkit}>
+                <AppText style={{ fontSize: ms(14), textAlign: "center" }}>
                   {items[0].date}
                 </AppText>
 
@@ -147,7 +171,11 @@ const FundChart = observer(({ data, navs }: Props) => {
           },
         }}
       />
-    </View>
+      <View style={[ROW, SPACE_BETWEEN, styles.wrapDate]}>
+        <AppText value={formatDate(startDate)} />
+        <AppText value={formatDate(endDate)} />
+      </View>
+    </Pressable>
   )
 })
 
@@ -167,7 +195,7 @@ const styles = ScaledSheet.create({
     color: color.palette.lightBlack,
   },
   toolkit: {
-    zIndex:1,
+    zIndex: 1,
     shadowColor: "#000",
     shadowOffset: {
       width: 0,
@@ -177,9 +205,12 @@ const styles = ScaledSheet.create({
     shadowRadius: 3.84,
     elevation: 5,
     backgroundColor: color.background,
-    marginTop: "-10@s",
-    marginLeft: "-30@s",
+    marginTop: "10@s",
     padding: "5@s",
     borderRadius: "8@s",
+  },
+  wrapDate: {
+    paddingLeft: "4@s",
+    paddingRight: "20@s",
   },
 })

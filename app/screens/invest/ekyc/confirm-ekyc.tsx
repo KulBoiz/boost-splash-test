@@ -23,6 +23,7 @@ import { useStores } from "../../../models"
 import { COMMON_ERROR } from "../../../constants/variable"
 import moment from "moment"
 import SignKycModal from "./components/sign-modal"
+import ConfirmModal from "../../../components/app-modal/confirm-modal"
 
 interface Props {
 }
@@ -31,6 +32,7 @@ const ConfirmEkyc = React.memo((props: Props) => {
   const { ekycStore, authStoreModel } = useStores()
   const [position, setPosition] = useState(0)
   const [visible, setVisible] = useState(false)
+  const [syncModal, setSyncModal] = useState(false)
   const firstValidationSchema = Yup.object().shape({
     email: Yup.string()
       .trim()
@@ -66,15 +68,15 @@ const ConfirmEkyc = React.memo((props: Props) => {
     const param = {
       address: data.address,
       avatar: ekycStore.portraitImage?.url,
-      banks: [{bankAccount:data.bankAccount, bankAccountHolder: data.bankAccountHolder, bankId: data.bankId}],
-      birthday: moment(data.birthday).add(1, 'days').toISOString(),
+      banks: [{ bankAccount: data.bankAccount, bankAccountHolder: data.bankAccountHolder, bankId: data.bankId }],
+      birthday: moment(data.birthday, "DD-MM-YYYY").toISOString(),
       districtId: data.district,
       emails: [{ email: data.email }],
       fullName: data.fullName,
       gender: data.gender,
       identification: {
         idNumber: data.idNumber,
-        issuedOn: moment(data.issuedOn).add(1, 'days').toISOString(),
+        issuedOn: moment(data.issuedOn, "DD-MM-YYYY").toISOString(),
         placeOfIssue: data.placeOfIssue,
         frontPhoto: ekycStore.frontImage,
         backSidePhoto: ekycStore.backImage,
@@ -89,23 +91,29 @@ const ConfirmEkyc = React.memo((props: Props) => {
       return
     }
     ekycStore.kycMio(param).then((res) => {
-      if (res?.error || res?.kind !== 'ok'){
-        Alert.alert(res?.error?.message ?? COMMON_ERROR)
+      const message = res?.error?.message
+      if (res?.error || res?.kind !== "ok") {
+        if (message?.includes("40035") || message?.includes('40026') || message?.includes('40025')) {
+          setSyncModal(true)
+          return
+        }
+        Alert.alert(message ?? COMMON_ERROR)
         return
       }
+      ekycStore.updateUser(param)
       setVisible(true)
     })
   }, [position])
 
-  const handleCancel = React.useCallback(()=> {
+  const handleCancel = React.useCallback(() => {
     navigate(ScreenNames.HOME)
-  },[position])
+  }, [position])
 
-  const pressContinue = React.useCallback(()=> {
+  const pressContinue = React.useCallback(() => {
     setVisible(false)
     navigate(ScreenNames.TRADE_REGISTRATION)
     authStoreModel.getFullInfoUser(authStoreModel?.userId)
-  },[])
+  }, [])
 
   const renderStep = React.useCallback(() => {
     switch (position) {
@@ -126,9 +134,14 @@ const ConfirmEkyc = React.memo((props: Props) => {
     }
   }, [position])
 
-  const closeModal = React.useCallback(()=> {
+  const closeModal = React.useCallback(() => {
     setVisible(false)
     navigate(ScreenNames.HOME)
+  }, [])
+
+  const handleSync = React.useCallback(()=> {
+    setSyncModal(false)
+    navigate(ScreenNames.SYNC_ACCOUNT)
   },[])
 
   return (
@@ -144,8 +157,10 @@ const ConfirmEkyc = React.memo((props: Props) => {
       </KeyboardAwareScrollView>
       <DualButton leftTitle={"Huỷ"} rightTitle={"Tiếp tục"} style={styles.btn}
                   rightPress={handleSubmit(handleContinue)}
-      leftPress={handleCancel}/>
+                  leftPress={handleCancel} />
       <SignKycModal visible={visible} closeModal={closeModal} onPress={pressContinue} />
+      <ConfirmModal visible={syncModal} closeModal={() => setSyncModal(false)}
+                    onPress={handleSync} title={'Thông tin tài khoản đã tồn tại\nvui lòng đồng bộ tài khoản'} />
     </View>
   )
 })

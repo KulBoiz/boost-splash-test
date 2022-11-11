@@ -19,7 +19,7 @@ const WRAP_INPUT: ViewStyle = {
 }
 
 const ICON: ViewStyle = {
-  marginTop: s(12),
+  // marginTop: s(12),
   // width: s(25),
   // height: s(18),
 }
@@ -31,14 +31,15 @@ const INPUT: TextStyle = {
   color: color.palette.black,
   fontSize: ms(13),
   backgroundColor: color.background,
-  height: isIos ? s(40) : s(44)
+  // height: isIos ? ms(44) : undefined,
+  height: undefined,
 }
 
 const MULTILINE: TextStyle = {
   flex: 1,
   fontFamily: fontFamily.medium,
   color: color.palette.black,
-  fontSize: ms(14),
+  fontSize: ms(13),
   backgroundColor: color.background,
   minHeight: s(80),
   maxHeight: s(200),
@@ -138,6 +139,7 @@ export function TextField(props: TextFieldProps) {
           placeholder={actualPlaceholder ?? ""}
           secureTextEntry={showIcon ? showPassword : false}
           {...rest}
+          dense
           multiline={multiline}
           style={multiline ? MULTILINE : inputStyles}
           ref={forwardedRef}
