@@ -21,7 +21,7 @@ interface Props {
 }
 const lineColor = "#E9EBEF"
 const TradeRegistration = React.memo((props: Props) => {
-  const { ekycStore } = useStores()
+  const { ekycStore, investStore } = useStores()
   const modalizeRef = useRef<Modalize>(null)
   const modalizeSuccessRef = useRef<Modalize>(null)
   const isFocused = useIsFocused()
@@ -68,11 +68,12 @@ const TradeRegistration = React.memo((props: Props) => {
         }
         navigate(ScreenNames.TRADE_REGISTRATION)
         onOpenSuccess()
+        investStore.getKycPhone()
       })
   },[])
 
   const onResend = useCallback(()=> {
-    ekycStore.resendSyncMioOtp()
+    ekycStore.resendSignContractOtp()
       .then(res=> {
         if (res?.error){
           Alert.alert(res?.error?.message)

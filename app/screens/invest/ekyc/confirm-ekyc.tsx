@@ -72,10 +72,11 @@ const ConfirmEkyc = React.memo((props: Props) => {
       birthday: moment(data.birthday, "DD-MM-YYYY").toISOString(),
       districtId: data.district,
       emails: [{ email: data.email }],
+      fatca:{fatca1: 'false', fatca2: 'false', fatca3: 'false'},
       fullName: data.fullName,
       gender: data.gender,
+      idNumber: data.idNumber,
       identification: {
-        idNumber: data.idNumber,
         issuedOn: moment(data.issuedOn, "DD-MM-YYYY").toISOString(),
         placeOfIssue: data.placeOfIssue,
         frontPhoto: ekycStore.frontImage,
@@ -92,8 +93,9 @@ const ConfirmEkyc = React.memo((props: Props) => {
     }
     ekycStore.kycMio(param).then((res) => {
       const message = res?.error?.message
+      const code = res?.error?.code
       if (res?.error || res?.kind !== "ok") {
-        if (message?.includes("40035") || message?.includes('40026') || message?.includes('40025')) {
+        if (code ===  40035 || code === 40026 || code === 40025 ) {
           setSyncModal(true)
           return
         }
@@ -102,6 +104,7 @@ const ConfirmEkyc = React.memo((props: Props) => {
       }
       ekycStore.updateUser(param)
       setVisible(true)
+      authStoreModel.getFullInfoUser()
     })
   }, [position])
 
@@ -121,7 +124,7 @@ const ConfirmEkyc = React.memo((props: Props) => {
         return (
           <View>
             <InformationForm {...{ control, errors: { ...errors }, setValue, clearErrors }} />
-            <IdInfoForm {...{ control, errors: { ...errors }, setValue, clearErrors }} />
+            <IdInfoForm {...{ control, errors: { ...errors }, setValue, clearErrors, watch }} />
           </View>
         )
       }

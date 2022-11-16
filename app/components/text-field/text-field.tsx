@@ -46,12 +46,11 @@ const MULTILINE: TextStyle = {
 }
 
 const ERROR: TextStyle = {
-  position: "absolute",
+  // position: "absolute",
   fontFamily: fontFamily.medium,
   color: color.palette.angry,
   fontSize: ms(12),
-  lineHeight: 14,
-  marginTop: 4,
+  // marginTop: 4,
 }
 
 // currently we have no presets, but that changes quickly when you build your app.

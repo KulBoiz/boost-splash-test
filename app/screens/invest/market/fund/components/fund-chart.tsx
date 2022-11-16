@@ -86,6 +86,7 @@ const FundChart = observer(({ data, navs, setScrollAble }: Props) => {
       style={styles.container}>
       <AppText value={"Biểu đồ tăng trưởng NAV"} style={[presets.label, MARGIN_BOTTOM_16]} />
       <ChartFilter filterData={tabsConfig} onPress={setNav} />
+
       <LineChart
         areaChart
         data={chartData}
@@ -171,6 +172,7 @@ const FundChart = observer(({ data, navs, setScrollAble }: Props) => {
           },
         }}
       />
+
       <View style={[ROW, SPACE_BETWEEN, styles.wrapDate]}>
         <AppText value={formatDate(startDate)} />
         <AppText value={formatDate(endDate)} />

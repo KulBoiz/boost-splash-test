@@ -14,19 +14,29 @@ const PagingParamsModel = types.optional(
   {},
 )
 type PagingParamsType = Instance<typeof PagingParamsModel>
-
+const filterFundDetail = {
+  include: [
+    {relation: 'org', scope: {fields: {id: true, name: true, description: true, image: true, backgroundColor: true}}},
+    {relation: 'productDetails', scope: {include: [{relation: 'fees'}]}}
+  ]
+}
 export const InvestStoreModel = types
   .model("InvestStore")
   .extend(withEnvironment)
   .extend(withRootStore)
   .props({
     limit: 20,
+    phone: types.optional(types.string, ''),
+    transactionId: types.optional(types.string, ''),
+    transactionInfo: types.frozen({}),
     totalBonds: types.optional(types.number, 0),
     totalFund: types.optional(types.number, 0),
     pagingParamsBonds: PagingParamsModel,
     pagingParamsFund: PagingParamsModel,
     bondsDetail: types.frozen({}),
     buyInfo: types.frozen({}),
+    estimatedQuantity: types.optional(types.string, ''),
+    nav: types.optional(types.string, ''),
   })
   .views((self) => ({
     get api() {
@@ -124,8 +134,6 @@ export const InvestStoreModel = types
         ...self.pagingParamsBonds,
         ...pagingParams,
       }
-
-      const userId = self.userId()
       const result = yield self.api.get("products/public-bond", {
         page: pagingParams?.page,
         filter: {
@@ -159,7 +167,6 @@ export const InvestStoreModel = types
         ...pagingParams,
       }
 
-      const userId = self.userId()
       const result = yield self.api.get("products/public-fund", {
         page: pagingParams?.page,
         filter: {
@@ -201,13 +208,78 @@ export const InvestStoreModel = types
 
     getFundDetail: flow(function* getFundDetail(slug: string) {
       self.bondsDetail = {}
-      const result = yield self.api.get(`products/public/by-slug/${slug}?filter=${JSON.stringify({ include: [{ relation: "org" }] })}`)
+      const result = yield self.api.get(`products/public/by-slug/${slug}?filter=${JSON.stringify(filterFundDetail)}`)
       const data = result?.data
       if (result.kind === "ok") {
         self.bondsDetail = data
         return data
       }
     }),
+
+    createBuyFundTransaction: flow(function* createBuyFundTransaction(param: any, estimatedQuantity: string, nav: string) {
+      const result = yield self.api.post(`transactions/create-transaction-buy-fund`, param)
+      const data = result?.data
+      self.transactionId = data?.id
+      self.estimatedQuantity = estimatedQuantity
+      self.nav = nav
+      if (result.kind === "ok") {
+        return data
+      }
+      return result
+    }),
+
+    sendOtpBuyFund: flow(function* sendOtpBuyFund() {
+      const result = yield self.api.post(`transactions-partner-logs/send-otp-buy-fund`, {
+        phone: self.phone, transactionId: self.transactionId
+      })
+      const data = result?.data
+      if (result.kind === "ok") {
+        return data
+      }
+      return result
+    }),
+
+    resendOtpBuyFund: flow(function* resendOtpBuyFund() {
+      const result = yield self.api.post(`transactions-partner-logs/resend-otp-buy-fund`, {
+        phone: self.phone, transactionId: self.transactionId
+      })
+      const data = result?.data
+      if (result.kind === "ok") {
+        return data
+      }
+    }),
+
+    verifyOtpBuyFund: flow(function* verifyOtpBuyFund(otpCode) {
+      self.transactionInfo = {}
+      const userId = self.userId()
+      const result = yield self.api.post(`transactions-partner-logs/${userId}/verify-otp-buy-fund`, {
+        transactionId: self.transactionId, otpCode, otp: otpCode
+      })
+      const data = result?.data
+      self.transactionInfo = data
+
+      if (result.kind === "ok") {
+        return data
+      }
+      return result
+    }),
+
+    getKycPhone: flow(function* getKycPhone() {
+      const userId = self.userId()
+      const result = yield self.api.get(`kycs`, {
+        filter: {
+          where: {
+            userId
+          }
+        }
+      })
+      const data = result?.data
+      if (result.kind === "ok") {
+        self.phone = data?.data?.[0]?.mioInfo?.phone
+      }
+      return result
+    }),
+
   })) // eslint-disable-line @typescript-eslint/no-unused-vars
 
 type InvestStoreType = Instance<typeof InvestStoreModel>

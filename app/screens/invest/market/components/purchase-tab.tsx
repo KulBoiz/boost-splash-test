@@ -6,6 +6,7 @@ import PurchaseQrTab from "./purchase-qr-tab"
 import PurchaseBankTab from "./purchase-bank-tab"
 
 interface Props {
+  transactionInfo: any
 }
 
 const MENU = [
@@ -13,13 +14,13 @@ const MENU = [
   { key: "second", title: "Chuyển khoản qua ngân hàng" },
 ]
 
-const PurchaseTab = React.memo((props: Props) => {
+const PurchaseTab = React.memo(({ transactionInfo }: Props) => {
   const [index, setIndex] = useState(0)
   return (
     <View style={styles.container}>
       <TabBar {...{ index, setIndex, menu: MENU }} />
       <View style={styles.body}>
-        {index === 0 ? <PurchaseQrTab /> : <PurchaseBankTab />}
+        {index === 0 ? <PurchaseQrTab /> : <PurchaseBankTab transactionInfo={transactionInfo} />}
       </View>
     </View>
   )

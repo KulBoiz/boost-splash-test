@@ -1,7 +1,7 @@
 import React, { Ref } from "react"
 import { Modalize } from "react-native-modalize"
 import { AppText } from "../../../components/app-text/AppText"
-import { ms, s, ScaledSheet } from "react-native-size-matters"
+import { ms, ScaledSheet } from "react-native-size-matters"
 import { fontFamily } from "../../../constants/font-family"
 import { navigate } from "../../../navigators"
 import { ScreenNames } from "../../../navigators/screen-names"

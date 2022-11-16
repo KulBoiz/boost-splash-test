@@ -221,10 +221,12 @@ export const AuthStoreModel = types
       }
     }),
 
-    getFullInfoUser: flow(function* getFullInfoUser(userId: string) {
+    getFullInfoUser: flow(function* getFullInfoUser(userId?: string) {
+      const id = self.userId
       const authApi = new BaseApi(self.environment.api)
-      const result = yield authApi.get(`users/${userId}`)
+      const result = yield authApi.get(`users/${id}`)
       self.user = result?.data
+      self.investmentNumber = result?.data?.investmentNumber
         return result
     }),
 

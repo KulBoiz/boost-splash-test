@@ -42,7 +42,7 @@ export const LoginScreen: FC<StackScreenProps<AuthStackParamList, ScreenNames.LO
     })
 
     const isFocused = useIsFocused()
-    const { authStoreModel } = useStores()
+    const { authStoreModel, investStore } = useStores()
     const [visible, setVisible] = useState<boolean>(false)
     const [loading, setLoading] = useState<boolean>(false)
 
@@ -52,6 +52,7 @@ export const LoginScreen: FC<StackScreenProps<AuthStackParamList, ScreenNames.LO
       if (auth.kind === "ok") {
         navigation.dispatch(StackActions.push(ScreenNames.APP))
         await authStoreModel.getFullInfoUser(auth?.data?.user?.id)
+        await investStore.getKycPhone()
         setLoading(false)
         return
       }

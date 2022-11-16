@@ -58,7 +58,7 @@ const FundItem = React.memo(({ item }: Props) => {
       return
     }
     ekycStore.checkSyncMio().then(res => {
-      if (res?.isRegisteredOnMio) {
+      if (res) {
         navigate(ScreenNames.SYNC_ACCOUNT)
         return
       }

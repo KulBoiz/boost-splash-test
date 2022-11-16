@@ -6,7 +6,6 @@ import * as FileSystem from "expo-file-system"
 import mime from "mime"
 import moment from "moment"
 import { UploadApi } from "../../services/api/upload-api"
-import { isAndroid } from "../../constants/variable"
 
 /**
  * Model description here for TypeScript hints.
@@ -98,7 +97,7 @@ export const EkycStoreModel = types
 
     syncAccount: flow(function* syncAccount(tel, idNumber) {
       const result = yield self.api.post(`users/sync-existing-account-with-mio`, {
-          tels: [{tel}], identification: {idNumber},
+          tels: [{tel}], idNumber,
         },
       )
       return result

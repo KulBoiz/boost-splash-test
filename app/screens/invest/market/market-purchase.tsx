@@ -6,13 +6,14 @@ import { ms, ScaledSheet } from "react-native-size-matters"
 import { color } from "../../../theme"
 import { MARGIN_BOTTOM_4 } from "../../../styles/common-style"
 import { fontFamily } from "../../../constants/font-family"
-import { numberWithCommas } from "../../../constants/variable"
+import { numberWithCommas, truncateString } from "../../../constants/variable"
 import PurchaseInfo from "./components/purchase-info"
 import PurchaseTab from "./components/purchase-tab"
 import AppButton from "../../../components/app-button/AppButton"
 import { navigate } from "../../../navigators"
 import { ScreenNames } from "../../../navigators/screen-names"
 import { useStores } from "../../../models"
+import { mappingLabelTypeOfFund } from "./constants"
 
 interface Props {
 }
@@ -35,7 +36,7 @@ const Item = React.memo(({ title, content, textAlign = "left" }: ItemProps) => {
 
 const MarketPurchase = React.memo((props: Props) => {
   const {investStore} = useStores()
-  const {bondsDetail, buyInfo} = investStore
+  const {nav, transactionInfo, estimatedQuantity} = investStore
   const handlePurchase = useCallback(()=> {
     navigate(ScreenNames.INVEST_SUCCESS)
   },[])
@@ -45,11 +46,11 @@ const MarketPurchase = React.memo((props: Props) => {
       <AppHeader headerText={"Thanh toán lệnh mua"} isBlue />
       <ScrollView contentContainerStyle={styles.body}>
         <View style={styles.infoContainer}>
-          <Item title={bondsDetail?.name} content={"Quỹ trái phiếu"} />
-          <Item title={"Giá gần nhất"} content={numberWithCommas(bondsDetail?.info?.parValueShares)} textAlign={"right"} />
+          <Item title={truncateString(transactionInfo?.productInfo?.name, 48)} content={mappingLabelTypeOfFund(transactionInfo?.productInfo?.info?.typeOfFund)} />
+          <Item title={"Giá gần nhất"} content={numberWithCommas(nav)} textAlign={"right"} />
         </View>
-        <PurchaseInfo buyInfo={buyInfo}/>
-        <PurchaseTab />
+        <PurchaseInfo transactionInfo={transactionInfo} estimatedQuantity={estimatedQuantity}/>
+        <PurchaseTab transactionInfo={transactionInfo}/>
         <View style={styles.wrapBtn}>
           <AppButton title={'Xác nhận thanh toán'} onPress={handlePurchase}/>
         </View>

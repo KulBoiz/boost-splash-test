@@ -22,7 +22,7 @@ interface Props {
 }
 
 const SyncAccount = React.memo((props: Props) => {
-  const { ekycStore } = useStores()
+  const { ekycStore, authStoreModel, investStore } = useStores()
   const modalizeSuccessRef = useRef<Modalize>(null)
 
   const validationSchema = Yup.object().shape({
@@ -46,15 +46,18 @@ const SyncAccount = React.memo((props: Props) => {
     modalizeSuccessRef.current?.close()
   }, [])
 
-  const onSubmit = React.useCallback((otpCode) => {
+  const onSubmit = React.useCallback( (otpCode) => {
     ekycStore.verifySyncMioOtp(otpCode)
-      .then(res => {
+      .then(async res => {
         if (res?.error) {
           Alert.alert(res?.error?.message)
           return
         }
         navigate(ScreenNames.SYNC_ACCOUNT)
         onOpenSuccess()
+        await authStoreModel.getFullInfoUser()
+        await investStore.getKycPhone()
+
       })
   }, [])
 

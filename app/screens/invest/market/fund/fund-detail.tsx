@@ -49,9 +49,8 @@ const FundDetail = React.memo((props: Props) => {
 
   const [routes] = React.useState([
     { key: "first", title: "Thông tin" },
-    { key: "second", title: "Biểu phí" },
-    { key: "third", title: "Lịch sử" },
-    { key: "fourth", title: "Lịch GD" },
+    { key: "second", title: "Lịch sử" },
+    { key: "third", title: "Lịch GD" },
     // { key: "fifth", title: "Tài liệu" },
   ])
 
@@ -84,10 +83,8 @@ const FundDetail = React.memo((props: Props) => {
       case 0:
         return <MarketInfo data={data} navs={navs} />
       case 1:
-        return <FundTariff data={data} />
-      case 2:
         return <MarketHistory data={data} navs={navs} />
-      case 3:
+      case 2:
         return <FundInfoDetail data={data} />
     }
     //   case 4:
@@ -116,7 +113,7 @@ const FundDetail = React.memo((props: Props) => {
       return
     }
     ekycStore.checkSyncMio().then(res => {
-      if (res?.isRegisteredOnMio) {
+      if (res) {
         navigate(ScreenNames.SYNC_ACCOUNT)
         return
       }

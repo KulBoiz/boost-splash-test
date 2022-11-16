@@ -1,4 +1,4 @@
-import React, { useEffect } from "react"
+import React, { useCallback, useEffect } from "react"
 import { View } from "react-native"
 import FormItemPicker from "../../../../components/form-item-picker"
 import FormInput from "../../../../components/form-input/form-input"
@@ -7,9 +7,12 @@ import { FieldErrors } from "react-hook-form/dist/types/errors"
 import { FieldValues } from "react-hook-form/dist/types/fields"
 import { ALIGN_CENTER, ROW } from "../../../../styles/common-style"
 import { ScaledSheet } from "react-native-size-matters"
-import { FUND_PROGRAM_LIST } from "../../constants"
-import { get } from "lodash"
-import { formatDate, numberWithCommas } from "../../../../constants/variable"
+import { debounce, filter, get } from "lodash"
+import { formatData, formatDate, numberWithCommas } from "../../../../constants/variable"
+import { createNumberMask, useMaskedInputProps } from "react-native-mask-input"
+import FastImage from "react-native-fast-image"
+import { AppText } from "../../../../components/app-text/AppText"
+import { images } from "../../../../assets/images"
 
 interface Props {
   control: Control
@@ -23,15 +26,35 @@ interface Props {
 
 const MarketBuyForm = React.memo((props: Props) => {
   const { control, errors, setValue, watch, clearErrors, navs, bondsDetail } = props
-  const currentNav = get(navs[0], 'nav', '')
+  const currentNav = get(navs[0], "nav", "")
   const nextOrderMatchingSession = bondsDetail?.info?.nextOrderMatchingSession
+  const productDetails = bondsDetail?.productDetails
   const nav = numberWithCommas(currentNav)
   const date = formatDate(nextOrderMatchingSession)
+  const minBuyValue = filter(productDetails, { id: watch("program") })?.[0]?.buyMinValue
+  const checkIsSip = filter(productDetails, { id: watch("program") })?.[0]?.productSchemeIsAutoBuy
+
+  const currencyMask = createNumberMask({
+    delimiter: ",",
+    precision: 0,
+  })
+
+  const currencyInputProps = useMaskedInputProps({
+    value: watch("amount"),
+    onChangeText: (value) => {
+      setValue("amount", value)
+      clearErrors("amount")
+    },
+    mask: currencyMask,
+  })
+
+  const estimatedQuantity = watch('amount') ? numberWithCommas((+(watch('amount')?.replace(/,/g, '')) / currentNav).toFixed(2)) : 0
 
   return (
     <View style={styles.container}>
       <FormItemPicker
         {...{
+          required: true,
           name: "program",
           label: "Chọn chương trình",
           placeholder: "Chọn chương trình",
@@ -39,22 +62,32 @@ const MarketBuyForm = React.memo((props: Props) => {
           setValue,
           clearErrors,
           error: errors?.program?.message,
-          data: FUND_PROGRAM_LIST,
+          data: formatData(productDetails),
         }}
       />
       <FormInput
         {...{
+          required: true,
           name: "amount",
           label: "Số tiền bạn muốn đầu tư",
           placeholder: "Bắt đầu từ 100,000 vnđ",
           keyboardType: "number-pad",
+          ...currencyInputProps,
           control,
           error: errors?.amount?.message,
         }}
       />
+      {minBuyValue &&
+      <View style={[ROW, ALIGN_CENTER]}>
+        <FastImage source={images.yellow_caution} style={styles.icon} />
+        <AppText value={`Số tiền đầu tư tối thiểu ${numberWithCommas(minBuyValue)} vnđ`} />
+      </View>
+      }
       <View style={[ROW, ALIGN_CENTER]}>
         <FormInput
           {...{
+            value: estimatedQuantity.toString(),
+            editable: false,
             style: styles.rowInput,
             name: "estimatedQuantity",
             label: "Số CCQ ước tính",
@@ -66,6 +99,8 @@ const MarketBuyForm = React.memo((props: Props) => {
         />
         <FormInput
           {...{
+            value: '0',
+            editable: false,
             style: { flex: 1 },
             name: "purchaseFee",
             label: "Phí mua",
@@ -103,6 +138,19 @@ const MarketBuyForm = React.memo((props: Props) => {
           }}
         />
       </View>
+      {checkIsSip === 'true' &&
+        <FormInput
+          {...{
+            style: styles.rowInput,
+            name: "date",
+            label: "Ngày đầu tư định kỳ",
+            placeholder: "Nhập ngày đầu tư định kỳ",
+            keyboardType: "number-pad",
+            control,
+            error: errors?.date?.message,
+          }}
+        />
+      }
     </View>
   )
 })
@@ -113,6 +161,11 @@ const styles = ScaledSheet.create({
   container: {},
   rowInput: {
     flex: 1,
+    marginRight: "4@s",
+  },
+  icon: {
+    width: "16@s",
+    height: "16@s",
     marginRight: "4@s",
   },
 })

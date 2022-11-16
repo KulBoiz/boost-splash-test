@@ -61,7 +61,9 @@ const InvestOtp = React.memo((props: Props) => {
       setStartCheck(true)
     })
     return () => {
-      DeviceEventEmitter.removeListener("resend", ()=>{})
+      DeviceEventEmitter.removeListener("resend", ()=>{
+        //
+      })
     }
   }, [])
 
@@ -104,11 +106,12 @@ const InvestOtp = React.memo((props: Props) => {
     onSubmit(value)
   }, [value])
 
+
   const handleResend = useCallback(async () => {
     if (time > 0) return
     setValue("")
     onResend()
-  }, [value])
+  }, [value, time])
 
   return (
     <View style={styles.container}>
