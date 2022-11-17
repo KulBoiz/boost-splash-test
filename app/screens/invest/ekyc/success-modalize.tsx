@@ -14,15 +14,22 @@ import { MARGIN_BOTTOM_8 } from "../../../styles/common-style"
 
 interface Props {
   modalizeRef: Ref<any>
-
+  type?: 'kyc' | 'sync'
   closeModal(): void
 }
 
-const SuccessModalize = React.memo(({ modalizeRef, closeModal }: Props) => {
+const SuccessModalize = React.memo(({ modalizeRef, closeModal, type = 'kyc' }: Props) => {
+  const isKyc = type === 'kyc'
   const handlePress = React.useCallback(() => {
     closeModal()
     navigate(ScreenNames.HOME)
   }, [])
+
+  const onClosed = () => {
+    if (!isKyc){
+      navigate(ScreenNames.HOME)
+    }
+  }
 
   return (
     <Modalize
@@ -30,21 +37,19 @@ const SuccessModalize = React.memo(({ modalizeRef, closeModal }: Props) => {
       modalStyle={styles.modal}
       handlePosition={"inside"}
       adjustToContentHeight
+      onClosed={onClosed}
       scrollViewProps={{ showsVerticalScrollIndicator: false }}
     >
       <View style={styles.body}>
         <AppText value={"Thông báo"} center style={styles.title} />
         <FastImage source={images.invest_success} style={styles.image} />
-        <AppText value={"Hoàn thành quá trình EKYC"} fontSize={ms(14)} fontFamily={fontFamily.medium} />
+        <AppText value={isKyc ? "Hoàn thành quá trình EKYC" : 'Đồng bộ tài khoàn thành công'} fontSize={ms(14)} fontFamily={fontFamily.medium} />
         <AppText value={"Cảm ơn quý khách"} fontSize={ms(24)} fontFamily={fontFamily.bold} color={color.primary}
                  style={MARGIN_BOTTOM_8} />
-        <AppText value={"Nhân viên FINA đã nhận được yêu cầu từ bạn và sẽ phản hồi khi có kết quả EKYC"}
-                 fontSize={ms(14)} color={color.palette.grayChateau} textAlign={"center"} />
-        <View style={{marginBottom: 30}}/>
+        {isKyc && <AppText value={"Nhân viên FINA đã nhận được yêu cầu từ bạn và sẽ phản hồi khi có kết quả EKYC"}
+                  fontSize={ms(14)} color={color.palette.grayChateau} textAlign={"center"} />}
         <AppButton title={"Quay lại trang chủ"} onPress={handlePress} containerStyle={styles.btn} />
       </View>
-
-
     </Modalize>
   )
 })
@@ -53,7 +58,6 @@ export default SuccessModalize
 
 const styles = ScaledSheet.create({
   modal: {
-    flex: 1,
     paddingVertical: "24@s",
     paddingHorizontal: "16@s",
   },
@@ -67,7 +71,7 @@ const styles = ScaledSheet.create({
     fontFamily: fontFamily.bold,
   },
   btn: {
-    marginTop: "15@s",
+    marginTop: "30@s",
     marginBottom: "30@s",
   },
   image: {

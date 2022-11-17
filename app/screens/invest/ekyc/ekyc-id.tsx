@@ -1,15 +1,15 @@
 import React, { FC, useCallback, useRef, useState } from "react"
-import { Alert, Image, Platform, View } from "react-native"
+import { Alert, Image, Linking, Platform, View } from "react-native"
 import { Camera, useCameraDevices } from "react-native-vision-camera"
 import AppHeader from "../../../components/app-header/AppHeader"
 import { ms, s, ScaledSheet } from "react-native-size-matters"
 import { AppText } from "../../../components/app-text/AppText"
 import { CaptureButtonSvg, PhotoSvg, ThunderSvg } from "../../../assets/svgs"
 import { color } from "../../../theme"
-import { COMMON_ERROR, height, width } from "../../../constants/variable"
+import { COMMON_ERROR, height, isAndroid, width } from "../../../constants/variable"
 import { manipulateAsync, SaveFormat } from "expo-image-manipulator"
 import { ScreenNames } from "../../../navigators/screen-names"
-import { navigate } from "../../../navigators"
+import { goBack, navigate } from "../../../navigators"
 import { RNHoleView } from "react-native-hole-view"
 import { useStores } from "../../../models"
 import { useIsFocused } from "@react-navigation/native"
@@ -45,11 +45,22 @@ const EKYCId: FC<StackScreenProps<EKYCStackParamList, ScreenNames.EKYC_ID>> = ob
   const device = devices.back
 
   React.useEffect(() => {
-    ;(async () => {
+    (async () => {
       const status = await Camera.requestCameraPermission()
       setHasPermission(status === "authorized")
+      if (status === "denied") {
+        Alert.alert("Để sử dụng chức năng này vui lòng cấp quyền cho ứng dụng", "",
+          [
+            {
+              text: "Hủy",
+              onPress: goBack,
+              style: "cancel",
+            },
+            { text: "OK", onPress: () => Linking.openSettings() },
+          ])
+      }
     })()
-  }, [])
+  }, [isFocused])
 
   const onFlashPressed = useCallback(async () => {
     setFlash((f) => (f === "off" ? "on" : "off"))
@@ -72,7 +83,6 @@ const EKYCId: FC<StackScreenProps<EKYCStackParamList, ScreenNames.EKYC_ID>> = ob
       Platform.OS === "ios"
         ? await cameraRef.current.takePhoto(options)
         : await cameraRef.current.takeSnapshot(options)
-
     const imageWidth = Math.min(data.height, data.width)
     const imageHeight = Math.max(data.height, data.width)
     const manipResult = await manipulateAsync(
@@ -97,7 +107,7 @@ const EKYCId: FC<StackScreenProps<EKYCStackParamList, ScreenNames.EKYC_ID>> = ob
       ],
       {
         compress: 1,
-        format: SaveFormat.PNG,
+        format: SaveFormat.JPEG,
       },
     )
     setPhoto(manipResult.uri)
@@ -157,7 +167,13 @@ const EKYCId: FC<StackScreenProps<EKYCStackParamList, ScreenNames.EKYC_ID>> = ob
     }
     if (frontImage && imageType === "front" && !backImage) {
       ekycStore.uploadImage("front", frontImage)
-        .then(() => setImageType("back"))
+        .then((res) => {
+          if (res?.temporary || res.kind === "server") {
+            Alert.alert(COMMON_ERROR)
+            return
+          }
+          setImageType("back")
+        })
         .catch(() => Alert.alert(COMMON_ERROR))
     }
     if (frontImage && backImage && imageType === "front") {
@@ -168,11 +184,11 @@ const EKYCId: FC<StackScreenProps<EKYCStackParamList, ScreenNames.EKYC_ID>> = ob
   }, [frontImage, backImage])
 
   const checkValidImage = React.useMemo(() => {
-      if (imageType === "front") {
-        return !!frontImage
-      }
-      return !!backImage
-    }, [imageType, frontImage, backImage])
+    if (imageType === "front") {
+      return !!frontImage
+    }
+    return !!backImage
+  }, [imageType, frontImage, backImage])
 
 
   return (
@@ -187,7 +203,7 @@ const EKYCId: FC<StackScreenProps<EKYCStackParamList, ScreenNames.EKYC_ID>> = ob
             isActive={isFocused}
             photo={true}
             torch={flash}
-            preset="hd-1280x720"
+            preset="high"
             orientation="portrait"
           />
       ) : (
@@ -322,8 +338,8 @@ const styles = ScaledSheet.create({
   },
   image: {
     position: "absolute",
-    marginLeft: ms(frameX - 2.5),
-    marginTop: ms(frameY) - ms(7),
+    marginLeft: frameX - (isAndroid ? ms(0.5) : 0),
+    marginTop: frameY - (isAndroid ? ms(1) : ms(0)),
     width: frameWidth,
     height: frameHeight,
   },

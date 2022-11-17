@@ -4,7 +4,7 @@ import { InvestSuccessSvg } from "../../assets/svgs"
 import { AppText } from "../../components/app-text/AppText"
 import { FONT_MEDIUM_12, FONT_REGULAR_12, FONT_REGULAR_14, MARGIN_BOTTOM_8 } from "../../styles/common-style"
 import ItemView from "../loan/components/item-view"
-import { formatDateTime, numberWithCommas } from "../../constants/variable"
+import { formatDate, formatDateTime, numberWithCommas } from "../../constants/variable"
 import { color } from "../../theme"
 import { ms, ScaledSheet } from "react-native-size-matters"
 import AppButton from "../../components/app-button/AppButton"
@@ -12,6 +12,7 @@ import { fontFamily } from "../../constants/font-family"
 import { navigate } from "../../navigators"
 import { ScreenNames } from "../../navigators/screen-names"
 import { useStores } from "../../models"
+import { StackActions, useNavigation } from "@react-navigation/native"
 
 interface Props {
 }
@@ -32,11 +33,15 @@ const RightContent = React.memo(({ content, note }: RightContentProps) => {
 const GMT = "Giờ VN"
 
 const InvestSuccess = React.memo((props: Props) => {
+  const navigation = useNavigation()
   const {investStore} = useStores()
-  const {buyInfo} = investStore
+  const {transactionInfo} = investStore
+  const info = transactionInfo?.productInfo?.info
+  const program = transactionInfo?.productDetailInfo?.name
+  const type = transactionInfo?.metaData?.oderTypeCode === 'BUY' ? 'Mua' : 'Bán'
 
   const buyMore = useCallback(() => {
-    navigate(ScreenNames.INVEST_TAB)
+    navigation.dispatch(StackActions.pop(3))
   }, [])
 
   const complete = useCallback(() => {
@@ -49,20 +54,20 @@ const InvestSuccess = React.memo((props: Props) => {
         <InvestSuccessSvg style={styles.icon} />
         <AppText value={"Đăng ký đầu tư định kỳ thành công"} fontFamily={fontFamily.bold} fontSize={ms(18)}
                  style={MARGIN_BOTTOM_8} />
-        <AppText value={"Cảm ơn Quý khách đã đầu tư"} style={FONT_REGULAR_14}
+        <AppText value={"Cảm ơn Quý khách đã đầu tư vào chứng chỉ quỹ của VINACAPITAL"} style={FONT_REGULAR_14}
                  color={color.palette.grayChateau} textAlign={"center"} />
 
         <View style={styles.itemContainer}>
           <ItemView title={"Quỹ đầu tư"} content={<RightContent content={"Quỹ đầu tư Trái phiếu FINA"} />}
                     style={styles.item} />
           <ItemView title={"Loại lệnh"}
-                    content={<RightContent content={"Mua"} />} style={styles.item} />
-          <ItemView title={"Ngày đặt lệnh"} content={<RightContent content={formatDateTime(new Date())} note={GMT} />}
+                    content={<RightContent content={type} />} style={styles.item} />
+          <ItemView title={"Ngày đặt lệnh"} content={<RightContent content={formatDateTime(transactionInfo?.createdAt)} note={GMT} />}
                     style={styles.item} />
-          <ItemView title={"Phiên giao dịch"} content={<RightContent content={formatDateTime(new Date())} note={GMT} />}
+          <ItemView title={"Phiên giao dịch"} content={<RightContent content={formatDate(info?.nextOrderMatchingSession)} note={GMT} />}
                     style={styles.item} />
-          <ItemView title={"Chương trình"} content={<RightContent content={buyInfo?.program} />} style={styles.item} />
-          <ItemView title={"Số tiền mua"} content={<RightContent content={`${numberWithCommas(buyInfo?.amount)} vnđ`} />} />
+          <ItemView title={"Chương trình"} content={<RightContent content={program} />} style={styles.item} />
+          <ItemView title={"Số tiền mua"} content={<RightContent content={`${numberWithCommas(transactionInfo?.metaData?.amount)} vnđ`} />} />
         </View>
       </View>
 

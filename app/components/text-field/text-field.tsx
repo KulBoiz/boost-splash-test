@@ -19,7 +19,7 @@ const WRAP_INPUT: ViewStyle = {
 }
 
 const ICON: ViewStyle = {
-  marginTop: s(12),
+  // marginTop: s(12),
   // width: s(25),
   // height: s(18),
 }
@@ -31,26 +31,26 @@ const INPUT: TextStyle = {
   color: color.palette.black,
   fontSize: ms(13),
   backgroundColor: color.background,
-  height: isIos ? s(36) : s(40)
+  // height: isIos ? ms(44) : undefined,
+  height: undefined,
 }
 
 const MULTILINE: TextStyle = {
   flex: 1,
   fontFamily: fontFamily.medium,
   color: color.palette.black,
-  fontSize: ms(14),
+  fontSize: ms(13),
   backgroundColor: color.background,
   minHeight: s(80),
   maxHeight: s(200),
 }
 
 const ERROR: TextStyle = {
-  position: "absolute",
+  // position: "absolute",
   fontFamily: fontFamily.medium,
   color: color.palette.angry,
   fontSize: ms(12),
-  lineHeight: 14,
-  marginTop: 4,
+  // marginTop: 4,
 }
 
 // currently we have no presets, but that changes quickly when you build your app.
@@ -138,6 +138,7 @@ export function TextField(props: TextFieldProps) {
           placeholder={actualPlaceholder ?? ""}
           secureTextEntry={showIcon ? showPassword : false}
           {...rest}
+          dense
           multiline={multiline}
           style={multiline ? MULTILINE : inputStyles}
           ref={forwardedRef}

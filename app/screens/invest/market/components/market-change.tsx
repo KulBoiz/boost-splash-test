@@ -22,7 +22,7 @@ const MarketChange = React.memo(({ item, navs }: Props) => {
     <View style={MARKET_CONTAINER}>
         <View style={[ROW, SPACE_BETWEEN, ALIGN_CENTER, MARGIN_BOTTOM_4]}>
           <AppText value={"Thay đổi so với đầu năm"} style={FONT_BOLD_14}/>
-          <AppText value={`+${volatility ?? 0}%`} style={FONT_BOLD_14}
+          <AppText value={`${checkVolatility(volatility) ? '' : '+'}${volatility ?? 0}%`} style={FONT_BOLD_14}
                    color={checkVolatility(volatility) ? color.palette.down : green}/>
         </View>
       <AppText value={formatDate(navDate)} />

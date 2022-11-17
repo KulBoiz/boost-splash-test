@@ -14,8 +14,10 @@ import {
 } from "../../../../styles/common-style"
 import { color } from "../../../../theme"
 import Clipboard from "@react-native-clipboard/clipboard"
+import { numberWithCommas } from "../../../../constants/variable"
 
 interface Props {
+  transactionInfo: any
 }
 
 interface ItemProps {
@@ -41,11 +43,14 @@ const Item = React.memo(({ title, content, handleCopy, cantChange, style }: Item
   )
 })
 
-const bankNumber = "9012545454545"
-const content = "911CL788FN123"
-const account = "QUY DAU TU TRAI PHIEU BAO THINH VINACAPITAL"
 
-const PurchaseBankTab = React.memo((props: Props) => {
+const PurchaseBankTab = React.memo(({ transactionInfo }: Props) => {
+  const productDetailInfo = transactionInfo?.productDetailInfo
+  const metaData = transactionInfo?.metaData
+  const content = metaData?.transferContent
+  const bankNumber = productDetailInfo?.bankNumber
+  const account = transactionInfo?.productInfo?.name
+
   const alert = useCallback(() => {
     Alert.alert("Đã copy vào clipboard")
   }, [])
@@ -64,19 +69,20 @@ const PurchaseBankTab = React.memo((props: Props) => {
     Clipboard.setString(account)
     alert()
   }, [])
+
   return (
     <View style={styles.container}>
       <View style={styles.itemContainer}>
-        <Item title={"Ngân hàng"} content={"Standard Chartered"} style={MARGIN_BOTTOM_8} />
-        <Item title={"Số tài khoản"} content={bankNumber} style={MARGIN_BOTTOM_8} handleCopy={copyBankNumber}/>
-        <Item title={"Số tiền thanh toán"} content={"100,000 vnđ"} />
+        <Item title={"Ngân hàng"} content={productDetailInfo?.dataBank?.name ?? ''} style={MARGIN_BOTTOM_8} />
+        <Item title={"Số tài khoản"} content={bankNumber ?? ''} style={MARGIN_BOTTOM_8} handleCopy={copyBankNumber}/>
+        <Item title={"Số tiền thanh toán"} content={`${numberWithCommas(metaData?.amount)} vnđ`} />
       </View>
       <View style={styles.middleContainer}>
         <Item title={"Nội dung"} content={content} cantChange handleCopy={copyContent}/>
       </View>
       <View style={styles.itemContainer}>
-        <Item title={"Tài khoản"} content={account} style={MARGIN_BOTTOM_8} handleCopy={copyAccount}/>
-        <Item title={"Tên chi nhánh"} content={"TPHCM"} />
+        <Item title={"Tài khoản"} content={account} handleCopy={copyAccount}/>
+        {/* <Item title={"Tên chi nhánh"} content={"TPHCM"} /> */}
       </View>
     </View>
   )

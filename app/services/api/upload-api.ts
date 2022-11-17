@@ -1,7 +1,7 @@
 import { ApiResponse } from "apisauce"
 import { Api } from "./api"
 import { getGeneralApiProblem } from "./api-problem"
-import {API_ENDPOINT} from "@env"
+import { API_ENDPOINT } from "@env"
 
 // const API_PAGE_SIZE = 50
 
@@ -17,16 +17,20 @@ export class UploadApi {
     try {
       const response: ApiResponse<any> = await this.api.apisauce.post(`${API_ENDPOINT}/files`,
         params,
-        {headers:{
-          'Content-Type': 'multipart/form-data'
-        }}
-        )
+        {
+          headers: {
+            "Content-Type": "multipart/form-data",
+            "Cache-Control": "no-cache",
+          },
+        },
+      )
       if (!response.ok) {
         const problem = getGeneralApiProblem(response)
         if (problem) return problem
       }
       const data = response?.data
-      return { kind: "ok", data }
+      const status = response?.status
+      return { kind: "ok", data, status }
     } catch (e) {
       return { kind: "bad-data", e }
     }

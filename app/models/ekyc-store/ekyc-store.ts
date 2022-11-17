@@ -45,7 +45,7 @@ export const EkycStoreModel = types
     }),
 
     checkSyncMio: flow(function* checkSyncMio() {
-      const result = yield self.api.post("users/check-investor-existed-on-mio", {})
+      const result = yield self.api.get("users/check-investor-existed-on-mio", {})
       const data = result?.data
       if (result.kind === "ok") {
         return data
@@ -87,26 +87,21 @@ export const EkycStoreModel = types
       return result
     }),
 
-    verifySyncMioOtp: flow(function* verifySyncMioOtp(otpCOde) {
+    verifySyncMioOtp: flow(function* verifySyncMioOtp(otpCode) {
       const result = yield self.api.post(`users/verify-otp-sync-account-with-mio`, {
-          otpCOde,
+        otpCode,
         },
       )
-      const data = result?.data
-      if (result.kind === "ok") {
-        return data
-      }
+      return result
     }),
 
     syncAccount: flow(function* syncAccount(tel, idNumber) {
       const result = yield self.api.post(`users/sync-existing-account-with-mio`, {
-          tel, idNumber,
+          tels: [{tel}], idNumber,
         },
       )
-      const data = result?.data
-      if (result.kind === "ok") {
-        return data
-      }
+      return result
+
     }),
 
     resendSyncMioOtp: flow(function* resendSyncMioOtp() {
@@ -134,20 +129,20 @@ export const EkycStoreModel = types
         self.backImage = {}
       }
       const uploadApi = new UploadApi(self.environment.api)
-      const fileName = path.substring(path.lastIndexOf("/") + 1, path.length) + ".jpg"
+      const fileName = path.substring(path.lastIndexOf("/") + 1, path.length) + '.jpg'
       const destPath = FileSystem.cacheDirectory + "/" + fileName
       if (path.startsWith("assets") || path.startsWith("ph://")) {
         yield FileSystem.copyAsync({ from: path, to: destPath })
       }
+      const realPath = path.includes("file://") ? path : destPath
       const formData = new FormData()
       const file: any = {
-        uri: destPath,
-        name: path.substring(path.lastIndexOf("/") + 1, path.length),
+        uri: realPath,
+        name: fileName,
         filename: fileName,
         type: mime.getType(path) ?? "image/jpg",
       }
-      formData.append(`${type}`, file)
-      // formData.append('file', file)
+      formData.append(`identification.${type}`, file)
       const result = yield uploadApi.uploadFile(formData)
       const data = result?.data
       if (result.kind !== "ok") {
@@ -170,6 +165,7 @@ export const EkycStoreModel = types
       return {
         kind: "ok",
         data: result.data,
+        status: result?.status
       }
     }),
 

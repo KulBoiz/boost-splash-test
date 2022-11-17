@@ -1,5 +1,5 @@
 import React, { useCallback, useEffect, useRef, useState } from "react"
-import { Alert, Linking, View } from "react-native"
+import { Alert, DeviceEventEmitter, Linking, View } from "react-native"
 import AppHeader from "../../../components/app-header/AppHeader"
 import { Modalize } from "react-native-modalize"
 import DualButton from "../../../components/app-button/dual-button"
@@ -15,22 +15,25 @@ import { navigate } from "../../../navigators"
 import { ScreenNames } from "../../../navigators/screen-names"
 import SuccessModalize from "./success-modalize"
 import { useIsFocused } from "@react-navigation/native"
+import { OTP_TIME } from "../../../constants/variable"
 
 interface Props {
 }
 const lineColor = "#E9EBEF"
 const TradeRegistration = React.memo((props: Props) => {
-  const { ekycStore } = useStores()
+  const { ekycStore, investStore } = useStores()
   const modalizeRef = useRef<Modalize>(null)
   const modalizeSuccessRef = useRef<Modalize>(null)
   const isFocused = useIsFocused()
-  const [contractLink, setContractLink] = useState('')
+  const [contractLink, setContractLink] = useState('https://')
+  const [isSigned,setIsSigned] = useState<boolean | string | number>(false)
 
   useEffect(()=> {
     ekycStore.checkContractStatus().then(res => {
       const isFullSubmission = res?.isFullSubmission
       const contractFileUrl = res?.contractFileUrl
-      if (isFullSubmission){
+      setIsSigned(isFullSubmission)
+      if (contractFileUrl){
         setContractLink(contractFileUrl)
       }
     })
@@ -65,6 +68,7 @@ const TradeRegistration = React.memo((props: Props) => {
         }
         navigate(ScreenNames.TRADE_REGISTRATION)
         onOpenSuccess()
+        investStore.getKycPhone()
       })
   },[])
 
@@ -73,7 +77,9 @@ const TradeRegistration = React.memo((props: Props) => {
       .then(res=> {
         if (res?.error){
           Alert.alert(res?.error?.message)
+          return
         }
+        DeviceEventEmitter.emit('resend')
       })
   },[])
 
@@ -82,7 +88,7 @@ const TradeRegistration = React.memo((props: Props) => {
 
     ekycStore.signContractMio(urlSignature).then(res => {
       if (!res?.error) {
-        navigate(ScreenNames.INVEST_OTP, {onSubmit, onResend})
+        navigate(ScreenNames.INVEST_OTP, {onSubmit, onResend, otpTime: OTP_TIME.SIGN_CONTRACT})
         return
       }
       Alert.alert(res?.error?.message)
@@ -108,17 +114,17 @@ const TradeRegistration = React.memo((props: Props) => {
               <AppText value={"VINACAPITAL"} style={FONT_BOLD_14} />
             </View>
             <View style={[ROW, ALIGN_CENTER]}>
-              <AppText value={contractLink ? 'Đã ký' : "Chưa ký"} color={contractLink ? color?.palette.green : color.palette.deepGray} />
-              <FastImage source={images.common_circle_checked} style={styles.icon} tintColor={contractLink ? color.palette.green : ''}/>
+              <AppText value={isSigned ? 'Đã ký' : "Chưa ký"} color={isSigned ? color?.palette.green : color.palette.deepGray} />
+              <FastImage source={images.common_circle_checked} style={styles.icon} tintColor={isSigned ? color.palette.green : ''}/>
             </View>
           </View>
-          <AppText value={contractLink ? 'Tải hợp đồng đã ký' : 'XEM GIẤY ĐKGD'} textAlign={"center"} underline color={color.primary} onPress={openLink}/>
+          <AppText value={isSigned ? 'Tải hợp đồng đã ký' : 'XEM GIẤY ĐKGD'} textAlign={"center"} underline color={color.primary} onPress={openLink}/>
 
         </View>
         <View style={{flex:1}} />
         <SuccessModalize modalizeRef={modalizeSuccessRef} closeModal={onCloseSuccess} />
         <Signature modalizeRef={modalizeRef} handleConfirm={handleConfirm} closeModal={onClose} />
-        {!contractLink && <DualButton leftTitle={"Lưu và thoát"} rightTitle={"Ký tên"} rightPress={onOpen}
+        {!isSigned && <DualButton leftTitle={"Lưu và thoát"} rightTitle={"Ký tên"} rightPress={onOpen}
                     leftPress={handleCancel} /> }
       </View>
 

@@ -42,9 +42,11 @@ const InvestTab = React.memo((props: Props) => {
         <AppText value={"Bạn muốn quan sát thông tin"} color={color.text} />
         <AppText value={"thị trường?"} fontSize={ms(20)} color={color.text} fontFamily={fontFamily.semiBold} />
         <AppButton onPress={() => {
+          //
         }} title={"Xem ngay"} disable={true} containerStyle={styles.btn} />
       </FastImage>
-      {!!bonds?.length && <InvestItemContainer label={"Trái phiếu nổi bật"} data={bonds} onPress={listBonds} style={MARGIN_BOTTOM_16} />}
+      {!!bonds?.length &&
+        <InvestItemContainer label={"Trái phiếu nổi bật"} data={bonds} onPress={listBonds} style={MARGIN_BOTTOM_16} />}
       {!!funds?.length && <InvestItemContainer label={"CCQ nổi bật"} data={funds} type={"fund"} onPress={listFund} />}
       <HomeBanner type={"small"} label={"Tin tức"} style={MARGIN_TOP_16} />
       <BottomView height={s(200)} />
@@ -69,7 +71,7 @@ const styles = ScaledSheet.create({
     paddingHorizontal: "24@s",
   },
   btn: {
-    height: '35@ms',
+    height: "35@ms",
     width: "40%",
     marginTop: "4@s",
     borderRadius: "4@s",

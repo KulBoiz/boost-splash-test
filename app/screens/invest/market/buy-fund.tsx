@@ -1,11 +1,10 @@
 import React, { useCallback, useEffect, useState } from "react"
-import { ActivityIndicator, ScrollView, View } from "react-native"
+import { ActivityIndicator, Alert, DeviceEventEmitter, ScrollView, View } from "react-native"
 import AppHeader from "../../../components/app-header/AppHeader"
 import FundInfo from "./fund/components/fund-info"
 import FundTariff from "./fund/components/fund-tariff"
 import MarketBuyForm from "./components/market-buy-form"
 import * as Yup from "yup"
-import i18n from "i18n-js"
 import { useForm } from "react-hook-form"
 import { yupResolver } from "@hookform/resolvers/yup/dist/yup"
 import { ScaledSheet } from "react-native-size-matters"
@@ -17,6 +16,8 @@ import { observer } from "mobx-react-lite"
 import { useStores } from "../../../models"
 import EmptyList from "../../../components/empty-list"
 import { MARGIN_TOP_24 } from "../../../styles/common-style"
+import { filter, get } from "lodash"
+import { COMMON_ERROR, numberWithCommas, OTP_TIME } from "../../../constants/variable"
 
 interface Props {
 }
@@ -26,12 +27,11 @@ const BuyFund = observer((props: Props) => {
   const { bondsDetail } = investStore
   const [navs, setNavs] = useState([])
   const [loading, setLoading] = useState<boolean>(true)
+  const currentNav = get(navs[0], "nav", "")
 
   const validationSchema = Yup.object().shape({
     program: Yup.string().required("Chọn chương trình"),
     amount: Yup.string().required("Nhập số tiền đầu tư"),
-    estimatedQuantity: Yup.string().required("Nhập số lượng"),
-    purchaseFee: Yup.string().required("Nhập số phí"),
   })
 
   const {
@@ -39,6 +39,7 @@ const BuyFund = observer((props: Props) => {
     handleSubmit,
     formState: { errors },
     setValue,
+    setError,
     watch,
     clearErrors,
   } = useForm({
@@ -46,16 +47,51 @@ const BuyFund = observer((props: Props) => {
     resolver: yupResolver(validationSchema),
     reValidateMode: "onChange",
   })
+  const onSubmit = useCallback((otpCode)=> {
+    investStore.verifyOtpBuyFund(otpCode)
+      .then(res=> {
+        if (res?.error){
+          console.log(res?.error)
+          Alert.alert(res?.error?.message ?? COMMON_ERROR)
+          return
+        }
+        navigate(ScreenNames.PURCHASE_FUND)
+      })
+  },[])
 
-  const handleBuy = useCallback((data) => {
-    const param = {
-      program: data?.program,
-      amount: data?.amount,
-      estimatedQuantity: data?.estimatedQuantity
+  const onResend = useCallback(()=> {
+    investStore.resendOtpBuyFund()
+      .then(res=> {
+        if (res?.error){
+          Alert.alert(res?.error?.message)
+          return
+        }
+        DeviceEventEmitter.emit('resend')
+      })
+  },[])
+
+  const handleBuy = useCallback(async (data) => {
+    const estimatedQuantity = data.amount ? numberWithCommas((+(data.amount?.replace(/,/g, '')) / +currentNav).toFixed(2)) : 0
+    const minBuyValue = filter(bondsDetail?.productDetails, { id: data.program })?.[0]?.buyMinValue
+    if (+(data.amount?.replace(/,/g, '')) < +minBuyValue){
+      setError('amount', {message: `Số tiền đầu tư tối thiểu là ${minBuyValue}`})
+      return
     }
-    investStore.setBuyInfo(param)
-    navigate(ScreenNames.PURCHASE_FUND)
-  }, [watch])
+    const param = {
+      productId: bondsDetail?.id,
+      amount: data?.amount.replace(/,/g, ''),
+      productProgramId: data?.program,
+      beginBuyAutoStartDate: data?.date
+    }
+    await investStore.createBuyFundTransaction(param, estimatedQuantity.toString(), currentNav.toString())
+    await investStore.sendOtpBuyFund().then(res=> {
+      if (res?.error){
+        Alert.alert(COMMON_ERROR)
+        return
+      }
+      navigate(ScreenNames.INVEST_OTP, {onResend, onSubmit, otpTime: OTP_TIME.BUY_FUND})
+    })
+  }, [currentNav])
 
   useEffect(() => {
     investStore.getFundDetail(investStore?.bondsDetail?.slug).then(res => {
@@ -65,6 +101,9 @@ const BuyFund = observer((props: Props) => {
     ).catch(()=> setLoading(false))
   }, [])
 
+  const productDetail = filter(bondsDetail.productDetails, { id: watch("program") })?.[0]
+  const checkValid = !(watch("program") && watch('amount'))
+
   return (
     <View style={styles.container}>
       <AppHeader headerText={"Đặt lệnh mua"} isBlue />
@@ -73,9 +112,9 @@ const BuyFund = observer((props: Props) => {
           <ScrollView contentContainerStyle={styles.body}>
             <FundInfo navs={navs}/>
             <MarketBuyForm  {...{ control, errors: { ...errors }, setValue, watch, clearErrors, navs, bondsDetail }} />
-            <FundTariff data={investStore.bondsDetail}/>
+            <FundTariff productDetail={productDetail} />
             <View style={styles.wrapBtn}>
-              <AppButton title={"Đặt lệnh mua"} onPress={handleSubmit(handleBuy)} />
+              <AppButton title={"Đặt lệnh mua"} onPress={handleSubmit(handleBuy)} disable={checkValid} />
             </View>
           </ScrollView> :
           <EmptyList />

@@ -52,6 +52,7 @@ import { EKYCStack } from "./ekyc-stack"
 import BuyBonds from "../screens/invest/market/bonds/buy-bonds"
 import PurchaseBonds from "../screens/invest/market/bonds/purchase-bonds"
 import TradeRegistration from "../screens/invest/ekyc/trade-registration"
+import SyncAccount from "../screens/invest/ekyc/sync-account"
 
 // Documentation: https://reactnavigation.org/docs/stack-navigator/
 const Stack = createNativeStackNavigator<NavigatorParamList>()
@@ -90,6 +91,7 @@ const RootStack = () => {
       <Stack.Screen name={ScreenNames.SALE_BONDS} component={MarketSale} />
       <Stack.Screen name={ScreenNames.INVEST_TAB} component={InvestTab} />
       <Stack.Screen name={ScreenNames.FUND_DETAIL} component={FundDetail} />
+      <Stack.Screen name={ScreenNames.SYNC_ACCOUNT} component={SyncAccount} />
       <Stack.Screen name={ScreenNames.INVEST_OTP} component={InvestOtp} />
       <Stack.Screen name={ScreenNames.TRADE_REGISTRATION} component={TradeRegistration} />
       <Stack.Screen name={ScreenNames.BONDS_DETAIL} component={BondsDetail} />

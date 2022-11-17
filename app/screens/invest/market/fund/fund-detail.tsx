@@ -36,6 +36,7 @@ const FundDetail = React.memo((props: Props) => {
   const [navs, setNavs] = useState([])
   const [loading, setLoading] = useState<boolean>(true)
   const [visible, setVisible] = useState(false)
+  const [scrollAble, setScrollAble] = useState(true)
 
   useEffect(() => {
     investStore.getFundDetail(slug).then(res => {
@@ -48,9 +49,8 @@ const FundDetail = React.memo((props: Props) => {
 
   const [routes] = React.useState([
     { key: "first", title: "Thông tin" },
-    { key: "second", title: "Biểu phí" },
-    { key: "third", title: "Lịch sử" },
-    { key: "fourth", title: "Lịch GD" },
+    { key: "second", title: "Lịch sử" },
+    { key: "third", title: "Lịch GD" },
     // { key: "fifth", title: "Tài liệu" },
   ])
 
@@ -83,10 +83,8 @@ const FundDetail = React.memo((props: Props) => {
       case 0:
         return <MarketInfo data={data} navs={navs} />
       case 1:
-        return <FundTariff data={data} />
-      case 2:
         return <MarketHistory data={data} navs={navs} />
-      case 3:
+      case 2:
         return <FundInfoDetail data={data} />
     }
     //   case 4:
@@ -115,7 +113,7 @@ const FundDetail = React.memo((props: Props) => {
       return
     }
     ekycStore.checkSyncMio().then(res => {
-      if (res?.isRegisteredOnMio) {
+      if (res) {
         navigate(ScreenNames.SYNC_ACCOUNT)
         return
       }
@@ -138,10 +136,10 @@ const FundDetail = React.memo((props: Props) => {
       <AppHeader renderTitle={renderTitle} isBlue />
       {loading ? <ActivityIndicator color={color.primary} style={MARGIN_TOP_16} /> :
         <>
-          {data ? <ScrollView>
+          {data ? <ScrollView scrollEnabled={scrollAble}>
             <MarketChange item={data} navs={navs} />
             <NearestFund data={data} navs={navs} />
-            {navs && <FundChart data={data} navs={navs} />}
+            {navs && <FundChart data={data} navs={navs} setScrollAble={setScrollAble}/>}
             <NearestPrice data={data} navs={navs} />
             {_renderTabBar()}
             <View style={styles.body}>
