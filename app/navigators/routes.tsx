@@ -109,9 +109,6 @@ export const EKYCRoutes = [
     component: TradeRegistration,
   },
   {
-    name: ScreenNames.SYNC_ACCOUNT,
-    component: SyncAccount,
-  },{
     name: ScreenNames.CONFIRM_EKYC,
     component: ConfirmEkyc,
   },

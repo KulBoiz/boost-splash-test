@@ -74,7 +74,7 @@ const InvestSuccess = React.memo((props: Props) => {
       <View style={styles.wrapBtn}>
         <AppButton title={"Mua thêm"} onPress={buyMore} containerStyle={[styles.btn, styles.whiteBtn]}
                    titleStyle={styles.buyMore} />
-        <AppButton title={"Hoàn tất"} onPress={complete} containerStyle={styles.btn} />
+        <AppButton title={"Đóng"} onPress={complete} containerStyle={styles.btn} />
       </View>
     </View>
   )

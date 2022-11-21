@@ -26,7 +26,7 @@ const Item = React.memo(({item}: any)=>{
       </View>
       <View>
         <AppText value={'NAV/CCQ'} style={[FONT_REGULAR_12, MARGIN_BOTTOM_4]} color={color.palette.grayChateau}/>
-        <AppText value={`${numberWithCommas(item?.nav)} vnd`} style={FONT_REGULAR_12}/>
+        <AppText value={`${numberWithCommas(item?.nav)} vnđ`} style={FONT_REGULAR_12}/>
       </View>
     </View>
   )

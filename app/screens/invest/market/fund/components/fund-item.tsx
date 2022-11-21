@@ -13,12 +13,13 @@ import { useStores } from "../../../../../models"
 import { get, head } from "lodash"
 import { mappingLabelTypeOfFund } from "../../constants"
 import SignKycModal from "../../../ekyc/components/sign-modal"
+import { observer } from "mobx-react-lite"
 
 interface Props {
   item: any
 }
 
-const FundItem = React.memo(({ item }: Props) => {
+const FundItem = observer(({ item }: Props) => {
   const { investStore, authStoreModel, ekycStore } = useStores()
   const [price, setPrice] = useState([])
   const [visible, setVisible] = useState(false)

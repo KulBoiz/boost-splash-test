@@ -5,7 +5,7 @@ import { fontFamily } from "../../../../../constants/font-family"
 import { color } from "../../../../../theme"
 import { ALIGN_CENTER, ROW } from "../../../../../styles/common-style"
 import { s, ScaledSheet } from "react-native-size-matters"
-import { formatDate } from "../../../../../constants/variable"
+import { formatDate, formatTimeDate } from "../../../../../constants/variable"
 import DashedLine from "react-native-dashed-line"
 import moment from "moment"
 import { mappingLabelTypeOfFund, ORDER_MATCHING_DAY_MAPPING } from "../../constants"
@@ -53,7 +53,7 @@ const FundInfoDetail = React.memo(({ data } : Props) => {
     <View style={styles.container}>
       <Item number={1} title={'Ngày khớp lệnh'} value={info?.orderMatchingDate?.map((item:any) => ORDER_MATCHING_DAY_MAPPING[item]).join(', ') || ''} />
       <Item number={2} title={'Phiên khớp lệnh tiếp theo'} value={formatDate(nextOrderMatchingSession)} />
-      <Item number={3} title={'Đặt lệnh & chuyển tiền mua'} value={`Trước ${moment(orderAndTransferMoneyToBuyDate).format('HH:MM, DD/MM/YYYY')}`} hideDash />
+      <Item number={3} title={'Đặt lệnh & chuyển tiền mua'} value={`Trước ${moment(orderAndTransferMoneyToBuyDate).format('HH:mm, DD/MM/YYYY')}`} hideDash />
     </View>
   )
 })

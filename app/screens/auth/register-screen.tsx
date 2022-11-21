@@ -86,7 +86,7 @@ export const RegisterScreen: FC<StackScreenProps<AuthStackParamList, ScreenNames
             {...{
               name: 'email',
               labelTx: 'label.emailAndPhone',
-              placeholderTx: 'placeholder.email',
+              placeholderTx: 'placeholder.emailAndPhone',
               autoCapitalize: 'none',
               error: errors?.email?.message,
               control,

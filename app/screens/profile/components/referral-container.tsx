@@ -61,9 +61,7 @@ const ReferralContainer = React.memo((props: Props) => {
     message: `${message} ${linkRef}`,
   }
   const share = useCallback(() => {
-    Share.open(options).then((res) => {
-      // console.log(res)
-    })
+    Share.open(options)
   }, [])
 
   const shareQr = useCallback(async () => {
@@ -83,7 +81,7 @@ const ReferralContainer = React.memo((props: Props) => {
         appStore?.addFileDownloaded(fileUri)
         Share.open({ ...options, url: fileUri, message: linkRef })
       })
-  }, [])
+  }, [refCode])
 
   return (
     <FastImage style={styles.container} source={images.profile_referral_background}>

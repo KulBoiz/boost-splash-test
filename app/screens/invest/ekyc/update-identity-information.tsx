@@ -14,7 +14,7 @@ interface Props {
 const UpdateIdentityInformation = React.memo((props: Props) => {
   return (
     <View style={styles.container}>
-      <AppHeader headerText={"Cập nhật thông tin đinh danh "} isBlue showBorderWidth={false}/>
+      <AppHeader headerText={"Cập nhật thông tin định danh "} isBlue showBorderWidth={false}/>
       <AppText value={"Quý khách vui lòng lựa chọn loại giấy tờ tùy thân"} style={[FONT_REGULAR_14, MARGIN_BOTTOM_24, MARGIN_TOP_8]}
                textAlign={"center"} color={color.text} />
       <IdentitySelection />

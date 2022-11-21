@@ -26,7 +26,7 @@ const convertGender = (gender) => {
   if (gender === 'nữ') {
     return 'female'
   }
-  return 'other'
+  return 'male'
 }
 const InformationForm = React.memo((props: Props) => {
   const {control, errors, setValue, clearErrors} = props

@@ -18,20 +18,32 @@ import EmptyList from "../../../components/empty-list"
 import { MARGIN_TOP_24 } from "../../../styles/common-style"
 import { filter, get } from "lodash"
 import { COMMON_ERROR, numberWithCommas, OTP_TIME } from "../../../constants/variable"
+import { useIsFocused } from "@react-navigation/native"
 
 interface Props {
 }
 
+const flex = {
+  program: Yup.string().required("Chọn chương trình"),
+  amount: Yup.string().required("Nhập số tiền đầu tư"),
+}
+
 const BuyFund = observer((props: Props) => {
   const { investStore } = useStores()
+  const isFocused = useIsFocused()
   const { bondsDetail } = investStore
   const [navs, setNavs] = useState([])
+  const [isSip, setIsSip] = useState(false)
   const [loading, setLoading] = useState<boolean>(true)
   const currentNav = get(navs[0], "nav", "")
 
-  const validationSchema = Yup.object().shape({
-    program: Yup.string().required("Chọn chương trình"),
-    amount: Yup.string().required("Nhập số tiền đầu tư"),
+  const flexValidationSchema = Yup.object().shape({
+   ...flex
+  })
+
+  const sipValidationSchema = Yup.object().shape({
+   ...flex,
+    date: Yup.string().required("Nhập ngày đầu tư định kì"),
   })
 
   const {
@@ -44,14 +56,20 @@ const BuyFund = observer((props: Props) => {
     clearErrors,
   } = useForm({
     mode: "all",
-    resolver: yupResolver(validationSchema),
+    resolver: isSip ? yupResolver(sipValidationSchema) : yupResolver(flexValidationSchema),
     reValidateMode: "onChange",
   })
+
+  useEffect(()=> {
+    setValue('amount','')
+    setValue('program','')
+    clearErrors('amount')
+  },[isFocused])
+
   const onSubmit = useCallback((otpCode)=> {
     investStore.verifyOtpBuyFund(otpCode)
       .then(res=> {
         if (res?.error){
-          console.log(res?.error)
           Alert.alert(res?.error?.message ?? COMMON_ERROR)
           return
         }
@@ -74,7 +92,7 @@ const BuyFund = observer((props: Props) => {
     const estimatedQuantity = data.amount ? numberWithCommas((+(data.amount?.replace(/,/g, '')) / +currentNav).toFixed(2)) : 0
     const minBuyValue = filter(bondsDetail?.productDetails, { id: data.program })?.[0]?.buyMinValue
     if (+(data.amount?.replace(/,/g, '')) < +minBuyValue){
-      setError('amount', {message: `Số tiền đầu tư tối thiểu là ${minBuyValue}`})
+      setError('amount', {message: `Số tiền đầu tư tối thiểu là ${numberWithCommas(minBuyValue)}`})
       return
     }
     const param = {
@@ -85,7 +103,7 @@ const BuyFund = observer((props: Props) => {
     }
     await investStore.createBuyFundTransaction(param, estimatedQuantity.toString(), currentNav.toString())
     await investStore.sendOtpBuyFund().then(res=> {
-      if (res?.error){
+      if (res?.error || res?.includes('502')){
         Alert.alert(COMMON_ERROR)
         return
       }
@@ -111,7 +129,7 @@ const BuyFund = observer((props: Props) => {
         {Object.keys(investStore.bondsDetail).length ?
           <ScrollView contentContainerStyle={styles.body}>
             <FundInfo navs={navs}/>
-            <MarketBuyForm  {...{ control, errors: { ...errors }, setValue, watch, clearErrors, navs, bondsDetail }} />
+            <MarketBuyForm  {...{ control, errors: { ...errors }, setValue, watch, clearErrors, navs, bondsDetail, setIsSip }} />
             <FundTariff productDetail={productDetail} />
             <View style={styles.wrapBtn}>
               <AppButton title={"Đặt lệnh mua"} onPress={handleSubmit(handleBuy)} disable={checkValid} />

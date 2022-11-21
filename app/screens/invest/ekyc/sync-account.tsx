@@ -17,6 +17,7 @@ import { useStores } from "../../../models"
 import { Modalize } from "react-native-modalize"
 import SuccessModalize from "./success-modalize"
 import { COMMON_ERROR, OTP_TIME } from "../../../constants/variable"
+import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view"
 
 interface Props {
 }
@@ -38,9 +39,12 @@ const SyncAccount = React.memo((props: Props) => {
     resolver: yupResolver(validationSchema),
     reValidateMode: "onChange",
   })
+
   const onOpenSuccess = React.useCallback(() => {
     modalizeSuccessRef.current?.open()
   }, [])
+
+  console.log(modalizeSuccessRef.current)
 
   const onCloseSuccess = React.useCallback(() => {
     modalizeSuccessRef.current?.close()
@@ -57,7 +61,6 @@ const SyncAccount = React.memo((props: Props) => {
         onOpenSuccess()
         await authStoreModel.getFullInfoUser()
         await investStore.getKycPhone()
-
       })
   }, [])
 
@@ -90,7 +93,7 @@ const SyncAccount = React.memo((props: Props) => {
   return (
     <View style={styles.container}>
       <AppHeader headerText="Đồng bộ tài khoản" isBlue />
-      <View style={styles.body}>
+      <KeyboardAwareScrollView bounces={false} style={styles.body}>
         <AppText value={"Thông tin tài khoản"} style={presets.label} />
         <FormInput
           {...{
@@ -112,7 +115,7 @@ const SyncAccount = React.memo((props: Props) => {
             error: errors?.idNumber?.message,
           }}
         />
-      </View>
+      </KeyboardAwareScrollView>
       <SuccessModalize type={"sync"} modalizeRef={modalizeSuccessRef} closeModal={onCloseSuccess} />
 
       <DualButton leftTitle={"Hủy bỏ"} rightTitle={"Xác nhận"} leftPress={leftPress}

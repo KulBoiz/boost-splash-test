@@ -99,6 +99,7 @@ const styles = ScaledSheet.create({
   },
   middleContainer: {
     marginVertical: "8@s",
+    paddingHorizontal: "12@s",
   },
   icon: {
     width: "16@s",
