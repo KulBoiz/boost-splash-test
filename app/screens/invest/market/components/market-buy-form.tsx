@@ -1,13 +1,13 @@
-import React, { useCallback, useEffect } from "react"
+import React, { useEffect } from "react"
 import { View } from "react-native"
 import FormItemPicker from "../../../../components/form-item-picker"
 import FormInput from "../../../../components/form-input/form-input"
 import { Control, UseFormClearErrors, UseFormSetValue, UseFormWatch } from "react-hook-form/dist/types/form"
 import { FieldErrors } from "react-hook-form/dist/types/errors"
 import { FieldValues } from "react-hook-form/dist/types/fields"
-import { ALIGN_CENTER, ROW } from "../../../../styles/common-style"
+import { ALIGN_CENTER, MARGIN_BOTTOM_8, ROW } from "../../../../styles/common-style"
 import { ScaledSheet } from "react-native-size-matters"
-import { debounce, filter, get } from "lodash"
+import { filter, get } from "lodash"
 import { formatData, formatDate, numberWithCommas } from "../../../../constants/variable"
 import { createNumberMask, useMaskedInputProps } from "react-native-mask-input"
 import FastImage from "react-native-fast-image"
@@ -22,10 +22,11 @@ interface Props {
   clearErrors: UseFormClearErrors<FieldValues>
   navs: any
   bondsDetail: any
+  setIsSip(e: boolean): void
 }
 
 const MarketBuyForm = React.memo((props: Props) => {
-  const { control, errors, setValue, watch, clearErrors, navs, bondsDetail } = props
+  const { control, errors, setValue, watch, clearErrors, navs, bondsDetail, setIsSip } = props
   const currentNav = get(navs[0], "nav", "")
   const nextOrderMatchingSession = bondsDetail?.info?.nextOrderMatchingSession
   const productDetails = bondsDetail?.productDetails
@@ -38,6 +39,10 @@ const MarketBuyForm = React.memo((props: Props) => {
     delimiter: ",",
     precision: 0,
   })
+
+  useEffect(()=> {
+    setIsSip(checkIsSip)
+  },[checkIsSip])
 
   const currencyInputProps = useMaskedInputProps({
     value: watch("amount"),
@@ -78,7 +83,7 @@ const MarketBuyForm = React.memo((props: Props) => {
         }}
       />
       {minBuyValue &&
-      <View style={[ROW, ALIGN_CENTER]}>
+      <View style={[ROW, ALIGN_CENTER, MARGIN_BOTTOM_8]}>
         <FastImage source={images.yellow_caution} style={styles.icon} />
         <AppText value={`Số tiền đầu tư tối thiểu ${numberWithCommas(minBuyValue)} vnđ`} />
       </View>
@@ -141,6 +146,7 @@ const MarketBuyForm = React.memo((props: Props) => {
       {checkIsSip === 'true' &&
         <FormInput
           {...{
+            required: true,
             style: styles.rowInput,
             name: "date",
             label: "Ngày đầu tư định kỳ",

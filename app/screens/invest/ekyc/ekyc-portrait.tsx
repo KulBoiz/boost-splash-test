@@ -1,5 +1,5 @@
-import React, { FC, useCallback, useRef } from "react"
-import { Alert, Platform, View,Image } from "react-native"
+import React, { useCallback, useRef } from "react"
+import { Alert, Image, Platform, View } from "react-native"
 import { Camera, useCameraDevices } from "react-native-vision-camera"
 import AppHeader from "../../../components/app-header/AppHeader"
 import { ms, ScaledSheet } from "react-native-size-matters"
@@ -15,9 +15,6 @@ import { useIsFocused } from "@react-navigation/native"
 import ActionItem from "../../agent/components/action-item"
 import { AppText } from "../../../components/app-text/AppText"
 import { ALIGN_CENTER, FONT_MEDIUM_14, MARGIN_TOP_24 } from "../../../styles/common-style"
-import { StackScreenProps } from "@react-navigation/stack"
-import { EKYCStackParamList } from "../../../navigators/ekyc-stack"
-import { observer } from "mobx-react-lite"
 import { presets } from "../../../constants/presets"
 import AppButton from "../../../components/app-button/AppButton"
 
@@ -27,21 +24,13 @@ const frameX = width * 0.1
 const frameY = height * 0.15
 const guide = "Xin đưa khuôn mặt của bạn vào giữa\nkhung hình và nhấn chụp ảnh."
 
-const EKYCPortrait: FC<StackScreenProps<EKYCStackParamList, ScreenNames.EKYC_PORTRAIT>> = observer(({ route }) => {
+const EKYCPortrait = React.memo(() => {
   const { ekycStore } = useStores()
   const isFocused = useIsFocused()
   const cameraRef = useRef<any>(null)
   const [image, setImage] = React.useState<string| null>(null)
-  const [hasPermission, setHasPermission] = React.useState(false)
   const devices = useCameraDevices()
   const device = devices.front
-
-  React.useEffect(() => {
-    ;(async () => {
-      const status = await Camera.requestCameraPermission()
-      setHasPermission(status === "authorized")
-    })()
-  }, [])
 
   const setPhoto = useCallback(
     (photo) => {
@@ -107,9 +96,10 @@ const EKYCPortrait: FC<StackScreenProps<EKYCStackParamList, ScreenNames.EKYC_POR
       .then(() => navigate(ScreenNames.CONFIRM_EKYC))
       .catch(() => Alert.alert(COMMON_ERROR))
   }, [image])
+
   return (
     <View style={styles.container}>
-      {device != null && hasPermission ? (
+      {device != null ? (
         image ? <Image source={{ uri: image }} style={styles.image} /> :
           <Camera
             style={styles.camera}
@@ -117,7 +107,7 @@ const EKYCPortrait: FC<StackScreenProps<EKYCStackParamList, ScreenNames.EKYC_POR
             device={device}
             isActive={isFocused}
             photo={true}
-            preset="hd-1280x720"
+            preset="high"
             orientation="portrait"
           />
       ) : (
@@ -156,7 +146,7 @@ const EKYCPortrait: FC<StackScreenProps<EKYCStackParamList, ScreenNames.EKYC_POR
         {image ? <View style={[ALIGN_CENTER, { width: "100%" }]}>
             <AppText value={"Chụp lại"} underline color={color.primary} style={presets.label_16} onPress={onReTake} />
             <AppButton
-              disable={!hasPermission || ekycStore.loading}
+              disable={ekycStore.loading}
               title={"Xác nhận"}
               onPress={onContinue}
               containerStyle={MARGIN_TOP_24}

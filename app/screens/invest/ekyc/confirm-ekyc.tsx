@@ -24,11 +24,13 @@ import { COMMON_ERROR } from "../../../constants/variable"
 import moment from "moment"
 import SignKycModal from "./components/sign-modal"
 import ConfirmModal from "../../../components/app-modal/confirm-modal"
+import FatcaForm from "./components/fatca-form"
+import { observer } from "mobx-react-lite"
 
 interface Props {
 }
 
-const ConfirmEkyc = React.memo((props: Props) => {
+const ConfirmEkyc = observer((props: Props) => {
   const { ekycStore, authStoreModel } = useStores()
   const [position, setPosition] = useState(0)
   const [visible, setVisible] = useState(false)
@@ -42,12 +44,20 @@ const ConfirmEkyc = React.memo((props: Props) => {
   })
 
   const secondValidationSchema = Yup.object().shape({
-    bankAccountHolder: Yup.string().required("Nhập tên chủ tài khoản"),
+    bankAccountHolder: Yup.string().required("Nhập tên chủ tài khoản").uppercase()
+    .oneOf([ekycStore?.user?.fullName?.toUpperCase(), null], 'Tên chủ tài khoản không khớp với tên người dùng'),
     bankId: Yup.string().required("Chọn ngân hàng"),
     bankAccount: Yup.string().required("Nhập số tài khoản"),
   })
+
   const thirdValidationSchema = Yup.object().shape({
     commune: Yup.string().required("Chọn phường/ xã"),
+  })
+
+  const fourthValidationSchema = Yup.object().shape({
+    fatca1: Yup.string().required("Vui lòng chọn"),
+    fatca2: Yup.string().required("Vui lòng chọn"),
+    fatca3: Yup.string().required("Vui lòng chọn"),
   })
 
   const {
@@ -59,10 +69,11 @@ const ConfirmEkyc = React.memo((props: Props) => {
     clearErrors,
   } = useForm({
     mode: "all",
-    resolver: position === 0 ? yupResolver(firstValidationSchema) : position === 1 ? yupResolver(secondValidationSchema) : yupResolver(thirdValidationSchema),
+    resolver: position === 0 ? yupResolver(firstValidationSchema) : position === 1 ?
+      yupResolver(secondValidationSchema) : position === 2 ?
+      yupResolver(thirdValidationSchema) : yupResolver(fourthValidationSchema),
     reValidateMode: "onChange",
   })
-
 
   const handleContinue = React.useCallback(data => {
     const param = {
@@ -72,7 +83,7 @@ const ConfirmEkyc = React.memo((props: Props) => {
       birthday: moment(data.birthday, "DD-MM-YYYY").toISOString(),
       districtId: data.district,
       emails: [{ email: data.email }],
-      fatca:{fatca1: 'false', fatca2: 'false', fatca3: 'false'},
+      fatca: { fatca1: data.fatca1, fatca2: data?.fatca2, fatca3: data?.fatca3 },
       fullName: data.fullName,
       gender: data.gender,
       idNumber: data.idNumber,
@@ -86,8 +97,7 @@ const ConfirmEkyc = React.memo((props: Props) => {
       subDistrictId: data.commune,
       tels: [{ tel: data.tel }],
     }
-
-    if (position < 2) {
+    if (position < 3) {
       setPosition(position + 1)
       return
     }
@@ -95,7 +105,7 @@ const ConfirmEkyc = React.memo((props: Props) => {
       const message = res?.error?.message
       const code = res?.error?.code
       if (res?.error || res?.kind !== "ok") {
-        if (code ===  40035 || code === 40026 || code === 40025 ) {
+        if (code === 40035 || code === 40026 || code === 40025) {
           setSyncModal(true)
           return
         }
@@ -109,7 +119,9 @@ const ConfirmEkyc = React.memo((props: Props) => {
   }, [position])
 
   const handleCancel = React.useCallback(() => {
-    navigate(ScreenNames.HOME)
+    setPosition(position - 1)
+
+    // navigate(ScreenNames.HOME)
   }, [position])
 
   const pressContinue = React.useCallback(() => {
@@ -134,23 +146,26 @@ const ConfirmEkyc = React.memo((props: Props) => {
       case 2: {
         return <AddressForm {...{ control, errors: { ...errors }, setValue, clearErrors, watch }} />
       }
+      case 3: {
+        return <FatcaForm {...{ control, errors: { ...errors }, setValue, clearErrors, watch }} />
+      }
     }
-  }, [position])
+  }, [position, errors])
 
   const closeModal = React.useCallback(() => {
     setVisible(false)
     navigate(ScreenNames.HOME)
   }, [])
 
-  const handleSync = React.useCallback(()=> {
+  const handleSync = React.useCallback(() => {
     setSyncModal(false)
     navigate(ScreenNames.SYNC_ACCOUNT)
-  },[])
+  }, [])
 
   return (
     <View style={styles.container}>
       <AppHeader headerText={"EKYC"} isBlue />
-      <RenderFlatStep currentPosition={position} stepCount={3} style={styles.step} />
+      <RenderFlatStep currentPosition={position} stepCount={4} style={styles.step} />
       <KeyboardAwareScrollView>
         <AppText value={"Xác nhận lại thông tin"} style={[MARGIN_BOTTOM_4, MARGIN_TOP_24]} fontSize={ms(20)}
                  fontFamily={fontFamily.regular} textAlign={"center"} />
@@ -163,7 +178,7 @@ const ConfirmEkyc = React.memo((props: Props) => {
                   leftPress={handleCancel} />
       <SignKycModal visible={visible} closeModal={closeModal} onPress={pressContinue} />
       <ConfirmModal visible={syncModal} closeModal={() => setSyncModal(false)}
-                    onPress={handleSync} title={'Thông tin tài khoản đã tồn tại\nvui lòng đồng bộ tài khoản'} />
+                    onPress={handleSync} title={"Thông tin tài khoản đã tồn tại\nvui lòng đồng bộ tài khoản"} />
     </View>
   )
 })

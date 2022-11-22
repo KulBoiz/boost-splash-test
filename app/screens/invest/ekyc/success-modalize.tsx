@@ -20,6 +20,7 @@ interface Props {
 
 const SuccessModalize = React.memo(({ modalizeRef, closeModal, type = 'kyc' }: Props) => {
   const isKyc = type === 'kyc'
+
   const handlePress = React.useCallback(() => {
     closeModal()
     navigate(ScreenNames.HOME)

@@ -36,7 +36,7 @@ const Item = React.memo(({ title, content, textAlign = "left" }: ItemProps) => {
 
 const MarketPurchase = React.memo((props: Props) => {
   const {investStore} = useStores()
-  const {nav, transactionInfo, estimatedQuantity} = investStore
+  const {nav, transactionInfo, estimatedQuantity, bondsDetail} = investStore
   const handlePurchase = useCallback(()=> {
     navigate(ScreenNames.INVEST_SUCCESS)
   },[])
@@ -46,8 +46,8 @@ const MarketPurchase = React.memo((props: Props) => {
       <AppHeader headerText={"Thanh toán lệnh mua"} isBlue />
       <ScrollView contentContainerStyle={styles.body}>
         <View style={styles.infoContainer}>
-          <Item title={truncateString(transactionInfo?.productInfo?.name, 48)} content={mappingLabelTypeOfFund(transactionInfo?.productInfo?.info?.typeOfFund)} />
-          <Item title={"Giá gần nhất"} content={numberWithCommas(nav)} textAlign={"right"} />
+          <Item title={(bondsDetail?.code)} content={mappingLabelTypeOfFund(transactionInfo?.productInfo?.info?.typeOfFund)} />
+          <Item title={"Giá gần nhất"} content={`${numberWithCommas(nav)} vnđ`} textAlign={"right"} />
         </View>
         <PurchaseInfo transactionInfo={transactionInfo} estimatedQuantity={estimatedQuantity}/>
         <PurchaseTab transactionInfo={transactionInfo}/>

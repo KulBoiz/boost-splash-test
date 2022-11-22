@@ -7,8 +7,8 @@ export const GENDER = [
     label: "Nữ",
     value: "female"
   },
-  {
-    label: "Khác",
-    value: "other"
-  },
+  // {
+  //   label: "Khác",
+  //   value: "other"
+  // },
 ]

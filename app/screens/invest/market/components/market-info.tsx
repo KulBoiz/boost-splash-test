@@ -35,7 +35,7 @@ const MarketInfo = React.memo(({ data, navs}: Props) => {
       <View style={styles.body}>
         <Item title={'Tên quỹ đầu tư'} content={data?.name} style={styles.itemMargin}/>
         <Item title={'Tổ chức phát hành'} content={data?.org?.name}  style={styles.itemMargin}/>
-        <Item title={'Giá gần nhất'} content={numberWithCommas(currentNav)}  style={styles.itemMargin}/>
+        <Item title={'Giá gần nhất'} content={`${numberWithCommas(currentNav)} VNĐ`}  style={styles.itemMargin}/>
         <Item title={'Loại đầu tư'} content={mappingLabelTypeOfFund(data?.info?.typeOfFund)}  style={styles.itemMargin}/>
          {/* {program && <Item title={'Chương trình đầu tư'} content={program}  style={styles.itemMargin}/> } */}
         <Item title={'Phí chuyển đổi'} content={conversionFee ? `${conversionFee}%` : '0%'} />

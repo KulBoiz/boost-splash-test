@@ -16,11 +16,12 @@ import { ScreenNames } from "../../../navigators/screen-names"
 import SuccessModalize from "./success-modalize"
 import { useIsFocused } from "@react-navigation/native"
 import { OTP_TIME } from "../../../constants/variable"
+import { observer } from "mobx-react-lite"
 
 interface Props {
 }
 const lineColor = "#E9EBEF"
-const TradeRegistration = React.memo((props: Props) => {
+const TradeRegistration = observer((props: Props) => {
   const { ekycStore, investStore } = useStores()
   const modalizeRef = useRef<Modalize>(null)
   const modalizeSuccessRef = useRef<Modalize>(null)

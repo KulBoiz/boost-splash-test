@@ -9,7 +9,7 @@ import { color } from "../../../theme"
 import OtpField from "../../../components/otp-field/otp-field"
 import AppButton from "../../../components/app-button/AppButton"
 import { useStores } from "../../../models"
-import { RouteProp, useIsFocused, useRoute } from "@react-navigation/native"
+import { RouteProp, useRoute } from "@react-navigation/native"
 import { NavigatorParamList } from "../../../navigators/params-list"
 import { ScreenNames } from "../../../navigators/screen-names"
 import AsyncStorage from "@react-native-async-storage/async-storage"
@@ -30,8 +30,8 @@ const InvestOtp = React.memo((props: Props) => {
     },
   } = useRoute<RouteProp<NavigatorParamList, ScreenNames.INVEST_OTP>>()
   const [value, setValue] = useState("")
-  const { ekycStore, authStoreModel } = useStores()
-  const tel = phone ?? ekycStore.user?.tels?.[0]?.tel ?? authStoreModel?.user?.tels?.[0]?.tel ?? ''
+  const { ekycStore, authStoreModel, investStore } = useStores()
+  const tel = phone ?? investStore?.phone ?? ekycStore.user?.tels?.[0]?.tel ?? authStoreModel?.user?.tels?.[0]?.tel ?? ''
   const [time, setTime] = useState(otpTime)
   const [isStartCheck, setStartCheck] = useState<boolean>(true)
   const [resendModal, setResendModal] = useState<boolean>(false)
@@ -49,7 +49,7 @@ const InvestOtp = React.memo((props: Props) => {
     setStartCheck(true)
     AppState.addEventListener("change", _handleAppStateChange)
     return () => {
-      AppState.removeEventListener("change", _handleAppStateChange)
+      AppState.addEventListener("change", _handleAppStateChange).remove()
     }
   }, [])
 
@@ -61,9 +61,7 @@ const InvestOtp = React.memo((props: Props) => {
       setStartCheck(true)
     })
     return () => {
-      DeviceEventEmitter.removeListener("resend", ()=>{
-        //
-      })
+      DeviceEventEmitter.removeAllListeners()
     }
   }, [])
 

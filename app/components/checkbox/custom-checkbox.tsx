@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, StyleSheet, Pressable } from "react-native"
+import { View, StyleSheet, Pressable, TextStyle } from "react-native"
 import { AppText } from "../app-text/AppText"
 import FastImage from 'react-native-fast-image'
 import { images } from "../../assets/images"
@@ -12,16 +12,17 @@ interface Props{
   onPress(): void
   text?: string
   size?: number
+  textStyle?: TextStyle | any
 }
 
 const CustomCheckbox = React.memo((props: Props) => {
-  const {isChecked, text, onPress, size} = props
+  const {isChecked, text, onPress, size, textStyle} = props
   return (
     <Pressable style={styles.container} onPress={onPress}>
       <View style={[styles.checkbox, isChecked ? styles.checked : styles.unChecked]}>
         <FastImage source={images.check} style={styles.icon}/>
       </View>
-      <AppText value={text} style={FONT_SEMI_BOLD_14}/>
+      <AppText value={text} style={[FONT_SEMI_BOLD_14, textStyle]}/>
     </Pressable>
   )
 });

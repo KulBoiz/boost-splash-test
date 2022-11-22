@@ -3,7 +3,7 @@ import { View } from "react-native"
 import ItemView from "../../../loan/components/item-view"
 import { AppText } from "../../../../components/app-text/AppText"
 import { FONT_BOLD_14, FONT_MEDIUM_12, FONT_REGULAR_12, FONT_REGULAR_14, ROW } from "../../../../styles/common-style"
-import { formatDateTime, numberWithCommas } from "../../../../constants/variable"
+import { formatDate, formatDateTime, numberWithCommas } from "../../../../constants/variable"
 import { ScaledSheet } from "react-native-size-matters"
 import { color } from "../../../../theme"
 import { CautionSvg } from "../../../../assets/svgs"
@@ -44,7 +44,7 @@ const PurchaseInfo = React.memo(({ transactionInfo, estimatedQuantity }: Props) 
                   style={styles.item} />
         <ItemView title={"Sổ lệnh đóng"} content={<RightContent content={formatDateTime(info?.closedOrderBookTime)} note={GMT} />}
                   style={styles.item} />
-        <ItemView title={"Phiên khớp lệnh"} content={<RightContent content={formatDateTime(info?.nextOrderMatchingSession)} note={GMT} />}
+        <ItemView title={"Phiên khớp lệnh"} content={<RightContent content={formatDate(info?.nextOrderMatchingSession)} note={GMT} />}
                   style={styles.item} />
         <ItemView title={"Phí mua"} content={<RightContent content={"0%"} />} style={styles.item} />
         <ItemView title={"Chương trình"} content={<RightContent content={`${program}`} />} />

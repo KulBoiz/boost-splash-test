@@ -42,11 +42,11 @@ const FundInfo = React.memo(({ navs }: Props) => {
   return (
     <View style={styles.container}>
       <View style={[ROW, SPACE_BETWEEN, ALIGN_CENTER, MARGIN_BOTTOM_16]}>
-        <Item title={truncateString(bondsDetail?.name, 30)} content={mappingLabelTypeOfFund(bondsDetail?.info?.typeOfFund)} />
+        <Item title={truncateString(bondsDetail?.code, 30)} content={mappingLabelTypeOfFund(bondsDetail?.info?.typeOfFund)} />
         <Item title={"Thời hạn đặt mua"} content={formatTimeDate(orderAndTransferMoneyToBuyDate)} textAlign={"right"}/>
       </View>
       <View style={[ROW, SPACE_BETWEEN, ALIGN_CENTER]}>
-        <Item title={"Giá gần nhất"} content={numberWithCommas(currentNav)} />
+        <Item title={"Giá gần nhất"} content={`${numberWithCommas(currentNav)} vnđ`} />
         <MarketCountdown totalTime={+totalTime} style={styles.timeContainer} />
       </View>
     </View>

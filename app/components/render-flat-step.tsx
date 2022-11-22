@@ -15,7 +15,7 @@ interface ItemProps {
 
 const RenderItem = React.memo(({isSelected} : ItemProps)=> {
   return(
-    <View style={[styles.item, {backgroundColor: isSelected ? color.primary  : color.palette.deepGray}]}/>
+    <View style={[styles.item, {backgroundColor: isSelected ? color.primary  : color.palette.E9EBEF}]}/>
   )
 })
 
