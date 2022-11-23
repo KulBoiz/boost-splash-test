@@ -56,7 +56,8 @@ const BuyFund = observer((props: Props) => {
     clearErrors,
   } = useForm({
     mode: "all",
-    resolver: isSip ? yupResolver(sipValidationSchema) : yupResolver(flexValidationSchema),
+    // resolver: isSip ? yupResolver(sipValidationSchema) : yupResolver(flexValidationSchema),
+    resolver: yupResolver(flexValidationSchema),
     reValidateMode: "onChange",
   })
 

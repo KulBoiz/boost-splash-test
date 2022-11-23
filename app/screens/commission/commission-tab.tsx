@@ -11,7 +11,7 @@ import { AppText } from "../../components/app-text/AppText"
 
 interface Props {
 }
-const LazyPlaceholder = ({ route }) => (
+export const LazyPlaceholder = ({ route }) => (
   <View style={styles.scene}>
     <AppText>Loading {route.title}…</AppText>
   </View>

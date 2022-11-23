@@ -1,36 +1,7 @@
-import React from "react"
-import { MedalSvg, ProfileSvg, SimCardSvg } from "../../assets/svgs"
 import { navigate } from "../../navigators"
 import { ScreenNames } from "../../navigators/screen-names"
 import { get } from "lodash"
 import { images } from "../../assets/images"
-
-export const SETTING_LIST = [
-  {
-    icon: <ProfileSvg />,
-    title: 'Thông tin cá nhân',
-    onPress: () => navigate(ScreenNames.USER_PROFILE),
-    active: true,
-  },{
-    icon: <MedalSvg />,
-    title: 'Đăng ký làm cộng tác viên',
-    // onPress: () => navigate(ScreenNames.AGENT, {screen : authStoreModel?.role === ROLE.CTV  ? ScreenNames.VIEW_CONTRACT : ScreenNames.BECOME_SCREEN}),
-    onPress: () => navigate(ScreenNames.AGENT),
-    active: true,
-  },
-  {
-    icon: <SimCardSvg />,
-    title: 'Thông tin nâng cao',
-    onPress: () => navigate(ScreenNames.ADVANCE_INFORMATION),
-    active: true,
-  },
-  // {
-  //   icon: <TransactionSvg />,
-  //   title: 'Hoa hồng của tôi',
-  //   onPress: () => navigate(ScreenNames.COMMISSION),
-  //   active: true,
-  // },
-]
 
 export const INDIVIDUAL = [
   {

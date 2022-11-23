@@ -13,3 +13,8 @@ export enum USER_ROLE {
   INSURANCE_STAFF = 'string',
   CUSTOMER = 'string',
 }
+
+export enum INVEST_TRANSACTION_TYPE {
+  BUY= 'BUY',
+  SELL= 'SELL'
+}

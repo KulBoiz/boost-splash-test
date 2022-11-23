@@ -65,7 +65,7 @@ const SyncAccount = React.memo((props: Props) => {
   }, [])
 
   const onResend = React.useCallback(() => {
-    ekycStore.resendSignContractOtp()
+    ekycStore.resendSyncMioOtp()
       .then(res => {
         if (res?.error) {
           Alert.alert(res?.error?.message)
