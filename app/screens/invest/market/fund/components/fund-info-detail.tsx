@@ -5,10 +5,10 @@ import { fontFamily } from "../../../../../constants/font-family"
 import { color } from "../../../../../theme"
 import { ALIGN_CENTER, ROW } from "../../../../../styles/common-style"
 import { s, ScaledSheet } from "react-native-size-matters"
-import { formatDate, formatTimeDate } from "../../../../../constants/variable"
+import { formatDate } from "../../../../../constants/variable"
 import DashedLine from "react-native-dashed-line"
 import moment from "moment"
-import { mappingLabelTypeOfFund, ORDER_MATCHING_DAY_MAPPING } from "../../constants"
+import { ORDER_MATCHING_DAY_MAPPING } from "../../constants"
 
 interface Props {
   data: any

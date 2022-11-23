@@ -1,4 +1,4 @@
-import React from "react"
+import React, { useCallback } from "react"
 import { View } from "react-native"
 import { SceneMap, TabBar, TabView } from "react-native-tab-view"
 import { color } from "../../../theme"
@@ -9,6 +9,7 @@ import PropertyTab from "./property-tab"
 import TransactionTab from "./transaction-tab"
 import { useStores } from "../../../models"
 import SettingAuthScreen from "../../../components/app-view-no-auth"
+import { LazyPlaceholder } from "../../commission/commission-tab"
 
 interface Props {
 }
@@ -16,6 +17,7 @@ interface Props {
 const InvestManagement = React.memo((props: Props) => {
   const { authStoreModel } = useStores()
   const [index, setIndex] = React.useState(0)
+  const _renderLazyPlaceholder = useCallback(({ route }) => <LazyPlaceholder route={route} />, []);
 
   const [routes] = React.useState([
     { key: "first", title: "Tài sản" },
@@ -40,6 +42,8 @@ const InvestManagement = React.memo((props: Props) => {
   return (
     <View style={styles.container}>
       {authStoreModel?.isLoggedIn ? <TabView
+          lazy
+          renderLazyPlaceholder={_renderLazyPlaceholder}
           navigationState={{ index, routes }}
           renderScene={renderScene}
           onIndexChange={(value) => {

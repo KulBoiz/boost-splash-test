@@ -12,6 +12,7 @@ import { hexToRgbA, numberWithCommas } from "../../../../constants/variable"
 import { Pressable } from "native-base"
 import { ScreenNames } from "../../../../navigators/screen-names"
 import { navigate } from "../../../../navigators"
+import { mappingLabelTypeOfFund } from "../../../invest/market/constants"
 
 interface Props {
   item?: any
@@ -52,6 +53,8 @@ const Item = React.memo(({ title, content, titleStyle, contentStyle, titleColor,
 
 const PropertyItem = React.memo((props: Props) => {
   const { item } = props
+  const productProgramList = item?.productProgramList?.[0]
+  console.log(item)
   const [activeSections, setActiveSections] = useState<number[]>([])
 
   const _handleSections = (index: number[]) => {
@@ -60,17 +63,15 @@ const PropertyItem = React.memo((props: Props) => {
 
   const renderHeader = useCallback((index: number) => {
     const isOpen = index === activeSections[0]
-    console.log('index', index)
-    console.log('active', activeSections[0])
     return (
       <View style={styles.headerContainer}>
         <View style={[ROW, ALIGN_CENTER]}>
           <FastImage source={images.fina_logo}
                      style={styles.image} />
           <View style={styles.header}>
-            <Item title={"TVPF"} content={"Giá trị tương ứng (VNĐ)"} titleStyle={FONT_SEMI_BOLD_14}
+            <Item title={item?.code} content={"Giá trị tương ứng (VNĐ)"} titleStyle={FONT_SEMI_BOLD_14}
                   titleColor={color.primary} contentStyle={FONT_REGULAR_14} />
-            <Item title={"Quỹ mở"} content={numberWithCommas(40000)} titleColor={color.palette.green}
+            <Item title={mappingLabelTypeOfFund(item?.info?.typeOfFund)} content={numberWithCommas(item?.navCurrent)} titleColor={color.palette.green}
                   contentStyle={{ fontFamily: fontFamily.bold }} contentColor={color.palette.black} />
           </View>
         </View>
@@ -95,9 +96,9 @@ const PropertyItem = React.memo((props: Props) => {
           <AppText value={"Giá gần nhất"}  color={color.palette.BABABA} />
         </View>
         <View style={[ROW, SPACE_BETWEEN]}>
-          <AppText value={numberWithCommas(111)}  />
-          <AppText value={numberWithCommas(11123)} />
-          <AppText value={numberWithCommas(11121)}  />
+          <AppText value={numberWithCommas(productProgramList?.holdingVolume)}  />
+          <AppText value={numberWithCommas(item?.navInvested)} />
+          <AppText value={numberWithCommas(item?.navCurrent)}  />
         </View>
 
         </View>

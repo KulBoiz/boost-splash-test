@@ -1,25 +1,24 @@
-import React, { useCallback } from "react"
-import { FlatList, View, ViewStyle } from "react-native"
+import React from "react"
+import { View, ViewStyle } from "react-native"
 import { AppText } from "../../../../components/app-text/AppText"
 import {
   ALIGN_CENTER,
   FONT_BOLD_14,
   FONT_REGULAR_12,
   MARGIN_BOTTOM_16,
-  MARGIN_RIGHT_16,
   ROW,
   SPACE_BETWEEN,
 } from "../../../../styles/common-style"
 import { hexToRgbA, numberWithCommas } from "../../../../constants/variable"
 import { color } from "../../../../theme"
 import { ms, ScaledSheet } from "react-native-size-matters"
-import PropertyItem from "./property-item"
 import { FastImage } from "../../../../components/fast-image/fast-image"
 import { images } from "../../../../assets/images"
 import { PieChart } from "react-native-gifted-charts"
 import { fontFamily } from "../../../../constants/font-family"
 
 interface Props {
+  asset: Array<any>
 }
 
 interface LabelProps {
@@ -61,16 +60,24 @@ const yellow = "#FBE947"
 const cyan = "#76FFFF"
 const pink = "#FF4FB8"
 
-const PropertyInfo = React.memo((props: Props) => {
-  const renderItem = useCallback(({ item }) => {
-    return <PropertyItem item={item} />
-  }, [])
+const PropertyInfo = React.memo(({ asset }: Props) => {
+  let totalFund = 0;
+  const totalBond = 0;
+  const totalMoney = 0;
+
+  if (asset.length > 0) {
+    asset.forEach((fund: any) => {
+      totalFund = totalFund + fund?.navCurrent * fund?.holdingVolume;
+    });
+  }
+
+  const total = totalFund + totalBond;
 
   const pieData = [
-    { value: 35, color: cyan, text: "35%" },
-    { value: 15, color: yellow, text: "15%" },
-    { value: 35, color: green, text: "35%" },
-    { value: 15, color: pink, text: "15%" },
+    { value: totalBond, color: cyan, text: "35%" },
+    { value: totalFund, color: yellow, text: "15%" },
+    { value: totalMoney, color: green, text: "35%" },
+    { value: 0, color: pink, text: "15%" },
   ]
 
   return (
@@ -89,10 +96,10 @@ const PropertyInfo = React.memo((props: Props) => {
             />
           </View>
           <View style={styles.body}>
-            <RenderLabel backgroundColor={cyan} title={"Quỹ trái phiếu"} content={`%`} style={styles.item} />
-            <RenderLabel backgroundColor={yellow} title={"Quỹ cổ phiếu"} content={`%`} style={styles.item} />
-            <RenderLabel backgroundColor={green} title={"Quỹ cân bằng"} content={`%`} style={styles.item} />
-            <RenderLabel backgroundColor={pink} title={"Trái phiếu"} content={`%`} />
+            <RenderLabel backgroundColor={cyan} title={"Quỹ trái phiếu"} content={`0%`} style={styles.item} />
+            <RenderLabel backgroundColor={yellow} title={"Quỹ cổ phiếu"} content={`100%`} style={styles.item} />
+            <RenderLabel backgroundColor={green} title={"Quỹ cân bằng"} content={`0%`} style={styles.item} />
+            <RenderLabel backgroundColor={pink} title={"Trái phiếu"} content={`0%`} />
           </View>
         </View>
 
@@ -100,13 +107,11 @@ const PropertyInfo = React.memo((props: Props) => {
           <Item title={"Giá trị đang bán/ chuyển đổi"} value={`${numberWithCommas(0)} VNĐ`}
                 style={MARGIN_BOTTOM_16} />
           <View style={{width: '8%'}}/>
-          <Item title={"Giá trị đầu tư trung bình"} value={`${numberWithCommas(12312312)} VNĐ`}
+          <Item title={"Giá trị đầu tư"} value={`${numberWithCommas(total)} VNĐ`}
                 style={MARGIN_BOTTOM_16} />
         </View>
       </FastImage>
 
-      <FlatList keyExtractor={(e, i) => i.toString()} data={[0]} renderItem={renderItem}
-                contentContainerStyle={styles.flatList} />
     </View>
   )
 })
@@ -127,9 +132,7 @@ const styles = ScaledSheet.create({
     alignItems: "center",
     marginBottom: "-16@s",
   },
-  flatList: {
-    paddingVertical: "12@s",
-  },
+
   square: {
     width: "10@s",
     height: "10@s",

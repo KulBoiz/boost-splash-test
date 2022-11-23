@@ -154,5 +154,7 @@ const styles = ScaledSheet.create({
     flex:1,
     justifyContent: "flex-end",
     marginBottom: '30@s',
+    paddingHorizontal: "16@ms",
+
   }
 })
