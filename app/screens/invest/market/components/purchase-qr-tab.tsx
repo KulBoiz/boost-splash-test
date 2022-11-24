@@ -1,4 +1,4 @@
-import React, { useCallback, useRef, useState } from "react"
+import React, { useCallback, useEffect, useRef, useState } from "react"
 import { Pressable, View } from "react-native"
 import { ALIGN_CENTER, FONT_REGULAR_14, MARGIN_TOP_8, ROW } from "../../../../styles/common-style"
 import QRCode from "react-native-qrcode-svg"
@@ -20,8 +20,13 @@ const secondCaution = "Quý khách vui lòng đối chiếu lại \nThông tin t
 const title = "Chia sẻ mã giới thiệu"
 const message = ""
 
-const PurchaseQrTab = React.memo(() => {
+interface Props {
+  transactionInfo: any
+}
+
+const PurchaseQrTab = React.memo(({ transactionInfo = {} }: Props) => {
   let ref = useRef<any>(null).current
+  const [linkQr, setLinkQr] = useState('')
   const [modal, setModal] = useState<boolean>(false)
   const options = {
     title,
@@ -29,7 +34,7 @@ const PurchaseQrTab = React.memo(() => {
     message: `${message}`,
   }
   const shareQr = useCallback(async () => {
-    const {appStore} = useStores()
+    const { appStore } = useStores()
     const fileUri = FileSystem.cacheDirectory + `aa.png`
     const fileExists = find(appStore?.filesDownloaded, (f) => f === fileUri)
     if (fileExists) {
@@ -48,25 +53,47 @@ const PurchaseQrTab = React.memo(() => {
       })
   }, [])
 
-  const toggleModal = useCallback(()=> {
+  const toggleModal = useCallback(() => {
     setModal(!modal)
-  },[modal])
+  }, [modal])
+
+  const { vietQrStore } = useStores()
+
+  useEffect(() => {
+    const data = {
+      'accountNo': transactionInfo?.productDetailInfo?.bankNumber,
+      'accountName': transactionInfo?.productDetailInfo?.dataBank?.name,
+      'swiftCode': transactionInfo?.productDetailInfo?.dataBank?.swiftCode,
+      'amount': transactionInfo?.metaData?.amount,
+      'addInfo': transactionInfo?.metaData?.transferContent,
+      'format': 'text',
+      'template': '1x9b7a6',
+    }
+    vietQrStore?.getQRBuyFund(data).then((res) => {
+      if (res?.data?.data) setLinkQr(res?.data?.data?.qrDataURL)
+    })
+  }, [transactionInfo])
 
   return (
     <View>
-      <AppText value={"XEM HƯỚNG DẪN CHUYỂN KHOẢN"} style={FONT_REGULAR_14} color={color.primary} onPress={toggleModal}/>
+      <AppText value={"XEM HƯỚNG DẪN CHUYỂN KHOẢN"} style={FONT_REGULAR_14} color={color.primary} onPress={toggleModal} />
       <View style={[ROW, MARGIN_TOP_8]}>
         <View style={ALIGN_CENTER}>
-          <QRCode
-            logo={images.profile_fina_icon}
-            logoSize={ms(25)}
-            value={firstCaution}
-            size={ms(120)}
-            getRef={(c) => (ref = c)}
-          />
+          {linkQr ? <FastImage
+            source={{ uri: linkQr }}
+            resizeMode="cover"
+            style={styles.iconShareQR} /> :
+            <QRCode
+              logo={images.profile_fina_icon}
+              logoSize={ms(25)}
+              value={firstCaution}
+              size={ms(120)}
+              getRef={(c) => (ref = c)}
+            />
+          }
           <Pressable onPress={shareQr} style={styles.shareContainer}>
             <AppText value={"Chia sẻ mã QR"} color={color.primary} />
-            <FastImage source={images.common_share_blue} style={styles.iconShare}/>
+            <FastImage source={images.common_share_blue} style={styles.iconShare} />
           </Pressable>
         </View>
         <View>
@@ -80,7 +107,7 @@ const PurchaseQrTab = React.memo(() => {
           </View>
         </View>
       </View>
-      <PurchaseGuide visible={modal} closeModal={toggleModal}/>
+      <PurchaseGuide visible={modal} closeModal={toggleModal} />
     </View>
   )
 })
@@ -102,9 +129,13 @@ const styles = ScaledSheet.create({
     flexDirection: "row",
     alignItems: "center"
   },
-  iconShare:{
+  iconShare: {
     width: '16@s',
     height: '16@s',
     marginLeft: '4@s'
+  },
+  iconShareQR: {
+    width: '100%',
+    height: '100@s',
   }
 })

@@ -19,7 +19,8 @@ export const VietQrStoreModel = types
   // eslint-disable-line @typescript-eslint/no-unused-vars
   .actions((self) => ({
     getQRBuyFund: flow(function* getQRBuyFund(data) {
-      return yield self.api.post(`transactions/create-qr-transaction-buy-fund`, data)
+      const result = yield self.api.post(`transactions/create-qr-transaction-buy-fund`, data)
+      return result
     }),
   })) // eslint-disable-line @typescript-eslint/no-unused-vars
 

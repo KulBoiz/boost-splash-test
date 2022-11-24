@@ -22,6 +22,7 @@ import { CommissionStoreModel } from "../commission-store/commission-store"
 import { InvestStoreModel } from "../invest-store/invest-store"
 import { EkycStoreModel } from "../ekyc-store/ekyc-store"
 import { AssetStoreModel } from "../asset-store/asset-store"
+import { VietQrStoreModel } from "../viet-qr/VietQrStore"
 
 /**
  * A RootStore model.
@@ -51,6 +52,7 @@ export const RootStoreModel = types.model("RootStore").props({
   investStore: types.optional(InvestStoreModel, {} as any),
   ekycStore: types.optional(EkycStoreModel, {} as any),
   assetStore: types.optional(AssetStoreModel, {} as any),
+  vietQrStore: types.optional(VietQrStoreModel, {} as any),
 })
 
 /**
@@ -81,6 +83,7 @@ export interface RootStore extends Instance<typeof RootStoreModel> {
   investStore: any
   ekycStore: any
   assetStore: any
+  vietQrStore: any
 }
 
 /**
