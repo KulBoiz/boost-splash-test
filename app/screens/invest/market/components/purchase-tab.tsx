@@ -20,7 +20,7 @@ const PurchaseTab = React.memo(({ transactionInfo }: Props) => {
     <View style={styles.container}>
       <TabBar {...{ index, setIndex, menu: MENU }} />
       <View style={styles.body}>
-        {index === 0 ? <PurchaseQrTab /> : <PurchaseBankTab transactionInfo={transactionInfo} />}
+        {index === 0 ? <PurchaseQrTab transactionInfo={transactionInfo}/> : <PurchaseBankTab transactionInfo={transactionInfo} />}
       </View>
     </View>
   )
