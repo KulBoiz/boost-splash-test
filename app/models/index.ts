@@ -1,4 +1,5 @@
 export * from "./extensions/with-environment"
+export * from "./viet-qr/VietQrStore"
 export * from "./extensions/with-root-store"
 export * from "./root-store/root-store"
 export * from "./root-store/root-store-context"
