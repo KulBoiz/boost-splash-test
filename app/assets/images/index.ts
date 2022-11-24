@@ -20,6 +20,8 @@ export const images = {
   invest_portrait: require('./invest/portrait.png'),
   invest_sign: require('./invest/sign-contract.png'),
   invest_success: require('./invest/kyc-success.png'),
+  asset_background: require('./invest/asset_background.png'),
+  asset_arrow_up: require('./invest/arrow_up.png'),
 
   commission_checked: require('./commission/checked.png'),
   commission_unchecked: require('./commission/unchecked.png'),

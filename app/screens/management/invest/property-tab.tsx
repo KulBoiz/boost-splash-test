@@ -1,32 +1,52 @@
-import React, { useCallback, useEffect, useState } from "react"
+import React, { useCallback, useEffect, useRef, useState } from "react"
 import { FlatList, View } from "react-native"
 import PropertyInfo from "./components/property-info"
 import PropertyItem from "./components/property-item"
 import { ScaledSheet } from "react-native-size-matters"
 import { useStores } from "../../../models"
+import { color } from "../../../theme"
+import { Modalize } from "react-native-modalize"
+import PropertyModalize from "./components/property-modalize"
 
 interface Props {
 }
 
 const PropertyTab = React.memo((props: Props) => {
-  const {assetStore} = useStores()
+  const { assetStore } = useStores()
   const [asset, setAsset] = useState([])
+  const [itemData, setItemData] = useState({})
+  const modalizeSuccessRef = useRef<Modalize>(null)
 
-  useEffect(()=> {
+  const onOpenSuccess = React.useCallback((item) => {
+    setItemData(item)
+    modalizeSuccessRef.current?.open()
+  }, [])
+
+  const onCloseSuccess = React.useCallback(() => {
+    modalizeSuccessRef.current?.close()
+  }, [])
+
+  useEffect(() => {
     assetStore.getUserAsset().then(res => {
       setAsset(res)
     })
-  },[])
+  }, [])
 
   const renderItem = useCallback(({ item }) => {
-    return <PropertyItem item={item} />
+    return <PropertyItem item={item} onOpenSuccess={onOpenSuccess}/>
   }, [])
+
 
   return (
     <View style={styles.container}>
-      <PropertyInfo asset={asset}/>
-      <FlatList keyExtractor={(e, i) => i.toString()} data={asset} renderItem={renderItem}
-                contentContainerStyle={styles.flatList} />
+      <PropertyInfo asset={asset} />
+      <View style={styles.body}>
+
+        <FlatList keyExtractor={(e, i) => i.toString()} data={asset} renderItem={renderItem}
+                  contentContainerStyle={styles.flatList} />
+      </View>
+      <PropertyModalize modalizeRef={modalizeSuccessRef} closeModal={onCloseSuccess} item={itemData} />
+
     </View>
   )
 })
@@ -35,8 +55,18 @@ const PropertyTab = React.memo((props: Props) => {
 export default PropertyTab
 
 const styles = ScaledSheet.create({
-  container: {flex:1},
+  container: {
+    flex: 1,
+    backgroundColor: color.primary,
+  },
+  body: {
+    flex:1,
+    backgroundColor: color.background,
+    borderTopRightRadius: '20@s',
+    borderTopLeftRadius: '20@s',
+  },
   flatList: {
     paddingVertical: "12@s",
+    paddingHorizontal: "16@s",
   },
 })

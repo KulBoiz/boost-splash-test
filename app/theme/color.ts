@@ -1,4 +1,6 @@
+import { text as textColor } from "./color/text"
 import { palette } from "./palette"
+import { green } from "./color/green"
 
 /**
  * Roles for colors.  Prefer using these over the palette.  It makes it easier
@@ -13,6 +15,10 @@ export const color = {
   /**
    * The palette is available to use, but prefer using the name.
    */
+  green,
+
+  textColor,
+
   palette,
   /**
    * A helper for making something see-thru. Use sparingly as many layers of transparency

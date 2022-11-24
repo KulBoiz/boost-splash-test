@@ -4,8 +4,8 @@ import { AppText } from "../../../../components/app-text/AppText"
 import {
   ALIGN_CENTER,
   FONT_BOLD_14,
-  FONT_REGULAR_12,
-  MARGIN_BOTTOM_16,
+  FONT_REGULAR_12, FONT_SEMI_BOLD_14,
+  MARGIN_BOTTOM_16, MARGIN_BOTTOM_8,
   ROW,
   SPACE_BETWEEN,
 } from "../../../../styles/common-style"
@@ -82,33 +82,33 @@ const PropertyInfo = React.memo(({ asset }: Props) => {
 
   return (
     <View style={styles.container}>
-      <FastImage source={images.invest_background} style={styles.image}>
-        <View style={[ROW, ALIGN_CENTER, SPACE_BETWEEN, MARGIN_BOTTOM_16]}>
-          <View style={styles.chartContainer}>
-            <PieChart
-              data={pieData}
-              donut
-              showGradient
-              sectionAutoFocus
-              radius={ms(75)}
-              innerRadius={ms(60)}
-              innerCircleColor={"#143B82"}
-            />
-          </View>
-          <View style={styles.body}>
-            <RenderLabel backgroundColor={cyan} title={"Quỹ trái phiếu"} content={`0%`} style={styles.item} />
-            <RenderLabel backgroundColor={yellow} title={"Quỹ cổ phiếu"} content={`100%`} style={styles.item} />
-            <RenderLabel backgroundColor={green} title={"Quỹ cân bằng"} content={`0%`} style={styles.item} />
-            <RenderLabel backgroundColor={pink} title={"Trái phiếu"} content={`0%`} />
-          </View>
-        </View>
-
+      <FastImage source={images.asset_background} style={styles.image}>
         <View style={ROW}>
           <Item title={"Giá trị đang bán/ chuyển đổi"} value={`${numberWithCommas(0)} VNĐ`}
                 style={MARGIN_BOTTOM_16} />
           <View style={{width: '8%'}}/>
           <Item title={"Giá trị đầu tư"} value={`${numberWithCommas(total)} VNĐ`}
                 style={MARGIN_BOTTOM_16} />
+        </View>
+        <View style={[ROW, ALIGN_CENTER, SPACE_BETWEEN, MARGIN_BOTTOM_16]}>
+          <View style={styles.chartContainer}>
+            <PieChart
+              data={pieData}
+              donut
+              // showGradient
+              sectionAutoFocus
+              radius={ms(65)}
+              innerRadius={ms(40)}
+              innerCircleColor={"#0B2EA0"}
+            />
+          </View>
+          <View style={styles.body}>
+            <AppText value={'Phân bổ vốn'} style={[FONT_SEMI_BOLD_14, MARGIN_BOTTOM_8]} color={color.text}/>
+            <RenderLabel backgroundColor={cyan} title={"Quỹ trái phiếu"} content={`0%`} style={styles.item} />
+            <RenderLabel backgroundColor={yellow} title={"Quỹ cổ phiếu"} content={`100%`} style={styles.item} />
+            <RenderLabel backgroundColor={green} title={"Quỹ cân bằng"} content={`0%`} style={styles.item} />
+            <RenderLabel backgroundColor={pink} title={"Trái phiếu"} content={`0%`} />
+          </View>
         </View>
       </FastImage>
 
@@ -120,13 +120,12 @@ export default PropertyInfo
 
 const styles = ScaledSheet.create({
   container: {
-    padding: "16@s",
+    // padding: "16@s",
   },
   image: {
     width: "100%",
     padding: "16@s",
-    paddingBottom: "-16@s",
-    borderRadius: "8@s",
+    // paddingBottom: "-16@s",
   },
   chartContainer: {
     alignItems: "center",

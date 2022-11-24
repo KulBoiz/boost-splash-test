@@ -1,130 +1,48 @@
-import React, { useCallback, useState } from "react"
-import { TextStyle, View } from "react-native"
-import Accordion from "react-native-collapsible/Accordion"
+import React, { useRef } from "react"
+import { View } from "react-native"
 import { AppText } from "../../../../components/app-text/AppText"
-import { FastImage } from "../../../../components/fast-image/fast-image"
+import FastImage from "react-native-fast-image"
 import { images } from "../../../../assets/images"
 import { ScaledSheet } from "react-native-size-matters"
 import { color } from "../../../../theme"
 import { fontFamily } from "../../../../constants/font-family"
-import { ALIGN_CENTER, FONT_REGULAR_14, FONT_SEMI_BOLD_14, ROW, SPACE_BETWEEN } from "../../../../styles/common-style"
-import { hexToRgbA, numberWithCommas } from "../../../../constants/variable"
+import { ALIGN_CENTER, FONT_BOLD_14, ROW } from "../../../../styles/common-style"
+import { checkVolatility, numberWithCommas } from "../../../../constants/variable"
 import { Pressable } from "native-base"
-import { ScreenNames } from "../../../../navigators/screen-names"
-import { navigate } from "../../../../navigators"
 import { mappingLabelTypeOfFund } from "../../../invest/market/constants"
 
 interface Props {
   item?: any
+  onOpenSuccess(e: any): void
 }
-
-interface ItemProps {
-  title: any
-  titleColor?: string
-  contentColor?: string
-  content: any
-  titleStyle?: TextStyle | any
-  contentStyle?: TextStyle | any
-}
-
-interface ButtonProps {
-  title: string
-  color: string
-
-  onPress?(): void
-}
-
-const Button = React.memo(({ title, onPress, color }: ButtonProps) => {
-  return (
-    <Pressable onPress={onPress} style={[styles.btn, { backgroundColor: hexToRgbA(color, 0.1) }]}>
-      <AppText value={title} color={color} />
-    </Pressable>
-  )
-})
-
-const Item = React.memo(({ title, content, titleStyle, contentStyle, titleColor, contentColor }: ItemProps) => {
-  return (
-    <View style={[ROW, SPACE_BETWEEN]}>
-      <AppText value={title} style={titleStyle} color={titleColor ?? color.palette.BABABA} />
-      <AppText value={content} style={contentStyle} color={contentColor ?? color.palette.BABABA} />
-    </View>
-  )
-})
 
 const PropertyItem = React.memo((props: Props) => {
-  const { item } = props
-  const productProgramList = item?.productProgramList?.[0]
-  console.log(item)
-  const [activeSections, setActiveSections] = useState<number[]>([])
+  const { item, onOpenSuccess } = props
+  const total = (item?.holdingVolume * (item?.navCurrent - item?.navInvested))?.toFixed(2) ?? 0
+  const haveMinus = checkVolatility(item?.interestOrHole)
 
-  const _handleSections = (index: number[]) => {
-    setActiveSections(index)
-  }
-
-  const renderHeader = useCallback((index: number) => {
-    const isOpen = index === activeSections[0]
-    return (
-      <View style={styles.headerContainer}>
+  return (
+    <Pressable style={styles.container} onPress={()=> onOpenSuccess(item)}>
         <View style={[ROW, ALIGN_CENTER]}>
-          <FastImage source={images.fina_logo}
+          <FastImage source={images.vinacapital}
                      style={styles.image} />
-          <View style={styles.header}>
-            <Item title={item?.code} content={"Giá trị tương ứng (VNĐ)"} titleStyle={FONT_SEMI_BOLD_14}
-                  titleColor={color.primary} contentStyle={FONT_REGULAR_14} />
-            <Item title={mappingLabelTypeOfFund(item?.info?.typeOfFund)} content={numberWithCommas(item?.navCurrent)} titleColor={color.palette.green}
-                  contentStyle={{ fontFamily: fontFamily.bold }} contentColor={color.palette.black} />
+          <View style={styles.itemContainer}>
+            <View>
+              <AppText value={item?.code} color={color.primary} style={FONT_BOLD_14}/>
+              <AppText value={mappingLabelTypeOfFund(item?.info?.typeOfFund)} color={color.textColor.hint}/>
+            </View>
+
+            <View style={{alignItems: 'flex-end'}}>
+              <AppText value={`${numberWithCommas(total)}ᵈ`} fontFamily={fontFamily.bold} color={haveMinus ? color.textColor.error : color.green.green_01}/>
+              <View style={[ROW, ALIGN_CENTER]}>
+                <AppText value={`${item?.interestOrHole?.toFixed(2)}%`} color={haveMinus ? color.textColor.error : color.green.green_01}/>
+                <FastImage source={images.asset_arrow_up} style={[styles.arrow, haveMinus && {transform: [{ rotate: "180deg" }]}]} tintColor={haveMinus ? color.textColor.error : color.green.green_01}/>
+              </View>
+            </View>
           </View>
         </View>
 
-        <View>
-          <Item title={'Chương trình'} content={'Lời/Lỗ'} />
-          <Item title={'Linh hoạt'} content={`(2) 2%`} titleColor={color.palette.black} contentColor={color.palette.green}/>
-        </View>
-        {isOpen && <FastImage source={images.arrow_up} style={styles.iconArrow} />}
-      </View>
-    )
-  }, [])
-
-  const renderContent = useCallback(() => {
-    return (
-      <View style={styles.contentContainer}>
-        <View style={styles.wrapContent}>
-
-        <View style={[ROW, SPACE_BETWEEN]}>
-          <AppText value={"Số lượng CCQ"}  color={color.palette.BABABA} />
-          <AppText value={"Giá mua"}  color={color.palette.BABABA} />
-          <AppText value={"Giá gần nhất"}  color={color.palette.BABABA} />
-        </View>
-        <View style={[ROW, SPACE_BETWEEN]}>
-          <AppText value={numberWithCommas(productProgramList?.holdingVolume)}  />
-          <AppText value={numberWithCommas(item?.navInvested)} />
-          <AppText value={numberWithCommas(item?.navCurrent)}  />
-        </View>
-
-        </View>
-
-        <View style={styles.wrapBtn}>
-          <Button title={"Mua"} color={color.palette.blue} />
-          <Button title={"Bán"} color={"#646464"} onPress={()=> navigate(ScreenNames.SALE_BONDS)}/>
-          <Button title={"Chuyển đổi"} color={color.palette.orange} />
-        </View>
-      </View>
-    )
-  }, [])
-
-  return (
-    <View style={styles.container}>
-      <Accordion
-        containerStyle={styles.collapsibleContainer}
-        sections={[0]}
-        activeSections={activeSections}
-        renderHeader={(content, index) => renderHeader(index)}
-        renderContent={renderContent}
-        onChange={(indexes) => _handleSections(indexes)}
-        keyExtractor={(v, i) => i.toString()}
-        underlayColor={"transparent"}
-      />
-    </View>
+    </Pressable>
   )
 })
 
@@ -133,57 +51,34 @@ export default PropertyItem
 const styles = ScaledSheet.create({
   container: {
     marginBottom: "12@s",
-  },
-  collapsibleContainer: {
-    backgroundColor: color.background,
-    borderRadius: "8@s",
     borderWidth: 1,
-    borderColor: color.palette.lightGrey,
+    borderRadius: '8@s',
+    padding: '12@s',
+    borderColor: color.palette.E9EBEF
   },
-  iconArrow: {
-    width: '16@s',
-    height: '16@s',
-    alignSelf: 'center',
-    transform: [{rotate: '180deg'}]
-  },
-  header: {
+  itemContainer: {
     flex:1,
-    marginBottom: '12@s'
+    flexDirection: 'row',
+    justifyContent: "space-between"
   },
   headerText: {
     fontSize: "14@ms",
     fontFamily: fontFamily.regular,
     fontWeight: "500",
   },
-  headerContainer: {
-    padding: "16@s",
-  },
-  contentContainer: {
-    flex:1
-  },
-  wrapContent:{
-    paddingHorizontal: '16@s'
-  },
   icon: {
     width: "34@s",
     height: "34@s",
+  },
+  arrow: {
+    width: '6@s',
+    height: '12@s',
+    marginLeft: '2@s'
   },
   image: {
     width: "34@s",
     height: "34@s",
     borderRadius: "4@s",
     marginRight: '8@s'
-  },
-  wrapBtn:{
-    flexDirection: "row",
-    paddingHorizontal: '8@s'
-  },
-  btn: {
-    flex: 1,
-    paddingVertical: "11@s",
-  alignItems: 'center',
-    borderRadius: '8@s',
-    marginHorizontal: '4@s',
-    marginVertical: '12@s'
   },
 })
