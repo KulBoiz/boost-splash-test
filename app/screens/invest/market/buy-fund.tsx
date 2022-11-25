@@ -130,7 +130,7 @@ const BuyFund = observer((props: Props) => {
         {Object.keys(investStore.bondsDetail).length ?
           <ScrollView contentContainerStyle={styles.body}>
             <FundInfo navs={navs}/>
-            <MarketBuyForm  {...{ control, errors: { ...errors }, setValue, watch, clearErrors, navs, bondsDetail, setIsSip }} />
+            <MarketBuyForm  {...{ control, errors: { ...errors }, setValue, setError, watch, clearErrors, navs, bondsDetail, setIsSip }} />
             <FundTariff productDetail={productDetail} />
             <View style={styles.wrapBtn}>
               <AppButton title={"Đặt lệnh mua"} onPress={handleSubmit(handleBuy)} disable={checkValid} />
