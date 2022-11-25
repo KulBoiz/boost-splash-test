@@ -62,7 +62,7 @@ const FundTariff = React.memo(({ productDetail }: Props) => {
 
   return (
     <View style={styles.container}>
-      <Container leftText={"Giá trị mua"} rightText={"Phí mua"}>
+      <Container leftText={"Biểu phí mua"} rightText={"Phí mua"}>
         {feesBuy?.length > 0 ?
           <>
             {feesBuy?.map((fee) => (
@@ -76,7 +76,7 @@ const FundTariff = React.memo(({ productDetail }: Props) => {
         }
       </Container>
 
-      <Container leftText={"Thời gian nắm giữ"} rightText={"Phí bán"}>
+      <Container leftText={"Biểu phí bán"} rightText={"Phí bán"}>
         {feesSell?.length > 0 ?
           <>
             {feesSell?.map((fee) => (

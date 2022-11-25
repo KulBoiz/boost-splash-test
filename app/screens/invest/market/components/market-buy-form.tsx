@@ -17,6 +17,7 @@ import { images } from "../../../../assets/images"
 interface Props {
   control: Control
   errors: FieldErrors<any>
+  setError: any
   setValue: UseFormSetValue<FieldValues>
   watch: UseFormWatch<FieldValues>
   clearErrors: UseFormClearErrors<FieldValues>
@@ -26,7 +27,7 @@ interface Props {
 }
 
 const MarketBuyForm = React.memo((props: Props) => {
-  const { control, errors, setValue, watch, clearErrors, navs, bondsDetail, setIsSip } = props
+  const { control, errors, setError, setValue, watch, clearErrors, navs, bondsDetail, setIsSip } = props
   const currentNav = get(navs[0], "nav", "")
   const nextOrderMatchingSession = bondsDetail?.info?.nextOrderMatchingSession
   const productDetails = bondsDetail?.productDetails
@@ -48,7 +49,17 @@ const MarketBuyForm = React.memo((props: Props) => {
     value: watch("amount"),
     onChangeText: (value) => {
       setValue("amount", value)
-      clearErrors("amount")
+      const valueParse = parseFloat(value.replace(/,/g, ''))
+      
+      if (valueParse === 0) {
+        setError('amount', {message: `Số tiền đầu tư cần lớn hơn 0`})
+      }
+
+      if (valueParse > 9999999999999) {
+        setError('amount', {message: `Số tiền chuyển khoản quá lớn`})
+      } else {
+        clearErrors("amount")
+      }
     },
     mask: currencyMask,
   })

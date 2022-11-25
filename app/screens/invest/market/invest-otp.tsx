@@ -120,7 +120,7 @@ const InvestOtp = React.memo((props: Props) => {
           <AppText value={tel} fontSize={ms(18)} fontFamily={fontFamily.bold} />
         </View>
         <OtpField {...{ value, setValue }} />
-        <View style={[ROW, ALIGN_CENTER]}>
+        <View style={[ROW, ALIGN_CENTER, styles.resend]}>
           <AppText value={"Gửi lại OTP "} underline style={FONT_BOLD_12}
                    color={time > 0 ? color.palette.grayChateau : color.palette.orange}
                    onPress={handleResend}
@@ -155,4 +155,7 @@ const styles = ScaledSheet.create({
     paddingVertical: "24@s",
     paddingHorizontal: "16@s",
   },
+  resend: {
+    justifyContent: 'center'
+  }
 })
