@@ -3,16 +3,16 @@ import { View, ViewStyle } from "react-native"
 import { AppText } from "../../../../components/app-text/AppText"
 import {
   ALIGN_CENTER,
-  FONT_BOLD_14,
-  FONT_REGULAR_12, FONT_SEMI_BOLD_14,
-  MARGIN_BOTTOM_16, MARGIN_BOTTOM_8,
+  FONT_SEMI_BOLD_14,
+  MARGIN_BOTTOM_16,
+  MARGIN_BOTTOM_8,
   ROW,
   SPACE_BETWEEN,
 } from "../../../../styles/common-style"
 import { hexToRgbA, numberWithCommas } from "../../../../constants/variable"
 import { color } from "../../../../theme"
 import { ms, ScaledSheet } from "react-native-size-matters"
-import { FastImage } from "../../../../components/fast-image/fast-image"
+import FastImage from "react-native-fast-image"
 import { images } from "../../../../assets/images"
 import { PieChart } from "react-native-gifted-charts"
 import { fontFamily } from "../../../../constants/font-family"
@@ -32,13 +32,19 @@ interface ItemProps {
   title: string
   value: string
   style?: ViewStyle | any
+  image: number
+  width: number,
+  flex: number
 }
 
-const Item = React.memo(({ title, value, style }: ItemProps) => {
+const Item = React.memo(({ title, value, style, image, width, flex}: ItemProps) => {
   return (
-    <View style={style}>
-      <AppText value={title} style={FONT_REGULAR_12} color={hexToRgbA(color.text, 0.6)} />
-      <AppText value={value} style={FONT_BOLD_14} color={color.text} />
+    <View style={[styles.itemContainer, style, { flex }]}>
+      <FastImage source={image} style={[styles.icon, {width: ms(width)}]}/>
+      <View>
+        <AppText value={title} fontSize={ms(10)} color={hexToRgbA(color.text, 0.6)} />
+        <AppText value={`${value}ᵈ`} fontSize={ms(10)} fontFamily={fontFamily.bold} color={color.text} />
+      </View>
     </View>
   )
 })
@@ -62,15 +68,18 @@ const pink = "#FF4FB8"
 
 const PropertyInfo = React.memo(({ asset }: Props) => {
   let totalFund = 0;
+  let totalInvest = 0;
   const totalBond = 0;
   const totalMoney = 0;
+  let profit = 0;
 
   if (asset.length > 0) {
     asset.forEach((fund: any) => {
+      totalInvest = totalInvest + fund?.navInvested * fund?.holdingVolume;
       totalFund = totalFund + fund?.navCurrent * fund?.holdingVolume;
+      profit = profit + (fund?.navCurrent - fund?.navInvested) * fund?.holdingVolume;
     });
   }
-
   const total = totalFund + totalBond;
 
   const pieData = [
@@ -83,12 +92,12 @@ const PropertyInfo = React.memo(({ asset }: Props) => {
   return (
     <View style={styles.container}>
       <FastImage source={images.asset_background} style={styles.image}>
-        <View style={ROW}>
-          <Item title={"Giá trị đang bán/ chuyển đổi"} value={`${numberWithCommas(0)} VNĐ`}
-                style={MARGIN_BOTTOM_16} />
-          <View style={{width: '8%'}}/>
-          <Item title={"Giá trị đầu tư"} value={`${numberWithCommas(total)} VNĐ`}
-                style={MARGIN_BOTTOM_16} />
+        <View style={styles.assetContainer}>
+          <Item image={images.invest_invest} flex={1} width={16} title={'Bạn đã đầu tư'} value={numberWithCommas(totalInvest.toFixed(2))}/>
+          <View style={styles.separate}/>
+          <Item image={images.invest_asset_value}  flex={1} width={14} title={'Giá trị tài sản thuần'} value={numberWithCommas(total)}/>
+          <View style={styles.separate}/>
+          <Item image={images.invest_profit}  flex={0.8} width={12} title={'Lợi nhuận'} value={numberWithCommas(profit.toFixed(2))}/>
         </View>
         <View style={[ROW, ALIGN_CENTER, SPACE_BETWEEN, MARGIN_BOTTOM_16]}>
           <View style={styles.chartContainer}>
@@ -105,7 +114,7 @@ const PropertyInfo = React.memo(({ asset }: Props) => {
           <View style={styles.body}>
             <AppText value={'Phân bổ vốn'} style={[FONT_SEMI_BOLD_14, MARGIN_BOTTOM_8]} color={color.text}/>
             <RenderLabel backgroundColor={cyan} title={"Quỹ trái phiếu"} content={`0%`} style={styles.item} />
-            <RenderLabel backgroundColor={yellow} title={"Quỹ cổ phiếu"} content={`100%`} style={styles.item} />
+            <RenderLabel backgroundColor={yellow} title={"Quỹ cổ phiếu"} content={`${totalFund ? '100%' : '0%'}`} style={styles.item} />
             <RenderLabel backgroundColor={green} title={"Quỹ cân bằng"} content={`0%`} style={styles.item} />
             <RenderLabel backgroundColor={pink} title={"Trái phiếu"} content={`0%`} />
           </View>
@@ -120,7 +129,31 @@ export default PropertyInfo
 
 const styles = ScaledSheet.create({
   container: {
-    // padding: "16@s",
+
+  },
+  separate: {
+    height: '100%',
+    width: 1,
+    marginRight: '10@s',
+    backgroundColor: color.primary
+  },
+  assetContainer: {
+    borderWidth: 1,
+    borderColor: color.primary,
+    justifyContent: "space-between",
+    padding: '8@s',
+    flexDirection: "row",
+    borderRadius: '4@s',
+    marginBottom: '24@s'
+  },
+  itemContainer: {
+    flexDirection: 'row',
+    alignItems: "center",
+    flex:1
+  },
+  icon: {
+    height: '18@ms',
+    marginRight: '6@s',
   },
   image: {
     width: "100%",

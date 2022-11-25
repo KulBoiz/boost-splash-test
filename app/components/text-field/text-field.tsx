@@ -23,15 +23,12 @@ const ICON: ViewStyle = {
   // height: s(18),
 }
 
-// the base styling for the TextInput
 const INPUT: TextStyle = {
   flex: 1,
   fontFamily: fontFamily.medium,
   color: color.palette.black,
   fontSize: ms(13),
   backgroundColor: color.background,
-  // height: isIos ? ms(44) : undefined,
-  height: undefined,
 }
 
 const MULTILINE: TextStyle = {
