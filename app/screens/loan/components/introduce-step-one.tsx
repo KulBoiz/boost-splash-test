@@ -85,9 +85,9 @@ const IntroduceStepOne = observer(({ nextStep }: Props) => {
     trailing: false
   });
 
-  if (!authStoreModel.isLoggedIn) {
-    return <AppViewNoAuth />
-  }
+  // if (!authStoreModel.isLoggedIn) {
+  //   return <AppViewNoAuth />
+  // }
 
   return (
     <Pressable style={styles.container} onPress={Keyboard.dismiss}>

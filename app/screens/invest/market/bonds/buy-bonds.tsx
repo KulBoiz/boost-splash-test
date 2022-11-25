@@ -18,6 +18,7 @@ import { FONT_BOLD_12, MARGIN_BOTTOM_16, ROW, SPACE_BETWEEN } from "../../../../
 import { numberWithCommas, truncateString } from "../../../../constants/variable"
 import { navigate } from "../../../../navigators"
 import { ScreenNames } from "../../../../navigators/screen-names"
+import AppViewNoAuth from "../../../../components/app-view-no-auth"
 
 interface Props {
 }
@@ -45,7 +46,13 @@ const BuyBonds = React.memo((props: Props) => {
 
   const handleBuy = useCallback(() => {
     navigate(ScreenNames.PURCHASE_BONDS)
-  },[])
+  }, [])
+  
+  const { authStoreModel } = useStores()
+
+  if (!authStoreModel.isLoggedIn) {
+    return <AppViewNoAuth />
+  }
 
   return (
     <View style={styles.container}>
