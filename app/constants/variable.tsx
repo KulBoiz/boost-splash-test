@@ -41,6 +41,18 @@ export const hidePhoneNumber = (phone: string) => {
   return `${phone.slice(0,3)}****${phone.slice(-3)}` ?? ''
 }
 
+export const filterByValue = (arr, str: string, prop: string) => {
+  return arr.filter((o) =>
+    Object.keys(o).some((k) => {
+      if (k === prop) {
+        return o[k].toLowerCase().includes(str.toLowerCase());
+      } else {
+        return false;
+      }
+    }),
+  );
+};
+
 export const capitalizeFirstString = (str: string | TxKeyPath | undefined) => {
   return str ? str.charAt(0).toUpperCase() + str.slice(1).toLowerCase().replace(/_/g, ' ') : '';
 };

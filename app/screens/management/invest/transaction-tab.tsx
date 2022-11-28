@@ -7,6 +7,7 @@ import TransactionFilter from "./components/transaction-filter"
 import { ms, ScaledSheet } from "react-native-size-matters"
 import { AppText } from "../../../components/app-text/AppText"
 import { fontFamily } from "../../../constants/font-family"
+import { color } from "../../../theme"
 
 interface Props {
 }
@@ -45,6 +46,7 @@ export default TransactionTab
 const styles = ScaledSheet.create({
   container: {
     flex: 1,
+    backgroundColor: color.background
   },
   text: {
     marginBottom: '12@s',

@@ -10,6 +10,7 @@ import TransactionTab from "./transaction-tab"
 import { useStores } from "../../../models"
 import SettingAuthScreen from "../../../components/app-view-no-auth"
 import { LazyPlaceholder } from "../../commission/commission-tab"
+import InvestTabBar from "./components/invest-tab-bar"
 
 interface Props {
 }
@@ -41,6 +42,7 @@ const InvestManagement = React.memo((props: Props) => {
 
   return (
     <View style={styles.container}>
+      {/* <InvestTabBar index={index} setIndex={setIndex} /> */}
       {authStoreModel?.isLoggedIn ? <TabView
           lazy
           renderLazyPlaceholder={_renderLazyPlaceholder}

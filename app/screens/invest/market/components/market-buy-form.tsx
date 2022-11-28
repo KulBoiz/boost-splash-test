@@ -8,7 +8,7 @@ import { FieldValues } from "react-hook-form/dist/types/fields"
 import { ALIGN_CENTER, MARGIN_BOTTOM_8, ROW } from "../../../../styles/common-style"
 import { ScaledSheet } from "react-native-size-matters"
 import { filter, get } from "lodash"
-import { formatData, formatDate, numberWithCommas } from "../../../../constants/variable"
+import { formatData, formatDate, numberWithCommas, truncateString } from "../../../../constants/variable"
 import { createNumberMask, useMaskedInputProps } from "react-native-mask-input"
 import FastImage from "react-native-fast-image"
 import { AppText } from "../../../../components/app-text/AppText"
@@ -102,7 +102,7 @@ const MarketBuyForm = React.memo((props: Props) => {
       <View style={[ROW, ALIGN_CENTER]}>
         <FormInput
           {...{
-            value: estimatedQuantity.toString(),
+            value: truncateString(estimatedQuantity.toString(), 17),
             editable: false,
             style: styles.rowInput,
             name: "estimatedQuantity",

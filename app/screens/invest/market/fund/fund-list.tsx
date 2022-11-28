@@ -11,12 +11,15 @@ import { AppText } from "../../../../components/app-text/AppText"
 import { ROW, SPACE_BETWEEN } from "../../../../styles/common-style"
 import TypeFilter from "../components/type-filter"
 import { FILTER_FUND, TYPE_OF_FUND } from "../constants"
+import SearchBar from "../../../../components/search-bar"
+import { filterByValue } from "../../../../constants/variable"
 
 interface Props {
 }
 
 const FundList = observer((props: Props) => {
   const { investStore } = useStores()
+  const [fundSearch, setFundSearch] = useState<Array<any>>([])
   const [fund, setFund] = useState<Array<any>>([])
   const [type, setType] = useState<typeof TYPE_OF_FUND | null>(null)
 
@@ -24,6 +27,7 @@ const FundList = observer((props: Props) => {
     investStore.getFund({}, { page: 1 })
       .then(res => {
         setFund(res)
+        setFundSearch(res)
       })
   }, [])
 
@@ -36,6 +40,7 @@ const FundList = observer((props: Props) => {
     investStore.getFund({}, { page: investStore?.pagingParamsFund?.page + 1 })
       .then(res => {
         setFund([...fund, ...res])
+        setFundSearch([...fundSearch, ...res])
       })
   }, [fund])
 
@@ -56,8 +61,14 @@ const FundList = observer((props: Props) => {
       </View>
     )
   }, [])
+
+  const _handleChangeText = (_value) => {
+    setFund(filterByValue(fundSearch, _value, 'code'));
+  };
+
   return (
     <View style={styles.container}>
+      <SearchBar onChangeSearchText={_handleChangeText}/>
       {renderHeader()}
       <FlatList
         contentContainerStyle={styles.flatList}

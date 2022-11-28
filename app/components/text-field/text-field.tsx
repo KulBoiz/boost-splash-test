@@ -1,5 +1,5 @@
 import React, { useState } from "react"
-import { Keyboard, StyleProp, TextInputProps, TextStyle, View, ViewStyle } from "react-native"
+import { StyleProp, TextInputProps, TextStyle, View, ViewStyle } from "react-native"
 import { TextInput } from "react-native-paper"
 import { color, spacing } from "../../theme"
 import { translate, TxKeyPath } from "../../i18n"
@@ -7,7 +7,6 @@ import { Text } from "../text/text"
 import { s, ms } from "react-native-size-matters"
 import { images } from "../../assets/images"
 import { fontFamily } from "../../constants/font-family"
-import { isIos } from "../../constants/variable"
 
 // the base styling for the container
 const CONTAINER: ViewStyle = {
@@ -24,15 +23,12 @@ const ICON: ViewStyle = {
   // height: s(18),
 }
 
-// the base styling for the TextInput
 const INPUT: TextStyle = {
   flex: 1,
   fontFamily: fontFamily.medium,
   color: color.palette.black,
   fontSize: ms(13),
   backgroundColor: color.background,
-  // height: isIos ? ms(44) : undefined,
-  height: undefined,
 }
 
 const MULTILINE: TextStyle = {
@@ -145,6 +141,7 @@ export function TextField(props: TextFieldProps) {
           right={
             showIcon && (
               <TextInput.Icon
+                forceTextInputFocus={false}
                 name={showPassword ? images.close_eye : images.open_eye}
                 onPress={_handleShowPass}
                 style={ICON}

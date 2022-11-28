@@ -44,8 +44,6 @@ const SyncAccount = React.memo((props: Props) => {
     modalizeSuccessRef.current?.open()
   }, [])
 
-  console.log(modalizeSuccessRef.current)
-
   const onCloseSuccess = React.useCallback(() => {
     modalizeSuccessRef.current?.close()
   }, [])

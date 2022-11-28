@@ -15,11 +15,16 @@ export const images = {
   app_manage: require('./bottom-bar/manage.png'),
   app_profile: require('./bottom-bar/user.png'),
 
+  invest_invest: require('./invest/invest.png'),
+  invest_asset_value: require('./invest/asset_value.png'),
+  invest_profit: require('./invest/profit.png'),
   invest_front: require('./invest/front.png'),
   invest_back: require('./invest/back.png'),
   invest_portrait: require('./invest/portrait.png'),
   invest_sign: require('./invest/sign-contract.png'),
   invest_success: require('./invest/kyc-success.png'),
+  asset_background: require('./invest/asset_background.png'),
+  asset_arrow_up: require('./invest/arrow_up.png'),
 
   commission_checked: require('./commission/checked.png'),
   commission_unchecked: require('./commission/unchecked.png'),

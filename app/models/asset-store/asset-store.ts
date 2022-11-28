@@ -67,6 +67,25 @@ export const AssetStoreModel = types
       return result
     }),
 
+    getFiveTransactionHistory: flow(function* getFiveTransactionHistory(productId) {
+      const result = yield self.api.get("users/transactions", {
+        filter: {
+          where: {
+            type: INVEST_TRANSACTION_TYPE.BUY,
+            productId
+          },
+          limit: 5,
+          skip: 0,
+        },
+        page: 1,
+      })
+      const data = result?.data
+      if (result.kind === 'ok'){
+        return data?.data
+      }
+      return result
+    }),
+
   })) // eslint-disable-line @typescript-eslint/no-unused-vars
 
 type AssetStoreType = Instance<typeof AssetStoreModel>
