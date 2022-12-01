@@ -24,7 +24,7 @@ const CashInfo = observer((props: Props) => {
   }, [])
 
   const [showCash, setShowCash] = useState<boolean>(false)
-  const cash = showCash ? numberWithCommas(amount.toFixed(2)) : "*********"
+  const cash = showCash ? numberWithCommas(amount.toFixed(0)) : "*********"
 
   function handleShowHide() {
     setShowCash(!showCash)
@@ -42,9 +42,9 @@ const CashInfo = observer((props: Props) => {
             <AppText value={`${cash} đ`} fontSize={ms(24)} fontFamily={fontFamily.bold} color={color.text}/>
           </View>
         </View>
-        <AppButton title={"Rút tiền"} onPress={() => {
+        {/* <AppButton title={"Rút tiền"} onPress={() => {
           //
-        }} containerStyle={styles.btn} disable={true}/>
+        }} containerStyle={styles.btn} disable={true}/> */}
       </View>
     </View>
   )

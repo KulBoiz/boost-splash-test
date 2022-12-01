@@ -52,13 +52,15 @@ export const CommissionStoreModel = types
     }
   })) // eslint-disable-line @typescript-eslint/no-unused-vars
   .actions((self) => ({
-    getChartData: flow(function* getChartData(totalYear?: number, totalMonth?: number) {
+    getChartData: flow(function* getChartData(totalYear?: number, totalMonth?: number, startYear?: number, startMonth?: number) {
       const userId = self.userId()
       const result = yield self.api.get("commissions/by-state", {
         filter: {
           where: {
             totalYear,
             totalMonth,
+            startYear: startYear || 2019,
+            startMonth: startMonth || 1,
             userId,
             type: 'spend'
           },
@@ -144,7 +146,7 @@ export const CommissionStoreModel = types
       })
       const data = result?.data
       if (result.kind === "ok") {
-        self.amount = data?.metadata?.totalForControl ?? 0
+        self.amount = data?.metadata?.totalForControl - data?.metadata?.totalPaid ?? 0
         return data
       }
     }),
