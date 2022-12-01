@@ -31,7 +31,7 @@ const CommissionItem = React.memo((props: Props) => {
         <View style={[ROW, SPACE_BETWEEN]}>
           <AppText value={item?.transactionDetail?.code} style={styles.name} />
           <AppText
-            value={`(${Number((item?.amount || 0) / (item?.transactionDetail?.amount || 0) * 100).toFixed(2)}%) ${numberWithCommas(item?.amount.toFixed(2))} vnđ`}
+            value={`(${Number((item?.amount || 0) / (item?.transactionDetail?.amount || 0) * 100).toFixed(2)}%) ${numberWithCommas(item?.amount.toFixed(0))} vnđ`}
             style={styles.name} />
         </View>
         <View style={[ROW, SPACE_BETWEEN]}>

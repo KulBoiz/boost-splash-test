@@ -21,6 +21,7 @@ const filter = {
     },
     belongOrgType: "sub_org"
   },
+  order: 'updatedAt DESC',
   include: [
     {
       relation: "user",
