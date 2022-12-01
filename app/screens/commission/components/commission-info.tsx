@@ -12,7 +12,7 @@ interface Props {
 
 const CommissionInfo = React.memo(({ commissionDetail }: Props) => {
   const percent = `${+((commissionDetail?.amount || 0) / (commissionDetail?.transactionDetail?.amount || 0) * 100).toFixed(2) ?? 0}`
-  const commission = commissionDetail?.amount
+  const commission = commissionDetail?.amount?.toFixed(0)
 
   return (
     <View style={styles.container}>

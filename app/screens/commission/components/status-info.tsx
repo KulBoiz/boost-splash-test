@@ -14,9 +14,8 @@ interface Props {
 const StatusInfo = React.memo(({ commissionDetail }: Props) => {
   const status = commissionDetail?.status
   const transactionDetail = commissionDetail?.transactionDetail
-  const transactionInfo = transactionDetail?.transactionInfo
 
-  const content = React.useMemo(()=> {
+  const content = React.useMemo(() => {
     return (
       <RenderStatus
         style={styles.statusContainer}
@@ -24,16 +23,16 @@ const StatusInfo = React.memo(({ commissionDetail }: Props) => {
         statusColor={commissionStatus(status)?.textColor}
         backgroundColor={commissionStatus(status)?.background} />
     )
-  },[status])
+  }, [status])
 
   return (
     <View style={styles.container}>
       <InfoBox title={"Trạng thái hồ sơ"}>
         <ItemView title={"Trạng thái:"} content={content} style={styles.itemContainer} />
-        <ItemView title={"Ngày ghi nhận hoa hồng:"} content={formatDate(transactionInfo?.createdAt)} style={styles.itemContainer} />
-        <ItemView title={"Ngày đối soát:"} content={""} style={styles.itemContainer} />
-        <ItemView title={"Ngày thanh toán:"} content={""} style={styles.itemContainer} />
-        <ItemView title={"Người thanh toán:"} content={""}/>
+        <ItemView title={"Ngày ghi nhận hoa hồng:"} content={formatDate(transactionDetail?.createdAt)} style={styles.itemContainer} />
+        <ItemView title={"Ngày đối soát:"} content={"_"} style={styles.itemContainer} />
+        {/* <ItemView title={"Ngày thanh toán:"} content={""} style={styles.itemContainer} />
+        <ItemView title={"Người thanh toán:"} content={""} /> */}
       </InfoBox>
     </View>
   )

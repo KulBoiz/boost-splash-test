@@ -7,6 +7,30 @@ import { LoanApi } from "../../services/api/loan-api"
 /**
  * Model description here for TypeScript hints.
  */
+
+const include = [
+  {
+    relation: "user",
+    scope: {
+      fields: { id: true, fullName: true, firstName: true, lastName: true, emails: true, tels: true, orgId: true},
+    }
+  },
+  {
+    relation: "transaction",
+    scope: {
+      fields: { id: true, amount: true, code: true, status: true, partnerId: true, productId: true, createdAt: true, updatedAt: true},
+    }
+  },
+  {
+    relation: "transactionDetail",
+    scope: {
+      fields: { id: true, amount: true, code: true, status: true, createdAt: true, updatedAt: true},
+    }
+  },
+]
+
+const fields = [ 'id', 'amount', 'code', 'status', 'userId', 'transactionId', 'transactionDetailId', 'createdAt']
+
 export const CommissionStoreModel = types
   .model("CommissionStore")
   .extend(withEnvironment)
@@ -23,7 +47,7 @@ export const CommissionStoreModel = types
     get api() {
       return new BaseApi(self.environment.api)
     },
-    userId(){
+    userId() {
       return self?.rootStore?.authStoreModel.userId
     }
   })) // eslint-disable-line @typescript-eslint/no-unused-vars
@@ -37,7 +61,9 @@ export const CommissionStoreModel = types
             totalMonth,
             userId,
             type: 'spend'
-          }},
+          },
+          fields
+        },
       })
       const data = result?.data
 
@@ -58,12 +84,10 @@ export const CommissionStoreModel = types
             type: "spend",
             userId,
             transactionType,
+            searchScope: 'myCommission'
           },
-          include: [
-            { relation: "user" },
-            { relation: "transaction" },
-            { relation: "transactionDetail" },
-          ],
+          include: include,
+          fields
         },
       })
       const data = result?.data
@@ -79,21 +103,19 @@ export const CommissionStoreModel = types
       self.page = self.page + 1
 
       const result = yield self.api.get("commissions", {
-       page: self.page,
-       filter: {
-        limit: 20,
-         skip: self.limit * (self.page - 1),
-         where: {
-              type: "spend",
-              userId,
-              transactionType,
-            },
-            include: [
-              { relation: "user" },
-              { relation: "transaction" },
-              { relation: "transactionDetail" },
-            ],
+        page: self.page,
+        filter: {
+          limit: 20,
+          skip: self.limit * (self.page - 1),
+          where: {
+            type: "spend",
+            userId,
+            transactionType,
+            searchScope: 'myCommission'
           },
+          include: include,
+          fields
+        },
       })
 
       if (result.kind !== "ok") {
@@ -134,17 +156,29 @@ export const CommissionStoreModel = types
             {
               relation: "user", scope: {
                 include: [{ relation: "org" }],
+                fields: include?.[0]?.scope?.fields
               },
             },
             {
               relation: "transaction", scope: {
                 include: [
                   { relation: "partner" },
-                  { relation: "product" },
+                  {
+                    relation: "product",
+                    scope: {
+                      fields: ['id', 'name', 'code']
+                    }
+                  },
                 ],
+                fields: include?.[1]?.scope?.fields
               },
             },
-            { relation: "transactionDetail" },
+            {
+              relation: "transactionDetail",
+              scope: {
+                fields: include?.[1]?.scope?.fields
+              }
+            },
           ],
         },
       })

@@ -42,14 +42,14 @@ export const INDIVIDUAL = [
     },
     active: false,
   },
-  // {
-  //   icon: images.profile_commission,
-  //   title: 'Hoa hồng',
-  //   onPress: () => {
-  //     navigate(ScreenNames.COMMISSION)
-  //   },
-  //   active: true,
-  // },
+  {
+    icon: images.profile_commission,
+    title: 'Hoa hồng',
+    onPress: () => {
+      navigate(ScreenNames.COMMISSION)
+    },
+    active: true,
+  },
   {
     icon: images.profile_file,
     title: 'Tài liệu',
