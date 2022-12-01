@@ -28,7 +28,7 @@ const BarChart = React.memo(({ data }: Props) => {
         data={data}
         width={width}
         height={220}
-        // yAxisLabel="$"
+        // yAxisLabel="vnđ"
         chartConfig={chartConfig}
         verticalLabelRotation={20}
       />

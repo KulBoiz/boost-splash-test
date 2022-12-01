@@ -1,32 +1,25 @@
-import React, { useCallback, useEffect, useState } from "react"
+import React, { useEffect, useState } from "react"
 import { ScrollView, View } from "react-native"
-import AppHeader from "../../components/app-header/AppHeader"
-import CashInfo from "./components/cash-info"
-import { color } from "../../theme"
-import AppButton from "../../components/app-button/AppButton"
 import { ScaledSheet } from "react-native-size-matters"
-import { ScreenNames } from "../../navigators/screen-names"
-import { navigate } from "../../navigators"
+import AppButton from "../../components/app-button/AppButton"
+import AppHeader from "../../components/app-header/AppHeader"
 import { useStores } from "../../models"
-import LineChart from "./chart/line-chart"
-import { getMonthName } from "../../constants/variable"
+import { navigate } from "../../navigators"
+import { ScreenNames } from "../../navigators/screen-names"
+import { color } from "../../theme"
 import BarChart from "./chart/bar-chart"
-import moment from "moment"
-import { COMMISSION_STATUS } from "./constants"
+import CashInfo from "./components/cash-info"
 
 interface Props {
 }
 
+const totalYear = 3
 const currentYear = (new Date()).getFullYear()
-const currentMonth = (new Date()).getMonth() + 1
-
-const years = Array.from({ length: 5 }, (_, i) => currentYear + (i * -1))
-const months = Array.from({ length: 5 }, (_, i) => `${getMonthName(currentMonth + (i * -1))}`)
-const chartData = (data: Array<any>) => data.map(({ amount }) => {
-  return amount
-})
-const getSumCommission = (array: any) => array?.length ? array.map(item => item.amount).reduce((a, b) => a + b) : 0;
-const getSpecificData = (array: Array<any>, date) => array?.length ? array.filter(item => moment(item?.createdAt).format('YYYY') === date.toString()) : []
+const startYear = currentYear - totalYear + 1
+// 
+const startMonth = 1
+const totalMonthInYear = 12
+const totalMonth = totalMonthInYear - startMonth + 1
 
 const CommissionScreen = React.memo((props: Props) => {
   const { commissionStore } = useStores()
@@ -34,22 +27,15 @@ const CommissionScreen = React.memo((props: Props) => {
   const [response, setResponse] = useState<any>()
 
   useEffect(() => {
-    commissionStore.getChartData(5,5).then(res => {
+    // note ===> totalMonth < totalMonthInYear - month start, start year is curren year
+    commissionStore.getChartData(totalYear,totalMonth, startYear, startMonth).then(res => {
       setResponse(res)
     })
   }, [])
-  const groupDataByYears = useCallback(()=> {
-    return years.map((e)=> (
-      getSpecificData(response?.byYear?.data, e).filter(el=> el.status === COMMISSION_STATUS.NOT_FOR_CONTROL)
-    ))
-  },[response])
-  console.log(groupDataByYears())
+  
   const data = {
-    labels: type === "years" ? years : months,
-    datasets:
-      [{
-        data: type === "years" ? chartData(response?.byYear?.data ?? []) : chartData(response?.byMonth?.data ?? []),
-      }],
+    labels: response?.map(el => el?.time),
+    datasets: [{ data: response?.map(el => el?.metadata?.totalForControl?.toFixed(0)) || []}]
   }
 
   return (
