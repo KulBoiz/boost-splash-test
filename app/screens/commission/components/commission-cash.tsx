@@ -1,10 +1,10 @@
 import React from "react"
-import { View, ViewStyle } from "react-native"
+import { View } from "react-native"
+import { ScaledSheet } from "react-native-size-matters"
 import { AppText } from "../../../components/app-text/AppText"
-import { ms, ScaledSheet } from "react-native-size-matters"
 import { fontFamily } from "../../../constants/font-family"
-import { color } from "../../../theme"
 import { hexToRgbA, numberWithCommas } from "../../../constants/variable"
+import { color } from "../../../theme"
 
 interface Props {
   metadata?: any
@@ -37,9 +37,9 @@ const CommissionCash = React.memo((props: Props) => {
         <TextView text={"ĐÃ THANH TOÁN"} />
       </View>
       <View style={styles.body}>
-        <CashView amount={metadata?.totalNotForControl.toFixed(2)} />
-        <CashView amount={metadata?.totalForControl.toFixed(2)} />
-        <CashView amount={metadata?.totalPaid.toFixed(2)} />
+        <CashView amount={metadata?.totalNotForControl.toFixed(0)} />
+        <CashView amount={metadata?.totalForControl.toFixed(0)} />
+        <CashView amount={metadata?.totalPaid.toFixed(0)} />
       </View>
     </View>
   )

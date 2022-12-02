@@ -17,6 +17,8 @@ interface Props {
   nextStep(): void
 }
 
+const phoneRegExp = /^0[0-9]{9}$/gm
+
 const IntroduceStepOne = observer(({ nextStep }: Props) => {
   const { loanStore, authStoreModel, appStore} = useStores()
   const [loading, setLoading] = useState(false)
@@ -27,7 +29,10 @@ const IntroduceStepOne = observer(({ nextStep }: Props) => {
       .trim()
       .required(i18n.t("errors.requireEmail"))
       .email("Không đúng định dạng email"),
-    phone: Yup.string().trim().required(i18n.t("errors.requirePhone")),
+    phone: Yup.string()
+      .trim()
+      .required(i18n.t("errors.requirePhone"))
+      .matches(phoneRegExp, i18n.t("errors.requirePhone")),
     note: Yup.string().trim(),
   })
   const {

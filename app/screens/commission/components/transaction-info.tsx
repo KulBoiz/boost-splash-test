@@ -13,7 +13,7 @@ interface Props {
 const TransactionInfo = React.memo(({ commissionDetail }: Props) => {
   const code = commissionDetail?.transaction?.code ?? '_'
   const transactionType = commissionDetail?.transactionType;
-  const amount = numberWithCommas(commissionDetail?.transactionDetail?.amount)
+  const amount = numberWithCommas(commissionDetail?.transactionDetail?.amount?.toFixed(0))
   const date = formatDate(commissionDetail?.transactionDetail?.createdAt)
 
   return (
