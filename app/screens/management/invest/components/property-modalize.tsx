@@ -13,7 +13,6 @@ import { fontFamily } from "../../../../constants/font-family"
 import { ALIGN_CENTER, ROW, SPACE_BETWEEN } from "../../../../styles/common-style"
 import { mappingLabelTypeOfFund } from "../../../invest/market/constants"
 import PropertyHistoryItem from "./property-history-item"
-import { checkVolatility } from "../../../../constants/variable"
 
 
 interface Props {
@@ -26,13 +25,13 @@ interface Props {
 interface ButtonProps {
   title: string
   backgroundColor: string
-
   onPress?(): void
+  disabled?: boolean
 }
 
-const Button = React.memo(({ title, onPress, backgroundColor }: ButtonProps) => {
+const Button = React.memo(({ title, onPress, backgroundColor, disabled }: ButtonProps) => {
   return (
-    <Pressable onPress={onPress} style={[styles.btn, { backgroundColor }]}>
+    <Pressable onPress={onPress} style={[styles.btn, { backgroundColor }]} disabled={disabled}>
       <AppText value={title} color={color.text} fontFamily={fontFamily.semiBold} />
     </Pressable>
   )
@@ -41,6 +40,16 @@ const Button = React.memo(({ title, onPress, backgroundColor }: ButtonProps) => 
 
 const PropertyModalize = React.memo((props: Props) => {
   const { modalizeRef, closeModal, item } = props
+
+  const handleBuy = React.useCallback(()=> {
+    navigate( ScreenNames.FUND_DETAIL, { slug: item?.slug })
+    closeModal()
+  },[item])
+
+  const handleSale = React.useCallback(()=> {
+    navigate( ScreenNames.SALE_BONDS, { slug: item?.slug })
+    closeModal()
+  },[item])
 
   return (
     <Modalize
@@ -66,10 +75,10 @@ const PropertyModalize = React.memo((props: Props) => {
         <PropertyHistoryItem productId={item?.id}/>
       </View>
       <View style={styles.wrapBtn}>
-        <Button title={"Mua"} backgroundColor={color.palette.blue} />
-        <Button title={"Bán"} backgroundColor={color.green.green_02}
-                onPress={() => navigate(ScreenNames.SALE_BONDS)} />
-        <Button title={"Chuyển đổi"} backgroundColor={color.palette.orange} />
+        <Button title={"Mua"} backgroundColor={color.palette.blue} onPress={handleBuy}/>
+        <Button title={"Bán"} backgroundColor={color.green.green_02} disabled
+                onPress={handleSale} />
+        <Button title={"Chuyển đổi"} backgroundColor={color.palette.orange} disabled/>
       </View>
     </Modalize>
   )

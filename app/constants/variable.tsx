@@ -1,6 +1,7 @@
 import moment, { Moment } from "moment"
 import { Dimensions, Platform } from "react-native"
 import { TxKeyPath } from "../i18n"
+
 const gender = {
   female : 'female',
   male: 'male',
@@ -142,6 +143,15 @@ export const formatData = (array) => {
     value: val?.id ?? "",
     label: val?.name?.replace(/\t/g, "") ?? "",
   }))
+}
+
+export function convertViToEn(str) {
+  if (!str) return ''
+  str.normalize("NFD")
+     .replace(/[\u0300-\u036f]/g, "")
+     .replace(/đ/g, "d")
+     .replace(/Đ/g, "D");
+  return str;
 }
 
 export const checkVolatility = (value: number | string | undefined) => {

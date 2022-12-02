@@ -67,7 +67,7 @@ const FundTariff = React.memo(({ productDetail }: Props) => {
           <>
             {feesBuy?.map((fee) => (
               <Item key={fee?.id} leftText={fee?.endOperatorCode === "&" ?
-                "_" : `Từ ${fee?.beginValue} ${
+                "Từ 0đ trở lên" : `Từ ${fee?.beginValue} ${
                   fee?.endValue !== -1 ? `- ${fee?.endValue}` : ""
                 } ngày ${fee?.endOperatorCode === "&" ? "trở lên" : ""}`} rightText={`${fee?.rate ?? ""}`}
                     style={MARGIN_BOTTOM_8} />

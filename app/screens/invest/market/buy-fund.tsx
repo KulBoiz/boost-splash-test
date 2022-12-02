@@ -19,6 +19,7 @@ import { MARGIN_TOP_24 } from "../../../styles/common-style"
 import { filter, get } from "lodash"
 import { COMMON_ERROR, numberWithCommas, OTP_TIME } from "../../../constants/variable"
 import { useIsFocused } from "@react-navigation/native"
+import { dateSip } from "../../../constants/regex"
 
 interface Props {
 }
@@ -33,7 +34,7 @@ const BuyFund = observer((props: Props) => {
   const isFocused = useIsFocused()
   const { bondsDetail } = investStore
   const [navs, setNavs] = useState([])
-  const [isSip, setIsSip] = useState(false)
+  const [isSip, setIsSip] = useState<string | undefined>(undefined)
   const [loading, setLoading] = useState<boolean>(true)
   const currentNav = get(navs[0], "nav", "")
 
@@ -43,7 +44,9 @@ const BuyFund = observer((props: Props) => {
 
   const sipValidationSchema = Yup.object().shape({
    ...flex,
-    date: Yup.string().required("Nhập ngày đầu tư định kì"),
+    date: Yup.string()
+      .required("Nhập ngày đầu tư định kì")
+      .matches(dateSip, 'Vui lòng nhập ngày trong khoảng 1-30'),
   })
 
   const {
@@ -56,8 +59,7 @@ const BuyFund = observer((props: Props) => {
     clearErrors,
   } = useForm({
     mode: "all",
-    // resolver: isSip ? yupResolver(sipValidationSchema) : yupResolver(flexValidationSchema),
-    resolver: yupResolver(flexValidationSchema),
+    resolver: isSip === 'true' ? yupResolver(sipValidationSchema) : yupResolver(flexValidationSchema),
     reValidateMode: "onChange",
   })
 
@@ -66,7 +68,6 @@ const BuyFund = observer((props: Props) => {
     setValue('program','')
     clearErrors('amount')
   },[isFocused])
-
   const onSubmit = useCallback((otpCode)=> {
     investStore.verifyOtpBuyFund(otpCode)
       .then(res=> {
@@ -89,7 +90,7 @@ const BuyFund = observer((props: Props) => {
       })
   },[])
 
-  const handleBuy = useCallback(async (data) => {
+  const handleBuy = useCallback( async (data) => {
     const estimatedQuantity = data.amount ? numberWithCommas((+(data.amount?.replace(/,/g, '')) / +currentNav).toFixed(2)) : 0
     const minBuyValue = filter(bondsDetail?.productDetails, { id: data.program })?.[0]?.buyMinValue
     if (+(data.amount?.replace(/,/g, '')) < +minBuyValue){
@@ -102,6 +103,12 @@ const BuyFund = observer((props: Props) => {
       productProgramId: data?.program,
       beginBuyAutoStartDate: data?.date
     }
+    // investStore.createBuyFundTransaction(param, estimatedQuantity.toString(), currentNav.toString()).then(res=>{
+    //   if (res?.error){
+    //     return Alert.alert(res?.error?.message ?? COMMON_ERROR)
+    //   }
+    //   navigate(ScreenNames.PURCHASE_FUND)
+    // })
     await investStore.createBuyFundTransaction(param, estimatedQuantity.toString(), currentNav.toString())
     await investStore.sendOtpBuyFund().then(res=> {
       if (res?.error || res?.includes('502')){
@@ -110,6 +117,7 @@ const BuyFund = observer((props: Props) => {
       }
       navigate(ScreenNames.INVEST_OTP, {onResend, onSubmit, otpTime: OTP_TIME.BUY_FUND})
     })
+
   }, [currentNav])
 
   useEffect(() => {
@@ -121,7 +129,7 @@ const BuyFund = observer((props: Props) => {
   }, [])
 
   const productDetail = filter(bondsDetail.productDetails, { id: watch("program") })?.[0]
-  const checkValid = !(watch("program") && watch('amount'))
+  const checkValid = isSip === 'true' ? !(watch("program") && watch('amount') && watch('date')) : !(watch("program") && watch('amount'))
 
   return (
     <View style={styles.container}>

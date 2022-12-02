@@ -17,7 +17,7 @@ import { initFonts } from "./theme/fonts" // expo
 import * as storage from "./utils/storage"
 import { AppNavigator, useNavigationPersistence } from "./navigators"
 import { RootStore, RootStoreProvider, setupRootStore } from "./models"
-import { ToggleStorybook } from "../storybook/toggle-storybook"
+// import { ToggleStorybook } from "../storybook/toggle-storybook"
 import { ErrorBoundary } from "./screens/error/error-boundary"
 import messaging from "@react-native-firebase/messaging"
 import notifee from "@notifee/react-native"
@@ -71,7 +71,7 @@ function App() {
   messaging().setBackgroundMessageHandler(onMessageReceived)
   // Kick off initial async loading actions, like loading fonts and RootStore
   useEffect(() => {
-    ;(async () => {
+    (async () => {
       await initFonts() // expo
       setupRootStore().then(setRootStore)
       await onAppBootstrap()
@@ -89,7 +89,7 @@ function App() {
 
   // otherwise, we're ready to render the app
   return (
-    <ToggleStorybook>
+    // <ToggleStorybook>
       <GestureHandlerRootView style={{ flex: 1 }}>
         <RootStoreProvider value={rootStore}>
           <NativeBaseProvider theme={theme}>
@@ -105,7 +105,7 @@ function App() {
           </NativeBaseProvider>
         </RootStoreProvider>
       </GestureHandlerRootView>
-    </ToggleStorybook>
+    // </ToggleStorybook>
   )
 }
 

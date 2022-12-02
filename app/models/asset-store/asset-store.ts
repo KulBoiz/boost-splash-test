@@ -25,6 +25,7 @@ export const AssetStoreModel = types
     loading: types.optional(types.boolean, false),
     pagingBuyRequest: PagingParamsModel,
     pagingSellRequest: PagingParamsModel,
+    otpTransId: types.optional(types.string, '')
   })
   .views((self) => ({
     get api() {
@@ -68,10 +69,10 @@ export const AssetStoreModel = types
     }),
 
     getFiveTransactionHistory: flow(function* getFiveTransactionHistory(productId) {
-      const result = yield self.api.get("users/transactions", {
+      const result = yield self.api.get("users/load-transactions-for-asset-screen", {
         filter: {
           where: {
-            type: INVEST_TRANSACTION_TYPE.BUY,
+            // type: INVEST_TRANSACTION_TYPE.BUY,
             productId
           },
           limit: 5,
@@ -85,6 +86,51 @@ export const AssetStoreModel = types
       }
       return result
     }),
+
+    loadAssetProgram: flow(function* loadAssetProgram(productId) {
+      const result = yield self.api.get("users/load-transactions-for-asset-screen", {
+        filter: {
+          where: {
+            productId
+          },
+        },
+      })
+      const data = result?.data
+      if (result.kind === 'ok'){
+        return data?.data
+      }
+      return result
+    }),
+
+    loadRedemptionFee: flow(function* loadRedemptionFee(param: {volume, productId, productProgramId}) {
+      const result = yield self.api.post("users/load-transactions-for-asset-screen", param)
+      const data = result?.data
+      if (result.kind === 'ok'){
+        return data?.data
+      }
+      return result
+    }),
+
+    createSellOrder: flow(function* createSellOrder(param: {volume, productId, productProgramId}) {
+      self.otpTransId = ''
+      const result = yield self.api.post("users/load-transactions-for-asset-screen", param)
+      const data = result?.data
+      if (result.kind === 'ok'){
+        self.otpTransId = data?.otpInfo?.otpTransId
+        return data?.data
+      }
+      return result
+    }),
+
+    verifySellOrderOtp: flow(function* verifySellOrderOtp(otp) {
+      const result = yield self.api.post("products/verify-otp-sell-order-with-mio", { otp, otpTransId: self.otpTransId })
+      const data = result?.data
+      if (result.kind === 'ok'){
+        return data?.data
+      }
+      return result
+    }),
+
 
   })) // eslint-disable-line @typescript-eslint/no-unused-vars
 

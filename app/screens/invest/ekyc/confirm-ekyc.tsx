@@ -26,6 +26,7 @@ import SignKycModal from "./components/sign-modal"
 import ConfirmModal from "../../../components/app-modal/confirm-modal"
 import FatcaForm from "./components/fatca-form"
 import { observer } from "mobx-react-lite"
+import { isVNPhone } from "../../../constants/regex"
 
 interface Props {
 }
@@ -40,7 +41,9 @@ const ConfirmEkyc = observer((props: Props) => {
       .trim()
       .required(i18n.t("errors.requireEmail"))
       .email(i18n.t("errors.invalidEmail")),
-    tel: Yup.string().required(i18n.t("errors.requirePhone")),
+    tel: Yup.string()
+      .required(i18n.t("errors.requirePhone"))
+      .matches(isVNPhone, 'Vui lòng nhập số điện thoại Việt Nam'),
   })
 
   const secondValidationSchema = Yup.object().shape({
@@ -72,7 +75,7 @@ const ConfirmEkyc = observer((props: Props) => {
     resolver: position === 0 ? yupResolver(firstValidationSchema) : position === 1 ?
       yupResolver(secondValidationSchema) : position === 2 ?
       yupResolver(thirdValidationSchema) : yupResolver(fourthValidationSchema),
-    reValidateMode: "onChange",
+    reValidateMode: "onSubmit",
   })
 
   const handleContinue = React.useCallback(data => {

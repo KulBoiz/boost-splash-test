@@ -10,7 +10,6 @@ import { color } from "../../../theme"
 import { observer } from "mobx-react-lite"
 import { useStores } from "../../../models"
 import i18n from "i18n-js"
-import AppViewNoAuth from "../../../components/app-view-no-auth"
 import TermCheckbox from "../../auth/components/TermCheckbox"
 import { get, debounce } from 'lodash'
 

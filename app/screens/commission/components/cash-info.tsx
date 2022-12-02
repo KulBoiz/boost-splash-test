@@ -42,9 +42,9 @@ const CashInfo = observer((props: Props) => {
             <AppText value={`${cash} đ`} fontSize={ms(24)} fontFamily={fontFamily.bold} color={color.text}/>
           </View>
         </View>
-        <AppButton title={"Rút tiền"} onPress={() => {
-          //
-        }} containerStyle={styles.btn} disable={true}/>
+        {/* <AppButton title={"Rút tiền"} onPress={() => { */}
+        {/*  // */}
+        {/* }} containerStyle={styles.btn} disable={true}/> */}
       </View>
     </View>
   )
