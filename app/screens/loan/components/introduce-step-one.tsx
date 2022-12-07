@@ -12,40 +12,30 @@ import { useStores } from "../../../models"
 import i18n from "i18n-js"
 import TermCheckbox from "../../auth/components/TermCheckbox"
 import { get, debounce } from 'lodash'
+import {
+  Control,
+  UseFormClearErrors,
+  UseFormHandleSubmit,
+  UseFormSetValue,
+  UseFormWatch,
+} from "react-hook-form/dist/types/form"
+import { FieldErrors } from "react-hook-form/dist/types/errors"
+import { FieldValues } from "react-hook-form/dist/types/fields"
 
 interface Props {
   nextStep(): void
+  control: Control
+  errors: FieldErrors<FieldValues>;
+  handleSubmit: UseFormHandleSubmit<FieldValues>;
 }
 
 const phoneRegExp = /^0[0-9]{9}$/gm
 
-const IntroduceStepOne = observer(({ nextStep }: Props) => {
+const IntroduceStepOne = observer((props: Props) => {
+   const {nextStep, handleSubmit, control, errors} = props
+
   const { loanStore, authStoreModel, appStore} = useStores()
   const [loading, setLoading] = useState(false)
-
-  const validationSchema = Yup.object().shape({
-    fullName: Yup.string().trim().required(i18n.t("errors.requireFullName")),
-    email: Yup.string()
-      .trim()
-      .required(i18n.t("errors.requireEmail"))
-      .email("Không đúng định dạng email"),
-    phone: Yup.string()
-      .trim()
-      .required(i18n.t("errors.requirePhone"))
-      .matches(phoneRegExp, i18n.t("errors.requirePhone")),
-    note: Yup.string().trim(),
-  })
-  const {
-    control,
-    handleSubmit,
-    formState: { errors },
-  } = useForm({
-    delayError: 0,
-    defaultValues: undefined,
-    mode: "all",
-    resolver: yupResolver(validationSchema),
-    reValidateMode: "onChange",
-  })
   const [checkboxState, setCheckboxState] = useState<boolean>(false)
 
   const checkTab = (data) => {
@@ -98,6 +88,7 @@ const IntroduceStepOne = observer(({ nextStep }: Props) => {
       <View style={styles.body}>
         <FormInput
           {...{
+            required: true,
             name: "fullName",
             placeholderTx: "placeholder.fullName",
             autoCapitalize: "none",
@@ -108,6 +99,7 @@ const IntroduceStepOne = observer(({ nextStep }: Props) => {
         />
         <FormInput
           {...{
+            required: true,
             name: "email",
             placeholderTx: "placeholder.email",
             autoCapitalize: "none",
@@ -118,6 +110,7 @@ const IntroduceStepOne = observer(({ nextStep }: Props) => {
         />
         <FormInput
           {...{
+            required: true,
             name: "phone",
             placeholderTx: "placeholder.phone",
             autoCapitalize: "none",

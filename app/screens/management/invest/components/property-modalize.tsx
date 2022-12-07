@@ -62,11 +62,11 @@ const PropertyModalize = React.memo((props: Props) => {
     >
       <View style={styles.body}>
         <View style={[ROW, ALIGN_CENTER, SPACE_BETWEEN, styles.headerContainer]}>
-          <View style={[ROW, ALIGN_CENTER]}>
+          <View style={[ROW, ALIGN_CENTER, {flex:1}]}>
             <FastImage source={images.vinacapital} style={styles.icon} />
             <View>
               <AppText value={item?.code} fontFamily={fontFamily.semiBold} fontSize={ms(16)} color={color.primary} />
-              <AppText value={item?.name} fontSize={ms(9)} color={color.textColor.title} style={{width: '100%'}} numberOfLines={2}/>
+              <AppText value={item?.name} fontSize={ms(9)} color={color.textColor.title} style={{width: '90%'}} numberOfLines={2}/>
             </View>
           </View>
           <AppText value={mappingLabelTypeOfFund(item?.info?.typeOfFund)} color={color.primary} style={{marginLeft: ms(16)}}/>
@@ -76,8 +76,7 @@ const PropertyModalize = React.memo((props: Props) => {
       </View>
       <View style={styles.wrapBtn}>
         <Button title={"Mua"} backgroundColor={color.palette.blue} onPress={handleBuy}/>
-        <Button title={"Bán"} backgroundColor={color.green.green_02} disabled
-                onPress={handleSale} />
+        <Button title={"Bán"} backgroundColor={color.green.green_02} onPress={handleSale} />
         <Button title={"Chuyển đổi"} backgroundColor={color.palette.orange} disabled/>
       </View>
     </Modalize>

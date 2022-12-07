@@ -7,6 +7,7 @@ import { useStores } from "../../../models"
 import { color } from "../../../theme"
 import { Modalize } from "react-native-modalize"
 import PropertyModalize from "./components/property-modalize"
+import EmptyList from "../../../components/empty-list"
 
 interface Props {
 }
@@ -28,6 +29,7 @@ const PropertyTab = React.memo((props: Props) => {
 
   useEffect(() => {
     assetStore.getUserAsset().then(res => {
+      if (res.error || res?.kind === 'server') return
       setAsset(res)
     })
   }, [])
@@ -36,12 +38,12 @@ const PropertyTab = React.memo((props: Props) => {
     return <PropertyItem item={item} onOpenSuccess={onOpenSuccess}/>
   }, [])
 
+  if (!asset.length) return <EmptyList />
 
   return (
     <View style={styles.container}>
       <PropertyInfo asset={asset} />
       <View style={styles.body}>
-
         <FlatList keyExtractor={(e, i) => i.toString()} data={asset} renderItem={renderItem}
                   contentContainerStyle={styles.flatList} />
       </View>

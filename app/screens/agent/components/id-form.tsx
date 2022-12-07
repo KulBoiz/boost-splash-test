@@ -31,6 +31,7 @@ const IdForm = React.memo((props: Props) => {
     <View style={styles.container}>
       <FormInput
         {...{
+          required: true,
           name: 'fullName',
           labelTx: 'label.fullName',
           placeholderTx: 'placeholder.fullName',
@@ -41,6 +42,7 @@ const IdForm = React.memo((props: Props) => {
       />
       <FormInput
         {...{
+          required: true,
           name: 'citizenIdentification',
           labelTx: 'label.citizenIdentification',
           placeholderTx: 'placeholder.citizenIdentification',
@@ -50,6 +52,7 @@ const IdForm = React.memo((props: Props) => {
         }}
       />
       <FormDatePicker
+        required
         label={'Ngày cấp'}
         name={'dateRange'}
         placeholder={'Ngày cấp giấy tờ'}
@@ -59,6 +62,7 @@ const IdForm = React.memo((props: Props) => {
       />
       <FormInput
         {...{
+          required: true,
           name: 'issuedBy',
           labelTx: 'label.issuedBy',
           placeholderTx: 'placeholder.issuedBy',

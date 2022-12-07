@@ -1,5 +1,5 @@
 import React from "react"
-import { StyleSheet, TextStyle, View, ViewStyle } from "react-native"
+import { TextStyle, View, ViewStyle } from "react-native"
 import { AppText } from "../../../../components/app-text/AppText"
 import { color } from "../../../../theme"
 import {
@@ -17,7 +17,6 @@ import { fontFamily } from "../../../../constants/font-family"
 import FastImage from "react-native-fast-image"
 import { images } from "../../../../assets/images"
 import { ScaledSheet } from "react-native-size-matters"
-import { isArray, sum } from "lodash"
 
 interface Props {
   item: any

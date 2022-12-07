@@ -10,7 +10,7 @@ import { fontFamily } from "../../constants/font-family"
 
 // the base styling for the container
 const CONTAINER: ViewStyle = {
-  marginVertical: spacing[3],
+  marginVertical: spacing[2],
 }
 const WRAP_INPUT: ViewStyle = {
   flexDirection: "row",

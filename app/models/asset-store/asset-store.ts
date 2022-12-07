@@ -25,7 +25,9 @@ export const AssetStoreModel = types
     loading: types.optional(types.boolean, false),
     pagingBuyRequest: PagingParamsModel,
     pagingSellRequest: PagingParamsModel,
-    otpTransId: types.optional(types.string, '')
+    otpTransId: types.optional(types.string, ""),
+    assetAmount: types.frozen([]),
+    sellTransactionInfo: types.frozen({}),
   })
   .views((self) => ({
     get api() {
@@ -39,13 +41,13 @@ export const AssetStoreModel = types
     getUserAsset: flow(function* getUserAsset() {
       const result = yield self.api.get("users/asset-management-product", {})
       const data = result?.data
-      if (result.kind === 'ok'){
+      if (result.kind === "ok") {
         return data
       }
       return result
     }),
 
-    getTransactionHistory: flow(function* getTransactionHistory(type:INVEST_TRANSACTION_TYPE, pagingParams?: PagingParamsType) {
+    getTransactionHistory: flow(function* getTransactionHistory(type: INVEST_TRANSACTION_TYPE, pagingParams?: PagingParamsType) {
       const _pagingParams: any = {
         ...self.pagingBuyRequest,
         ...pagingParams,
@@ -61,7 +63,7 @@ export const AssetStoreModel = types
         page: pagingParams?.page,
       })
       const data = result?.data
-      if (result.kind === 'ok'){
+      if (result.kind === "ok") {
         self.pagingBuyRequest = _pagingParams
         return data
       }
@@ -69,11 +71,11 @@ export const AssetStoreModel = types
     }),
 
     getFiveTransactionHistory: flow(function* getFiveTransactionHistory(productId) {
-      const result = yield self.api.get("users/load-transactions-for-asset-screen", {
+      const result = yield self.api.get("users/transactions", {
         filter: {
           where: {
-            // type: INVEST_TRANSACTION_TYPE.BUY,
-            productId
+            type: INVEST_TRANSACTION_TYPE.BUY,
+            productId,
           },
           limit: 5,
           skip: 0,
@@ -81,61 +83,90 @@ export const AssetStoreModel = types
         page: 1,
       })
       const data = result?.data
-      if (result.kind === 'ok'){
+      if (result.kind === "ok") {
         return data?.data
       }
       return result
     }),
 
     loadAssetProgram: flow(function* loadAssetProgram(productId) {
+      self.assetAmount = []
       const result = yield self.api.get("users/load-transactions-for-asset-screen", {
         filter: {
           where: {
-            productId
+            productId,
           },
         },
       })
       const data = result?.data
-      if (result.kind === 'ok'){
+      if (result.kind === "ok") {
+        self.assetAmount = data?.data
         return data?.data
       }
       return result
     }),
 
-    loadRedemptionFee: flow(function* loadRedemptionFee(param: {volume, productId, productProgramId}) {
-      const result = yield self.api.post("users/load-transactions-for-asset-screen", param)
-      const data = result?.data
-      if (result.kind === 'ok'){
-        return data?.data
+    loadRedemptionFee: flow(function* loadRedemptionFee(param: { volume, productId, productProgramId }) {
+      const result = yield self.api.post("products/load-redemption-fee-estimation-with-mio", param)
+      if (result.kind === "ok") {
+        return result?.data
       }
       return result
     }),
 
-    createSellOrder: flow(function* createSellOrder(param: {volume, productId, productProgramId}) {
-      self.otpTransId = ''
-      const result = yield self.api.post("users/load-transactions-for-asset-screen", param)
+    createSellOrder: flow(function* createSellOrder(param: { volume, productId, productProgramId }) {
+      self.otpTransId = ""
+      const result = yield self.api.post("products/create-sell-order-with-mio", param)
       const data = result?.data
-      if (result.kind === 'ok'){
+      if (result.kind === "ok") {
         self.otpTransId = data?.otpInfo?.otpTransId
         return data?.data
       }
       return result
     }),
 
-    verifySellOrderOtp: flow(function* verifySellOrderOtp(otp) {
-      const result = yield self.api.post("products/verify-otp-sell-order-with-mio", { otp, otpTransId: self.otpTransId })
+    resendSellOrderOtp: flow(function* resendSellOrderOtp() {
+      const result = yield self.api.post("products/resend-otp-sell-order-with-mio", { otpTransId: self.otpTransId })
       const data = result?.data
-      if (result.kind === 'ok'){
+      if (result.kind === "ok") {
         return data?.data
       }
       return result
+    }),
+
+    verifySellOrderOtp: flow(function* verifySellOrderOtp(otp) {
+      const result = yield self.api.post("products/verify-otp-sell-order-with-mio", {
+        otp,
+        otpTransId: self.otpTransId,
+      })
+      const data = result?.data
+      if (result.kind === "ok") {
+        return data?.data
+      }
+      return result
+    }),
+
+    setInfoSellTransaction: flow(function* setInfoSellTransaction(param) {
+      self.sellTransactionInfo = param
+    }),
+
+    clearSellData: flow(function* clearSellData() {
+      self.sellTransactionInfo = {}
+      self.otpTransId = ""
+      self.assetAmount = []
     }),
 
 
   })) // eslint-disable-line @typescript-eslint/no-unused-vars
 
 type AssetStoreType = Instance<typeof AssetStoreModel>
-export interface AssetStore extends AssetStoreType {}
+
+export interface AssetStore extends AssetStoreType {
+}
+
 type AssetStoreSnapshotType = SnapshotOut<typeof AssetStoreModel>
-export interface AssetStoreSnapshot extends AssetStoreSnapshotType {}
+
+export interface AssetStoreSnapshot extends AssetStoreSnapshotType {
+}
+
 export const createAssetStoreDefaultModel = () => types.optional(AssetStoreModel, {})

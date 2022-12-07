@@ -18,6 +18,7 @@ import { AppText } from "../../components/app-text/AppText"
 import CustomCheckbox from "../../components/checkbox/custom-checkbox"
 import { useStores } from "../../models"
 import { isAndroid, isIos } from "../../constants/variable"
+import { isVNPhone } from "../../constants/regex"
 
 interface Props {}
 
@@ -30,7 +31,7 @@ const RegisterInfo = React.memo((props: Props) => {
       .required(i18n.t("errors.requireEmail"))
       .email(i18n.t("errors.invalidEmail")),
     address: Yup.string().required(i18n.t("errors.requireAddress")),
-    phone: Yup.string().required(i18n.t("errors.requirePhone")),
+    phone: Yup.string().required(i18n.t("errors.requirePhone")).matches(isVNPhone, 'Vui lòng nhập số điện thoại Việt Nam'),
     bankName: Yup.string().required("Chọn địa ngân hàng"),
     bankNumber: Yup.string().required("Nhập số tài khoản ngân hàng"),
     province: Yup.string().required("Chọn tỉnh / thành phố"),

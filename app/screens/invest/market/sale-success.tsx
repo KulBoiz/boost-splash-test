@@ -1,16 +1,18 @@
 import React, { useCallback } from "react"
 import { View } from "react-native"
-import { InvestSuccessSvg } from "../../assets/svgs"
-import { AppText } from "../../components/app-text/AppText"
-import { FONT_MEDIUM_12, FONT_REGULAR_12, FONT_REGULAR_14, MARGIN_BOTTOM_8 } from "../../styles/common-style"
-import ItemView from "../loan/components/item-view"
-import { formatDateTime, numberWithCommas } from "../../constants/variable"
-import { color } from "../../theme"
+import { FONT_MEDIUM_12, FONT_REGULAR_12, FONT_REGULAR_14, MARGIN_BOTTOM_8 } from "../../../styles/common-style"
+import ItemView from "../../loan/components/item-view"
+import { formatDate, formatDateTime, numberWithCommas } from "../../../constants/variable"
+import { color } from "../../../theme"
 import { ms, ScaledSheet } from "react-native-size-matters"
-import AppButton from "../../components/app-button/AppButton"
-import { fontFamily } from "../../constants/font-family"
-import { navigate } from "../../navigators"
-import { ScreenNames } from "../../navigators/screen-names"
+import AppButton from "../../../components/app-button/AppButton"
+import { fontFamily } from "../../../constants/font-family"
+import { navigate } from "../../../navigators"
+import { ScreenNames } from "../../../navigators/screen-names"
+import { AppText } from "../../../components/app-text/AppText"
+import { InvestSuccessSvg } from "../../../assets/svgs"
+import { useStores } from "../../../models"
+import { StackActions, useNavigation } from "@react-navigation/native"
 
 interface Props {
 }
@@ -30,9 +32,13 @@ const RightContent = React.memo(({ content, note }: RightContentProps) => {
 
 const GMT = "Giờ VN"
 
-const InvestSuccess = React.memo((props: Props) => {
+const SaleSuccess = React.memo((props: Props) => {
+  const {assetStore} = useStores()
+  const navigation = useNavigation()
+  const transactionInfo = assetStore.sellTransactionInfo
+
   const buyMore = useCallback(() => {
-    navigate(ScreenNames.INVEST_TAB)
+    navigation.dispatch(StackActions.pop(4))
   }, [])
 
   const complete = useCallback(() => {
@@ -51,15 +57,15 @@ const InvestSuccess = React.memo((props: Props) => {
         <View style={styles.itemContainer}>
           <ItemView title={"Ngày đặt lệnh"} content={<RightContent content={formatDateTime(new Date())} note={GMT} />}
                     style={styles.item} />
-          <ItemView title={"Phiên giao dịch"} content={<RightContent content={formatDateTime(new Date())} note={GMT} />}
+          <ItemView title={"Phiên giao dịch"} content={<RightContent content={formatDate(transactionInfo?.info?.nextOrderMatchingSession)} note={GMT} />}
                     style={styles.item} />
-          <ItemView title={"Phí bán"} content={<RightContent content={`2%`} />} style={styles.item} />
-          <ItemView title={"Số lượng bán"} content={<RightContent content={`4.94`} />} />
+          <ItemView title={"Phí bán"} content={<RightContent content={`${numberWithCommas(transactionInfo?.fee)} vnđ`} />} style={styles.item} />
+          <ItemView title={"Số lượng bán"} content={<RightContent content={transactionInfo?.volume ?? '0'} />} />
         </View>
       </View>
 
       <View style={styles.wrapBtn}>
-        <AppButton title={"Mua thêm"} onPress={buyMore} containerStyle={[styles.btn, styles.whiteBtn]}
+        <AppButton title={"Bán thêm"} onPress={buyMore} containerStyle={[styles.btn, styles.whiteBtn]}
                    titleStyle={styles.buyMore} />
         <AppButton title={"Đóng"} onPress={complete} containerStyle={styles.btn} />
       </View>
@@ -67,7 +73,7 @@ const InvestSuccess = React.memo((props: Props) => {
   )
 })
 
-export default InvestSuccess
+export default SaleSuccess
 
 const styles = ScaledSheet.create({
   container: {

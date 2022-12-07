@@ -80,9 +80,9 @@ const ItemPicker = React.memo((props: Props) => {
           editable={false}
           errorMessage={errorMessage}
         />
-      </Box>
-      <Box position="absolute" right="12px" pt="1">
-        <FastImage source={images.arrow_down} style={styles.icon} />
+        <Box position="absolute" right="12px" pt="150%">
+          <FastImage source={images.arrow_down} style={styles.icon} />
+        </Box>
       </Box>
       <Pressable
         onPress={() => {
