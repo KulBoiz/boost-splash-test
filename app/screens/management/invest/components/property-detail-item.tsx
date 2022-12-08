@@ -64,7 +64,7 @@ const PropertyDetailItem = React.memo(({ item }: Props) => {
       ))}
       <Item leftTitle={`Số lượng CCQ`} rightTitle={`Giá hiện tại`} style={[MARGIN_TOP_8, MARGIN_BOTTOM_4]}/>
       <Item leftTitle={item?.holdingVolume} leftStyle={FONT_REGULAR_12} rightStyle={FONT_BOLD_12}
-            rightTitle={`${numberWithCommas(item?.navCurrent)}ᵈ`} textColor={color.palette.black} />
+            rightTitle={`${numberWithCommas(item?.info?.navCurrently)}ᵈ`} textColor={color.palette.black} />
     </View>
   )
 })

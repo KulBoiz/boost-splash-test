@@ -15,7 +15,7 @@ import { ScaledSheet } from "react-native-size-matters"
 import { color } from "../../../../theme"
 import { getTransactionColor } from "../../constants"
 import { fontFamily } from "../../../../constants/font-family"
-import { numberWithCommas } from "../../../../constants/variable"
+import { formatDate, numberWithCommas } from "../../../../constants/variable"
 
 interface Props {
   item: any
@@ -48,8 +48,8 @@ const TransactionHistoryItem = React.memo(({ item }: Props) => {
         <AppText value={'Ngày đặt lệnh'} style={styles.label}/>
       </View>
       <View style={[ROW,SPACE_BETWEEN]}>
-        <AppText value={`${numberWithCommas(item?.price)} vnđ`} fontFamily={fontFamily.bold}/>
-        <AppText value={(item?.dateSessionTime)}/>
+        <AppText value={`${numberWithCommas(item?.netAmount)} vnđ`} fontFamily={fontFamily.bold}/>
+        <AppText value={formatDate(item?.createAt)}/>
       </View>
     </View>
   )

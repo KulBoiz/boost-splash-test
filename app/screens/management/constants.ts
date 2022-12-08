@@ -3,8 +3,8 @@ import { hexToRgbA } from "../../constants/variable"
 
 export enum TRANSACTION_STATUS {
   waitingForOrderMatching = "Chờ khớp lệnh",
-  orderMatched = "Đã khớp lệnh",
-  unpaid = "Chưa thanh toán"
+  orderMatched = "Đã khớp",
+  notMatching = "Không khớp lệnh"
 }
 
 export const getTransactionColor = (status) => {
@@ -19,7 +19,7 @@ export const getTransactionColor = (status) => {
     transactionColor = color.palette.green
     transactionBackgroundColor = hexToRgbA(color.palette.green, 0.1)
   }
-  if (status === TRANSACTION_STATUS.unpaid) {
+  if (status === TRANSACTION_STATUS.notMatching) {
     transactionColor = color.palette.angry
     transactionBackgroundColor = hexToRgbA(color.palette.angry, 0.1)
   }

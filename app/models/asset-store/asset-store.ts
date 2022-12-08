@@ -23,8 +23,7 @@ export const AssetStoreModel = types
   .extend(withRootStore)
   .props({
     loading: types.optional(types.boolean, false),
-    pagingBuyRequest: PagingParamsModel,
-    pagingSellRequest: PagingParamsModel,
+    pagingRequest: PagingParamsModel,
     otpTransId: types.optional(types.string, ""),
     assetAmount: types.frozen([]),
     sellTransactionInfo: types.frozen({}),
@@ -49,7 +48,7 @@ export const AssetStoreModel = types
 
     getTransactionHistory: flow(function* getTransactionHistory(type: INVEST_TRANSACTION_TYPE, pagingParams?: PagingParamsType) {
       const _pagingParams: any = {
-        ...self.pagingBuyRequest,
+        ...self.pagingRequest,
         ...pagingParams,
       }
       const result = yield self.api.get("users/transactions", {
@@ -64,7 +63,7 @@ export const AssetStoreModel = types
       })
       const data = result?.data
       if (result.kind === "ok") {
-        self.pagingBuyRequest = _pagingParams
+        self.pagingRequest = _pagingParams
         return data
       }
       return result
@@ -91,7 +90,7 @@ export const AssetStoreModel = types
 
     loadAssetProgram: flow(function* loadAssetProgram(productId) {
       self.assetAmount = []
-      const result = yield self.api.get("users/load-transactions-for-asset-screen", {
+      const result = yield self.api.get("products/load-asset-program", {
         filter: {
           where: {
             productId,
@@ -100,8 +99,8 @@ export const AssetStoreModel = types
       })
       const data = result?.data
       if (result.kind === "ok") {
-        self.assetAmount = data?.data
-        return data?.data
+        self.assetAmount = data
+        return data
       }
       return result
     }),

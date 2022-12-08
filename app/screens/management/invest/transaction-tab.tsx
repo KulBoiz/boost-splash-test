@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react"
+import React, { useCallback, useEffect, useState } from "react"
 import { FlatList, View } from "react-native"
 import { useStores } from "../../../models"
 import { INVEST_TRANSACTION_TYPE } from "../../../constants/types"
@@ -31,12 +31,27 @@ const TransactionTab = React.memo((props: Props) => {
     return <TransactionHistoryItem item={item} />
   }, [type])
 
+  const loadMore = useCallback(async () => {
+    if (histories.length <= total) return
+    assetStore.getTransactionHistory({}, { page: assetStore?.pagingRequest?.page + 1 })
+      .then(res => {
+        setHistories([...histories, ...res])
+      })
+  }, [histories, type])
+
   return (
     <View style={styles.container}>
       <TransactionFilter {...{ type, setType }} />
-      <AppText style={styles.text} fontSize={ms(12)}>Tổng số lệnh: <AppText value={total} fontFamily={fontFamily.bold}/></AppText>
-      <FlatList keyExtractor={histories?.id} data={histories} renderItem={renderItem}
-                contentContainerStyle={styles.flatList} />
+      <AppText style={styles.text} fontSize={ms(12)}>
+        Tổng số lệnh: <AppText value={total} fontFamily={fontFamily.bold} />
+      </AppText>
+      <FlatList
+        keyExtractor={histories?.id}
+        data={histories}
+        renderItem={renderItem}
+        onEndReached={loadMore}
+        onEndReachedThreshold={0.2}
+        contentContainerStyle={styles.flatList} />
     </View>
   )
 })
@@ -46,11 +61,11 @@ export default TransactionTab
 const styles = ScaledSheet.create({
   container: {
     flex: 1,
-    backgroundColor: color.background
+    backgroundColor: color.background,
   },
   text: {
-    marginBottom: '12@s',
-    paddingHorizontal: '16@s'
+    marginBottom: "12@s",
+    paddingHorizontal: "16@s",
   },
   flatList: {
     paddingHorizontal: "16@s",

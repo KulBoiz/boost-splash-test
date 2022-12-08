@@ -10,15 +10,8 @@ import {
 } from "react-hook-form/dist/types/form"
 import { FieldErrors } from "react-hook-form/dist/types/errors"
 import { FieldValues } from "react-hook-form/dist/types/fields"
-import {
-  ALIGN_CENTER,
-  FONT_REGULAR_12,
-  LEFT_INPUT,
-  MARGIN_BOTTOM_4,
-  MARGIN_TOP_8,
-  ROW,
-} from "../../../../styles/common-style"
-import { ms, ScaledSheet } from "react-native-size-matters"
+import { ALIGN_CENTER, FONT_REGULAR_12, LEFT_INPUT, MARGIN_BOTTOM_4, ROW } from "../../../../styles/common-style"
+import { ScaledSheet } from "react-native-size-matters"
 import FormItemPicker from "../../../../components/form-item-picker"
 import { AppText } from "../../../../components/app-text/AppText"
 import { color } from "../../../../theme"
@@ -43,8 +36,8 @@ const selectData = [20, 50, 75, "Tất cả"]
 
 const formatData = (array: any[] = []) => {
   return array.map((val) => ({
-    value: val?.productProgramId ?? "",
-    label: val?.productProgramName?.replace(/\t/g, "") ?? "",
+    value: val?.id ?? "",
+    label: val?.name?.replace(/\t/g, "") ?? "",
   }))
 }
 
@@ -75,7 +68,7 @@ const MarketSaleForm = observer((props: Props) => {
       })
       await assetStore.setInfoSellTransaction({...param, ...data, value: watch('value').replace(/,/g, ''), fee: watch('fee').replace(/,/g, '')})
     }, 700),
-    []
+    [data]
   );
 
   useEffect(() => {
@@ -95,16 +88,18 @@ const MarketSaleForm = observer((props: Props) => {
       setValue("amount", "0")
       return
     }
-    const percentAmount = (fundAmount * value) / 100
+    const percentAmount = +((fundAmount * value) / 100).toFixed(2)
     if (typeof value === "number") {
       setValue("amount", percentAmount + "")
+      loadFee(param)
       return
     }
-    setValue("amount", fundAmount + "")
+    setValue("amount", +fundAmount.toFixed(2) + "")
+    loadFee(param)
   }, [fundAmount])
 
   const handleSelect = React.useCallback((value) => {
-    const volume = assetStore.assetAmount.filter(e => e.productProgramId === value.value)?.[0]?.volume
+    const volume = assetStore.assetAmount.filter(e => e.id === value.value)?.[0]?.volume
     setFundAmount(volume)
   }, [])
 
@@ -155,6 +150,7 @@ const MarketSaleForm = observer((props: Props) => {
             label: "Giá trị tương ứng",
             placeholder: "Giá trị tương ứng",
             keyboardType: "number-pad",
+            editable: false,
             control,
             error: errors?.value?.message,
           }}
@@ -166,6 +162,7 @@ const MarketSaleForm = observer((props: Props) => {
             label: "Phí bán",
             placeholder: "Phí bán",
             keyboardType: "number-pad",
+            editable: false,
             control,
             error: errors?.fee?.message,
           }}

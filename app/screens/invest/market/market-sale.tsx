@@ -76,8 +76,7 @@ const MarketSale = React.memo((props: Props) => {
               <ScrollView style={styles.bodyContainer} bounces={false}>
                 <SaleFundInformation data={data} navs={navs}/>
                 <MarketSaleForm  {...{ control, errors: { ...errors }, setValue, watch, clearErrors, data, setError }} />
-                 <FundTariff productDetail={productDetail} hideBuyFee/>
-
+                <FundTariff productDetail={productDetail} hideBuyFee/>
               </ScrollView>
                 <View style={styles.wrapBtn}>
                   <AppButton title={"Đặt lệnh bán"} onPress={handleSubmit(handleSale)}/>

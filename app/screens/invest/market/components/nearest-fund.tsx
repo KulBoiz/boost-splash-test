@@ -29,7 +29,8 @@ const NearestFund = React.memo(({ data, navs }: Props) => {
   const {info} = data
   const navMin = info?.navMin
   const navMax = info?.navMax
-  const currentNav = get(head(navs), 'nav')
+  // const currentNav = get(head(navs), 'nav')
+  const currentNav = info?.navCurrently
 
   return (
     <View style={MARKET_CONTAINER}>

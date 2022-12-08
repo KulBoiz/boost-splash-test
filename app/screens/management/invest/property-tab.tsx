@@ -48,7 +48,6 @@ const PropertyTab = React.memo((props: Props) => {
                   contentContainerStyle={styles.flatList} />
       </View>
       <PropertyModalize modalizeRef={modalizeSuccessRef} closeModal={onCloseSuccess} item={itemData} />
-
     </View>
   )
 })
