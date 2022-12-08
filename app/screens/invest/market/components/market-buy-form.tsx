@@ -23,7 +23,7 @@ interface Props {
   clearErrors: UseFormClearErrors<FieldValues>
   navs: any
   bondsDetail: any
-  setIsSip(e: boolean): void
+  setIsSip(e: any): void
 }
 
 const MarketBuyForm = React.memo((props: Props) => {
@@ -50,7 +50,7 @@ const MarketBuyForm = React.memo((props: Props) => {
     onChangeText: (value) => {
       setValue("amount", value)
       const valueParse = parseFloat(value.replace(/,/g, ''))
-      
+
       if (valueParse === 0) {
         setError('amount', {message: `Số tiền đầu tư cần lớn hơn 0`})
       }
@@ -93,12 +93,12 @@ const MarketBuyForm = React.memo((props: Props) => {
           error: errors?.amount?.message,
         }}
       />
-      {minBuyValue &&
-      <View style={[ROW, ALIGN_CENTER, MARGIN_BOTTOM_8]}>
+       {!!minBuyValue &&
+       <View style={[ROW, ALIGN_CENTER, MARGIN_BOTTOM_8]}>
         <FastImage source={images.yellow_caution} style={styles.icon} />
         <AppText value={`Số tiền đầu tư tối thiểu ${numberWithCommas(minBuyValue)} vnđ`} />
-      </View>
-      }
+       </View>
+       }
       <View style={[ROW, ALIGN_CENTER]}>
         <FormInput
           {...{

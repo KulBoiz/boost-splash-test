@@ -16,6 +16,7 @@ import { filter } from "lodash"
 
 interface Props {
   productDetail: any
+  hideBuyFee?: boolean
 }
 
 interface ItemProps {
@@ -56,33 +57,35 @@ const Item = React.memo(({ leftText, rightText, style }: ItemProps) => {
   )
 })
 
-const FundTariff = React.memo(({ productDetail }: Props) => {
+const FundTariff = React.memo(({ productDetail, hideBuyFee = false }: Props) => {
   const feesBuy = filter(productDetail?.fees, { type: "BUY" }) ?? []
   const feesSell = filter(productDetail?.fees, { type: "SELL" }) ?? []
 
   return (
     <View style={styles.container}>
-      <Container leftText={"Biểu phí mua"} rightText={"Phí mua"}>
-        {feesBuy?.length > 0 ?
-          <>
-            {feesBuy?.map((fee) => (
-              <Item key={fee?.id} leftText={fee?.endOperatorCode === "&" ?
-                "_" : `Từ ${fee?.beginValue} ${
-                  fee?.endValue !== -1 ? `- ${fee?.endValue}` : ""
-                } ngày ${fee?.endOperatorCode === "&" ? "trở lên" : ""}`} rightText={`${fee?.rate ?? ""}`}
-                    style={MARGIN_BOTTOM_8} />
-            ))}
-          </> : <AppText value={"Không có dữ liệu"} textAlign={"center"} />
-        }
-      </Container>
+      {!hideBuyFee &&
+        <Container leftText={"Biểu phí mua"} rightText={"Phí mua"}>
+          {feesBuy?.length > 0 ?
+            <>
+              {feesBuy?.map((fee) => (
+                <Item key={fee?.id} leftText={fee?.endOperatorCode === "&" ?
+                  "Từ 0đ trở lên" : `Từ ${fee?.beginValue} ${
+                    fee?.endValue !== -1 ? `- ${fee?.endValue}` : ""
+                  } ngày ${fee?.endOperatorCode === "&" ? "trở lên" : ""}`} rightText={`${fee?.rate ?? ""}`}
+                      style={MARGIN_BOTTOM_8} />
+              ))}
+            </> : <AppText value={"Không có dữ liệu"} textAlign={"center"} />
+          }
+        </Container>
+      }
 
       <Container leftText={"Biểu phí bán"} rightText={"Phí bán"}>
         {feesSell?.length > 0 ?
           <>
             {feesSell?.map((fee) => (
               <Item key={fee?.id} leftText={`Từ ${fee?.beginValue} ${
-                  fee?.endValue !== -1 ? `- ${fee?.endValue}` : ""
-                } ngày ${fee?.endOperatorCode === "&" ? "trở lên" : ""}`} rightText={`${fee?.rate ?? ""}`}
+                fee?.endValue !== -1 ? `- ${fee?.endValue}` : ""
+              } ngày ${fee?.endOperatorCode === "&" ? "trở lên" : ""}`} rightText={`${fee?.rate ?? ""}`}
                     style={MARGIN_BOTTOM_8} />
             ))}
           </> : <AppText value={"Không có dữ liệu"} textAlign={"center"} />

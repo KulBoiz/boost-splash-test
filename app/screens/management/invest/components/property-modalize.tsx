@@ -13,8 +13,7 @@ import { fontFamily } from "../../../../constants/font-family"
 import { ALIGN_CENTER, ROW, SPACE_BETWEEN } from "../../../../styles/common-style"
 import { mappingLabelTypeOfFund } from "../../../invest/market/constants"
 import PropertyHistoryItem from "./property-history-item"
-import { checkVolatility } from "../../../../constants/variable"
-
+import { Portal } from "react-native-portalize"
 
 interface Props {
   modalizeRef: Ref<any>
@@ -26,13 +25,14 @@ interface Props {
 interface ButtonProps {
   title: string
   backgroundColor: string
+  disabled?: boolean
 
   onPress?(): void
 }
 
-const Button = React.memo(({ title, onPress, backgroundColor }: ButtonProps) => {
+const Button = React.memo(({ title, onPress, backgroundColor, disabled }: ButtonProps) => {
   return (
-    <Pressable onPress={onPress} style={[styles.btn, { backgroundColor }]}>
+    <Pressable onPress={onPress} style={[styles.btn, { backgroundColor }]} disabled={disabled}>
       <AppText value={title} color={color.text} fontFamily={fontFamily.semiBold} />
     </Pressable>
   )
@@ -42,36 +42,48 @@ const Button = React.memo(({ title, onPress, backgroundColor }: ButtonProps) => 
 const PropertyModalize = React.memo((props: Props) => {
   const { modalizeRef, closeModal, item } = props
 
+  const handleBuy = React.useCallback(() => {
+    navigate(ScreenNames.FUND_DETAIL, { slug: item?.slug })
+    closeModal()
+  }, [item])
+
+  const handleSale = React.useCallback(() => {
+    navigate(ScreenNames.SALE_BONDS, { slug: item?.slug })
+    closeModal()
+  }, [item])
+
   return (
-    <Modalize
-      ref={modalizeRef}
-      modalStyle={styles.modal}
-      handlePosition={"inside"}
-      adjustToContentHeight
-      withReactModal
-      scrollViewProps={{ showsVerticalScrollIndicator: false }}
-    >
-      <View style={styles.body}>
-        <View style={[ROW, ALIGN_CENTER, SPACE_BETWEEN, styles.headerContainer]}>
-          <View style={[ROW, ALIGN_CENTER]}>
-            <FastImage source={images.vinacapital} style={styles.icon} />
-            <View>
-              <AppText value={item?.code} fontFamily={fontFamily.semiBold} fontSize={ms(16)} color={color.primary} />
-              <AppText value={item?.name} fontSize={ms(9)} color={color.textColor.title} style={{width: '100%'}} numberOfLines={2}/>
+    <Portal>
+      <Modalize
+        ref={modalizeRef}
+        modalStyle={styles.modal}
+        handlePosition={"inside"}
+        adjustToContentHeight
+        scrollViewProps={{ showsVerticalScrollIndicator: false }}
+      >
+        <View style={styles.body}>
+          <View style={[ROW, ALIGN_CENTER, SPACE_BETWEEN, styles.headerContainer]}>
+            <View style={[ROW, ALIGN_CENTER, { flex: 1 }]}>
+              <FastImage source={images.vinacapital} style={styles.icon} />
+              <View>
+                <AppText value={item?.code} fontFamily={fontFamily.semiBold} fontSize={ms(16)} color={color.primary} />
+                <AppText value={item?.name} fontSize={ms(9)} color={color.textColor.title} style={{ width: "90%" }}
+                         numberOfLines={2} />
+              </View>
             </View>
+            <AppText value={mappingLabelTypeOfFund(item?.info?.typeOfFund)} color={color.primary}
+                     style={{ marginLeft: ms(16) }} />
           </View>
-          <AppText value={mappingLabelTypeOfFund(item?.info?.typeOfFund)} color={color.primary} style={{marginLeft: ms(16)}}/>
+          <PropertyDetailItem item={item} />
+          <PropertyHistoryItem productId={item?.id} />
         </View>
-        <PropertyDetailItem item={item} />
-        <PropertyHistoryItem productId={item?.id}/>
-      </View>
-      <View style={styles.wrapBtn}>
-        <Button title={"Mua"} backgroundColor={color.palette.blue} />
-        <Button title={"Bán"} backgroundColor={color.green.green_02}
-                onPress={() => navigate(ScreenNames.SALE_BONDS)} />
-        <Button title={"Chuyển đổi"} backgroundColor={color.palette.orange} />
-      </View>
-    </Modalize>
+        <View style={styles.wrapBtn}>
+          <Button title={"Mua"} backgroundColor={color.palette.blue} onPress={handleBuy} />
+          <Button title={"Bán"} backgroundColor={color.green.green_02} onPress={handleSale} />
+          <Button title={"Chuyển đổi"} backgroundColor={color.palette.orange} disabled />
+        </View>
+      </Modalize>
+    </Portal>
   )
 })
 
@@ -85,11 +97,11 @@ const styles = ScaledSheet.create({
     paddingHorizontal: "16@s",
   },
   headerContainer: {
-    padding: '5@s',
+    padding: "5@s",
     backgroundColor: color.palette.lightBlue,
-    borderRadius: '4@s',
-    paddingRight: '12@s',
-    marginBottom: '12@s'
+    borderRadius: "4@s",
+    paddingRight: "12@s",
+    marginBottom: "12@s",
   },
   icon: {
     width: "24@s",
@@ -109,7 +121,7 @@ const styles = ScaledSheet.create({
     paddingBottom: "24@s",
     borderTopWidth: 1,
     borderTopColor: color.palette.D9D9D9,
-    marginTop: '20@s',
+    marginTop: "20@s",
     paddingHorizontal: "12@s",
   },
 

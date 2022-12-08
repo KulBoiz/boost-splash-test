@@ -7,9 +7,8 @@ import { FieldValues } from "react-hook-form/dist/types/fields"
 import FastImage from "react-native-fast-image"
 import { images } from "../../../../../assets/images"
 import { ScaledSheet } from "react-native-size-matters"
-import NoteItem from "../../../components/note-item"
 import { createNumberMask, useMaskedInputProps } from "react-native-mask-input"
-import numeral from "numeral"
+import NoteItem from "../../../../../components/note-item"
 
 interface Props {
   watch: UseFormWatch<FieldValues>
@@ -76,7 +75,7 @@ const ConvertBonds = React.memo((props: Props) => {
           }}
         />
       </View>
-       <NoteItem note={"Số tiền đầu tư tối thiểu 100.000"} />
+       <NoteItem content={"Số tiền đầu tư tối thiểu 100.000"} />
     </View>
   )
 })

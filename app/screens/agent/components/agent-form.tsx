@@ -135,6 +135,7 @@ const AgentForm = observer((props: Props) => {
     <View style={styles.container}>
       <FormInput
         {...{
+          required: true,
           name: "email",
           label: "Email",
           placeholderTx: "placeholder.email",
@@ -146,6 +147,7 @@ const AgentForm = observer((props: Props) => {
       />
       <FormInput
         {...{
+          required: true,
           name: "phone",
           labelTx: "label.phoneNumber",
           placeholderTx: "placeholder.phone",
@@ -156,6 +158,7 @@ const AgentForm = observer((props: Props) => {
       />
       <FormInput
         {...{
+          required: true,
           name: "bankNumber",
           label: "Số tài khoản ngân hàng",
           placeholder: "Nhập số tài khoản",
@@ -166,6 +169,7 @@ const AgentForm = observer((props: Props) => {
       />
       <FormItemPicker
         {...{
+          required: true,
           name: "bankName",
           label: "Tên ngân hàng",
           placeholder: "Chọn ngân hàng",
@@ -194,6 +198,7 @@ const AgentForm = observer((props: Props) => {
 
       <FormItemPicker
         {...{
+          required: true,
           name: "province",
           label: "Tỉnh / TP trực thuộc",
           placeholder: "Tỉnh / TP trực thuộc",
@@ -207,6 +212,7 @@ const AgentForm = observer((props: Props) => {
       />
       <FormItemPicker
         {...{
+          required: true,
           name: "district",
           label: "Quận / huyện",
           placeholder: "Quận / huyện",
@@ -220,6 +226,7 @@ const AgentForm = observer((props: Props) => {
       />
       <FormItemPicker
         {...{
+          required: true,
           name: "commune",
           label: "Phường / xã",
           placeholder: "Phường / xã",
@@ -234,6 +241,7 @@ const AgentForm = observer((props: Props) => {
 
       <FormInput
         {...{
+          required: true,
           name: "address",
           label: "Địa chỉ cụ thể",
           placeholder: "Nhập số nhà và tên đường",

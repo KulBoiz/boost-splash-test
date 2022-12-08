@@ -3,7 +3,7 @@ import { View } from "react-native"
 import { AppText } from "../../../../components/app-text/AppText"
 import { useStores } from "../../../../models"
 import { MARGIN_TOP_8, ROW, SPACE_BETWEEN } from "../../../../styles/common-style"
-import { numberWithCommas } from "../../../../constants/variable"
+import { formatDate, numberWithCommas } from "../../../../constants/variable"
 import { ms, ScaledSheet } from "react-native-size-matters"
 import { color } from "../../../../theme"
 
@@ -25,6 +25,7 @@ const PropertyHistoryItem = React.memo(({ productId }: Props) => {
   if (!histories.length) {
     return <></>
   }
+
   return (
     <View style={styles.container}>
       <View style={[ROW, SPACE_BETWEEN]}>
@@ -35,9 +36,9 @@ const PropertyHistoryItem = React.memo(({ productId }: Props) => {
       </View>
       {histories.map((val: any, index) => (
         <View key={index} style={[ROW, SPACE_BETWEEN, MARGIN_TOP_8]}>
-          <AppText value={val?.dateSessionTime} style={{ flex: 1 }} fontSize={ms(12)} />
+          <AppText value={formatDate(val?.transactionPartnerLog?.createdAt)} style={{ flex: 1 }} fontSize={ms(12)} />
           <AppText value={val?.productProgramNameEn} style={{ flex: 1 }} fontSize={ms(12)} />
-          <AppText value={val?.holdingVolume} style={{ flex: 1 }} textAlign={"center"} fontSize={ms(12)} />
+          <AppText value={val?.volume} style={{ flex: 1 }} textAlign={"center"} fontSize={ms(12)} />
           <AppText value={`${numberWithCommas(val?.price)}ᵈ`} style={{ flex: 0.8 }} textAlign={"right"}
                    fontSize={ms(12)} />
         </View>

@@ -440,7 +440,7 @@ const BankerLoanDetailScreen: FC = observer((props: any) => {
             <Text size="semiBold12" color="grayChateau" text={`HSV - ${data?._iid}`} />
           </Box>
         }
-        renderRightIcon={<NotificationSvg />}
+        // renderRightIcon={<NotificationSvg />}
       />
       {data?.dealDetails?.[0]?.status !== LOAN_STATUS_TYPES.CANCELLED ? (
         <BankerLoanSteps activeIndex={LOAN_STEP_INDEX[data?.dealDetails?.[0]?.status]} mb="1" />

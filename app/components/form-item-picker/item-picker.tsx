@@ -64,7 +64,7 @@ const ItemPicker = React.memo((props: Props) => {
       setTitle("")
     }
     if (value || value?.toString() === '0'){
-      const t = data?.find(d => d?.value === value)?.label || value || ''
+      const t = data?.find(d => d?.value === value)?.label ?? value ?? ''
       setTitle(t)
     }
   }, [value])
@@ -80,9 +80,9 @@ const ItemPicker = React.memo((props: Props) => {
           editable={false}
           errorMessage={errorMessage}
         />
-      </Box>
-      <Box position="absolute" right="12px" pt="1">
-        <FastImage source={images.arrow_down} style={styles.icon} />
+        <Box position="absolute" right="12px" pt="150%">
+          <FastImage source={images.arrow_down} style={styles.icon} />
+        </Box>
       </Box>
       <Pressable
         onPress={() => {

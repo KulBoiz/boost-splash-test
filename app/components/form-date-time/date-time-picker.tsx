@@ -76,9 +76,9 @@ const DatePicker = React.memo((props: Props) => {
           editable={false}
           errorMessage={errorMessage}
         />
-      </Box>
-      <Box position="absolute" right="12px" pt="1">
-        <CalenderSvg />
+        <Box position="absolute" right="12px" pt="95%">
+          <CalenderSvg/>
+        </Box>
       </Box>
       <Pressable
         onPress={() => {
@@ -121,6 +121,7 @@ export default DatePicker
 
 const styles = ScaledSheet.create({
   container: {
+    flex:1
     // marginVertical: spacing[3],
   },
   wrapper: {

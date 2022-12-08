@@ -21,7 +21,7 @@ const SearchBar = React.memo(({ style, onPress, placeholder = "Tìm kiếm", onC
     onChangeSearchText(value)
   }
 
-  const _search = debounce(_handleChangeText, 500)
+  const _search = debounce(_handleChangeText, 700)
 
   return (
     <View style={[styles.container, style]}>

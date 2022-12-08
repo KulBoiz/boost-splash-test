@@ -30,7 +30,7 @@ const FundItem = observer(({ item }: Props) => {
 
   const currentNav = get(head(price), "nav")
   const currentData = get(head(price), "navDate")
-  const percent = item?.info?.volatilityOverTime?.inOneYear
+  const percent = +item?.info?.volatilityOverTime?.inOneYear ?? 0
 
   const watchDetail = useCallback(() => {
     navigate(ScreenNames.FUND_DETAIL, { slug: item?.slug })
@@ -83,7 +83,7 @@ const FundItem = observer(({ item }: Props) => {
       </View>
       <View
         style={[styles.rateContainer, { backgroundColor: checkVolatility(percent) ? color.palette.down : color.palette.up }]}>
-        <AppText value={`${checkVolatility(percent) ? "" : "+"}${percent.toFixed(2)}%`} style={FONT_SEMI_BOLD_14}
+        <AppText value={`${checkVolatility(percent) ? "" : "+"}${percent?.toFixed(2)}%`} style={FONT_SEMI_BOLD_14}
                  color={color.palette.white}
                  textAlign={"right"} />
       </View>

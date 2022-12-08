@@ -1,16 +1,18 @@
 import React, { useCallback } from "react"
-import { View, ViewStyle } from "react-native"
+import { Alert, DeviceEventEmitter, View, ViewStyle } from "react-native"
 import AppHeader from "../../../components/app-header/AppHeader"
 import { FONT_MEDIUM_12, FONT_REGULAR_12, MARGIN_BOTTOM_4, ROW, SPACE_BETWEEN } from "../../../styles/common-style"
 import { AppText } from "../../../components/app-text/AppText"
 import { ms, ScaledSheet } from "react-native-size-matters"
 import { fontFamily } from "../../../constants/font-family"
 import { color } from "../../../theme"
-import { formatDateTime, hexToRgbA, numberWithCommas } from "../../../constants/variable"
+import { COMMON_ERROR, formatDateTime, hexToRgbA, numberWithCommas, OTP_TIME } from "../../../constants/variable"
 import ItemView from "../../loan/components/item-view"
 import DualButton from "../../../components/app-button/dual-button"
 import { goBack, navigate } from "../../../navigators"
 import { ScreenNames } from "../../../navigators/screen-names"
+import { useStores } from "../../../models"
+import { mappingLabelTypeOfFund } from "./constants"
 
 interface Props {
 }
@@ -49,8 +51,36 @@ const note = "Thời hạn thanh toán sau phiên khớp lệnh là từ 2-4 ng�
 const GMT = "Giờ VN"
 
 const ConfirmSale = React.memo((props: Props) => {
+  const { assetStore } = useStores()
+  const transactionInfo = assetStore.sellTransactionInfo
+
+  const onSubmit = useCallback((otpCode)=> {
+    assetStore.verifySellOrderOtp(otpCode)
+      .then(res=> {
+        if (res?.error){
+          Alert.alert(res?.error?.message ?? COMMON_ERROR)
+          return
+        }
+        navigate(ScreenNames.SALE_SUCCESS)
+      })
+  },[])
+
+  const onResend = useCallback(()=> {
+    assetStore.resendSellOrderOtp()
+      .then(res=> {
+        if (res?.error){
+          Alert.alert(res?.error?.message)
+          return
+        }
+        DeviceEventEmitter.emit('resend')
+      })
+  },[])
+
   const rightPress= useCallback(()=> {
-    navigate(ScreenNames.INVEST_OTP)
+    assetStore.createSellOrder({volume: transactionInfo?.volume, productId: transactionInfo?.productId, productProgramId: transactionInfo?.productProgramId}).then(res=>{
+      if (res?.error) return
+      navigate(ScreenNames.INVEST_OTP, {onSubmit, onResend, otpTime: OTP_TIME.SALE})
+    })
   },[])
 
   return (
@@ -59,17 +89,17 @@ const ConfirmSale = React.memo((props: Props) => {
       <View style={styles.body}>
         <View style={styles.headerContainer}>
           <Item leftContent={"VINACAPITAL"} rightContent={"Chương trình mua"} style={MARGIN_BOTTOM_4} />
-          <Item leftContent={"TVPF"} rightContent={"Linh hoạt"} isBold />
+          <Item leftContent={transactionInfo?.code} rightContent={mappingLabelTypeOfFund(transactionInfo?.info?.typeOfFund)} isBold />
         </View>
         <View style={styles.infoContainer}>
           <ItemView title={"Ngày đặt lệnh"} content={<RightContent content={formatDateTime(new Date())} note={GMT} />} style={styles.item}/>
-          <ItemView title={"Phiên khớp lệnh"} content={<RightContent content={formatDateTime(new Date())} note={GMT} />} style={styles.item}/>
-          <ItemView title={"Phí bán"} content={<RightContent content={"2%"} />} style={styles.item} />
-          <ItemView title={"Số lượng bán"} content={<RightContent content={numberWithCommas(4.94)} />}  />
+          <ItemView title={"Phiên khớp lệnh"} content={<RightContent content={formatDateTime(transactionInfo?.info?.nextOrderMatchingSession)} note={GMT} />} style={styles.item}/>
+          <ItemView title={"Phí bán"} content={<RightContent content={`${numberWithCommas(transactionInfo?.fee)} vnđ`} />} style={styles.item} />
+          <ItemView title={"Số lượng bán"} content={<RightContent content={numberWithCommas(transactionInfo?.volume)} />}  />
         </View>
         <View style={styles.valueContainer}>
           <AppText value={"Giá trị tương ứng"} style={[FONT_MEDIUM_12, MARGIN_BOTTOM_4]} color={color.text} />
-          <AppText value={`${numberWithCommas(99999)} vnđ`} fontSize={ms(24)} color={color.text}
+          <AppText value={`${numberWithCommas(transactionInfo?.value)} vnđ`} fontSize={ms(24)} color={color.text}
                    fontFamily={fontFamily.bold} />
         </View>
 

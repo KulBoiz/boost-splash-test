@@ -1,11 +1,9 @@
 import { ScreenNames } from "./screen-names"
 import React from "react"
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs"
-import SettingScreen from "../screens/settting/setting-screen"
 import { AppHomeScreen } from "../screens/home"
 import { useStores } from "../models"
 import { ROLE } from "../models/auth-store"
-import InDeveloping from "../components/in-developing"
 import RequestCounselling from "../screens/loan/request-counselling"
 import { ManagementStack } from "./management"
 import AppTabBar from "../components/bottom-tab-bar/app-tab"
@@ -29,51 +27,51 @@ export const AppStack = () => {
   const { role } = authStoreModel
   return (
     <View style={styles.container}>
-    <Tab.Navigator
-      initialRouteName={ScreenNames.HOME}
-      screenOptions={{ headerShown: false }}
-      tabBar={props => <AppTabBar {...props} />}
-    >
-      <Tab.Screen
-        name={ScreenNames.HOME}
-        component={AppHomeScreen}
-      />
-      {/* <Tab.Screen */}
-      {/*  name={ScreenNames.CHAT} */}
-      {/*  component={InDeveloping} */}
-      {/* /> */}
-      {role !== ROLE.BANK &&
+      <Tab.Navigator
+        initialRouteName={ScreenNames.HOME}
+        screenOptions={{ headerShown: false }}
+        tabBar={props => <AppTabBar {...props} />}
+      >
         <Tab.Screen
-          name={ScreenNames.PLUS}
-          options={() => ({
-            tabBarStyle: { display: "none"},
-            tabBarVisible: false,
-          })}
-        component={RequestCounselling}
+          name={ScreenNames.HOME}
+          component={AppHomeScreen}
         />
-      }
-      {role !== ROLE.BANK &&
+        {/* <Tab.Screen */}
+        {/*  name={ScreenNames.CHAT} */}
+        {/*  component={InDeveloping} */}
+        {/* /> */}
+        {role !== ROLE.BANK &&
+          <Tab.Screen
+            name={ScreenNames.PLUS}
+            options={() => ({
+              tabBarStyle: { display: "none" },
+              tabBarVisible: false,
+            })}
+            component={RequestCounselling}
+          />
+        }
+        {role !== ROLE.BANK &&
+          <Tab.Screen
+            name={ScreenNames.MANAGEMENT}
+            options={() => ({
+              tabBarStyle: { display: "none" },
+              tabBarVisible: false,
+            })}
+            component={ManagementStack}
+          />
+        }
         <Tab.Screen
-          name={ScreenNames.MANAGEMENT}
-          options={() => ({
-            tabBarStyle: { display: "none"},
-            tabBarVisible: false,
-          })}
-          component={ManagementStack}
+          name={ScreenNames.SETTING}
+          component={ProfileScreen}
         />
-      }
-      <Tab.Screen
-        name={ScreenNames.SETTING}
-        component={ProfileScreen}
-      />
-    </Tab.Navigator>
+      </Tab.Navigator>
     </View>
   )
 }
 
 const styles = ScaledSheet.create({
   container: {
-    flex:1,
-    backgroundColor: color.background
-  }
+    flex: 1,
+    backgroundColor: color.background,
+  },
 })
