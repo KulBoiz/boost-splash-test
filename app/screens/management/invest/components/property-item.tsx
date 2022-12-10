@@ -18,7 +18,7 @@ interface Props {
 
 const PropertyItem = React.memo((props: Props) => {
   const { item, onOpenSuccess } = props
-  const total = (item?.holdingVolume * (item?.navCurrent - item?.navInvested))?.toFixed(2) ?? 0
+  const total = (item?.holdingVolume * (item?.navCurrent - item?.navInvested))?.toFixed(0) ?? 0
   const haveMinus = checkVolatility(item?.interestOrHole)
 
   return (
@@ -35,7 +35,7 @@ const PropertyItem = React.memo((props: Props) => {
             <View style={{alignItems: 'flex-end'}}>
               <AppText value={`${numberWithCommas(total)}ᵈ`} fontFamily={fontFamily.bold} color={haveMinus ? color.textColor.error : color.green.green_01}/>
               <View style={[ROW, ALIGN_CENTER]}>
-                <AppText value={`${item?.interestOrHole?.toFixed(2)}%`} color={haveMinus ? color.textColor.error : color.green.green_01}/>
+                <AppText value={`${item?.interestOrHole?.toFixed(0)}%`} color={haveMinus ? color.textColor.error : color.green.green_01}/>
                 <FastImage source={images.asset_arrow_up} style={[styles.arrow, haveMinus && {transform: [{ rotate: "180deg" }]}]} tintColor={haveMinus ? color.textColor.error : color.green.green_01}/>
               </View>
             </View>
