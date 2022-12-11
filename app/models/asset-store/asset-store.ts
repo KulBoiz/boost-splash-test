@@ -70,10 +70,10 @@ export const AssetStoreModel = types
     }),
 
     getFiveTransactionHistory: flow(function* getFiveTransactionHistory(productId) {
-      const result = yield self.api.get("users/transactions", {
+      const result = yield self.api.get("users/load-transactions-for-asset-screen", {
         filter: {
           where: {
-            type: INVEST_TRANSACTION_TYPE.BUY,
+            // type: INVEST_TRANSACTION_TYPE.BUY,
             productId,
           },
           limit: 5,

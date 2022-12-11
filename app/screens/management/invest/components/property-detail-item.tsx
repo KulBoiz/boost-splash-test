@@ -8,11 +8,12 @@ import {
   FONT_REGULAR_12,
   MARGIN_BOTTOM_4,
   MARGIN_BOTTOM_8,
-  MARGIN_TOP_16, MARGIN_TOP_8,
+  MARGIN_TOP_16,
+  MARGIN_TOP_8,
   ROW,
   SPACE_BETWEEN,
 } from "../../../../styles/common-style"
-import { checkVolatility, numberWithCommas } from "../../../../constants/variable"
+import { checkVolatility, convertToInt } from "../../../../constants/variable"
 import { fontFamily } from "../../../../constants/font-family"
 import FastImage from "react-native-fast-image"
 import { images } from "../../../../assets/images"
@@ -48,23 +49,23 @@ const Item = React.memo((props: ItemProps) => {
 })
 
 const PropertyDetailItem = React.memo(({ item }: Props) => {
-  const total = ((item?.navCurrent - item?.navInvested) * item?.holdingVolume).toFixed(2)
+  const total = ((item?.navCurrent - item?.navInvested) * item?.holdingVolume)
   const haveMinus = checkVolatility(item?.interestOrHole)
 
   return (
     <View style={styles.container}>
       <Item leftTitle={`Tổng lợi nhuận`} rightTitle={`Tỉ suất lợi nhuận`} style={MARGIN_BOTTOM_4} />
-      <Item leftTitle={`${numberWithCommas(total)}ᵈ`} rightTitle={`${item?.interestOrHole?.toFixed(2)}%`} showIcon leftStyle={{ fontFamily: fontFamily.semiBold }}
+      <Item leftTitle={`${convertToInt(total)}ᵈ`} rightTitle={`${item?.interestOrHole?.toFixed(2)}%`} showIcon leftStyle={{ fontFamily: fontFamily.semiBold }}
             textColor={haveMinus ? color.textColor.error : color.green.green_01} />
       <Item leftTitle={`Chương trình`} rightTitle={`Lợi nhuận`} style={[MARGIN_TOP_16, MARGIN_BOTTOM_4]} />
       {item?.productProgramList?.map((val, id) => (
         <Item key={id} style={MARGIN_BOTTOM_8} leftTitle={val?.nameEn} leftStyle={FONT_REGULAR_12}
               rightStyle={FONT_BOLD_12} textColor={color.palette.black}
-              rightTitle={`${numberWithCommas((val?.holdingVolume * (item?.navCurrent - item?.navInvested))?.toFixed(2))}ᵈ`} />
+              rightTitle={`${convertToInt((val?.holdingVolume * (item?.navCurrent - item?.navInvested)))}ᵈ`} />
       ))}
       <Item leftTitle={`Số lượng CCQ`} rightTitle={`Giá hiện tại`} style={[MARGIN_TOP_8, MARGIN_BOTTOM_4]}/>
       <Item leftTitle={item?.holdingVolume} leftStyle={FONT_REGULAR_12} rightStyle={FONT_BOLD_12}
-            rightTitle={`${numberWithCommas(item?.info?.navCurrently)}ᵈ`} textColor={color.palette.black} />
+            rightTitle={`${convertToInt(item?.info?.navCurrently)}ᵈ`} textColor={color.palette.black} />
     </View>
   )
 })

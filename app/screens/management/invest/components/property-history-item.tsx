@@ -20,7 +20,7 @@ const PropertyHistoryItem = React.memo(({ productId }: Props) => {
         setHistories(res)
       },
     )
-  }, [])
+  }, [productId])
 
   if (!histories.length) {
     return <></>
@@ -36,7 +36,7 @@ const PropertyHistoryItem = React.memo(({ productId }: Props) => {
       </View>
       {histories.map((val: any, index) => (
         <View key={index} style={[ROW, SPACE_BETWEEN, MARGIN_TOP_8]}>
-          <AppText value={formatDate(val?.transactionPartnerLog?.createdAt)} style={{ flex: 1 }} fontSize={ms(12)} />
+          <AppText value={formatDate(val?.createAt)} style={{ flex: 1 }} fontSize={ms(12)} />
           <AppText value={val?.productProgramNameEn} style={{ flex: 1 }} fontSize={ms(12)} />
           <AppText value={val?.volume} style={{ flex: 1 }} textAlign={"center"} fontSize={ms(12)} />
           <AppText value={`${numberWithCommas(val?.price)}ᵈ`} style={{ flex: 0.8 }} textAlign={"right"}

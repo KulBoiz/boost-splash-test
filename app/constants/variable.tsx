@@ -158,4 +158,8 @@ export const checkVolatility = (value: number | string | undefined) => {
   return value ? value.toString().includes('-') : false
 }
 
+export const convertToInt = (value: number | string) => {
+  return value ? Math.floor(+value).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") : 0
+}
+
 export const COMMON_ERROR = 'Có lỗi xảy ra, vui lòng thử lại sau'

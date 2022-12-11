@@ -2,7 +2,7 @@ import React, { useCallback } from "react"
 import { View } from "react-native"
 import { FONT_MEDIUM_12, FONT_REGULAR_12, FONT_REGULAR_14, MARGIN_BOTTOM_8 } from "../../../styles/common-style"
 import ItemView from "../../loan/components/item-view"
-import { formatDate, formatDateTime, numberWithCommas } from "../../../constants/variable"
+import { convertToInt, formatDate, formatDateTime } from "../../../constants/variable"
 import { color } from "../../../theme"
 import { ms, ScaledSheet } from "react-native-size-matters"
 import AppButton from "../../../components/app-button/AppButton"
@@ -57,9 +57,9 @@ const SaleSuccess = React.memo((props: Props) => {
         <View style={styles.itemContainer}>
           <ItemView title={"Ngày đặt lệnh"} content={<RightContent content={formatDateTime(new Date())} note={GMT} />}
                     style={styles.item} />
-          <ItemView title={"Phiên giao dịch"} content={<RightContent content={formatDate(transactionInfo?.info?.nextOrderMatchingSession)} note={GMT} />}
+          <ItemView title={"Phiên giao dịch"} content={<RightContent content={formatDate(transactionInfo?.info?.nextOrderMatchingSession)}/>}
                     style={styles.item} />
-          <ItemView title={"Phí bán"} content={<RightContent content={`${numberWithCommas(transactionInfo?.fee)} vnđ`} />} style={styles.item} />
+          <ItemView title={"Phí bán"} content={<RightContent content={`${convertToInt(transactionInfo?.fee)} vnđ`} />} style={styles.item} />
           <ItemView title={"Số lượng bán"} content={<RightContent content={transactionInfo?.volume ?? '0'} />} />
         </View>
       </View>

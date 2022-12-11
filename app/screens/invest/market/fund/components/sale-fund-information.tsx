@@ -12,7 +12,6 @@ import { get, head } from "lodash"
 
 interface Props {
   data: any
-  navs: any
 }
 
 interface ItemProps {
@@ -34,21 +33,20 @@ const Item = React.memo(({ title, content, style, alignRight }: ItemProps) => {
   )
 })
 
-const SaleFundInformation = React.memo(({ data, navs }: Props) => {
+const SaleFundInformation = React.memo(({ data }: Props) => {
   const endDate = moment(data?.info?.closedOrderBookTime).add(1, 'day')
   const totalTime = moment(endDate).diff(new Date()).toString().slice(0, -3)
-  const currentNav = get(head(navs), 'nav')
 
   return (
     <View style={styles.container}>
       <View style={styles.headerContainer}>
         <View style={[ROW, SPACE_BETWEEN]}>
-          <Item title={"Phiên giao dịch"} content={`${formatDate(new Date())}`} />
+          <Item title={"Phiên giao dịch"} content={`${formatDate(data?.info?.preOrderMatchingSession)}`} />
           <Item title={"Thời điểm đóng sổ lệnh"} alignRight content={formatTimeDate(data?.info?.closedOrderBookTime)} style={MARGIN_BOTTOM_16} />
         </View>
         <View style={[ROW, SPACE_BETWEEN, ALIGN_CENTER]}>
           <MarketCountdown totalTime={+totalTime} style={styles.timeContainer} />
-          <Item title={"NAV/CCQ kỳ trước"} content={`${numberWithCommas(currentNav)}đ`} alignRight />
+          <Item title={"NAV/CCQ kỳ trước"} content={`${numberWithCommas(data?.info?.navCurrently)}đ`} alignRight />
         </View>
       </View>
     </View>
