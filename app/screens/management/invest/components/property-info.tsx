@@ -37,10 +37,10 @@ interface ItemProps {
   flex: number
 }
 
-const Item = React.memo(({ title, value, style, image, width, flex}: ItemProps) => {
+const Item = React.memo(({ title, value, style, image, width, flex }: ItemProps) => {
   return (
     <View style={[styles.itemContainer, style, { flex }]}>
-      <FastImage source={image} style={[styles.icon, {width: ms(width)}]}/>
+      <FastImage source={image} style={[styles.icon, { width: ms(width) }]} />
       <View>
         <AppText value={title} fontSize={ms(10)} color={hexToRgbA(color.text, 0.6)} />
         <AppText value={`${value}ᵈ`} fontSize={ms(10)} fontFamily={fontFamily.bold} color={color.text} />
@@ -66,12 +66,35 @@ const yellow = "#FBE947"
 const cyan = "#76FFFF"
 const pink = "#FF4FB8"
 
+export const TYPE_OF_FUND = {
+  STOCK: 'stock',
+  BOND: 'bond',
+  BALANCED: 'balanced',
+  IPO: 'ipo',
+};
+
 const PropertyInfo = React.memo(({ asset }: Props) => {
   let totalFund = 0;
   let totalInvest = 0;
   const totalBond = 0;
-  const totalMoney = 0;
   let profit = 0;
+
+  const calcMoney = (values) => {
+    return values?.reduce((totalPrice, product: any) => totalPrice + (product?.navCurrent ?? 0) * (product?.holdingVolume ?? 0), 0);
+  }
+
+  const filterDataByType = (type) => {
+    return dataFund?.filter((product: any) => product?.info?.typeOfFund === type)
+  }
+
+  const dataFund = asset;
+
+  const amountOfBondTypeFund = filterDataByType(TYPE_OF_FUND.BOND)
+  const amountOfBalanceTypeFund = filterDataByType(TYPE_OF_FUND.BALANCED)
+  const amountOfStockTypeFund = filterDataByType(TYPE_OF_FUND.STOCK)
+  const amountOfIpoTypeFund = filterDataByType(TYPE_OF_FUND.IPO)
+
+  const totalAmountInvest = calcMoney(dataFund)
 
   if (asset.length > 0) {
     asset.forEach((fund: any) => {
@@ -83,21 +106,21 @@ const PropertyInfo = React.memo(({ asset }: Props) => {
   const total = totalFund + totalBond;
 
   const pieData = [
-    { value: totalBond, color: cyan, text: "35%" },
-    { value: totalFund, color: yellow, text: "15%" },
-    { value: totalMoney, color: green, text: "35%" },
-    { value: 0, color: pink, text: "15%" },
+    { value: calcMoney(amountOfBondTypeFund), color: cyan, text: "35%" },
+    { value: calcMoney(amountOfBalanceTypeFund), color: yellow, text: "15%" },
+    { value: calcMoney(amountOfStockTypeFund), color: green, text: "35%" },
+    { value: calcMoney(amountOfIpoTypeFund), color: pink, text: "15%" },
   ]
 
   return (
     <View style={styles.container}>
       <FastImage source={images.asset_background} style={styles.image}>
         <View style={styles.assetContainer}>
-          <Item image={images.invest_invest} flex={1} width={16} title={'Bạn đã đầu tư'} value={numberWithCommas(totalInvest.toFixed(2))}/>
-          <View style={styles.separate}/>
-          <Item image={images.invest_asset_value}  flex={1} width={14} title={'Giá trị tài sản thuần'} value={numberWithCommas(total)}/>
-          <View style={styles.separate}/>
-          <Item image={images.invest_profit}  flex={0.8} width={12} title={'Lợi nhuận'} value={numberWithCommas(profit.toFixed(2))}/>
+          <Item image={images.invest_invest} flex={1} width={16} title={'Bạn đã đầu tư'} value={numberWithCommas(totalInvest.toFixed(0))} />
+          <View style={styles.separate} />
+          <Item image={images.invest_asset_value} flex={1} width={14} title={'Giá trị tài sản thuần'} value={numberWithCommas(total.toFixed(0))} />
+          <View style={styles.separate} />
+          <Item image={images.invest_profit} flex={0.8} width={12} title={'Lợi nhuận'} value={numberWithCommas(profit.toFixed(0))} />
         </View>
         <View style={[ROW, ALIGN_CENTER, SPACE_BETWEEN, MARGIN_BOTTOM_16]}>
           <View style={styles.chartContainer}>
@@ -112,11 +135,11 @@ const PropertyInfo = React.memo(({ asset }: Props) => {
             />
           </View>
           <View style={styles.body}>
-            <AppText value={'Phân bổ vốn'} style={[FONT_SEMI_BOLD_14, MARGIN_BOTTOM_8]} color={color.text}/>
-            <RenderLabel backgroundColor={cyan} title={"Quỹ trái phiếu"} content={`0%`} style={styles.item} />
-            <RenderLabel backgroundColor={yellow} title={"Quỹ cổ phiếu"} content={`${totalFund ? '100%' : '0%'}`} style={styles.item} />
-            <RenderLabel backgroundColor={green} title={"Quỹ cân bằng"} content={`0%`} style={styles.item} />
-            <RenderLabel backgroundColor={pink} title={"Trái phiếu"} content={`0%`} />
+            <AppText value={'Phân bổ vốn'} style={[FONT_SEMI_BOLD_14, MARGIN_BOTTOM_8]} color={color.text} />
+            <RenderLabel backgroundColor={cyan} title={"Quỹ trái phiếu"} content={`${(calcMoney(amountOfBondTypeFund) / totalAmountInvest * 100)?.toFixed(1) || 0}%`} style={styles.item} />
+            <RenderLabel backgroundColor={yellow} title={"Quỹ cổ phiếu"} content={`${(calcMoney(amountOfBalanceTypeFund) / totalAmountInvest * 100)?.toFixed(1) || 0}%`} style={styles.item} />
+            <RenderLabel backgroundColor={green} title={"Quỹ cân bằng"} content={`${(calcMoney(amountOfStockTypeFund) / totalAmountInvest * 100)?.toFixed(1) || 0}%`} style={styles.item} />
+            <RenderLabel backgroundColor={pink} title={"Trái phiếu"} content={`${(calcMoney(amountOfIpoTypeFund) / totalAmountInvest * 100)?.toFixed(1) || 0}%`} />
           </View>
         </View>
       </FastImage>
@@ -149,7 +172,7 @@ const styles = ScaledSheet.create({
   itemContainer: {
     flexDirection: 'row',
     alignItems: "center",
-    flex:1
+    flex: 1
   },
   icon: {
     height: '18@ms',
