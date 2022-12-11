@@ -6,7 +6,14 @@ import { AppText } from "../../../components/app-text/AppText"
 import { ms, ScaledSheet } from "react-native-size-matters"
 import { fontFamily } from "../../../constants/font-family"
 import { color } from "../../../theme"
-import { COMMON_ERROR, formatDateTime, hexToRgbA, numberWithCommas, OTP_TIME } from "../../../constants/variable"
+import {
+  COMMON_ERROR, convertToInt,
+  formatDate,
+  formatDateTime,
+  hexToRgbA,
+  numberWithCommas,
+  OTP_TIME,
+} from "../../../constants/variable"
 import ItemView from "../../loan/components/item-view"
 import DualButton from "../../../components/app-button/dual-button"
 import { goBack, navigate } from "../../../navigators"
@@ -93,13 +100,13 @@ const ConfirmSale = React.memo((props: Props) => {
         </View>
         <View style={styles.infoContainer}>
           <ItemView title={"Ngày đặt lệnh"} content={<RightContent content={formatDateTime(new Date())} note={GMT} />} style={styles.item}/>
-          <ItemView title={"Phiên khớp lệnh"} content={<RightContent content={formatDateTime(transactionInfo?.info?.nextOrderMatchingSession)} note={GMT} />} style={styles.item}/>
-          <ItemView title={"Phí bán"} content={<RightContent content={`${numberWithCommas(transactionInfo?.fee)} vnđ`} />} style={styles.item} />
+          <ItemView title={"Phiên khớp lệnh"} content={<RightContent content={formatDate(transactionInfo?.info?.nextOrderMatchingSession)}/>} style={styles.item}/>
+          <ItemView title={"Phí bán"} content={<RightContent content={`${convertToInt(transactionInfo?.fee)} vnđ`} />} style={styles.item} />
           <ItemView title={"Số lượng bán"} content={<RightContent content={numberWithCommas(transactionInfo?.volume)} />}  />
         </View>
         <View style={styles.valueContainer}>
           <AppText value={"Giá trị tương ứng"} style={[FONT_MEDIUM_12, MARGIN_BOTTOM_4]} color={color.text} />
-          <AppText value={`${numberWithCommas(transactionInfo?.value)} vnđ`} fontSize={ms(24)} color={color.text}
+          <AppText value={`${convertToInt(transactionInfo?.value)} vnđ`} fontSize={ms(24)} color={color.text}
                    fontFamily={fontFamily.bold} />
         </View>
 

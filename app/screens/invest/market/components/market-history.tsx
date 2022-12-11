@@ -33,7 +33,7 @@ const Item = React.memo(({ item }: any) => {
   )
 })
 const MarketHistory = React.memo(({ data, navs }: Props) => {
-  const [showMore, setShowMore] = useState(true)
+  const [showMore, setShowMore] = useState(false)
   const fiveNavs = navs.slice(0, 5)
   const history = (showMore ? navs : fiveNavs) ?? []
 

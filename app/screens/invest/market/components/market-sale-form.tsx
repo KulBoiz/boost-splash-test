@@ -20,7 +20,8 @@ import { debounce, filter } from "lodash"
 import { useStores } from "../../../../models"
 import { observer } from "mobx-react-lite"
 import SaleFeeInfo from "./sale-fee-info"
-import { numberWithCommas } from "../../../../constants/variable"
+import { convertToInt } from "../../../../constants/variable"
+import AppModal from "../../../../components/app-modal/app-modal"
 
 interface Props {
   control: Control
@@ -30,6 +31,7 @@ interface Props {
   clearErrors: UseFormClearErrors<FieldValues>
   setError: UseFormSetError<FieldValues>;
   data: any
+  setIsValid(e: boolean): void
 }
 
 const selectData = [20, 50, 75, "Tất cả"]
@@ -54,17 +56,25 @@ const MarketSaleForm = observer((props: Props) => {
   const { assetStore } = useStores()
   const [fundAmount, setFundAmount] = useState(0)
   const [fee, setFee] = useState([])
-  const { control, errors, setValue, watch, clearErrors, data, setError } = props
+  const [visible, setVisible] = useState(false)
+  const [errorText, setErrorText] = useState('')
+  const { control, errors, setValue, watch, clearErrors, data, setError, setIsValid  } = props
   const sellMinValue = filter(data?.productDetails, { idPartner: watch("program") })?.[0]?.sellMin
   const param = { volume: +watch("amount"), productId: data?.info?.idPartner, productProgramId: watch("program") }
 
   const loadFee = useCallback(
     debounce(async param => {
       await assetStore.loadRedemptionFee(param).then(res=> {
-        if (res.error || res?.kind === 'server') return
+        if (res.error || res?.kind === 'server') {
+          setIsValid(false)
+          setErrorText(res?.error?.message)
+          setVisible(true)
+          return
+        }
+        setIsValid(true)
         setFee(res?.details)
-        setValue('value', numberWithCommas(res?.totalAmount.toFixed(2)))
-        setValue('fee', numberWithCommas(res?.totalFee.toFixed(2)))
+        setValue('value', convertToInt(res?.totalAmount))
+        setValue('fee', convertToInt(res?.totalFee))
       })
       await assetStore.setInfoSellTransaction({...param, ...data, value: watch('value').replace(/,/g, ''), fee: watch('fee').replace(/,/g, '')})
     }, 700),
@@ -73,16 +83,20 @@ const MarketSaleForm = observer((props: Props) => {
 
   useEffect(() => {
     if (+watch("amount") > fundAmount) {
+      setIsValid(false)
       setError("amount", { message: "Số lượng CCQ vượt quá số lượng khả dụng" })
       return
     }
-    if (watch("amount").length <= 0) return
+    if (watch("amount").length <= 0) {
+      setIsValid(false)
+      return
+    }
     loadFee(param)
-
   }, [watch("amount"), fundAmount])
 
 
   const handlePress = React.useCallback((value) => {
+    setIsValid(false)
     clearErrors("amount")
     if (!fundAmount) {
       setValue("amount", "0")
@@ -169,7 +183,7 @@ const MarketSaleForm = observer((props: Props) => {
          />
       </View>
       <NoteItem content={`Giá trị thực nhận phụ thuộc vào NAV của ngày phiên khớp lệnh`} />
-
+      <AppModal visible={visible} closeModal={()=> setVisible(false)} content={errorText} />
     </View>
   )
 })

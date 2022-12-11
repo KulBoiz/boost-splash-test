@@ -24,16 +24,15 @@ interface Props {
 
 const MarketSale = React.memo((props: Props) => {
   const { params: { slug } } = useRoute<RouteProp<NavigatorParamList, ScreenNames.SALE_BONDS>>()
-  const [navs, setNavs] = useState([])
   const [data, setData] = useState<any>({})
   const [loading, setLoading] = useState<boolean>(true)
+  const [isValid, setIsValid] = useState<boolean>(false)
   const { investStore, assetStore } = useStores()
 
   useEffect(() => {
     investStore.getFundDetail(slug).then(res => {
         setLoading(false)
         setData(res)
-        investStore.getNavs(res?.id).then(e => setNavs(e))
         assetStore.loadAssetProgram(res?.info?.idPartner)
       },
     )
@@ -59,13 +58,13 @@ const MarketSale = React.memo((props: Props) => {
   })
 
   const handleSale = useCallback(() => {
+    if(!isValid) return
     navigate(ScreenNames.CONFIRM_SALE)
-  }, [])
+  }, [isValid])
 
   const productDetail = filter(data?.productDetails, { idPartner: watch("program") })?.[0]
 
   return (
-
     <View style={styles.container}>
       <AppHeader headerText={"Đặt lệnh bán"} isBlue />
       {
@@ -74,12 +73,12 @@ const MarketSale = React.memo((props: Props) => {
             {data ?
               <View style={{flex:1}}>
               <ScrollView style={styles.bodyContainer} bounces={false}>
-                <SaleFundInformation data={data} navs={navs}/>
-                <MarketSaleForm  {...{ control, errors: { ...errors }, setValue, watch, clearErrors, data, setError }} />
+                <SaleFundInformation data={data} />
+                <MarketSaleForm  {...{ control, errors: { ...errors }, setValue, watch, clearErrors, data, setError, setIsValid }} />
                 <FundTariff productDetail={productDetail} hideBuyFee/>
               </ScrollView>
                 <View style={styles.wrapBtn}>
-                  <AppButton title={"Đặt lệnh bán"} onPress={handleSubmit(handleSale)}/>
+                  <AppButton title={"Đặt lệnh bán"} onPress={handleSubmit(handleSale)} disabled={!isValid}/>
                 </View>
               </View>
               : <EmptyList />

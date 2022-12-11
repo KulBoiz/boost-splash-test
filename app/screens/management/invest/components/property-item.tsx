@@ -1,4 +1,4 @@
-import React, { useRef } from "react"
+import React from "react"
 import { View } from "react-native"
 import { AppText } from "../../../../components/app-text/AppText"
 import FastImage from "react-native-fast-image"
@@ -7,7 +7,7 @@ import { ScaledSheet } from "react-native-size-matters"
 import { color } from "../../../../theme"
 import { fontFamily } from "../../../../constants/font-family"
 import { ALIGN_CENTER, FONT_BOLD_14, ROW } from "../../../../styles/common-style"
-import { checkVolatility, numberWithCommas } from "../../../../constants/variable"
+import { checkVolatility, convertToInt } from "../../../../constants/variable"
 import { Pressable } from "native-base"
 import { mappingLabelTypeOfFund } from "../../../invest/market/constants"
 
@@ -33,7 +33,7 @@ const PropertyItem = React.memo((props: Props) => {
             </View>
 
             <View style={{alignItems: 'flex-end'}}>
-              <AppText value={`${numberWithCommas(total)}ᵈ`} fontFamily={fontFamily.bold} color={haveMinus ? color.textColor.error : color.green.green_01}/>
+              <AppText value={`${convertToInt(total)}ᵈ`} fontFamily={fontFamily.bold} color={haveMinus ? color.textColor.error : color.green.green_01}/>
               <View style={[ROW, ALIGN_CENTER]}>
                 <AppText value={`${item?.interestOrHole?.toFixed(2)}%`} color={haveMinus ? color.textColor.error : color.green.green_01}/>
                 <FastImage source={images.asset_arrow_up} style={[styles.arrow, haveMinus && {transform: [{ rotate: "180deg" }]}]} tintColor={haveMinus ? color.textColor.error : color.green.green_01}/>
