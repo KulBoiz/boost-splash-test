@@ -6,7 +6,7 @@ import { UseFormClearErrors, UseFormSetValue } from "react-hook-form/dist/types/
 import { FieldValues } from "react-hook-form/dist/types/fields"
 import { FieldPath } from "react-hook-form/dist/types"
 import ItemPickerModal from "./item-picker-modal"
-import { truncateString } from "../../constants/variable"
+import { isAndroid, truncateString } from "../../constants/variable"
 import { TextField } from "../text-field/text-field"
 import { Box, Pressable, Row } from "native-base"
 import { Keyboard } from "react-native"
@@ -80,7 +80,7 @@ const ItemPicker = React.memo((props: Props) => {
           editable={false}
           errorMessage={errorMessage}
         />
-        <Box position="absolute" right="12px" pt="150%">
+        <Box position="absolute" right="12px" pt={isAndroid ? "160%": "150%"}>
           <FastImage source={images.arrow_down} style={styles.icon} />
         </Box>
       </Box>

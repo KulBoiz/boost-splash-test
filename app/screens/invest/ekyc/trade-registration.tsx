@@ -17,17 +17,24 @@ import SuccessModalize from "./success-modalize"
 import { useIsFocused } from "@react-navigation/native"
 import { OTP_TIME } from "../../../constants/variable"
 import { observer } from "mobx-react-lite"
+import WebView from "react-native-webview"
+import * as FileSystem from "expo-file-system"
+import { openFile } from "../../../utils/file"
+import { find } from "../../../utils/lodash-utils"
 
 interface Props {
 }
+
 const lineColor = "#E9EBEF"
+
 const TradeRegistration = observer((props: Props) => {
-  const { ekycStore, investStore } = useStores()
+  const { ekycStore, investStore, appStore } = useStores()
   const modalizeRef = useRef<Modalize>(null)
   const modalizeSuccessRef = useRef<Modalize>(null)
   const isFocused = useIsFocused()
   const [contractLink, setContractLink] = useState('https://')
   const [isSigned,setIsSigned] = useState<boolean | string | number>(false)
+  const hasContractLink = contractLink !== 'https://'
 
   useEffect(()=> {
     ekycStore.checkContractStatus().then(res => {
@@ -41,7 +48,21 @@ const TradeRegistration = observer((props: Props) => {
   },[isFocused])
 
   const openLink = React.useCallback(()=> {
-    Linking.openURL(contractLink)
+    const localPath = FileSystem.cacheDirectory + 'contract'
+    const fileExists = find(appStore?.filesDownloaded, (f) => f === localPath)
+    if (fileExists) {
+      openFile(fileExists)
+    }
+    else {
+      FileSystem.downloadAsync(contractLink, localPath)
+        .then(({ uri }) => {
+          appStore?.addFileDownloaded(localPath)
+          openFile(uri)
+        })
+        .catch(()=> {
+          Linking.openURL(contractLink)
+        })
+    }
   },[contractLink])
 
   const onOpen = React.useCallback(() => {
@@ -120,9 +141,10 @@ const TradeRegistration = observer((props: Props) => {
             </View>
           </View>
           <AppText value={isSigned ? 'Tải hợp đồng đã ký' : 'XEM GIẤY ĐKGD'} textAlign={"center"} underline color={color.primary} onPress={openLink}/>
-
         </View>
-        <View style={{flex:1}} />
+        {!hasContractLink &&<View style={{ flex: 1 }} />}
+        {hasContractLink && <WebView source={{ uri: contractLink }} style={styles.webViewContainer}/>}
+
         <SuccessModalize modalizeRef={modalizeSuccessRef} closeModal={onCloseSuccess} />
         <Signature modalizeRef={modalizeRef} handleConfirm={handleConfirm} closeModal={onClose} />
         {!isSigned && <DualButton leftTitle={"Lưu và thoát"} rightTitle={"Ký tên"} rightPress={onOpen}
@@ -138,11 +160,21 @@ export default TradeRegistration
 const styles = ScaledSheet.create({
   container: {
     flex: 1,
+    backgroundColor: color.background
   },
   body: {
     flex: 1,
     padding: "16@s",
     paddingBottom: "24@s",
+  },
+  webViewContainer: {
+    marginTop: '6@s',
+    marginBottom: '20@s',
+    height: '80%',
+    flex:1,
+    borderWidth: 1,
+    borderColor: lineColor,
+    borderRadius: '8@s'
   },
   underline: {
     borderBottomWidth: 1,

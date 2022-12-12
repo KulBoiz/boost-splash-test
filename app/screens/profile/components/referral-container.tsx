@@ -81,7 +81,7 @@ const ReferralContainer = React.memo((props: Props) => {
         appStore?.addFileDownloaded(fileUri)
         Share.open({ ...options, url: fileUri, message: linkRef })
       })
-  }, [refCode])
+  }, [refCode, appStore?.filesDownloaded])
 
   return (
     <FastImage style={styles.container} source={images.profile_referral_background}>

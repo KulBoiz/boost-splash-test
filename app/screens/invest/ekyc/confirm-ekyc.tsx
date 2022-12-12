@@ -1,4 +1,4 @@
-import React, { useState } from "react"
+import React, { useCallback, useRef, useState } from "react"
 import { Alert, View } from "react-native"
 import AppHeader from "../../../components/app-header/AppHeader"
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view"
@@ -20,18 +20,21 @@ import RenderFlatStep from "../../../components/render-flat-step"
 import { navigate } from "../../../navigators"
 import { ScreenNames } from "../../../navigators/screen-names"
 import { useStores } from "../../../models"
-import { COMMON_ERROR } from "../../../constants/variable"
+import { COMMON_ERROR, width } from "../../../constants/variable"
 import moment from "moment"
 import SignKycModal from "./components/sign-modal"
 import ConfirmModal from "../../../components/app-modal/confirm-modal"
 import FatcaForm from "./components/fatca-form"
 import { observer } from "mobx-react-lite"
 import { isVNPhone } from "../../../constants/regex"
+import Carousel from 'react-native-snap-carousel';
 
 interface Props {
 }
+const SLIDER_DATA = [0,1,2,3]
 
 const ConfirmEkyc = observer((props: Props) => {
+  const ref = useRef<any>()
   const { ekycStore, authStoreModel } = useStores()
   const [position, setPosition] = useState(0)
   const [visible, setVisible] = useState(false)
@@ -71,7 +74,7 @@ const ConfirmEkyc = observer((props: Props) => {
     watch,
     clearErrors,
   } = useForm({
-    mode: "all",
+    mode: "onSubmit",
     resolver: position === 0 ? yupResolver(firstValidationSchema) : position === 1 ?
       yupResolver(secondValidationSchema) : position === 2 ?
       yupResolver(thirdValidationSchema) : yupResolver(fourthValidationSchema),
@@ -101,7 +104,8 @@ const ConfirmEkyc = observer((props: Props) => {
       tels: [{ tel: data.tel }],
     }
     if (position < 3) {
-      setPosition(position + 1)
+      ref?.current?.snapToNext()
+      // setPosition(position + 1)
       return
     }
     ekycStore.kycMio(param).then((res) => {
@@ -122,9 +126,7 @@ const ConfirmEkyc = observer((props: Props) => {
   }, [position])
 
   const handleCancel = React.useCallback(() => {
-    setPosition(position - 1)
-
-    // navigate(ScreenNames.HOME)
+    navigate(ScreenNames.HOME)
   }, [position])
 
   const pressContinue = React.useCallback(() => {
@@ -133,8 +135,8 @@ const ConfirmEkyc = observer((props: Props) => {
     authStoreModel.getFullInfoUser(authStoreModel?.userId)
   }, [])
 
-  const renderStep = React.useCallback(() => {
-    switch (position) {
+  const renderStep = useCallback(({item, index}) => {
+    switch (index) {
       case 0: {
         return (
           <View>
@@ -153,7 +155,7 @@ const ConfirmEkyc = observer((props: Props) => {
         return <FatcaForm {...{ control, errors: { ...errors }, setValue, clearErrors, watch }} />
       }
     }
-  }, [position, errors])
+  },[ref, errors])
 
   const closeModal = React.useCallback(() => {
     setVisible(false)
@@ -174,7 +176,16 @@ const ConfirmEkyc = observer((props: Props) => {
                  fontFamily={fontFamily.regular} textAlign={"center"} />
         <AppText value={"Vui lòng xem lại và xác nhận các thông tin dưới đây chính xác"} textAlign={"center"}
                  style={FONT_REGULAR_14} />
-        {renderStep()}
+        <Carousel
+          ref={ref}
+          key={(e, i)=> e?.id + i.toString()}
+          data={SLIDER_DATA}
+          renderItem={renderStep}
+          sliderWidth={width}
+          itemWidth={width}
+          onSnapToItem={(index) => setPosition( index ) }
+        />
+        {/* {renderStep()} */}
       </KeyboardAwareScrollView>
       <DualButton leftTitle={"Huỷ"} rightTitle={"Tiếp tục"} style={styles.btn}
                   rightPress={handleSubmit(handleContinue)}

@@ -29,11 +29,11 @@ const PurchaseQrTab = React.memo(({ transactionInfo = {} }: Props) => {
     title,
     subject: title,
     message: `Mã thanh toán của giao dịch ${transactionInfo?.code}`,
-    url: `${linkQr}`
+    // url: `${linkQr}`
   }
   const shareQr = useCallback(async () => {
-    Share.open({ ...options })
-  }, [])
+    Share.open({ ...options,  url: linkQr })
+  }, [linkQr])
 
   const toggleModal = useCallback(() => {
     setModal(!modal)

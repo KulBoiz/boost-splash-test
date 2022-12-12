@@ -243,8 +243,8 @@ const EKYCId: FC<StackScreenProps<EKYCStackParamList, ScreenNames.EKYC_ID>> = ob
           icon={<ThunderSvg />}
           text={flash === "on" ? "Tắt đèn flash" : "Bật đèn flash"}
         />
-        <AppText value={"|"} color={color.text} fontSize={s(20)} />
-        <ActionItem onPress={navigateToPhotoPicker} icon={<PhotoSvg />} text={"Thư viện ảnh"} />
+        {/* <AppText value={"|"} color={color.text} fontSize={s(20)} /> */}
+        {/* <ActionItem onPress={navigateToPhotoPicker} icon={<PhotoSvg />} text={"Thư viện ảnh"} /> */}
       </View>
 
       <View style={styles.btnContainer}>
