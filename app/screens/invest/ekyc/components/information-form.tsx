@@ -1,7 +1,6 @@
 import React, { useEffect } from "react"
-import { View } from 'react-native';
+import { View } from "react-native"
 import { AppText } from "../../../../components/app-text/AppText"
-import { color } from "../../../../theme"
 import FormInput from "../../../../components/form-input/form-input"
 import { Control, UseFormClearErrors, UseFormSetValue } from "react-hook-form/dist/types/form"
 import { FieldErrors } from "react-hook-form/dist/types/errors"
@@ -88,6 +87,7 @@ const InformationForm = React.memo((props: Props) => {
       <FormItemPicker
         {...{
           style:{flex: 1},
+          editable:false,
           required: true,
           name: "gender",
           label: "Giới tính",

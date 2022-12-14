@@ -6,7 +6,7 @@ import { color } from "../../theme"
 import { CancelSvg } from "../../assets/svgs"
 import WebView from 'react-native-webview';
 import { HIT_SLOP } from '../../styles/common-style';
-import { isIphoneX } from 'react-native-iphone-x-helper';
+import { hasNotch } from 'react-native-device-info';
 import { LoadingComponent } from "../loading"
 
 interface Props{
@@ -67,7 +67,7 @@ const styles = ScaledSheet.create({
     justifyContent: 'space-between',
     alignItems: "center",
     marginBottom: '16@s',
-    marginTop: isIphoneX() ? '24@s': '16@s',
+    marginTop: hasNotch() ? '24@s': '16@s',
     padding: '16@s',
     borderBottomWidth: 1,
     borderBottomColor: color.palette.BABABA,

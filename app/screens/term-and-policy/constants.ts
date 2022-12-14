@@ -14,9 +14,9 @@ export const LOREM = [
   },
 ]
 
-export const TERMS_OF_USE = 'Công ty Dịch vụ Tài chính Bất động sản Tulip, trading name Fina (sau đây gọi là Fina) xin chân thành cám ơn quý người dùng đã quan tâm và có mong muốn sử dụng dịch vụ của chúng tôi. Việc sử dụng hoặc truy cập vào website fina.com.vn sẽ được hiểu là sự chấp nhận và đồng ý ràng buộc vào điều khoản sử dụng của chúng tôi.\n' +
+export const TERMS_OF_USE = 'Công ty Dịch vụ Tài chính Bất động sản Tulip, trading name FINA (sau đây gọi là Fina) xin chân thành cám ơn quý người dùng đã quan tâm và có mong muốn sử dụng dịch vụ của chúng tôi. Việc sử dụng hoặc truy cập vào website fina.com.vn sẽ được hiểu là sự chấp nhận và đồng ý ràng buộc vào điều khoản sử dụng của chúng tôi.\n' +
   'Điều khoản sử dụng này được ký kết bởi và giữa fina.com.vn  với bất kỳ một cá nhân tổ chức, những người truy cập hoặc sử dụng website fina.com.vn (được gọi chung dưới đây là "Người sử dụng” hoặc "bạn").\n' +
-  'Fina là một website cho phép người dùng tìm kiếm thông tin về tài chính, bất động sản và các lĩnh vực liên quan, bao gồm:\n'
+  'FINA là một website cho phép người dùng tìm kiếm thông tin về tài chính, bất động sản và các lĩnh vực liên quan, bao gồm:\n'
 
 export const TERMS_OF_USE_CONTETNT = [
   'Cung cấp thông tin trong các bài đăng trên Website với mục đích hỗ trợ kết nối thực hiện các giao dịch tài chính về vay mua nhà đất/dự án giữa người cho thuê/bán và các ngân hàng, tổ chức tín dụng.',

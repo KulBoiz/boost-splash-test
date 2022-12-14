@@ -8,7 +8,6 @@ import { fontFamily } from "../../../../../constants/font-family"
 import { color } from "../../../../../theme"
 import moment from "moment"
 import { formatDate, formatTimeDate, numberWithCommas } from "../../../../../constants/variable"
-import { get, head } from "lodash"
 
 interface Props {
   data: any
@@ -41,7 +40,8 @@ const SaleFundInformation = React.memo(({ data }: Props) => {
     <View style={styles.container}>
       <View style={styles.headerContainer}>
         <View style={[ROW, SPACE_BETWEEN]}>
-          <Item title={"Phiên giao dịch"} content={`${formatDate(data?.info?.preOrderMatchingSession)}`} />
+          {/* preOrderMatchingSession */}
+          <Item title={"Phiên giao dịch"} content={`${formatDate(data?.info?.nextOrderMatchingSession)}`} />
           <Item title={"Thời điểm đóng sổ lệnh"} alignRight content={formatTimeDate(data?.info?.closedOrderBookTime)} style={MARGIN_BOTTOM_16} />
         </View>
         <View style={[ROW, SPACE_BETWEEN, ALIGN_CENTER]}>

@@ -1,6 +1,6 @@
 import React from 'react';
 import { Pressable, TouchableOpacity, View } from "react-native"
-import { isIphoneX } from "react-native-iphone-x-helper";
+import { hasNotch } from "react-native-device-info";
 import { s, ScaledSheet } from "react-native-size-matters"
 import { BellBankSvg, DefaultAvatarSvg } from "../../../../assets/svgs"
 import { AppText } from '../../../../components/app-text/AppText';
@@ -28,7 +28,7 @@ const HeaderCard = observer((props: Props) => {
           <View style={[ROW, styles.itemContainer]}>
             <View style={ROW}>
               <Pressable onPress={()=> navigate(ScreenNames.SETTING)}>
-                {!!avatar ?
+                {avatar ?
                   <FastImage source={{uri: avatar}} style={styles.avatar} /> :
                   <DefaultAvatarSvg width={s(40)} height={s(40)} />
                 }
@@ -53,7 +53,7 @@ export default HeaderCard;
 
 const styles = ScaledSheet.create({
   header: {
-    height: isIphoneX() ? '110@vs' : '90@vs',
+    height: hasNotch() ? '110@vs' : '90@vs',
     justifyContent: 'flex-end',
     paddingHorizontal: '24@ms',
 

@@ -1,11 +1,10 @@
-import React, { useEffect, useState } from 'react'
-import { View } from 'react-native'
-import { isIphoneX } from 'react-native-iphone-x-helper'
-import { s, ScaledSheet } from 'react-native-size-matters'
-import BottomView from '../../../components/bottom-view'
-import OthersInsurance from './components/others-Insurance'
+import React, { useEffect, useState } from "react"
+import { View } from "react-native"
+import { s, ScaledSheet } from "react-native-size-matters"
+import BottomView from "../../../components/bottom-view"
+import OthersInsurance from "./components/others-Insurance"
 import { color } from "../../../theme"
-import { useStores } from '../../../models'
+import { useStores } from "../../../models"
 import HomeBanner from "./components/home-banner"
 import { MARGIN_TOP_16 } from "../../../styles/common-style"
 import HomeItem from "./components/home-item"
@@ -13,7 +12,8 @@ import { images } from "../../../assets/images"
 import { ScreenNames } from "../../../navigators/screen-names"
 import { navigate } from "../../../navigators"
 import FullScreenModal from "../../../components/app-modal/full-screen-modal"
-import { DOMAIN, INSURANCE_HANDBOOK } from "@env"
+import { INSURANCE_HANDBOOK } from "@env"
+import { hasNotch } from "react-native-device-info"
 
 const InsuranceTab = () => {
   const { insuranceStore } = useStores();
@@ -80,7 +80,7 @@ const styles = ScaledSheet.create({
     // paddingTop: '16@s',
   },
   scrollView: {
-    marginTop: isIphoneX() ? "155@s" : "130@s",
+    marginTop: hasNotch() ? "155@s" : "130@s",
   },
   itemMargin: {
     marginVertical: "24@s",

@@ -44,7 +44,7 @@ const PurchaseInfo = React.memo(({ transactionInfo, estimatedQuantity }: Props) 
                   style={styles.item} />
         <ItemView title={"Sổ lệnh đóng"} content={<RightContent content={formatDateTime(info?.closedOrderBookTime)} note={GMT} />}
                   style={styles.item} />
-        <ItemView title={"Phiên khớp lệnh"} content={<RightContent content={formatDate(info?.nextOrderMatchingSession)} note={GMT} />}
+        <ItemView title={"Phiên khớp lệnh"} content={<RightContent content={formatDate(info?.nextOrderMatchingSession)} />}
                   style={styles.item} />
         <ItemView title={"Phí mua"} content={<RightContent content={"0%"} />} style={styles.item} />
         <ItemView title={"Chương trình"} content={<RightContent content={`${program}`} />} />
