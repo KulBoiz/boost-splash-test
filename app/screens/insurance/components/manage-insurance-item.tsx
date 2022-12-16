@@ -8,7 +8,7 @@ import { status } from "./validity-check"
 import { color } from "../../../theme"
 import { getClaimStatus, getTimeLeft } from "../constants"
 import { getFullName, isIos } from "../../../constants/variable"
-import { isIphoneX } from "react-native-iphone-x-helper"
+import { hasNotch } from "react-native-device-info"
 
 interface Props {
   item: any
@@ -49,7 +49,7 @@ const ManageInsuranceItem = React.memo(({ item, index, onPress }: Props) => {
   return (
     <Pressable
       onPress={() => onPress?.(item)}
-      height={isIphoneX() ? vs(80) :  isIos ?  vs(100) : vs(80)}
+      height={hasNotch() ? vs(80) :  isIos ?  vs(100) : vs(80)}
       borderRadius={8}
       bg="white"
       mx={s(16)}

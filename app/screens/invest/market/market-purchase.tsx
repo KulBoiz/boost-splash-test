@@ -14,6 +14,9 @@ import { navigate } from "../../../navigators"
 import { ScreenNames } from "../../../navigators/screen-names"
 import { useStores } from "../../../models"
 import { mappingLabelTypeOfFund } from "./constants"
+import { RouteProp, useRoute } from "@react-navigation/native"
+import { NavigatorParamList } from "../../../navigators/params-list"
+import { filter } from "lodash"
 
 interface Props {
 }
@@ -35,8 +38,10 @@ const Item = React.memo(({ title, content, textAlign = "left" }: ItemProps) => {
 })
 
 const MarketPurchase = React.memo((props: Props) => {
+  const {params: {param}} = useRoute<RouteProp<NavigatorParamList, ScreenNames.PURCHASE_FUND>>()
   const { investStore } = useStores()
   const { nav, transactionInfo, estimatedQuantity, bondsDetail } = investStore
+  const data = filter(bondsDetail?.productDetails, {id: param?.productProgramId })?.[0]
 
   const onSubmit = useCallback((otpCode) => {
     investStore.verifyOtpBuyFund(otpCode)
@@ -61,16 +66,16 @@ const MarketPurchase = React.memo((props: Props) => {
   }, [])
 
   const handlePurchase = useCallback(() => {
-    navigate(ScreenNames.INVEST_SUCCESS)
+    // navigate(ScreenNames.INVEST_SUCCESS)
 
 
-    // investStore.sendOtpBuyFund().then(res => {
-    //   if (res?.error || res?.includes("502")) {
-    //     Alert.alert(COMMON_ERROR)
-    //     return
-    //   }
-    //   navigate(ScreenNames.INVEST_OTP, { onResend, onSubmit, otpTime: OTP_TIME.BUY_FUND })
-    // })
+    investStore.sendOtpBuyFund().then(res => {
+      if (res?.error || res?.includes("502")) {
+        Alert.alert(COMMON_ERROR)
+        return
+      }
+      navigate(ScreenNames.INVEST_OTP, { onResend, onSubmit, otpTime: OTP_TIME.BUY_FUND })
+    })
   }, [])
 
   return (
@@ -79,11 +84,11 @@ const MarketPurchase = React.memo((props: Props) => {
       <ScrollView contentContainerStyle={styles.body}>
         <View style={styles.infoContainer}>
           <Item title={(bondsDetail?.code)}
-                content={mappingLabelTypeOfFund(transactionInfo?.productInfo?.info?.typeOfFund)} />
+                content={mappingLabelTypeOfFund(bondsDetail?.info?.typeOfFund)} />
           <Item title={"Giá gần nhất"} content={`${numberWithCommas(nav)} vnđ`} textAlign={"right"} />
         </View>
-        <PurchaseInfo transactionInfo={transactionInfo} estimatedQuantity={estimatedQuantity} />
-        <PurchaseTab transactionInfo={transactionInfo} />
+        <PurchaseInfo transactionInfo={bondsDetail} estimatedQuantity={estimatedQuantity} param={param} data={data}/>
+        <PurchaseTab transactionInfo={data} param={param}/>
         <View style={styles.wrapBtn}>
           <AppButton title={"Xác nhận thanh toán"} onPress={handlePurchase} />
         </View>

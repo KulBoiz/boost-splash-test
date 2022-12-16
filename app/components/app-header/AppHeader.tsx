@@ -10,8 +10,9 @@ import { images } from "../../assets/images"
 import { ScaledSheet } from "react-native-size-matters"
 import { goBack } from "../../navigators"
 import { fontFamily } from "../../constants/font-family"
-import { isIphoneX } from "react-native-iphone-x-helper"
+import { hasNotch } from "react-native-device-info"
 import { HIT_SLOP } from "../../styles/common-style"
+
 
 const AppHeader = React.memo((props: AppHeaderProps) => {
   const {
@@ -96,7 +97,7 @@ const styles = ScaledSheet.create({
   container: {
     backgroundColor: color.background,
     flexDirection: "row",
-    height: isIphoneX() ? "80@vs" : "70@vs",
+    height: hasNotch() ? "80@vs" : "70@vs",
     paddingLeft: "10@s",
     paddingRight: "16@s",
     alignItems: "flex-end",

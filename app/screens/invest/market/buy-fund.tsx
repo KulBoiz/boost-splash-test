@@ -33,10 +33,9 @@ const BuyFund = observer((props: Props) => {
   const { investStore } = useStores()
   const isFocused = useIsFocused()
   const { bondsDetail } = investStore
-  const [navs, setNavs] = useState([])
   const [isSip, setIsSip] = useState<string | undefined>(undefined)
   const [loading, setLoading] = useState<boolean>(true)
-  const currentNav = get(navs[0], "nav", "")
+  const currentNav = bondsDetail?.info?.navCurrently
 
   const flexValidationSchema = Yup.object().shape({
    ...flex
@@ -68,6 +67,7 @@ const BuyFund = observer((props: Props) => {
     setValue('program','')
     clearErrors('amount')
   },[isFocused])
+
   const onSubmit = useCallback((otpCode)=> {
     investStore.verifyOtpBuyFund(otpCode)
       .then(res=> {
@@ -103,27 +103,27 @@ const BuyFund = observer((props: Props) => {
       productProgramId: data?.program,
       beginBuyAutoStartDate: data?.date
     }
-    // investStore.createBuyFundTransaction(param, estimatedQuantity.toString(), currentNav.toString()).then(res=>{
-    //   if (res?.error){
-    //     return Alert.alert(res?.error?.message ?? COMMON_ERROR)
-    //   }
-    //   navigate(ScreenNames.PURCHASE_FUND)
-    // })
-    await investStore.createBuyFundTransaction(param, estimatedQuantity.toString(), currentNav.toString())
-    await investStore.sendOtpBuyFund().then(res=> {
-      if (res?.error || res?.includes('502')){
-        Alert.alert(COMMON_ERROR)
-        return
+    investStore.createBuyFundTransaction(param, estimatedQuantity.toString(), currentNav.toString()).then(res=>{
+      if (res?.error){
+        return Alert.alert(res?.error?.message ?? COMMON_ERROR)
       }
-      navigate(ScreenNames.INVEST_OTP, {onResend, onSubmit, otpTime: OTP_TIME.BUY_FUND})
+      navigate(ScreenNames.PURCHASE_FUND, {param})
     })
+
+    // await investStore.createBuyFundTransaction(param, estimatedQuantity.toString(), currentNav.toString())
+    // await investStore.sendOtpBuyFund().then(res=> {
+    //   if (res?.error || res?.includes('502')){
+    //     Alert.alert(COMMON_ERROR)
+    //     return
+    //   }
+    //   navigate(ScreenNames.INVEST_OTP, {onResend, onSubmit, otpTime: OTP_TIME.BUY_FUND})
+    // })
 
   }, [currentNav])
 
   useEffect(() => {
     investStore.getFundDetail(investStore?.bondsDetail?.slug).then(res => {
         setLoading(false)
-        investStore.getNavs(res?.id).then(e=> setNavs(e))
       },
     ).catch(()=> setLoading(false))
   }, [])
@@ -137,8 +137,8 @@ const BuyFund = observer((props: Props) => {
       {loading ? <ActivityIndicator color={color.primary} style={MARGIN_TOP_24}/> : <>
         {Object.keys(investStore.bondsDetail).length ?
           <ScrollView contentContainerStyle={styles.body}>
-            <FundInfo navs={navs}/>
-            <MarketBuyForm  {...{ control, errors: { ...errors }, setValue, setError, watch, clearErrors, navs, bondsDetail, setIsSip }} />
+            <FundInfo nav={currentNav}/>
+            <MarketBuyForm  {...{ control, errors: { ...errors }, setValue, setError, watch, clearErrors, nav: currentNav, bondsDetail, setIsSip }} />
             <FundTariff productDetail={productDetail} />
             <View style={styles.wrapBtn}>
               <AppButton title={"Đặt lệnh mua"} onPress={handleSubmit(handleBuy)} disable={checkValid} />

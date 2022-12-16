@@ -31,7 +31,7 @@ const InvestOtp = React.memo((props: Props) => {
   } = useRoute<RouteProp<NavigatorParamList, ScreenNames.INVEST_OTP>>()
   const [value, setValue] = useState("")
   const { ekycStore, authStoreModel, investStore } = useStores()
-  const tel = phone ?? investStore?.phone ?? ekycStore.user?.tels?.[0]?.tel ?? authStoreModel?.user?.tels?.[0]?.tel ?? ''
+  const tel = phone ?? investStore?.phone ?? ekycStore.user?.tels?.[0]?.tel ?? authStoreModel?.user?.tels?.[0]?.tel ?? ""
   const [time, setTime] = useState(otpTime)
   const [isStartCheck, setStartCheck] = useState<boolean>(true)
   const [resendModal, setResendModal] = useState<boolean>(false)
@@ -105,7 +105,7 @@ const InvestOtp = React.memo((props: Props) => {
   }, [value])
 
 
-  const handleResend = useCallback(async () => {
+  const handleResend = useCallback( () => {
     if (time > 0) return
     setValue("")
     onResend()
@@ -121,10 +121,12 @@ const InvestOtp = React.memo((props: Props) => {
         </View>
         <OtpField {...{ value, setValue }} />
         <View style={[ROW, ALIGN_CENTER, styles.resend]}>
-          <AppText value={"Gửi lại OTP "} underline style={FONT_BOLD_12}
-                   color={time > 0 ? color.palette.grayChateau : color.palette.orange}
-                   onPress={handleResend}
-          />
+          {time <= 0 &&
+            <AppText value={"Gửi lại OTP "} underline style={FONT_BOLD_12}
+                     color={color.palette.orange}
+                     onPress={handleResend}
+            />
+          }
           {time > 0 &&
             <AppText value={`(${moment(time).format("mm:ss")})`} />
           }
@@ -132,7 +134,7 @@ const InvestOtp = React.memo((props: Props) => {
       </View>
 
       <View style={styles.wrapBtn}>
-        <AppButton title={"Xác nhận"} onPress={handleConfirm} disable={value.length < 6}/>
+        <AppButton title={"Xác nhận"} onPress={handleConfirm} disable={value.length < 6} />
       </View>
       <AppModal visible={resendModal} closeModal={() => setResendModal(false)} content={"Gửi lại mã thành công"} />
     </View>
@@ -156,6 +158,6 @@ const styles = ScaledSheet.create({
     paddingHorizontal: "16@s",
   },
   resend: {
-    justifyContent: 'center'
-  }
+    justifyContent: "center",
+  },
 })

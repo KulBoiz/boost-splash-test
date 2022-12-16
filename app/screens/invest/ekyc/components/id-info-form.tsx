@@ -1,14 +1,11 @@
 import React, { useEffect } from "react"
-import { View, StyleSheet } from 'react-native';
+import { View } from "react-native"
 import { Control, UseFormClearErrors, UseFormSetValue, UseFormWatch } from "react-hook-form/dist/types/form"
 import { FieldErrors } from "react-hook-form/dist/types/errors"
 import { FieldValues } from "react-hook-form/dist/types/fields"
 import FormInput from "../../../../components/form-input/form-input"
-import { GENDER } from "../../../../constants/gender"
-import FormItemPicker from "../../../../components/form-item-picker"
 import { AppText } from "../../../../components/app-text/AppText"
 import { presets } from "../../../../constants/presets"
-import { color } from "../../../../theme"
 import { ScaledSheet } from "react-native-size-matters"
 import { useStores } from "../../../../models"
 import { truncateString } from "../../../../constants/variable"
@@ -43,6 +40,7 @@ const IdInfoForm = React.memo((props: Props) => {
           label: 'Số CMND/CCCD',
           placeholder: 'Nhập số CMND/CCCD',
           control,
+          editable:false,
           keyboardType:"number-pad",
           error: errors?.idNumber?.message,
         }}

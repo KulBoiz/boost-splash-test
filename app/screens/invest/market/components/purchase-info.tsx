@@ -11,6 +11,8 @@ import { CautionSvg } from "../../../../assets/svgs"
 interface Props {
   transactionInfo: any
   estimatedQuantity: string
+  param: any
+  data: any
 }
 
 interface RightContentProps {
@@ -31,23 +33,24 @@ const firstCaution = "Quý khách vui lòng chuyển khoản theo thông tin chu
 const secondCaution = "Sau khi chuyển khoản thành công, nhấn nút\n"
 const thirdCaution = '“Xác nhận thanh toán"'
 
-const PurchaseInfo = React.memo(({ transactionInfo, estimatedQuantity }: Props) => {
-  const info = transactionInfo?.productInfo?.info
+const PurchaseInfo = React.memo(({ transactionInfo, estimatedQuantity, param, data }: Props) => {
+  const info = transactionInfo?.info
   const program = transactionInfo?.productDetailInfo?.name
+
   return (
     <View style={styles.container}>
       <View style={styles.body}>
-        <ItemView title={"Số tiền đầu tư"} content={<RightContent content={`${numberWithCommas(transactionInfo?.metaData?.amount)} vnđ`} />} style={styles.item} />
+        <ItemView title={"Số tiền đầu tư"} content={<RightContent content={`${numberWithCommas(param?.amount)} vnđ`} />} style={styles.item} />
         <ItemView title={"Số lượng ước tính"}
                   content={<RightContent content={numberWithCommas(estimatedQuantity)} note={"Chứng chỉ"} />} style={styles.item} />
-        <ItemView title={"Ngày đặt lệnh"} content={<RightContent content={formatDateTime(transactionInfo?.createdAt)} note={GMT} />}
+        <ItemView title={"Ngày đặt lệnh"} content={<RightContent content={formatDateTime(new Date())} note={GMT} />}
                   style={styles.item} />
         <ItemView title={"Sổ lệnh đóng"} content={<RightContent content={formatDateTime(info?.closedOrderBookTime)} note={GMT} />}
                   style={styles.item} />
-        <ItemView title={"Phiên khớp lệnh"} content={<RightContent content={formatDate(info?.nextOrderMatchingSession)} note={GMT} />}
+        <ItemView title={"Phiên khớp lệnh"} content={<RightContent content={formatDate(info?.nextOrderMatchingSession)} />}
                   style={styles.item} />
         <ItemView title={"Phí mua"} content={<RightContent content={"0%"} />} style={styles.item} />
-        <ItemView title={"Chương trình"} content={<RightContent content={`${program}`} />} />
+        <ItemView title={"Chương trình"} content={<RightContent content={`${data?.name}`} />} />
       </View>
       <View style={styles.cautionContainer}>
         <CautionSvg style={styles.icon} />

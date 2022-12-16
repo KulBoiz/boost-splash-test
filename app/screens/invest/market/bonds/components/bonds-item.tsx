@@ -16,7 +16,7 @@ interface Props {
 }
 
 const BondsItem = React.memo(({ item }: Props) => {
-  const {investStore, authStoreModel} = useStores()
+  const {investStore} = useStores()
   const maxInterest = useMemo(()=> {
     return item?.info?.interestRate
       .filter((e) => e?.rate)

@@ -4,11 +4,9 @@ import { Control, UseFormClearErrors, UseFormSetValue, UseFormWatch } from "reac
 import { FieldErrors } from "react-hook-form/dist/types/errors"
 import { FieldValues } from "react-hook-form/dist/types/fields"
 import FormInput from "../../../../components/form-input/form-input"
-import { GENDER } from "../../../../constants/gender"
 import FormItemPicker from "../../../../components/form-item-picker"
 import { AppText } from "../../../../components/app-text/AppText"
 import { presets } from "../../../../constants/presets"
-import { color } from "../../../../theme"
 import { ScaledSheet } from "react-native-size-matters"
 import { useStores } from "../../../../models"
 import { formatData } from "../../../../constants/variable"
@@ -25,10 +23,12 @@ interface Props {
 
 const BankForm = observer((props: Props) => {
   const { control, errors, setValue, clearErrors, watch } = props
-  const { bankStore } = useStores()
+  const { bankStore, ekycStore } = useStores()
   const [bankBranch, setBankBranch] = useState([])
+  const {user} = ekycStore
 
   useEffect(() => {
+    setValue('bankAccountHolder', user?.fullName)
     bankStore.getBankList()
   }, [])
 
@@ -64,6 +64,7 @@ const BankForm = observer((props: Props) => {
       <AppText value={"III. Thông tin tài khoản ngân hàng"} style={presets.label}  />
       <FormInput
         {...{
+          editable: false,
           required: true,
           name: "bankAccountHolder",
           label: "Tên chủ tài khoản",

@@ -2,7 +2,7 @@
 import React, { useMemo } from "react"
 import { View } from 'react-native';
 import {TouchableOpacity} from 'react-native-gesture-handler'
-import { isIphoneX } from 'react-native-iphone-x-helper';
+import { hasNotch } from 'react-native-device-info';
 import { ScaledSheet } from 'react-native-size-matters';
 import FastImage from "react-native-fast-image"
 import { images } from "../../assets/images"
@@ -108,11 +108,11 @@ const styles = ScaledSheet.create({
     shadowOpacity: 0.3,
     shadowRadius: 2.22,
     flexDirection: 'row',
-    height: isIphoneX() ? '80@s' : '60@s',
+    height: hasNotch() ? '80@s' : '60@s',
     alignItems: 'center',
     width: width,
     justifyContent: 'space-around',
-    paddingBottom: isIphoneX() ? '20@vs' : '5@vs',
+    paddingBottom: hasNotch() ? '20@vs' : '5@vs',
     backgroundColor: color.background,
   },
   wrapIcon: { alignItems: 'center'},

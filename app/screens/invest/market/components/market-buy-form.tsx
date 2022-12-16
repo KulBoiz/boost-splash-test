@@ -7,7 +7,7 @@ import { FieldErrors } from "react-hook-form/dist/types/errors"
 import { FieldValues } from "react-hook-form/dist/types/fields"
 import { ALIGN_CENTER, MARGIN_BOTTOM_8, ROW } from "../../../../styles/common-style"
 import { ScaledSheet } from "react-native-size-matters"
-import { filter, get } from "lodash"
+import { filter } from "lodash"
 import { formatData, formatDate, numberWithCommas, truncateString } from "../../../../constants/variable"
 import { createNumberMask, useMaskedInputProps } from "react-native-mask-input"
 import FastImage from "react-native-fast-image"
@@ -21,17 +21,15 @@ interface Props {
   setValue: UseFormSetValue<FieldValues>
   watch: UseFormWatch<FieldValues>
   clearErrors: UseFormClearErrors<FieldValues>
-  navs: any
+  nav: any
   bondsDetail: any
   setIsSip(e: any): void
 }
 
 const MarketBuyForm = React.memo((props: Props) => {
-  const { control, errors, setError, setValue, watch, clearErrors, navs, bondsDetail, setIsSip } = props
-  const currentNav = get(navs[0], "nav", "")
+  const { control, errors, setError, setValue, watch, clearErrors, nav, bondsDetail, setIsSip } = props
   const nextOrderMatchingSession = bondsDetail?.info?.nextOrderMatchingSession
   const productDetails = bondsDetail?.productDetails
-  const nav = numberWithCommas(currentNav)
   const date = formatDate(nextOrderMatchingSession)
   const minBuyValue = filter(productDetails, { id: watch("program") })?.[0]?.buyMinValue
   const checkIsSip = filter(productDetails, { id: watch("program") })?.[0]?.productSchemeIsAutoBuy
@@ -64,7 +62,7 @@ const MarketBuyForm = React.memo((props: Props) => {
     mask: currencyMask,
   })
 
-  const estimatedQuantity = watch('amount') ? numberWithCommas((+(watch('amount')?.replace(/,/g, '')) / currentNav).toFixed(2)) : 0
+  const estimatedQuantity = watch('amount') ? numberWithCommas((+(watch('amount')?.replace(/,/g, '')) / nav).toFixed(2)) : 0
 
   return (
     <View style={styles.container}>
@@ -137,7 +135,7 @@ const MarketBuyForm = React.memo((props: Props) => {
             keyboardType: "number-pad",
             control,
             editable: false,
-            value: nav,
+            value: numberWithCommas(nav),
             error: errors?.nav?.message,
           }}
         />

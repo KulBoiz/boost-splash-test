@@ -138,9 +138,9 @@ const EKYCPortrait = React.memo(() => {
 
       <View style={{ flex: 1 }} />
       <AppText value={guide} style={FONT_MEDIUM_14} color={color.text} textAlign={"center"} />
-      <View style={styles.wrapAction}>
-        <ActionItem onPress={navigateToPhotoPicker} icon={<PhotoSvg />} text={"Thư viện ảnh"} />
-      </View>
+      {/* <View style={styles.wrapAction}> */}
+      {/*  <ActionItem onPress={navigateToPhotoPicker} icon={<PhotoSvg />} text={"Thư viện ảnh"} /> */}
+      {/* </View> */}
 
       <View style={styles.btnContainer}>
         {image ? <View style={[ALIGN_CENTER, { width: "100%" }]}>

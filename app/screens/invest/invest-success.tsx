@@ -52,7 +52,7 @@ const InvestSuccess = React.memo((props: Props) => {
     <View style={styles.container}>
       <View style={styles.body}>
         <InvestSuccessSvg style={styles.icon} />
-        <AppText value={"Đăng ký đầu tư định kỳ thành công"} fontFamily={fontFamily.bold} fontSize={ms(18)}
+        <AppText value={"Đặt lệnh mua thành công"} fontFamily={fontFamily.bold} fontSize={ms(18)}
                  style={MARGIN_BOTTOM_8} />
         <AppText value={"Cảm ơn Quý khách đã đầu tư vào chứng chỉ quỹ của VINACAPITAL"} style={FONT_REGULAR_14}
                  color={color.palette.grayChateau} textAlign={"center"} />

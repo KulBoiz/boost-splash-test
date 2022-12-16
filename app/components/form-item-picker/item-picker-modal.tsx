@@ -29,7 +29,7 @@ interface Props {
   closeModal(): void
   data: Array<DataProps>
   onPress(item: any): void
-  onChangeSearchText: any
+  onChangeSearchText?: any
 }
 
 const ItemPickerModal = React.memo((props: Props) => {

@@ -4,7 +4,7 @@ import TabSelect from "../components/tab-select"
 import FinanceTab from "./finance-tab"
 import { color } from "../../../theme"
 import { Header } from "../components/header"
-import { isIphoneX } from "react-native-iphone-x-helper"
+import { hasNotch } from "react-native-device-info"
 import { ScaledSheet } from "react-native-size-matters"
 import InsuranceTab from "./insurance-tab"
 import InvestTab from "./invest-tab"
@@ -37,6 +37,6 @@ const styles = ScaledSheet.create({
     backgroundColor: color.background,
   },
   scrollView: {
-    marginTop: isIphoneX() ? "150@s" : "140@s",
+    marginTop: hasNotch() ? "150@s" : "140@s",
   },
 })

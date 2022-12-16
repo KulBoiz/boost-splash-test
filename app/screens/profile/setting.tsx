@@ -1,5 +1,5 @@
 import React, { useCallback, useState } from "react"
-import { Pressable, StyleSheet, View } from "react-native"
+import { Pressable, View } from "react-native"
 import { SETTING } from "./constants"
 import ProfileMenu from "./components/profile-menu"
 import { images } from "../../assets/images"
@@ -13,6 +13,7 @@ import { AppText } from "../../components/app-text/AppText"
 import { ScaledSheet } from "react-native-size-matters"
 import { hexToRgbA } from "../../constants/variable"
 import { fontFamily } from "../../constants/font-family"
+import { VERSION } from "@env"
 
 interface Props {
 }
@@ -58,7 +59,7 @@ const openModal = useCallback(()=> {
         <AppText value={'Đăng xuất'} style={styles.textSignOut}/>
       </Pressable>
 
-      <AppText value={'Phiên bản FN 2.0'} style={styles.textVersion}/>
+      <AppText value={`Phiên bản FN ${VERSION}`} style={styles.textVersion}/>
 
       <ConfirmModal
         visible={deleteModal}
