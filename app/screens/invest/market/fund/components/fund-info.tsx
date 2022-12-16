@@ -9,11 +9,10 @@ import { ALIGN_CENTER, MARGIN_BOTTOM_16, MARGIN_BOTTOM_4, ROW, SPACE_BETWEEN } f
 import MarketCountdown from "../../../components/market-countdown"
 import moment from "moment"
 import { useStores } from "../../../../../models"
-import { get } from "lodash"
 import { mappingLabelTypeOfFund } from "../../constants"
 
 interface Props {
-  navs: any
+  nav: any
 }
 
 interface ItemProps {
@@ -31,13 +30,12 @@ const Item = React.memo(({ title, content, textAlign = 'left'}: ItemProps) => {
   )
 })
 
-const FundInfo = React.memo(({ navs }: Props) => {
+const FundInfo = React.memo(({ nav }: Props) => {
   const {investStore} = useStores()
   const {bondsDetail} = investStore
   const orderAndTransferMoneyToBuyDate = bondsDetail?.info?.orderAndTransferMoneyToBuyDate
   const endDate = moment(orderAndTransferMoneyToBuyDate)
   const totalTime = moment(endDate).diff(new Date()).toString().slice(0, -3)
-  const currentNav = get(navs[0], 'nav')
 
   return (
     <View style={styles.container}>
@@ -46,7 +44,7 @@ const FundInfo = React.memo(({ navs }: Props) => {
         <Item title={"Thời hạn đặt mua"} content={formatTimeDate(orderAndTransferMoneyToBuyDate)} textAlign={"right"}/>
       </View>
       <View style={[ROW, SPACE_BETWEEN, ALIGN_CENTER]}>
-        <Item title={"Giá gần nhất"} content={`${numberWithCommas(currentNav)} vnđ`} />
+        <Item title={"Giá gần nhất"} content={`${numberWithCommas(nav)} vnđ`} />
         <MarketCountdown totalTime={+totalTime} style={styles.timeContainer} />
       </View>
     </View>

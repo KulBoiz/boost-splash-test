@@ -18,10 +18,11 @@ const title = "Chia sẻ mã giới thiệu"
 
 interface Props {
   transactionInfo: any
+  param: any
 }
 
-const PurchaseQrTab = React.memo(({ transactionInfo = {} }: Props) => {
-  const { vietQrStore } = useStores()
+const PurchaseQrTab = React.memo(({ transactionInfo = {}, param }: Props) => {
+  const { vietQrStore, authStoreModel } = useStores()
   const [linkQr, setLinkQr] = useState("")
   const [modal, setModal] = useState<boolean>(false)
 
@@ -41,11 +42,12 @@ const PurchaseQrTab = React.memo(({ transactionInfo = {} }: Props) => {
 
   useEffect(() => {
     const data = {
-      "accountNo": transactionInfo?.productDetailInfo?.bankNumber,
-      "accountName": convertViToEn(transactionInfo?.productDetailInfo?.dataBank?.name),
-      "swiftCode": transactionInfo?.productDetailInfo?.dataBank?.swiftCode,
-      "amount": transactionInfo?.metaData?.amount,
-      "addInfo": transactionInfo?.metaData?.transferContent,
+      "accountNo": transactionInfo?.bankNumber,
+      "accountName": convertViToEn(transactionInfo?.dataBank?.name),
+      "swiftCode": transactionInfo?.dataBank?.swiftCode,
+      "amount": param?.amount,
+      // "addInfo": transactionInfo?.metaData?.transferContent,
+      "addInfo": authStoreModel?.investmentNumber,
       "format": "text",
       "template": "1x9b7a6",
     }

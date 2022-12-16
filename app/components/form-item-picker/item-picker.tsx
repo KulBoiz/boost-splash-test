@@ -69,6 +69,15 @@ const ItemPicker = React.memo((props: Props) => {
     }
   }, [value])
 
+
+  const openModal = React.useCallback(()=> {
+    if(!data.length && onChangeSearchText){
+      onChangeSearchText('')
+    }
+    Keyboard.dismiss()
+    setModal(true)
+  },[data])
+
   return (
     <Row alignItems="center" style={styles.container}>
       <Box flex={1}>
@@ -85,10 +94,7 @@ const ItemPicker = React.memo((props: Props) => {
         </Box>
       </Box>
       <Pressable
-        onPress={() => {
-          Keyboard.dismiss()
-          setModal(true)
-        }}
+        onPress={openModal}
         disabled={disable}
         position="absolute"
         top="0"

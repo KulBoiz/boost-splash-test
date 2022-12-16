@@ -23,7 +23,7 @@ export type NavigatorParamList = {
   [ScreenNames.BUY_BONDS]: undefined;
   [ScreenNames.BUY_FUND]: undefined;
   [ScreenNames.PURCHASE_BONDS]: undefined;
-  [ScreenNames.PURCHASE_FUND]: undefined;
+  [ScreenNames.PURCHASE_FUND]: { param: any };
   [ScreenNames.SALE_BONDS]: { slug: string }
   [ScreenNames.CONFIRM_SALE]: undefined
   [ScreenNames.INVEST_SUCCESS]: undefined

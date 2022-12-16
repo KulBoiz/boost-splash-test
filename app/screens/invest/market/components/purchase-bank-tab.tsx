@@ -15,9 +15,11 @@ import {
 import { color } from "../../../../theme"
 import Clipboard from "@react-native-clipboard/clipboard"
 import { numberWithCommas } from "../../../../constants/variable"
+import { useStores } from "../../../../models"
 
 interface Props {
   transactionInfo: any
+  param: any
 }
 
 interface ItemProps {
@@ -44,12 +46,14 @@ const Item = React.memo(({ title, content, handleCopy, cantChange, style }: Item
 })
 
 
-const PurchaseBankTab = React.memo(({ transactionInfo }: Props) => {
-  const productDetailInfo = transactionInfo?.productDetailInfo
-  const metaData = transactionInfo?.metaData
-  const content = metaData?.transferContent
-  const bankNumber = productDetailInfo?.bankNumber
-  const account = transactionInfo?.productInfo?.name
+const PurchaseBankTab = React.memo(({ transactionInfo, param }: Props) => {
+  const { authStoreModel, investStore } = useStores()
+  const {bondsDetail} = investStore
+  // const productDetailInfo = transactionInfo?.productDetailInfo
+  const content = authStoreModel?.investmentNumber
+  const bankNumber = transactionInfo?.bankNumber
+  // const account = transactionInfo?.productInfo?.name
+  const account = bondsDetail?.name
 
   const alert = useCallback(() => {
     Alert.alert("Đã copy vào clipboard")
@@ -73,9 +77,9 @@ const PurchaseBankTab = React.memo(({ transactionInfo }: Props) => {
   return (
     <View style={styles.container}>
       <View style={styles.itemContainer}>
-        <Item title={"Ngân hàng"} content={productDetailInfo?.dataBank?.name ?? ''} style={MARGIN_BOTTOM_8} />
+        <Item title={"Ngân hàng"} content={transactionInfo?.dataBank?.name ?? ''} style={MARGIN_BOTTOM_8} />
         <Item title={"Số tài khoản"} content={bankNumber ?? ''} style={MARGIN_BOTTOM_8} handleCopy={copyBankNumber}/>
-        <Item title={"Số tiền thanh toán"} content={`${numberWithCommas(metaData?.amount)} vnđ`} />
+        <Item title={"Số tiền thanh toán"} content={`${numberWithCommas(param?.amount)} vnđ`} />
       </View>
       <View style={styles.middleContainer}>
         <Item title={"Nội dung"} content={content} cantChange handleCopy={copyContent}/>
