@@ -91,3 +91,87 @@ export class BaseApi {
     }
   }
 }
+
+export class BaseCallApi {
+  private api: Api
+
+  constructor(api: Api) {
+    this.api = api
+  }
+
+  async get(path: string, param?: any): Promise<any> {
+    try {
+      // make the api call
+      const response: ApiResponse<any> = await this.api.apisauce.get(path, param)
+      if (!response.ok) {
+        const problem = getGeneralApiProblem(response)
+        if (problem) return problem
+      }
+      const data = response?.data
+      return { kind: "ok", data }
+    } catch (e) {
+      return { kind: "bad-data", e }
+    }
+  }
+
+  async post(path: string, body: any, header?: any): Promise<any> {
+    try {
+      // make the api call
+      const response: ApiResponse<any> = await this.api.apisauce.post(
+        path,
+        body,
+        header
+      )
+
+      // the typical ways to die when calling an api
+      if (!response.ok) {
+        const problem = getGeneralApiProblem(response)
+        if (problem) return problem
+      }
+
+      const data = response?.data
+      return { kind: "ok", data }
+    } catch (e) {
+      return { kind: "bad-data", e }
+    }
+  }
+
+  async put(path: string, body: any): Promise<any> {
+    try {
+      // make the api call
+      const response: ApiResponse<any> = await this.api.apisauce.put(
+        path,
+        body,
+      )
+
+      // the typical ways to die when calling an api
+      if (!response.ok) {
+        const problem = getGeneralApiProblem(response)
+        if (problem) return problem
+      }
+
+      const data = response?.data
+      return { kind: "ok", data }
+    } catch (e) {
+      return { kind: "bad-data", e }
+    }
+  }
+
+  async delete(path: string): Promise<any> {
+    try {
+      // make the api call
+      const response: ApiResponse<any> = await this.api.apisauce.delete(path)
+
+      // the typical ways to die when calling an api
+      if (!response.ok) {
+        const problem = getGeneralApiProblem(response)
+        if (problem) return problem
+      }
+
+      const data = response?.data
+      return { kind: "ok", data }
+    } catch (e) {
+      return { kind: "bad-data", e }
+    }
+  }
+}
