@@ -29,6 +29,7 @@ const InvestOtp = React.memo((props: Props) => {
       otpTime = OTP_TIME.SYNC_ACCOUNT,
     },
   } = useRoute<RouteProp<NavigatorParamList, ScreenNames.INVEST_OTP>>()
+  const [disable, setDisable] = useState(false)
   const [value, setValue] = useState("")
   const { ekycStore, authStoreModel, investStore } = useStores()
   const tel = phone ?? investStore?.phone ?? ekycStore.user?.tels?.[0]?.tel ?? authStoreModel?.user?.tels?.[0]?.tel ?? ""
@@ -101,8 +102,12 @@ const InvestOtp = React.memo((props: Props) => {
   }, [isStartCheck, time])
 
   const handleConfirm = useCallback(() => {
+    setDisable(true)
     onSubmit(value)
-  }, [value])
+    setTimeout(()=>{
+      setDisable(false)
+    }, 5000)
+  }, [value, disable])
 
 
   const handleResend = useCallback( () => {
@@ -110,6 +115,7 @@ const InvestOtp = React.memo((props: Props) => {
     setValue("")
     onResend()
   }, [value, time])
+
 
   return (
     <View style={styles.container}>
@@ -134,7 +140,7 @@ const InvestOtp = React.memo((props: Props) => {
       </View>
 
       <View style={styles.wrapBtn}>
-        <AppButton title={"Xác nhận"} onPress={handleConfirm} disable={value.length < 6} />
+        <AppButton title={"Xác nhận"} onPress={handleConfirm} disable={value.length < 6} disabled={disable} />
       </View>
       <AppModal visible={resendModal} closeModal={() => setResendModal(false)} content={"Gửi lại mã thành công"} />
     </View>

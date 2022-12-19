@@ -12,12 +12,12 @@ import ManageInsuranceItem from "../insurance/components/manage-insurance-item";
 import ManageInsuranceTab from "../insurance/components/manage-insurance-tab";
 import { INSURANCE_TABS } from "../insurance/constants";
 import BottomView from "../../components/bottom-view"
-import AppHeader from "../../components/app-header/AppHeader"
-import ManageInsuranceHelp from "../insurance/components/manage-insurance-help"
+import { observer } from "mobx-react-lite"
+
 
 interface Props {}
 
-const InsuranceTab = (props: Props) => {
+const InsuranceTab = observer((props: Props) => {
   const { insuranceStore, authStoreModel } = useStores()
   const [tabSelect, setTabSelect] = useState("1")
   const [loading, showLoading] = useState(false)
@@ -132,7 +132,7 @@ const InsuranceTab = (props: Props) => {
       }
     </>
   )
-}
+})
 
 export default InsuranceTab;
 

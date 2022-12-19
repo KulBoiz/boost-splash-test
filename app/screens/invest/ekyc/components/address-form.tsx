@@ -49,10 +49,10 @@ const AddressForm = React.memo((props: Props) => {
       if (user?.stateId){
         locationStore.get("town_district", undefined, user?.stateId).then((res) => {
           setTownDistrict(formatData(res?.data?.data))
+          setValue("district", user?.districtId)
         })
       }
       if (user?.districtId) {
-        setValue("district", user?.districtId)
         locationStore.get("sub_district", undefined, user?.districtId).then((res) => {
           setSubDistrict(formatData(res?.data?.data))
         })
@@ -61,9 +61,9 @@ const AddressForm = React.memo((props: Props) => {
           setValue("commune", user?.subDistrictId)
       }
       setValue("address", user?.address ?? '')
-
     })
   }, [])
+
   const handleSelectState = (state) => {
     clearErrors("province")
     setValue("district", "")

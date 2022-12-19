@@ -20,6 +20,7 @@ import HomeInsurance from "./home-insurance"
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view"
 import BottomView from "../../../components/bottom-view"
 import { Alert } from "react-native"
+import {filter} from 'lodash'
 
 interface Props {
   productDetail: any
@@ -54,8 +55,10 @@ const BuyStepOneForm = React.memo((props: Props) => {
     value: index,
     label: `${el?.name}-${!checkCTVAndFina() ? numberWithCommas(el?.price) : numberWithCommas(el?.priceRoot)} VNĐ`,
   }))
-  const listPackageStaff = packages.filter(el => el?.objects?.find(e => e === TYPE?.staff))
-  const listPackageRelative = packages.filter(el => el?.objects?.find(e => e === TYPE?.relative))
+  // const listPackageStaff = packages?.filter(el => el?.objects?.find(e => e === TYPE?.staff))
+  const listPackageStaff = filter(packages,el => el?.objects?.find(e => e === TYPE?.staff))
+  // const listPackageRelative = packages?.filter(el => el?.objects?.find(e => e === TYPE?.relative))
+  const listPackageRelative = filter(packages, el => el?.objects?.find(e => e === TYPE?.relative))
 
   const {
     control: controlOwner,

@@ -1,6 +1,7 @@
 import moment, { Moment } from "moment"
 import { Dimensions, Platform } from "react-native"
 import { TxKeyPath } from "../i18n"
+import { debounce } from "lodash"
 
 const gender = {
   female : 'female',
