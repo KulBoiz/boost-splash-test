@@ -1,11 +1,65 @@
 import { ApiResponse } from "apisauce"
 import { Api } from "./api"
 import { getGeneralApiProblem } from "./api-problem"
-import {API_ENDPOINT} from "@env"
+import { API_ENDPOINT } from "@env"
 import { BaseApi } from "./base-api"
 
 // const API_PAGE_SIZE = 50
 
+export const PRODUCT_TYPE = {
+	LOAN: 'loan',
+	INSURANCE: 'insurances',
+	INVESTMENT: 'investment',
+	BONDS: 'bonds',
+};
+
+// export const PRODUCT_TYPES = {
+// 	loan: 'loan_products',
+// 	insurance: 'insurance_products',
+// 	real_estate: 'real_estate_products',
+// 	investment: 'investment_products',
+// 	news: 'news',
+// 	funds: 'funds',
+// };
+
+export const TASK_PRODUCT_TYPES = {
+	loan: 'loan',
+	insurances: 'insurances',
+	investment: 'investment',
+	real_estate: 'real_estate',
+	other: 'other',
+};
+
+export const TASK_TYPES = {
+  CALL: 'call',
+  COUNSELLING: 'counselling',
+  DEAL_PROCESSING_TASK: 'deal_processing_task',
+  WANT_TO_BUY: 'WANT_TO_BUY',
+  INTRODUCE_BUYER: 'INTRODUCE_BUYER',
+  CLAIM_INSURANCE: 'claim_insurance',
+  BOND: 'BOND',
+  FUND: 'FUND',
+  INSURANCE: 'INSURANCE',
+	REAL_ESTATE: 'REAL_ESTATE',
+};
+
+export const PRODUCT_TYPES = (t) => (
+	[
+		{ label: t('Loan', { vn: 'Vay vốn' }), value: TASK_PRODUCT_TYPES.loan },
+		{ label: t('Insurance', { vn: 'Bảo hiểm' }), value: TASK_PRODUCT_TYPES.insurances },
+		{ label: t('Investment', { vn: 'Đầu tư' }), value: TASK_PRODUCT_TYPES.investment },
+		{ label: t('Real Estate', { vn: 'Bất động sản' }), value: TASK_PRODUCT_TYPES.real_estate },
+		{ label: t('Other', { vn: 'Khác' }), value: TASK_PRODUCT_TYPES.other },
+	]
+);
+
+export const MAPPING_PRODUCT_TYPES_TO_TYPE_TASK = {
+	[TASK_PRODUCT_TYPES.loan]: TASK_TYPES.COUNSELLING,
+	[TASK_PRODUCT_TYPES.insurances]: TASK_TYPES.INSURANCE,
+	[TASK_PRODUCT_TYPES.investment]: TASK_TYPES.BOND,
+	[TASK_PRODUCT_TYPES.real_estate]: TASK_TYPES.REAL_ESTATE,
+	// [TASK_PRODUCT_TYPES.other]: TASK_TYPES.OTHER,
+};
 export class LoanApi {
 
   private api: Api
@@ -63,12 +117,20 @@ export class LoanApi {
     }
   }
 
-  async requestCounselling(sourceId: string, customerName: string, email: string, phone: string): Promise<any> {
+  async requestCounselling(sourceId: string, customerName: string, email: string, phone: string, type?: string): Promise<any> {
     try {
       // make the api call
       const response: ApiResponse<any> = await this.api.apisauce.post(`${API_ENDPOINT}/tasks/public`, {
-        sourceId, customerName, email, phone, page: "mobile", rootTask: 'Mobile App'
+        sourceId,
+        customerName,
+        email,
+        phone,
+        page: "mobile",
+        rootTask: 'Mobile App',
+        type: type || "counselling",
+        productType: "loan",
       })
+
       if (!response.ok) {
         const problem = getGeneralApiProblem(response)
         if (problem) return problem
@@ -168,7 +230,7 @@ export class LoanApi {
       ]
     }
     try {
-      const response: ApiResponse<any> = await this.api.apisauce.get(`${API_ENDPOINT}/tasks/${id}`, {filter})
+      const response: ApiResponse<any> = await this.api.apisauce.get(`${API_ENDPOINT}/tasks/${id}`, { filter })
       if (!response.ok) {
         const problem = getGeneralApiProblem(response)
         if (problem) return problem
@@ -212,12 +274,13 @@ export class LoanApi {
     try {
       const response: ApiResponse<any> = await this.api.apisauce.get(`${API_ENDPOINT}/product-details/public/${id}`, {
         filter:
-          {
-            where: {status: 'approved'},
-            include: [
-              {relation: 'product'},
-              {relation: "org"},
-            ]}
+        {
+          where: { status: 'approved' },
+          include: [
+            { relation: 'product' },
+            { relation: "org" },
+          ]
+        }
       })
       if (!response.ok) {
         const problem = getGeneralApiProblem(response)
@@ -237,7 +300,7 @@ export class LoanApi {
           page: 1
         })
 
-        return { kind: "ok", data: {...data, responseDocumentTemplate: responseDocumentTemplate?.data?.data} }
+        return { kind: "ok", data: { ...data, responseDocumentTemplate: responseDocumentTemplate?.data?.data } }
       }
 
       return { kind: "ok", data }
