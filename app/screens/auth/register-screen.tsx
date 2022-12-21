@@ -44,8 +44,8 @@ export const RegisterScreen: FC<StackScreenProps<AuthStackParamList, ScreenNames
 
     const { authStoreModel } = useStores()
     const [checkboxState, setCheckboxState] = useState(false);
-    const email = get(authStoreModel?.user,'emails[0].email')
-    const phone = get(authStoreModel?.user,'tels[0].tel')
+    const email = get(authStoreModel?.temporaryUser,'emails[0].email')
+    const phone = get(authStoreModel?.temporaryUser,'tels[0].tel')
 
     const _handleRegister = async (data) => {
       const register = await authStoreModel.register(data.fullName, data.password, data.passwordConfirm)

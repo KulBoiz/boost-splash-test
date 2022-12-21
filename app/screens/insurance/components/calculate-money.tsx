@@ -22,7 +22,7 @@ interface Props {
   showRegister?: boolean
 }
 
-const CalculateMoney = React.memo(({ onPress, insurance, enable = false, productDetail, showRegister = false }: Props) => {
+const CalculateMoney = React.memo(({ onPress, insurance, enable = false, productDetail, showRegister = false}: Props) => {
 
   const goToRegister = () => {
     navigate(ScreenNames.AGENT)
@@ -53,7 +53,7 @@ const CalculateMoney = React.memo(({ onPress, insurance, enable = false, product
         </View>
 
         <View style={{ width: '48%' }}>
-          <AppButton title={'Mua bảo hiểm'} onPress={onPress} disable={enable} />
+          <AppButton title={'Mua bảo hiểm'} onPress={onPress} disabled={enable} />
         </View>
       </View>
     </View>

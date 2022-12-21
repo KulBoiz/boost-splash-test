@@ -65,7 +65,7 @@ const ConfirmSale = React.memo((props: Props) => {
     assetStore.verifySellOrderOtp(otpCode)
       .then(res=> {
         if (res?.error){
-          Alert.alert(res?.error?.message ?? COMMON_ERROR)
+          DeviceEventEmitter.emit('errorOtp', {error: res?.error?.message ?? COMMON_ERROR})
           return
         }
         navigate(ScreenNames.SALE_SUCCESS)

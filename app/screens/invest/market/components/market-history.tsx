@@ -1,7 +1,7 @@
 import React, { useCallback, useState } from "react"
-import { View } from "react-native"
+import { FlatList, ScrollView, View } from "react-native"
 import { AppText } from "../../../../components/app-text/AppText"
-import { formatDate, numberWithCommas } from "../../../../constants/variable"
+import { formatDate, height, numberWithCommas } from "../../../../constants/variable"
 import {
   FONT_BOLD_14,
   FONT_REGULAR_12,
@@ -45,14 +45,16 @@ const MarketHistory = React.memo(({ data, navs }: Props) => {
     <View style={styles.container}>
       <View style={[ROW, SPACE_BETWEEN]}>
         <AppText value={"Danh sách phiên giao dịch"} style={FONT_BOLD_14} />
-        {navs.length > 5 &&
-          <AppText value={!showMore ? "Xem thêm" : "Ẩn bớt"} style={FONT_REGULAR_12} color={color.primary}
-                   onPress={toggleShowMore} />
-        }
+        {/* {navs.length > 5 && */}
+        {/*  <AppText value={!showMore ? "Xem thêm" : "Ẩn bớt"} style={FONT_REGULAR_12} color={color.primary} */}
+        {/*           onPress={toggleShowMore} /> */}
+        {/* } */}
       </View>
-      {history.map((item, index) => {
-        return <Item key={index} item={item} />
-      })}
+       <ScrollView style={styles.flatList} showsVerticalScrollIndicator={false} nestedScrollEnabled>
+         {navs.map((item, index) => {
+           return <Item key={index} item={item} />
+         })}
+       </ScrollView>
     </View>
   )
 })
@@ -67,6 +69,8 @@ const styles = ScaledSheet.create({
     paddingVertical: "12@s",
     borderBottomWidth: 1,
     borderBottomColor: "#D9D9D9",
-
   },
+  flatList: {
+    height: height * 0.4
+  }
 })

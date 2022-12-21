@@ -6,30 +6,37 @@ import { useStores } from "../../models"
 import FastImage from "react-native-fast-image"
 import { AppText } from "../../components/app-text/AppText"
 import RenderHtml from "react-native-render-html"
-import { width } from "../../constants/variable"
+import { hexToRgbA, width } from "../../constants/variable"
 import BottomView from "../../components/bottom-view"
 import { ALIGN_CENTER, FONT_MEDIUM_12, ROW } from "../../styles/common-style"
 import EmptyList from "../../components/empty-list"
 
-interface Props{}
+interface Props {
+}
+
 const tagsStyles = {
   img: {
-    width: '80%',
+    width: "80%",
   },
 
 }
 const InformationItem = ({ item }: any) => {
-  return(
+  return (
     <View style={styles.itemContainer}>
       <View style={[ROW, ALIGN_CENTER]}>
-        <FastImage source={{uri: item?.icon?.url}} style={styles.icon}/>
-        <AppText value={item?.title} style={FONT_MEDIUM_12}/>
+        <FastImage source={{ uri: item?.icon?.url }} style={styles.icon} />
+        <AppText value={item?.title} style={FONT_MEDIUM_12} />
       </View>
-        <RenderHtml
-          baseStyle={{backgroundColor: item?.color, borderRadius: 4, paddingHorizontal: 8, marginVertical: 8}}
-          source={{ html: item?.content}}
-          contentWidth={width - s(32)}
-          tagsStyles={tagsStyles}/>
+      <RenderHtml
+        baseStyle={{
+          backgroundColor: item?.color ? hexToRgbA(item?.color, 0.1) : undefined,
+          borderRadius: 4,
+          paddingHorizontal: 8,
+          marginVertical: 8,
+        }}
+        source={{ html: item?.content }}
+        contentWidth={width - s(32)}
+        tagsStyles={tagsStyles} />
     </View>
   )
 }
@@ -40,45 +47,45 @@ const Information = React.memo((props: Props) => {
   const { productDetail } = productStore
   const content = productDetail?.productContent
 
-  const renderItem = ({item, index}) => {
-    return <InformationItem item={item}/>
+  const renderItem = ({ item, index }) => {
+    return <InformationItem item={item} />
   }
 
   return (
     <FlatList
       style={styles.container}
-      keyExtractor={(e, i)=> i.toString()}
+      keyExtractor={(e, i) => i.toString()}
       data={content}
       renderItem={renderItem}
       showsVerticalScrollIndicator={false}
-      ListFooterComponent={<BottomView height={50}/>}
+      ListFooterComponent={<BottomView height={50} />}
       ListEmptyComponent={<EmptyList />}
     />
   )
-});
+})
 
-export default Information;
+export default Information
 
 const styles = ScaledSheet.create({
   container: {
     flex: 1,
     backgroundColor: color.background,
-    paddingHorizontal: '16@s',
-    paddingVertical: '24@s'
+    paddingHorizontal: "16@s",
+    paddingVertical: "24@s",
   },
   icon: {
-    width :'18@s',
-    height: '18@s',
-    borderRadius: '4@s',
-    marginRight: '10@s',
+    width: "18@s",
+    height: "18@s",
+    borderRadius: "4@s",
+    marginRight: "10@s",
   },
   itemContainer: {
-    marginBottom: '10@s'
+    marginBottom: "10@s",
   },
   dashLine: {
-    top: '10@s',
-    left: '25@s',
-    position: 'absolute',
-    zIndex: -1
+    top: "10@s",
+    left: "25@s",
+    position: "absolute",
+    zIndex: -1,
   },
-});
+})

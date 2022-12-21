@@ -87,7 +87,7 @@ const InsuranceItem = React.memo((props: InsuranceItemProps) => {
               <View key={id.toString()} style={!isLastItem && MARGIN_BOTTOM_8}>
                 <RenderHtml
                   contentWidth={width}
-                  source={{ html: `${val?.highlightItem}` }}
+                  source={{ html: `${val?.highlightItem?.replace(/&nbsp;/g,'')}` }}
                   tagsStyles={tagsStyles}
                 />
               </View>

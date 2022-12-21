@@ -52,7 +52,7 @@ const SyncAccount = React.memo((props: Props) => {
     ekycStore.verifySyncMioOtp(otpCode)
       .then(async res => {
         if (res?.error) {
-          Alert.alert(res?.error?.message)
+          DeviceEventEmitter.emit('errorOtp', {error: res?.error?.message ?? COMMON_ERROR})
           return
         }
         navigate(ScreenNames.SYNC_ACCOUNT)

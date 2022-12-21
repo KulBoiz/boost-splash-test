@@ -80,7 +80,7 @@ const PropertyModalize = React.memo((props: Props) => {
         <View style={styles.wrapBtn}>
           <Button title={"Mua"} backgroundColor={color.palette.blue} onPress={handleBuy} />
           <Button title={"Bán"} backgroundColor={color.green.green_02} onPress={handleSale} />
-          <Button title={"Chuyển đổi"} backgroundColor={color.palette.orange} disabled />
+          {/* <Button title={"Chuyển đổi"} backgroundColor={color.palette.orange} disabled /> */}
         </View>
       </Modalize>
     </Portal>

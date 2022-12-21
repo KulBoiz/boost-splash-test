@@ -22,6 +22,7 @@ interface Props {
 }
 
 const TransactionHistoryItem = React.memo(({ item }: Props) => {
+  const type = item?.orderType?.code === 'SELL'
   return (
     <View style={styles.container}>
       <View style={[ROW,SPACE_BETWEEN, ALIGN_CENTER,MARGIN_BOTTOM_4]}>
@@ -44,7 +45,7 @@ const TransactionHistoryItem = React.memo(({ item }: Props) => {
       </View>
 
       <View style={[ROW,SPACE_BETWEEN, MARGIN_TOP_8]}>
-        <AppText value={'Số tiền mua'} style={styles.label}/>
+        <AppText value={!type ? 'Số tiền mua': 'Số tiền bán'} style={styles.label}/>
         <AppText value={'Ngày đặt lệnh'} style={styles.label}/>
       </View>
       <View style={[ROW,SPACE_BETWEEN]}>
