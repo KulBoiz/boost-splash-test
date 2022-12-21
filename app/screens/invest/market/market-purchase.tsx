@@ -40,14 +40,15 @@ const Item = React.memo(({ title, content, textAlign = "left" }: ItemProps) => {
 const MarketPurchase = React.memo((props: Props) => {
   const {params: {param}} = useRoute<RouteProp<NavigatorParamList, ScreenNames.PURCHASE_FUND>>()
   const { investStore } = useStores()
-  const { nav, transactionInfo, estimatedQuantity, bondsDetail } = investStore
+  const { nav, estimatedQuantity, bondsDetail } = investStore
   const data = filter(bondsDetail?.productDetails, {id: param?.productProgramId })?.[0]
 
   const onSubmit = useCallback((otpCode) => {
     investStore.verifyOtpBuyFund(otpCode)
       .then(res => {
+        console.log(res)
         if (res?.error) {
-          Alert.alert(res?.error?.message ?? COMMON_ERROR)
+          DeviceEventEmitter.emit("errorOtp", {error: res?.error?.message ?? COMMON_ERROR})
           return
         }
         navigate(ScreenNames.INVEST_SUCCESS)

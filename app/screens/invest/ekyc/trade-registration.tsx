@@ -15,7 +15,7 @@ import { navigate } from "../../../navigators"
 import { ScreenNames } from "../../../navigators/screen-names"
 import SuccessModalize from "./success-modalize"
 import { useIsFocused } from "@react-navigation/native"
-import { OTP_TIME } from "../../../constants/variable"
+import { COMMON_ERROR, OTP_TIME } from "../../../constants/variable"
 import { observer } from "mobx-react-lite"
 import WebView from "react-native-webview"
 import * as FileSystem from "expo-file-system"
@@ -85,7 +85,7 @@ const TradeRegistration = observer((props: Props) => {
     ekycStore.verifySignContractOtp(otpCode)
       .then(res=> {
         if (res?.error){
-          Alert.alert(res?.error?.message)
+          DeviceEventEmitter.emit('errorOtp', {error: res?.error?.message ?? COMMON_ERROR})
           return
         }
         navigate(ScreenNames.TRADE_REGISTRATION)

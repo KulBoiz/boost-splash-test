@@ -106,10 +106,10 @@ const PropertyInfo = React.memo(({ asset }: Props) => {
   const total = totalFund + totalBond;
 
   const pieData = [
-    { value: calcMoney(amountOfBondTypeFund), color: cyan, text: "35%" },
-    { value: calcMoney(amountOfBalanceTypeFund), color: yellow, text: "15%" },
-    { value: calcMoney(amountOfStockTypeFund), color: green, text: "35%" },
-    { value: calcMoney(amountOfIpoTypeFund), color: pink, text: "15%" },
+    { value: calcMoney(amountOfBondTypeFund), color: cyan },
+    { value: calcMoney(amountOfStockTypeFund), color: yellow },
+    { value: calcMoney(amountOfBalanceTypeFund), color: green },
+    { value: calcMoney(amountOfIpoTypeFund), color: pink },
   ]
 
   return (
@@ -137,8 +137,8 @@ const PropertyInfo = React.memo(({ asset }: Props) => {
           <View style={styles.body}>
             <AppText value={'Phân bổ vốn'} style={[FONT_SEMI_BOLD_14, MARGIN_BOTTOM_8]} color={color.text} />
             <RenderLabel backgroundColor={cyan} title={"Quỹ trái phiếu"} content={`${(calcMoney(amountOfBondTypeFund) / totalAmountInvest * 100)?.toFixed(1) || 0}%`} style={styles.item} />
-            <RenderLabel backgroundColor={yellow} title={"Quỹ cổ phiếu"} content={`${(calcMoney(amountOfBalanceTypeFund) / totalAmountInvest * 100)?.toFixed(1) || 0}%`} style={styles.item} />
-            <RenderLabel backgroundColor={green} title={"Quỹ cân bằng"} content={`${(calcMoney(amountOfStockTypeFund) / totalAmountInvest * 100)?.toFixed(1) || 0}%`} style={styles.item} />
+            <RenderLabel backgroundColor={yellow} title={"Quỹ cổ phiếu"} content={`${(calcMoney(amountOfStockTypeFund) / totalAmountInvest * 100)?.toFixed(1) || 0}%`} style={styles.item} />
+            <RenderLabel backgroundColor={green} title={"Quỹ cân bằng"} content={`${(calcMoney(amountOfBalanceTypeFund) / totalAmountInvest * 100)?.toFixed(1) || 0}%`} style={styles.item} />
             <RenderLabel backgroundColor={pink} title={"Trái phiếu"} content={`${(calcMoney(amountOfIpoTypeFund) / totalAmountInvest * 100)?.toFixed(1) || 0}%`} />
           </View>
         </View>

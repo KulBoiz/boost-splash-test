@@ -27,6 +27,7 @@ export const AuthStoreModel = types
     isFirstTime: types.optional(types.boolean, true),
     investmentNumber: types.optional(types.string, ''),
     user: types.frozen({}),
+    temporaryUser: types.frozen({}),
     vcf: types.frozen(''),
     userId: types.frozen(''),
     autoRefreshTokenTimeout: types.optional(types.number, 0),
@@ -105,7 +106,7 @@ export const AuthStoreModel = types
       }
       const loggedInInfo = result.data
       if (loggedInInfo && loggedInInfo.user) {
-        self.user = loggedInInfo.user
+        self.temporaryUser = loggedInInfo.user
         self.userId = loggedInInfo.user.id
         return {
           kind: "ok",

@@ -253,7 +253,7 @@ export const InvestStoreModel = types
       self.transactionInfo = {}
       const userId = self.userId()
       const result = yield self.api.post(`transactions-partner-logs/${userId}/verify-otp-buy-fund`, {
-        transactionId: self.transactionId, otpCode, otp: otpCode
+        transactionId: self.transactionId, otpCode
       })
       const data = result?.data
       self.transactionInfo = data

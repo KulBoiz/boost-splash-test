@@ -1,5 +1,5 @@
 import React, { useCallback, useEffect, useRef, useState } from "react"
-import { AppState, DeviceEventEmitter, View } from "react-native"
+import { Alert, AppState, DeviceEventEmitter, View } from "react-native"
 import AppHeader from "../../../components/app-header/AppHeader"
 import { AppText } from "../../../components/app-text/AppText"
 import { ms, ScaledSheet } from "react-native-size-matters"
@@ -16,6 +16,7 @@ import AsyncStorage from "@react-native-async-storage/async-storage"
 import moment from "moment"
 import { OTP_TIME } from "../../../constants/variable"
 import AppModal from "../../../components/app-modal/app-modal"
+import { navigate } from "../../../navigators"
 
 interface Props {
 }
@@ -30,14 +31,17 @@ const InvestOtp = React.memo((props: Props) => {
     },
   } = useRoute<RouteProp<NavigatorParamList, ScreenNames.INVEST_OTP>>()
   const [disable, setDisable] = useState(false)
+  const [errorCount, setErrorCount] = useState(0)
+  const [errorModal, setErrorModal] = useState(false)
   const [value, setValue] = useState("")
   const { ekycStore, authStoreModel, investStore } = useStores()
-  const tel = phone ?? investStore?.phone ?? ekycStore.user?.tels?.[0]?.tel ?? authStoreModel?.user?.tels?.[0]?.tel ?? ""
   const [time, setTime] = useState(otpTime)
   const [isStartCheck, setStartCheck] = useState<boolean>(true)
   const [resendModal, setResendModal] = useState<boolean>(false)
   const appState = useRef(AppState.currentState)
   const [appStateVisible, setAppStateVisible] = useState(appState.current)
+  const valid = value.length === 6
+  const tel = phone ?? investStore?.phone ?? ekycStore.user?.tels?.[0]?.tel ?? authStoreModel?.user?.tels?.[0]?.tel ?? ""
 
   const _handleAppStateChange = (nextAppState: any) => {
     appState.current = nextAppState
@@ -61,10 +65,20 @@ const InvestOtp = React.memo((props: Props) => {
       AsyncStorage.setItem("otpTime", moment().toISOString())
       setStartCheck(true)
     })
+
+    DeviceEventEmitter.addListener("errorOtp", (e) => {
+      setErrorCount(errorCount + 1)
+      if (errorCount < 3){
+        Alert.alert(e?.error)
+      }
+      if (errorCount === 3) {
+        setErrorModal(true)
+      }
+    })
     return () => {
       DeviceEventEmitter.removeAllListeners()
     }
-  }, [])
+  }, [errorCount])
 
   useEffect(() => {
     const initOtpTime = async () => {
@@ -101,6 +115,11 @@ const InvestOtp = React.memo((props: Props) => {
     }
   }, [isStartCheck, time])
 
+  const handleError = useCallback(()=> {
+    setErrorModal(false)
+    navigate(ScreenNames.HOME)
+  },[])
+
   const handleConfirm = useCallback(() => {
     setDisable(true)
     onSubmit(value)
@@ -115,7 +134,6 @@ const InvestOtp = React.memo((props: Props) => {
     setValue("")
     onResend()
   }, [value, time])
-
 
   return (
     <View style={styles.container}>
@@ -140,9 +158,10 @@ const InvestOtp = React.memo((props: Props) => {
       </View>
 
       <View style={styles.wrapBtn}>
-        <AppButton title={"Xác nhận"} onPress={handleConfirm} disable={value.length < 6} disabled={disable} />
+        <AppButton title={"Xác nhận"} onPress={handleConfirm} disabled={disable}  />
       </View>
       <AppModal visible={resendModal} closeModal={() => setResendModal(false)} content={"Gửi lại mã thành công"} />
+      <AppModal visible={errorModal} closeModal={handleError} content={"Bạn đã nhập sai OTP quá 3 lần, vui lòng thử lại sau"} />
     </View>
   )
 })

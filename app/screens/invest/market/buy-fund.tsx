@@ -72,7 +72,7 @@ const BuyFund = observer((props: Props) => {
     investStore.verifyOtpBuyFund(otpCode)
       .then(res=> {
         if (res?.error){
-          Alert.alert(res?.error?.message ?? COMMON_ERROR)
+          DeviceEventEmitter.emit('errorOtp', {error: res?.error?.message ?? COMMON_ERROR})
           return
         }
         navigate(ScreenNames.PURCHASE_FUND)

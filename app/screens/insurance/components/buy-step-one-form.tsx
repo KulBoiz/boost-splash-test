@@ -35,6 +35,7 @@ const BuyStepOneForm = React.memo((props: Props) => {
   const { authStoreModel } = useStores()
   const { productDetail, onPress, index } = props
 
+  const [pressEnable, setPressEnable] = useState(false)
   const [ownerData, setOwnerData] = useState<any>({})
   const [formCustomerData, setFormCustomerData] = useState<any>([])
   const [showModal, setShowModal] = useState<boolean>(false)
@@ -135,6 +136,10 @@ const BuyStepOneForm = React.memo((props: Props) => {
   }
 
   const onSubmit = handleSubmitOwner((e) => {
+    setPressEnable(true)
+    setTimeout(()=>{
+      setPressEnable(false)
+    }, 5000)
     setOwnerData(e)
     const { fullName, dateOfBirth, email, idNumber, gender, tel, company, level } = e
     const userNoPacket = formCustomerData.find(el => !el?.employeeBuy)
@@ -154,9 +159,9 @@ const BuyStepOneForm = React.memo((props: Props) => {
         subType: productDetail?.name,
         amount: totalAmount()?.value,
       }
-
       onPress(data)
     }
+
   })
 
   const addFormCustomer = () => {
@@ -322,6 +327,7 @@ const BuyStepOneForm = React.memo((props: Props) => {
           customers: [...formCustomerData],
           amount: totalAmount()?.value,
         }}
+        enable={pressEnable}
         productDetail={productDetail}
         onPress={onSubmit}
         showRegister={checkCTVAndFina()}

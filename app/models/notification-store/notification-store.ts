@@ -1,6 +1,7 @@
 import { flow, Instance, SnapshotOut, types } from "mobx-state-tree"
 import { NotificationApi } from "../../services/api/notification-api"
 import { withEnvironment } from "../extensions/with-environment"
+import { withRootStore } from "../extensions/with-root-store"
 
 /**
  * Model description here for TypeScript hints.
@@ -8,13 +9,18 @@ import { withEnvironment } from "../extensions/with-environment"
 export const NotificationStoreModel = types
   .model("NotificationStore")
   .extend(withEnvironment)
+  .extend(withRootStore)
   .props({
     dataSources: types.frozen([]),
     limit: types.optional(types.number, 20),
     page: types.optional(types.number, 1),
     total: types.optional(types.number, 0),
   })
-  .views(() => ({})) // eslint-disable-line @typescript-eslint/no-unused-vars
+  .views(() => ({
+    userId() {
+      return self?.rootStore?.authStoreModel.userId
+    },
+  })) // eslint-disable-line @typescript-eslint/no-unused-vars
   .actions((self) => ({
     setDataSource: (dataSources) => {
       self.dataSources = dataSources
@@ -24,7 +30,7 @@ export const NotificationStoreModel = types
       self.dataSources = []
       self.total = 0
       self.page = 1
-      
+
       const api = new NotificationApi(self.environment.api)
 
       const params = {
@@ -106,6 +112,28 @@ export const NotificationStoreModel = types
       }
     }),
 
+    checkNotification: flow(function* checkNotification() {
+      const userId = self.userId()
+
+      const params = {
+        userId: userId,
+        status: 'UNREAD'
+      }
+      const api = new NotificationApi(self.environment.api)
+      const result = yield api.getNotificationPagination('notifications', params)
+      if (result.kind === "ok") {
+        return {
+          kind: "ok",
+          data: result.data,
+        }
+      }
+
+      return {
+        kind: "notOk",
+        data: result,
+      }
+    }),
+
     readNotifications: flow(function* readNotifications(item: any) {
       const api = new NotificationApi(self.environment.api)
       const notiRead: any = {
@@ -139,7 +167,7 @@ export const NotificationStoreModel = types
       const index = dataSources?.findIndex((el: any) => item?.id === el.id)
 
       dataSources.splice(index, 1)
-      
+
       self.dataSources = dataSources
 
       if (result.kind === "ok") {
