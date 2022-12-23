@@ -94,7 +94,6 @@ const MarketSaleForm = observer((props: Props) => {
     loadFee(param)
   }, [watch("amount"), fundAmount])
 
-
   const handlePress = React.useCallback((value) => {
     setIsValid(false)
     clearErrors("amount")
@@ -113,7 +112,7 @@ const MarketSaleForm = observer((props: Props) => {
   }, [fundAmount])
 
   const handleSelect = React.useCallback((value) => {
-    const volume = assetStore.assetAmount.filter(e => e.id === value.value)?.[0]?.volume
+    const volume = assetStore.assetAmount.filter(e => e.id === value.value)?.[0]?.volumeAvailable
     setFundAmount(volume)
   }, [])
 

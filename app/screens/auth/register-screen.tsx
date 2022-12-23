@@ -43,12 +43,17 @@ export const RegisterScreen: FC<StackScreenProps<AuthStackParamList, ScreenNames
     })
 
     const { authStoreModel } = useStores()
+    const [loading, setLoading] = useState<boolean>(false)
     const [checkboxState, setCheckboxState] = useState(false);
     const email = get(authStoreModel?.temporaryUser,'emails[0].email')
     const phone = get(authStoreModel?.temporaryUser,'tels[0].tel')
 
     const _handleRegister = async (data) => {
+      setLoading(true)
       const register = await authStoreModel.register(data.fullName, data.password, data.passwordConfirm)
+      if (register) {
+        setLoading(false)
+      }
       if (register.kind !== 'ok') {
         Alert.alert(register?.error?.message ?? 'Something went wrong')
       }
@@ -120,7 +125,7 @@ export const RegisterScreen: FC<StackScreenProps<AuthStackParamList, ScreenNames
 
         </View>
         <View style={styles.wrapBtn}>
-          <AppButton onPress={handleSubmit(_handleRegister)} tx={"auth.register"} disable={!checkboxState} containerStyle={styles.button}/>
+          <AppButton onPress={handleSubmit(_handleRegister)} tx={"auth.register"} loading={loading} disable={!checkboxState} containerStyle={styles.button}/>
         </View>
       </KeyboardAwareScrollView>
     )

@@ -7,9 +7,13 @@ import { color } from '../../../theme'
 import { navigate } from "../../../navigators"
 import { ScreenNames } from "../../../navigators/screen-names"
 import { isAndroid } from "../../../constants/variable"
+import { useStores } from "../../../models"
+import { observer } from "mobx-react-lite"
 
-const OptionsUserInfo = () => {
-	const isNotification = true
+const OptionsUserInfo = observer(() => {
+	const { notificationModel } = useStores()
+	const { totalUnread } = notificationModel
+	const isNotification = totalUnread !== 0
 
 	const handleCall = () => {
 		const phoneNumber = '08 5749 8668';
@@ -41,7 +45,7 @@ const OptionsUserInfo = () => {
 			 {/* </Pressable> */}
 		</View>
 	)
-}
+})
 export default OptionsUserInfo
 
 const styles = ScaledSheet.create({

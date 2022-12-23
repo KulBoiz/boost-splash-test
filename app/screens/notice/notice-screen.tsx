@@ -71,7 +71,7 @@ const NoticeScreen = observer((props: Props) => {
         status: status || undefined,
       }
     }
-    notificationModel.getListNotifications(filters, userId).then(() => {
+    notificationModel.getListNotifications(filters).then(() => {
       setLoading(false)
     });
   }

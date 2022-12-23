@@ -32,6 +32,8 @@ export const images = {
   commission_cancel: require('./commission/cancel.png'),
   commission_empty: require('./commission/empty.png'),
 
+  identity_cmnd : require('./identity/cmnd.png'),
+  identity_cccd : require('./identity/cccd.png'),
   identity_hidden : require('./identity/no-hidden.png'),
   identity_too_dark : require('./identity/no-too-dark.png'),
   identity_too_light : require('./identity/no-too-light.png'),

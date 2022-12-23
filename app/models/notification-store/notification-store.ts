@@ -2,6 +2,7 @@ import { flow, Instance, SnapshotOut, types } from "mobx-state-tree"
 import { NotificationApi } from "../../services/api/notification-api"
 import { withEnvironment } from "../extensions/with-environment"
 import { withRootStore } from "../extensions/with-root-store"
+import { BaseApi } from "../../services/api/base-api"
 
 /**
  * Model description here for TypeScript hints.
@@ -15,8 +16,9 @@ export const NotificationStoreModel = types
     limit: types.optional(types.number, 20),
     page: types.optional(types.number, 1),
     total: types.optional(types.number, 0),
+    totalUnread: types.optional(types.number, 0),
   })
-  .views(() => ({
+  .views((self) => ({
     userId() {
       return self?.rootStore?.authStoreModel.userId
     },
@@ -26,7 +28,7 @@ export const NotificationStoreModel = types
       self.dataSources = dataSources
     },
 
-    getListNotifications: flow(function* getListNotifications(filters, userId) {
+    getListNotifications: flow(function* getListNotifications(filters) {
       self.dataSources = []
       self.total = 0
       self.page = 1
@@ -34,7 +36,6 @@ export const NotificationStoreModel = types
       const api = new NotificationApi(self.environment.api)
 
       const params = {
-        userId: userId,
         page: self.page,
         filter: {
           limit: 20,
@@ -100,6 +101,7 @@ export const NotificationStoreModel = types
       const result = yield api.readAllNotifications('notifications/read-all')
 
       if (result.kind === "ok") {
+        self.totalUnread = 0
         return {
           kind: "ok",
           data: result.data,
@@ -116,12 +118,18 @@ export const NotificationStoreModel = types
       const userId = self.userId()
 
       const params = {
-        userId: userId,
-        status: 'UNREAD'
+        filter: {
+          where: {
+            userId,
+            status: 'UNREAD'
+            ,
+          }
+        },
       }
       const api = new NotificationApi(self.environment.api)
       const result = yield api.getNotificationPagination('notifications', params)
       if (result.kind === "ok") {
+        self.totalUnread = result?.data?.total
         return {
           kind: "ok",
           data: result.data,

@@ -50,7 +50,7 @@ const styles = ScaledSheet.create({
   label: {
     fontSize: '14@ms',
     fontFamily: fontFamily.semiBold,
-    marginLeft: '16@ms',
+    marginLeft: '20@ms',
     marginBottom: '12@s',
     color: 'rgba(0, 0, 0, 0.85)'
   },
@@ -59,7 +59,8 @@ const styles = ScaledSheet.create({
     alignItems: "flex-start",
     flexDirection: "row",
     flexWrap: "wrap",
-    paddingHorizontal: '12@ms',
+    // paddingHorizontal: '12@ms',
+    paddingHorizontal: '8@ms',
     backgroundColor: color.palette.F9FBFF,
   }
 });

@@ -78,7 +78,7 @@ const MarketSale = React.memo((props: Props) => {
                 <FundTariff productDetail={productDetail} hideBuyFee/>
               </ScrollView>
                 <View style={styles.wrapBtn}>
-                  <AppButton title={"Đặt lệnh bán"} onPress={handleSubmit(handleSale)} disabled={!isValid}/>
+                  <AppButton title={"Đặt lệnh bán"} onPress={handleSubmit(handleSale)} disable={!isValid}/>
                 </View>
               </View>
               : <EmptyList />

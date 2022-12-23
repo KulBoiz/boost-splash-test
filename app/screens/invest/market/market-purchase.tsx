@@ -46,8 +46,7 @@ const MarketPurchase = React.memo((props: Props) => {
   const onSubmit = useCallback((otpCode) => {
     investStore.verifyOtpBuyFund(otpCode)
       .then(res => {
-        console.log(res)
-        if (res?.error) {
+        if (res?.error || res?.kind === 'server') {
           DeviceEventEmitter.emit("errorOtp", {error: res?.error?.message ?? COMMON_ERROR})
           return
         }

@@ -43,7 +43,7 @@ const PurchaseQrTab = React.memo(({ transactionInfo = {}, param }: Props) => {
   useEffect(() => {
     const data = {
       "accountNo": transactionInfo?.bankNumber,
-      "accountName": convertViToEn(transactionInfo?.dataBank?.name),
+      "accountName": `${transactionInfo?.dataBank?.shortName} ${transactionInfo?.dataBank?.stockName}`,
       "swiftCode": transactionInfo?.dataBank?.swiftCode,
       "amount": param?.amount,
       // "addInfo": transactionInfo?.metaData?.transferContent,
