@@ -71,7 +71,7 @@ const ItemPicker = React.memo((props: Props) => {
 
 
   const openModal = React.useCallback(()=> {
-    if(!data.length && onChangeSearchText){
+    if(onChangeSearchText){
       onChangeSearchText('')
     }
     Keyboard.dismiss()

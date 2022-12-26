@@ -1,3 +1,7 @@
+export const email = /^[A-Za-z0-9_.]+@[A-Za-z.]+?\.[a-zA-Z]+$/
+export const isEmail = RegExp.prototype.test.bind(/^[A-Za-z0-9_.]+@[A-Za-z.]+?\.[a-zA-Z]+$/)
+export const isPhone = RegExp.prototype.test.bind( /^((\+?84)|0)((3([2-9]))|(5([25689]))|(7([0|6-9]))|(8([1-9]))|(9([0-9])))([0-9]{7})$/)
+export const isNumber = RegExp.prototype.test.bind( /^[0-9]*$/)
 export const numberOnly = /^[0-9]*$/
 export const notZeroOnly = /0*[1-9][0-9]*/
 export const isVNPhone = /^((\+?84)|0)((3([2-9]))|(5([25689]))|(7([0|6-9]))|(8([1-9]))|(9([0-9])))([0-9]{7})$/

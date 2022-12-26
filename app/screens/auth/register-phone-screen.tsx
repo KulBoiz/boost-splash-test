@@ -20,6 +20,7 @@ import RenderAuthStep from "./components/render-step-auth"
 import BackButton from "../../components/back-button/back-button"
 import { fontFamily } from "../../constants/font-family"
 import AppModal from "../../components/app-modal/app-modal"
+import { isEmail, isNumber, isPhone } from "../../constants/regex"
 
 
 const RegisterPhoneScreen: FC<StackScreenProps<AuthStackParamList, ScreenNames.REGISTER_PHONE>> = observer(
@@ -33,9 +34,9 @@ const RegisterPhoneScreen: FC<StackScreenProps<AuthStackParamList, ScreenNames.R
     const { authStoreModel } = useStores()
     const [loading, setLoading] = useState<boolean>(false)
     const [visible, setVisible] = useState<boolean>(false)
-    const [error, setError] = useState<string>("")
+    const [errorText, setErrorText] = useState<string>("")
 
-    const { control, handleSubmit, formState: { errors } } = useForm({
+    const { control, handleSubmit, formState: { errors }, setError } = useForm({
       delayError: 0,
       defaultValues: undefined,
       mode: "all",
@@ -44,8 +45,20 @@ const RegisterPhoneScreen: FC<StackScreenProps<AuthStackParamList, ScreenNames.R
     })
 
     const _handleContinue = async (data) => {
-      setLoading(true)
       const phone = `${data.phone}`
+      if (isNumber(phone)) {
+        if (!isPhone(phone)) {
+          setError("phone", { message: "Vui lòng nhập số điện thoại Việt Nam" })
+          return
+        }
+      }
+      if (!isNumber(phone)) {
+        if (!isEmail(phone)) {
+          setError("phone", { message: "Địa chỉ email không hợp lệ" })
+          return
+        }
+      }
+      setLoading(true)
       const register = await authStoreModel.registerEmail(phone)
       if (register) {
         setLoading(false)
@@ -53,7 +66,7 @@ const RegisterPhoneScreen: FC<StackScreenProps<AuthStackParamList, ScreenNames.R
       if (register.kind === "ok") {
         navigation.navigate(ScreenNames.OTP, { phoneNumber: phone ?? "", isRegister: true })
       } else {
-        setError(register?.error?.message)
+        setErrorText(register?.error?.message)
         setVisible(true)
       }
     }
@@ -92,9 +105,10 @@ const RegisterPhoneScreen: FC<StackScreenProps<AuthStackParamList, ScreenNames.R
           />
         </View>
         <View style={styles.wrapBottom}>
-          <AppButton tx={"common.continue"} onPress={handleSubmit(_handleContinue)} containerStyle={styles.btn} loading={loading}/>
+          <AppButton tx={"common.continue"} onPress={handleSubmit(_handleContinue)} containerStyle={styles.btn}
+                     loading={loading} />
         </View>
-        <AppModal visible={visible} closeModal={handleClose} content={error} />
+        <AppModal visible={visible} closeModal={handleClose} content={errorText} />
       </Pressable>
     )
   })

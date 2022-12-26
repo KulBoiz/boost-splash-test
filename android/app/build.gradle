@@ -138,8 +138,8 @@ android {
         applicationId "com.fina.mobile"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
-        versionCode 180
-        versionName "1.2.6"
+        versionCode 181
+        versionName "1.2.7"
     }
     splits {
         abi {

@@ -37,7 +37,7 @@ const OtpItem:FC<Props> = observer(
       value,
       setValue,
     });
-    const [time, setTime] = useState(defaultTime)
+    const [time, setTime] = useState(defaultTime + 5000)
     const [isStartCheck, setStartCheck] = useState<boolean>(true);
     const appState = useRef(AppState.currentState);
     const [appStateVisible, setAppStateVisible] = useState(appState.current);

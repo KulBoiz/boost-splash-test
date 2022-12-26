@@ -70,3 +70,6 @@ export const IDENTITY_GUIDE_IMAGE = [
 export const FATCA1 = 'I. Anh (chị) có phải là thường trú tại Hoa Kỳ không? ( Are you a U.S Resident?)'
 export const FATCA2 = 'II. Anh (chị) có phải là công dân Hoa Kỳ không?\n( Are you a U.S Citizen?)'
 export const FATCA3 = 'III. Anh (chị) có đang sở hữu Thẻ Thường Trú Hoa Kỳ (Thẻ xanh) không? ( Are you holidng a U.S Permanent Resident Card (Green card) ?)'
+
+export const TITLE_ID = 'Căn cước công dân\nChứng minh nhân dân'
+export const CONTENT_ID = 'Vui lòng chọn đúng loại giấy tờ để việc xác\nthực được thành công'

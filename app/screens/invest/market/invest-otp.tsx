@@ -121,6 +121,10 @@ const InvestOtp = React.memo((props: Props) => {
   },[])
 
   const handleConfirm = useCallback(() => {
+    if (value.length === 0){
+      Alert.alert('Bạn chưa nhập OTP')
+      return
+    }
     setDisable(true)
     onSubmit(value)
     setTimeout(()=>{
@@ -158,7 +162,7 @@ const InvestOtp = React.memo((props: Props) => {
       </View>
 
       <View style={styles.wrapBtn}>
-        <AppButton title={"Xác nhận"} onPress={handleConfirm} disabled={disable}  />
+        <AppButton title={"Xác nhận"} onPress={handleConfirm} disabled={disable}/>
       </View>
       <AppModal visible={resendModal} closeModal={() => setResendModal(false)} content={"Gửi lại mã thành công"} />
       <AppModal visible={errorModal} closeModal={handleError} content={"Bạn đã nhập sai OTP quá 3 lần, vui lòng thử lại sau"} />

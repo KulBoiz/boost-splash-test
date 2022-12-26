@@ -13,10 +13,10 @@ import HomeFina from "./home-fina/home-fina"
 export const AppHomeScreen: FC<StackScreenProps<AppStackParamList, ScreenNames.HOME>> = observer(
   ({ navigation }) => {
     const {notificationModel} = useStores()
-    //
-    // useEffect(()=> {
-    //   notificationModel.checkNotification()
-    // },[])
+
+    useEffect(()=> {
+      notificationModel.checkNotification()
+    },[])
 
     useFocusEffect(() => {
       BackHandler.addEventListener('hardwareBackPress', () => true);
