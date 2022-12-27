@@ -22,6 +22,7 @@ import { observer } from "mobx-react-lite"
 import SaleFeeInfo from "./sale-fee-info"
 import { convertToInt } from "../../../../constants/variable"
 import AppModal from "../../../../components/app-modal/app-modal"
+import { useIsFocused } from "@react-navigation/native"
 
 interface Props {
   control: Control
@@ -31,6 +32,7 @@ interface Props {
   clearErrors: UseFormClearErrors<FieldValues>
   setError: UseFormSetError<FieldValues>;
   data: any
+
   setIsValid(e: boolean): void
 }
 
@@ -57,15 +59,26 @@ const MarketSaleForm = observer((props: Props) => {
   const [fundAmount, setFundAmount] = useState(0)
   const [fee, setFee] = useState([])
   const [visible, setVisible] = useState(false)
-  const [errorText, setErrorText] = useState('')
-  const { control, errors, setValue, watch, clearErrors, data, setError, setIsValid  } = props
+  const [errorText, setErrorText] = useState("")
+  const { control, errors, setValue, watch, clearErrors, data, setError, setIsValid } = props
   const sellMinValue = filter(data?.productDetails, { idPartner: watch("program") })?.[0]?.sellMin
   const param = { volume: +watch("amount"), productId: data?.info?.idPartner, productProgramId: watch("program") }
 
+  useEffect(()=> {
+    const volume = assetStore.assetAmount.filter(e => e.id === watch("program"))?.[0]?.volumeAvailable
+    if(volume && watch('amount')){
+      setFundAmount(volume)
+      if (volume - +watch('amount') === 0){
+        setIsValid(false)
+      }
+    }
+    clearErrors('amount')
+  },[assetStore.assetAmount])
+
   const loadFee = useCallback(
     debounce(async param => {
-      await assetStore.loadRedemptionFee(param).then(res=> {
-        if (res.error || res?.kind === 'server') {
+      await assetStore.loadRedemptionFee(param).then(res => {
+        if (res.error || res?.kind === "server") {
           setIsValid(false)
           setErrorText(res?.error?.message)
           setVisible(true)
@@ -73,13 +86,17 @@ const MarketSaleForm = observer((props: Props) => {
         }
         setIsValid(true)
         setFee(res?.details)
-        setValue('value', convertToInt(res?.totalAmount))
-        setValue('fee', convertToInt(res?.totalFee))
+        setValue("value", convertToInt(res?.totalAmount))
+        setValue("fee", convertToInt(res?.totalFee))
       })
-      await assetStore.setInfoSellTransaction({...param, ...data, value: watch('value').replace(/,/g, ''), fee: watch('fee').replace(/,/g, '')})
+      await assetStore.setInfoSellTransaction({
+        ...param, ...data,
+        value: watch("value").replace(/,/g, ""),
+        fee: watch("fee").replace(/,/g, ""),
+      })
     }, 700),
-    [data]
-  );
+    [data],
+  )
 
   useEffect(() => {
     if (+watch("amount") > fundAmount) {
@@ -142,6 +159,7 @@ const MarketSaleForm = observer((props: Props) => {
           placeholder: "Số lượng CQQ cần bán",
           keyboardType: "number-pad",
           control,
+          editable: !!watch('program'),
           error: errors?.amount?.message,
         }}
       />
@@ -153,8 +171,8 @@ const MarketSaleForm = observer((props: Props) => {
         }
       </View>
       {!!sellMinValue && <NoteItem content={`Số lượng bán tối thiểu là ${sellMinValue ?? 0}`} />}
-      {!!fundAmount && <NoteItem content={`Số lượng khả dụng ${fundAmount}`} />}
-      <SaleFeeInfo fee={fee}/>
+      {!!watch('program') && <NoteItem content={`Số lượng khả dụng ${fundAmount}`} />}
+      <SaleFeeInfo fee={fee} />
       <View style={[ROW, ALIGN_CENTER]}>
         <FormInput
           {...{
@@ -168,7 +186,7 @@ const MarketSaleForm = observer((props: Props) => {
             error: errors?.value?.message,
           }}
         />
-         <FormInput
+        <FormInput
           {...{
             style: { flex: 1 },
             name: "fee",
@@ -179,10 +197,10 @@ const MarketSaleForm = observer((props: Props) => {
             control,
             error: errors?.fee?.message,
           }}
-         />
+        />
       </View>
       <NoteItem content={`Giá trị thực nhận phụ thuộc vào NAV của ngày phiên khớp lệnh`} />
-      <AppModal visible={visible} closeModal={()=> setVisible(false)} content={errorText} />
+      <AppModal visible={visible} closeModal={() => setVisible(false)} content={errorText} />
     </View>
   )
 })
@@ -190,8 +208,7 @@ const MarketSaleForm = observer((props: Props) => {
 export default MarketSaleForm
 
 const styles = ScaledSheet.create({
-  container: {
-  },
+  container: {},
   itemContainer: {
     width: "60@s",
     alignItems: "center",

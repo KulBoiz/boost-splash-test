@@ -29,7 +29,7 @@ const UserContainer = observer((props: Props) => {
       <View>
         <AppText value={username} fontSize={ms(16)} fontFamily={fontFamily.semiBold} style={MARGIN_BOTTOM_8}/>
       </View>
-      <RenderStatus status={role} statusColor={color.primary} backgroundColor={hexToRgbA(color.primary, 0.1)}/>
+      {role && <RenderStatus status={role} statusColor={color.primary} backgroundColor={hexToRgbA(color.primary, 0.1)}/> }
     </View>
   )
 })

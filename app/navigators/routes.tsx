@@ -104,10 +104,10 @@ export const EKYCRoutes = [
     name: ScreenNames.UPDATE_IDENTITY_INFORMATION,
     component: UpdateIdentityInformation,
   },
-  {
-    name: ScreenNames.TRADE_REGISTRATION,
-    component: TradeRegistration,
-  },
+  // {
+  //   name: ScreenNames.TRADE_REGISTRATION,
+  //   component: TradeRegistration,
+  // },
   {
     name: ScreenNames.CONFIRM_EKYC,
     component: ConfirmEkyc,

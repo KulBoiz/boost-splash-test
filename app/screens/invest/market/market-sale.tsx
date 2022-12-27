@@ -12,7 +12,7 @@ import AppButton from "../../../components/app-button/AppButton"
 import { navigate } from "../../../navigators"
 import { ScreenNames } from "../../../navigators/screen-names"
 import SaleFundInformation from "./fund/components/sale-fund-information"
-import { RouteProp, useRoute } from "@react-navigation/native"
+import { RouteProp, useIsFocused, useRoute } from "@react-navigation/native"
 import { NavigatorParamList } from "../../../navigators/params-list"
 import { useStores } from "../../../models"
 import EmptyList from "../../../components/empty-list"
@@ -25,18 +25,20 @@ interface Props {
 const MarketSale = React.memo((props: Props) => {
   const { params: { slug } } = useRoute<RouteProp<NavigatorParamList, ScreenNames.SALE_BONDS>>()
   const [data, setData] = useState<any>({})
+  const isFocused = useIsFocused()
   const [loading, setLoading] = useState<boolean>(true)
   const [isValid, setIsValid] = useState<boolean>(false)
   const { investStore, assetStore } = useStores()
 
   useEffect(() => {
+    setLoading(true)
     investStore.getFundDetail(slug).then(res => {
         setLoading(false)
         setData(res)
         assetStore.loadAssetProgram(res?.info?.idPartner)
       },
     )
-  }, [])
+  }, [isFocused])
 
   const validationSchema = Yup.object().shape({
     program: Yup.string().required('Chọn chương trình'),

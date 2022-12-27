@@ -17,6 +17,7 @@ import { AppText } from "../../../components/app-text/AppText"
 import { ALIGN_CENTER, FONT_MEDIUM_14, MARGIN_TOP_24 } from "../../../styles/common-style"
 import { presets } from "../../../constants/presets"
 import AppButton from "../../../components/app-button/AppButton"
+import { observer } from "mobx-react-lite"
 
 const frameWidth = width * 0.8
 const frameHeight = height * 0.5
@@ -24,7 +25,7 @@ const frameX = width * 0.1
 const frameY = height * 0.15
 const guide = "Xin đưa khuôn mặt của bạn vào giữa\nkhung hình và nhấn chụp ảnh."
 
-const EKYCPortrait = React.memo(() => {
+const EKYCPortrait = observer(() => {
   const { ekycStore } = useStores()
   const isFocused = useIsFocused()
   const cameraRef = useRef<any>(null)

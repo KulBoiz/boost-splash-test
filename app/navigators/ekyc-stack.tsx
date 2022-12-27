@@ -9,11 +9,10 @@ export type EKYCStackParamList = {
   [ScreenNames.EKYC_ID]: undefined
   [ScreenNames.EKYC_PORTRAIT]: undefined;
   [ScreenNames.UPDATE_IDENTITY_INFORMATION]: undefined;
-  [ScreenNames.TRADE_REGISTRATION]: undefined;
+  // [ScreenNames.TRADE_REGISTRATION]: undefined;
 }
 
 const Stack = createNativeStackNavigator<EKYCStackParamList>()
-
 
 export const EKYCStack = () => {
   return (
