@@ -38,7 +38,7 @@ const SaleSuccess = React.memo((props: Props) => {
   const transactionInfo = assetStore.sellTransactionInfo
 
   const buyMore = useCallback(() => {
-    navigation.dispatch(StackActions.pop(4))
+    navigation.dispatch(StackActions.pop(3))
   }, [])
 
   const complete = useCallback(() => {

@@ -147,8 +147,10 @@ const TradeRegistration = observer((props: Props) => {
 
         <SuccessModalize modalizeRef={modalizeSuccessRef} closeModal={onCloseSuccess} />
         <Signature modalizeRef={modalizeRef} handleConfirm={handleConfirm} closeModal={onClose} />
-        {!isSigned && <DualButton leftTitle={"Lưu và thoát"} rightTitle={"Ký tên"} rightPress={onOpen}
-                    leftPress={handleCancel} /> }
+         {!isSigned &&
+          <DualButton leftTitle={"Thoát"} rightTitle={"Ký tên"} rightPress={onOpen}
+                    leftPress={handleCancel} />
+         }
       </View>
 
     </View>

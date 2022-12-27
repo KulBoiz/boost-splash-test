@@ -13683,6 +13683,11 @@ react-native-confirmation-code-field@^7.3.0:
   resolved "https://registry.yarnpkg.com/react-native-confirmation-code-field/-/react-native-confirmation-code-field-7.3.0.tgz#828527001be9f30fd63e12ac4be66845f5036b5e"
   integrity sha512-o/ByEXh0+9aEehboH/MJorlwELDWpsViedf6Putogsxx2493dzFsZ9P/R9m3qZJ6s2AnWWL9Ja4qjzO9WE5zVg==
 
+react-native-contacts@^7.0.5:
+  version "7.0.5"
+  resolved "https://registry.yarnpkg.com/react-native-contacts/-/react-native-contacts-7.0.5.tgz#648b6500ac1f67b79acb2b73b111d31a01f6037f"
+  integrity sha512-RsWf5udhL/wpnBVu/oKVoIzogKcd7IwnxvNK48M4abICGtHxxv+te7hi4q04QjClytIsa5SylpJC2VsnpFDS2A==
+
 react-native-country-picker-modal@^2.0.0:
   version "2.0.0"
   resolved "https://registry.yarnpkg.com/react-native-country-picker-modal/-/react-native-country-picker-modal-2.0.0.tgz#005421303349a81fedf5975e465405bb4b7312d5"
