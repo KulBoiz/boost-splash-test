@@ -18,14 +18,12 @@ export const INDIVIDUAL = [
   //   },
   //   active: false,
   // },
-  // {
-  //   icon: images.profile_password,
-  //   title: 'Mật khẩu',
-  //   onPress: () => {
-  //     //
-  //   },
-  //   active: false,
-  // },
+  {
+    icon: images.profile_password,
+    title: 'Mật khẩu',
+    onPress: () => navigate(ScreenNames.USER_CHANGE_PASSWORD),
+    active: true,
+  },
   // {
   //   icon: images.profile_pin,
   //   title: 'Mã PIN',

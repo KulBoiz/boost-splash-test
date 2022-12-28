@@ -58,4 +58,5 @@ export type NavigatorParamList = {
   [ScreenNames.MANAGE_INSURANCE_DETAIL_SCREEN]: { index: number, isListBuy: any }
   [ScreenNames.CLAIM_INSURANCE]: { productId: string, index: string }
   [ScreenNames.INSURANCE_LIST_SCREEN]: { key: string, name: string}
+  [ScreenNames.USER_CHANGE_PASSWORD]: undefined
 }

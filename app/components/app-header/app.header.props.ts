@@ -13,6 +13,7 @@ export interface AppHeaderProps {
    * header non-i18n
    */
   headerText?: string
+  backgroundImage?: number
 
   renderTitle?: JSX.Element
 

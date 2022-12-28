@@ -29,7 +29,8 @@ const AppHeader = React.memo((props: AppHeaderProps) => {
     titleStyle,
     isBlue = false,
     isBlack = false,
-    showBorderWidth = true
+    showBorderWidth = true,
+    backgroundImage
   } = props
 
   const header = headerText || (headerTx && translate(headerTx)) || ""
@@ -43,6 +44,8 @@ const AppHeader = React.memo((props: AppHeaderProps) => {
         style,
       ]}
     >
+      {backgroundImage && <FastImage source={backgroundImage} style={styles.backgroundImage}/> }
+
       <StatusBar
         backgroundColor={isBlue ? color.palette.blue : isBlack ? color.palette.black : color.background}
         barStyle={(isBlue|| isBlack) ? "light-content" : "dark-content"}
@@ -103,6 +106,14 @@ const styles = ScaledSheet.create({
     alignItems: "flex-end",
     paddingBottom: "16@s",
     borderBottomColor: color.palette.line,
+  },
+  backgroundImage:{
+    height: hasNotch() ? "80@vs" : "70@vs",
+    position: "absolute",
+    top: 0,
+    left: 0,
+    right: 0,
+    bottom: 0,
   },
   titleView: {
     flex: 1,

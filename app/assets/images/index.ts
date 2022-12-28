@@ -14,6 +14,7 @@ export const images = {
   app_request: require('./bottom-bar/plus.png'),
   app_manage: require('./bottom-bar/manage.png'),
   app_profile: require('./bottom-bar/user.png'),
+  app_friendzone: require('./bottom-bar/friendzone.png'),
 
   invest_invest: require('./invest/invest.png'),
   invest_asset_value: require('./invest/asset_value.png'),
@@ -85,6 +86,9 @@ export const images = {
   profile_avatar_background: require('./profile/avatar-background.png'),
   profile_camera_icon: require('./profile/camera-icon.png'),
   profile_referral_background: require('./profile/referral-background.png'),
+
+  friendzone_header: require('./friendzone/header_background.png'),
+  friendzone_background: require('./friendzone/background.png'),
 
   statistical: require('./utilities/statistical.png'),
   management_finance: require('./management/finance.png'),

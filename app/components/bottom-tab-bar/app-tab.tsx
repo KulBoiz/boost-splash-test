@@ -21,6 +21,7 @@ const tabName = {
   request: i18n.t("bottom_bar.create"),
   manage: i18n.t("bottom_bar.management"),
   profile: i18n.t("bottom_bar.setting"),
+  friendzone: ' Bạn bè',
 }
 
 function AppTabBar({ state, descriptors, navigation }: any) {
@@ -52,12 +53,18 @@ function AppTabBar({ state, descriptors, navigation }: any) {
     },
     {
       index: 2,
+      title: tabName.friendzone,
+      icon: <FastImage source={images.app_friendzone} style={styles.friendIcon} tintColor={color.palette.grayChateau} />,
+      iconActive: <FastImage source={images.app_friendzone} style={styles.friendIcon} tintColor={color.primary} />,
+    },
+    {
+      index: 3,
       title: tabName.manage,
       icon: <FastImage source={images.app_manage} style={styles.icon} tintColor={color.palette.grayChateau} />,
       iconActive: <FastImage source={images.app_manage} style={styles.icon} tintColor={color.primary} />,
     },
     {
-      index: 3,
+      index: 4,
       title: tabName.profile,
       icon: <FastImage source={images.app_profile} style={styles.icon} tintColor={color.palette.grayChateau} />,
       iconActive: <FastImage source={images.app_profile} style={styles.icon} tintColor={color.primary} />,
@@ -79,6 +86,12 @@ function AppTabBar({ state, descriptors, navigation }: any) {
     // },
     {
       index: 1,
+      title: tabName.friendzone,
+      icon: <FastImage source={images.app_friendzone} style={styles.friendIcon} tintColor={color.palette.grayChateau} />,
+      iconActive: <FastImage source={images.app_friendzone} style={styles.friendIcon} tintColor={color.primary} />,
+    },
+    {
+      index: 2,
       title: tabName.profile,
       icon: <FastImage source={images.app_profile} style={styles.icon} tintColor={color.palette.grayChateau} />,
       iconActive: <FastImage source={images.app_profile} style={styles.icon} tintColor={color.primary} />,
@@ -161,6 +174,11 @@ const styles = ScaledSheet.create({
   icon: {
     width: "24@ms",
     height: "24@ms",
+  },
+  friendIcon: {
+    width: "24@ms",
+    height: "20@ms",
+    marginVertical: '2@ms'
   },
   iconPlus: {
     width: "44@ms",
