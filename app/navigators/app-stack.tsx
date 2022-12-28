@@ -11,10 +11,12 @@ import { View } from "react-native"
 import { color } from "../theme"
 import { ScaledSheet } from "react-native-size-matters"
 import ProfileScreen from "../screens/profile/profile-screen"
+import FriendZoneScreen from "../screens/friendzone/friendzone-screen"
 
 export type AppStackParamList = {
   [ScreenNames.HOME]: undefined;
   [ScreenNames.CHAT]: undefined;
+  [ScreenNames.FRIEND_ZONE]: undefined;
   [ScreenNames.MANAGEMENT]: { index: any };
   [ScreenNames.SETTING]: undefined;
   [ScreenNames.PLUS]: undefined;
@@ -29,7 +31,7 @@ export const AppStack = () => {
     <View style={styles.container}>
       <Tab.Navigator
         initialRouteName={ScreenNames.HOME}
-        screenOptions={{ headerShown: false }}
+        screenOptions={{ headerShown: false, unmountOnBlur: true }}
         tabBar={props => <AppTabBar {...props} />}
       >
         <Tab.Screen
@@ -46,10 +48,19 @@ export const AppStack = () => {
             options={() => ({
               tabBarStyle: { display: "none" },
               tabBarVisible: false,
+              unmountOnBlur: true
             })}
             component={RequestCounselling}
           />
         }
+        <Tab.Screen
+          name={ScreenNames.FRIEND_ZONE}
+          options={() => ({
+            tabBarStyle: { display: "none" },
+            tabBarVisible: false,
+          })}
+          component={FriendZoneScreen}
+        />
         {role !== ROLE.BANK &&
           <Tab.Screen
             name={ScreenNames.MANAGEMENT}

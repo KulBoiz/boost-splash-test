@@ -55,6 +55,7 @@ import TradeRegistration from "../screens/invest/ekyc/trade-registration"
 import SyncAccount from "../screens/invest/ekyc/sync-account"
 import SaleSuccess from "../screens/invest/market/sale-success"
 import { Host } from "react-native-portalize"
+import ChangePassword from "../screens/profile/change-password/change-password"
 // Documentation: https://reactnavigation.org/docs/stack-navigator/
 const Stack = createNativeStackNavigator<NavigatorParamList>()
 
@@ -139,6 +140,7 @@ const RootStack = () => {
       <Stack.Screen name={ScreenNames.INSURANCE_LIST_SCREEN} component={InsuranceList} />
       <Stack.Screen name={ScreenNames.SUCCESS_SCREEN} component={SuccessScreen} />
       <Stack.Screen name={ScreenNames.PROJECT_TAB} component={ProjectTab} />
+      <Stack.Screen name={ScreenNames.USER_CHANGE_PASSWORD} component={ChangePassword} />
     </Stack.Navigator>
   )
 }

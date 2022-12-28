@@ -32,7 +32,7 @@ interface Props {
   clearErrors: UseFormClearErrors<FieldValues>
   setError: UseFormSetError<FieldValues>;
   data: any
-
+  disable: boolean
   setIsValid(e: boolean): void
 }
 
@@ -45,10 +45,10 @@ const formatData = (array: any[] = []) => {
   }))
 }
 
-const FastSelection = React.memo(({ title, onPress }: { title: string | number, onPress(e: any): void }) => {
+const FastSelection = React.memo(({ title, onPress, disable }: { title: string | number, onPress(e: any): void, disable: boolean }) => {
   const isNumber = typeof title === "number"
   return (
-    <Pressable onPress={onPress} style={styles.itemContainer}>
+    <Pressable onPress={onPress} style={[styles.itemContainer, {opacity: !disable ? 0.6 : 1}]} disabled={!disable}>
       <AppText value={`${title}${isNumber ? "%" : ""}`} style={FONT_REGULAR_12} color={color.text} />
     </Pressable>
   )
@@ -166,7 +166,7 @@ const MarketSaleForm = observer((props: Props) => {
       <View style={[ROW, ALIGN_CENTER, MARGIN_BOTTOM_4]}>
         {
           selectData.map((value, index) => {
-            return <FastSelection title={value} key={index} onPress={() => handlePress(value)} />
+            return <FastSelection disable={!!watch('program')} title={value} key={index} onPress={() => handlePress(value)} />
           })
         }
       </View>

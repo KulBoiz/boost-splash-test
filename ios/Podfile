@@ -20,6 +20,7 @@ target 'fina' do
   )
   pod 'Permission-PhotoLibrary', :path => "#{permissions_path}/PhotoLibrary"
   pod 'Permission-Camera', :path => "#{permissions_path}/Camera"
+  pod 'Permission-Contacts', :path => "#{permissions_path}/Contacts"
   pod 'Permission-Notifications', :path => "#{permissions_path}/Notifications"
   pod 'react-native-contacts', :path => '../node_modules/react-native-contacts'
 
