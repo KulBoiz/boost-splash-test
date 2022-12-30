@@ -341,6 +341,37 @@ export const AuthStoreModel = types
         data: result,
       }
     }),
+
+    verifyContactUser: flow(function* verifyPasswordOtp(users: any) {
+      const api = new BaseApi(self.environment.api)
+      const result = yield api.post(`users/verify-contact`, {
+        users,
+        userId: self.userId
+      })
+
+      if (result.kind !== "ok") {
+        return result
+      }
+      
+      return {
+        kind: "ok",
+        data: result,
+      }
+    }),
+
+    sendSMS: flow(function* verifyPasswordOtp(phone: any) {
+      const api = new BaseApi(self.environment.api)
+      const result = yield api.get(`users/send-sms-user/${phone}`)
+
+      if (result.kind !== "ok") {
+        return result
+      }
+      
+      return {
+        kind: "ok",
+        data: result,
+      }
+    }),
   })) // eslint-disable-line @typescript-eslint/no-unused-vars
   .actions(self => ({
     autoRefreshToken: () => {

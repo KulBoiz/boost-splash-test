@@ -1,5 +1,5 @@
 import React from "react"
-import { View, TouchableOpacity } from "react-native"
+import { View, TouchableOpacity, Alert, Linking, Platform } from "react-native"
 import { AppText } from "../../../components/app-text/AppText"
 import FastImage from "react-native-fast-image"
 import { images } from "../../../assets/images"
@@ -9,39 +9,73 @@ import { filter } from "lodash"
 import { fontFamily } from "../../../constants/font-family"
 import { ALIGN_CENTER, ROW } from "../../../styles/common-style"
 import { Contact } from "react-native-contacts"
+import { useStores } from "../../../models"
+import { DOMAIN } from "@env"
 
 interface Props {
-  item: Contact
+  item: any
   isContact?: boolean
+  isFina?: boolean
 }
 
-const Button = React.memo(()=> {
+const Button = React.memo(({ phone }: any) => {
+  const { authStoreModel } = useStores()
+  const { user } = authStoreModel
+  const { refCode, fullName } = user
+
+  const sendSMS = (phone) => {
+    // authStoreModel.sendSMS(phone).then(res => {
+    //   if (res?.error?.message) Alert.alert('Số điện thoại không đúng')
+    //   else Alert.alert('Đã gửi')
+    // })
+    let content = `(TULIP) - ${fullName} gioi thieu ban su dung FINA ${DOMAIN}vn/users/signup`
+    if (refCode) {
+      content = `(TULIP) - ${fullName} gioi thieu ban su dung FINA ${DOMAIN}vn/users/signup?refCode=${refCode}`
+    }
+    const separator = Platform.OS === 'ios' ? '&' : '?'
+    
+    const url = `sms:${phone}${separator}body=${content}`
+
+    Linking.openURL(url)
+  }
+
+  return (
+    <TouchableOpacity style={styles.normalBtn} onPress={() => { sendSMS(phone) }}>
+      <AppText value={'Mời'} style={styles.text} color={color.text} />
+    </TouchableOpacity>
+  )
+})
+
+const User = React.memo(() => {
   return (
     <TouchableOpacity style={styles.normalBtn}>
-      <AppText value={'Mời'} style={styles.text} color={color.text}/>
+      <AppText value={'FINA'} style={styles.text} color={color.text} />
     </TouchableOpacity>
   )
 })
 
 const textColor = '#6D747C'
-const FriendZoneItem = React.memo(({ item, isContact = true }: Props) => {
+const FriendZoneItem = React.memo(({ item, isContact = true, isFina = false }: Props) => {
   const avatarName = item?.givenName.charAt(0)
   const phoneNo = filter(item?.phoneNumbers, { label: 'mobile' })?.[0]?.number ?? item?.phoneNumbers?.[0]?.number
   return (
     <View style={styles.container}>
-      <View style={[ROW,ALIGN_CENTER]}>
+      <View style={[ROW, ALIGN_CENTER]}>
         <View style={styles.circleAvatar}>
-          <AppText value={avatarName} style={styles.text}/>
+          <AppText value={avatarName} style={styles.text} />
           {!isContact && <View style={styles.wrapIcon}>
             <FastImage source={images.common_circle_checked} tintColor={color.palette.green} style={styles.icon} />
           </View>}
         </View>
         <View>
           <AppText value={`${item?.givenName} ${item?.middleName} ${item?.familyName}`} style={styles.text} />
-          <AppText value={phoneNo} style={styles.text} color={textColor}/>
+          <AppText value={phoneNo} style={styles.text} color={textColor} />
         </View>
       </View>
-      <Button />
+      {
+        !isFina ? <Button phone={item?.phone} /> : <User />
+      }
+
     </View>
   )
 })
