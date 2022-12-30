@@ -45,7 +45,8 @@ const styles = ScaledSheet.create({
   body: {
     backgroundColor: color.background,
     borderRadius: "8@s",
-    paddingVertical: "32@s",
+    paddingTop: "32@s",
+    paddingBottom:'16@s',
     alignItems: "center",
   },
   image: {

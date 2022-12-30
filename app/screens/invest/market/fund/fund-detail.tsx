@@ -23,6 +23,7 @@ import { NavigatorParamList } from "../../../../navigators/params-list"
 import MarketChange from "../components/market-change"
 import MarketHistory from "../components/market-history"
 import SignKycModal from "../../ekyc/components/sign-modal"
+import EkycSyncModal from "../../components/ekyc-sync-modal"
 
 interface Props {
 }
@@ -35,6 +36,7 @@ const FundDetail = React.memo((props: Props) => {
   const [navs, setNavs] = useState([])
   const [loading, setLoading] = useState<boolean>(true)
   const [visible, setVisible] = useState(false)
+  const [ekycVisible, setEkycVisible] = useState(false)
   const [scrollAble, setScrollAble] = useState(true)
 
   useEffect(() => {
@@ -111,13 +113,14 @@ const FundDetail = React.memo((props: Props) => {
       navigate(ScreenNames.BUY_FUND)
       return
     }
-    ekycStore.checkSyncMio().then(res => {
-      if (res) {
-        navigate(ScreenNames.SYNC_ACCOUNT)
-        return
-      }
-      navigate(ScreenNames.EKYC)
-    })
+    // ekycStore.checkSyncMio().then(res => {
+    //   if (res) {
+    //     navigate(ScreenNames.SYNC_ACCOUNT)
+    //     return
+    //   }
+    //   navigate(ScreenNames.EKYC)
+    // })
+    setEkycVisible(true)
   }, [])
 
   const renderTitle = useMemo(() => {
@@ -129,6 +132,20 @@ const FundDetail = React.memo((props: Props) => {
       </View>
     )
   }, [data])
+
+  const closeSyncModal = React.useCallback(() => {
+    setEkycVisible(false)
+  }, [])
+
+  const onLeftPress = useCallback(()=> {
+    navigate(ScreenNames.EKYC)
+    closeSyncModal()
+  },[])
+
+  const onRightPress = useCallback(()=> {
+    navigate(ScreenNames.SYNC_ACCOUNT)
+    closeSyncModal()
+  },[])
 
   return (
     <View style={styles.container}>
@@ -148,6 +165,7 @@ const FundDetail = React.memo((props: Props) => {
               <AppButton title={"Đầu tư ngay"} onPress={handleBuy} />
             </View>
             <SignKycModal visible={visible} closeModal={closeModal} onPress={pressContinue} />
+            <EkycSyncModal visible={ekycVisible} closeModal={closeSyncModal} onLeftPress={onLeftPress} onRightPress={onRightPress} />
           </ScrollView> : <EmptyList />
           }
         </>

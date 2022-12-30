@@ -1,25 +1,25 @@
 import React, { useCallback, useEffect, useState } from "react"
 import { ActivityIndicator, Alert, DeviceEventEmitter, ScrollView, View } from "react-native"
-import AppHeader from "../../../components/app-header/AppHeader"
-import FundInfo from "./fund/components/fund-info"
-import FundTariff from "./fund/components/fund-tariff"
-import MarketBuyForm from "./components/market-buy-form"
+import AppHeader from "../../../../components/app-header/AppHeader"
+import FundInfo from "./components/fund-info"
+import FundTariff from "./components/fund-tariff"
+import MarketBuyForm from "../components/market-buy-form"
 import * as Yup from "yup"
 import { useForm } from "react-hook-form"
 import { yupResolver } from "@hookform/resolvers/yup/dist/yup"
 import { ScaledSheet } from "react-native-size-matters"
-import { color } from "../../../theme"
-import AppButton from "../../../components/app-button/AppButton"
-import { navigate } from "../../../navigators"
-import { ScreenNames } from "../../../navigators/screen-names"
+import { color } from "../../../../theme"
+import AppButton from "../../../../components/app-button/AppButton"
+import { navigate } from "../../../../navigators"
+import { ScreenNames } from "../../../../navigators/screen-names"
 import { observer } from "mobx-react-lite"
-import { useStores } from "../../../models"
-import EmptyList from "../../../components/empty-list"
-import { MARGIN_TOP_24 } from "../../../styles/common-style"
-import { filter, get } from "lodash"
-import { COMMON_ERROR, numberWithCommas, OTP_TIME } from "../../../constants/variable"
+import { useStores } from "../../../../models"
+import EmptyList from "../../../../components/empty-list"
+import { MARGIN_TOP_24 } from "../../../../styles/common-style"
+import { filter } from "lodash"
+import { COMMON_ERROR, numberWithCommas } from "../../../../constants/variable"
 import { useIsFocused } from "@react-navigation/native"
-import { dateSip } from "../../../constants/regex"
+import { dateSip } from "../../../../constants/regex"
 
 interface Props {
 }
@@ -68,27 +68,6 @@ const BuyFund = observer((props: Props) => {
     clearErrors('amount')
   },[isFocused])
 
-  const onSubmit = useCallback((otpCode)=> {
-    investStore.verifyOtpBuyFund(otpCode)
-      .then(res=> {
-        if (res?.error){
-          DeviceEventEmitter.emit('errorOtp', {error: res?.error?.message ?? COMMON_ERROR})
-          return
-        }
-        navigate(ScreenNames.PURCHASE_FUND)
-      })
-  },[])
-
-  const onResend = useCallback(()=> {
-    investStore.resendOtpBuyFund()
-      .then(res=> {
-        if (res?.error){
-          Alert.alert(res?.error?.message)
-          return
-        }
-        DeviceEventEmitter.emit('resend')
-      })
-  },[])
 
   const handleBuy = useCallback( async (data) => {
     const estimatedQuantity = data.amount ? numberWithCommas((+(data.amount?.replace(/,/g, '')) / +currentNav).toFixed(2)) : 0
@@ -109,16 +88,6 @@ const BuyFund = observer((props: Props) => {
       }
       navigate(ScreenNames.PURCHASE_FUND, {param})
     })
-
-    // await investStore.createBuyFundTransaction(param, estimatedQuantity.toString(), currentNav.toString())
-    // await investStore.sendOtpBuyFund().then(res=> {
-    //   if (res?.error || res?.includes('502')){
-    //     Alert.alert(COMMON_ERROR)
-    //     return
-    //   }
-    //   navigate(ScreenNames.INVEST_OTP, {onResend, onSubmit, otpTime: OTP_TIME.BUY_FUND})
-    // })
-
   }, [currentNav])
 
   useEffect(() => {

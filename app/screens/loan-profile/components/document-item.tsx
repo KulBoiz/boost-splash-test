@@ -12,6 +12,7 @@ import { find } from "../../../utils/lodash-utils"
 import { animations } from "../../../assets/animations"
 import AnimatedLottieView from "lottie-react-native"
 import { isEmpty } from "validate.js"
+import { getFileNameFromUrl } from "../../../constants/variable"
 
 type Props = IPressableProps & {
   file: any
@@ -36,12 +37,12 @@ const DocumentItem = observer(
     const viewFile = async () => {
       if (file?.uri) {
         let uri = file.uri
-        if (Platform.OS === "android") {
+        if (Platform.OS === "ios") {
           uri = uri.replace("file://", "")
         }
         openFile(uri)
       } else {
-        const localPath = FileSystem.cacheDirectory + "/" + replaceAll(file?.name, "/", "")
+        const localPath = `${FileSystem.cacheDirectory}/${getFileNameFromUrl(file?.name)}`
         const fileExists = find(appStore?.filesDownloaded, (f) => f === localPath)
         if (fileExists) {
           openFile(fileExists)

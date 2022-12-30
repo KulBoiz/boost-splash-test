@@ -1,4 +1,4 @@
-import React, { useRef } from "react"
+import React, { useCallback, useRef, useState } from "react"
 import { Alert, DeviceEventEmitter, View } from "react-native"
 import * as Yup from "yup"
 import i18n from "i18n-js"
@@ -18,6 +18,7 @@ import { Modalize } from "react-native-modalize"
 import SuccessModalize from "./success-modalize"
 import { COMMON_ERROR, OTP_TIME } from "../../../constants/variable"
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view"
+import SyncFailModal from "../components/sync-fail"
 
 interface Props {
 }
@@ -25,6 +26,7 @@ interface Props {
 const SyncAccount = React.memo((props: Props) => {
   const { ekycStore, authStoreModel, investStore } = useStores()
   const modalizeSuccessRef = useRef<Modalize>(null)
+  const [visible, setVisible] = useState(false)
 
   const validationSchema = Yup.object().shape({
     tel: Yup.string().required(i18n.t("errors.requirePhone")),
@@ -81,12 +83,22 @@ const SyncAccount = React.memo((props: Props) => {
     ekycStore.syncAccount(data.tel, data.idNumber)
       .then(res => {
         if (res?.error || res?.kind !== 'ok') {
-          Alert.alert(res?.error?.message ?? COMMON_ERROR)
+          setVisible(true)
           return
         }
         navigate(ScreenNames.INVEST_OTP, { onResend, onSubmit, phone: data.tel, otpTime: OTP_TIME.SYNC_ACCOUNT })
       })
   }, [])
+
+  const closeModal = useCallback(()=> {
+    setVisible(false)
+  },[])
+
+  const ekyc = useCallback(()=> {
+    navigate(ScreenNames.EKYC)
+  },[])
+
+
 
   return (
     <View style={styles.container}>
@@ -115,7 +127,7 @@ const SyncAccount = React.memo((props: Props) => {
         />
       </KeyboardAwareScrollView>
       <SuccessModalize type={"sync"} modalizeRef={modalizeSuccessRef} closeModal={onCloseSuccess} />
-
+      <SyncFailModal visible={visible} closeModal={closeModal} onPress={ekyc}/>
       <DualButton leftTitle={"Hủy bỏ"} rightTitle={"Xác nhận"} leftPress={leftPress}
                   rightPress={handleSubmit(rightPress)} style={styles.btn} />
     </View>

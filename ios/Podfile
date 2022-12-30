@@ -23,7 +23,7 @@ target 'fina' do
   pod 'Permission-Contacts', :path => "#{permissions_path}/Contacts"
   pod 'Permission-Notifications', :path => "#{permissions_path}/Notifications"
   pod 'react-native-contacts', :path => '../node_modules/react-native-contacts'
-
+  pod 'RNFileViewer', :path => '../node_modules/react-native-file-viewer'
 
   target 'finaTests' do
     inherit! :complete

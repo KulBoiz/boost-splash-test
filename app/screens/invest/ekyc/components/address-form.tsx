@@ -119,7 +119,7 @@ const AddressForm = React.memo((props: Props) => {
           label: "Địa chỉ thường chú",
           placeholder: "Địa chỉ",
           control,
-          error: errors?.email?.message,
+          error: errors?.address?.message,
         }}
       />
         <FormItemPicker

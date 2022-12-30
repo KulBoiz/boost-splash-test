@@ -2,6 +2,7 @@ import millify from "millify"
 import { Appearance, Platform, StatusBar } from "react-native"
 import FileViewer from "react-native-file-viewer"
 import { filter, flatten } from "./lodash-utils"
+import { isIos } from "../constants/variable"
 
 export function replaceAll(value: string, search: string, replacement: string) {
   const target = value
@@ -13,7 +14,11 @@ export const formatSize = (number: number) => {
 }
 
 export const openFile = (filePath) => {
-  FileViewer.open(filePath, {
+  let path = filePath
+  if (isIos){
+    path = filePath.replace("file://", "")
+  }
+  FileViewer.open(path, {
     showAppsSuggestions: true,
     showOpenWithDialog: true,
     onDismiss: () => {

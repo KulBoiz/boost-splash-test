@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from "react"
+import React, { useCallback, useState } from "react"
 import { Pressable, View } from "react-native"
 import { AppText } from "../../../../../components/app-text/AppText"
 import { checkVolatility, formatDate, numberWithCommas, truncateString } from "../../../../../constants/variable"
@@ -10,10 +10,10 @@ import { color } from "../../../../../theme"
 import { navigate } from "../../../../../navigators"
 import { ScreenNames } from "../../../../../navigators/screen-names"
 import { useStores } from "../../../../../models"
-import { get, head } from "lodash"
 import { mappingLabelTypeOfFund } from "../../constants"
 import SignKycModal from "../../../ekyc/components/sign-modal"
 import { observer } from "mobx-react-lite"
+import EkycSyncModal from "../../../components/ekyc-sync-modal"
 
 interface Props {
   item: any
@@ -21,15 +21,11 @@ interface Props {
 
 const FundItem = observer(({ item }: Props) => {
   const { investStore, authStoreModel, ekycStore } = useStores()
-  const [price, setPrice] = useState([])
   const [visible, setVisible] = useState(false)
+  const [ekycVisible, setEkycVisible] = useState(false)
 
-  useEffect(() => {
-    investStore.getCurrentNav(item?.id).then(e => setPrice(e))
-  }, [])
-
-  const currentNav = get(head(price), "nav")
-  const currentData = get(head(price), "navDate")
+  const currentNav = item?.info?.navCurrently
+  const currentData = item?.info?.preOrderMatchingSession
   const percent = +item?.info?.volatilityOverTime?.inOneYear ?? 0
 
   const watchDetail = useCallback(() => {
@@ -58,14 +54,29 @@ const FundItem = observer(({ item }: Props) => {
       navigate(ScreenNames.BUY_FUND)
       return
     }
-    ekycStore.checkSyncMio().then(res => {
-      if (res) {
-        navigate(ScreenNames.SYNC_ACCOUNT)
-        return
-      }
-      navigate(ScreenNames.EKYC)
-    })
+    setEkycVisible(true)
+    // ekycStore.checkSyncMio().then(res => {
+    //   if (res) {
+    //     navigate(ScreenNames.SYNC_ACCOUNT)
+    //     return
+    //   }
+    //   navigate(ScreenNames.EKYC)
+    // })
   }, [])
+
+  const closeSyncModal = useCallback(()=> {
+    setEkycVisible(false)
+  },[])
+
+  const onLeftPress = useCallback(()=> {
+    navigate(ScreenNames.EKYC)
+    closeSyncModal()
+  },[])
+
+  const onRightPress = useCallback(()=> {
+    navigate(ScreenNames.SYNC_ACCOUNT)
+    closeSyncModal()
+  },[])
 
   return (
     <Pressable onPress={watchDetail} style={styles.container}>
@@ -89,6 +100,8 @@ const FundItem = observer(({ item }: Props) => {
       </View>
       <AppButton onPress={handleBuy} title={"MUA"} containerStyle={styles.btn} titleStyle={FONT_SEMI_BOLD_12} />
       <SignKycModal visible={visible} closeModal={closeModal} onPress={pressContinue} />
+      <EkycSyncModal visible={ekycVisible} closeModal={closeSyncModal} onLeftPress={onLeftPress} onRightPress={onRightPress} />
+
     </Pressable>
   )
 })
