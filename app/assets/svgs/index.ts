@@ -88,6 +88,7 @@ export { default as FinaPaySvg } from "./fina-pay.svg"
 export { default as UploadSvg } from "./upload.svg"
 
 // home
+export { default as LunarNewYearSvg } from "./splash_lunar_new_year.svg"
 export { default as AuthSvg } from "./auth.svg"
 export { default as PhoneHomeSvg } from "./phoneHome.svg"
 export { default as HeadArrowRight } from "./headArrowRight.svg"

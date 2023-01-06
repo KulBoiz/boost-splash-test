@@ -50,6 +50,7 @@ export const LoginScreen: FC<StackScreenProps<AuthStackParamList, ScreenNames.LO
       setLoading(true)
       const auth = await authStoreModel.login(data.email, data.password)
       if (auth.kind === "ok") {
+        authStoreModel.setPassword(data.password)
         navigation.dispatch(StackActions.push(ScreenNames.APP))
         await authStoreModel.getFullInfoUser(auth?.data?.user?.id)
         await investStore.getKycPhone()

@@ -10,10 +10,11 @@ import { useStores } from "../../../models"
 import { navigate } from "../../../navigators"
 import { ScreenNames } from "../../../navigators/screen-names"
 import { color } from "../../../theme"
-import HomeBanner from "./components/home-banner"
 import HomeItem from "./components/home-item"
 import ProjectItem from "./components/project-item"
 import { formatHomeData } from "./constants"
+import NewsBanner from "./components/news-banner"
+import { MARGIN_TOP_16, MARGIN_TOP_24 } from "../../../styles/common-style"
 
 interface Props { }
 
@@ -143,7 +144,7 @@ const FinanceTab = React.memo((props: Props) => {
         />
       }
 
-      <HomeBanner type={'small'} label={'Tin tức'} />
+      <NewsBanner label={'Tin tức & khuyến mãi'} />
 
       <BottomView height={200} />
       <FullScreenModal

@@ -128,7 +128,6 @@ def enableHermes = project.ext.react.get("enableHermes", false);
 def nativeArchitectures = project.getProperties().get("reactNativeDebugArchitectures")
 
 android {
-
     ndkVersion rootProject.ext.ndkVersion
 
     compileSdkVersion rootProject.ext.compileSdkVersion
@@ -138,8 +137,8 @@ android {
         applicationId "com.fina.mobile"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
-        versionCode 181
-        versionName "1.2.7"
+        versionCode 182
+        versionName "1.2.8"
     }
     splits {
         abi {

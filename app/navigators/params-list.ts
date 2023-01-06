@@ -6,6 +6,7 @@ export type NavigatorParamList = {
   [ScreenNames.AGENT]: undefined
   [ScreenNames.AUTH]: undefined
   [ScreenNames.APP]: undefined
+  [ScreenNames.BANNER_LIST]: undefined
   [ScreenNames.ADVANCE_INFORMATION]: undefined
   [ScreenNames.COMMISSION]: undefined
   [ScreenNames.INVEST]: undefined
@@ -58,5 +59,7 @@ export type NavigatorParamList = {
   [ScreenNames.MANAGE_INSURANCE_DETAIL_SCREEN]: { index: number, isListBuy: any }
   [ScreenNames.CLAIM_INSURANCE]: { productId: string, index: string }
   [ScreenNames.INSURANCE_LIST_SCREEN]: { key: string, name: string}
+  [ScreenNames.TRANSACTION_INFORMATION]: undefined
+  [ScreenNames.CONFIRM_PURCHASE_SUCCESS]: undefined
   [ScreenNames.USER_CHANGE_PASSWORD]: undefined
 }

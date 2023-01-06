@@ -14,6 +14,7 @@ import { isAndroid } from "../../constants/variable"
 import { useStores } from "../../models"
 import { color } from "../../theme"
 import FriendZoneItem from "./components/friendzone-item"
+import AppViewNoAuth from "../../components/app-view-no-auth"
 
 interface Props {
 }
@@ -36,7 +37,7 @@ const FriendZoneScreen = React.memo((props: Props) => {
     Contacts.getAll()
       .then((data) => {
         const filterData = filter(data, e => e.phoneNumbers.length > 0)
-        setContacts(filterData)
+        setContacts(sortBy(filterData, 'givenName'))
         formatUsers(filterData || [])
       })
   }, [])
@@ -66,7 +67,7 @@ const FriendZoneScreen = React.memo((props: Props) => {
     authStoreModel.verifyContactUser(users).then(res => {
       if (res?.data?.data) {
         setUsersFina(res?.data?.data?.userFina || [])
-        setContacts(res?.data?.data?.userNoFina || [])
+        setContacts(sortBy(res?.data?.data?.userNoFina, 'givenName') || [])
       }
     })
   }
@@ -77,7 +78,7 @@ const FriendZoneScreen = React.memo((props: Props) => {
 
   const renderItem = useCallback(({ item }) => {
     return <FriendZoneItem item={item} isFina={isFina(item)} />
-  }, [])
+  }, [usersFina])
 
   const onChangeSearchText = (value) => {
     if (!value.length) {
@@ -89,6 +90,14 @@ const FriendZoneScreen = React.memo((props: Props) => {
     })
   }
 
+  if (!authStoreModel?.isLoggedIn){
+    return (
+      <>
+        <AppHeader headerText={"Bạn bè"} backgroundImage={images.friendzone_header} />
+        <AppViewNoAuth />
+      </>
+    )
+  }
   return (
     <View style={styles.container}>
       <AppHeader headerText={"Bạn bè"} backgroundImage={images.friendzone_header} />

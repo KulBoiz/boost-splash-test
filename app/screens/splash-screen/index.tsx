@@ -1,18 +1,15 @@
 import * as React from "react"
 import {View} from "react-native"
-import * as Progress from 'react-native-progress';
 import {observer} from "mobx-react-lite"
 import {useEffect, useState} from "react";
 import {ScreenNames} from "../../navigators/screen-names";
 import { useStores } from "../../models"
-import FastImage from "react-native-fast-image"
-import { images } from "../../assets/images"
 import {ScaledSheet} from 'react-native-size-matters'
-import { color } from "../../theme"
-import { FinaSplashSvg } from "../../assets/svgs"
 import moment from "moment"
 import 'moment/locale/vi'
 import i18n from "i18n-js"
+import LunarNewYear from "./lunar-new-year"
+import NormalSplash from "./normal-splash"
 
 export const SplashScreen: React.FunctionComponent<{ readonly navigation?: any }> = observer(({navigation}) => {
   const [progress, setProgress] = useState(0)
@@ -55,9 +52,8 @@ export const SplashScreen: React.FunctionComponent<{ readonly navigation?: any }
 
   return (
     <View style={styles.container}>
-        <FastImage source={images.fina_splash} style={styles.image}/>
-        <FinaSplashSvg style={styles.finaLogo}/>
-        {/* <Progress.Bar progress={progress} width={200} color={"#FFFFFF"} style={styles.processBar}/> */}
+      {/* <NormalSplash /> */}
+      <LunarNewYear />
     </View>
   )
 })
@@ -65,19 +61,6 @@ export const SplashScreen: React.FunctionComponent<{ readonly navigation?: any }
 const styles = ScaledSheet.create({
   container: {
     flex: 1,
-    backgroundColor: color.palette.blue,
-    alignItems:'center',
-    justifyContent: 'center'
   },
-  image: {
-    position: 'absolute',
-    width: '350@s',
-    height: '700@s'
-  },
-  finaLogo: {
-    marginTop: '50@s'
-  },
-  processBar: {
-    marginTop: '30@s'
-  }
+
 })

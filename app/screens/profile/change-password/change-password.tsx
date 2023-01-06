@@ -48,6 +48,7 @@ const ChangePassword = React.memo((props: Props) => {
   const {
     control,
     handleSubmit,
+    setError,
     formState: { errors },
   } = useForm({
     delayError: 0,
@@ -58,6 +59,10 @@ const ChangePassword = React.memo((props: Props) => {
   })
 
   const handleChangePassword = React.useCallback((data) => {
+    if (data.oldPassword !== authStoreModel.password) {
+      setError('oldPassword', {message: 'Mật khẩu không đúng'})
+      return
+    }
     authStoreModel.changePassword(data?.newPassword, data?.confirmNewPassword).then(res => {
       if (res?.error) {
         Alert.alert(res?.error?.message)

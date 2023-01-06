@@ -14,6 +14,7 @@ import { navigate } from "../../../navigators"
 import FullScreenModal from "../../../components/app-modal/full-screen-modal"
 import { INSURANCE_HANDBOOK } from "@env"
 import { hasNotch } from "react-native-device-info"
+import NewsBanner from "./components/news-banner"
 
 const InsuranceTab = () => {
   const { insuranceStore } = useStores();
@@ -59,7 +60,8 @@ const InsuranceTab = () => {
           <OthersInsurance data={mapInsurance('vehicle') || []} title={"Bảo hiểm tài sản"} />
         </>
       }
-      <HomeBanner type={'small'} label={'Tin tức, khuyến mãi'} style={MARGIN_TOP_16} />
+      <NewsBanner label={'Tin tức & khuyến mãi'} />
+
       <BottomView height={s(200)} />
       <FullScreenModal
         visible={visible}

@@ -38,6 +38,7 @@ export const AuthStoreModel = types
     type: types.maybeNull(types.string),
     isLoggedIn: types.frozen(false),
     role: types.maybeNull(types.string),
+    password: types.frozen('')
   })
   .views(self => ({})) // eslint-disable-line @typescript-eslint/no-unused-vars
   .actions(self => ({
@@ -46,6 +47,9 @@ export const AuthStoreModel = types
     },
     setRole: (role: string) => {
       self.role = role
+    },
+    setPassword: (password: string) => {
+      self.password = password
     },
     login: flow(function* login(email: string, password: string) {
       const authApi = new AuthApi(self.environment.api)
@@ -316,6 +320,7 @@ export const AuthStoreModel = types
 
 
     logout: () => {
+      self.password = ''
       self.userId = ''
       self.investmentNumber = ''
       self.vcf = ''
@@ -352,7 +357,7 @@ export const AuthStoreModel = types
       if (result.kind !== "ok") {
         return result
       }
-      
+
       return {
         kind: "ok",
         data: result,
@@ -366,7 +371,7 @@ export const AuthStoreModel = types
       if (result.kind !== "ok") {
         return result
       }
-      
+
       return {
         kind: "ok",
         data: result,

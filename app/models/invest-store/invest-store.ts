@@ -37,6 +37,7 @@ export const InvestStoreModel = types
     buyInfo: types.frozen({}),
     estimatedQuantity: types.optional(types.string, ''),
     nav: types.optional(types.string, ''),
+    transactionInformation: types.optional(types.string, '')
   })
   .views((self) => ({
     get api() {
@@ -50,7 +51,9 @@ export const InvestStoreModel = types
     setBuyInfo: (info: any) => {
       self.buyInfo = info
     },
-
+    setTransactionInformation: (info: any) => {
+      self.transactionInformation = info
+    },
     getCurrentNav: flow(function* getCurrentNav(productId) {
       const result = yield self.api.get("navs/public", {
         filter: {

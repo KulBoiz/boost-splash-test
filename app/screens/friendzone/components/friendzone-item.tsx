@@ -1,5 +1,5 @@
 import React from "react"
-import { View, TouchableOpacity, Alert, Linking, Platform } from "react-native"
+import { View, TouchableOpacity, Linking, Platform } from "react-native"
 import { AppText } from "../../../components/app-text/AppText"
 import FastImage from "react-native-fast-image"
 import { images } from "../../../assets/images"
@@ -8,16 +8,15 @@ import { ScaledSheet } from "react-native-size-matters"
 import { filter } from "lodash"
 import { fontFamily } from "../../../constants/font-family"
 import { ALIGN_CENTER, ROW } from "../../../styles/common-style"
-import { Contact } from "react-native-contacts"
 import { useStores } from "../../../models"
-import { DOMAIN } from "@env"
+import { convertViToEn } from "../../../constants/variable"
 
 interface Props {
   item: any
   isContact?: boolean
   isFina?: boolean
 }
-
+const downloadLink = 'https://qrd.by/rj4hoi'
 const Button = React.memo(({ phone }: any) => {
   const { authStoreModel } = useStores()
   const { user } = authStoreModel
@@ -28,12 +27,13 @@ const Button = React.memo(({ phone }: any) => {
     //   if (res?.error?.message) Alert.alert('Số điện thoại không đúng')
     //   else Alert.alert('Đã gửi')
     // })
-    let content = `(TULIP) - ${fullName} gioi thieu ban su dung FINA ${DOMAIN}vn/users/signup`
-    if (refCode) {
-      content = `(TULIP) - ${fullName} gioi thieu ban su dung FINA ${DOMAIN}vn/users/signup?refCode=${refCode}`
-    }
+    // short link download app
+    const content = `(TULIP) - ${convertViToEn(fullName)} gioi thieu ban su dung FINA\n${downloadLink}\nMa gioi thieu: ${refCode}`
+    // if (refCode) {
+    //   content = `(TULIP) - ${fullName} gioi thieu ban su dung FINA ${DOMAIN}vn/users/signup?refCode=${refCode}`
+    // }
     const separator = Platform.OS === 'ios' ? '&' : '?'
-    
+
     const url = `sms:${phone}${separator}body=${content}`
 
     Linking.openURL(url)
@@ -48,16 +48,17 @@ const Button = React.memo(({ phone }: any) => {
 
 const User = React.memo(() => {
   return (
-    <TouchableOpacity style={styles.normalBtn}>
+    <View style={styles.normalBtn}>
       <AppText value={'FINA'} style={styles.text} color={color.text} />
-    </TouchableOpacity>
+    </View>
   )
 })
 
 const textColor = '#6D747C'
 const FriendZoneItem = React.memo(({ item, isContact = true, isFina = false }: Props) => {
-  const avatarName = item?.givenName.charAt(0)
+  const avatarName = item?.givenName?.charAt(0) ?? item?.familyName?.charAt(0)
   const phoneNo = filter(item?.phoneNumbers, { label: 'mobile' })?.[0]?.number ?? item?.phoneNumbers?.[0]?.number
+
   return (
     <View style={styles.container}>
       <View style={[ROW, ALIGN_CENTER]}>
@@ -73,7 +74,7 @@ const FriendZoneItem = React.memo(({ item, isContact = true, isFina = false }: P
         </View>
       </View>
       {
-        !isFina ? <Button phone={item?.phone} /> : <User />
+        !isFina ? <Button phone={phoneNo} /> : <User />
       }
 
     </View>

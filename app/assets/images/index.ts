@@ -16,6 +16,9 @@ export const images = {
   app_profile: require('./bottom-bar/user.png'),
   app_friendzone: require('./bottom-bar/friendzone.png'),
 
+  banner_type: require('./home/banner-type.png'),
+  banner_team: require('./home/banner-team.png'),
+
   invest_invest: require('./invest/invest.png'),
   invest_asset_value: require('./invest/asset_value.png'),
   invest_profit: require('./invest/profit.png'),

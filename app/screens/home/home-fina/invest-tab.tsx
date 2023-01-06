@@ -14,6 +14,7 @@ import { color } from "../../../theme"
 import { fontFamily } from "../../../constants/font-family"
 import AppButton from "../../../components/app-button/AppButton"
 import BottomView from "../../../components/bottom-view"
+import NewsBanner from "./components/news-banner"
 
 interface Props {
 }
@@ -48,7 +49,8 @@ const InvestTab = React.memo((props: Props) => {
       {!!bonds?.length &&
         <InvestItemContainer label={"Trái phiếu nổi bật"} data={bonds} onPress={listBonds} style={MARGIN_BOTTOM_16} />}
       {!!funds?.length && <InvestItemContainer label={"CCQ nổi bật"} data={funds} type={"fund"} onPress={listFund} />}
-      <HomeBanner type={"small"} label={"Tin tức"} style={MARGIN_TOP_16} />
+      {/* <HomeBanner type={"small"} label={"Tin tức"} style={MARGIN_TOP_16} /> */}
+      <NewsBanner label={'Tin tức & khuyến mãi'} />
       <BottomView height={s(200)} />
 
     </View>

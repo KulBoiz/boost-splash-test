@@ -37,12 +37,10 @@ const FundChart = observer(({ data, navs, setScrollAble }: Props) => {
   const chartData = nav ? nav?.map((e, index) => {
     if (index === 0) return {
       value: e?.nav, date: formatDate(e?.navDate),
-      // labelComponent: () => <AppText style={{width: 80, marginLeft: s(10)}} value={formatDate(e?.navDate)} />
     }
     if (index === nav?.length - 1) return {
       value: e?.nav,
       date: formatDate(e?.navDate),
-      // labelComponent: () => <AppText style={{width: 80, marginLeft: s(-60)}} value={formatDate(e?.navDate)} />
     }
     return { value: e?.nav, date: formatDate(e?.navDate) }
   }) : []
@@ -86,92 +84,94 @@ const FundChart = observer(({ data, navs, setScrollAble }: Props) => {
       style={styles.container}>
       <AppText value={"Biểu đồ tăng trưởng NAV"} style={[presets.label, MARGIN_BOTTOM_16]} />
       <ChartFilter filterData={tabsConfig} onPress={setNav} />
-
-      <LineChart
-        areaChart
-        data={chartData}
-        // data2={ptData2}
-        width={width * 0.85}
-        curved
-        adjustToWidth
-        disableScroll
-        // spacing={30}
-        initialSpacing={0}
-        hideDataPoints
-        scrollToEnd
-        scrollAnimation={false}
-        color={hexToRgbA(color.primary, 0.7)}
-        // color2={hexToRgbA(color.palette.orange, 0.7)}
-        thickness={1.5}
-        startFillColor={hexToRgbA(color.primary, 0.1)}
-        endFillColor={hexToRgbA(color.background, 0.1)}
-        startOpacity={0.2}
-        endOpacity={0.1}
-        noOfSections={4}
-        stepValue={highestNav / 4}
-        maxValue={highestNav}
-        // yAxisOffset={minNav}
-        minValue={minNav}
-        showXAxisIndices
-        xAxisIndicesColor={color.palette.deepGray}
-        xAxisIndicesHeight={1}
-        xAxisIndicesWidth={7}
-        yAxisThickness={1}
-        // xAxisLabelTextStyle={styles.xLabel}
-        xAxisColor={color.palette.deepGray}
-        hideRules
-        hideOrigin
-        yAxisColor={color.palette.deepGray}
-        yAxisTextStyle={{
-          color: color.palette.lightBlack,
-          right: s(-70),
-          position: "absolute",
-        }}
-        yAxisSide="right"
-        yAxisLabelWidth={s(50)}
-        yAxisLabelContainerStyle={{ zIndex: -1 }}
-        // showReferenceLine1
-        // referenceLine1Config={{color: color.palette.deepGray, dashWidth: 10, thickness: 2}}
-        // referenceLine1Position={highestNav-5000}
-        verticalLinesUptoDataPoint
-        getPointerProps= {(pointerProps)=>{
-          if (pointerProps.pointerIndex > 0){
-            setScrollAble(false)
-            return
-          }
-          setScrollAble(true)
-        }}
-        pointerConfig={{
-          // pointerStripHeight: 160,
-          pointerStripColor: color.palette.deepGray,
-          pointerStripWidth: 2,
-          pointerColor: color.primary,
-          radius: 4,
-          pointerLabelWidth: s(100),
-          pointerLabelHeight: 90,
-          // set to false => can not scroll
-          activatePointersOnLongPress: false,
-          autoAdjustPointerLabelPosition: true,
-          pointerLabelComponent: items => {
-            return (
-              <View style={styles.toolkit}>
-                <AppText style={{ fontSize: ms(14), textAlign: "center" }}>
-                  {items[0].date}
-                </AppText>
-
-                <View style={ALIGN_CENTER}>
-                  <AppText style={FONT_BOLD_12}>
-                    {numberWithCommas(items[0].value)} VNĐ
+      <View style={{ paddingLeft: width * 0.022 }}>
+        <LineChart
+          horizontalRulesStyle={{ width: width * 0.865 }}
+          areaChart
+          data={chartData}
+          // data2={ptData2}
+          width={width * 0.85}
+          curved
+          adjustToWidth
+          disableScroll
+          // spacing={30}
+          initialSpacing={0}
+          hideDataPoints
+          // scrollToEnd
+          scrollAnimation={false}
+          color={hexToRgbA(color.primary, 0.7)}
+          // color2={hexToRgbA(color.palette.orange, 0.7)}
+          thickness={1.5}
+          startFillColor={hexToRgbA(color.primary, 0.1)}
+          endFillColor={hexToRgbA(color.background, 0.1)}
+          startOpacity={0.2}
+          endOpacity={0.1}
+          noOfSections={4}
+          stepValue={highestNav / 4}
+          maxValue={highestNav}
+          // yAxisOffset={minNav}
+          minValue={minNav}
+          showXAxisIndices
+          xAxisIndicesColor={color.palette.deepGray}
+          xAxisIndicesHeight={1}
+          xAxisIndicesWidth={7}
+          yAxisThickness={1}
+          // xAxisLabelTextStyle={styles.xLabel}
+          xAxisColor={color.palette.deepGray}
+          hideRules
+          hideOrigin
+          yAxisColor={color.palette.deepGray}
+          yAxisTextStyle={{
+            color: color.palette.lightBlack,
+            right: s(-70),
+            position: "absolute",
+          }}
+          yAxisSide="right"
+          yAxisLabelWidth={s(50)}
+          yAxisLabelContainerStyle={{ zIndex: -1 }}
+          // showReferenceLine1
+          // referenceLine1Config={{color: color.palette.deepGray, dashWidth: 10, thickness: 2}}
+          // referenceLine1Position={highestNav-5000}
+          verticalLinesUptoDataPoint
+          getPointerProps={(pointerProps) => {
+            if (pointerProps.pointerIndex > 0) {
+              setScrollAble(false)
+              return
+            }
+            setScrollAble(true)
+          }}
+          pointerConfig={{
+            // pointerStripHeight: 160,
+            pointerStripColor: color.palette.deepGray,
+            pointerStripWidth: 2,
+            pointerColor: color.primary,
+            radius: 4,
+            pointerLabelWidth: s(100),
+            pointerLabelHeight: 90,
+            // set to false => can not scroll
+            activatePointersOnLongPress: false,
+            autoAdjustPointerLabelPosition: true,
+            pointerLabelComponent: items => {
+              return (
+                <View style={styles.toolkit}>
+                  <AppText style={{ fontSize: ms(14), textAlign: "center" }}>
+                    {items[0].date}
                   </AppText>
-                  {/* <AppText style={{ fontWeight: "bold", textAlign: "center" }}> */}
-                  {/*  {"$" + items[1].value + ".0"} */}
-                  {/* </AppText> */}
+
+                  <View style={ALIGN_CENTER}>
+                    <AppText style={FONT_BOLD_12}>
+                      {numberWithCommas(items[0].value)} VNĐ
+                    </AppText>
+                    {/* <AppText style={{ fontWeight: "bold", textAlign: "center" }}> */}
+                    {/*  {"$" + items[1].value + ".0"} */}
+                    {/* </AppText> */}
+                  </View>
                 </View>
-              </View>
-            )
-          },
-        }}
-      />
+              )
+            },
+          }}
+        />
+      </View>
 
       <View style={[ROW, SPACE_BETWEEN, styles.wrapDate]}>
         <AppText value={formatDate(startDate)} />

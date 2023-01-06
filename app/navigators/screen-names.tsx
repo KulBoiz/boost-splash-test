@@ -3,6 +3,8 @@ export enum ScreenNames {
   AGENT = "Agent",
   AUTH = "Auth",
   APP = "App",
+  BANNER_LIST = "BannerList",
+  CONFIRM_PURCHASE_SUCCESS = "ConfirmPurchaseSuccess",
   LOGIN = "Login",
   REGISTER = "Register",
   REGISTER_PHONE = "RegisterPhone",
@@ -80,6 +82,7 @@ export enum ScreenNames {
   INSURANCE_LIST_SCREEN = "InsuranceListScreen",
   LOAN_PRODUCT = "LoanProduct",
   PROJECT_TAB = "ProjectTab",
+  TRANSACTION_INFORMATION = 'TransactionInformation',
   SUCCESS_SCREEN = "SuccessScreen",
   ADVANCE_INFORMATION = "AdvanceInformation"
 }

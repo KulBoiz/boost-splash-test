@@ -1,5 +1,5 @@
 import React from "react"
-import { View } from "react-native"
+import { Pressable, View } from "react-native"
 import FastImage from "react-native-fast-image"
 import { images } from "../../../../assets/images"
 import { AppText } from "../../../../components/app-text/AppText"
@@ -16,15 +16,27 @@ import { color } from "../../../../theme"
 import { getTransactionColor } from "../../constants"
 import { fontFamily } from "../../../../constants/font-family"
 import { formatDate, numberWithCommas } from "../../../../constants/variable"
+import { navigate } from "../../../../navigators"
+import { ScreenNames } from "../../../../navigators/screen-names"
+import { useStores } from "../../../../models"
 
 interface Props {
   item: any
 }
 
 const TransactionHistoryItem = React.memo(({ item }: Props) => {
+  const {investStore} = useStores()
   const type = item?.orderType?.code === 'SELL'
+
+  const handlePress = React.useCallback(()=> {
+    if (!type){
+      investStore.setTransactionInformation(JSON.stringify(item))
+      navigate(ScreenNames.TRANSACTION_INFORMATION)
+    }
+  },[item])
+
   return (
-    <View style={styles.container}>
+    <Pressable style={styles.container} onPress={handlePress}>
       <View style={[ROW,SPACE_BETWEEN, ALIGN_CENTER,MARGIN_BOTTOM_4]}>
         <View style={[ROW, ALIGN_CENTER]}>
           <FastImage source={images.fina_logo} style={styles.icon} />
@@ -52,7 +64,7 @@ const TransactionHistoryItem = React.memo(({ item }: Props) => {
         <AppText value={`${numberWithCommas(item?.netAmount)} vnđ`} fontFamily={fontFamily.bold}/>
         <AppText value={formatDate(item?.createAt)}/>
       </View>
-    </View>
+    </Pressable>
   )
 })
 

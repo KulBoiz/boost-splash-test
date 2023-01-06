@@ -18,7 +18,6 @@ import InsuranceScreen from "../screens/insurance/insurance-screen"
 import InsurancePackage from "../screens/insurance/insurance-package"
 import InsuranceClaimDetail from "../screens/insurance/claim/insurance-claim-detail"
 import { IntroduceScreen } from "../screens/insurance/introduce/introduce-screen"
-import BannerDetail from "../screens/home/home-fina/components/banner-detail"
 import { AgentStack } from "./agent-stack"
 import BankerListLoanScreen from "../screens/banker/banker-list-loan-screen"
 import BankerLoanDetailScreen from "../screens/banker/banker-loan-detail-screen"
@@ -56,6 +55,10 @@ import SyncAccount from "../screens/invest/ekyc/sync-account"
 import SaleSuccess from "../screens/invest/market/sale-success"
 import { Host } from "react-native-portalize"
 import ChangePassword from "../screens/profile/change-password/change-password"
+import BannerList from "../screens/banner/banner-list"
+import BannerDetail from "../screens/banner/components/banner-detail"
+import TransactionInformation from "../screens/management/invest/transaction-infomation"
+import ConfirmPurchaseSuccess from "../screens/management/invest/confirm-purchase-success"
 // Documentation: https://reactnavigation.org/docs/stack-navigator/
 const Stack = createNativeStackNavigator<NavigatorParamList>()
 
@@ -89,7 +92,9 @@ const RootStack = () => {
         options={{ gestureEnabled: false }}
       />
       <Stack.Screen name={ScreenNames.AUTH} component={AuthStack} />
+      <Stack.Screen name={ScreenNames.BANNER_LIST} component={BannerList} />
       <Stack.Screen name={ScreenNames.COMMISSION} component={CommissionStack} />
+      <Stack.Screen name={ScreenNames.CONFIRM_PURCHASE_SUCCESS} component={ConfirmPurchaseSuccess} />
       <Stack.Screen name={ScreenNames.SALE_BONDS} component={MarketSale} />
       <Stack.Screen name={ScreenNames.INVEST_TAB} component={InvestTab} />
       <Stack.Screen name={ScreenNames.FUND_DETAIL} component={FundDetail} />
@@ -137,6 +142,7 @@ const RootStack = () => {
       <Stack.Screen name={ScreenNames.MANAGE_INSURANCE_DETAIL_SCREEN} component={ManageInsuranceDetailScreen} />
       <Stack.Screen name={ScreenNames.CLAIM_INSURANCE} component={ClaimInsuranceDetailScreen} />
       <Stack.Screen name={ScreenNames.USER_PROFILE} component={UserProfile} />
+      <Stack.Screen name={ScreenNames.TRANSACTION_INFORMATION} component={TransactionInformation} />
       <Stack.Screen name={ScreenNames.INSURANCE_LIST_SCREEN} component={InsuranceList} />
       <Stack.Screen name={ScreenNames.SUCCESS_SCREEN} component={SuccessScreen} />
       <Stack.Screen name={ScreenNames.PROJECT_TAB} component={ProjectTab} />
