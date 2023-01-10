@@ -25,7 +25,7 @@ import { NativeBaseProvider } from "native-base"
 import { GestureHandlerRootView } from "react-native-gesture-handler"
 import { theme } from "./theme/theme"
 import UpdateVersion from "./components/update-version"
-
+import RNBootSplash from "react-native-bootsplash";
 export const NAVIGATION_PERSISTENCE_KEY = "NAVIGATION_STATE"
 
 /**
@@ -71,6 +71,7 @@ function App() {
   messaging().setBackgroundMessageHandler(onMessageReceived)
   // Kick off initial async loading actions, like loading fonts and RootStore
   useEffect(() => {
+    RNBootSplash.hide();
     (async () => {
       await initFonts() // expo
       setupRootStore().then(setRootStore)

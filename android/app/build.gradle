@@ -137,8 +137,8 @@ android {
         applicationId "com.fina.mobile"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
-        versionCode 182
-        versionName "1.2.8"
+        versionCode 183
+        versionName "1.2.9"
     }
     splits {
         abi {
@@ -205,6 +205,7 @@ android {
 }
 
 dependencies {
+    implementation "androidx.core:core-splashscreen:1.0.0"
     implementation fileTree(dir: "libs", include: ["*.jar"])
     //noinspection GradleDynamicVersion
     implementation "com.facebook.react:react-native:+"  // From node_modules

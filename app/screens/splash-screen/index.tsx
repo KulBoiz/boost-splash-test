@@ -61,6 +61,7 @@ export const SplashScreen: React.FunctionComponent<{ readonly navigation?: any }
 const styles = ScaledSheet.create({
   container: {
     flex: 1,
+    backgroundColor: '#F1536E'
   },
 
 })
