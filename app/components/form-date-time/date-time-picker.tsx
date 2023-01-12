@@ -51,11 +51,13 @@ const DatePicker = React.memo((props: Props) => {
 
   const onChange = (event, selectedDate) => {
     const currentDate = selectedDate
-    setShow(false)
     setDate(currentDate)
     setValue(name, selectedDate)
     if (clearErrors) {
       clearErrors(name)
+    }
+    if (isAndroid){
+      setShow(false)
     }
   }
 
