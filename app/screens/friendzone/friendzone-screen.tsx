@@ -60,8 +60,9 @@ const FriendZoneScreen = React.memo((props: Props) => {
   const formatUsers = (filterData: any) => {
     const users = filterData?.map(el => ({
       ...el,
+      givenName: el?.givenName ? el?.givenName?.trimLeft() : '',
       email: el?.emailAddresses?.[0]?.email,
-      phone: el?.phoneNumbers?.[0]?.number,
+      phone: el?.phoneNumbers?.[0]?.number?.replace(/ /g, ''),
     }))
 
     authStoreModel.verifyContactUser(users).then(res => {
@@ -105,21 +106,22 @@ const FriendZoneScreen = React.memo((props: Props) => {
         <AppText value={"Chia sẻ với bạn bè\ncùng FINA"} fontFamily={fontFamily.semiBold}
           fontSize={ms(20)} color={color.text} />
       </FastImage>
-      <SearchBar onChangeSearchText={onChangeSearchText} />
 
       <View style={styles.tabs}>
         <Pressable onPress={() => setTab(TABS.ALL)} style={[styles.tab, TABS.ALL === tab ? styles.tabActive : {}]}>
-          <AppText value={"Tất cả"} fontFamily={fontFamily.semiBold} fontSize={ms(12)}/>
+          <AppText value={"Danh bạ"} fontFamily={fontFamily.semiBold} fontSize={ms(12)}/>
         </Pressable>
 
         <Pressable onPress={() => setTab(TABS.FINA)} style={[styles.tab, TABS.FINA === tab ? styles.tabActive : {}]}>
-          <AppText value={"FINA"} fontFamily={fontFamily.semiBold} fontSize={ms(12)} />
+          <AppText value={"Bạn bè FINA"} fontFamily={fontFamily.semiBold} fontSize={ms(12)} />
         </Pressable>
 
-        <Pressable onPress={() => setTab(TABS.FRIEND)} style={[styles.tab, TABS.FRIEND === tab ? styles.tabActive : {}]}>
-          <AppText value={"Đã giới thiệu"} fontFamily={fontFamily.semiBold} fontSize={ms(12)} />
-        </Pressable>
+        {/* <Pressable onPress={() => setTab(TABS.FRIEND)} style={[styles.tab, TABS.FRIEND === tab ? styles.tabActive : {}]}> */}
+        {/*  <AppText value={"Đã giới thiệu"} fontFamily={fontFamily.semiBold} fontSize={ms(12)} /> */}
+        {/* </Pressable> */}
       </View>
+      <SearchBar onChangeSearchText={onChangeSearchText} />
+
       {
         tab === TABS.ALL &&
         <FlatList
@@ -165,8 +167,8 @@ const styles = ScaledSheet.create({
   tabs: {
     flexDirection: 'row',
     paddingLeft: '10@s',
-    marginTop: '10@s',
-    marginBottom: '10@s',
+    marginTop: '16@s',
+    // marginBottom: '10@s',
     borderBottomWidth: 1,
     borderBottomColor: '#D4D7D9'
   },

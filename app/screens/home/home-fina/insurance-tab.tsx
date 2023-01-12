@@ -5,7 +5,6 @@ import BottomView from "../../../components/bottom-view"
 import OthersInsurance from "./components/others-Insurance"
 import { color } from "../../../theme"
 import { useStores } from "../../../models"
-import HomeBanner from "./components/home-banner"
 import { MARGIN_TOP_16 } from "../../../styles/common-style"
 import HomeItem from "./components/home-item"
 import { images } from "../../../assets/images"
@@ -60,7 +59,7 @@ const InsuranceTab = () => {
           <OthersInsurance data={mapInsurance('vehicle') || []} title={"Bảo hiểm tài sản"} />
         </>
       }
-      <NewsBanner label={'Tin tức & khuyến mãi'} />
+      <NewsBanner label={'Tin tức & khuyến mãi'} style={MARGIN_TOP_16}/>
 
       <BottomView height={s(200)} />
       <FullScreenModal

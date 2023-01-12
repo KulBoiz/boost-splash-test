@@ -45,23 +45,24 @@ function AppTabBar({ state, descriptors, navigation }: any) {
     //   icon: <FastImage source={images.app_chat} style={styles.icon} tintColor={color.palette.grayChateau} />,
     //   iconActive: <FastImage source={images.app_chat} style={styles.icon} tintColor={color.primary} />,
     // },
+
     {
       index: 1,
+      title: tabName.manage,
+      icon: <FastImage source={images.app_manage} style={styles.icon} tintColor={color.palette.grayChateau} />,
+      iconActive: <FastImage source={images.app_manage} style={styles.icon} tintColor={color.primary} />,
+    },
+    {
+      index: 2,
       title: tabName.request,
       icon: <FastImage source={images.app_request} style={styles.icon} />,
       iconActive: <FastImage source={images.app_request} style={styles.icon} />,
     },
     {
-      index: 2,
+      index: 3,
       title: tabName.friendzone,
       icon: <FastImage source={images.app_friendzone} style={styles.friendIcon} tintColor={color.palette.grayChateau} />,
       iconActive: <FastImage source={images.app_friendzone} style={styles.friendIcon} tintColor={color.primary} />,
-    },
-    {
-      index: 3,
-      title: tabName.manage,
-      icon: <FastImage source={images.app_manage} style={styles.icon} tintColor={color.palette.grayChateau} />,
-      iconActive: <FastImage source={images.app_manage} style={styles.icon} tintColor={color.primary} />,
     },
     {
       index: 4,

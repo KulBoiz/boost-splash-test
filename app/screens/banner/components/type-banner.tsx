@@ -17,11 +17,11 @@ const TypeBanner = React.memo(({ item, type }: Props) => {
   return (
     <View style={isRow ? [ROW, ALIGN_CENTER] : undefined}>
       <View  style={[ROW, ALIGN_CENTER , !isRow && { marginBottom: 8 }]}>
-        <FastImage source={images.banner_team} style={styles.team} />
+        <FastImage source={images.banner_team} style={isRow ? styles.team : styles.teamSmall} />
         <AppText value={item?.author} style={FONT_REGULAR_12}/>
       </View>
       <View style={[ROW, ALIGN_CENTER]}>
-        <FastImage source={images.banner_type} style={[styles.type, isRow && {marginLeft: '15%'}]} />
+        <FastImage source={images.banner_type} style={isRow ? styles.type : styles.typeSmall} />
         <AppText value={item?.category?.name} style={FONT_REGULAR_12} />
       </View>
 
@@ -35,11 +35,23 @@ const styles = ScaledSheet.create({
   type: {
     width: "16@s",
     height: "16@s",
+    marginRight: '6@s',
+    marginLeft: '15%',
+
+  },
+  typeSmall: {
+    width: "12@s",
+    height: "12@s",
     marginRight: '6@s'
   },
   team: {
     width: "12@s",
     height: "16@s",
+    marginRight: '6@s',
+  },
+  teamSmall: {
+    width: "9@s",
+    height: "12@s",
     marginRight: '6@s',
   },
 })

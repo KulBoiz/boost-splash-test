@@ -56,7 +56,7 @@ const User = React.memo(() => {
 
 const textColor = '#6D747C'
 const FriendZoneItem = React.memo(({ item, isContact = true, isFina = false }: Props) => {
-  const avatarName = item?.givenName?.charAt(0) ?? item?.familyName?.charAt(0)
+  const avatarName = item?.givenName?.trim().charAt(0) ?? item?.familyName?.trim()?.charAt(0)
   const phoneNo = filter(item?.phoneNumbers, { label: 'mobile' })?.[0]?.number ?? item?.phoneNumbers?.[0]?.number
 
   return (
@@ -68,8 +68,8 @@ const FriendZoneItem = React.memo(({ item, isContact = true, isFina = false }: P
             <FastImage source={images.common_circle_checked} tintColor={color.palette.green} style={styles.icon} />
           </View>}
         </View>
-        <View>
-          <AppText value={`${item?.givenName} ${item?.middleName} ${item?.familyName}`} style={styles.text} />
+        <View style={{width: '60%'}}>
+          <AppText numberOfLines={1} value={`${item?.givenName} ${item?.middleName} ${item?.familyName}`} style={styles.text} />
           <AppText value={phoneNo} style={styles.text} color={textColor} />
         </View>
       </View>

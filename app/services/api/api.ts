@@ -45,6 +45,7 @@ export class Api {
         Accept: "application/json",
       },
     })
+    // lưu access token để call api khi đã đăng nhập
     this.apisauce.addAsyncRequestTransform(request => async () => {
       const authKey = await AsyncStorage.getItem("accessToken");
       if (authKey) {

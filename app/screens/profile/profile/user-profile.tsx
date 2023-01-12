@@ -59,7 +59,7 @@ const UserProfile = React.memo((props: Props) => {
           setValue('tel', _.get(e[1][0], 'tel'))
         }
         if(e[0] === 'idNumber'){
-          setValue('idNumber', e[1].toString())
+          setValue('idNumber', `${e?.[1]}`)
         }
         else setValue(e[0], e[1])
       })

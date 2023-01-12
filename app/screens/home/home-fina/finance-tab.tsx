@@ -14,7 +14,6 @@ import HomeItem from "./components/home-item"
 import ProjectItem from "./components/project-item"
 import { formatHomeData } from "./constants"
 import NewsBanner from "./components/news-banner"
-import { MARGIN_TOP_16, MARGIN_TOP_24 } from "../../../styles/common-style"
 
 interface Props { }
 
@@ -99,7 +98,7 @@ const FinanceTab = React.memo((props: Props) => {
       image: images.home_tax,
       title: 'Tính thuế theo lương',
       onPress: () => {
-        setLink(DOMAIN + "/calculators-toolkit/calculating-tax-by-salaly")
+        setLink(DOMAIN + "/calculators-toolkit/calculating-tax-by-salary")
         setVisible(true)
       },
     },

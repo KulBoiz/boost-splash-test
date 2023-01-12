@@ -42,6 +42,17 @@ export const AppStack = () => {
         {/*  name={ScreenNames.CHAT} */}
         {/*  component={InDeveloping} */}
         {/* /> */}
+
+        {role !== ROLE.BANK &&
+          <Tab.Screen
+            name={ScreenNames.MANAGEMENT}
+            options={() => ({
+              tabBarStyle: { display: "none" },
+              tabBarVisible: false,
+            })}
+            component={ManagementStack}
+          />
+        }
         {role !== ROLE.BANK &&
           <Tab.Screen
             name={ScreenNames.PLUS}
@@ -53,6 +64,7 @@ export const AppStack = () => {
             component={RequestCounselling}
           />
         }
+
         <Tab.Screen
           name={ScreenNames.FRIEND_ZONE}
           options={() => ({
@@ -61,16 +73,6 @@ export const AppStack = () => {
           })}
           component={FriendZoneScreen}
         />
-        {role !== ROLE.BANK &&
-          <Tab.Screen
-            name={ScreenNames.MANAGEMENT}
-            options={() => ({
-              tabBarStyle: { display: "none" },
-              tabBarVisible: false,
-            })}
-            component={ManagementStack}
-          />
-        }
         <Tab.Screen
           name={ScreenNames.SETTING}
           component={ProfileScreen}

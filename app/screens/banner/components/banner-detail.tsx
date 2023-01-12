@@ -1,12 +1,12 @@
 import React, { useCallback, useEffect, useState } from "react"
-import { View, ScrollView, Pressable } from "react-native"
+import { View, ScrollView } from "react-native"
 import AppHeader from "../../../components/app-header/AppHeader"
 import { RouteProp, useRoute } from "@react-navigation/native"
 import { ScreenNames } from "../../../navigators/screen-names"
 import { AppText } from "../../../components/app-text/AppText"
 import { useStores } from "../../../models"
 import RenderHtml from "react-native-render-html"
-import { width } from "../../../constants/variable"
+import { hexToRgbA, width } from "../../../constants/variable"
 import { ScaledSheet } from "react-native-size-matters"
 import FastImage from "react-native-fast-image"
 import { color } from "../../../theme"
@@ -14,10 +14,10 @@ import { LoadingComponent } from "../../../components/loading"
 import { NavigatorParamList } from "../../../navigators/params-list"
 import { ALIGN_CENTER, FONT_MEDIUM_12, FONT_REGULAR_12, ROW } from "../../../styles/common-style"
 import { images } from "../../../assets/images"
-import * as Progress from "react-native-progress"
-import { goBack } from "../../../navigators"
 import Share from "react-native-share"
-import { API_ENDPOINT, DOMAIN } from "@env"
+import { DOMAIN } from "@env"
+import BannerProgress from "./banner-progress"
+import RenderStatus from "../../../components/status/render-status"
 
 interface Props {
   url: string
@@ -32,12 +32,12 @@ const BannerDetail = React.memo((props: Props) => {
   const [scrollViewHeight, setScrollViewHeight] = useState(0)
   const [scrollViewContentHeight, setScrollViewContentHeight] = useState(0)
   const [progress, setProgress] = useState(0)
-
+  const category = data?.category?.name ? data?.category?.name?.toUpperCase() : ''
   const options = {
-    title:'',
-    subject:'',
+    title: "",
+    subject: "",
     message: ``,
-    url: `${DOMAIN}tin-tuc/${id}`
+    url: `${DOMAIN}tin-tuc/${id}`,
   }
 
   const shareQr = useCallback(async () => {
@@ -48,7 +48,7 @@ const BannerDetail = React.memo((props: Props) => {
     if (id) {
       setLoading(true)
       bannerStore.getPublicBannerDetail(id).then((response) => {
-        setData(response?.data)
+        setData({ ...response?.data, hashtags: [...response?.resultHashtag?.data] })
         setLoading(false)
       }).catch(() => {
         setLoading(false)
@@ -71,8 +71,9 @@ const BannerDetail = React.memo((props: Props) => {
 
   return (
     <View style={styles.container}>
-      <AppHeader headerText={""} isBlue />
+      <AppHeader headerText={"BÁO MỚI FINA"} isBlue />
       <ScrollView
+        contentContainerStyle={styles.body}
         bounces={false}
         onContentSizeChange={(width, height) => {
           setScrollViewContentHeight(height)
@@ -86,7 +87,7 @@ const BannerDetail = React.memo((props: Props) => {
         <View>
           {data?.image && <FastImage source={{ uri: data?.image }} style={styles.image} resizeMode={"stretch"} />}
           <View style={styles.titleContainer}>
-            <AppText value={"TIN TỨC KIẾN THỨC"} style={FONT_MEDIUM_12} color={color.primary} />
+            <AppText value={category} style={FONT_MEDIUM_12} color={color.primary} />
             <AppText value={data?.title || ""} style={styles.title} />
             <View style={[ROW, ALIGN_CENTER]}>
               <FastImage source={images.banner_team} style={styles.team} />
@@ -104,23 +105,17 @@ const BannerDetail = React.memo((props: Props) => {
           baseStyle={styles.description}
           source={{ html: `${data?.content ?? ""}` }}
         />
+        {data?.hashtags &&
+          <View style={styles.wrapHashtag}>
+            {data?.hashtags?.map((value, index) => {
+              return <RenderStatus
+                key={index} style={styles.hashtag} status={`#${value?.name}`}
+                backgroundColor={hexToRgbA(color.primary, 0.1)} statusColor={color.primary} />
+            })}
+          </View>
+        }
       </ScrollView>
-      <Progress.Bar
-        unfilledColor={color.palette.BABABA}
-        height={3}
-        borderWidth={0}
-        progress={progress}
-        color={color.primary}
-        width={width}
-      />
-      <View style={styles.wrapBottom}>
-        <Pressable onPress={goBack}>
-          <FastImage source={images.long_arrow_right} style={styles.arrow} tintColor={color.primary} />
-        </Pressable>
-        <Pressable onPress={shareQr}>
-          <FastImage source={images.common_share} style={styles.share} />
-        </Pressable>
-      </View>
+      <BannerProgress progress={progress} shareQr={shareQr} />
     </View>
   )
 })
@@ -131,6 +126,9 @@ const styles = ScaledSheet.create({
   container: {
     flex: 1,
     backgroundColor: color.palette.white,
+  },
+  body: {
+    paddingBottom: "50@s",
   },
   description: {
     paddingHorizontal: "16@s",
@@ -152,6 +150,16 @@ const styles = ScaledSheet.create({
 
     elevation: 5,
   },
+  wrapHashtag: {
+    marginTop: '8@s',
+    flexDirection: "row",
+    flexWrap: "wrap",
+    paddingHorizontal: "12@s",
+  },
+  hashtag: {
+    borderRadius: "4@s",
+    marginHorizontal: '4@s'
+  },
   title: {
     fontSize: "20@s",
     marginVertical: "10@s",
@@ -166,24 +174,5 @@ const styles = ScaledSheet.create({
     height: "200@s",
     marginBottom: "8@s",
   },
-  wrapBottom: {
-    height: "60@s",
-    backgroundColor: color.background,
-    flexDirection: "row",
-    alignItems: "center",
-    justifyContent: "space-between",
-    paddingHorizontal: "24@s",
-    paddingBottom: '15@s'
-  },
-  arrow: {
-    transform: [
-      { rotate: "180deg" },
-    ],
-    width: "24@s",
-    height: "12@s",
-  },
-  share: {
-    width: "24@s",
-    height: "24@s",
-  },
+
 })

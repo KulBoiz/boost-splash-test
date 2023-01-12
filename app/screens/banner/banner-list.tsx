@@ -1,5 +1,5 @@
 import React, { useCallback, useEffect, useState } from "react"
-import { View, FlatList } from "react-native"
+import { View, FlatList, ActivityIndicator } from "react-native"
 import AppHeader from "../../components/app-header/AppHeader"
 import BigBannerItem from "./components/big-banner-item"
 import { useStores } from "../../models"
@@ -8,19 +8,24 @@ import EmptyList from "../../components/empty-list"
 import { ScaledSheet } from "react-native-size-matters"
 import { color } from "../../theme"
 import FilterBanner from "./components/filter-banner"
+import { MARGIN_TOP_24 } from "../../styles/common-style"
 
 interface Props {
 }
 
 const BannerList = React.memo((props: Props) => {
   const { bannerStore } = useStores()
+  const [loading, setLoading] = useState<boolean>(true)
   const [news, setNews] = useState<any[]>([])
   const [filter, setFilter] = useState<any[]>([])
   const [idNews, setIdNews] = useState("")
 
   useEffect(() => {
-    bannerStore.getFilterNews().then(res => setFilter([{name: 'Tất cả', id: undefined},...res]))
-    bannerStore.getRandomNews().then(res => setNews(res))
+    bannerStore.getFilterNews().then(res => setFilter([{ name: "Tất cả", id: undefined }, ...res]))
+    bannerStore.getRandomNews().then(res => {
+      setNews(res)
+      setLoading(false)
+    })
   }, [])
 
   const renderItem = React.useCallback(({ item, index }) => {
@@ -32,9 +37,16 @@ const BannerList = React.memo((props: Props) => {
   }, [])
 
   const onPress = React.useCallback((value) => {
+    setLoading(true)
     setIdNews(value)
-    if (value) return bannerStore.getNewsByCategory(value, 1).then(res => setNews(res))
-    bannerStore.getRandomNews().then(res => setNews(res))
+    if (value) return bannerStore.getNewsByCategory(value, 1).then(res =>{
+      setNews(res)
+      setLoading(false)
+    })
+    bannerStore.getRandomNews().then(res => {
+      setNews(res)
+      setLoading(false)
+    })
   }, [idNews])
 
   const _onLoadMore = useCallback(() => {
@@ -52,17 +64,19 @@ const BannerList = React.memo((props: Props) => {
 
   return (
     <View style={styles.container}>
-      <AppHeader headerText={"Báo mới FINA"} isBlue />
+      <AppHeader headerText={"BÁO MỚI FINA"} isBlue />
       <FilterBanner data={filter} onPress={onPress} />
-      <FlatList
-        onEndReached={_onLoadMore}
-        onEndReachedThreshold={0.2}
-        keyExtractor={(_, i) => i.toString()}
-        data={news}
-        renderItem={renderItem}
-        ListEmptyComponent={renderEmpty}
-        contentContainerStyle={styles.flatList}
-      />
+      {loading ? <ActivityIndicator color={color.primary} style={MARGIN_TOP_24}/> :
+        <FlatList
+          onEndReached={_onLoadMore}
+          onEndReachedThreshold={0.2}
+          keyExtractor={(_, i) => i.toString()}
+          data={news}
+          renderItem={renderItem}
+          ListEmptyComponent={renderEmpty}
+          contentContainerStyle={styles.flatList}
+        />
+      }
     </View>
   )
 })

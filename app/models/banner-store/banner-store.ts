@@ -33,10 +33,22 @@ export const BannerStoreModel = types
               scope: {
                 fields: { id: true, name: true }
               }
-            }
+            },
           ]
         }
       })
+
+      const resultHashtag = yield api.get('hashtags/public/suggestion', {
+        filter: {
+          fields: ['id', 'name'],
+          where: {
+            id: {
+              inq: result?.data?.hashtagIds || []
+            }
+          }
+        }
+      })
+
       const data = result.data
 
       if (result.kind !== "ok") {
@@ -48,6 +60,7 @@ export const BannerStoreModel = types
         return {
           kind: "ok",
           data,
+          resultHashtag
         }
       }
     }),

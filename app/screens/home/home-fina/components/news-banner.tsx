@@ -18,7 +18,7 @@ interface Props {
   style?: ViewStyle | any
 }
 
-const HomeBanner = observer((props: Props) => {
+const NewsBanner = observer((props: Props) => {
   const { label, style } = props
   const { bannerStore } = useStores()
   const ref = useRef()
@@ -58,6 +58,7 @@ const HomeBanner = observer((props: Props) => {
       </View>
       <View style={styles.bannerContainer}>
         <Carousel
+          // loopClonesPerSide={news?.length}
           ref={ref.current}
           key={(e, i) => e?.id + i.toString()}
           data={news}
@@ -74,7 +75,7 @@ const HomeBanner = observer((props: Props) => {
   )
 })
 
-export default HomeBanner
+export default NewsBanner
 
 const styles = ScaledSheet.create({
   container: {

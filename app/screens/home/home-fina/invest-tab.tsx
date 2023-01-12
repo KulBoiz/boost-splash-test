@@ -50,7 +50,7 @@ const InvestTab = React.memo((props: Props) => {
         <InvestItemContainer label={"Trái phiếu nổi bật"} data={bonds} onPress={listBonds} style={MARGIN_BOTTOM_16} />}
       {!!funds?.length && <InvestItemContainer label={"CCQ nổi bật"} data={funds} type={"fund"} onPress={listFund} />}
       {/* <HomeBanner type={"small"} label={"Tin tức"} style={MARGIN_TOP_16} /> */}
-      <NewsBanner label={'Tin tức & khuyến mãi'} />
+      <NewsBanner label={'Tin tức & khuyến mãi'} style={MARGIN_TOP_16}/>
       <BottomView height={s(200)} />
 
     </View>
