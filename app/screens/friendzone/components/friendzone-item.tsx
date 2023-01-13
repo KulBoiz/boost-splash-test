@@ -9,7 +9,7 @@ import { filter } from "lodash"
 import { fontFamily } from "../../../constants/font-family"
 import { ALIGN_CENTER, ROW } from "../../../styles/common-style"
 import { useStores } from "../../../models"
-import { convertViToEn } from "../../../constants/variable"
+import { convertViToEn, isIos } from "../../../constants/variable"
 
 interface Props {
   item: any
@@ -56,7 +56,7 @@ const User = React.memo(() => {
 
 const textColor = '#6D747C'
 const FriendZoneItem = React.memo(({ item, isContact = true, isFina = false }: Props) => {
-  const avatarName = item?.givenName?.trim().charAt(0) ?? item?.familyName?.trim()?.charAt(0)
+  const avatarName = item?.givenName ? item?.givenName?.trim().charAt(0) : item?.familyName?.trim()?.charAt(0)
   const phoneNo = filter(item?.phoneNumbers, { label: 'mobile' })?.[0]?.number ?? item?.phoneNumbers?.[0]?.number
 
   return (
@@ -69,7 +69,7 @@ const FriendZoneItem = React.memo(({ item, isContact = true, isFina = false }: P
           </View>}
         </View>
         <View style={{width: '60%'}}>
-          <AppText numberOfLines={1} value={`${item?.givenName} ${item?.middleName} ${item?.familyName}`} style={styles.text} />
+          <AppText numberOfLines={1} value={item?.givenName ? `${item?.givenName} ${item?.familyName}` : `${item?.familyName}`} style={styles.text} />
           <AppText value={phoneNo} style={styles.text} color={textColor} />
         </View>
       </View>
@@ -108,6 +108,7 @@ const styles = ScaledSheet.create({
   },
   text: {
     fontSize: '15@ms',
+    lineHeight: isIos ? undefined : '20@s',
     fontFamily: fontFamily.medium
   },
   icon: {
@@ -115,7 +116,7 @@ const styles = ScaledSheet.create({
     height: "16@s",
   },
   normalBtn: {
-    paddingVertical: '8@s',
+    paddingVertical: '8@s' ,
     backgroundColor: color.blue.blue_02,
     borderRadius: '32@s',
     paddingHorizontal: '20@s'

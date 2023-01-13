@@ -68,8 +68,8 @@ export const AppStack = () => {
         <Tab.Screen
           name={ScreenNames.FRIEND_ZONE}
           options={() => ({
-            tabBarStyle: { display: "none" },
-            tabBarVisible: false,
+            // tabBarStyle: { display: "none" },
+            // tabBarVisible: false,
           })}
           component={FriendZoneScreen}
         />

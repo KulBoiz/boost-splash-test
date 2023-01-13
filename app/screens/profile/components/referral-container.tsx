@@ -111,7 +111,7 @@ const ReferralContainer = React.memo((props: Props) => {
 
         <Pressable onPress={shareQr} style={styles.shareContainer}>
           <AppText value={"Chia sẻ"} color={color.text} />
-          <FastImage source={images.common_share} style={styles.icon} />
+          <FastImage source={images.common_share} style={styles.icon} tintColor={color.text} />
         </Pressable>
       </View>
     </FastImage>
@@ -154,9 +154,9 @@ const styles = ScaledSheet.create({
     marginLeft: "8@s",
   },
   icon: {
-    width: "16@s",
-    height: "16@s",
-    marginLeft: "8@s",
+    width: "12@s",
+    height: "12@s",
+    marginLeft: "6@s",
   },
   shareContainer: {
     marginTop: "4@s",

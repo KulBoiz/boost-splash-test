@@ -20,6 +20,7 @@ public class MainActivity extends ReactActivity {
     RNBootSplash.init(this);
     super.onCreate(savedInstanceState);
   }
+
   @Override
   protected String getMainComponentName() {
     return "fina";
