@@ -8096,6 +8096,11 @@ expo-notifications@~0.14.1:
     unimodules-task-manager-interface "~7.1.0"
     uuid "^3.4.0"
 
+expo-sms@~10.1.0:
+  version "10.1.1"
+  resolved "https://registry.yarnpkg.com/expo-sms/-/expo-sms-10.1.1.tgz#841797dc9ddb7da05dd38d6a09ece99d7409150d"
+  integrity sha512-vGxqb6uD1zEd8YSTeL80IS8ghZvLp5tr1i+wAMPWesx+LnnbH/jkJAUIyg9otakOLFoC/DXqmLAke6OqDqSCcg==
+
 expo@~44.0.6:
   version "44.0.6"
   resolved "https://registry.yarnpkg.com/expo/-/expo-44.0.6.tgz#5454f08abb07166e55eb55b5fc4d45b5ad416ff4"

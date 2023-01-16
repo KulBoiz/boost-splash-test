@@ -1,29 +1,20 @@
-import React, { useState } from "react"
+import React from "react"
 import { ScrollView, View } from "react-native"
-import TabSelect from "../components/tab-select"
 import FinanceTab from "./finance-tab"
 import { color } from "../../../theme"
-import { Header } from "../components/header"
 import { hasNotch } from "react-native-device-info"
 import { ScaledSheet } from "react-native-size-matters"
-import InsuranceTab from "./insurance-tab"
-import InvestTab from "./invest-tab"
+
 
 interface Props {
 }
 
 const HomeFina = React.memo((props: Props) => {
-  const [index, setIndex] = useState(0)
 
   return (
     <View style={styles.container}>
-      <Header>
-        <TabSelect {...{ index, setIndex }} />
-      </Header>
       <ScrollView contentContainerStyle={styles.scrollView}>
-        {index === 0 && <FinanceTab />}
-        {index === 1 && <InsuranceTab />}
-        {index === 2 && <InvestTab />}
+       <FinanceTab />
       </ScrollView>
     </View>
   )

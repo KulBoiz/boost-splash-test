@@ -53,6 +53,7 @@
     "expo-media-library": "~14.0.0",
     "expo-modules-core": "^0.6.5",
     "expo-notifications": "~0.14.1",
+    "expo-sms": "~10.1.0",
     "i18n-js": "3.8.0",
     "lodash": "^4.17.21",
     "lottie-ios": "3.2.3",

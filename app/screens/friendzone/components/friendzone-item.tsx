@@ -10,6 +10,7 @@ import { fontFamily } from "../../../constants/font-family"
 import { ALIGN_CENTER, ROW } from "../../../styles/common-style"
 import { useStores } from "../../../models"
 import { convertViToEn, isIos } from "../../../constants/variable"
+import * as SMS from 'expo-sms';
 
 interface Props {
   item: any
@@ -22,21 +23,16 @@ const Button = React.memo(({ phone }: any) => {
   const { user } = authStoreModel
   const { refCode, fullName } = user
 
-  const sendSMS = (phone) => {
-    // authStoreModel.sendSMS(phone).then(res => {
-    //   if (res?.error?.message) Alert.alert('Số điện thoại không đúng')
-    //   else Alert.alert('Đã gửi')
-    // })
-    // short link download app
+  const sendSMS = async (phone) => {
     const content = `(TULIP) - ${convertViToEn(fullName)} gioi thieu ban su dung FINA\n${downloadLink}\nMa gioi thieu: ${refCode}`
-    // if (refCode) {
-    //   content = `(TULIP) - ${fullName} gioi thieu ban su dung FINA ${DOMAIN}vn/users/signup?refCode=${refCode}`
-    // }
-    const separator = Platform.OS === 'ios' ? '&' : '?'
 
-    const url = `sms:${phone}${separator}body=${content}`
-
-    Linking.openURL(url)
+    const { result } = await SMS.sendSMSAsync(phone, content);
+    console.log(result)
+    // const separator = Platform.OS === 'ios' ? '&' : '?'
+    //
+    // const url = `sms:${phone}${separator}body=${content}`
+    //
+    // Linking.openURL(url)
   }
 
   return (

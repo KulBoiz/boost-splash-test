@@ -4,14 +4,12 @@ import { createBottomTabNavigator } from "@react-navigation/bottom-tabs"
 import { AppHomeScreen } from "../screens/home"
 import { useStores } from "../models"
 import { ROLE } from "../models/auth-store"
-import RequestCounselling from "../screens/loan/request-counselling"
-import { ManagementStack } from "./management"
 import AppTabBar from "../components/bottom-tab-bar/app-tab"
 import { View } from "react-native"
 import { color } from "../theme"
 import { ScaledSheet } from "react-native-size-matters"
-import ProfileScreen from "../screens/profile/profile-screen"
 import FriendZoneScreen from "../screens/friendzone/friendzone-screen"
+import InDeveloping from "../components/in-developing"
 
 export type AppStackParamList = {
   [ScreenNames.HOME]: undefined;
@@ -38,11 +36,6 @@ export const AppStack = () => {
           name={ScreenNames.HOME}
           component={AppHomeScreen}
         />
-        {/* <Tab.Screen */}
-        {/*  name={ScreenNames.CHAT} */}
-        {/*  component={InDeveloping} */}
-        {/* /> */}
-
         {role !== ROLE.BANK &&
           <Tab.Screen
             name={ScreenNames.MANAGEMENT}
@@ -50,7 +43,7 @@ export const AppStack = () => {
               tabBarStyle: { display: "none" },
               tabBarVisible: false,
             })}
-            component={ManagementStack}
+            component={InDeveloping}
           />
         }
         {role !== ROLE.BANK &&
@@ -61,7 +54,7 @@ export const AppStack = () => {
               tabBarVisible: false,
               unmountOnBlur: true
             })}
-            component={RequestCounselling}
+            component={InDeveloping}
           />
         }
 
@@ -75,7 +68,7 @@ export const AppStack = () => {
         />
         <Tab.Screen
           name={ScreenNames.SETTING}
-          component={ProfileScreen}
+          component={InDeveloping}
         />
       </Tab.Navigator>
     </View>
